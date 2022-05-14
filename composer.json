@@ -1,23 +1,53 @@
 {
-    "name": "laravel/laravel",
+    "name": "fruivita/arqjud",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Aplicação para controle de arquivo judicial.",
+    "keywords": [
+        "fruivita",
+        "laravel"
+    ],
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Fábio Cassiano",
+            "email": "fcno.dev@gmail.com",
+            "homepage": "https://github.com/fcno",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/fruivita/arqjud",
+    "support": {
+        "email": "fruivita.code@gmail.com",
+        "issues": "https://github.com/fruivita/arqjud/issues",
+        "source": "https://github.com/fruivita/arqjud"
+    },
     "require": {
-        "php": "^8.0.2",
-        "guzzlehttp/guzzle": "^7.2",
-        "laravel/framework": "^9.11",
-        "laravel/sanctum": "^2.14.1",
-        "laravel/tinker": "^2.7"
+        "php": "^8.1",
+        "blade-ui-kit/blade-icons": "^1.3",
+        "directorytree/ldaprecord-laravel": "^2.5",
+        "fruivita/corporate": "^1.0",
+        "guzzlehttp/guzzle": "^7.4",
+        "laravel/fortify": "^1.13",
+        "laravel/framework": "^9.12",
+        "laravel/tinker": "^2.7",
+        "livewire/livewire": "^2.10",
+        "staudenmeir/eloquent-eager-limit": "^1.7"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.1",
+        "barryvdh/laravel-debugbar": "^3.6",
+        "fakerphp/faker": "^1.19",
+        "laravel/sail": "^1.14",
+        "mockery/mockery": "^1.5",
+        "nunomaduro/collision": "^6.2",
+        "nunomaduro/larastan": "^2.1",
+        "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-faker": "^1.0",
+        "pestphp/pest-plugin-laravel": "^1.2",
+        "phpstan/phpstan": "^1.6",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ignition": "^1.0"
+        "spatie/laravel-ignition": "^1.0",
+        "spatie/pest-plugin-test-time": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -34,7 +64,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan vendor:publish --force --tag=livewire:assets --ansi"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -44,7 +75,12 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "analyse": "vendor/bin/phpstan analyse --ansi --memory-limit 1G --error-format=github --debug",
+        "coverage": "composer test -- --coverage",
+        "csfix": "vendor/bin/php-cs-fixer fix -v --config=.php-cs-fixer.dist.php --allow-risky=yes",
+        "nointegration": "composer test -- --exclude-group=integration",
+        "test": "vendor/bin/pest -d memory_limit=2048M --colors=always --stop-on-failure"
     },
     "extra": {
         "laravel": {
@@ -52,8 +88,12 @@
         }
     },
     "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
         "optimize-autoloader": true,
         "preferred-install": "dist",
+        "process-timeout": 0,
         "sort-packages": true
     },
     "minimum-stability": "dev",
