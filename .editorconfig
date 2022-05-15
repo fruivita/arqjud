@@ -14,5 +14,5 @@ trim_trailing_whitespace = false
 [*.{yml,yaml,neon.dist}]
 indent_size = 2
 
-[docker-compose.yml]
+[docker-compose.yml, css, js]
 indent_size = 4
