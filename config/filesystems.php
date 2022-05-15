@@ -36,6 +36,11 @@ return [
             'throw' => false,
         ],
 
+        'application-log' => [
+            'driver' => 'local',
+            'root' => storage_path('logs'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

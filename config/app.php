@@ -15,7 +15,44 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'ArqJud'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Full Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the full name of your application. This value is used when
+    | the framework needs to place the application's full name in a
+    | notification or any other location as required by the application or its
+    | packages.
+    */
+
+    'full_name' => env('APP_FULL_NAME', 'Arquivo Judicial'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Version
+    |--------------------------------------------------------------------------
+    |
+    | This value is the version of your application. This value is used when the
+    | framework needs to place the application's version in a notification or
+    | any other location as required by the application or its packages.
+    */
+    'version' => '1.0.0',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Documentation link default
+    |--------------------------------------------------------------------------
+    |
+    | This value is the default link to the application documentation. This
+    | value is used when the framework needs to place the application's
+    | documentation in a notification or any other location as required by the
+    | application or its packages.
+    */
+
+    'doc_link_default' => 'https://github.com/fruivita/arqjud/wiki',
 
     /*
     |--------------------------------------------------------------------------
@@ -69,7 +106,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -82,7 +119,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pt-br',
 
     /*
     |--------------------------------------------------------------------------
@@ -95,7 +132,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'pt-br',
 
     /*
     |--------------------------------------------------------------------------
@@ -108,7 +145,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'pt_BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -193,6 +230,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\FortifyServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],
