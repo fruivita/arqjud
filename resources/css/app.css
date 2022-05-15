@@ -1,0 +1,138 @@
+@import '~flatpickr/dist/flatpickr.css';
+@import '~flatpickr/dist/themes/material_blue.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .active {
+        @apply border-l-4;
+    }
+
+    .btn {
+        @apply
+        flex
+        font-bold
+        items-center
+        justify-center
+        outline-none
+        px-4
+        py-2
+        rounded
+        space-x-3
+        transition
+
+        active:ring
+        disabled:cursor-not-allowed
+        disabled:opacity-25
+    }
+
+    .btn-default {
+        @apply
+        bg-primary-500
+        ring-primary-300
+        text-primary-50
+
+        active:border-primary-300
+        focus:bg-primary-600
+        hover:bg-primary-600;
+    }
+
+    .btn-do {
+        @apply
+        bg-blue-500
+        ring-blue-300
+        text-blue-50
+
+        active:border-blue-300
+        focus:bg-blue-600
+        hover:bg-blue-600;
+    }
+
+    .btn-warning {
+        @apply
+        bg-yellow-500
+        ring-yellow-300
+        text-yellow-50
+
+        active:border-yellow-300
+        focus:bg-yellow-600
+        hover:bg-yellow-600;
+    }
+
+    .btn-cancel {
+        @apply
+        bg-gray-500
+        ring-gray-300
+        text-gray-50
+
+        active:border-gray-300
+        focus:bg-gray-600
+        hover:bg-gray-600;
+    }
+
+    .btn-danger {
+        @apply
+        bg-red-500
+        ring-red-300
+        text-red-50
+
+        active:border-red-300
+        focus:bg-red-600
+        hover:bg-red-600;
+    }
+
+    .error {
+        @apply
+        bg-red-100
+        border-red-900
+        text-red-900
+
+        dark:bg-red-900
+        dark:border-red-100
+        dark:text-red-100;
+    }
+
+    .icon {
+        @apply w-6 h-6;
+    }
+
+    .success {
+        @apply
+        bg-green-100
+        border-green-900
+        text-green-900
+
+        dark:bg-green-900
+        dark:border-green-100
+        dark:text-green-100;
+    }
+
+    .invalid {
+        @apply bg-red-200 text-red-900;
+    }
+
+    .link {
+        @apply
+        font-bold
+        underline
+
+        focus:text-primary-600
+        hover:text-primary-600
+        dark:focus:text-secondary-300
+        dark:hover:text-secondary-300
+    }
+
+    .warning {
+        @apply
+        bg-yellow-100
+        border-yellow-900
+        text-yellow-900
+
+        dark:bg-yellow-900
+        dark:border-yellow-100
+        dark:text-yellow-100;
+    }
+}
+
+[x-cloak] { display: none !important; }
