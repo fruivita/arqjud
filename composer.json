@@ -26,6 +26,7 @@
         "blade-ui-kit/blade-icons": "^1.3",
         "directorytree/ldaprecord-laravel": "^2.5",
         "fruivita/corporate": "^1.0",
+        "fruivita/line-reader": "^1.0",
         "guzzlehttp/guzzle": "^7.4",
         "laravel/fortify": "^1.13",
         "laravel/framework": "^9.12",

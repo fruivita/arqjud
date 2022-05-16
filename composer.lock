@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0accd3ed9894729ec2a07ee881ef22b3",
+    "content-hash": "5dc7207cde48052b7533649cc5c1ad76",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -901,6 +901,79 @@
                 "source": "https://github.com/fruivita/corporate/tree/v1.0.1"
             },
             "time": "2022-05-09T01:27:25+00:00"
+        },
+        {
+            "name": "fruivita/line-reader",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fruivita/line-reader.git",
+                "reference": "db1ba0d7db24698e9109bbf13bd45c378121bc6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fruivita/line-reader/zipball/db1ba0d7db24698e9109bbf13bd45c378121bc6f",
+                "reference": "db1ba0d7db24698e9109bbf13bd45c378121bc6f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/collections": "^9.11",
+                "illuminate/pagination": "^9.11",
+                "illuminate/support": "^9.11",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "nunomaduro/larastan": "^2.1",
+                "orchestra/testbench": "^7.4",
+                "pestphp/pest": "^1.21",
+                "pestphp/pest-plugin-laravel": "^1.2",
+                "phpstan/phpstan": "^1.6",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "LineReader": "FruiVita\\LineReader\\Facades\\LineReader"
+                    },
+                    "providers": [
+                        "FruiVita\\LineReader\\LineReaderServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FruiVita\\LineReader\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fábio Cassiano",
+                    "email": "fcno.dev@gmail.com",
+                    "homepage": "https://github.com/fcno",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Read large files, line by line, without causing memory overflow for Laravel applications",
+            "homepage": "https://github.com/fruivita/line-reader",
+            "keywords": [
+                "file-reader",
+                "fruivita",
+                "laravel",
+                "line-reader",
+                "php",
+                "reader"
+            ],
+            "support": {
+                "issues": "https://github.com/fruivita/line-reader/issues",
+                "source": "https://github.com/fruivita/line-reader/tree/v1.0.0"
+            },
+            "time": "2022-05-10T02:14:07+00:00"
         },
         {
             "name": "graham-campbell/result-type",
