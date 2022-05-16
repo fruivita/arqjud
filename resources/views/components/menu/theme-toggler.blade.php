@@ -1,0 +1,43 @@
+{{--
+    Display mode selector button: light/dark mode.
+
+    @see https://laravel.com/docs/blade
+    @see https://tailwindcss.com/
+    @see https://tailwindcss.com/docs/dark-mode
+    @see https://laravel-livewire.com
+    @see https://alpinejs.dev/
+    @see https://icons.getbootstrap.com/
+--}}
+
+
+<li>
+
+    <button
+        x-on:click="darkMode = ! darkMode"
+        class="border-primary-500 outline-none pl-3 text-left w-full focus:border-l-4 hover:border-l-4"
+        title="{{ __('Toggle dark/light mode') }}">
+
+        {{-- light --}}
+        <span class="hidden space-x-3 dark:inline">
+
+            <x-icon name="brightness-high" class="inline"/>
+
+
+            <span>{{ __('Light') }}</span>
+
+        </span>
+
+
+        {{-- dark --}}
+        <span class="space-x-3 dark:hidden">
+
+            <x-icon name="moon-stars" class="inline"/>
+
+
+            <span>{{ __('Dark') }}</span>
+
+        </span>
+
+    </button>
+
+</li>
