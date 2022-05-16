@@ -11,7 +11,7 @@
 --}}
 
 
-<footer class="bg-primary-100 px-3 py-6 text-center text-sm dark:bg-secondary-800 lg:ml-72 lg:px-6">
+<footer class="bg-primary-100 px-3 py-6 text-center text-sm dark:bg-secondary-800">
 
     <div class="space-y-3">
 

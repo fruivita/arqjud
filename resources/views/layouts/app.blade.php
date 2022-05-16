@@ -46,52 +46,49 @@
 
     <body x-cloak class="bg-primary-50 duration-500 text-primary-900 text-xl transition dark:bg-secondary-900 dark:text-secondary-50">
 
-        <div class="flex flex-col min-h-screen">
+        <div x-data="{ menuVisible : false }">
 
-            <div x-data="{ menuVisible : false }">
-
-                {{-- show/hide navigation menu --}}
-                <x-menu.toggler class="z-20"/>
+            {{-- show/hide navigation menu --}}
+            <x-menu.toggler class="z-20"/>
 
 
-                {{-- navigation / side menu --}}
-                <nav x-bind:class="menuVisible ? '' : 'hidden'" class="bg-primary-200 border-r-4 border-primary-900 fixed inset-0 overflow-y-auto pt-16 px-3 w-72 z-10 dark:bg-secondary-700 dark:border-secondary-50 lg:block">
+            {{-- navigation / side menu --}}
+            <nav x-bind:class="menuVisible ? '' : 'hidden'" class="bg-primary-200 border-r-4 border-primary-900 fixed inset-0 overflow-y-auto pt-16 px-3 w-72 z-10 dark:bg-secondary-700 dark:border-secondary-50 lg:block">
 
-                    {{-- Logo/Home --}}
-                    <header class="flex items-center justify-center">
+                {{-- Logo/Home --}}
+                <header class="flex items-center justify-center">
 
-                        <a
+                    <a
 
-                            @auth
+                        @auth
 
-                                href="{{ route('home') }}" title="{{ __('Go to home page') }}"
+                            href="{{ route('home') }}" title="{{ __('Go to home page') }}"
 
-                            @else
+                        @else
 
-                                href="{{ route('login') }}" title="{{ __('Go to login page') }}"
+                            href="{{ route('login') }}" title="{{ __('Go to login page') }}"
 
-                            @endauth
+                        @endauth
 
-                            class="bg-primary-500 flex font-extrabold items-center h-24 justify-center outline-none rounded-full text-primary-50 w-24 focus:ring focus:ring-primary-300"
-                        >
+                        class="bg-primary-500 flex font-extrabold items-center h-24 justify-center outline-none rounded-full text-primary-50 w-24 focus:ring focus:ring-primary-300"
+                    >
 
-                            {{ config('app.name') }}
+                        {{ config('app.name') }}
 
-                        </a>
+                    </a>
 
-                    </header>
-
-
-                    {{-- menu links --}}
-                    <x-menu/>
-
-                </nav>
-
-            </div>
+                </header>
 
 
-            {{-- main content --}}
-            <main class="flex-grow lg:ml-72 lg:px-6">
+                {{-- menu links --}}
+                <x-menu/>
+
+            </nav>
+
+        </div>
+
+
+        <div class="flex flex-col min-h-screen lg:ml-72">
 
                 {{-- application execution environment --}}
                 @production
@@ -110,18 +107,22 @@
                 @endif
 
 
-                {{ $slot }}
+                {{-- main content --}}
+                <main class="flex-grow flex flex-col lg:px-6">
 
-            </main>
+                    {{ $slot }}
+
+                </main>
+
+
+                <x-footer/>
 
         </div>
 
 
-        @auth<x-footer/>@endauth
-
-
         {{-- user return message box --}}
         <x-feedback.notification />
+
 
         {{-- javascript --}}
         @livewireScripts
