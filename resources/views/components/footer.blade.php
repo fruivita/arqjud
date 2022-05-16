@@ -15,6 +15,9 @@
 
     <div class="space-y-3">
 
+        <p class="font-bold">{{ config('app.name') . ' - ' . config('app.full_name')}}</p>
+
+
         <div class="flex itens-center justify-center space-x-3">
 
             <a href="{{ $doc_link }}" class="space-x-1">
