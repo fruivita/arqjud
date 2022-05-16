@@ -5,7 +5,6 @@
  */
 
 use App\Models\Department;
-use App\Models\Printing;
 use Database\Seeders\DepartmentSeeder;
 
 beforeEach(function () {

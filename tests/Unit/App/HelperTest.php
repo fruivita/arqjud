@@ -5,10 +5,6 @@
  */
 
 use function App\maxSafeInteger;
-use function App\reportMaxDate;
-use function App\reportMaxYear;
-use function App\reportMinDate;
-use function App\reportMinYear;
 use function App\stringToArrayAssoc;
 
 // Invalid

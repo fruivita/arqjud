@@ -6,7 +6,6 @@
 
 use App\Enums\PermissionType;
 use App\Models\Department;
-use App\Models\Printing;
 use App\Models\Role;
 use App\Models\User;
 use Database\Seeders\ConfigurationSeeder;
