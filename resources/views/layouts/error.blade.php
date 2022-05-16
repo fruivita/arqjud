@@ -20,7 +20,7 @@
 
 
         {{-- Ccs/tailwind --}}
-        <link href="{{ mix('/css/lime.css') }}" rel="stylesheet">
+        <link href="{{ mix('/css/teal.css') }}" rel="stylesheet">
         <link href="{{ mix('/css/error.css') }}" rel="stylesheet">
 
 
