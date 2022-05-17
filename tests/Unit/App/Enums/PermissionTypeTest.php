@@ -40,17 +40,24 @@ test('permissions ids for permissions administration are set', function () {
     ->and(PermissionType::PermissionUpdate->value)->toBe(150004);
 });
 
+test('permissions ids for processes administration are set', function () {
+    expect(PermissionType::ProcessViewAny->value)->toBe(160001)
+    ->and(PermissionType::ProcessView->value)->toBe(160002)
+    ->and(PermissionType::ProcessCreate->value)->toBe(160003)
+    ->and(PermissionType::ProcessUpdate->value)->toBe(160004);
+});
+
 test('permissions ids for roles administration are set', function () {
-    expect(PermissionType::RoleViewAny->value)->toBe(160001)
-    ->and(PermissionType::RoleView->value)->toBe(160002)
-    ->and(PermissionType::RoleUpdate->value)->toBe(160004);
+    expect(PermissionType::RoleViewAny->value)->toBe(170001)
+    ->and(PermissionType::RoleView->value)->toBe(170002)
+    ->and(PermissionType::RoleUpdate->value)->toBe(170004);
 });
 
 test('permissions id to create a usage simulation are set', function () {
-    expect(PermissionType::SimulationCreate->value)->toBe(170003);
+    expect(PermissionType::SimulationCreate->value)->toBe(180003);
 });
 
 test('permissions ids for users administration are set', function () {
-    expect(PermissionType::UserViewAny->value)->toBe(180001)
-    ->and(PermissionType::UserUpdate->value)->toBe(180004);
+    expect(PermissionType::UserViewAny->value)->toBe(190001)
+    ->and(PermissionType::UserUpdate->value)->toBe(190004);
 });
