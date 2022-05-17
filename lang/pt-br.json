@@ -44,11 +44,11 @@
     "Describes the role": "Descreva o perfil",
     "Description": "Descrição",
     "Documentation": "Documentação",
+    "Documentation link": "Link da documentação",
     "Documentation: Create one": "Documentação: Criar uma",
     "Documentation: Delete one": "Documentação: Excluir uma",
     "Documentation: Update one": "Documentação: Atualizar uma",
     "Documentation: View all": "Documentação: Visualizar todas",
-    "Documentation link": "Link da documentação",
     "Download": "Download",
     "Download the log file": "Download do arquivo de log",
     "Edit": "Editar",
@@ -187,9 +187,9 @@
     "User update failed": "Falha na atualização do usuário",
     "User: Update one": "Usuário: Atualizar um",
     "User: View all": "Usuário: Visualizar todos",
+    "Username": "Usuário",
     "Users": "Usuários",
     "Users and role": "Usuários e perfil",
-    "Username": "Usuário",
     "Users management": "Gerenciamento de usuários",
     "Version :attribute": "Versão :attribute"
 }
