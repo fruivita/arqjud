@@ -4,6 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Models\Box;
 use App\Models\Room;
 use App\Models\Floor;
 use Illuminate\Database\QueryException;
@@ -94,4 +95,14 @@ test('one room belongs to one floor', function () {
     $room->load(['floor']);
 
     expect($room->floor)->toBeInstanceOf(Floor::class);
+});
+
+test('one room has many boxes', function () {
+    Room::factory()
+        ->has(Box::factory(3), 'boxes')
+        ->create();
+
+    $room = Room::with('boxes')->first();
+
+    expect($room->boxes)->toHaveCount(3);
 });
