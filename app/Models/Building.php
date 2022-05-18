@@ -8,20 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @see https://laravel.com/docs/eloquent
  */
-class Site extends Model
+class Building extends Model
 {
     use HasFactory;
 
-    protected $table = 'sites';
+    protected $table = 'buildings';
 
     /**
-     * Relationship site (1:N) buildings.
+     * Relationship building (N:1) site.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function buildings()
+    public function site()
     {
-        return $this->hasMany(Building::class, 'site_id', 'id');
+        return $this->belongsTo(Site::class, 'site_id', 'id');
     }
 
     /**
@@ -45,8 +45,8 @@ class Site extends Model
      */
     public function previous()
     {
-        return Site::select('id')
-        ->whereRaw('name < (select name from sites where id = ?)', [$this->id])
+        return Building::select('id')
+        ->whereRaw('name < (select name from buildings b where id = ?)', [$this->id])
         ->orderBy('name', 'desc')
         ->take(1);
     }
@@ -58,8 +58,8 @@ class Site extends Model
      */
     public function next()
     {
-        return Site::select('id')
-        ->whereRaw('name > (select name from sites where id = ?)', [$this->id])
+        return Building::select('id')
+        ->whereRaw('name > (select name from buildings where id = ?)', [$this->id])
         ->orderBy('name', 'asc')
         ->take(1);
     }

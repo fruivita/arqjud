@@ -4,6 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Models\Building;
 use App\Models\Site;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
@@ -68,4 +69,14 @@ test('returns the sites using the default sort scope defined', function () {
     expect($sites->get(0)->name)->toBe($first)
     ->and($sites->get(1)->name)->toBe($second)
     ->and($sites->get(2)->name)->toBe($third);
+});
+
+test('one site has many buildings', function () {
+    Site::factory()
+        ->has(Building::factory(3), 'buildings')
+        ->create();
+
+    $site = Site::with('buildings')->first();
+
+    expect($site->buildings)->toHaveCount(3);
 });
