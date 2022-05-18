@@ -4,14 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 /**
  * @see https://laravel.com/docs/eloquent
  */
 class Site extends Model
 {
-    use HasEagerLimit;
     use HasFactory;
 
     protected $table = 'sites';
