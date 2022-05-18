@@ -5,6 +5,7 @@
  */
 
 use App\Models\Box;
+use App\Models\BoxVolume;
 use App\Models\Room;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
@@ -96,4 +97,14 @@ test('one box belongs to one room', function () {
     $box->load(['room']);
 
     expect($box->room)->toBeInstanceOf(Room::class);
+});
+
+test('one box has many box volumes', function () {
+    Box::factory()
+        ->has(BoxVolume::factory(3), 'volumes')
+        ->create();
+
+    $box = Box::with('volumes')->first();
+
+    expect($box->volumes)->toHaveCount(3);
 });
