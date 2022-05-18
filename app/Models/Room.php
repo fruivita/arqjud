@@ -8,30 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @see https://laravel.com/docs/eloquent
  */
-class Floor extends Model
+class Room extends Model
 {
     use HasFactory;
 
-    protected $table = 'floors';
+    protected $table = 'rooms';
 
     /**
-     * Relationship floor (N:1) building.
+     * Relationship room (N:1) floor.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function building()
+    public function floor()
     {
-        return $this->belongsTo(Building::class, 'building_id', 'id');
-    }
-
-    /**
-     * Relationship floor (1:N) rooms.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function rooms()
-    {
-        return $this->hasMany(Room::class, 'floor_id', 'id');
+        return $this->belongsTo(Floor::class, 'floor_id', 'id');
     }
 
     /**
@@ -55,8 +45,8 @@ class Floor extends Model
      */
     public function previous()
     {
-        return Floor::select('id')
-        ->whereRaw('number < (select number from floors where id = ?)', [$this->id])
+        return Room::select('id')
+        ->whereRaw('number < (select number from rooms where id = ?)', [$this->id])
         ->orderBy('number', 'desc')
         ->take(1);
     }
@@ -68,8 +58,8 @@ class Floor extends Model
      */
     public function next()
     {
-        return Floor::select('id')
-        ->whereRaw('number > (select number from floors where id = ?)', [$this->id])
+        return Room::select('id')
+        ->whereRaw('number > (select number from rooms where id = ?)', [$this->id])
         ->orderBy('number', 'asc')
         ->take(1);
     }

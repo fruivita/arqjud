@@ -6,6 +6,7 @@
 
 use App\Models\Floor;
 use App\Models\Building;
+use App\Models\Room;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 
@@ -84,7 +85,7 @@ test('returns the floors using the default sort scope defined', function () {
     ->and($Floors->get(2)->number)->toBe($third);
 });
 
-test('a floor belongs to one building', function () {
+test('one floor belongs to one building', function () {
     $building = Building::factory()->create();
 
     $floor = Floor::factory()
@@ -94,4 +95,14 @@ test('a floor belongs to one building', function () {
     $floor->load(['building']);
 
     expect($floor->building)->toBeInstanceOf(Building::class);
+});
+
+test('one floor has many rooms', function () {
+    Floor::factory()
+        ->has(Room::factory(3), 'rooms')
+        ->create();
+
+    $floor = Floor::with('rooms')->first();
+
+    expect($floor->rooms)->toHaveCount(3);
 });
