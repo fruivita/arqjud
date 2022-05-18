@@ -8,36 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @see https://laravel.com/docs/eloquent
  */
-class Building extends Model
+class Floor extends Model
 {
     use HasFactory;
 
-    protected $table = 'buildings';
+    protected $table = 'floors';
 
     /**
-     * Relationship building (N:1) site.
+     * Relationship floor (N:1) building.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function site()
+    public function building()
     {
-        return $this->belongsTo(Site::class, 'site_id', 'id');
-    }
-
-    /**
-     * Relationship building (1:N) floors.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function floors()
-    {
-        return $this->hasMany(Floor::class, 'building_id', 'id');
+        return $this->belongsTo(Building::class, 'building_id', 'id');
     }
 
     /**
      * Default ordering of the model.
      *
-     * Order: name asc
+     * Order: number asc
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
@@ -45,7 +35,7 @@ class Building extends Model
      */
     public function scopeDefaultOrder($query)
     {
-        return $query->orderBy('name', 'asc');
+        return $query->orderBy('number', 'asc');
     }
 
     /**
@@ -55,9 +45,9 @@ class Building extends Model
      */
     public function previous()
     {
-        return Building::select('id')
-        ->whereRaw('name < (select name from buildings where id = ?)', [$this->id])
-        ->orderBy('name', 'desc')
+        return Floor::select('id')
+        ->whereRaw('number < (select number from floors where id = ?)', [$this->id])
+        ->orderBy('number', 'desc')
         ->take(1);
     }
 
@@ -68,9 +58,9 @@ class Building extends Model
      */
     public function next()
     {
-        return Building::select('id')
-        ->whereRaw('name > (select name from buildings where id = ?)', [$this->id])
-        ->orderBy('name', 'asc')
+        return Floor::select('id')
+        ->whereRaw('number > (select number from floors where id = ?)', [$this->id])
+        ->orderBy('number', 'asc')
         ->take(1);
     }
 }

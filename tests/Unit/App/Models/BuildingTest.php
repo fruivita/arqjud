@@ -5,6 +5,7 @@
  */
 
 use App\Models\Building;
+use App\Models\Floor;
 use App\Models\Site;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
@@ -94,4 +95,14 @@ test('a building belongs to one site', function () {
     $building->load(['site']);
 
     expect($building->site)->toBeInstanceOf(Site::class);
+});
+
+test('one building has many floors', function () {
+    Building::factory()
+        ->has(Floor::factory(3), 'floors')
+        ->create();
+
+    $building = Building::with('floors')->first();
+
+    expect($building->floors)->toHaveCount(3);
 });

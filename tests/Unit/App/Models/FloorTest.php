@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * @see https://pestphp.com/docs/
+ */
+
+use App\Models\Floor;
+use App\Models\Building;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
+
+// Exceptions
+test('throws exception when trying to create floors in duplicate, that is, with the same numbers and building', function () {
+    $building = Building::factory()->create();
+
+    expect(
+        fn () => Floor::factory(2)->create([
+            'number' => '1st',
+            'building_id' => $building->id
+        ])
+    )->toThrow(QueryException::class, 'Duplicate entry');
+});
+
+test('throws exception when trying to create floor with invalid field', function ($field, $value, $message) {
+    expect(
+        fn () => Floor::factory()->create([$field => $value])
+    )->toThrow(QueryException::class, $message);
+})->with([
+    ['number', Str::random(101), 'Data too long for column'], // maximum 100 characters
+    ['number', null,             'cannot be null'],           // required
+]);
+
+test('throws exception when trying to set invalid relationship', function ($field, $value, $message) {
+    expect(
+        fn () => Floor::factory()->create([$field => $value])
+    )->toThrow(QueryException::class, $message);
+})->with([
+    ['building_id', 10,   'Cannot add or update a child row'], // nonexistent
+    ['building_id', null, 'cannot be null'],                   // nonexistent
+]);
+
+// Happy path
+test('create many floors', function () {
+    Floor::factory(30)->create();
+
+    expect(Floor::count())->toBe(30);
+});
+
+test('floor number at its maximum size is accepted', function () {
+    Floor::factory()->create(['number' => Str::random(100)]);
+
+    expect(Floor::count())->toBe(1);
+});
+
+test('previous returns the correct previous record, even if it is the first', function () {
+    $floor_1 = Floor::factory()->create(['number' => '1st']);
+    $floor_2 = Floor::factory()->create(['number' => '2nd']);
+
+    expect($floor_2->previous()->first()->id)->toBe($floor_1->id)
+    ->and($floor_1->previous()->first())->toBeNull();
+});
+
+test('next returns the correct back record even though it is the last', function () {
+    $floor_1 = Floor::factory()->create(['number' => '1st']);
+    $floor_2 = Floor::factory()->create(['number' => '2nd']);
+
+    expect($floor_1->next()->first()->id)->toBe($floor_2->id)
+    ->and($floor_2->next()->first())->toBeNull();
+});
+
+test('returns the floors using the default sort scope defined', function () {
+    $first = '1st';
+    $second = '2nd';
+    $third = '3rd';
+
+    Floor::factory()->create(['number' => $third]);
+    Floor::factory()->create(['number' => $first]);
+    Floor::factory()->create(['number' => $second]);
+
+    $Floors = Floor::defaultOrder()->get();
+
+    expect($Floors->get(0)->number)->toBe($first)
+    ->and($Floors->get(1)->number)->toBe($second)
+    ->and($Floors->get(2)->number)->toBe($third);
+});
+
+test('a floor belongs to one building', function () {
+    $building = Building::factory()->create();
+
+    $floor = Floor::factory()
+        ->for($building, 'building')
+        ->create();
+
+    $floor->load(['building']);
+
+    expect($floor->building)->toBeInstanceOf(Building::class);
+});
