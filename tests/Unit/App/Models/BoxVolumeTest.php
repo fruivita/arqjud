@@ -28,6 +28,7 @@ test('throws exception when trying to create box volume with invalid field', fun
 })->with([
     ['number', 'foo', 'Incorrect integer value'],  // not convertible to integer
     ['number', -1,    'Out of range value'],       // integer greater than zero
+    ['number', 65536, 'Out of range value'],       // integer greater than zero
 ]);
 
 test('throws exception when trying to set invalid relationship', function ($field, $value, $message) {
@@ -44,6 +45,12 @@ test('create many box volumes', function () {
     BoxVolume::factory(30)->create();
 
     expect(BoxVolume::count())->toBe(30);
+});
+
+test('box volume number at its maximum size is accepted', function () {
+    BoxVolume::factory()->create(['number' => 65535]);
+
+    expect(BoxVolume::count())->toBe(1);
 });
 
 test('previous returns the correct previous record, even if it is the first', function () {
