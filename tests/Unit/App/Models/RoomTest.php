@@ -16,7 +16,7 @@ test('throws exception when trying to create rooms in duplicate, that is, with t
 
     expect(
         fn () => Room::factory(2)->create([
-            'number' => '1st',
+            'number' => '100-foo',
             'floor_id' => $floor->id
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
@@ -54,25 +54,25 @@ test('room number at its maximum size is accepted', function () {
 });
 
 test('previous returns the correct previous record, even if it is the first', function () {
-    $room_1 = Room::factory()->create(['number' => '100-A']);
-    $room_2 = Room::factory()->create(['number' => '100-B']);
+    $room_1 = Room::factory()->create(['number' => '100-bar']);
+    $room_2 = Room::factory()->create(['number' => '100-foo']);
 
     expect($room_2->previous()->first()->id)->toBe($room_1->id)
     ->and($room_1->previous()->first())->toBeNull();
 });
 
 test('next returns the correct back record even though it is the last', function () {
-    $room_1 = Room::factory()->create(['number' => '100-A']);
-    $room_2 = Room::factory()->create(['number' => '100-B']);
+    $room_1 = Room::factory()->create(['number' => '100-bar']);
+    $room_2 = Room::factory()->create(['number' => '100-foo']);
 
     expect($room_1->next()->first()->id)->toBe($room_2->id)
     ->and($room_2->next()->first())->toBeNull();
 });
 
 test('returns the rooms using the default sort scope defined', function () {
-    $first = '100';
-    $second = '200';
-    $third = '300';
+    $first = '100-foo';
+    $second = '200-bar';
+    $third = '300-baz';
 
     Room::factory()->create(['number' => $third]);
     Room::factory()->create(['number' => $first]);

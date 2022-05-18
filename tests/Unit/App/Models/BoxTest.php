@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 test('throws exception when trying to create boxs in duplicate, that is, with the same numbers and year', function () {
     expect(
         fn () => Box::factory(2)->create([
-            'number' => '100',
+            'number' => '100-foo',
             'year' => '2020'
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
@@ -55,25 +55,25 @@ test('box number at its maximum size is accepted', function () {
 });
 
 test('previous returns the correct previous record, even if it is the first', function () {
-    $box_1 = Box::factory()->create(['number' => '100-A']);
-    $box_2 = Box::factory()->create(['number' => '100-B']);
+    $box_1 = Box::factory()->create(['number' => '100-bar']);
+    $box_2 = Box::factory()->create(['number' => '100-foo']);
 
     expect($box_2->previous()->first()->id)->toBe($box_1->id)
     ->and($box_1->previous()->first())->toBeNull();
 });
 
 test('next returns the correct back record even though it is the last', function () {
-    $box_1 = Box::factory()->create(['number' => '100-A']);
-    $box_2 = Box::factory()->create(['number' => '100-B']);
+    $box_1 = Box::factory()->create(['number' => '100-bar']);
+    $box_2 = Box::factory()->create(['number' => '100-foo']);
 
     expect($box_1->next()->first()->id)->toBe($box_2->id)
     ->and($box_2->next()->first())->toBeNull();
 });
 
 test('returns the boxs using the default sort scope defined', function () {
-    $first = '100';
-    $second = '200';
-    $third = '300';
+    $first = '100-foo';
+    $second = '200-bar';
+    $third = '300-baz';
 
     Box::factory()->create(['number' => $third]);
     Box::factory()->create(['number' => $first]);
