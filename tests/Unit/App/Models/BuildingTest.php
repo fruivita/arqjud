@@ -85,7 +85,7 @@ test('returns the buildings using the default sort scope defined', function () {
     ->and($Buildings->get(2)->name)->toBe($third);
 });
 
-test('a building belongs to one site', function () {
+test('one building belongs to one site', function () {
     $site = Site::factory()->create();
 
     $building = Building::factory()
