@@ -29,6 +29,7 @@ test('throws exception when trying to create box with invalid field', function (
     ['number', null,             'cannot be null'],           // required
     ['year',  'foo',             'Incorrect integer value'],  // not convertible to integer
     ['year',  -1,                'Out of range value'],       // integer greater than zero
+    ['year', 65536,              'Out of range value'],       // integer greater than zero
     ['stand', Str::random(101),  'Data too long for column'], // maximum 100 characters
     ['shelf', Str::random(101),  'Data too long for column'], // maximum 100 characters
 ]);
@@ -49,8 +50,22 @@ test('create many boxs', function () {
     expect(Box::count())->toBe(30);
 });
 
-test('box number at its maximum size is accepted', function () {
-    Box::factory()->create(['number' => Str::random(100)]);
+test('fields in their maximum size are accepted', function () {
+    Box::factory()->create([
+        'number' => Str::random(100),
+        'year' => 65535,
+        'stand' => Str::random(100),
+        'shelf' => Str::random(100),
+    ]);
+
+    expect(Box::count())->toBe(1);
+});
+
+test('optional fields are accepted', function () {
+    Box::factory()->create([
+        'stand' => null,
+        'shelf' => null,
+    ]);
 
     expect(Box::count())->toBe(1);
 });
