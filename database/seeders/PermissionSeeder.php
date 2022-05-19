@@ -38,7 +38,8 @@ class PermissionSeeder extends Seeder
      */
     private function allPermissions()
     {
-        return $this->configurationPermissions()
+        return $this->boxPermissions()
+        ->concat($this->configurationPermissions())
         ->concat($this->delegationPermissions())
         ->concat($this->documentationPermissions())
         ->concat($this->importationPermissions())
@@ -47,6 +48,40 @@ class PermissionSeeder extends Seeder
         ->concat($this->rolePermissions())
         ->concat($this->simulationPermissions())
         ->concat($this->userPermissions());
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
+    private function boxPermissions()
+    {
+        return LazyCollection::make([
+            [
+                'id' => PermissionType::BoxViewAny->value,
+                'name' => __('Box: View all'),
+                'description' => __('Permission to view all registered boxes.'),
+            ],
+            [
+                'id' => PermissionType::BoxView->value,
+                'name' => __('Box: View one'),
+                'description' => __('Permission to individually view registered boxes.'),
+            ],
+            [
+                'id' => PermissionType::BoxCreate->value,
+                'name' => __('Box: Create one'),
+                'description' => __('Permission to individually create boxes.'),
+            ],
+            [
+                'id' => PermissionType::BoxUpdate->value,
+                'name' => __('Box: Update one'),
+                'description' => __('Permission to individually update registered boxes.'),
+            ],
+            [
+                'id' => PermissionType::BoxDelete->value,
+                'name' => __('Box: Delete one'),
+                'description' => __('Permission to individually delete registered boxes.'),
+            ],
+        ]);
     }
 
     /**

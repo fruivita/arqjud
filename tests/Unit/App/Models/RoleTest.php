@@ -163,6 +163,11 @@ test('admin role has all permissions', function ($permission) {
 
     expect($user->hasPermission($permission))->toBeTrue();
 })->with([
+    PermissionType::BoxViewAny,
+    PermissionType::BoxView,
+    PermissionType::BoxCreate,
+    PermissionType::BoxUpdate,
+    PermissionType::BoxDelete,
     PermissionType::ConfigurationView,
     PermissionType::ConfigurationUpdate,
     PermissionType::DelegationViewAny,
