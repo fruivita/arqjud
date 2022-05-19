@@ -32,7 +32,7 @@ test('create many documentation', function () {
     expect(Documentation::count())->toBe(30);
 });
 
-test('Documentation fields in their maximum size are accepted', function () {
+test('fields in their maximum size are accepted', function () {
     Documentation::factory()->create([
         'app_route_name' => Str::random(255),
         'doc_link' => Str::random(255),

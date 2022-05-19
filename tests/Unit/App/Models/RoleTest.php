@@ -98,7 +98,7 @@ test('optional role fields are accepted', function () {
     expect(Role::count())->toBe(1);
 });
 
-test('role fields at their maximum size are accepted', function () {
+test('fields in their maximum size are accepted', function () {
     Role::factory()->create([
         'name' => Str::random(50),
         'description' => Str::random(255),

@@ -47,7 +47,7 @@ test('create many buildings', function () {
     expect(Building::count())->toBe(30);
 });
 
-test('building name at its maximum size is accepted', function () {
+test('fields in their maximum size are accepted', function () {
     Building::factory()->create(['name' => Str::random(100)]);
 
     expect(Building::count())->toBe(1);

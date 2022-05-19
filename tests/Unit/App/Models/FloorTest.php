@@ -47,7 +47,7 @@ test('create many floors', function () {
     expect(Floor::count())->toBe(30);
 });
 
-test('floor number at its maximum size is accepted', function () {
+test('fields in their maximum size are accepted', function () {
     Floor::factory()->create(['number' => Str::random(100)]);
 
     expect(Floor::count())->toBe(1);

@@ -47,7 +47,7 @@ test('create many rooms', function () {
     expect(Room::count())->toBe(30);
 });
 
-test('room number at its maximum size is accepted', function () {
+test('fields in their maximum size are accepted', function () {
     Room::factory()->create(['number' => Str::random(100)]);
 
     expect(Room::count())->toBe(1);

@@ -47,7 +47,7 @@ test('create many box volumes', function () {
     expect(BoxVolume::count())->toBe(30);
 });
 
-test('box volume number at its maximum size is accepted', function () {
+test('fields in their maximum size are accepted', function () {
     BoxVolume::factory()->create(['number' => 65535]);
 
     expect(BoxVolume::count())->toBe(1);

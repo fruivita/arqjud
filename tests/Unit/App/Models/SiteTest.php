@@ -33,7 +33,7 @@ test('create many sites', function () {
     expect(Site::count())->toBe(30);
 });
 
-test('site name at its maximum size is accepted', function () {
+test('fields in their maximum size are accepted', function () {
     Site::factory()->create(['name' => Str::random(100)]);
 
     expect(Site::count())->toBe(1);
