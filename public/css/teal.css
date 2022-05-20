@@ -2265,9 +2265,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-3{
   margin-top: 0.75rem;
 }
-.block{
-  display: block;
-}
 .inline{
   display: inline;
 }
@@ -2792,14 +2789,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(20 184 166 / var(--tw-text-opacity));
 }
 
-.dark .dark\:inline{
-  display: inline;
-}
-
-.dark .dark\:hidden{
-  display: none;
-}
-
 .dark .dark\:divide-secondary-600 > :not([hidden]) ~ :not([hidden]){
   --tw-divide-opacity: 1;
   border-color: rgb(71 85 105 / var(--tw-divide-opacity));
@@ -2969,13 +2958,13 @@ Ensure the default browser behavior of the `hidden` attribute.
     margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(0px * var(--tw-space-y-reverse));
   }
-  .lg\:px-6{
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
   .lg\:px-24{
     padding-left: 6rem;
     padding-right: 6rem;
+  }
+  .lg\:px-6{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 
