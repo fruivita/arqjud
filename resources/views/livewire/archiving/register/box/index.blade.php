@@ -108,7 +108,7 @@
                                     <x-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        {{-- href="{{ route('authorization.permission.show', $permission) }}" --}}
+                                        href="{{ route('archiving.register.box.show', $box) }}"
                                         text="{{ __('Show') }}"
                                         title="{{ __('Show the record') }}"/>
 
