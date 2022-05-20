@@ -123,3 +123,15 @@ test('one box has many box volumes', function () {
 
     expect($box->volumes)->toHaveCount(3);
 });
+
+test('search, with partial term or not, returns the expected values', function () {
+    Box::factory()->create(['number' => '100', 'year' => '2015']);
+    Box::factory()->create(['number' => '120152', 'year' => '2020']);
+    Box::factory()->create(['number' => '200', 'year' => '2020']);
+
+    expect(Box::search('20')->get())->toHaveCount(3)
+    ->and(Box::search('2015')->get())->toHaveCount(2)
+    ->and(Box::search('12015')->get())->toHaveCount(1)
+    ->and(Box::search('10')->get())->toHaveCount(1)
+    ->and(Box::search('100')->get())->toHaveCount(1);
+});

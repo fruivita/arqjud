@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -72,5 +73,24 @@ class Box extends Model
         ->whereRaw('number > (select number from boxes where id = ?)', [$this->id])
         ->orderBy('number', 'asc')
         ->take(1);
+    }
+
+    /**
+     * Records filtered by the term entered.
+     *
+     * The filter applies to the number and the year through the OR clause.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string|null                           $term
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function scopeSearch(Builder $query, string $term = null)
+    {
+        return $query->when($term, function ($query, $term) {
+            $query
+                ->where('number', 'like', "%{$term}%")
+                ->orWhere('year', 'like', "%{$term}%");
+        });
     }
 }
