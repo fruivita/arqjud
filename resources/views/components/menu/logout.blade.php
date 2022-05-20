@@ -18,13 +18,13 @@
 
 
         <button
-            class="block border-primary-500 outline-none pl-3 space-x-3 focus:border-l-4 hover:border-l-4"
+            class="flex items-center border-primary-500 outline-none pl-3 space-x-3 w-full focus:border-l-4 hover:border-l-4"
             formaction="{{ route('logout') }}"
             formmethod="POST"
             title="{{ __('Exit the application') }}"
             type="submit">
 
-            <x-icon name="door-open" class="inline"/>
+            <x-icon name="door-open"/>
 
 
             <span>{{ __('Logout') }}</span>
