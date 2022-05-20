@@ -36,6 +36,16 @@ class Box extends Model
     }
 
     /**
+     * Box name.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return $this->number . '/' . $this->year;
+    }
+
+    /**
      * Default ordering of the model.
      *
      * Order: number asc

@@ -86,6 +86,12 @@ test('next returns the correct back record even though it is the last', function
     ->and($box_2->next()->first())->toBeNull();
 });
 
+test('name returns the name of the box ready for display', function () {
+    $box = Box::factory()->create(['number' => '100', 'year' => '2020']);
+
+    expect($box->name())->toBe('100/2020');
+});
+
 test('returns the boxs using the default sort scope defined', function () {
     $first = '100-foo';
     $second = '200-bar';
