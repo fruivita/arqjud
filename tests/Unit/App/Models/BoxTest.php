@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 
 // Exceptions
-test('throws exception when trying to create boxs in duplicate, that is, with the same numbers and year', function () {
+test('throws exception when trying to create boxes in duplicate, that is, with the same numbers and year', function () {
     expect(
         fn () => Box::factory(2)->create([
             'number' => '100-foo',
@@ -44,7 +44,7 @@ test('throws exception when trying to set invalid relationship', function ($fiel
 ]);
 
 // Happy path
-test('create many boxs', function () {
+test('create many boxes', function () {
     Box::factory(30)->create();
 
     expect(Box::count())->toBe(30);
@@ -92,7 +92,7 @@ test('name returns the name of the box ready for display', function () {
     expect($box->name())->toBe('100/2020');
 });
 
-test('returns the boxs using the default sort scope defined', function () {
+test('returns the boxes using the default sort scope defined', function () {
     $first = '100-foo';
     $second = '200-bar';
     $third = '300-baz';
@@ -101,11 +101,11 @@ test('returns the boxs using the default sort scope defined', function () {
     Box::factory()->create(['number' => $first]);
     Box::factory()->create(['number' => $second]);
 
-    $Boxs = Box::defaultOrder()->get();
+    $boxes = Box::defaultOrder()->get();
 
-    expect($Boxs->get(0)->number)->toBe($first)
-    ->and($Boxs->get(1)->number)->toBe($second)
-    ->and($Boxs->get(2)->number)->toBe($third);
+    expect($boxes->get(0)->number)->toBe($first)
+    ->and($boxes->get(1)->number)->toBe($second)
+    ->and($boxes->get(2)->number)->toBe($third);
 });
 
 test('one box belongs to one room', function () {
