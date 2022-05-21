@@ -7,6 +7,8 @@
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireShow;
 use App\Models\Box;
+use Database\Seeders\DepartmentSeeder;
+use Database\Seeders\RoleSeeder;
 use Livewire\Livewire;
 
 use function Pest\Laravel\get;
