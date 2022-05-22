@@ -22,7 +22,7 @@ class RoomFactory extends Factory
     public function definition()
     {
         return [
-            'number' => $this->faker->unique()->bothify('#####-??'),
+            'number' => $this->faker->unique()->numberBetween(),
             'description' => $this->faker->optional()->sentence(),
             'floor_id' => Floor::factory(),
         ];

@@ -16,7 +16,7 @@ test('throws exception when trying to create rooms in duplicate, that is, with t
 
     expect(
         fn () => Room::factory(2)->create([
-            'number' => '100-foo',
+            'number' => 100,
             'floor_id' => $floor->id
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
@@ -27,8 +27,8 @@ test('throws exception when trying to create room with invalid field', function 
         fn () => Room::factory()->create([$field => $value])
     )->toThrow(QueryException::class, $message);
 })->with([
-    ['number',      Str::random(101), 'Data too long for column'], // maximum 100 characters
-    ['number',      null,             'cannot be null'],           // required
+    ['number',      -1,               'Out of range'],             // min 0
+    ['number',      4294967296,       'Out of range'],             // max 4294967295
     ['description', Str::random(256), 'Data too long for column'], // maximum 255 characters
 ]);
 
@@ -48,9 +48,15 @@ test('create many rooms', function () {
     expect(Room::count())->toBe(30);
 });
 
+test('fields in their minimum size are accepted', function () {
+    Room::factory()->create(['number' => 0]);
+
+    expect(Room::count())->toBe(1);
+});
+
 test('fields in their maximum size are accepted', function () {
     Room::factory()->create([
-        'number' => Str::random(100),
+        'number' => 4294967295,
         'description' => Str::random(255),
     ]);
 
@@ -64,25 +70,25 @@ test('optional fields are set', function () {
 });
 
 test('previous returns the correct previous record, even if it is the first', function () {
-    $room_1 = Room::factory()->create(['number' => '100-bar']);
-    $room_2 = Room::factory()->create(['number' => '100-foo']);
+    $room_1 = Room::factory()->create(['number' => 100]);
+    $room_2 = Room::factory()->create(['number' => 200]);
 
     expect($room_2->previous()->first()->id)->toBe($room_1->id)
     ->and($room_1->previous()->first())->toBeNull();
 });
 
 test('next returns the correct back record even though it is the last', function () {
-    $room_1 = Room::factory()->create(['number' => '100-bar']);
-    $room_2 = Room::factory()->create(['number' => '100-foo']);
+    $room_1 = Room::factory()->create(['number' => 100]);
+    $room_2 = Room::factory()->create(['number' => 200]);
 
     expect($room_1->next()->first()->id)->toBe($room_2->id)
     ->and($room_2->next()->first())->toBeNull();
 });
 
 test('returns the rooms using the default sort scope defined', function () {
-    $first = '100-foo';
-    $second = '200-bar';
-    $third = '300-baz';
+    $first = 100;
+    $second = 200;
+    $third = 300;
 
     Room::factory()->create(['number' => $third]);
     Room::factory()->create(['number' => $first]);
