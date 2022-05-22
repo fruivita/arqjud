@@ -61,7 +61,7 @@ test('fields in their maximum size are accepted', function () {
     expect(Box::count())->toBe(1);
 });
 
-test('optional fields are accepted', function () {
+test('optional fields are set', function () {
     Box::factory()->create([
         'stand' => null,
         'shelf' => null,
