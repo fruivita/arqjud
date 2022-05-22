@@ -22,8 +22,9 @@ test('throws exception when trying to create site with invalid field', function 
         fn () => Site::factory()->create([$field => $value])
     )->toThrow(QueryException::class, $message);
 })->with([
-    ['name', Str::random(101), 'Data too long for column'], // maximum 100 characters
-    ['name', null,             'cannot be null'],           // required
+    ['name',        Str::random(101), 'Data too long for column'], // maximum 100 characters
+    ['name',        null,             'cannot be null'],           // required
+    ['description', Str::random(256), 'Data too long for column'], // maximum 255 characters
 ]);
 
 // Happy path
@@ -34,7 +35,16 @@ test('create many sites', function () {
 });
 
 test('fields in their maximum size are accepted', function () {
-    Site::factory()->create(['name' => Str::random(100)]);
+    Site::factory()->create([
+        'name' => Str::random(100),
+        'description' => Str::random(255),
+    ]);
+
+    expect(Site::count())->toBe(1);
+});
+
+test('optional fields are set', function () {
+    Site::factory()->create(['description' => null]);
 
     expect(Site::count())->toBe(1);
 });

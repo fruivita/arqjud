@@ -22,6 +22,7 @@ class SiteFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->city(),
+            'description' => $this->faker->optional()->sentence(),
         ];
     }
 }
