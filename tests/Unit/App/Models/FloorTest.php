@@ -27,8 +27,9 @@ test('throws exception when trying to create floor with invalid field', function
         fn () => Floor::factory()->create([$field => $value])
     )->toThrow(QueryException::class, $message);
 })->with([
-    ['number', Str::random(101), 'Data too long for column'], // maximum 100 characters
-    ['number', null,             'cannot be null'],           // required
+    ['number',      Str::random(101), 'Data too long for column'], // maximum 100 characters
+    ['number',      null,             'cannot be null'],           // required
+    ['description', Str::random(256), 'Data too long for column'], // maximum 255 characters
 ]);
 
 test('throws exception when trying to set invalid relationship', function ($field, $value, $message) {
@@ -48,7 +49,16 @@ test('create many floors', function () {
 });
 
 test('fields in their maximum size are accepted', function () {
-    Floor::factory()->create(['number' => Str::random(100)]);
+    Floor::factory()->create([
+        'number' => Str::random(100),
+        'description' => Str::random(255),
+    ]);
+
+    expect(Floor::count())->toBe(1);
+});
+
+test('optional fields are set', function () {
+    Floor::factory()->create(['description' => null]);
 
     expect(Floor::count())->toBe(1);
 });

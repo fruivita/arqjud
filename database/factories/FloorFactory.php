@@ -23,6 +23,7 @@ class FloorFactory extends Factory
     {
         return [
             'number' => $this->faker->unique()->numberBetween(-100000, 100000),
+            'description' => $this->faker->optional()->sentence(),
             'building_id' => Building::factory(),
         ];
     }

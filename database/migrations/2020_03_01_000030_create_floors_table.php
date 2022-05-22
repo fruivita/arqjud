@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('building_id');
             $table->string('number', 100);
+            $table->string('description', 255)->nullable();
             $table->timestamps();
 
             $table->unique([
