@@ -19,7 +19,7 @@ return new class extends Migration {
         Schema::create('box_volumes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('box_id');
-            $table->unsignedSmallInteger('number');
+            $table->unsignedInteger('number');
             $table->timestamps();
 
 
