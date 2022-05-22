@@ -22,16 +22,10 @@ class BoxFactory extends Factory
     public function definition()
     {
         return [
-            'number' => $this->faker->unique()->numerify('######'),
+            'number' => $this->faker->unique()->numberBetween(),
             'year' => $this->faker->numberBetween(1900, 2020),
-            'stand' => rand(0, 1)
-                ? null
-                : $this->faker->numerify('####'),
-
-            'shelf' => rand(0, 1)
-                ? null
-                : $this->faker->numerify('##'),
-
+            'stand' => $this->faker->optional()->numerify('####'),
+            'shelf' => $this->faker->optional()->numerify('##'),
             'room_id' => Room::factory(),
         ];
     }

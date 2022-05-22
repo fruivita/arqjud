@@ -19,10 +19,10 @@ return new class extends Migration {
         Schema::create('boxes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('room_id');
-            $table->string('number', 100);
+            $table->unsignedInteger('number');
             $table->unsignedSmallInteger('year');
-            $table->string('stand', 100)->nullable();
-            $table->string('shelf', 100)->nullable();
+            $table->unsignedInteger('stand')->nullable();
+            $table->unsignedInteger('shelf')->nullable();
             $table->timestamps();
 
             $table->unique([

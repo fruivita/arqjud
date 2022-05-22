@@ -14,8 +14,8 @@ use Illuminate\Support\Str;
 test('throws exception when trying to create boxes in duplicate, that is, with the same numbers and year', function () {
     expect(
         fn () => Box::factory(2)->create([
-            'number' => '100-foo',
-            'year' => '2020'
+            'number' => 100,
+            'year' => 2020
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
 });
@@ -25,13 +25,18 @@ test('throws exception when trying to create box with invalid field', function (
         fn () => Box::factory()->create([$field => $value])
     )->toThrow(QueryException::class, $message);
 })->with([
-    ['number', Str::random(101), 'Data too long for column'], // maximum 100 characters
-    ['number', null,             'cannot be null'],           // required
-    ['year',  'foo',             'Incorrect integer value'],  // not convertible to integer
-    ['year',  -1,                'Out of range value'],       // integer greater than zero
-    ['year', 65536,              'Out of range value'],       // integer greater than zero
-    ['stand', Str::random(101),  'Data too long for column'], // maximum 100 characters
-    ['shelf', Str::random(101),  'Data too long for column'], // maximum 100 characters
+    ['number', -1,         'Out of range'],             // min 0
+    ['number', 4294967296, 'Out of range'],             // max 4294967295
+    ['number', 'foo',      'Incorrect integer value'],  // not convertible to integer
+    ['year',   -1,         'Out of range value'],       // integer greater than zero
+    ['year',   65536,      'Out of range value'],       // integer greater than zero
+    ['year',   'foo',      'Incorrect integer value'],  // not convertible to integer
+    ['stand',  -1,         'Out of range'],             // min 0
+    ['stand',  4294967296, 'Out of range'],             // max 4294967295
+    ['stand',  'foo',      'Incorrect integer value'],  // not convertible to integer
+    ['shelf',  -1,         'Out of range'],             // min 0
+    ['shelf',  4294967296, 'Out of range'],             // max 4294967295
+    ['shelf',  'foo',      'Incorrect integer value'],  // not convertible to integer
 ]);
 
 test('throws exception when trying to set invalid relationship', function ($field, $value, $message) {
@@ -52,10 +57,10 @@ test('create many boxes', function () {
 
 test('fields in their maximum size are accepted', function () {
     Box::factory()->create([
-        'number' => Str::random(100),
+        'number' => 4294967295,
         'year' => 65535,
-        'stand' => Str::random(100),
-        'shelf' => Str::random(100),
+        'stand' => 4294967295,
+        'shelf' => 4294967295,
     ]);
 
     expect(Box::count())->toBe(1);
@@ -71,31 +76,31 @@ test('optional fields are set', function () {
 });
 
 test('previous returns the correct previous record, even if it is the first', function () {
-    $box_1 = Box::factory()->create(['number' => '100-bar']);
-    $box_2 = Box::factory()->create(['number' => '100-foo']);
+    $box_1 = Box::factory()->create(['number' => 100]);
+    $box_2 = Box::factory()->create(['number' => 200]);
 
     expect($box_2->previous()->first()->id)->toBe($box_1->id)
     ->and($box_1->previous()->first())->toBeNull();
 });
 
 test('next returns the correct back record even though it is the last', function () {
-    $box_1 = Box::factory()->create(['number' => '100-bar']);
-    $box_2 = Box::factory()->create(['number' => '100-foo']);
+    $box_1 = Box::factory()->create(['number' => 100]);
+    $box_2 = Box::factory()->create(['number' => 200]);
 
     expect($box_1->next()->first()->id)->toBe($box_2->id)
     ->and($box_2->next()->first())->toBeNull();
 });
 
 test('name returns the name of the box ready for display', function () {
-    $box = Box::factory()->create(['number' => '100', 'year' => '2020']);
+    $box = Box::factory()->create(['number' => 100, 'year' => 2020]);
 
     expect($box->name())->toBe('100/2020');
 });
 
 test('returns the boxes using the default sort scope defined', function () {
-    $first = '100-foo';
-    $second = '200-bar';
-    $third = '300-baz';
+    $first = 100;
+    $second = 200;
+    $third = 300;
 
     Box::factory()->create(['number' => $third]);
     Box::factory()->create(['number' => $first]);
@@ -131,9 +136,9 @@ test('one box has many box volumes', function () {
 });
 
 test('search, with partial term or not, returns the expected values', function () {
-    Box::factory()->create(['number' => '100', 'year' => '2015']);
-    Box::factory()->create(['number' => '120152', 'year' => '2020']);
-    Box::factory()->create(['number' => '200', 'year' => '2020']);
+    Box::factory()->create(['number' => 100, 'year' => 2015]);
+    Box::factory()->create(['number' => 120152, 'year' => 2020]);
+    Box::factory()->create(['number' => 200, 'year' => 2020]);
 
     expect(Box::search('20')->get())->toHaveCount(3)
     ->and(Box::search('2015')->get())->toHaveCount(2)
