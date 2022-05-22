@@ -23,6 +23,7 @@ class BuildingFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->streetName(),
+            'description' => $this->faker->optional()->sentence(),
             'site_id' => Site::factory(),
         ];
     }

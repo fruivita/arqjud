@@ -27,8 +27,9 @@ test('throws exception when trying to create building with invalid field', funct
         fn () => Building::factory()->create([$field => $value])
     )->toThrow(QueryException::class, $message);
 })->with([
-    ['name', Str::random(101), 'Data too long for column'], // maximum 100 characters
-    ['name', null,             'cannot be null'],           // required
+    ['name',        Str::random(101), 'Data too long for column'], // maximum 100 characters
+    ['name',        null,             'cannot be null'],           // required
+    ['description', Str::random(256), 'Data too long for column'], // maximum 255 characters
 ]);
 
 test('throws exception when trying to set invalid relationship', function ($field, $value, $message) {
@@ -48,9 +49,18 @@ test('create many buildings', function () {
 });
 
 test('fields in their maximum size are accepted', function () {
-    Building::factory()->create(['name' => Str::random(100)]);
+    Building::factory()->create([
+        'name' => Str::random(100),
+        'description' => Str::random(255),
+    ]);
 
     expect(Building::count())->toBe(1);
+});
+
+test('optional fields are set', function () {
+    Site::factory()->create(['description' => null]);
+
+    expect(Site::count())->toBe(1);
 });
 
 test('previous returns the correct previous record, even if it is the first', function () {
