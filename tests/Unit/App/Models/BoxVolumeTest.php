@@ -27,8 +27,8 @@ test('throws exception when trying to create box volume with invalid field', fun
     )->toThrow(QueryException::class, $message);
 })->with([
     ['number', 'foo', 'Incorrect integer value'],  // not convertible to integer
-    ['number', -1,    'Out of range value'],       // integer greater than zero
-    ['number', 65536, 'Out of range value'],       // integer greater than zero
+    ['number', -1,    'Out of range value'],       // min 0
+    ['number', 65536, 'Out of range value'],       // max 65536
 ]);
 
 test('throws exception when trying to set invalid relationship', function ($field, $value, $message) {

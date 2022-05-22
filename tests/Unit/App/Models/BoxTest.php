@@ -28,8 +28,8 @@ test('throws exception when trying to create box with invalid field', function (
     ['number', -1,         'Out of range'],             // min 0
     ['number', 4294967296, 'Out of range'],             // max 4294967295
     ['number', 'foo',      'Incorrect integer value'],  // not convertible to integer
-    ['year',   -1,         'Out of range value'],       // integer greater than zero
-    ['year',   65536,      'Out of range value'],       // integer greater than zero
+    ['year',   -1,         'Out of range value'],       // min 0
+    ['year',   65536,      'Out of range value'],       // max 65536
     ['year',   'foo',      'Incorrect integer value'],  // not convertible to integer
     ['stand',  -1,         'Out of range'],             // min 0
     ['stand',  4294967296, 'Out of range'],             // max 4294967295
