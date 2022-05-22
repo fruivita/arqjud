@@ -29,6 +29,7 @@ test('throws exception when trying to create floor with invalid field', function
 })->with([
     ['number',      -2147483649,      'Out of range'],             // min -2147483648
     ['number',      2147483648,       'Out of range'],             // max 2147483647
+    ['number',     'foo',             'Incorrect integer value'],  // not convertible to integer
     ['number',      null,             'cannot be null'],           // required
     ['description', Str::random(256), 'Data too long for column'], // maximum 255 characters
 ]);
