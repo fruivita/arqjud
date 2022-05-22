@@ -23,6 +23,7 @@ class RoomFactory extends Factory
     {
         return [
             'number' => $this->faker->unique()->bothify('#####-??'),
+            'description' => $this->faker->optional()->sentence(),
             'floor_id' => Floor::factory(),
         ];
     }
