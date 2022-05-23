@@ -48,7 +48,8 @@ class Box extends Model
     /**
      * Default ordering of the model.
      *
-     * Order: number asc
+     * Order: year desc
+     * Order: number desc
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
@@ -56,7 +57,9 @@ class Box extends Model
      */
     public function scopeDefaultOrder($query)
     {
-        return $query->orderBy('number', 'asc');
+        return $query
+        ->orderBy('year', 'desc')
+        ->orderBy('number', 'desc');
     }
 
     /**
@@ -67,8 +70,14 @@ class Box extends Model
     public function previous()
     {
         return Box::select('id')
-        ->whereRaw('number < (select number from boxes where id = ?)', [$this->id])
-        ->orderBy('number', 'desc')
+        ->whereRaw('year >= (select year from boxes where id = ?)', [$this->id])
+        ->where(function($query) {
+            return $query
+            ->whereRaw('year > (select year from boxes where id = ?)', [$this->id])
+            ->orWhereRaw('number > (select number from boxes where id = ?)', [$this->id]);
+        })
+        ->orderBy('year', 'asc')
+        ->orderBy('number', 'asc')
         ->take(1);
     }
 
@@ -79,9 +88,15 @@ class Box extends Model
      */
     public function next()
     {
-        return Box::select('id')
-        ->whereRaw('number > (select number from boxes where id = ?)', [$this->id])
-        ->orderBy('number', 'asc')
+        return Box::select('id', 'number')
+        ->whereRaw('year <= (select year from boxes where id = ?)', [$this->id])
+        ->where(function($query) {
+            return $query
+            ->whereRaw('year < (select year from boxes where id = ?)', [$this->id])
+            ->orWhereRaw('number < (select number from boxes where id = ?)', [$this->id]);
+        })
+        ->orderBy('year', 'desc')
+        ->orderBy('number', 'desc')
         ->take(1);
     }
 

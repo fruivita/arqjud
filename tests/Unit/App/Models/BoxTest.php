@@ -76,19 +76,69 @@ test('optional fields are set', function () {
 });
 
 test('previous returns the correct previous record, even if it is the first', function () {
-    $box_1 = Box::factory()->create(['number' => 100]);
-    $box_2 = Box::factory()->create(['number' => 200]);
+    $box_1 = Box::factory()->create([
+        'number' => 200,
+        'year' => 2020
+    ]);
+    $box_2 = Box::factory()->create([
+        'number' => 100,
+        'year' => 2020
+    ]);
 
     expect($box_2->previous()->first()->id)->toBe($box_1->id)
     ->and($box_1->previous()->first())->toBeNull();
 });
 
 test('next returns the correct back record even though it is the last', function () {
-    $box_1 = Box::factory()->create(['number' => 100]);
-    $box_2 = Box::factory()->create(['number' => 200]);
+    $box_1 = Box::factory()->create([
+        'number' => 200,
+        'year' => 2020
+    ]);
+    $box_2 = Box::factory()->create([
+        'number' => 100,
+        'year' => 2020
+    ]);
 
     expect($box_1->next()->first()->id)->toBe($box_2->id)
     ->and($box_2->next()->first())->toBeNull();
+});
+
+test('previous returns the correct previous record, even if it is the first and the year is different', function () {
+    $box_1 = Box::factory()->create([
+        'number' => 200,
+        'year' => 2021
+    ]);
+    $box_2 = Box::factory()->create([
+        'number' => 500,
+        'year' => 2020
+    ]);
+    $box_3 = Box::factory()->create([
+        'number' => 100,
+        'year' => 2020
+    ]);
+
+    expect($box_3->previous()->first()->id)->toBe($box_2->id)
+    ->and($box_2->previous()->first()->id)->toBe($box_1->id)
+    ->and($box_1->previous()->first())->toBeNull();
+});
+
+test('next returns the correct back record even though it is the last and the year is different', function () {
+    $box_1 = Box::factory()->create([
+        'number' => 200,
+        'year' => 2021
+    ]);
+    $box_2 = Box::factory()->create([
+        'number' => 500,
+        'year' => 2020
+    ]);
+    $box_3 = Box::factory()->create([
+        'number' => 100,
+        'year' => 2020
+    ]);
+
+    expect($box_1->next()->first()->number)->toBe($box_2->number)
+    ->and($box_2->next()->first()->number)->toBe($box_3->number)
+    ->and($box_3->next()->first())->toBeNull();
 });
 
 test('name returns the name of the box ready for display', function () {
@@ -98,19 +148,24 @@ test('name returns the name of the box ready for display', function () {
 });
 
 test('returns the boxes using the default sort scope defined', function () {
-    $first = 100;
-    $second = 200;
-    $third = 300;
-
-    Box::factory()->create(['number' => $third]);
-    Box::factory()->create(['number' => $first]);
-    Box::factory()->create(['number' => $second]);
+    $second = Box::factory()->create([
+        'number' => 100,
+        'year' => 2020,
+    ]);
+    $first = Box::factory()->create([
+        'number' => 200,
+        'year' => 2020,
+    ]);
+    $third = Box::factory()->create([
+        'number' => 100,
+        'year' => 2019,
+    ]);
 
     $boxes = Box::defaultOrder()->get();
 
-    expect($boxes->get(0)->number)->toBe($first)
-    ->and($boxes->get(1)->number)->toBe($second)
-    ->and($boxes->get(2)->number)->toBe($third);
+    expect($boxes->get(0)->id)->toBe($first->id)
+    ->and($boxes->get(1)->id)->toBe($second->id)
+    ->and($boxes->get(2)->id)->toBe($third->id);
 });
 
 test('one box belongs to one room', function () {
