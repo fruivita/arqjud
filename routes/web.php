@@ -9,6 +9,7 @@ use App\Http\Livewire\Administration\Documentation\DocumentationLivewireIndex;
 use App\Http\Livewire\Administration\Documentation\DocumentationLivewireUpdate;
 use App\Http\Livewire\Administration\Importation\ImportationLivewireCreate;
 use App\Http\Livewire\Administration\Log\LogLivewireIndex;
+use App\Http\Livewire\Archiving\Register\Box\BoxLivewireCreate;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireIndex;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireShow;
 use App\Http\Livewire\Authorization\Delegation\DelegationLivewireIndex;
@@ -102,6 +103,7 @@ Route::middleware('auth')->group(function () {
             Route::prefix('caixa')->name('box.')->group(function () {
                 Route::get('/', BoxLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Box::class);
                 Route::get('show/{box}', BoxLivewireShow::class)->name('show')->can(Policy::View->value, Box::class);
+                Route::get('create', BoxLivewireCreate::class)->name('create')->can(Policy::Create->value, Box::class);
             });
         });
     });
