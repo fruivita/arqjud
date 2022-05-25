@@ -2379,6 +2379,13 @@ Ensure the default browser behavior of the `hidden` attribute.
 .gap-6{
   gap: 1.5rem;
 }
+.gap-x-3{
+  -moz-column-gap: 0.75rem;
+       column-gap: 0.75rem;
+}
+.gap-y-6{
+  row-gap: 1.5rem;
+}
 .space-y-12 > :not([hidden]) ~ :not([hidden]){
   --tw-space-y-reverse: 0;
   margin-top: calc(3rem * calc(1 - var(--tw-space-y-reverse)));
@@ -2886,6 +2893,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   }
   .md\:w-1\/6{
     width: 16.666667%;
+  }
+  .md\:grid-cols-3{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .md\:rounded-full{
     border-radius: 9999px;
