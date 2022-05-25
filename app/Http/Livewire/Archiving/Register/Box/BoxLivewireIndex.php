@@ -82,7 +82,7 @@ class BoxLivewireIndex extends Component
         ];
     }
 
-/**
+    /**
      * Returns the pagination to the initial pagination.
      *
      * Runs before a property called $term is updated.
