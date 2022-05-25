@@ -201,3 +201,22 @@ test('search, with partial term or not, returns the expected values', function (
     ->and(Box::search('10')->get())->toHaveCount(1)
     ->and(Box::search('100')->get())->toHaveCount(1);
 });
+
+test('createMany method creates and persists sequential boxes with equal attributes', function () {
+    $template = Box::factory()->makeOne(['number' => 10]);
+    $room = Room::factory()->create();
+
+    Box::createMany($template, 30, $room);
+
+    $boxes = Box::all();
+
+    $box = $boxes->random();
+
+    expect($boxes)->toHaveCount(30)
+    ->and($room->load('boxes')->boxes)->toHaveCount(30)
+    ->and($boxes->first()->number)->toBe(10)
+    ->and($boxes->last()->number)->toBe(39)
+    ->and($box->year)->toBe($template->year)
+    ->and($box->stand)->toBe($template->stand)
+    ->and($box->shelf)->toBe($template->shelf);
+});

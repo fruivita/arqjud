@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @see https://laravel.com/docs/eloquent
@@ -14,6 +16,20 @@ class Box extends Model
     use HasFactory;
 
     protected $table = 'boxes';
+
+    protected $fillable = ['year', 'number', 'stand', 'shelf'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'number' => 'integer',
+        'year' => 'integer',
+        'stand' => 'integer',
+        'shelf' => 'integer',
+    ];
 
     /**
      * Relationship box (N:1) room.
@@ -117,5 +133,65 @@ class Box extends Model
                 ->where('number', 'like', "%{$term}%")
                 ->orWhere('year', 'like', "%{$term}%");
         });
+    }
+
+    /**
+     * Creates several boxes in the informed room and persists them in the
+     * database.
+     *
+     * @param \App\Models\Box $template template for creating the boxes
+     * @param int             $amount number of boxes to create
+     * @param \App\Models\Room $room
+     *
+     * @return bool
+     */
+    public static function createMany(Box $template, int $amount, Room $room)
+    {
+        try {
+            DB::transaction(function () use ($template, $amount, $room) {
+                $room->boxes()->saveMany(
+                    self::generateMany($template, $amount)
+                );
+            });
+
+            return true;
+        } catch (\Throwable $th) {
+            Log::error(
+                __('Box creation failed'),
+                [
+                    'template' => $template,
+                    'amount' => $amount,
+                    'room' => $room,
+                    'exception' => $th,
+                ]
+            );
+
+            return false;
+        }
+    }
+
+    /**
+     * Generates several clones of the informed box differing only by the box
+     * number.
+     *
+     * The number of the first box will be the one defined in the template and
+     * the others will be increments by one.
+     *
+     * @param \App\Models\Box $template template for creating the boxes
+     * @param int             $amount number of boxes to create
+     *
+     * @return array<int, \App\Models\Box>
+     */
+    private static function generateMany(Box $template, int $amount)
+    {
+        $array = [];
+
+        for ($i = $template->number; $i < $template->number + $amount; $i++) {
+            $box = clone $template;
+            $box->number = $i;
+            $array[] = $box;
+        }
+
+        return $array;
     }
 }
