@@ -34,6 +34,10 @@ test('user without permission cannot create a box', function () {
     expect((new BoxPolicy)->create($this->user))->toBeFalse();
 });
 
+test('user without permission cannot create multiple boxes', function () {
+    expect((new BoxPolicy)->createMany($this->user))->toBeFalse();
+});
+
 test('user without permission cannot update a box', function () {
     expect((new BoxPolicy)->update($this->user))->toBeFalse();
 });
@@ -139,6 +143,38 @@ test('permission to create a box is cached for 5 seconds', function () {
     ->and(cache()->missing($key))->toBeTrue();
 });
 
+test('permission to create multiple boxes is cached for 5 seconds', function () {
+    testTime()->freeze();
+    grantPermission(PermissionType::BoxCreateMany->value);
+
+    $key = "{$this->user->username}-permissions";
+
+    // no cache
+    expect((new BoxPolicy)->createMany($this->user))->toBeTrue()
+    ->and(cache()->missing($key))->toBeTrue();
+
+    // create the permissions cache when making a request
+    get(route('home'));
+
+    // with cache
+    expect((new BoxPolicy)->createMany($this->user))->toBeTrue()
+    ->and(cache()->has($key))->toBeTrue();
+
+    // revoke permission and move time to expiration limit
+    revokePermission(PermissionType::BoxCreateMany->value);
+    testTime()->addSeconds(5);
+
+    // permission is still cached
+    expect((new BoxPolicy)->createMany($this->user))->toBeTrue()
+    ->and(cache()->has($key))->toBeTrue();
+
+    // expires cache
+    testTime()->addSeconds(1);
+
+    expect((new BoxPolicy)->createMany($this->user))->toBeFalse()
+    ->and(cache()->missing($key))->toBeTrue();
+});
+
 test('permission to individually update a box is cached for 5 seconds', function () {
     testTime()->freeze();
     grantPermission(PermissionType::BoxUpdate->value);
@@ -219,6 +255,12 @@ test('user with permission can create a box', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
     expect((new BoxPolicy)->create($this->user))->toBeTrue();
+});
+
+test('user with permission can create multiple boxes', function () {
+    grantPermission(PermissionType::BoxCreateMany->value);
+
+    expect((new BoxPolicy)->createMany($this->user))->toBeTrue();
 });
 
 test('user with permission can individually update a box', function () {

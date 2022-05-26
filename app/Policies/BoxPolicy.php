@@ -47,6 +47,18 @@ class BoxPolicy extends Policy
     }
 
     /**
+     * Determine whether the user can create many models at once.
+     *
+     * @param \App\Models\User $user
+     *
+     * @return bool|\Illuminate\Auth\Access\Response
+     */
+    public function createMany(User $user)
+    {
+        return $this->hasAnyPermission($user, [PermissionType::BoxCreateMany]);
+    }
+
+    /**
      * Determine whether the user can update a model.
      *
      * @param \App\Models\User $user
