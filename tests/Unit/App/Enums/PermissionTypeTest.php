@@ -11,6 +11,7 @@ test('permissions ids for boxes administration are set', function () {
     expect(PermissionType::BoxViewAny->value)->toBe(100001)
     ->and(PermissionType::BoxView->value)->toBe(100002)
     ->and(PermissionType::BoxCreate->value)->toBe(100003)
+    ->and(PermissionType::BoxCreateMany->value)->toBe(100101)
     ->and(PermissionType::BoxUpdate->value)->toBe(100004)
     ->and(PermissionType::BoxDelete->value)->toBe(100005);
 });

@@ -15,6 +15,7 @@ enum PermissionType: int
     case BoxCreate = 100003;
     case BoxUpdate = 100004;
     case BoxDelete = 100005;
+    case BoxCreateMany = 100101;
     case ConfigurationView = 110002;
     case ConfigurationUpdate = 110004;
     case DelegationViewAny = 120001;

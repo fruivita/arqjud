@@ -11,6 +11,7 @@ test('Policy enum correctly defined', function () {
     expect(Policy::ViewAny->value)->toBe('view-any')
     ->and(Policy::View->value)->toBe('view')
     ->and(Policy::Create->value)->toBe('create')
+    ->and(Policy::CreateMany->value)->toBe('create-many')
     ->and(Policy::Update->value)->toBe('update')
     ->and(Policy::Delete->value)->toBe('delete')
     ->and(Policy::Restore->value)->toBe('restore')

@@ -17,6 +17,7 @@ enum Policy: string
     case Delete = 'delete';
     case Restore = 'restore';
     case ForceDelete = 'force-delete';
+    case CreateMany = 'create-many';
     case DelegationViewAny = 'delegation-view-any';
     case DelegationCreate = 'delegation-create';
     case DelegationDelete = 'delegation-delete';
