@@ -272,7 +272,7 @@ test('number must be greater then 1', function () {
     ->assertHasErrors(['number' => 'min']);
 });
 
-test('number and year must be greater unique', function () {
+test('number and year must be unique', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
     Box::factory()->create(['year' => 2020, 'number' => 10]);
@@ -408,7 +408,7 @@ test('suggests the next box number (max number + 1) according to the selected ye
     ->assertSet('number', 1);
 });
 
-test('default quantity for crafting boxes is 1', function () {
+test('default quantity for create boxes is 1', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
     Livewire::test(BoxLivewireCreate::class)

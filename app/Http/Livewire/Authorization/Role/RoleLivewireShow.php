@@ -28,8 +28,8 @@ class RoleLivewireShow extends Component
     public Role $role;
 
     /**
-     * Runs on every request, immediately after the component is instantiated,
-     * but before any other lifecycle methods are called.
+     * Base resource that will be used to define the ids of the previous record
+     * of the next one.
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
