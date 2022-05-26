@@ -87,7 +87,7 @@ class Box extends Model
     {
         return Box::select('id')
         ->whereRaw('year >= (select year from boxes where id = ?)', [$this->id])
-        ->where(function($query) {
+        ->where(function ($query) {
             return $query
             ->whereRaw('year > (select year from boxes where id = ?)', [$this->id])
             ->orWhereRaw('number > (select number from boxes where id = ?)', [$this->id]);
@@ -106,7 +106,7 @@ class Box extends Model
     {
         return Box::select('id', 'number')
         ->whereRaw('year <= (select year from boxes where id = ?)', [$this->id])
-        ->where(function($query) {
+        ->where(function ($query) {
             return $query
             ->whereRaw('year < (select year from boxes where id = ?)', [$this->id])
             ->orWhereRaw('number < (select number from boxes where id = ?)', [$this->id]);
@@ -139,8 +139,8 @@ class Box extends Model
      * Creates several boxes in the informed room and persists them in the
      * database.
      *
-     * @param \App\Models\Box $template template for creating the boxes
-     * @param int             $amount number of boxes to create
+     * @param \App\Models\Box  $template template for creating the boxes
+     * @param int              $amount   number of boxes to create
      * @param \App\Models\Room $room
      *
      * @return bool
@@ -178,7 +178,7 @@ class Box extends Model
      * the others will be increments by one.
      *
      * @param \App\Models\Box $template template for creating the boxes
-     * @param int             $amount number of boxes to create
+     * @param int             $amount   number of boxes to create
      *
      * @return array<int, \App\Models\Box>
      */
@@ -186,7 +186,7 @@ class Box extends Model
     {
         $array = [];
 
-        for ($i = $template->number; $i < $template->number + $amount; $i++) {
+        for ($i = $template->number; $i < $template->number + $amount; ++$i) {
             $box = clone $template;
             $box->number = $i;
             $array[] = $box;

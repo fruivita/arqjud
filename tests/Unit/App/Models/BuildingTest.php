@@ -17,7 +17,7 @@ test('throws exception when trying to create buildings in duplicate, that is, wi
     expect(
         fn () => Building::factory(2)->create([
             'name' => 'foo',
-            'site_id' => $site->id
+            'site_id' => $site->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
 });

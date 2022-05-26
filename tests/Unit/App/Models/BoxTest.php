@@ -8,14 +8,13 @@ use App\Models\Box;
 use App\Models\BoxVolume;
 use App\Models\Room;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Str;
 
 // Exceptions
 test('throws exception when trying to create boxes in duplicate, that is, with the same numbers and year', function () {
     expect(
         fn () => Box::factory(2)->create([
             'number' => 100,
-            'year' => 2020
+            'year' => 2020,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
 });
@@ -78,11 +77,11 @@ test('optional fields are set', function () {
 test('previous returns the correct previous record, even if it is the first', function () {
     $box_1 = Box::factory()->create([
         'number' => 200,
-        'year' => 2020
+        'year' => 2020,
     ]);
     $box_2 = Box::factory()->create([
         'number' => 100,
-        'year' => 2020
+        'year' => 2020,
     ]);
 
     expect($box_2->previous()->first()->id)->toBe($box_1->id)
@@ -92,11 +91,11 @@ test('previous returns the correct previous record, even if it is the first', fu
 test('next returns the correct back record even though it is the last', function () {
     $box_1 = Box::factory()->create([
         'number' => 200,
-        'year' => 2020
+        'year' => 2020,
     ]);
     $box_2 = Box::factory()->create([
         'number' => 100,
-        'year' => 2020
+        'year' => 2020,
     ]);
 
     expect($box_1->next()->first()->id)->toBe($box_2->id)
@@ -106,15 +105,15 @@ test('next returns the correct back record even though it is the last', function
 test('previous returns the correct previous record, even if it is the first and the year is different', function () {
     $box_1 = Box::factory()->create([
         'number' => 200,
-        'year' => 2021
+        'year' => 2021,
     ]);
     $box_2 = Box::factory()->create([
         'number' => 500,
-        'year' => 2020
+        'year' => 2020,
     ]);
     $box_3 = Box::factory()->create([
         'number' => 100,
-        'year' => 2020
+        'year' => 2020,
     ]);
 
     expect($box_3->previous()->first()->id)->toBe($box_2->id)
@@ -125,15 +124,15 @@ test('previous returns the correct previous record, even if it is the first and 
 test('next returns the correct back record even though it is the last and the year is different', function () {
     $box_1 = Box::factory()->create([
         'number' => 200,
-        'year' => 2021
+        'year' => 2021,
     ]);
     $box_2 = Box::factory()->create([
         'number' => 500,
-        'year' => 2020
+        'year' => 2020,
     ]);
     $box_3 = Box::factory()->create([
         'number' => 100,
-        'year' => 2020
+        'year' => 2020,
     ]);
 
     expect($box_1->next()->first()->number)->toBe($box_2->number)

@@ -10,7 +10,7 @@ namespace App\Enums;
  */
 enum PermissionType: int
 {
-    //Box
+    // Box
     case BoxViewAny = 100001;
     case BoxView = 100002;
     case BoxCreate = 100003;

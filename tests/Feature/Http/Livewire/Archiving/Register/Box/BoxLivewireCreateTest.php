@@ -15,7 +15,6 @@ use App\Models\Site;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Livewire\Livewire;
-
 use function Pest\Laravel\get;
 
 beforeEach(function () {
@@ -35,7 +34,6 @@ test('it is not possible to create a box record without being authenticated', fu
     get(route('archiving.register.box.create'))
     ->assertRedirect(route('login'));
 });
-
 
 test('authenticated but without specific permission, cannot access box record creation route', function () {
     get(route('archiving.register.box.create'))
@@ -65,7 +63,6 @@ test('site_id must previously exist in the database', function () {
     ->call('store')
     ->assertHasErrors(['site_id' => 'exists']);
 });
-
 
 test('site_id is validated in real time', function () {
     grantPermission(PermissionType::BoxCreate->value);

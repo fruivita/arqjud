@@ -9,7 +9,6 @@ use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
 use App\Models\Site;
-use App\Rules\RouteExists;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -22,7 +21,6 @@ class BoxLivewireCreate extends Component
 {
     use AuthorizesRequests;
     use WithFeedbackEvents;
-
 
     /**
      * Amount of boxes to create at once.
@@ -62,56 +60,56 @@ class BoxLivewireCreate extends Component
     /**
      * All sites.
      *
-     * @var null|\Illuminate\Support\Collection
+     * @var \Illuminate\Support\Collection|null
      */
     public ?Collection $sites = null;
 
     /**
      * Selected site id.
      *
-     * @var null|int
+     * @var int|null
      */
     public $site_id = null;
 
     /**
      * Selected site buildings.
      *
-     * @var null|\Illuminate\Support\Collection
+     * @var \Illuminate\Support\Collection|null
      */
     public ?Collection $buildings = null;
 
     /**
      * Selected building id.
      *
-     * @var null|int
+     * @var int|null
      */
     public $building_id = null;
 
     /**
      * Selected building floors.
      *
-     * @var null|\Illuminate\Support\Collection
+     * @var \Illuminate\Support\Collection|null
      */
     public ?Collection $floors = null;
 
     /**
      * Selected floor id.
      *
-     * @var null|int
+     * @var int|null
      */
     public $floor_id = null;
 
     /**
      * Selected floor rooms.
      *
-     * @var null|\Illuminate\Support\Collection
+     * @var \Illuminate\Support\Collection|null
      */
     public ?Collection $rooms = null;
 
     /**
      * Selected room id.
      *
-     * @var null|int
+     * @var int|null
      */
     public $room_id = null;
 
@@ -170,7 +168,7 @@ class BoxLivewireCreate extends Component
                 'required',
                 'integer',
                 'min:1',
-                'unique:boxes,number,null,id,year,' . $this->year
+                'unique:boxes,number,null,id,year,' . $this->year,
             ],
 
             'stand' => [
@@ -336,13 +334,12 @@ class BoxLivewireCreate extends Component
         $this->flashSelf($saved);
     }
 
-
     /**
      * Check if the user has authorization to create multiple boxes and returns
      * the appropriate value.
      *
      * @return int 1 if the current user don't have authorization or $amount if
-     * user do.
+     *             user do
      */
     private function amount()
     {

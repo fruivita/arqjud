@@ -7,7 +7,6 @@
 use App\Models\Box;
 use App\Models\BoxVolume;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Str;
 
 // Exceptions
 test('throws exception when trying to create box volumes in duplicate, that is, with the same number and box', function () {
@@ -16,7 +15,7 @@ test('throws exception when trying to create box volumes in duplicate, that is, 
     expect(
         fn () => BoxVolume::factory(2)->create([
             'number' => 10,
-            'box_id' => $box->id
+            'box_id' => $box->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
 });

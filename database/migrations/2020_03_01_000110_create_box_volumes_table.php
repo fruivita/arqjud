@@ -22,7 +22,6 @@ return new class extends Migration {
             $table->unsignedInteger('number');
             $table->timestamps();
 
-
             $table->unique([
                 'number',
                 'box_id',

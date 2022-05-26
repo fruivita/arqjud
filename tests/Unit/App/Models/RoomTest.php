@@ -5,8 +5,8 @@
  */
 
 use App\Models\Box;
-use App\Models\Room;
 use App\Models\Floor;
+use App\Models\Room;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 
@@ -17,7 +17,7 @@ test('throws exception when trying to create rooms in duplicate, that is, with t
     expect(
         fn () => Room::factory(2)->create([
             'number' => 100,
-            'floor_id' => $floor->id
+            'floor_id' => $floor->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
 });

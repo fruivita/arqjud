@@ -7,7 +7,6 @@
 use App\Models\Building;
 use App\Models\Site;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 // Exceptions

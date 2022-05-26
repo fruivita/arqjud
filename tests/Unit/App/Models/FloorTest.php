@@ -4,8 +4,8 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Floor;
 use App\Models\Building;
+use App\Models\Floor;
 use App\Models\Room;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
@@ -17,7 +17,7 @@ test('throws exception when trying to create floors in duplicate, that is, with 
     expect(
         fn () => Floor::factory(2)->create([
             'number' => 100,
-            'building_id' => $building->id
+            'building_id' => $building->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
 });

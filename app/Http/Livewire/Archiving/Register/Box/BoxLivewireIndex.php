@@ -41,7 +41,7 @@ class BoxLivewireIndex extends Component
      * - floor
      * - building
      * - site
-     * - volumes quantity
+     * - volumes quantity.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
