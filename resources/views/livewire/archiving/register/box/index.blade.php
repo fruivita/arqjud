@@ -139,7 +139,7 @@
                                     <x-link-button
                                         class="btn-do"
                                         icon="pencil-square"
-                                        {{-- href="{{ route('authorization.permission.edit', $permission) }}" --}}
+                                        href="{{ route('archiving.register.box.edit', $box) }}"
                                         text="{{ __('Edit') }}"
                                         title="{{ __('Edit the record') }}"/>
 
