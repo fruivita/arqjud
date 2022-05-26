@@ -194,7 +194,7 @@
 
                 <div class="gap-x-3 gap-y-6 grid grid-cols-1 sm:grid-cols-2">
 
-                    {{-- Stand --}}
+                    {{-- Floor --}}
                     <div>
 
                         @if($building_id >= 1)
@@ -234,7 +234,7 @@
                     </div>
 
 
-                    {{-- Shelf --}}
+                    {{-- Room --}}
                     <div>
 
                         @if($floor_id >= 1)
