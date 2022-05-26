@@ -36,7 +36,6 @@ jobs:
 
       - name: Run
         run: |
-          echo ${{ github.event_name }}
           composer global require ergebnis/composer-normalize
           composer normalize
 
