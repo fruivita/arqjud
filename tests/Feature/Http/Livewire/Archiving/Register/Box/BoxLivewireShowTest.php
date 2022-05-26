@@ -63,9 +63,9 @@ test('next and previous are available when viewing individual boxes, even when d
     $this->box->delete();
     grantPermission(PermissionType::BoxView->value);
 
-    $first = Box::factory()->create(['number' => '100', 'year' => '2019']);
-    $second = Box::factory()->create(['number' => '200', 'year' => '2020']);
-    $last = Box::factory()->create(['number' => '300', 'year' => '2021']);
+    $first = Box::factory()->create(['number' => 300, 'year' => 2021]);
+    $second = Box::factory()->create(['number' => 200, 'year' => 2021]);
+    $last = Box::factory()->create(['number' => 100, 'year' => 2019]);
 
     // has previous and next
     Livewire::test(BoxLivewireShow::class, ['box' => $second])

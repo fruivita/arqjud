@@ -163,18 +163,8 @@ test('defines the permissions that must be pre-selected according to entity rela
             ->has(Permission::factory(20), 'permissions')
             ->create();
 
-    $role->load('permissions');
-
-    $selected = $role
-                ->permissions
-                ->pluck('id')
-                ->map(fn ($id) => (string) $id)
-                ->values()
-                ->toArray();
-
     Livewire::test(RoleLivewireUpdate::class, ['role' => $role])
-    ->assertCount('selected', 20)
-    ->assertSet('selected', $selected);
+    ->assertCount('selected', 20);
 });
 
 test('permissions checkbox manipulation actions work as expected', function () {
@@ -333,9 +323,9 @@ test('updates a role with specific permission', function () {
 test('next and previous are cached with one minute expiration', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
-    $role_1 = Role::factory()->create(['id' => 1]);
+    $role_1 = Role::factory()->create(['id' => 3]);
     $role_2 = Role::factory()->create(['id' => 2]);
-    $role_3 = Role::factory()->create(['id' => 3]);
+    $role_3 = Role::factory()->create(['id' => 1]);
 
     testTime()->freeze();
     $livewire = Livewire::test(RoleLivewireUpdate::class, ['role' => $role_2]);

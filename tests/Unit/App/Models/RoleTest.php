@@ -80,10 +80,10 @@ test('atomic method Save With Permissions creates log home of failed role update
 
 // Happy path
 test('role ids are set', function () {
-    expect(Role::ADMINISTRATOR)->toBe(1000)
-    ->and(Role::BUSINESSMANAGER)->toBe(1100)
-    ->and(Role::OBSERVER)->toBe(1200)
-    ->and(Role::ORDINARY)->toBe(1300);
+    expect(Role::ADMINISTRATOR)->toBe(9000)
+    ->and(Role::BUSINESSMANAGER)->toBe(8000)
+    ->and(Role::OBSERVER)->toBe(7000)
+    ->and(Role::ORDINARY)->toBe(1000);
 });
 
 test('create many roles', function () {
@@ -193,25 +193,25 @@ test('admin role has all permissions', function ($permission) {
 ]);
 
 test('previous returns the correct previous record, even if it is the first', function () {
-    $role_1 = Role::factory()->create(['id' => 1]);
-    $role_2 = Role::factory()->create(['id' => 2]);
+    $role_1 = Role::factory()->create(['id' => 2]);
+    $role_2 = Role::factory()->create(['id' => 1]);
 
     expect($role_2->previous()->first()->id)->toBe($role_1->id)
     ->and($role_1->previous()->first())->toBeNull();
 });
 
 test('next returns the correct back record even though it is the last', function () {
-    $role_1 = Role::factory()->create(['id' => 1]);
-    $role_2 = Role::factory()->create(['id' => 2]);
+    $role_1 = Role::factory()->create(['id' => 2]);
+    $role_2 = Role::factory()->create(['id' => 1]);
 
     expect($role_1->next()->first()->id)->toBe($role_2->id)
     ->and($role_2->next()->first())->toBeNull();
 });
 
 test('returns roles using the defined default sort scope', function () {
-    $first = 1;
+    $first = 3;
     $second = 2;
-    $third = 3;
+    $third = 1;
 
     Role::factory()->create(['id' => $third]);
     Role::factory()->create(['id' => $first]);
@@ -224,9 +224,23 @@ test('returns roles using the defined default sort scope', function () {
     ->and($roles->get(2)->id)->toBe($third);
 });
 
+test('returns roles using the defined avaiable to assign scope', function () {
+    $this->seed(RoleSeeder::class);
+
+    $user = login('foo');
+
+    $user->role_id = Role::BUSINESSMANAGER;
+    $user->save();
+
+    $roles = Role::avaiableToAssign()->get();
+
+    expect(Role::count())->toBe(4)
+    ->and($roles->count())->toBe(3);
+});
+
 test('roles are in the correct hierarchical order', function () {
     // role with lower id has higher functional hierarchy in the application
-    expect(Role::ADMINISTRATOR)->toBeLessThan(Role::BUSINESSMANAGER)
-    ->and(Role::BUSINESSMANAGER)->toBeLessThan(Role::OBSERVER)
-    ->and(Role::OBSERVER)->toBeLessThan(Role::ORDINARY);
+    expect(Role::ADMINISTRATOR)->toBeGreaterThan(Role::BUSINESSMANAGER)
+    ->and(Role::BUSINESSMANAGER)->toBeGreaterThan(Role::OBSERVER)
+    ->and(Role::OBSERVER)->toBeGreaterThan(Role::ORDINARY);
 });
