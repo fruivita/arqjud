@@ -249,7 +249,7 @@ class BoxLivewireCreate extends Component
     }
 
     /**
-     * Runs after a property called $site is updated.
+     * Runs after a property called $site_id is updated.
      *
      * @return void
      */
@@ -263,7 +263,7 @@ class BoxLivewireCreate extends Component
     }
 
     /**
-     * Runs after a property called $building is updated.
+     * Runs after a property called $building_id is updated.
      *
      * @return void
      */
@@ -277,7 +277,7 @@ class BoxLivewireCreate extends Component
     }
 
     /**
-     * Runs after a property called $floor is updated.
+     * Runs after a property called $floor_id is updated.
      *
      * @return void
      */
@@ -291,7 +291,7 @@ class BoxLivewireCreate extends Component
     }
 
     /**
-     * Runs after a property called $room is updated.
+     * Runs after a property called $room_id is updated.
      *
      * @return void
      */
