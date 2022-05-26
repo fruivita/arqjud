@@ -10,35 +10,46 @@ namespace App\Enums;
  */
 enum PermissionType: int
 {
+    //Box
     case BoxViewAny = 100001;
     case BoxView = 100002;
     case BoxCreate = 100003;
     case BoxUpdate = 100004;
     case BoxDelete = 100005;
     case BoxCreateMany = 100101;
+    // Configuration
     case ConfigurationView = 110002;
     case ConfigurationUpdate = 110004;
+    // Delegation
     case DelegationViewAny = 120001;
     case DelegationCreate = 120003;
+    // Documentation
     case DocumentationViewAny = 130001;
     case DocumentationCreate = 130003;
     case DocumentationUpdate = 130004;
     case DocumentationDelete = 130005;
+    // Importation
     case ImportationCreate = 140003;
+    // Log
     case LogViewAny = 150001;
     case LogDelete = 150005;
     case LogDownload = 150101;
+    // Permission
     case PermissionViewAny = 160001;
     case PermissionView = 160002;
     case PermissionUpdate = 160004;
+    // Process
     case ProcessViewAny = 170001;
     case ProcessView = 170002;
     case ProcessCreate = 170003;
     case ProcessUpdate = 170004;
+    // Role
     case RoleViewAny = 180001;
     case RoleView = 180002;
     case RoleUpdate = 180004;
+    // Simulation
     case SimulationCreate = 190003;
+    // User
     case UserViewAny = 200001;
     case UserUpdate = 200004;
 }
