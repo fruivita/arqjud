@@ -16,6 +16,7 @@ use Livewire\Component;
 
 /**
  * @see https://laravel-livewire.com/docs/2.x/quickstart
+ * @see https://www.magutti.com/blog/unique-validation-on-single-and-multiple-columns-in-laravel
  */
 class BoxLivewireCreate extends Component
 {
@@ -169,7 +170,7 @@ class BoxLivewireCreate extends Component
                 'required',
                 'integer',
                 'min:1',
-                // 'unique:boxes,number,' . $this->id . ',id,colum_2,' . $this->column_2 . ',colum_3,' . $this->column_3,
+                'unique:boxes,number,null,id,year,' . $this->year
             ],
 
             'stand' => [

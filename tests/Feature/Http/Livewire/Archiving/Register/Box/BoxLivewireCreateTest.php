@@ -275,6 +275,18 @@ test('number must be greater then 1', function () {
     ->assertHasErrors(['number' => 'min']);
 });
 
+test('number and year must be greater unique', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Box::factory()->create(['year' => 2020, 'number' => 10]);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('year', 2020)
+    ->set('number', 10)
+    ->call('store')
+    ->assertHasErrors(['number' => 'unique']);
+});
+
 test('stand must be an integer', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
