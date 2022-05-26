@@ -168,7 +168,7 @@ class BoxLivewireCreate extends Component
                 'required',
                 'integer',
                 'min:1',
-                'unique:boxes,number,null,id,year,' . $this->year,
+                "unique:boxes,number,null,id,year,{$this->year}",
             ],
 
             'stand' => [
