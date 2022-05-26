@@ -10,25 +10,46 @@ namespace App\Enums;
  */
 enum PermissionType: int
 {
-    case ConfigurationView = 100002;
-    case ConfigurationUpdate = 100004;
-    case DelegationViewAny = 110001;
-    case DelegationCreate = 110003;
-    case DocumentationViewAny = 120001;
-    case DocumentationCreate = 120003;
-    case DocumentationUpdate = 120004;
-    case DocumentationDelete = 120006;
-    case ImportationCreate = 130003;
-    case LogViewAny = 140001;
-    case LogDelete = 140006;
-    case LogDownload = 140101;
-    case PermissionViewAny = 150001;
-    case PermissionView = 150002;
-    case PermissionUpdate = 150004;
-    case RoleViewAny = 160001;
-    case RoleView = 160002;
-    case RoleUpdate = 160004;
-    case SimulationCreate = 170003;
-    case UserViewAny = 180001;
-    case UserUpdate = 180004;
+    // Box
+    case BoxViewAny = 100001;
+    case BoxView = 100002;
+    case BoxCreate = 100003;
+    case BoxUpdate = 100004;
+    case BoxDelete = 100005;
+    case BoxCreateMany = 100101;
+    // Configuration
+    case ConfigurationView = 110002;
+    case ConfigurationUpdate = 110004;
+    // Delegation
+    case DelegationViewAny = 120001;
+    case DelegationCreate = 120003;
+    // Documentation
+    case DocumentationViewAny = 130001;
+    case DocumentationCreate = 130003;
+    case DocumentationUpdate = 130004;
+    case DocumentationDelete = 130005;
+    // Importation
+    case ImportationCreate = 140003;
+    // Log
+    case LogViewAny = 150001;
+    case LogDelete = 150005;
+    case LogDownload = 150101;
+    // Permission
+    case PermissionViewAny = 160001;
+    case PermissionView = 160002;
+    case PermissionUpdate = 160004;
+    // Process
+    case ProcessViewAny = 170001;
+    case ProcessView = 170002;
+    case ProcessCreate = 170003;
+    case ProcessUpdate = 170004;
+    // Role
+    case RoleViewAny = 180001;
+    case RoleView = 180002;
+    case RoleUpdate = 180004;
+    // Simulation
+    case SimulationCreate = 190003;
+    // User
+    case UserViewAny = 200001;
+    case UserUpdate = 200004;
 }

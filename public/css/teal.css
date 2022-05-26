@@ -2265,9 +2265,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-3{
   margin-top: 0.75rem;
 }
-.block{
-  display: block;
-}
 .inline{
   display: inline;
 }
@@ -2381,6 +2378,13 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .gap-6{
   gap: 1.5rem;
+}
+.gap-x-3{
+  -moz-column-gap: 0.75rem;
+       column-gap: 0.75rem;
+}
+.gap-y-6{
+  row-gap: 1.5rem;
 }
 .space-y-12 > :not([hidden]) ~ :not([hidden]){
   --tw-space-y-reverse: 0;
@@ -2792,14 +2796,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(20 184 166 / var(--tw-text-opacity));
 }
 
-.dark .dark\:inline{
-  display: inline;
-}
-
-.dark .dark\:hidden{
-  display: none;
-}
-
 .dark .dark\:divide-secondary-600 > :not([hidden]) ~ :not([hidden]){
   --tw-divide-opacity: 1;
   border-color: rgb(71 85 105 / var(--tw-divide-opacity));
@@ -2898,6 +2894,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   .md\:w-1\/6{
     width: 16.666667%;
   }
+  .md\:grid-cols-3{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
   .md\:rounded-full{
     border-radius: 9999px;
   }
@@ -2969,13 +2968,13 @@ Ensure the default browser behavior of the `hidden` attribute.
     margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(0px * var(--tw-space-y-reverse));
   }
-  .lg\:px-6{
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
   .lg\:px-24{
     padding-left: 6rem;
     padding-right: 6rem;
+  }
+  .lg\:px-6{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 

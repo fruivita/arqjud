@@ -38,7 +38,8 @@ class PermissionSeeder extends Seeder
      */
     private function allPermissions()
     {
-        return $this->configurationPermissions()
+        return $this->boxPermissions()
+        ->concat($this->configurationPermissions())
         ->concat($this->delegationPermissions())
         ->concat($this->documentationPermissions())
         ->concat($this->importationPermissions())
@@ -52,18 +53,57 @@ class PermissionSeeder extends Seeder
     /**
      * @return \Illuminate\Support\LazyCollection
      */
+    private function boxPermissions()
+    {
+        return LazyCollection::make([
+            [
+                'id' => PermissionType::BoxViewAny->value,
+                'name' => __('Box: View all'),
+                'description' => __('Permission to view all registered boxes.'),
+            ],
+            [
+                'id' => PermissionType::BoxView->value,
+                'name' => __('Box: View one'),
+                'description' => __('Permission to individually view registered boxes.'),
+            ],
+            [
+                'id' => PermissionType::BoxCreate->value,
+                'name' => __('Box: Create one'),
+                'description' => __('Permission to individually create boxes.'),
+            ],
+            [
+                'id' => PermissionType::BoxCreateMany->value,
+                'name' => __('Box: Create many'),
+                'description' => __('Permission to create many boxes at once.'),
+            ],
+            [
+                'id' => PermissionType::BoxUpdate->value,
+                'name' => __('Box: Update one'),
+                'description' => __('Permission to individually update registered boxes.'),
+            ],
+            [
+                'id' => PermissionType::BoxDelete->value,
+                'name' => __('Box: Delete one'),
+                'description' => __('Permission to individually delete registered boxes.'),
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
     private function configurationPermissions()
     {
         return LazyCollection::make([
             [
                 'id' => PermissionType::ConfigurationView->value,
                 'name' => __('Application settings: View'),
-                'description' => __('Permission to view application settings.'),
+                'description' => __('Permission to view registered application settings.'),
             ],
             [
                 'id' => PermissionType::ConfigurationUpdate->value,
                 'name' => __('Application settings: Update'),
-                'description' => __('Permission to update application settings.'),
+                'description' => __('Permission to update registered application settings.'),
             ],
         ]);
     }
@@ -77,22 +117,22 @@ class PermissionSeeder extends Seeder
             [
                 'id' => PermissionType::DocumentationViewAny->value,
                 'name' => __('Documentation: View all'),
-                'description' => __('Permission to view all application documentation records.'),
+                'description' => __('Permission to view all registered application documentation.'),
             ],
             [
                 'id' => PermissionType::DocumentationCreate->value,
                 'name' => __('Documentation: Create one'),
-                'description' => __('Permission to create application documentation records individually.'),
+                'description' => __('Permission to individually create application documentation.'),
             ],
             [
                 'id' => PermissionType::DocumentationUpdate->value,
                 'name' => __('Documentation: Update one'),
-                'description' => __('Permission to update application documentation records individually.'),
+                'description' => __('Permission to individually update registered application documentation.'),
             ],
             [
                 'id' => PermissionType::DocumentationDelete->value,
                 'name' => __('Documentation: Delete one'),
-                'description' => __('Permission to delete application documentation records individually.'),
+                'description' => __('Permission to individually delete registered application documentation.'),
             ],
         ]);
     }
@@ -144,12 +184,12 @@ class PermissionSeeder extends Seeder
             [
                 'id' => PermissionType::LogDelete->value,
                 'name' => __('Log: Delete one'),
-                'description' => __('Permission to delete application log files individually.'),
+                'description' => __('Permission to individually delete application log files.'),
             ],
             [
                 'id' => PermissionType::LogDownload->value,
                 'name' => __('Log: Download one'),
-                'description' => __('Permission to download application log files individually.'),
+                'description' => __('Permission to individually download application log files.'),
             ],
         ]);
     }
@@ -163,17 +203,17 @@ class PermissionSeeder extends Seeder
             [
                 'id' => PermissionType::PermissionViewAny->value,
                 'name' => __('Permission: View all'),
-                'description' => __('Permission to view all permissions.'),
+                'description' => __('Permission to view all registered permissions.'),
             ],
             [
                 'id' => PermissionType::PermissionView->value,
                 'name' => __('Permission: View one'),
-                'description' => __('Permission to view permissions individually.'),
+                'description' => __('Permission to individually view registered permissions.'),
             ],
             [
                 'id' => PermissionType::PermissionUpdate->value,
                 'name' => __('Permission: Update one'),
-                'description' => __('Permission to update permissions individually.'),
+                'description' => __('Permission to individually update registered permissions.'),
             ],
         ]);
     }
@@ -187,17 +227,17 @@ class PermissionSeeder extends Seeder
             [
                 'id' => PermissionType::RoleViewAny->value,
                 'name' => __('Role: View all'),
-                'description' => __('Permission to view all roles.'),
+                'description' => __('Permission to view all registered roles.'),
             ],
             [
                 'id' => PermissionType::RoleView->value,
                 'name' => __('Role: View one'),
-                'description' => __('Permission to view roles individually.'),
+                'description' => __('Permission to individually view registered roles.'),
             ],
             [
                 'id' => PermissionType::RoleUpdate->value,
                 'name' => __('Role: Update one'),
-                'description' => __('Permission to update roles individually.'),
+                'description' => __('Permission to individually update registered roles.'),
             ],
         ]);
     }
@@ -225,12 +265,12 @@ class PermissionSeeder extends Seeder
             [
                 'id' => PermissionType::UserViewAny->value,
                 'name' => __('User: View all'),
-                'description' => __('Permission to view all users.'),
+                'description' => __('Permission to view all registered users.'),
             ],
             [
                 'id' => PermissionType::UserUpdate->value,
                 'name' => __('User: Update one'),
-                'description' => __('Permission to update users individually.'),
+                'description' => __('Permission to individually update registered users.'),
             ],
         ]);
     }

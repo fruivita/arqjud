@@ -19,7 +19,7 @@ test('throws exception when trying to create configuration with invalid field', 
 ]);
 
 // Happy path
-test('super admin at its maximum size is accepted', function () {
+test('fields in their maximum size are accepted', function () {
     Configuration::factory()->create(['superadmin' => Str::random(20)]);
 
     expect(Configuration::count())->toBe(1);

@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @see https://laravel.com/docs/eloquent
+ */
+class Site extends Model
+{
+    use HasFactory;
+
+    protected $table = 'sites';
+
+    /**
+     * Relationship site (1:N) buildings.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function buildings()
+    {
+        return $this->hasMany(Building::class, 'site_id', 'id');
+    }
+
+    /**
+     * Default ordering of the model.
+     *
+     * Order: name asc
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDefaultOrder($query)
+    {
+        return $query->orderBy('name', 'asc');
+    }
+
+    /**
+     * Previous record.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function previous()
+    {
+        return Site::select('id')
+        ->whereRaw('name < (select name from sites where id = ?)', [$this->id])
+        ->orderBy('name', 'desc')
+        ->take(1);
+    }
+
+    /**
+     * Next record.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function next()
+    {
+        return Site::select('id')
+        ->whereRaw('name > (select name from sites where id = ?)', [$this->id])
+        ->orderBy('name', 'asc')
+        ->take(1);
+    }
+}

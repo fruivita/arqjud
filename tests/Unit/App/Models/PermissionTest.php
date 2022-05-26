@@ -81,7 +81,7 @@ test('optional permission fields are accepted', function () {
     expect(Permission::count())->toBe(1);
 });
 
-test('permission fields at their maximum size are accepted', function () {
+test('fields in their maximum size are accepted', function () {
     Permission::factory()->create([
         'name' => Str::random(50),
         'description' => Str::random(255),

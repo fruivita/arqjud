@@ -32,6 +32,7 @@ return new class extends Migration {
                 ->on('permissions')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+
             $table
                 ->foreign('role_id')
                 ->references('id')

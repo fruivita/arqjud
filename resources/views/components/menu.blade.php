@@ -41,6 +41,28 @@
 @auth
 
     @if (
+        auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
+    )
+
+        <x-menu.group name="{{ __('Register') }}">
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
+
+                <x-menu.link
+                    class="{{ request()->routeIs('archiving.register.box.*') ? 'active': '' }}"
+                    icon="box2"
+                    href="{{ route('archiving.register.box.index') }}"
+                    text="{{ __('Boxes') }}"
+                    title="{{ __('Boxes management') }}"/>
+
+            @endcan
+
+        </x-menu.group>
+
+    @endif
+
+
+    @if (
             auth()->user()->can(\App\Enums\Policy::View->value, \App\Models\Configuration::class)
             || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Documentation::class)
             || auth()->user()->can(\App\Enums\Policy::ImportationCreate->value)

@@ -64,7 +64,7 @@ test('optional user fields are accepted', function () {
     expect(User::count())->toBe(1);
 });
 
-test('user fields at their maximum size are accepted', function () {
+test('fields in their maximum size are accepted', function () {
     User::factory()->create([
         'name' => Str::random(255),
         'username' => Str::random(20),

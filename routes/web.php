@@ -9,6 +9,9 @@ use App\Http\Livewire\Administration\Documentation\DocumentationLivewireIndex;
 use App\Http\Livewire\Administration\Documentation\DocumentationLivewireUpdate;
 use App\Http\Livewire\Administration\Importation\ImportationLivewireCreate;
 use App\Http\Livewire\Administration\Log\LogLivewireIndex;
+use App\Http\Livewire\Archiving\Register\Box\BoxLivewireCreate;
+use App\Http\Livewire\Archiving\Register\Box\BoxLivewireIndex;
+use App\Http\Livewire\Archiving\Register\Box\BoxLivewireShow;
 use App\Http\Livewire\Authorization\Delegation\DelegationLivewireIndex;
 use App\Http\Livewire\Authorization\Permission\PermissionLivewireIndex;
 use App\Http\Livewire\Authorization\Permission\PermissionLivewireShow;
@@ -18,6 +21,7 @@ use App\Http\Livewire\Authorization\Role\RoleLivewireShow;
 use App\Http\Livewire\Authorization\Role\RoleLivewireUpdate;
 use App\Http\Livewire\Authorization\User\UserLivewireIndex;
 use App\Http\Livewire\Test\Simulation\SimulationLivewireCreate;
+use App\Models\Box;
 use App\Models\Configuration;
 use App\Models\Documentation;
 use App\Models\Permission;
@@ -91,6 +95,16 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('log')->name('log.')->group(function () {
             Route::get('/', LogLivewireIndex::class)->name('index')->can(Policy::LogViewAny->value);
+        });
+    });
+
+    Route::prefix('arquivamento')->name('archiving.')->group(function () {
+        Route::prefix('cadastro')->name('register.')->group(function () {
+            Route::prefix('caixa')->name('box.')->group(function () {
+                Route::get('/', BoxLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Box::class);
+                Route::get('show/{box}', BoxLivewireShow::class)->name('show')->can(Policy::View->value, Box::class);
+                Route::get('create', BoxLivewireCreate::class)->name('create')->can(Policy::Create->value, Box::class);
+            });
         });
     });
 
