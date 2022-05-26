@@ -45,7 +45,7 @@ class BoxVolume extends Model
      */
     public function previous()
     {
-        return BoxVolume::select('id')
+        return self::select('id')
         ->whereRaw('number < (select number from box_volumes where id = ?)', [$this->id])
         ->orderBy('number', 'desc')
         ->take(1);
@@ -58,7 +58,7 @@ class BoxVolume extends Model
      */
     public function next()
     {
-        return BoxVolume::select('id')
+        return self::select('id')
         ->whereRaw('number > (select number from box_volumes where id = ?)', [$this->id])
         ->orderBy('number', 'asc')
         ->take(1);

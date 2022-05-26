@@ -55,7 +55,7 @@ class Building extends Model
      */
     public function previous()
     {
-        return Building::select('id')
+        return self::select('id')
         ->whereRaw('name < (select name from buildings where id = ?)', [$this->id])
         ->orderBy('name', 'desc')
         ->take(1);
@@ -68,7 +68,7 @@ class Building extends Model
      */
     public function next()
     {
-        return Building::select('id')
+        return self::select('id')
         ->whereRaw('name > (select name from buildings where id = ?)', [$this->id])
         ->orderBy('name', 'asc')
         ->take(1);

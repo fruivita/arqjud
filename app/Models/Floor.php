@@ -55,7 +55,7 @@ class Floor extends Model
      */
     public function previous()
     {
-        return Floor::select('id')
+        return self::select('id')
         ->whereRaw('number < (select number from floors where id = ?)', [$this->id])
         ->orderBy('number', 'desc')
         ->take(1);
@@ -68,7 +68,7 @@ class Floor extends Model
      */
     public function next()
     {
-        return Floor::select('id')
+        return self::select('id')
         ->whereRaw('number > (select number from floors where id = ?)', [$this->id])
         ->orderBy('number', 'asc')
         ->take(1);

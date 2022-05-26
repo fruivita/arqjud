@@ -55,7 +55,7 @@ class Room extends Model
      */
     public function previous()
     {
-        return Room::select('id')
+        return self::select('id')
         ->whereRaw('number < (select number from rooms where id = ?)', [$this->id])
         ->orderBy('number', 'desc')
         ->take(1);
@@ -68,7 +68,7 @@ class Room extends Model
      */
     public function next()
     {
-        return Room::select('id')
+        return self::select('id')
         ->whereRaw('number > (select number from rooms where id = ?)', [$this->id])
         ->orderBy('number', 'asc')
         ->take(1);

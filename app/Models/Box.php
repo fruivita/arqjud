@@ -85,7 +85,7 @@ class Box extends Model
      */
     public function previous()
     {
-        return Box::select('id')
+        return self::select('id')
         ->whereRaw('year >= (select year from boxes where id = ?)', [$this->id])
         ->where(function ($query) {
             return $query
@@ -104,7 +104,7 @@ class Box extends Model
      */
     public function next()
     {
-        return Box::select('id', 'number')
+        return self::select('id', 'number')
         ->whereRaw('year <= (select year from boxes where id = ?)', [$this->id])
         ->where(function ($query) {
             return $query
