@@ -83,7 +83,7 @@ jobs:
       - name: Execute tests
         run: |
           echo ${{ github.event_name }}
-          echo ${{ github.event_name != "pull_request" }}
+          echo ${{ github.event_name != 'pull_request' }}
           php --version
           ./vendor/bin/pest --coverage --colors=always --stop-on-failure --exclude-group=integration
 
@@ -93,4 +93,4 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.ARQJUD_CC_TEST_REPORTER_ID }}
         with:
           debug: true
-        if: ${{ github.event_name != "pull_request" }}
+        if: ${{ github.event_name != 'pull_request' }}
