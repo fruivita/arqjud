@@ -406,8 +406,29 @@ test('default quantity for crafting boxes is 1', function () {
     ->assertSet('amount', 1);
 });
 
+test('without permission to create multiples, amount is ignored and only one box is created.', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    $room = Room::factory()->create();
+
+    expect(Box::count())->toBe(0);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('amount', 10)
+    ->set('year', 2000)
+    ->set('number', 55)
+    ->set('stand', 15)
+    ->set('shelf', 5)
+    ->set('room_id', $room->id)
+    ->call('store')
+    ->assertOk();
+
+    expect(Box::count())->toBe(1);
+});
+
 test('creates the amount of boxes defined', function () {
     grantPermission(PermissionType::BoxCreate->value);
+    grantPermission(PermissionType::BoxCreateMany->value);
 
     $room = Room::factory()->create();
 

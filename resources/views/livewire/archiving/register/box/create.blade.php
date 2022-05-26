@@ -20,18 +20,39 @@
 
                 <div class="gap-x-3 gap-y-6 grid grid-cols-1 md:grid-cols-3">
 
-                    <x-form.input
-                        wire:key="box-amount"
-                        wire:model.defer="amount"
-                        :error="$errors->first('amount')"
-                        icon="collection"
-                        min="1"
-                        max="1000"
-                        placeholder="{{ __('Only numbers') }}"
-                        required
-                        text="{{ __('Amount') }}"
-                        title="{{ __('Inform the amount of boxes to create at once') }}"
-                        type="number"/>
+                    @can(\App\Enums\Policy::CreateMany->value, \App\Models\Box::class)
+
+                        <x-form.input
+                            wire:key="box-amount-can"
+                            wire:model.defer="amount"
+                            :error="$errors->first('amount')"
+                            icon="collection"
+                            min="1"
+                            max="1000"
+                            placeholder="{{ __('Only numbers') }}"
+                            required
+                            text="{{ __('Amount') }}"
+                            title="{{ __('Inform the amount of boxes to create at once') }}"
+                            type="number"/>
+
+                    @else
+
+                        <x-form.input
+                            wire:key="box-amount-cannot"
+                            wire:model.defer="amount"
+                            class="cursor-not-allowed"
+                            disabled
+                            :error="$errors->first('amount')"
+                            icon="collection"
+                            min="1"
+                            max="1000"
+                            placeholder="{{ __('Only numbers') }}"
+                            required
+                            text="{{ __('Amount') }}"
+                            title="{{ __('Inform the amount of boxes to create at once') }}"
+                            type="number"/>
+
+                    @endcan
 
 
                     <x-form.input

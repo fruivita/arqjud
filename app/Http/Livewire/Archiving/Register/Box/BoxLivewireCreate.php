@@ -328,10 +328,25 @@ class BoxLivewireCreate extends Component
                 'stand' => $this->stand,
                 'shelf' => $this->shelf,
             ]),
-            $this->amount,
+            $this->amount(),
             Room::find($this->room_id),
         );
 
         $this->flashSelf($saved);
+    }
+
+
+    /**
+     * Check if the user has authorization to create multiple boxes and returns
+     * the appropriate value.
+     *
+     * @return int 1 if the current user don't have authorization or $amount if
+     * user do.
+     */
+    private function amount()
+    {
+        return auth()->user()->can(Policy::CreateMany->value, Box::class)
+        ? $this->amount
+        : 1;
     }
 }
