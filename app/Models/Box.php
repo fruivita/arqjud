@@ -20,18 +20,6 @@ class Box extends Model
     protected $fillable = ['year', 'number', 'stand', 'shelf'];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'number' => 'integer',
-        'year' => 'integer',
-        'stand' => 'integer',
-        'shelf' => 'integer',
-    ];
-
-    /**
      * Relationship box (N:1) room.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
