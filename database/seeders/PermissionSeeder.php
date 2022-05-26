@@ -72,6 +72,11 @@ class PermissionSeeder extends Seeder
                 'description' => __('Permission to individually create boxes.'),
             ],
             [
+                'id' => PermissionType::BoxCreateMany->value,
+                'name' => __('Box: Create many'),
+                'description' => __('Permission to create many boxes at once.'),
+            ],
+            [
                 'id' => PermissionType::BoxUpdate->value,
                 'name' => __('Box: Update one'),
                 'description' => __('Permission to individually update registered boxes.'),

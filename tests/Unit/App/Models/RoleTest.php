@@ -166,6 +166,7 @@ test('admin role has all permissions', function ($permission) {
     PermissionType::BoxViewAny,
     PermissionType::BoxView,
     PermissionType::BoxCreate,
+    PermissionType::BoxCreateMany,
     PermissionType::BoxUpdate,
     PermissionType::BoxDelete,
     PermissionType::ConfigurationView,

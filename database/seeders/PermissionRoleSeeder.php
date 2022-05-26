@@ -59,6 +59,7 @@ class PermissionRoleSeeder extends Seeder
             PermissionType::BoxViewAny->value,
             PermissionType::BoxView->value,
             PermissionType::BoxCreate->value,
+            PermissionType::BoxCreateMany->value,
             PermissionType::BoxUpdate->value,
             PermissionType::BoxDelete->value,
             PermissionType::ConfigurationView->value,
