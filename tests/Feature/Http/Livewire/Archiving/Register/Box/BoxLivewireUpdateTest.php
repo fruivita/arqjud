@@ -295,7 +295,7 @@ test('renders edit box record component with specific permission', function () {
 
     get(route('archiving.register.box.edit', $this->box))
     ->assertOk()
-    ->assertSeeLivewire(BoxLivewireUpdate::class, ['box' => $this->box]);
+    ->assertSeeLivewire(BoxLivewireUpdate::class);
 });
 
 test('emits feedback event when update a box record', function () {
