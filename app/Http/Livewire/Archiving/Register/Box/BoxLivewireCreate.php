@@ -46,16 +46,24 @@ class BoxLivewireCreate extends Component
     /**
      * Stand of the boxes.
      *
-     * @var int
+     * @var null|int
      */
     public $stand;
 
     /**
      * Shelf of the boxes.
      *
-     * @var int
+     * @var null|int
      */
     public $shelf;
+
+
+    /**
+     * Number of box volumes.
+     *
+     * @var int
+     */
+    public $volumes = 1;
 
     /**
      * All sites.
@@ -185,12 +193,12 @@ class BoxLivewireCreate extends Component
                 'between:1,1000',
             ],
 
-            // 'volumes' => [
-            //     'bail',
-            //     'required',
-            //     'integer',
-            //     'between:1,1000',
-            // ],
+            'volumes' => [
+                'bail',
+                'required',
+                'integer',
+                'between:1,1000',
+            ],
         ];
     }
 
@@ -211,6 +219,7 @@ class BoxLivewireCreate extends Component
             'number' => __('Number'),
             'shelf' => __('Shelf'),
             'stand' => __('Stand'),
+            'volumes' => __('Volumes'),
         ];
     }
 
@@ -328,6 +337,7 @@ class BoxLivewireCreate extends Component
                 'shelf' => $this->shelf,
             ]),
             $this->amount(),
+            $this->volumes,
             Room::find($this->room_id),
         );
 

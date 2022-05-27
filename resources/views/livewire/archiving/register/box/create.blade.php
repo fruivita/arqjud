@@ -87,7 +87,7 @@
                 </div>
 
 
-                <div class="gap-x-3 gap-y-6 grid grid-cols-1 sm:grid-cols-2">
+                <div class="gap-x-3 gap-y-6 grid grid-cols-1 md:grid-cols-3">
 
                     <x-form.input
                         wire:key="box-stand"
@@ -112,6 +112,20 @@
                         placeholder="{{ __('Only numbers') }}"
                         text="{{ __('Shelf') }}"
                         title="{{ __('Inform the shelf number') }}"
+                        type="number"/>
+
+
+                    <x-form.input
+                        wire:key="box-volumes"
+                        wire:model.defer="volumes"
+                        :error="$errors->first('volumes')"
+                        icon="collection"
+                        min="1"
+                        max="1000"
+                        placeholder="{{ __('Only numbers') }}"
+                        required
+                        text="{{ __('Volumes') }}"
+                        title="{{ __('Inform the number of volumes of the boxes') }}"
                         type="number"/>
 
                 </div>

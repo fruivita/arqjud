@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -129,16 +130,23 @@ class Box extends Model
      *
      * @param \App\Models\Box  $template template for creating the boxes
      * @param int              $amount   number of boxes to create
+     * @param int              $volumes  number of box volumes
      * @param \App\Models\Room $room
      *
      * @return bool
      */
-    public static function createMany(Box $template, int $amount, Room $room)
+    public static function createMany(Box $template, int $amount, int $volumes, Room $room)
     {
         try {
-            DB::transaction(function () use ($template, $amount, $room) {
-                self::insert(
-                    self::generateMany($template, $amount, $room)->toArray()
+            DB::transaction(function () use ($template, $amount, $volumes, $room) {
+                $boxes = self::generateMany($template, $amount, $room);
+
+                self::insert($boxes->toArray());
+
+                $boxes_id = self::lastInsertedIds($boxes);
+
+                BoxVolume::insert(
+                    self::generateBoxVolumes($volumes, $boxes_id)->toArray()
                 );
             });
 
@@ -149,6 +157,7 @@ class Box extends Model
                 [
                     'template' => $template,
                     'amount' => $amount,
+                    'volumes' => $volumes,
                     'room' => $room,
                     'exception' => $th,
                 ]
@@ -159,15 +168,15 @@ class Box extends Model
     }
 
     /**
-     * Generates a collection with all attributes of the boxes cloned from the
-     * box template and linked to the room.
+     * Generates a collection with all attributes of the boxes 'cloned' from
+     * the box template and as a child of the room.
      *
      * The number of the first box will be the one defined in the template and
      * the others will be increments by one.
      *
      * @param \App\Models\Box  $template template for creating the boxes
      * @param int              $amount   number of boxes to create
-     * @param \App\Models\Room $room     boxes room
+     * @param \App\Models\Room $room     parent of all boxes
      *
      * @return \Illuminate\Support\Collection
      */
@@ -185,5 +194,49 @@ class Box extends Model
                 'room_id' => $room->id,
             ];
         });
+    }
+
+    /**
+     * Id of all boxes created.
+     *
+     * @param \Illuminate\Support\Collection $boxes boxes, before persistence,
+     * that were registered.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private static function lastInsertedIds(Collection $boxes)
+    {
+        return self::select('id')
+        ->where('year', $boxes->first()['year'])
+        ->whereBetween('number', [$boxes->first()['number'], $boxes->last()['number']])
+        ->get();
+    }
+
+    /**
+     * Generates a certain amount of volumes as a child of the informed boxes.
+     *
+     * The number of volumes in each box is the same and, in each box, the
+     * volume identification number is incremented by 1 from 1.
+     *
+     * @param int                            $amount   number of box volumes
+     * @param \Illuminate\Support\Collection $boxes
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private static function generateBoxVolumes(int $amount, Collection $boxes)
+    {
+        return
+        $boxes
+        ->pluck('id')
+        ->map(function($box_id) use ($amount) {
+            return collect()
+            ->range(1, $amount)
+            ->map(function($value) use ($box_id) {
+                return [
+                    'number' => $value,
+                    'box_id' => $box_id
+                ];
+            });
+        })->flatten(1);
     }
 }

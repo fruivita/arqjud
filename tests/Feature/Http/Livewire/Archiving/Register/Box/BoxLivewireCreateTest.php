@@ -8,6 +8,7 @@ use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireCreate;
 use App\Models\Box;
+use App\Models\BoxVolume;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -326,6 +327,36 @@ test('shelf must be between 1 and 1000', function () {
     ->assertHasErrors(['shelf' => 'between']);
 });
 
+test('volumes is required', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('volumes', '')
+    ->call('store')
+    ->assertHasErrors(['volumes' => 'required']);
+});
+
+test('volumes must be an integer', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('volumes', 'foo')
+    ->call('store')
+    ->assertHasErrors(['volumes' => 'integer']);
+});
+
+test('volumes must be between 1 and 1000', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('volumes', 0)
+    ->call('store')
+    ->assertHasErrors(['volumes' => 'between'])
+    ->set('volumes', 1001)
+    ->call('store')
+    ->assertHasErrors(['volumes' => 'between']);
+});
+
 // Happy path
 test('renders box record creation component with specific permission', function () {
     grantPermission(PermissionType::BoxCreate->value);
@@ -346,6 +377,7 @@ test('emits feedback event when creates a box record', function () {
     ->set('number', 10)
     ->set('stand', 15)
     ->set('shelf', 5)
+    ->set('volumes', 2)
     ->set('room_id', $room->id)
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
@@ -415,6 +447,13 @@ test('default quantity for create boxes is 1', function () {
     ->assertSet('amount', 1);
 });
 
+test('default quantity for volumes boxes is 1', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->assertSet('volumes', 1);
+});
+
 test('without permission to create multiples, amount is ignored and only one box is created.', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
@@ -428,12 +467,34 @@ test('without permission to create multiples, amount is ignored and only one box
     ->set('number', 55)
     ->set('stand', 15)
     ->set('shelf', 5)
+    ->set('volumes', 2)
     ->set('room_id', $room->id)
     ->call('store')
     ->assertOk();
 
     expect(Box::count())->toBe(1);
 });
+
+// test('without permission to create volumes, volumes property is ignored and only one volume is created.', function () {
+//     grantPermission(PermissionType::BoxCreate->value);
+
+//     $room = Room::factory()->create();
+
+//     expect(Box::count())->toBe(0);
+
+//     Livewire::test(BoxLivewireCreate::class)
+//     ->set('amount', 10)
+//     ->set('year', 2000)
+//     ->set('number', 55)
+//     ->set('stand', 15)
+//     ->set('shelf', 5)
+//     ->set('volumes', 2)
+//     ->set('room_id', $room->id)
+//     ->call('store')
+//     ->assertOk();
+
+//     expect(Box::count())->toBe(1);
+// });
 
 test('creates the amount of boxes defined', function () {
     grantPermission(PermissionType::BoxCreate->value);
@@ -449,9 +510,36 @@ test('creates the amount of boxes defined', function () {
     ->set('number', 55)
     ->set('stand', 15)
     ->set('shelf', 5)
+    ->set('volumes', 2)
     ->set('room_id', $room->id)
     ->call('store')
     ->assertOk();
 
     expect(Box::count())->toBe(10);
+});
+
+test('creates the amount of volumes defined', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+    grantPermission(PermissionType::BoxCreateMany->value);
+
+    $room = Room::factory()->create();
+
+    expect(Box::count())->toBe(0);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('amount', 1)
+    ->set('year', 2000)
+    ->set('number', 55)
+    ->set('stand', 15)
+    ->set('shelf', 5)
+    ->set('volumes', 20)
+    ->set('room_id', $room->id)
+    ->call('store')
+    ->assertOk();
+
+    $box = Box::with('volumes')->first();
+
+    expect($box->volumes)->toHaveCount(20)
+    ->and($box->volumes->first()->number)->toBe(1)
+    ->and($box->volumes->last()->number)->toBe(20);
 });
