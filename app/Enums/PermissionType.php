@@ -17,39 +17,45 @@ enum PermissionType: int
     case BoxUpdate = 100004;
     case BoxDelete = 100005;
     case BoxCreateMany = 100101;
+    // Box Volumes
+    case BoxVolumeViewAny = 110001;
+    case BoxVolumeView = 110002;
+    case BoxVolumeCreate = 110003;
+    case BoxVolumeUpdate = 110004;
+    case BoxVolumeDelete = 110005;
     // Configuration
-    case ConfigurationView = 110002;
-    case ConfigurationUpdate = 110004;
+    case ConfigurationView = 120002;
+    case ConfigurationUpdate = 120004;
     // Delegation
-    case DelegationViewAny = 120001;
-    case DelegationCreate = 120003;
+    case DelegationViewAny = 130001;
+    case DelegationCreate = 130003;
     // Documentation
-    case DocumentationViewAny = 130001;
-    case DocumentationCreate = 130003;
-    case DocumentationUpdate = 130004;
-    case DocumentationDelete = 130005;
+    case DocumentationViewAny = 140001;
+    case DocumentationCreate = 140003;
+    case DocumentationUpdate = 140004;
+    case DocumentationDelete = 140005;
     // Importation
-    case ImportationCreate = 140003;
+    case ImportationCreate = 150003;
     // Log
-    case LogViewAny = 150001;
-    case LogDelete = 150005;
-    case LogDownload = 150101;
+    case LogViewAny = 160001;
+    case LogDelete = 160005;
+    case LogDownload = 160101;
     // Permission
-    case PermissionViewAny = 160001;
-    case PermissionView = 160002;
-    case PermissionUpdate = 160004;
+    case PermissionViewAny = 170001;
+    case PermissionView = 170002;
+    case PermissionUpdate = 170004;
     // Process
-    case ProcessViewAny = 170001;
-    case ProcessView = 170002;
-    case ProcessCreate = 170003;
-    case ProcessUpdate = 170004;
+    case ProcessViewAny = 180001;
+    case ProcessView = 180002;
+    case ProcessCreate = 180003;
+    case ProcessUpdate = 180004;
     // Role
-    case RoleViewAny = 180001;
-    case RoleView = 180002;
-    case RoleUpdate = 180004;
+    case RoleViewAny = 190001;
+    case RoleView = 190002;
+    case RoleUpdate = 190004;
     // Simulation
-    case SimulationCreate = 190003;
+    case SimulationCreate = 200003;
     // User
-    case UserViewAny = 200001;
-    case UserUpdate = 200004;
+    case UserViewAny = 210001;
+    case UserUpdate = 210004;
 }

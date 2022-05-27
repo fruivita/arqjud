@@ -39,6 +39,7 @@ class PermissionSeeder extends Seeder
     private function allPermissions()
     {
         return $this->boxPermissions()
+        ->concat($this->boxVolumePermissions())
         ->concat($this->configurationPermissions())
         ->concat($this->delegationPermissions())
         ->concat($this->documentationPermissions())
@@ -85,6 +86,40 @@ class PermissionSeeder extends Seeder
                 'id' => PermissionType::BoxDelete->value,
                 'name' => __('Box: Delete one'),
                 'description' => __('Permission to individually delete registered boxes.'),
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
+    private function boxVolumePermissions()
+    {
+        return LazyCollection::make([
+            [
+                'id' => PermissionType::BoxVolumeViewAny->value,
+                'name' => __('Box volume: View all'),
+                'description' => __('Permission to view all registered box volumes.'),
+            ],
+            [
+                'id' => PermissionType::BoxVolumeView->value,
+                'name' => __('Box volume: View one'),
+                'description' => __('Permission to individually view registered box volumes.'),
+            ],
+            [
+                'id' => PermissionType::BoxVolumeCreate->value,
+                'name' => __('Box volume: Create'),
+                'description' => __('Permission to create box volumes.'),
+            ],
+            [
+                'id' => PermissionType::BoxVolumeUpdate->value,
+                'name' => __('Box volume: Update one'),
+                'description' => __('Permission to individually update registered box volumes.'),
+            ],
+            [
+                'id' => PermissionType::BoxVolumeDelete->value,
+                'name' => __('Box volume: Delete one'),
+                'description' => __('Permission to individually delete registered box volumes.'),
             ],
         ]);
     }
