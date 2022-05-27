@@ -185,7 +185,7 @@ class Box extends Model
         return
         collect()
         ->range($template->number, $template->number + $amount - 1)
-        ->map(function($value) use($template, $room) {
+        ->map(function ($value) use ($template, $room) {
             return [
                 'year' => $template->year,
                 'number' => $value,
@@ -200,7 +200,7 @@ class Box extends Model
      * Id of all boxes created.
      *
      * @param \Illuminate\Support\Collection $boxes boxes, before persistence,
-     * that were registered.
+     *                                              that were registered
      *
      * @return \Illuminate\Support\Collection
      */
@@ -218,7 +218,7 @@ class Box extends Model
      * The number of volumes in each box is the same and, in each box, the
      * volume identification number is incremented by 1 from 1.
      *
-     * @param int                            $amount   number of box volumes
+     * @param int                            $amount number of box volumes
      * @param \Illuminate\Support\Collection $boxes
      *
      * @return \Illuminate\Support\Collection
@@ -228,13 +228,13 @@ class Box extends Model
         return
         $boxes
         ->pluck('id')
-        ->map(function($box_id) use ($amount) {
+        ->map(function ($box_id) use ($amount) {
             return collect()
             ->range(1, $amount)
-            ->map(function($value) use ($box_id) {
+            ->map(function ($value) use ($box_id) {
                 return [
                     'number' => $value,
-                    'box_id' => $box_id
+                    'box_id' => $box_id,
                 ];
             });
         })->flatten(1);

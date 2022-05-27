@@ -47,17 +47,16 @@ class BoxLivewireCreate extends Component
     /**
      * Stand of the boxes.
      *
-     * @var null|int
+     * @var int|null
      */
     public $stand;
 
     /**
      * Shelf of the boxes.
      *
-     * @var null|int
+     * @var int|null
      */
     public $shelf;
-
 
     /**
      * Number of box volumes.
