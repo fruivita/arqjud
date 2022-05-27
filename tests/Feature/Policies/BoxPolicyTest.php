@@ -22,7 +22,7 @@ afterEach(function () {
 });
 
 // Forbidden
-test('user without permission cannot list documentation records', function () {
+test('user without permission cannot list boxes records', function () {
     expect((new BoxPolicy())->viewAny($this->user))->toBeFalse();
 });
 
@@ -47,7 +47,7 @@ test('user without permission cannot delete a box', function () {
 });
 
 // Happy path
-test('permission to list documentation records is cached for 5 seconds', function () {
+test('permission to list box records is cached for 5 seconds', function () {
     testTime()->freeze();
     grantPermission(PermissionType::BoxViewAny->value);
 
@@ -239,7 +239,7 @@ test('permission to individually delete a box is cached for 5 seconds', function
     ->and(cache()->missing($key))->toBeTrue();
 });
 
-test('user with permission can list documentation records', function () {
+test('user with permission can list boxes records', function () {
     grantPermission(PermissionType::BoxViewAny->value);
 
     expect((new BoxPolicy())->viewAny($this->user))->toBeTrue();
