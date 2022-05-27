@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Archiving\Register\Box;
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Models\Box;
+use App\Models\BoxVolume;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -337,7 +338,7 @@ class BoxLivewireCreate extends Component
                 'shelf' => $this->shelf,
             ]),
             $this->amount(),
-            $this->volumes,
+            $this->volumes(),
             Room::find($this->room_id),
         );
 
@@ -355,6 +356,20 @@ class BoxLivewireCreate extends Component
     {
         return auth()->user()->can(Policy::CreateMany->value, Box::class)
         ? $this->amount
+        : 1;
+    }
+
+    /**
+     * Check if the user has authorization to create box volumes and returns
+     * the appropriate value.
+     *
+     * @return int 1 if the current user don't have authorization or $volumes
+     *             if user do
+     */
+    private function volumes()
+    {
+        return auth()->user()->can(Policy::Create->value, BoxVolume::class)
+        ? $this->volumes
         : 1;
     }
 }

@@ -467,7 +467,7 @@ test('without permission to create multiples, amount is ignored and only one box
     ->set('number', 55)
     ->set('stand', 15)
     ->set('shelf', 5)
-    ->set('volumes', 2)
+    ->set('volumes', 1)
     ->set('room_id', $room->id)
     ->call('store')
     ->assertOk();
@@ -475,26 +475,29 @@ test('without permission to create multiples, amount is ignored and only one box
     expect(Box::count())->toBe(1);
 });
 
-// test('without permission to create volumes, volumes property is ignored and only one volume is created.', function () {
-//     grantPermission(PermissionType::BoxCreate->value);
+test('without permission to create box volumes, volumes property is ignored and only one volume is created for the box.', function () {
+    grantPermission(PermissionType::BoxCreate->value);
 
-//     $room = Room::factory()->create();
+    $room = Room::factory()->create();
 
-//     expect(Box::count())->toBe(0);
+    expect(Box::count())->toBe(0);
 
-//     Livewire::test(BoxLivewireCreate::class)
-//     ->set('amount', 10)
-//     ->set('year', 2000)
-//     ->set('number', 55)
-//     ->set('stand', 15)
-//     ->set('shelf', 5)
-//     ->set('volumes', 2)
-//     ->set('room_id', $room->id)
-//     ->call('store')
-//     ->assertOk();
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('amount', 1)
+    ->set('year', 2000)
+    ->set('number', 55)
+    ->set('stand', 15)
+    ->set('shelf', 5)
+    ->set('volumes', 20)
+    ->set('room_id', $room->id)
+    ->call('store')
+    ->assertOk();
 
-//     expect(Box::count())->toBe(1);
-// });
+    $box = Box::with('volumes')->first();
+
+    expect($box->volumes)->toHaveCount(1)
+    ->and($box->volumes->first()->number)->toBe(1);
+});
 
 test('creates the amount of boxes defined', function () {
     grantPermission(PermissionType::BoxCreate->value);
@@ -510,7 +513,7 @@ test('creates the amount of boxes defined', function () {
     ->set('number', 55)
     ->set('stand', 15)
     ->set('shelf', 5)
-    ->set('volumes', 2)
+    ->set('volumes', 1)
     ->set('room_id', $room->id)
     ->call('store')
     ->assertOk();
@@ -520,7 +523,7 @@ test('creates the amount of boxes defined', function () {
 
 test('creates the amount of volumes defined', function () {
     grantPermission(PermissionType::BoxCreate->value);
-    grantPermission(PermissionType::BoxCreateMany->value);
+    grantPermission(PermissionType::BoxVolumeCreate->value);
 
     $room = Room::factory()->create();
 
