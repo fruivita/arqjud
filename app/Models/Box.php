@@ -137,8 +137,8 @@ class Box extends Model
     {
         try {
             DB::transaction(function () use ($template, $amount, $room) {
-                $room->boxes()->saveMany(
-                    self::generateMany($template, $amount)
+                self::insert(
+                    self::generateMany($template, $amount, $room)->toArray()
                 );
             });
 
@@ -159,27 +159,31 @@ class Box extends Model
     }
 
     /**
-     * Generates several clones of the informed box differing only by the box
-     * number.
+     * Generates a collection with all attributes of the boxes cloned from the
+     * box template and linked to the room.
      *
      * The number of the first box will be the one defined in the template and
      * the others will be increments by one.
      *
-     * @param \App\Models\Box $template template for creating the boxes
-     * @param int             $amount   number of boxes to create
+     * @param \App\Models\Box  $template template for creating the boxes
+     * @param int              $amount   number of boxes to create
+     * @param \App\Models\Room $room     boxes room
      *
-     * @return array<int, \App\Models\Box>
+     * @return \Illuminate\Support\Collection
      */
-    private static function generateMany(Box $template, int $amount)
+    private static function generateMany(Box $template, int $amount, Room $room)
     {
-        $array = [];
-
-        for ($i = $template->number; $i < $template->number + $amount; ++$i) {
-            $box = clone $template;
-            $box->number = $i;
-            $array[] = $box;
-        }
-
-        return $array;
+        return
+        collect()
+        ->range($template->number, $template->number + $amount - 1)
+        ->map(function($value) use($template, $room) {
+            return [
+                'year' => $template->year,
+                'number' => $value,
+                'stand' => $template->stand,
+                'shelf' => $template->shelf,
+                'room_id' => $room->id,
+            ];
+        });
     }
 }
