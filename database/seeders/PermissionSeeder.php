@@ -40,14 +40,18 @@ class PermissionSeeder extends Seeder
     {
         return $this->boxPermissions()
         ->concat($this->boxVolumePermissions())
+        ->concat($this->buildingPermissions())
         ->concat($this->configurationPermissions())
         ->concat($this->delegationPermissions())
         ->concat($this->documentationPermissions())
+        ->concat($this->floorPermissions())
         ->concat($this->importationPermissions())
         ->concat($this->logPermissions())
         ->concat($this->permissionPermissions())
         ->concat($this->rolePermissions())
+        ->concat($this->roomPermissions())
         ->concat($this->simulationPermissions())
+        ->concat($this->sitePermissions())
         ->concat($this->userPermissions());
     }
 
@@ -127,6 +131,40 @@ class PermissionSeeder extends Seeder
     /**
      * @return \Illuminate\Support\LazyCollection
      */
+    private function buildingPermissions()
+    {
+        return LazyCollection::make([
+            [
+                'id' => PermissionType::BuildingViewAny->value,
+                'name' => __('Building: View all'),
+                'description' => __('Permission to view all registered buildings.'),
+            ],
+            [
+                'id' => PermissionType::BuildingView->value,
+                'name' => __('Building: View one'),
+                'description' => __('Permission to individually view registered buildings.'),
+            ],
+            [
+                'id' => PermissionType::BuildingCreate->value,
+                'name' => __('Building: Create one'),
+                'description' => __('Permission to individually create buildings.'),
+            ],
+            [
+                'id' => PermissionType::BuildingUpdate->value,
+                'name' => __('Building: Update one'),
+                'description' => __('Permission to individually update registered buildings.'),
+            ],
+            [
+                'id' => PermissionType::BuildingDelete->value,
+                'name' => __('Building: Delete one'),
+                'description' => __('Permission to individually delete registered buildings.'),
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
     private function configurationPermissions()
     {
         return LazyCollection::make([
@@ -187,6 +225,40 @@ class PermissionSeeder extends Seeder
                 'id' => PermissionType::DelegationCreate->value,
                 'name' => __('Delegation: Create'),
                 'description' => __('Permission to delegate the role (and its permissions) to another user in the same department.'),
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
+    private function floorPermissions()
+    {
+        return LazyCollection::make([
+            [
+                'id' => PermissionType::FloorViewAny->value,
+                'name' => __('Floor: View all'),
+                'description' => __('Permission to view all registered floors.'),
+            ],
+            [
+                'id' => PermissionType::FloorView->value,
+                'name' => __('Floor: View one'),
+                'description' => __('Permission to individually view registered floors.'),
+            ],
+            [
+                'id' => PermissionType::FloorCreate->value,
+                'name' => __('Floor: Create one'),
+                'description' => __('Permission to individually create floors.'),
+            ],
+            [
+                'id' => PermissionType::FloorUpdate->value,
+                'name' => __('Floor: Update one'),
+                'description' => __('Permission to individually update registered floors.'),
+            ],
+            [
+                'id' => PermissionType::FloorDelete->value,
+                'name' => __('Floor: Delete one'),
+                'description' => __('Permission to individually delete registered floors.'),
             ],
         ]);
     }
@@ -280,6 +352,40 @@ class PermissionSeeder extends Seeder
     /**
      * @return \Illuminate\Support\LazyCollection
      */
+    private function roomPermissions()
+    {
+        return LazyCollection::make([
+            [
+                'id' => PermissionType::RoomViewAny->value,
+                'name' => __('Room: View all'),
+                'description' => __('Permission to view all registered rooms.'),
+            ],
+            [
+                'id' => PermissionType::RoomView->value,
+                'name' => __('Room: View one'),
+                'description' => __('Permission to individually view registered rooms.'),
+            ],
+            [
+                'id' => PermissionType::RoomCreate->value,
+                'name' => __('Room: Create one'),
+                'description' => __('Permission to individually create rooms.'),
+            ],
+            [
+                'id' => PermissionType::RoomUpdate->value,
+                'name' => __('Room: Update one'),
+                'description' => __('Permission to individually update registered rooms.'),
+            ],
+            [
+                'id' => PermissionType::RoomDelete->value,
+                'name' => __('Room: Delete one'),
+                'description' => __('Permission to individually delete registered rooms.'),
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
     private function simulationPermissions()
     {
         return LazyCollection::make([
@@ -287,6 +393,40 @@ class PermissionSeeder extends Seeder
                 'id' => PermissionType::SimulationCreate->value,
                 'name' => __('Simulation: Create'),
                 'description' => __('Permission to simulate using the application as if it were another user.'),
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
+    private function sitePermissions()
+    {
+        return LazyCollection::make([
+            [
+                'id' => PermissionType::SiteViewAny->value,
+                'name' => __('Site: View all'),
+                'description' => __('Permission to view all registered sites.'),
+            ],
+            [
+                'id' => PermissionType::SiteView->value,
+                'name' => __('Site: View one'),
+                'description' => __('Permission to individually view registered sites.'),
+            ],
+            [
+                'id' => PermissionType::SiteCreate->value,
+                'name' => __('Site: Create one'),
+                'description' => __('Permission to individually create sites.'),
+            ],
+            [
+                'id' => PermissionType::SiteUpdate->value,
+                'name' => __('Site: Update one'),
+                'description' => __('Permission to individually update registered sites.'),
+            ],
+            [
+                'id' => PermissionType::SiteDelete->value,
+                'name' => __('Site: Delete one'),
+                'description' => __('Permission to individually delete registered sites.'),
             ],
         ]);
     }

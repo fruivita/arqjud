@@ -23,39 +23,63 @@ enum PermissionType: int
     case BoxVolumeCreate = 110003;
     case BoxVolumeUpdate = 110004;
     case BoxVolumeDelete = 110005;
+    // Building
+    case BuildingViewAny = 120001;
+    case BuildingView = 120002;
+    case BuildingCreate = 120003;
+    case BuildingUpdate = 120004;
+    case BuildingDelete = 120005;
     // Configuration
-    case ConfigurationView = 120002;
-    case ConfigurationUpdate = 120004;
+    case ConfigurationView = 130002;
+    case ConfigurationUpdate = 130004;
     // Delegation
-    case DelegationViewAny = 130001;
-    case DelegationCreate = 130003;
+    case DelegationViewAny = 140001;
+    case DelegationCreate = 140003;
     // Documentation
-    case DocumentationViewAny = 140001;
-    case DocumentationCreate = 140003;
-    case DocumentationUpdate = 140004;
-    case DocumentationDelete = 140005;
+    case DocumentationViewAny = 150001;
+    case DocumentationCreate = 150003;
+    case DocumentationUpdate = 150004;
+    case DocumentationDelete = 150005;
+    // Floor
+    case FloorViewAny = 160001;
+    case FloorView = 160002;
+    case FloorCreate = 160003;
+    case FloorUpdate = 160004;
+    case FloorDelete = 160005;
     // Importation
-    case ImportationCreate = 150003;
+    case ImportationCreate = 170003;
     // Log
-    case LogViewAny = 160001;
-    case LogDelete = 160005;
-    case LogDownload = 160101;
+    case LogViewAny = 180001;
+    case LogDelete = 180005;
+    case LogDownload = 180101;
     // Permission
-    case PermissionViewAny = 170001;
-    case PermissionView = 170002;
-    case PermissionUpdate = 170004;
+    case PermissionViewAny = 190001;
+    case PermissionView = 190002;
+    case PermissionUpdate = 190004;
     // Process
-    case ProcessViewAny = 180001;
-    case ProcessView = 180002;
-    case ProcessCreate = 180003;
-    case ProcessUpdate = 180004;
+    case ProcessViewAny = 200001;
+    case ProcessView = 200002;
+    case ProcessCreate = 200003;
+    case ProcessUpdate = 200004;
     // Role
-    case RoleViewAny = 190001;
-    case RoleView = 190002;
-    case RoleUpdate = 190004;
+    case RoleViewAny = 210001;
+    case RoleView = 210002;
+    case RoleUpdate = 210004;
+    // Room
+    case RoomViewAny = 220001;
+    case RoomView = 220002;
+    case RoomCreate = 220003;
+    case RoomUpdate = 220004;
+    case RoomDelete = 220005;
     // Simulation
-    case SimulationCreate = 200003;
+    case SimulationCreate = 230003;
+    // Site
+    case SiteViewAny = 240001;
+    case SiteView = 240002;
+    case SiteCreate = 240003;
+    case SiteUpdate = 240004;
+    case SiteDelete = 240005;
     // User
-    case UserViewAny = 210001;
-    case UserUpdate = 210004;
+    case UserViewAny = 250001;
+    case UserUpdate = 250004;
 }
