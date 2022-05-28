@@ -77,6 +77,18 @@
 
                             <div class="flex flex-col justify-center space-y-3">
 
+                                @can(\App\Enums\Policy::View->value, \App\Models\Building::class)
+
+                                    <x-link-button
+                                        class="btn-do"
+                                        icon="eye"
+                                        href="{{ route('archiving.register.building.show', $building) }}"
+                                        text="{{ __('Show') }}"
+                                        title="{{ __('Show the record') }}"/>
+
+                                @endcan
+
+
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Building::class)
 
                                     <x-link-button
