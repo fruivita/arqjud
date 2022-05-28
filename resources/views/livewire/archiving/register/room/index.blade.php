@@ -157,34 +157,11 @@
     @can(\App\Enums\Policy::Delete->value, \App\Models\Room::class)
 
         {{-- Modal to confirm the deletion --}}
-        <x-modal wire:model="show_delete_modal">
-
-            <x-slot name="title">{{ __('Delete :attribute?', ['attribute' => $deleting->number]) }}</x-slot>
-
-
-            <x-slot name="content">{{ __('This operation is irreversible. Are you sure you wish to proceed?') }}</x-slot>
-
-
-            <x-slot name="footer">
-
-                <form
-                    wire:key="deleting-rooms-modal-{{ $deleting->id }}"
-                    wire:submit.prevent="destroy"
-                    method="POST"
-                >
-
-                    <x-button
-                        class="btn-danger w-full"
-                        icon="check-circle"
-                        :text="__('Confirm')"
-                        :title="__('Confirm the operation')"
-                        type="submit"/>
-
-                </form>
-
-            </x-slot>
-
-        </x-modal>
+        <x-confirmation-modal
+            wire:model="show_delete_modal"
+            wire:key="deleting-modal-{{ $deleting->id }}"
+            wire:submit.prevent="destroy"
+            :question="__('Delete :attribute?', ['attribute' => $deleting->number])"/>
 
     @endcan
 
