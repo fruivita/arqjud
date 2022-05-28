@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Edit the box') . ': ' . $box->name() }}">
+<x-page :header="__('Edit the box') . ': ' . $box->name()">
 
     <x-container class="space-y-6">
 
@@ -21,10 +21,10 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-left"
-                    href="{{ route('archiving.register.box.edit', $previous) }}"
+                    :href="route('archiving.register.box.edit', $previous)"
                     prepend="true"
-                    text="{{ __('Previous') }}"
-                    title="{{ __('Show previous record') }}"/>
+                    :text="__('Previous')"
+                    :title="__('Show previous record')"/>
 
             @else
 
@@ -38,9 +38,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-right"
-                    href="{{ route('archiving.register.box.edit', $next) }}"
-                    text="{{ __('Next') }}"
-                    title="{{ __('Show next record') }}"/>
+                    :href="route('archiving.register.box.edit', $next)"
+                    :text="__('Next')"
+                    :title="__('Show next record')"/>
 
             @else
 
@@ -63,11 +63,11 @@
                         :error="$errors->first('box.year')"
                         icon="calendar-range"
                         min="1900"
-                        max="{{ now()->format('Y') }}"
+                        :max="now()->format('Y')"
                         placeholder="aaaa"
                         required
-                        text="{{ __('Year') }}"
-                        title="{{ __('Inform the year in the yyyy pattern') }}"
+                        :text="__('Year')"
+                        :title="__('Inform the year in the yyyy pattern')"
                         type="number"/>
 
 
@@ -77,10 +77,10 @@
                         :error="$errors->first('box.number')"
                         icon="tag"
                         min="1"
-                        placeholder="{{ __('Only numbers') }}"
+                        :placeholder="__('Only numbers')"
                         required
-                        text="{{ __('Number') }}"
-                        title="{{ __('Inform the box number') }}"
+                        :text="__('Number')"
+                        :title="__('Inform the box number')"
                         type="number"/>
 
                 </div>
@@ -95,9 +95,9 @@
                         icon="bookshelf"
                         min="1"
                         max="1000"
-                        placeholder="{{ __('Only numbers') }}"
-                        text="{{ __('Stand') }}"
-                        title="{{ __('Inform the stand number') }}"
+                        :placeholder="__('Only numbers')"
+                        :text="__('Stand')"
+                        :title="__('Inform the stand number')"
                         type="number"/>
 
 
@@ -108,9 +108,9 @@
                         icon="list-nested"
                         min="1"
                         max="1000"
-                        placeholder="{{ __('Only numbers') }}"
-                        text="{{ __('Shelf') }}"
-                        title="{{ __('Inform the shelf number') }}"
+                        :placeholder="__('Only numbers')"
+                        :text="__('Shelf')"
+                        :title="__('Inform the shelf number')"
                         type="number"/>
 
                 </div>
@@ -127,8 +127,8 @@
                         :error="$errors->first('site_id')"
                         icon="pin-map"
                         required
-                        text="{{ __('Site') }}"
-                        title="{{ __('Choose site') }}">
+                        :text="__('Site')"
+                        :title="__('Choose site')">
 
                         <option value="">{{ __('Select...') }}</option>
 
@@ -165,8 +165,8 @@
                             :error="$errors->first('building_id')"
                             icon="building"
                             required
-                            text="{{ __('Building') }}"
-                            title="{{ __('Choose building') }}">
+                            :text="__('Building')"
+                            :title="__('Choose building')">
 
                             <option value="">{{ __('Select...') }}</option>
 
@@ -207,8 +207,8 @@
                                 :error="$errors->first('floor_id')"
                                 icon="layers"
                                 required
-                                text="{{ __('Floor') }}"
-                                title="{{ __('Choose floor') }}">
+                                :text="__('Floor')"
+                                :title="__('Choose floor')">
 
                                 <option value="">{{ __('Select...') }}</option>
 
@@ -246,8 +246,8 @@
                                 :error="$errors->first('box.room_id')"
                                 icon="door-closed"
                                 required
-                                text="{{ __('Room') }}"
-                                title="{{ __('Choose room') }}">
+                                :text="__('Room')"
+                                :title="__('Choose room')">
 
                                 <option value="">{{ __('Select...') }}</option>
 
@@ -282,17 +282,17 @@
                     <x-button
                         class="btn-do"
                         icon="save"
-                        text="{{ __('Save') }}"
-                        title="{{ __('Save the record') }}"
+                        :text="__('Save')"
+                        :title="__('Save the record')"
                         type="submit"/>
 
 
                     <x-link-button
                         class="btn-do"
                         icon="box2"
-                        href="{{ route('archiving.register.box.index') }}"
-                        text="{{ __('Boxes') }}"
-                        title="{{ __('Show all records') }}"/>
+                        :href="route('archiving.register.box.index')"
+                        :text="__('Boxes')"
+                        :title="__('Show all records')"/>
 
                 </div>
 

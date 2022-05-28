@@ -15,7 +15,7 @@
 --}}
 
 
-<x-page header="{{ __('Forced data import') }}">
+<x-page :header="__('Forced data import')">
 
     <x-container>
 
@@ -31,9 +31,8 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="import"
                     name="import"
-                    text="{{ \App\Enums\ImportationType::Corporate->label() }}"
-                    value="{{ \App\Enums\ImportationType::Corporate->value }}"/>
-
+                    :text="\App\Enums\ImportationType::Corporate->label()"
+                    :value="\App\Enums\ImportationType::Corporate->value"/>
 
 
                 @error('import')
@@ -46,8 +45,8 @@
                 <x-button
                     class="btn-do"
                     icon="play-circle"
-                    text="{{ __('Execute') }}"
-                    title="{{ __('Performs forced import of data') }}"
+                    :text="__('Execute')"
+                    :title="__('Performs forced import of data')"
                     type="submit"/>
 
             </div>

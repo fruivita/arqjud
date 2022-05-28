@@ -13,7 +13,7 @@
 --}}
 
 
-<x-page header="{{ __('Edit the application settings') }}">
+<x-page :header="__('Edit the application settings')">
 
     <x-container>
 
@@ -30,10 +30,10 @@
                         :error="$errors->first('configuration.superadmin')"
                         icon="person"
                         maxlength="20"
-                        placeholder="{{ __('Ldap user') }}"
+                        :placeholder="__('Ldap user')"
                         required
-                        text="{{ __('New Super Adminitrator') }}"
-                        title="{{ __('Inform a network user') }}"
+                        :text="__('New Super Adminitrator')"
+                        :title="__('Inform a network user')"
                         type="text"
                         withcounter/>
 
@@ -45,8 +45,8 @@
                     <x-button
                         class="btn-do"
                         icon="save"
-                        text="{{ __('Save') }}"
-                        title="{{ __('Save the record') }}"
+                        :text="__('Save')"
+                        :title="__('Save the record')"
                         type="submit"/>
 
 

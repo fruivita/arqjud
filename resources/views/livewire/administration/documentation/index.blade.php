@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Routes documentation') }}">
+<x-page :header="__('Routes documentation')">
 
     <x-container>
 
@@ -21,9 +21,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="plus-circle"
-                    href="{{ route('administration.doc.create') }}"
-                    text="{{ __('New') }}"
-                    title="{{ __('Create a new record') }}"/>
+                    :href="route('administration.doc.create')"
+                    :text="__('New')"
+                    :title="__('Create a new record')"/>
 
             @else
 
@@ -76,9 +76,9 @@
                                     <x-link-button
                                         class="btn-do"
                                         icon="pencil-square"
-                                        href="{{ route('administration.doc.edit', $doc) }}"
-                                        text="{{ __('Edit') }}"
-                                        title="{{ __('Edit the record') }}"/>
+                                        :href="route('administration.doc.edit', $doc)"
+                                        :text="__('Edit')"
+                                        :title="__('Edit the record')"/>
 
                                 @endcan
 
@@ -92,8 +92,8 @@
                                         wire:loading.delay.class="cursor-not-allowed"
                                         class="btn-danger w-full"
                                         icon="trash"
-                                        text="{{ __('Delete') }}"
-                                        title="{{ __('Delete the record') }}"
+                                        :text="__('Delete')"
+                                        :title="__('Delete the record')"
                                         type="button"/>
 
                                 @endcan
@@ -146,8 +146,8 @@
                     <x-button
                         class="btn-danger w-full"
                         icon="check-circle"
-                        text="{{ __('Confirm') }}"
-                        title="{{ __('Confirm the operation') }}"
+                        text="__('Confirm')"
+                        title="__('Confirm the operation')"
                         type="submit"/>
 
                 </form>

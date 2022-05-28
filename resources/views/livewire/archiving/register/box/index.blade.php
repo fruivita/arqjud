@@ -10,9 +10,7 @@
 --}}
 
 
-    {{-- {{dd($boxes->first())}} --}}
-
-<x-page header="{{ __('Boxes') }}">
+<x-page :header="__('Boxes')">
 
     <x-search
         wire:key="search"
@@ -30,9 +28,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="plus-circle"
-                    href="{{ route('archiving.register.box.create') }}"
-                    text="{{ __('New') }}"
-                    title="{{ __('Create a new record') }}"/>
+                    :href="route('archiving.register.box.create')"
+                    :text="__('New')"
+                    :title="__('Create a new record')"/>
 
             @else
 
@@ -127,9 +125,9 @@
                                     <x-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        href="{{ route('archiving.register.box.show', $box) }}"
-                                        text="{{ __('Show') }}"
-                                        title="{{ __('Show the record') }}"/>
+                                        :href="route('archiving.register.box.show', $box)"
+                                        :text="__('Show')"
+                                        :title="__('Show the record')"/>
 
                                 @endcan
 
@@ -139,9 +137,9 @@
                                     <x-link-button
                                         class="btn-do"
                                         icon="pencil-square"
-                                        href="{{ route('archiving.register.box.edit', $box) }}"
-                                        text="{{ __('Edit') }}"
-                                        title="{{ __('Edit the record') }}"/>
+                                        :href="route('archiving.register.box.edit', $box)"
+                                        :text="__('Edit')"
+                                        :title="__('Edit the record')"/>
 
                                 @endcan
 
@@ -152,8 +150,8 @@
                                         class="btn-danger"
                                         icon="pencil-square"
                                         {{-- href="{{ route('authorization.permission.edit', $permission) }}" --}}
-                                        text="{{ __('Delete') }}"
-                                        title="{{ __('Delete the record') }}"/>
+                                        :text="__('Delete')"
+                                        :title="__('Delete the record')"/>
 
                                 @endcan
 

@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Roles and permissions') }}">
+<x-page :header="__('Roles and permissions')">
 
     <x-container>
 
@@ -80,9 +80,9 @@
                                     <x-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        href="{{ route('authorization.role.show', $role) }}"
-                                        text="{{ __('Show') }}"
-                                        title="{{ __('Show the record') }}"/>
+                                        :href="route('authorization.role.show', $role)"
+                                        :text="__('Show')"
+                                        :title="__('Show the record')"/>
 
                                 @endcan
 
@@ -92,9 +92,9 @@
                                     <x-link-button
                                         class="btn-do"
                                         icon="pencil-square"
-                                        href="{{ route('authorization.role.edit', $role) }}"
-                                        text="{{ __('Edit') }}"
-                                        title="{{ __('Edit the record') }}"/>
+                                        :href="route('authorization.role.edit', $role)"
+                                        :text="__('Edit')"
+                                        :title="__('Edit the record')"/>
 
                                 @endcan
 

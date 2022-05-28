@@ -46,7 +46,7 @@
         {{-- icon in front of select --}}
         <label class="text-primary-900 p-2" for="{{ $id }}">
 
-            <x-icon name="{{ $icon }}"/>
+            <x-icon :name="$icon"/>
 
         </label>
 

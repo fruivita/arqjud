@@ -24,7 +24,7 @@
         {{ $attributes }}
     >
 
-        <x-icon name="{{ $icon }}" class="w-16 h-16"/>
+        <x-icon :name="$icon" class="w-16 h-16"/>
 
         <span class="text-center break-words">{{ $text }}</span>
 

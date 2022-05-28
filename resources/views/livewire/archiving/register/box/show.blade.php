@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Box') . ': ' . $box->name() }}">
+<x-page :header="__('Box') . ': ' . $box->name()">
 
     <x-container class="space-y-6">
 
@@ -21,10 +21,10 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-left"
-                    href="{{ route('archiving.register.box.show', $previous) }}"
+                    :href="route('archiving.register.box.show', $previous)"
                     prepend="true"
-                    text="{{ __('Previous') }}"
-                    title="{{ __('Show previous record') }}"/>
+                    :text="__('Previous')"
+                    :title="__('Show previous record')"/>
 
             @else
 
@@ -38,9 +38,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-right"
-                    href="{{ route('archiving.register.box.show', $next) }}"
-                    text="{{ __('Next') }}"
-                    title="{{ __('Show next record') }}"/>
+                    :href="route('archiving.register.box.show', $next)"
+                    :text="__('Next')"
+                    :title="__('Show next record')"/>
 
             @else
 
@@ -54,48 +54,48 @@
         <div class="space-y-6">
 
             <x-show-value
-                key="{{ __('Number') }}"
-                value="{{ $box->number }}"/>
+                :key="__('Number')"
+                :value="$box->number"/>
 
 
             <x-show-value
-                key="{{ __('Year') }}"
-                value="{{ $box->year }}"/>
+                :key="__('Year')"
+                :value="$box->year"/>
 
 
             <x-show-value
-                key="{{ __('Site') }}"
+                :key="__('Site')"
                 :value="$box->room->floor->building->site->name"/>
 
 
             <x-show-value
-                key="{{ __('Building') }}"
+                :key="__('Building')"
                 :value="$box->room->floor->building->name"/>
 
 
             <x-show-value
-                key="{{ __('Floor') }}"
-                value="{{ $box->room->floor->number }}"/>
+                :key="__('Floor')"
+                :value="$box->room->floor->number"/>
 
 
             <x-show-value
-                key="{{ __('Room') }}"
-                value="{{ $box->room->number }}"/>
+                :key="__('Room')"
+                :value="$box->room->number"/>
 
 
             <x-show-value
-                key="{{ __('Stand') }}"
-                value="{{ $box->stand }}"/>
+                :key="__('Stand')"
+                :value="$box->stand"/>
 
 
             <x-show-value
-                key="{{ __('Shelf') }}"
-                value="{{ $box->shelf }}"/>
+                :key="__('Shelf')"
+                :value="$box->shelf"/>
 
 
             <x-show-value
-                key="{{ __('Volumes') }}"
-                value="{{ $box->volumes_count }}"/>
+                :key="__('Volumes')"
+                :value="$box->volumes_count"/>
 
 
             <div class="flex flex-col space-x-0 space-y-3 lg:flex-row lg:items-center lg:justify-end lg:space-x-3 lg:space-y-0">
@@ -105,9 +105,9 @@
                     <x-link-button
                         class="btn-do"
                         icon="pencil-square"
-                        href="{{ route('archiving.register.box.edit', $box) }}"
-                        text="{{ __('Edit') }}"
-                        title="{{ __('Edit the record') }}"/>
+                        :href="route('archiving.register.box.edit', $box)"
+                        :text="__('Edit')"
+                        :title="__('Edit the record')"/>
 
                 @endcan
 
@@ -115,9 +115,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="box2"
-                    href="{{ route('archiving.register.box.index') }}"
-                    text="{{ __('Boxes') }}"
-                    title="{{ __('Show all records') }}"/>
+                    :href="route('archiving.register.box.index')"
+                    :text="__('Boxes')"
+                    :title="__('Show all records')"/>
 
             </div>
 

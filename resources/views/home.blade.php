@@ -12,7 +12,7 @@
 
 <x-layouts.app>
 
-    <x-page header="{{ __('Home') }}">
+    <x-page :header="__('Home')">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
@@ -20,9 +20,9 @@
 
                 <x-link-card
                     icon="gear"
-                    href="{{ route('administration.configuration.show') }}"
-                    text="{{ __('Application settings') }}"
-                    title="{{ __('Application working settings management') }}"/>
+                    :href="route('administration.configuration.show')"
+                    :text="__('Application settings')"
+                    :title="__('Application working settings management')"/>
 
             @endcan
 
@@ -31,9 +31,9 @@
 
                 <x-link-card
                     icon="book"
-                    href="{{ route('administration.doc.index') }}"
-                    text="{{ __('Documentation') }}"
-                    title="{{ __('Application routes documentation management') }}"/>
+                    :href="route('administration.doc.index')"
+                    :text="__('Documentation')"
+                    :title="__('Application routes documentation management')"/>
 
             @endcan
 
@@ -42,9 +42,9 @@
 
                 <x-link-card
                     icon="usb-drive"
-                    href="{{ route('administration.importation.create') }}"
-                    text="{{ __('Forced data import') }}"
-                    title="{{ __('Execution of forced data import') }}"/>
+                    :href="route('administration.importation.create')"
+                    :text="__('Forced data import')"
+                    :title="__('Execution of forced data import')"/>
 
             @endcan
 
@@ -52,9 +52,9 @@
 
                 <x-link-card
                     icon="file-earmark-text"
-                    href="{{ route('administration.log.index') }}"
-                    text="{{ __('Manage logs') }}"
-                    title="{{ __('Application operation logs management') }}"/>
+                    :href="route('administration.log.index')"
+                    :text="__('Manage logs')"
+                    :title="__('Application operation logs management')"/>
 
             @endcan
 
@@ -63,9 +63,9 @@
 
                 <x-link-card
                     icon="person-lines-fill"
-                    href="{{ route('authorization.delegations.index') }}"
-                    text="{{ __('Role delegation') }}"
-                    title="{{ __('Roles delegation management') }}"/>
+                    :href="route('authorization.delegations.index')"
+                    :text="__('Role delegation')"
+                    :title="__('Roles delegation management')"/>
 
             @endcan
 
@@ -74,9 +74,9 @@
 
                 <x-link-card
                     icon="award"
-                    href="{{ route('authorization.role.index') }}"
-                    text="{{ __('Manage roles') }}"
-                    title="{{ __('Application roles management') }}"/>
+                    :href="route('authorization.role.index')"
+                    :text="__('Manage roles')"
+                    :title="__('Application roles management')"/>
 
             @endcan
 
@@ -85,9 +85,9 @@
 
                 <x-link-card
                     icon="vector-pen"
-                    href="{{ route('authorization.permission.index') }}"
-                    text="{{ __('Manage permissions') }}"
-                    title="{{ __('Application permissions management') }}"/>
+                    :href="route('authorization.permission.index')"
+                    :text="__('Manage permissions')"
+                    :title="__('Application permissions management')"/>
 
             @endcan
 
@@ -96,9 +96,9 @@
 
                 <x-link-card
                     icon="person-check"
-                    href="{{ route('authorization.user.index') }}"
-                    text="{{ __('Manage users') }}"
-                    title="{{ __('Users management') }}"/>
+                    :href="route('authorization.user.index')"
+                    :text="__('Manage users')"
+                    :title="__('Users management')"/>
 
             @endcan
 
@@ -107,9 +107,9 @@
 
                 <x-link-card
                     icon="people"
-                    href="{{ route('test.simulation.create') }}"
-                    text="{{ __('Usage simulation') }}"
-                    title="{{ __('Application usage simulation') }}"/>
+                    :href="route('test.simulation.create')"
+                    :text="__('Usage simulation')"
+                    :title="__('Application usage simulation')"/>
 
             @endcan
 

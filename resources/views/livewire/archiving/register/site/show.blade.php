@@ -21,10 +21,10 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-left"
-                    href="{{ route('archiving.register.site.show', $previous) }}"
+                    :href="route('archiving.register.site.show', $previous)"
                     prepend="true"
-                    text="{{ __('Previous') }}"
-                    title="{{ __('Show previous record') }}"/>
+                    :text="__('Previous')"
+                    :title="__('Show previous record')"/>
 
             @else
 
@@ -38,9 +38,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-right"
-                    href="{{ route('archiving.register.site.show', $next) }}"
-                    text="{{ __('Next') }}"
-                    title="{{ __('Show next record') }}"/>
+                    :href="route('archiving.register.site.show', $next)"
+                    :text="__('Next')"
+                    :title="__('Show next record')"/>
 
             @else
 
@@ -54,7 +54,7 @@
         <div class="space-y-6">
 
             <x-show-value
-                key="{{ __('Site') }}"
+                :key="__('Site')"
                 :value="$site->name"/>
 
 
@@ -107,9 +107,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="pin-map"
-                    href="{{ route('archiving.register.site.index') }}"
-                    text="{{ __('Sites') }}"
-                    title="{{ __('Show all records') }}"/>
+                    :href="route('archiving.register.site.index')"
+                    :text="__('Sites')"
+                    :title="__('Show all records')"/>
 
             </div>
 

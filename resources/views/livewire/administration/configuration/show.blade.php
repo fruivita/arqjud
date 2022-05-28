@@ -13,7 +13,7 @@
 --}}
 
 
-<x-page header="{{ __('Application settings') }}">
+<x-page :header="__('Application settings')">
 
     <x-container class="space-y-6">
 
@@ -40,9 +40,9 @@
                     <x-link-button
                         class="btn-do"
                         icon="pencil-square"
-                        href="{{ route('administration.configuration.edit') }}"
-                        text="{{ __('Edit') }}"
-                        title="{{ __('Edit the record') }}"/>
+                        :href="route('administration.configuration.edit')"
+                        :text="__('Edit')"
+                        :title="__('Edit the record')"/>
 
                 </div>
 

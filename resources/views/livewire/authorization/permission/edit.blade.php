@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Edit the permission') }}">
+<x-page :header="__('Edit the permission')">
 
     <x-container class="space-y-6">
 
@@ -21,10 +21,10 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-left"
-                    href="{{ route('authorization.permission.edit', $previous) }}"
+                    :href="route('authorization.permission.edit', $previous)"
                     prepend="true"
-                    text="{{ __('Previous') }}"
-                    title="{{ __('Show previous record') }}"/>
+                    :text="__('Previous')"
+                    :title="__('Show previous record')"/>
 
             @else
 
@@ -38,9 +38,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-right"
-                    href="{{ route('authorization.permission.edit', $next) }}"
-                    text="{{ __('Next') }}"
-                    title="{{ __('Show next record') }}"/>
+                    :href="route('authorization.permission.edit', $next)"
+                    :text="__('Next')"
+                    :title="__('Show next record')"/>
 
             @else
 
@@ -61,10 +61,10 @@
                     :error="$errors->first('permission.name')"
                     icon="vector-pen"
                     maxlength="50"
-                    placeholder="{{ __('Permission name') }}"
+                    :placeholder="__('Permission name')"
                     required
-                    text="{{ __('Name') }}"
-                    title="{{ __('Inform the permission name') }}"
+                    :text="__('Name')"
+                    :title="__('Inform the permission name')"
                     type="text"
                     withcounter/>
 
@@ -75,9 +75,9 @@
                     :error="$errors->first('permission.description')"
                     icon="blockquote-left"
                     maxlength="255"
-                    placeholder="{{ __('About the permission') }}"
-                    text="{{ __('Description') }}"
-                    title="{{ __('Describes the permission') }}"
+                    :placeholder="__('About the permission')"
+                    :text="__('Description')"
+                    :title="__('Describes the permission')"
                     withcounter/>
 
 
@@ -108,7 +108,7 @@
                                     wire:loading.delay.attr="disabled"
                                     wire:loading.delay.class="cursor-not-allowed"
                                     wire:target="per_page,update"
-                                    wire:model="checkbox_action" />
+                                    wire:model="checkbox_action"/>
 
                             </x-table.heading>
 
@@ -154,7 +154,7 @@
                                             wire:loading.delay.class="cursor-not-allowed"
                                             wire:model="selected"
                                             :checked="$permission->roles->contains($role->id)"
-                                            value="{{ $role->id }}"/>
+                                            :value="$role->id"/>
 
                                     </x-table.cell>
 
@@ -198,17 +198,17 @@
                     <x-button
                         class="btn-do"
                         icon="save"
-                        text="{{ __('Save') }}"
-                        title="{{ __('Save the record') }}"
+                        :text="__('Save')"
+                        :title="__('Save the record')"
                         type="submit"/>
 
 
                     <x-link-button
                         class="btn-do"
                         icon="vector-pen"
-                        href="{{ route('authorization.permission.index') }}"
-                        text="{{ __('Permissions') }}"
-                        title="{{ __('Show all records') }}"/>
+                        :href="route('authorization.permission.index')"
+                        :text="__('Permissions')"
+                        :title="__('Show all records')"/>
 
                 </div>
 

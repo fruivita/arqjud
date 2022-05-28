@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ $role->name }}">
+<x-page :header="$role->name">
 
     <x-container class="space-y-6">
 
@@ -21,10 +21,10 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-left"
-                    href="{{ route('authorization.role.show', $previous) }}"
+                    :href="route('authorization.role.show', $previous)"
                     prepend="true"
-                    text="{{ __('Previous') }}"
-                    title="{{ __('Show previous record') }}"/>
+                    :text="__('Previous')"
+                    :title="__('Show previous record')"/>
 
             @else
 
@@ -38,9 +38,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-right"
-                    href="{{ route('authorization.role.show', $next) }}"
-                    text="{{ __('Next') }}"
-                    title="{{ __('Show next record') }}"/>
+                    :href="route('authorization.role.show', $next)"
+                    :text="__('Next')"
+                    :title="__('Show next record')"/>
 
             @else
 
@@ -122,9 +122,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="award"
-                    href="{{ route('authorization.role.index') }}"
-                    text="{{ __('Roles') }}"
-                    title="{{ __('Show all records') }}"/>
+                    :href="route('authorization.role.index')"
+                    :text="__('Roles')"
+                    :title="__('Show all records')"/>
 
             </div>
 

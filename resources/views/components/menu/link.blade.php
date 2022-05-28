@@ -23,7 +23,7 @@
         {{ $attributes->merge(['class' => 'border-primary-500 flex items-center outline-none pl-3 space-x-3 focus:border-l-4 hover:border-l-4']) }}
     >
 
-        <x-icon name="{{ $icon }}"/>
+        <x-icon :name="$icon"/>
 
 
         <span>{{ $text }}</span>

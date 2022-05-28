@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Application health logs') }}">
+<x-page :header="__('Application health logs')">
 
     <x-container>
 
@@ -26,8 +26,8 @@
                     :error="$errors->first('filename')"
                     icon="file-earmark-text"
                     required
-                    text="{{ __('Log file') }}"
-                    title="{{ __('Choose log file') }}"
+                    :text="__('Log file')"
+                    :title="__('Choose log file')"
                 >
 
                     @forelse ($log_files ?? [] as $file)
@@ -69,8 +69,8 @@
                             wire:target="delete,download,filename"
                             class="btn-do"
                             icon="download"
-                            text="{{ __('Download') }}"
-                            title="{{ __('Download the log file') }}"
+                            :text="__('Download')"
+                            :title="__('Download the log file')"
                             type="button"/>
 
                     @endcan
@@ -86,8 +86,8 @@
                             wire:target="delete,download,filename"
                             class="btn-danger"
                             icon="trash"
-                            text="{{ __('Delete') }}"
-                            title="{{ __('Delete the log file') }}"
+                            :text="__('Delete')"
+                            :title="__('Delete the log file')"
                             type="button"/>
 
                     @endcan

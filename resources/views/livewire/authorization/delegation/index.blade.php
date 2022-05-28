@@ -14,7 +14,7 @@
 --}}
 
 
-<x-page header="{{ __('Delegation') }}">
+<x-page :header="__('Delegation')">
 
     <x-search
         wire:key="search"
@@ -86,8 +86,8 @@
                                             wire:loading.delay.class="cursor-not-allowed"
                                             class="btn-danger w-full"
                                             icon="x-circle"
-                                            text="{{ __('Revoke') }}"
-                                            title="{{ __('Revoke user permissions') }}"
+                                            :text="__('Revoke')"
+                                            :title="__('Revoke user permissions')"
                                             type="submit"/>
 
                                     </form>
@@ -102,8 +102,8 @@
                                             wire:loading.delay.class="cursor-not-allowed"
                                             class="btn-do w-full"
                                             icon="check-circle"
-                                            text="{{ __('Grant') }}"
-                                            title="{{ __('Grant my permissions to the user') }}"
+                                            :text="__('Grant')"
+                                            :title="__('Grant my permissions to the user')"
                                             type="submit"/>
 
                                     </form>

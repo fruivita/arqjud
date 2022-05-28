@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ $permission->name }}">
+<x-page :header="$permission->name">
 
     <x-container class="space-y-6">
 
@@ -21,10 +21,10 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-left"
-                    href="{{ route('authorization.permission.show', $previous) }}"
+                    :href="route('authorization.permission.show', $previous)"
                     prepend="true"
-                    text="{{ __('Previous') }}"
-                    title="{{ __('Show previous record') }}"/>
+                    :text="__('Previous')"
+                    :title="__('Show previous record')"/>
 
             @else
 
@@ -38,9 +38,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-right"
-                    href="{{ route('authorization.permission.show', $next) }}"
-                    text="{{ __('Next') }}"
-                    title="{{ __('Show next record') }}"/>
+                    :href="route('authorization.permission.show', $next)"
+                    :text="__('Next')"
+                    :title="__('Show next record')"/>
 
             @else
 
@@ -122,9 +122,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="vector-pen"
-                    href="{{ route('authorization.permission.index') }}"
-                    text="{{ __('Permissions') }}"
-                    title="{{ __('Show all records') }}"/>
+                    :href="route('authorization.permission.index')"
+                    :text="__('Permissions')"
+                    :title="__('Show all records')"/>
 
             </div>
 

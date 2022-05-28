@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Sites') }}">
+<x-page :header="__('Sites')">
 
     <x-container>
 
@@ -22,8 +22,8 @@
                     class="btn-do"
                     icon="plus-circle"
                     {{-- href="{{ route('administration.doc.create') }}" --}}
-                    text="{{ __('New') }}"
-                    title="{{ __('Create a new record') }}"/>
+                    :text="__('New')"
+                    :title="__('Create a new record')"/>
 
             @else
 
@@ -76,9 +76,9 @@
                                     <x-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        href="{{ route('archiving.register.site.show', $site) }}"
-                                        text="{{ __('Show') }}"
-                                        title="{{ __('Show the record') }}"/>
+                                        :href="route('archiving.register.site.show', $site)"
+                                        :text="__('Show')"
+                                        :title="__('Show the record')"/>
 
                                 @endcan
 
@@ -89,8 +89,8 @@
                                         class="btn-do"
                                         icon="pencil-square"
                                         {{-- href="{{ route('administration.doc.edit', $doc) }}" --}}
-                                        text="{{ __('Edit') }}"
-                                        title="{{ __('Edit the record') }}"/>
+                                        :text="__('Edit')"
+                                        :title="__('Edit the record')"/>
 
                                 @endcan
 
@@ -104,8 +104,8 @@
                                         wire:loading.delay.class="cursor-not-allowed"
                                         class="btn-danger w-full"
                                         icon="trash"
-                                        text="{{ __('Delete') }}"
-                                        title="{{ __('Delete the record') }}"
+                                        :text="__('Delete')"
+                                        :title="__('Delete the record')"
                                         type="button"/>
 
                                 @endcan
@@ -158,8 +158,8 @@
                     <x-button
                         class="btn-danger w-full"
                         icon="check-circle"
-                        text="{{ __('Confirm') }}"
-                        title="{{ __('Confirm the operation') }}"
+                        :text="__('Confirm')"
+                        :title="__('Confirm the operation')"
                         type="submit"/>
 
                 </form>

@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Users and role') }}">
+<x-page :header="__('Users and role')">
 
     <x-search
         wire:key="search"
@@ -80,8 +80,8 @@
                                         wire:loading.delay.class="cursor-not-allowed"
                                         class="btn-do"
                                         icon="pencil-square"
-                                        text="{{ __('Edit') }}"
-                                        title="{{ __('Edit the record') }}"
+                                        :text="__('Edit')"
+                                        :title="__('Edit the record')"
                                         type="button"/>
 
                                 @endcan
@@ -140,8 +140,8 @@
                             :error="$errors->first('editing.role_id')"
                             icon="award"
                             required
-                            text="{{ __('Role') }}"
-                            title="{{ __('Choose role') }}">
+                            :text="__('Role')"
+                            :title="__('Choose role')">
 
                             @foreach ($roles ?? [] as $role)
 
@@ -168,8 +168,8 @@
                     <x-button
                         class="btn-do"
                         icon="save"
-                        text="{{ __('Save') }}"
-                        title="{{ __('Save the record') }}"
+                        :text="__('Save')"
+                        :title="__('Save the record')"
                         type="submit"/>
 
                 </x-slot>

@@ -32,10 +32,10 @@
                         :error="$errors->first('username')"
                         icon="person"
                         id="username"
-                        placeholder="{{ __('Ldap user') }}"
+                        :placeholder="__('Ldap user')"
                         required
-                        text="{{ __('Username') }}"
-                        title="{{ __('Inform your network user') }}"
+                        :text="__('Username')"
+                        :title="__('Inform your network user')"
                         type="text"
                         :value="old('username')"/>
 
@@ -45,10 +45,10 @@
                         :error="$errors->first('password')"
                         icon="key"
                         id="password"
-                        placeholder="{{ __('Ldap password') }}"
+                        :placeholder="__('Ldap password')"
                         required
-                        text="{{ __('Password') }}"
-                        title="{{ __('Inform your network password') }}"
+                        :text="__('Password')"
+                        :title="__('Inform your network password')"
                         type="password"
                         value=""/>
 
@@ -58,8 +58,8 @@
                         formaction="{{ route('login') }}"
                         formmethod="POST"
                         icon="box-arrow-in-right"
-                        text="{{ __('Login') }}"
-                        title="{{ __('Login in application') }}"
+                        :text="__('Login')"
+                        :title="__('Login in application')"
                         type="submit"/>
 
                 </div>

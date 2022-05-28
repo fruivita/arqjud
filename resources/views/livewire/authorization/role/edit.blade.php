@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Edit the role') }}">
+<x-page :header="__('Edit the role')">
 
     <x-container class="space-y-6">
 
@@ -21,10 +21,10 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-left"
-                    href="{{ route('authorization.role.edit', $previous) }}"
+                    :href="route('authorization.role.edit', $previous)"
                     prepend="true"
-                    text="{{ __('Previous') }}"
-                    title="{{ __('Show previous record') }}"/>
+                    :text="__('Previous')"
+                    :title="__('Show previous record')"/>
 
             @else
 
@@ -38,9 +38,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-right"
-                    href="{{ route('authorization.role.edit', $next) }}"
-                    text="{{ __('Next') }}"
-                    title="{{ __('Show next record') }}"/>
+                    :href="route('authorization.role.edit', $next)"
+                    :text="__('Next')"
+                    :title="__('Show next record')"/>
 
             @else
 
@@ -61,10 +61,10 @@
                     :error="$errors->first('role.name')"
                     icon="award"
                     maxlength="50"
-                    placeholder="{{ __('Role name') }}"
+                    :placeholder="__('Role name')"
                     required
-                    text="{{ __('Name') }}"
-                    title="{{ __('Role name') }}"
+                    :text="__('Name')"
+                    :title="__('Role name')"
                     type="text"
                     withcounter/>
 
@@ -75,9 +75,9 @@
                     :error="$errors->first('role.description')"
                     icon="blockquote-left"
                     maxlength="255"
-                    placeholder="{{ __('About the role') }}"
-                    text="{{ __('Description') }}"
-                    title="{{ __('Describes the role') }}"
+                    :placeholder="__('About the role')"
+                    :text="__('Description')"
+                    :title="__('Describes the role')"
                     withcounter/>
 
 
@@ -108,7 +108,7 @@
                                     wire:loading.delay.attr="disabled"
                                     wire:loading.delay.class="cursor-not-allowed"
                                     wire:target="per_page,update"
-                                    wire:model="checkbox_action" />
+                                    wire:model="checkbox_action"/>
 
                             </x-table.heading>
 
@@ -154,7 +154,7 @@
                                             wire:loading.delay.class="cursor-not-allowed"
                                             wire:model="selected"
                                             :checked="$role->permissions->contains($permission->id)"
-                                            value="{{ $permission->id }}"/>
+                                            :value="$permission->id"/>
 
                                     </x-table.cell>
 
@@ -198,17 +198,17 @@
                     <x-button
                         class="btn-do"
                         icon="save"
-                        text="{{ __('Save') }}"
-                        title="{{ __('Save the record') }}"
+                        :text="__('Save')"
+                        :title="__('Save the record')"
                         type="submit"/>
 
 
                     <x-link-button
                         class="btn-do"
                         icon="award"
-                        href="{{ route('authorization.role.index') }}"
-                        text="{{ __('Roles') }}"
-                        title="{{ __('Show all records') }}"/>
+                        :href="route('authorization.role.index')"
+                        :text="__('Roles')"
+                        :title="__('Show all records')"/>
 
                 </div>
 

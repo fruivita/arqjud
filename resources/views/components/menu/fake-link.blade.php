@@ -22,10 +22,10 @@
 
     <div class="flex items-center pl-3 space-x-3">
 
-        <x-icon name="{{ $icon }}"/>
+        <x-icon :name="$icon"/>
 
 
-        <span class="">{{ $text }}</span>
+        <span>{{ $text }}</span>
 
     </div>
 

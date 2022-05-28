@@ -51,7 +51,7 @@
         {{-- icon in front of input --}}
         <label class="text-primary-900 p-2" for="{{ $id }}">
 
-            <x-icon name="{{ $icon }}"/>
+            <x-icon :name="$icon"/>
 
         </label>
 

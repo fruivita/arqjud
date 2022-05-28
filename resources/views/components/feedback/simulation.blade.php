@@ -38,8 +38,8 @@
           formaction="{{ route('test.simulation.destroy') }}"
           formmethod="POST"
           icon="stop-btn"
-          text="{{ __('Finalize') }}"
-          title="{{ __('Finishes the simulation') }}"
+          :text="__('Finalize')"
+          :title="__('Finishes the simulation')"
           type="submit"/>
 
       </form>

@@ -83,8 +83,8 @@
                 x-on:click="show = false"
                 class="btn-cancel"
                 icon="x-circle"
-                text="{{ __('Cancel') }}"
-                title="{{ __('Cancel the operation') }}"
+                :text="__('Cancel')"
+                :title="__('Cancel the operation')"
                 type="button"/>
 
         </footer>

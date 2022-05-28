@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Boxes') }}">
+<x-page :header="__('Boxes')">
 
     <x-container class="space-y-6">
 
@@ -29,10 +29,10 @@
                             icon="collection"
                             min="1"
                             max="1000"
-                            placeholder="{{ __('Only numbers') }}"
+                            :placeholder="__('Only numbers')"
                             required
-                            text="{{ __('Amount') }}"
-                            title="{{ __('Inform the amount of boxes to create at once') }}"
+                            :text="__('Amount')"
+                            :title="__('Inform the amount of boxes to create at once')"
                             type="number"/>
 
                     @else
@@ -46,10 +46,10 @@
                             icon="collection"
                             min="1"
                             max="1000"
-                            placeholder="{{ __('Only numbers') }}"
+                            :placeholder="__('Only numbers')"
                             required
-                            text="{{ __('Amount') }}"
-                            title="{{ __('Inform the amount of boxes to create at once') }}"
+                            :text="__('Amount')"
+                            :title="__('Inform the amount of boxes to create at once')"
                             type="number"/>
 
                     @endcan
@@ -61,11 +61,11 @@
                         :error="$errors->first('year')"
                         icon="calendar-range"
                         min="1900"
-                        max="{{ now()->format('Y') }}"
+                        :max="now()->format('Y')"
                         placeholder="aaaa"
                         required
-                        text="{{ __('Year') }}"
-                        title="{{ __('Inform the year in the yyyy pattern') }}"
+                        :text="__('Year')"
+                        :title="__('Inform the year in the yyyy pattern')"
                         type="number"/>
 
 
@@ -78,10 +78,10 @@
                         :error="$errors->first('number')"
                         icon="tag"
                         min="1"
-                        placeholder="{{ __('Only numbers') }}"
+                        :placeholder="__('Only numbers')"
                         required
-                        text="{{ __('Number') }}"
-                        title="{{ __('Inform the box number') }}"
+                        :text="__('Number')"
+                        :title="__('Inform the box number')"
                         type="number"/>
 
                 </div>
@@ -96,9 +96,9 @@
                         icon="bookshelf"
                         min="1"
                         max="1000"
-                        placeholder="{{ __('Only numbers') }}"
-                        text="{{ __('Stand') }}"
-                        title="{{ __('Inform the stand number') }}"
+                        :placeholder="__('Only numbers')"
+                        :text="__('Stand')"
+                        :title="__('Inform the stand number')"
                         type="number"/>
 
 
@@ -109,9 +109,9 @@
                         icon="list-nested"
                         min="1"
                         max="1000"
-                        placeholder="{{ __('Only numbers') }}"
-                        text="{{ __('Shelf') }}"
-                        title="{{ __('Inform the shelf number') }}"
+                        :placeholder="__('Only numbers')"
+                        :text="__('Shelf')"
+                        :title="__('Inform the shelf number')"
                         type="number"/>
 
 
@@ -122,10 +122,10 @@
                         icon="collection"
                         min="1"
                         max="1000"
-                        placeholder="{{ __('Only numbers') }}"
+                        :placeholder="__('Only numbers')"
                         required
-                        text="{{ __('Volumes') }}"
-                        title="{{ __('Inform the number of volumes of the boxes') }}"
+                        :text="__('Volumes')"
+                        :title="__('Inform the number of volumes of the boxes')"
                         type="number"/>
 
                 </div>
@@ -142,8 +142,8 @@
                         :error="$errors->first('site_id')"
                         icon="pin-map"
                         required
-                        text="{{ __('Site') }}"
-                        title="{{ __('Choose site') }}">
+                        :text="__('Site')"
+                        :title="__('Choose site')">
 
                         <option value="">{{ __('Select...') }}</option>
 
@@ -180,8 +180,8 @@
                             :error="$errors->first('building_id')"
                             icon="building"
                             required
-                            text="{{ __('Building') }}"
-                            title="{{ __('Choose building') }}">
+                            :text="__('Building')"
+                            :title="__('Choose building')">
 
                             <option value="">{{ __('Select...') }}</option>
 
@@ -222,8 +222,8 @@
                                 :error="$errors->first('floor_id')"
                                 icon="layers"
                                 required
-                                text="{{ __('Floor') }}"
-                                title="{{ __('Choose floor') }}">
+                                :text="__('Floor')"
+                                :title="__('Choose floor')">
 
                                 <option value="">{{ __('Select...') }}</option>
 
@@ -261,8 +261,8 @@
                                 :error="$errors->first('room_id')"
                                 icon="door-closed"
                                 required
-                                text="{{ __('Room') }}"
-                                title="{{ __('Choose room') }}">
+                                :text="__('Room')"
+                                :title="__('Choose room')">
 
                                 <option value="">{{ __('Select...') }}</option>
 
@@ -297,17 +297,17 @@
                     <x-button
                         class="btn-do"
                         icon="save"
-                        text="{{ __('Save') }}"
-                        title="{{ __('Save the record') }}"
+                        :text="__('Save')"
+                        :title="__('Save the record')"
                         type="submit"/>
 
 
                     <x-link-button
                         class="btn-do"
                         icon="box2"
-                        href="{{ route('archiving.register.box.index') }}"
-                        text="{{ __('Boxes') }}"
-                        title="{{ __('Show all records') }}"/>
+                        :href="route('archiving.register.box.index')"
+                        :text="__('Boxes')"
+                        :title="__('Show all records')"/>
 
                 </div>
 

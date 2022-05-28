@@ -14,7 +14,7 @@
 --}}
 
 
-<x-page header="{{ __('Application usage simulation') }}">
+<x-page :header="__('Application usage simulation')">
 
     <x-container>
 
@@ -31,10 +31,10 @@
                         :error="$errors->first('username')"
                         icon="people"
                         maxlength="20"
-                        placeholder="{{ __('Ldap user') }}"
+                        :placeholder="__('Ldap user')"
                         required
-                        text="{{ __('User to be simulated') }}"
-                        title="{{ __('Inform a network user') }}"
+                        :text="__('User to be simulated')"
+                        :title="__('Inform a network user')"
                         type="text"
                         withcounter/>
 
@@ -44,8 +44,8 @@
                 <x-button
                     class="btn-do"
                     icon="play-circle"
-                    text="{{ __('Simulate') }}"
-                    title="{{ __('Simulate the informed user') }}"
+                    :text="__('Simulate')"
+                    :title="__('Simulate the informed user')"
                     type="submit"/>
 
             </div>

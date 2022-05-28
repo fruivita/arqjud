@@ -26,7 +26,7 @@
     {{-- inserts icon before button text --}}
     @if ($prepend)
 
-        <x-icon name="{{ $icon }}"/>
+        <x-icon :name="$icon"/>
 
 
         <span>{{ $text }}</span>
@@ -37,7 +37,7 @@
         <span>{{ $text }}</span>
 
 
-        <x-icon name="{{ $icon }}"/>
+        <x-icon :name="$icon"/>
 
     @endif
 

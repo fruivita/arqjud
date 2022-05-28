@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ $floor->number }}">
+<x-page :header="$floor->number">
 
     <x-container class="space-y-6">
 
@@ -21,10 +21,10 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-left"
-                    href="{{ route('archiving.register.floor.show', $previous) }}"
+                    :href="route('archiving.register.floor.show', $previous)"
                     prepend="true"
-                    text="{{ __('Previous') }}"
-                    title="{{ __('Show previous record') }}"/>
+                    :text="__('Previous')"
+                    :title="__('Show previous record')"/>
 
             @else
 
@@ -38,9 +38,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-right"
-                    href="{{ route('archiving.register.floor.show', $next) }}"
-                    text="{{ __('Next') }}"
-                    title="{{ __('Show next record') }}"/>
+                    :href="route('archiving.register.floor.show', $next)"
+                    :text="__('Next')"
+                    :title="__('Show next record')"/>
 
             @else
 
@@ -54,17 +54,17 @@
         <div class="space-y-6">
 
             <x-show-value
-                key="{{ __('Floor') }}"
-                value="{{ $floor->number }}"/>
+                :key="__('Floor')"
+                :value="$floor->number"/>
 
 
             <x-show-value
-                key="{{ __('Site') }}"
+                :key="__('Site')"
                 :value="$floor->building->site->name"/>
 
 
             <x-show-value
-                key="{{ __('Building') }}"
+                :key="__('Building')"
                 :value="$floor->building->name"/>
 
 
@@ -117,9 +117,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="layers"
-                    href="{{ route('archiving.register.floor.index') }}"
-                    text="{{ __('Floors') }}"
-                    title="{{ __('Show all records') }}"/>
+                    :href="route('archiving.register.floor.index')"
+                    :text="__('Floors')"
+                    :title="__('Show all records')"/>
 
             </div>
 

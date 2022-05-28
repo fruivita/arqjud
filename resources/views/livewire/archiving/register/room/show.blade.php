@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ $room->number }}">
+<x-page :header="$room->number">
 
     <x-container class="space-y-6">
 
@@ -21,10 +21,10 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-left"
-                    href="{{ route('archiving.register.room.show', $previous) }}"
+                    :href="route('archiving.register.room.show', $previous)"
                     prepend="true"
-                    text="{{ __('Previous') }}"
-                    title="{{ __('Show previous record') }}"/>
+                    :text="__('Previous')"
+                    :title="__('Show previous record')"/>
 
             @else
 
@@ -38,9 +38,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="chevron-double-right"
-                    href="{{ route('archiving.register.room.show', $next) }}"
-                    text="{{ __('Next') }}"
-                    title="{{ __('Show next record') }}"/>
+                    :href="route('archiving.register.room.show', $next)"
+                    :text="__('Next')"
+                    :title="__('Show next record')"/>
 
             @else
 
@@ -54,23 +54,23 @@
         <div class="space-y-6">
 
             <x-show-value
-                key="{{ __('Room') }}"
-                value="{{ $room->number }}"/>
+                :key="__('Room')"
+                :value="$room->number"/>
 
 
             <x-show-value
-                key="{{ __('Site') }}"
+                :key="__('Site')"
                 :value="$room->floor->building->site->name"/>
 
 
             <x-show-value
-                key="{{ __('Building') }}"
+                :key="__('Building')"
                 :value="$room->floor->building->name"/>
 
 
             <x-show-value
-                key="{{ __('Floor') }}"
-                value="{{ $room->floor->number }}"/>
+                :key="__('Floor')"
+                :value="$room->floor->number"/>
 
 
             <div class="overflow-x-auto">
@@ -134,9 +134,9 @@
                 <x-link-button
                     class="btn-do"
                     icon="door-closed"
-                    href="{{ route('archiving.register.room.index') }}"
-                    text="{{ __('Rooms') }}"
-                    title="{{ __('Show all records') }}"/>
+                    :href="route('archiving.register.room.index')"
+                    :text="__('Rooms')"
+                    :title="__('Show all records')"/>
 
             </div>
 

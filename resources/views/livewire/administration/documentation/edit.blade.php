@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page header="{{ __('Edit the route documentation') }}">
+<x-page :header="__('Edit the route documentation')">
 
     <x-container class="space-y-6">
 
@@ -24,10 +24,10 @@
                     :error="$errors->first('doc.app_route_name')"
                     icon="signpost-2"
                     maxlength="255"
-                    placeholder="{{ __('example.create.index') }}"
+                    :placeholder="__('example.create.index')"
                     required
-                    text="{{ __('Route name') }}"
-                    title="{{ __('Inform the route name') }}"
+                    :text="__('Route name')"
+                    :title="__('Inform the route name')"
                     type="text"
                     withcounter/>
 
@@ -38,9 +38,9 @@
                     :error="$errors->first('doc.doc_link')"
                     icon="link"
                     maxlength="255"
-                    placeholder="{{ __('http://example.com/') }}"
-                    text="{{ __('Documentation link') }}"
-                    title="{{ __('Inform the link to the documentation of the route informed') }}"
+                    :placeholder="__('http://example.com/')"
+                    :text="__('Documentation link')"
+                    :title="__('Inform the link to the documentation of the route informed')"
                     type="text"
                     withcounter/>
 
@@ -53,17 +53,17 @@
                     <x-button
                         class="btn-do"
                         icon="save"
-                        text="{{ __('Save') }}"
-                        title="{{ __('Save the record') }}"
+                        :text="__('Save')"
+                        :title="__('Save the record')"
                         type="submit"/>
 
 
                     <x-link-button
                         class="btn-do"
                         icon="book"
-                        href="{{ route('administration.doc.index') }}"
-                        text="{{ __('Documentation') }}"
-                        title="{{ __('Show all records') }}"/>
+                        :href="route('administration.doc.index')"
+                        :text="__('Documentation')"
+                        :title="__('Show all records')"/>
 
                 </div>
 
