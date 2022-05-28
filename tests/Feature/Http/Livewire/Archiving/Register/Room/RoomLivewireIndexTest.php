@@ -16,7 +16,7 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    login(20);
+    login('foo');
 });
 
 afterEach(function () {
