@@ -13,6 +13,10 @@ use App\Http\Livewire\Archiving\Register\Box\BoxLivewireCreate;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireIndex;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireShow;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireUpdate;
+use App\Http\Livewire\Archiving\Register\Building\BuildingLivewireIndex;
+use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireIndex;
+use App\Http\Livewire\Archiving\Register\Room\RoomLivewireIndex;
+use App\Http\Livewire\Archiving\Register\Site\SiteLivewireIndex;
 use App\Http\Livewire\Authorization\Delegation\DelegationLivewireIndex;
 use App\Http\Livewire\Authorization\Permission\PermissionLivewireIndex;
 use App\Http\Livewire\Authorization\Permission\PermissionLivewireShow;
@@ -23,10 +27,14 @@ use App\Http\Livewire\Authorization\Role\RoleLivewireUpdate;
 use App\Http\Livewire\Authorization\User\UserLivewireIndex;
 use App\Http\Livewire\Test\Simulation\SimulationLivewireCreate;
 use App\Models\Box;
+use App\Models\Building;
 use App\Models\Configuration;
 use App\Models\Documentation;
+use App\Models\Floor;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Room;
+use App\Models\Site;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -106,6 +114,22 @@ Route::middleware('auth')->group(function () {
                 Route::get('show/{box}', BoxLivewireShow::class)->name('show')->can(Policy::View->value, Box::class);
                 Route::get('create', BoxLivewireCreate::class)->name('create')->can(Policy::Create->value, Box::class);
                 Route::get('edit/{box}', BoxLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Box::class);
+            });
+
+            Route::prefix('localidade')->name('site.')->group(function () {
+                Route::get('/', SiteLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Site::class);
+            });
+
+            Route::prefix('predio')->name('building.')->group(function () {
+                Route::get('/', BuildingLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Building::class);
+            });
+
+            Route::prefix('andar')->name('floor.')->group(function () {
+                Route::get('/', FloorLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Floor::class);
+            });
+
+            Route::prefix('sala')->name('room.')->group(function () {
+                Route::get('/', RoomLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Room::class);
             });
         });
     });

@@ -42,6 +42,10 @@
 
     @if (
         auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Site::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Building::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Floor::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Room::class)
     )
 
         <x-menu.group name="{{ __('Register') }}">
@@ -54,6 +58,54 @@
                     href="{{ route('archiving.register.box.index') }}"
                     text="{{ __('Boxes') }}"
                     title="{{ __('Boxes management') }}"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Site::class)
+
+                <x-menu.link
+                    class="{{ request()->routeIs('archiving.register.site.*') ? 'active': '' }}"
+                    icon="pin-map"
+                    href="{{ route('archiving.register.site.index') }}"
+                    text="{{ __('Sites') }}"
+                    title="{{ __('Sites management') }}"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Building::class)
+
+                <x-menu.link
+                    class="{{ request()->routeIs('archiving.register.building.*') ? 'active': '' }}"
+                    icon="building"
+                    href="{{ route('archiving.register.building.index') }}"
+                    text="{{ __('Buildings') }}"
+                    title="{{ __('Buildings management') }}"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Floor::class)
+
+                <x-menu.link
+                    class="{{ request()->routeIs('archiving.register.floor.*') ? 'active': '' }}"
+                    icon="layers"
+                    href="{{ route('archiving.register.floor.index') }}"
+                    text="{{ __('Floors') }}"
+                    title="{{ __('Floors management') }}"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Room::class)
+
+                <x-menu.link
+                    class="{{ request()->routeIs('archiving.register.room.*') ? 'active': '' }}"
+                    icon="door-closed"
+                    href="{{ route('archiving.register.room.index') }}"
+                    text="{{ __('Rooms') }}"
+                    title="{{ __('Rooms management') }}"/>
 
             @endcan
 

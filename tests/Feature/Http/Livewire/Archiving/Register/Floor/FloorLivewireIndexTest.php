@@ -1,0 +1,167 @@
+<?php
+
+/**
+ * @see https://pestphp.com/docs/
+ */
+
+use App\Enums\FeedbackType;
+use App\Enums\PermissionType;
+use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireIndex;
+use App\Models\Floor;
+use Database\Seeders\DepartmentSeeder;
+use Database\Seeders\RoleSeeder;
+use Livewire\Livewire;
+use function Pest\Laravel\get;
+
+beforeEach(function () {
+    $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
+
+    login(20);
+});
+
+afterEach(function () {
+    logout();
+});
+
+// Authorization
+test('cannot list floor records without being authenticated', function () {
+    logout();
+
+    get(route('archiving.register.floor.index'))
+    ->assertRedirect(route('login'));
+});
+
+test('authenticated but without specific permission, cannot access floor records listing route', function () {
+    get(route('archiving.register.floor.index'))
+    ->assertForbidden();
+});
+
+test('cannot render listing component from floor records without specific permission', function () {
+    Livewire::test(FloorLivewireIndex::class)->assertForbidden();
+});
+
+test('cannot set the floor record which will be deleted without specific permission', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    $floor = Floor::factory()->create();
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->assertOk()
+    ->call('markToDelete', $floor->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', new Floor());
+});
+
+test('cannot delete a floor record without specific permission', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    $floor = Floor::factory()->create(['number' => 20]);
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->assertOk()
+    ->call('markToDelete', $floor->id)
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Floor::where('number', 20)->exists())->toBeTrue();
+});
+
+// Rules
+test('does not accept pagination outside the options offered', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->set('per_page', 33) // possible values: 10/25/50/100
+    ->assertHasErrors(['per_page' => 'in']);
+});
+
+// Happy path
+test('pagination returns the amount of expected floor records', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    Floor::factory(120)->create();
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->assertCount('floors', 10)
+    ->set('per_page', 10)
+    ->assertCount('floors', 10)
+    ->set('per_page', 25)
+    ->assertCount('floors', 25)
+    ->set('per_page', 50)
+    ->assertCount('floors', 50)
+    ->set('per_page', 100)
+    ->assertCount('floors', 100);
+});
+
+test('pagination creates the session variables', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->assertSessionMissing('per_page')
+    ->set('per_page', 10)
+    ->assertSessionHas('per_page', 10)
+    ->set('per_page', 25)
+    ->assertSessionHas('per_page', 25)
+    ->set('per_page', 50)
+    ->assertSessionHas('per_page', 50)
+    ->set('per_page', 100)
+    ->assertSessionHas('per_page', 100);
+});
+
+test('lists floor records with specific permission', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    get(route('archiving.register.floor.index'))
+    ->assertOk()
+    ->assertSeeLivewire(FloorLivewireIndex::class);
+});
+
+test('emits feedback event when deleting a floor record', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+    grantPermission(PermissionType::FloorDelete->value);
+
+    $floor = Floor::factory()->create(['number' => 20]);
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->call('markToDelete', $floor->id)
+    ->call('destroy')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => null,
+        'timeout' => 3000,
+    ]);
+});
+
+test('defines the floor record that will be deleted with specific permission', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+    grantPermission(PermissionType::FloorDelete->value);
+
+    $floor = Floor::factory()->create(['number' => 20]);
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->call('markToDelete', $floor->id)
+    ->assertOk()
+    ->assertSet('show_delete_modal', true)
+    ->assertSet('deleting.id', $floor->id);
+});
+
+test('deletes a floor record with specific permission', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+    grantPermission(PermissionType::FloorDelete->value);
+
+    $floor = Floor::factory()->create(['number' => 20]);
+
+    expect(Floor::where('number', 20)->exists())->toBeTrue();
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->call('markToDelete', $floor->id)
+    ->assertOk()
+    ->call('destroy', $floor->id)
+    ->assertOk();
+
+    expect(Floor::where('number', 20)->doesntExist())->toBeTrue();
+});
