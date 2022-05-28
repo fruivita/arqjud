@@ -98,7 +98,7 @@ class DocumentationLivewireIndex extends Component
      *
      * @return void
      */
-    public function setDeleteDocumentation(Documentation $doc)
+    public function markToDelete(Documentation $doc)
     {
         $this->authorize(Policy::Delete->value, Documentation::class);
 
