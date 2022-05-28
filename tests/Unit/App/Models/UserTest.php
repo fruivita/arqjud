@@ -218,6 +218,23 @@ test('search, with partial term or not, returns the expected values', function (
     ->and(User::search('foo baz')->get())->toHaveCount(1);
 });
 
+test('method delegate grant to the informed user the same role', function () {
+    $user_foo = User::factory()->create([
+        'role_id' => Role::BUSINESSMANAGER,
+    ]);
+
+    $user_bar = User::factory()->create([
+        'role_id' => Role::OBSERVER
+    ]);
+
+    $user_foo->delegate($user_bar);
+
+    $user_bar->refresh();
+
+    expect($user_bar->role_id)->toBe(Role::BUSINESSMANAGER)
+    ->and($user_bar->role_granted_by)->toBe($user_foo->id);
+});
+
 test('revokeDelegation revokes the permission of the user and everyone he delegated by setting the default (ordinary) role for everyone', function () {
     $user_foo = User::factory()->create([
         'role_id' => Role::BUSINESSMANAGER,

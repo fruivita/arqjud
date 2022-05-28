@@ -102,6 +102,24 @@ class User extends CorporateUser implements LdapAuthenticatable
     }
 
     /**
+     * Delegate role to the informed user.
+     *
+     * @param \App\Models\User $delegated
+     * @return bool
+     */
+    public function delegate(User $delegated)
+    {
+        $delegated
+            ->delegator()
+            ->associate($this);
+        $delegated
+            ->role()
+            ->associate($this->role);
+
+        return $delegated->save();
+    }
+
+    /**
      * Revokes the user's role delegation, as well as the ones he delegated,
      * returning everyone to the ordinary role.
      *

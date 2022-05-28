@@ -109,14 +109,7 @@ class DelegationLivewireIndex extends Component
     {
         $this->authorize(Policy::DelegationCreate->value, [$delegated]);
 
-        $delegated
-            ->delegator()
-            ->associate(auth()->user());
-        $delegated
-            ->role()
-            ->associate(auth()->user()->role);
-
-        $delegated->save();
+        auth()->user()->delegate($delegated);
     }
 
     /**
