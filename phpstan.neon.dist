@@ -29,6 +29,10 @@ parameters:
     - App\Http\Livewire\Authorization\User\UserLivewireIndex
     - App\Http\Livewire\Administration\Documentation\DocumentationLivewireIndex
     - App\Http\Livewire\Administration\Log\LogLivewireIndex
+    - App\Http\Livewire\Archiving\Register\Site\SiteLivewireIndex
+    - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireIndex
+    - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireIndex
+    - App\Http\Livewire\Archiving\Register\Room\RoomLivewireIndex
     - Illuminate\Database\Eloquent\Model
     - LdapRecord\Models\ActiveDirectory\User
 
