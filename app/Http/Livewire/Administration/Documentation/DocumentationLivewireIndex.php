@@ -21,7 +21,7 @@ class DocumentationLivewireIndex extends Component
     use WithPerPagePagination;
 
     /**
-     * Should the modal for deleting the documentation be displayed?
+     * Should the modal for deleting the resource be displayed?
      *
      * @var bool
      */
