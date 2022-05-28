@@ -25,7 +25,7 @@ afterEach(function () {
 });
 
 // Authorization
-test('it is not possible to individually view a role without being authenticated', function () {
+test('cannot individually view a role without being authenticated', function () {
     logout();
 
     get(route('authorization.role.show', $this->role))

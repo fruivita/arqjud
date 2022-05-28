@@ -26,7 +26,7 @@ afterEach(function () {
 });
 
 // Authorization
-test('it is not possible to individually view a site without being authenticated', function () {
+test('cannot individually view a site without being authenticated', function () {
     logout();
 
     get(route('archiving.register.site.show', $this->site))

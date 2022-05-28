@@ -25,7 +25,7 @@ afterEach(function () {
 });
 
 // Authorization
-test('it is not possible to individually view a ticket without being authenticated', function () {
+test('cannot individually view a ticket without being authenticated', function () {
     logout();
 
     get(route('authorization.permission.show', $this->permission))

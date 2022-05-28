@@ -24,7 +24,7 @@ afterEach(function () {
 });
 
 // Authorization
-test('it is not possible to individually view a box without being authenticated', function () {
+test('cannot individually view a box without being authenticated', function () {
     logout();
 
     get(route('archiving.register.box.show', $this->box))

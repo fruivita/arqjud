@@ -25,7 +25,7 @@ afterEach(function () {
 });
 
 // Authorization
-test('it is not possible to individually view a room without being authenticated', function () {
+test('cannot individually view a room without being authenticated', function () {
     logout();
 
     get(route('archiving.register.room.show', $this->room))

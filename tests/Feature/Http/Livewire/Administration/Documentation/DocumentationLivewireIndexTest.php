@@ -40,7 +40,7 @@ test('cannot render listing component from application documentation records wit
     Livewire::test(DocumentationLivewireIndex::class)->assertForbidden();
 });
 
-test('it is not possible to set the application documentation record which will be deleted without specific permission', function () {
+test('cannot set the application documentation record which will be deleted without specific permission', function () {
     grantPermission(PermissionType::DocumentationViewAny->value);
 
     $doc = Documentation::factory()->create(['app_route_name' => 'foo']);
@@ -53,7 +53,7 @@ test('it is not possible to set the application documentation record which will 
     ->assertSet('deleting', new Documentation());
 });
 
-test('it is not possible to delete an application documentation record without specific permission', function () {
+test('cannot delete an application documentation record without specific permission', function () {
     grantPermission(PermissionType::DocumentationViewAny->value);
 
     $doc = Documentation::factory()->create(['app_route_name' => 'foo']);

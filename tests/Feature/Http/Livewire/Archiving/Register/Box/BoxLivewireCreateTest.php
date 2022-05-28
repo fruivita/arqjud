@@ -28,7 +28,7 @@ afterEach(function () {
 });
 
 // Authorization
-test('it is not possible to create a box record without being authenticated', function () {
+test('cannot create a box record without being authenticated', function () {
     logout();
 
     get(route('archiving.register.box.create'))

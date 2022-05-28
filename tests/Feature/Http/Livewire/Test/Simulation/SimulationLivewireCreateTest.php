@@ -27,7 +27,7 @@ afterEach(function () {
 });
 
 // Authorization
-test('it is not possible to simulate a user without being authenticated', function () {
+test('cannot simulate a user without being authenticated', function () {
     logout();
 
     get(route('test.simulation.create'))->assertRedirect(route('login'));

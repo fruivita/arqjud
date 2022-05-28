@@ -30,7 +30,7 @@ afterEach(function () {
 });
 
 // Authorization
-test('it is not possible to update a box record without being authenticated', function () {
+test('cannot update a box record without being authenticated', function () {
     logout();
 
     get(route('archiving.register.box.edit', $this->box))

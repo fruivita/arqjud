@@ -26,7 +26,7 @@ afterEach(function () {
 });
 
 // Authorization
-test('it is not possible to create an application documentation record without being authenticated', function () {
+test('cannot create an application documentation record without being authenticated', function () {
     logout();
 
     get(route('administration.doc.create'))
@@ -43,7 +43,7 @@ test('cannot render application documentation record creation component without 
     ->assertForbidden();
 });
 
-test('it is not possible to create an application documentation record without specific permission', function () {
+test('cannot create an application documentation record without specific permission', function () {
     grantPermission(PermissionType::DocumentationCreate->value);
 
     $livewire = Livewire::test(DocumentationLivewireCreate::class)
