@@ -79,7 +79,7 @@
                     @can(\App\Enums\Policy::LogDelete->value)
 
                         <x-button
-                            wire:click="destroy"
+                            wire:click="$toggle('show_delete_modal')"
                             wire:key="btn-delete"
                             wire:loading.delay.attr="disabled"
                             wire:loading.delay.class="cursor-not-allowed"
@@ -132,5 +132,17 @@
 
 
     {{ optional($file_content)->links() }}
+
+
+    @can(\App\Enums\Policy::LogDelete->value)
+
+        {{-- Modal to confirm the deletion --}}
+        <x-confirmation-modal
+            wire:model="show_delete_modal"
+            wire:key="deleting-modal-{{ $filename }}"
+            wire:submit.prevent="destroy"
+            :question="__('Delete :attribute?', ['attribute' => $filename])"/>
+
+    @endcan
 
 </x-page>

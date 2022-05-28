@@ -25,6 +25,13 @@ class LogLivewireIndex extends Component
     use WithPerPagePagination;
 
     /**
+     * Should the modal for deleting the resource be displayed?
+     *
+     * @var bool
+     */
+    public $show_delete_modal = false;
+
+    /**
      * Resource on display.
      *
      * @var string
@@ -201,6 +208,8 @@ class LogLivewireIndex extends Component
         $deleted = $this->storage()->delete($this->filename);
 
         $this->setDefaultValuesBasedOnQueryString();
+
+        $this->reset('show_delete_modal');
 
         $this->flashSelf($deleted);
     }
