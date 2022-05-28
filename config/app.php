@@ -38,7 +38,7 @@ return [
     | framework needs to place the application's version in a notification or
     | any other location as required by the application or its packages.
     */
-    'version' => env('APP_VERSION'),
+    'version' => "0.0.1-dev",
 
     /*
     |--------------------------------------------------------------------------
