@@ -21,7 +21,7 @@
                 <x-link-button
                     class="btn-do"
                     icon="plus-circle"
-                    {{-- href="{{ route('administration.doc.create') }}" --}}
+                    :href="route('archiving.register.room.create')"
                     :text="__('New')"
                     :title="__('Create a new record')"/>
 
