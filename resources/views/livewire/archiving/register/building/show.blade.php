@@ -59,6 +59,11 @@
 
 
             <x-show-value
+                :key="__('Description')"
+                :value="$building->description"/>
+
+
+            <x-show-value
                 :key="__('Site')"
                 :value="$building->site->name"/>
 

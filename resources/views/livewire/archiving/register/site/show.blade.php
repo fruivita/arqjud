@@ -58,6 +58,11 @@
                 :value="$site->name"/>
 
 
+            <x-show-value
+                :key="__('Description')"
+                :value="$site->description"/>
+
+
             <div class="overflow-x-auto">
 
                 <x-perpage

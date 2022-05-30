@@ -59,6 +59,11 @@
 
 
             <x-show-value
+                :key="__('Description')"
+                :value="$floor->description"/>
+
+
+            <x-show-value
                 :key="__('Site')"
                 :value="$floor->building->site->name"/>
 
