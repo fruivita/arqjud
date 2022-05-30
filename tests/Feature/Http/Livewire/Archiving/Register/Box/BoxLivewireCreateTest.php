@@ -46,6 +46,15 @@ test('cannot render box record creation component without specific permission', 
 });
 
 // Rules
+test('site_id is optional', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('site_id', '')
+    ->call('store')
+    ->assertHasNoErrors(['site_id']);
+});
+
 test('site_id must be an integer', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
@@ -76,6 +85,15 @@ test('site_id is validated in real time', function () {
     ->assertHasErrors(['site_id' => 'integer']);
 });
 
+test('building_id is optional', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('building_id', '')
+    ->call('store')
+    ->assertHasNoErrors(['building_id']);
+});
+
 test('building_id must be an integer', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
@@ -104,6 +122,15 @@ test('building_id is validated in real time', function () {
     ->assertHasNoErrors()
     ->set('building_id', 'foo')
     ->assertHasErrors(['building_id' => 'integer']);
+});
+
+test('floor_id is optional', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('floor_id', '')
+    ->call('store')
+    ->assertHasNoErrors(['floor_id']);
 });
 
 test('floor_id must be an integer', function () {
@@ -284,6 +311,15 @@ test('number and year must be unique', function () {
     ->assertHasErrors(['number' => 'unique']);
 });
 
+test('stand is optional', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('stand', '')
+    ->call('store')
+    ->assertHasNoErrors(['stand']);
+});
+
 test('stand must be an integer', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
@@ -303,6 +339,15 @@ test('stand must be between 1 and 1000', function () {
     ->set('stand', 1001)
     ->call('store')
     ->assertHasErrors(['stand' => 'between']);
+});
+
+test('shelf is optional', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('shelf', '')
+    ->call('store')
+    ->assertHasNoErrors(['shelf']);
 });
 
 test('shelf must be an integer', function () {

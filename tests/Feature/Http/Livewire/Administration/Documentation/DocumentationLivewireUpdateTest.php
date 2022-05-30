@@ -108,6 +108,15 @@ test('route name must be unique', function () {
     ->assertHasErrors(['doc.app_route_name' => 'unique']);
 });
 
+test('link is optional', function () {
+    grantPermission(PermissionType::DocumentationUpdate->value);
+
+    Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('doc.doc_link', '')
+    ->call('update')
+    ->assertHasNoErrors(['doc.doc_link']);
+});
+
 test('link must be a string', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 

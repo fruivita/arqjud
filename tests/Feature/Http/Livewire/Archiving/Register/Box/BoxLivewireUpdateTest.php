@@ -48,6 +48,15 @@ test('cannot render edit box record component without specific permission', func
 });
 
 // Rules
+test('site_id is optional', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->set('site_id', '')
+    ->call('update')
+    ->assertHasNoErrors(['site_id']);
+});
+
 test('site_id must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
@@ -78,6 +87,15 @@ test('site_id is validated in real time', function () {
     ->assertHasErrors(['site_id' => 'integer']);
 });
 
+test('building_id is optional', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->set('building_id', '')
+    ->call('update')
+    ->assertHasNoErrors(['building_id']);
+});
+
 test('building_id must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
@@ -106,6 +124,15 @@ test('building_id is validated in real time', function () {
     ->assertHasNoErrors()
     ->set('building_id', 'foo')
     ->assertHasErrors(['building_id' => 'integer']);
+});
+
+test('floor_id is optional', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->set('floor_id', '')
+    ->call('update')
+    ->assertHasNoErrors(['floor_id']);
 });
 
 test('floor_id must be an integer', function () {
@@ -246,6 +273,15 @@ test('box.number and year must be unique', function () {
     ->assertHasErrors(['box.number' => 'unique']);
 });
 
+test('box.stand is optional', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->set('box.stand', null)
+    ->call('update')
+    ->assertHasNoErrors(['box.stand']);
+});
+
 test('box.stand must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
@@ -265,6 +301,15 @@ test('box.stand must be between 1 and 1000', function () {
     ->set('box.stand', 1001)
     ->call('update')
     ->assertHasErrors(['box.stand' => 'between']);
+});
+
+test('box.shelf is optional', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->set('box.shelf', null)
+    ->call('update')
+    ->assertHasNoErrors(['box.shelf']);
 });
 
 test('box.shelf must be an integer', function () {

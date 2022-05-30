@@ -103,6 +103,15 @@ test('permission name must be unique', function () {
     ->assertHasErrors(['permission.name' => 'unique']);
 });
 
+test('permission description is optional', function () {
+    grantPermission(PermissionType::PermissionUpdate->value);
+
+    Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('permission.description', '')
+    ->call('update')
+    ->assertHasNoErrors(['permission.description']);
+});
+
 test('permission description must be a string', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
@@ -119,6 +128,15 @@ test('permission description must be a maximum of 255 characters', function () {
     ->set('permission.description', Str::random(256))
     ->call('update')
     ->assertHasErrors(['permission.description' => 'max']);
+});
+
+test('ids of the roles that will be associated with the permission is optional', function () {
+    grantPermission(PermissionType::PermissionUpdate->value);
+
+    Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('selected', '')
+    ->call('update')
+    ->assertHasNoErrors(['selected']);
 });
 
 test('ids of the roles that will be associated with the permission must be an array', function () {
