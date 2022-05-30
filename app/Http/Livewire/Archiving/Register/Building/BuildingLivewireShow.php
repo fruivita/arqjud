@@ -59,7 +59,6 @@ class BuildingLivewireShow extends Component
         $this->building->load('site');
     }
 
-
     /**
      * Computed property to list paged floors.
      *

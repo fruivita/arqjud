@@ -15,7 +15,6 @@ use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
-
 use function Pest\Laravel\get;
 
 beforeEach(function () {
@@ -81,7 +80,7 @@ test('number and floor_id must be unique', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
     $floor = Floor::factory()->create();
-    Room::factory()->create(['number' => 1, 'floor_id' => $floor->id ]);
+    Room::factory()->create(['number' => 1, 'floor_id' => $floor->id]);
 
     Livewire::test(RoomLivewireCreate::class)
     ->set('room.number', 1)
@@ -96,7 +95,7 @@ test('description is optional', function () {
     Livewire::test(RoomLivewireCreate::class)
     ->set('room.description', '')
     ->call('store')
-    ->assertHasNoErrors(['room.description']);;
+    ->assertHasNoErrors(['room.description']);
 });
 
 test('description must be a string', function () {
@@ -123,7 +122,7 @@ test('site_id is optional', function () {
     Livewire::test(RoomLivewireCreate::class)
     ->set('site_id', '')
     ->call('store')
-    ->assertHasNoErrors(['site_id']);;
+    ->assertHasNoErrors(['site_id']);
 });
 
 test('site_id must be an integer', function () {
@@ -162,7 +161,7 @@ test('building_id is optional', function () {
     Livewire::test(RoomLivewireCreate::class)
     ->set('building_id', '')
     ->call('store')
-    ->assertHasNoErrors(['building_id']);;
+    ->assertHasNoErrors(['building_id']);
 });
 
 test('building_id must be an integer', function () {
@@ -201,7 +200,7 @@ test('floor_id is required', function () {
     Livewire::test(RoomLivewireCreate::class)
     ->set('floor_id', '')
     ->call('store')
-    ->assertHasErrors(['floor_id' => 'required']);;
+    ->assertHasErrors(['floor_id' => 'required']);
 });
 
 test('floor_id must be an integer', function () {

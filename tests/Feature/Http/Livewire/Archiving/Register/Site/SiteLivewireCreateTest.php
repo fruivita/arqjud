@@ -12,7 +12,6 @@ use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
-
 use function Pest\Laravel\get;
 
 beforeEach(function () {
@@ -88,7 +87,7 @@ test('description is optional', function () {
     Livewire::test(SiteLivewireCreate::class)
     ->set('site.description', '')
     ->call('store')
-    ->assertHasNoErrors(['site.description']);;
+    ->assertHasNoErrors(['site.description']);
 });
 
 test('description must be an string', function () {

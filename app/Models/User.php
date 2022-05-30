@@ -105,6 +105,7 @@ class User extends CorporateUser implements LdapAuthenticatable
      * Delegate role to the informed user.
      *
      * @param \App\Models\User $delegated
+     *
      * @return bool
      */
     public function delegate(User $delegated)

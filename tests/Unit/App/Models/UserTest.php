@@ -224,7 +224,7 @@ test('method delegate grant to the informed user the same role', function () {
     ]);
 
     $user_bar = User::factory()->create([
-        'role_id' => Role::OBSERVER
+        'role_id' => Role::OBSERVER,
     ]);
 
     $user_foo->delegate($user_bar);

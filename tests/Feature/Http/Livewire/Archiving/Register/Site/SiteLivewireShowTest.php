@@ -7,7 +7,6 @@
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Site\SiteLivewireShow;
 use App\Models\Building;
-use App\Models\Permission;
 use App\Models\Site;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;

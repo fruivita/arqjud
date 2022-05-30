@@ -59,7 +59,6 @@ class FloorLivewireShow extends Component
         $this->floor->load('building.site');
     }
 
-
     /**
      * Computed property to list paged rooms.
      *

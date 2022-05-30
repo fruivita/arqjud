@@ -13,7 +13,6 @@ use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
-
 use function Pest\Laravel\get;
 
 beforeEach(function () {
@@ -76,7 +75,7 @@ test('name and site_id must be unique', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
     $site = Site::factory()->create();
-    Building::factory()->create(['name' => 'foo', 'site_id' => $site->id ]);
+    Building::factory()->create(['name' => 'foo', 'site_id' => $site->id]);
 
     Livewire::test(BuildingLivewireCreate::class)
     ->set('building.name', 'foo')
@@ -91,7 +90,7 @@ test('description is optional', function () {
     Livewire::test(BuildingLivewireCreate::class)
     ->set('building.description', '')
     ->call('store')
-    ->assertHasNoErrors(['building.description']);;
+    ->assertHasNoErrors(['building.description']);
 });
 
 test('description must be a string', function () {
