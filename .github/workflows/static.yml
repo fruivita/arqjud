@@ -19,28 +19,6 @@ concurrency:
 
 jobs:
 
-  php-cs-fixer:
-    runs-on: ubuntu-latest
-
-    name: PHP Coding Standards Fixer
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
-
-      - name: Run PHP CS Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
-        with:
-          args: -v --config=.php-cs-fixer.dist.php --allow-risky=yes
-
-      - name: Auto Commit
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'style: code pattern with php-cs-fixer'
-          branch: ${{ github.head_ref }}
-
   phpstan:
     runs-on: ubuntu-latest
 
@@ -62,3 +40,25 @@ jobs:
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse --ansi --memory-limit 1G --error-format=github --debug
+
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+
+    name: PHP Coding Standards Fixer
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Run PHP CS Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: -v --config=.php-cs-fixer.dist.php --allow-risky=yes
+
+      - name: Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'style: code pattern with php-cs-fixer'
+          branch: ${{ github.head_ref }}
