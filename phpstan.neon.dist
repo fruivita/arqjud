@@ -33,6 +33,10 @@ parameters:
     - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireIndex
     - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireIndex
     - App\Http\Livewire\Archiving\Register\Room\RoomLivewireIndex
+    - App\Http\Livewire\Archiving\Register\Site\SiteLivewireShow
+    - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireShow
+    - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireShow
+    - App\Http\Livewire\Archiving\Register\Room\RoomLivewireShow
     - Illuminate\Database\Eloquent\Model
     - LdapRecord\Models\ActiveDirectory\User
 
@@ -46,6 +50,7 @@ parameters:
       path: tests/*
     - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:[previous\|next]+\(\)#'
     - '#Call to an undefined method LdapRecord\\Models\\ActiveDirectory\\User\:\:can\(\)#'
+    - '#Call to an undefined method LdapRecord\\Models\\ActiveDirectory\\User\:\:delegate\(\)#'
 
   tmpDir: build/phpstan
 
