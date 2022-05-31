@@ -14,6 +14,7 @@ use App\Models\Room;
 use App\Models\Site;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -333,6 +334,33 @@ test('box.shelf must be between 1 and 1000', function () {
     ->assertHasErrors(['box.shelf' => 'between']);
 });
 
+test('description is optional', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->set('box.description', '')
+    ->call('update')
+    ->assertHasNoErrors(['box.description']);
+});
+
+test('description must be a string', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->set('box.description', ['foo'])
+    ->call('update')
+    ->assertHasErrors(['box.description' => 'string']);
+});
+
+test('description must be a maximum of 255 characters', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->set('box.description', Str::random(256))
+    ->call('update')
+    ->assertHasErrors(['box.description' => 'max']);
+});
+
 // Happy path
 test('renders edit box record component with specific permission', function () {
     grantPermission(PermissionType::BoxUpdate->value);
@@ -429,4 +457,29 @@ test('sites, buildings, floors and rooms are pre-selected according to the edit 
     ->assertCount('floors', 9)
     ->set('floor_id', $this->box->room->floor->id)
     ->assertCount('rooms', 5);
+});
+
+test('update a box record with specific permission', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    $room = Room::factory()->create();
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->set('box.year', 2000)
+    ->set('box.number', 55)
+    ->set('box.stand', 15)
+    ->set('box.shelf', 5)
+    ->set('box.description', 'foo bar')
+    ->set('box.room_id', $room->id)
+    ->call('update')
+    ->assertOk();
+
+    $this->box->load('room')->refresh();
+
+    expect($this->box->year)->toBe(2000)
+    ->and($this->box->number)->toBe(55)
+    ->and($this->box->stand)->toBe(15)
+    ->and($this->box->shelf)->toBe(5)
+    ->and($this->box->description)->toBe('foo bar')
+    ->and($this->box->room->id)->toBe($room->id);
 });

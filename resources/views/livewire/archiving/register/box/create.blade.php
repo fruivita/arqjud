@@ -131,6 +131,18 @@
                 </div>
 
 
+                <x-form.textarea
+                    wire:key="box-description"
+                    wire:model.defer="description"
+                    :error="$errors->first('description')"
+                    icon="blockquote-left"
+                    maxlength="255"
+                    :placeholder="__('About the box')"
+                    :text="__('Description')"
+                    :title="__('Describes the box')"
+                    withcounter/>
+
+
                 {{-- Site --}}
                 <div>
 

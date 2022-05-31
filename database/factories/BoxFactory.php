@@ -26,6 +26,7 @@ class BoxFactory extends Factory
             'year' => $this->faker->numberBetween(1900, 2020),
             'stand' => $this->faker->optional()->numerify('####'),
             'shelf' => $this->faker->optional()->numerify('##'),
+            'description' => $this->faker->optional()->sentence(),
             'room_id' => Room::factory(),
         ];
     }

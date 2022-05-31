@@ -14,6 +14,7 @@ use App\Models\Room;
 use App\Models\Site;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -371,6 +372,33 @@ test('shelf must be between 1 and 1000', function () {
     ->assertHasErrors(['shelf' => 'between']);
 });
 
+test('description is optional', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('description', '')
+    ->call('store')
+    ->assertHasNoErrors(['description']);
+});
+
+test('description must be a string', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('description', ['foo'])
+    ->call('store')
+    ->assertHasErrors(['description' => 'string']);
+});
+
+test('description must be a maximum of 255 characters', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class)
+    ->set('description', Str::random(256))
+    ->call('store')
+    ->assertHasErrors(['description' => 'max']);
+});
+
 test('volumes is required', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
@@ -557,12 +585,31 @@ test('creates the amount of boxes defined', function () {
     ->set('number', 55)
     ->set('stand', 15)
     ->set('shelf', 5)
+    ->set('description', 'foo bar')
     ->set('volumes', 1)
     ->set('room_id', $room->id)
     ->call('store')
     ->assertOk();
 
-    expect(Box::count())->toBe(10);
+    $boxes = Box::withCount('volumes')
+            ->with('room')
+            ->get();
+
+    $box = $boxes->random();
+
+    $first = $boxes->first();
+
+    $last = $boxes->last();
+
+    expect(Box::count())->toBe(10)
+    ->and($box->year)->toBe(2000)
+    ->and($first->number)->toBe(55)
+    ->and($last->number)->toBe(64)
+    ->and($box->stand)->toBe(15)
+    ->and($box->shelf)->toBe(5)
+    ->and($box->description)->toBe('foo bar')
+    ->and($box->volumes_count)->toBe(1)
+    ->and($box->room->id)->toBe($room->id);
 });
 
 test('creates the amount of volumes defined', function () {

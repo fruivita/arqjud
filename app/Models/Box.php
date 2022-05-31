@@ -18,7 +18,7 @@ class Box extends Model
 
     protected $table = 'boxes';
 
-    protected $fillable = ['year', 'number', 'stand', 'shelf'];
+    protected $fillable = ['year', 'number', 'stand', 'shelf', 'description'];
 
     /**
      * Relationship box (N:1) room.
@@ -191,6 +191,7 @@ class Box extends Model
                 'number' => $value,
                 'stand' => $template->stand,
                 'shelf' => $template->shelf,
+                'description' => $template->description,
                 'room_id' => $room->id,
             ];
         });

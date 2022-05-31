@@ -145,6 +145,13 @@ class BoxLivewireUpdate extends Component
                 'between:1,1000',
             ],
 
+            'box.description' => [
+                'bail',
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
             // 'volumes' => [
             //     'bail',
             //     'required',
@@ -170,6 +177,7 @@ class BoxLivewireUpdate extends Component
             'box.number' => __('Number'),
             'box.shelf' => __('Shelf'),
             'box.stand' => __('Stand'),
+            'box.description' => __('Description'),
         ];
     }
 

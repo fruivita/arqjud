@@ -59,6 +59,13 @@ class BoxLivewireCreate extends Component
     public $shelf;
 
     /**
+     * Description of the boxes.
+     *
+     * @var string|null
+     */
+    public $description;
+
+    /**
      * Number of box volumes.
      *
      * @var int
@@ -193,6 +200,13 @@ class BoxLivewireCreate extends Component
                 'between:1,1000',
             ],
 
+            'description' => [
+                'bail',
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
             'volumes' => [
                 'bail',
                 'required',
@@ -219,6 +233,7 @@ class BoxLivewireCreate extends Component
             'number' => __('Number'),
             'shelf' => __('Shelf'),
             'stand' => __('Stand'),
+            'description' => __('Description'),
             'volumes' => __('Volumes'),
         ];
     }
@@ -335,6 +350,7 @@ class BoxLivewireCreate extends Component
                 'number' => $this->number,
                 'stand' => $this->stand,
                 'shelf' => $this->shelf,
+                'description' => $this->description,
             ]),
             $this->amount(),
             $this->volumes(),

@@ -57,6 +57,15 @@
                 <x-table.heading>{{ __('Year') }}</x-table.heading>
 
 
+                <x-table.heading>{{ __('Stand') }}</x-table.heading>
+
+
+                <x-table.heading>{{ __('Shelf') }}</x-table.heading>
+
+
+                <x-table.heading>{{ __('Volumes') }}</x-table.heading>
+
+
                 <x-table.heading>{{ __('Site') }}</x-table.heading>
 
 
@@ -67,15 +76,6 @@
 
 
                 <x-table.heading>{{ __('Room') }}</x-table.heading>
-
-
-                <x-table.heading>{{ __('Stand') }}</x-table.heading>
-
-
-                <x-table.heading>{{ __('Shelf') }}</x-table.heading>
-
-
-                <x-table.heading>{{ __('Volumes') }}</x-table.heading>
 
 
                 <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
@@ -95,6 +95,15 @@
                         <x-table.cell>{{ $box->year }}</x-table.cell>
 
 
+                        <x-table.cell>{{ $box->stand }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $box->shelf }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $box->volumes_count }}</x-table.cell>
+
+
                         <x-table.cell>{{ $box->room->floor->building->site->name }}</x-table.cell>
 
 
@@ -105,15 +114,6 @@
 
 
                         <x-table.cell>{{ $box->room->number }}</x-table.cell>
-
-
-                        <x-table.cell>{{ $box->stand }}</x-table.cell>
-
-
-                        <x-table.cell>{{ $box->shelf }}</x-table.cell>
-
-
-                        <x-table.cell>{{ $box->volumes_count }}</x-table.cell>
 
 
                         <x-table.cell>

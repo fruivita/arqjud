@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->unsignedSmallInteger('year');
             $table->unsignedInteger('stand')->nullable();
             $table->unsignedInteger('shelf')->nullable();
+            $table->string('description', 255)->nullable();
             $table->timestamps();
 
             $table->unique([

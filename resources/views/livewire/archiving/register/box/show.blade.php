@@ -64,6 +64,26 @@
 
 
             <x-show-value
+                :key="__('Stand')"
+                :value="$box->stand"/>
+
+
+            <x-show-value
+                :key="__('Shelf')"
+                :value="$box->shelf"/>
+
+
+            <x-show-value
+                :key="__('Description')"
+                :value="$box->description"/>
+
+
+            <x-show-value
+                :key="__('Volumes')"
+                :value="$box->volumes_count"/>
+
+
+            <x-show-value
                 :key="__('Site')"
                 :value="$box->room->floor->building->site->name"/>
 
@@ -81,21 +101,6 @@
             <x-show-value
                 :key="__('Room')"
                 :value="$box->room->number"/>
-
-
-            <x-show-value
-                :key="__('Stand')"
-                :value="$box->stand"/>
-
-
-            <x-show-value
-                :key="__('Shelf')"
-                :value="$box->shelf"/>
-
-
-            <x-show-value
-                :key="__('Volumes')"
-                :value="$box->volumes_count"/>
 
 
             <div class="flex flex-col space-x-0 space-y-3 lg:flex-row lg:items-center lg:justify-end lg:space-x-3 lg:space-y-0">
