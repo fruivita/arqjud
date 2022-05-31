@@ -16,6 +16,61 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
+
+                <x-link-card
+                    icon="box2"
+                    :href="route('archiving.register.box.index')"
+                    :text="__('Manage boxes')"
+                    :title="__('Application boxes management')"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Site::class)
+
+                <x-link-card
+                    icon="pin-map"
+                    :href="route('archiving.register.site.index')"
+                    :text="__('Manage sites')"
+                    :title="__('Application sites management')"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Building::class)
+
+                <x-link-card
+                    icon="building"
+                    :href="route('archiving.register.building.index')"
+                    :text="__('Manage buildings')"
+                    :title="__('Application buildings management')"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Floor::class)
+
+                <x-link-card
+                    icon="layers"
+                    :href="route('archiving.register.floor.index')"
+                    :text="__('Manage floors')"
+                    :title="__('Application floors management')"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Room::class)
+
+                <x-link-card
+                    icon="door-closed"
+                    :href="route('archiving.register.room.index')"
+                    :text="__('Manage rooms')"
+                    :title="__('Application rooms management')"/>
+
+            @endcan
+
+
             @can(\App\Enums\Policy::View->value, \App\Models\Configuration::class)
 
                 <x-link-card
