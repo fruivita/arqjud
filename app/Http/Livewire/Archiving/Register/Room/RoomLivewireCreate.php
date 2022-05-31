@@ -217,9 +217,6 @@ class RoomLivewireCreate extends Component
 
         $saved = $this->room->save();
 
-        $this->room = $this->blankModel();
-        $this->reset(['site_id', 'building_id', 'buildings', 'floor_id', 'floors']);
-
         $this->flashSelf($saved);
     }
 }

@@ -180,9 +180,6 @@ class FloorLivewireCreate extends Component
 
         $saved = $this->floor->save();
 
-        $this->floor = $this->blankModel();
-        $this->reset(['site_id', 'building_id', 'buildings']);
-
         $this->flashSelf($saved);
     }
 }
