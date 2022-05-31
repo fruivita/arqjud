@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="__('Boxes')">
+<x-page :header="__('New boxes')">
 
     <x-container class="space-y-6">
 

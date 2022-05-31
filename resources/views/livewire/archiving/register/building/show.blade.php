@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="$building->name">
+<x-page :header="__('Building') . ': ' . $building->name">
 
     <x-container class="space-y-6">
 

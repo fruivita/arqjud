@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="__('Route documentation')">
+<x-page :header="__('New routes documentation')">
 
     <x-container class="space-y-6">
 

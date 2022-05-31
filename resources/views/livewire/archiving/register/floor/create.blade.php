@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="__('Create a new floor')">
+<x-page :header="__('New floors')">
 
     <x-container class="space-y-6">
 

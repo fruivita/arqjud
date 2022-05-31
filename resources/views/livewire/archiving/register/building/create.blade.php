@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="__('Create a new building')">
+<x-page :header="__('New buildings')">
 
     <x-container class="space-y-6">
 

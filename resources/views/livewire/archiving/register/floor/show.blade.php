@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="$floor->number">
+<x-page :header="__('Floor') . ': ' . $floor->number">
 
     <x-container class="space-y-6">
 
