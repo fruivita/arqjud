@@ -50,18 +50,6 @@
 
         <x-menu.group :name="__('Register')">
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
-
-                <x-menu.link
-                    class="{{ request()->routeIs('archiving.register.box.*') ? 'active': '' }}"
-                    icon="box2"
-                    :href="route('archiving.register.box.index')"
-                    :text="__('Boxes')"
-                    :title="__('Boxes management')"/>
-
-            @endcan
-
-
             @can(\App\Enums\Policy::ViewAny->value, \App\Models\Site::class)
 
                 <x-menu.link
@@ -106,6 +94,18 @@
                     :href="route('archiving.register.room.index')"
                     :text="__('Rooms')"
                     :title="__('Rooms management')"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
+
+                <x-menu.link
+                    class="{{ request()->routeIs('archiving.register.box.*') ? 'active': '' }}"
+                    icon="box2"
+                    :href="route('archiving.register.box.index')"
+                    :text="__('Boxes')"
+                    :title="__('Boxes management')"/>
 
             @endcan
 
