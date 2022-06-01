@@ -21,7 +21,7 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->box = Box::factory()->create(['year' => 2020, 'number' => 100]);
+    $this->box = Box::factory()->create();
 
     login('foo');
 });

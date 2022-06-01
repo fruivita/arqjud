@@ -13,7 +13,7 @@ use Database\Seeders\RoleSeeder;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
-beforeEach(function () {
+(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
     login('foo');

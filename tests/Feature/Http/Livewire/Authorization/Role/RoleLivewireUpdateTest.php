@@ -19,7 +19,9 @@ use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
+
     $this->role = Role::factory()->create(['name' => 'foo', 'description' => 'bar']);
+
     login('foo');
 });
 

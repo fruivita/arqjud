@@ -19,6 +19,7 @@ use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
+
     $this->permission = Permission::factory()->create(['name' => 'foo', 'description' => 'bar']);
 
     login('foo');

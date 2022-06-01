@@ -15,7 +15,8 @@ use function Pest\Laravel\get;
 
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
-    $this->role = Role::factory()->create(['name' => 'foo', 'description' => 'bar']);
+
+    $this->role = Role::factory()->create();
 
     login('foo');
 });

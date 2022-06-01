@@ -15,7 +15,8 @@ use function Pest\Laravel\get;
 
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
-    $this->permission = Permission::factory()->create(['name' => 'foo', 'description' => 'bar']);
+
+    $this->permission = Permission::factory()->create();
 
     login('foo');
 });

@@ -17,7 +17,9 @@ use function Pest\Laravel\get;
 
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
+
     $this->doc = Documentation::factory()->create(['app_route_name' => 'administration.log.index']);
+
     login('foo');
 });
 

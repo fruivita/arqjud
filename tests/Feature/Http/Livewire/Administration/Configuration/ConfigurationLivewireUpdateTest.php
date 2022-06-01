@@ -18,6 +18,7 @@ use function Pest\Laravel\get;
 
 beforeEach(function () {
     $this->seed([ConfigurationSeeder::class, DepartmentSeeder::class, RoleSeeder::class]);
+
     login('foo');
 });
 
