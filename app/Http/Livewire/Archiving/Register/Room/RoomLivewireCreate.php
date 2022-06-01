@@ -187,7 +187,7 @@ class RoomLivewireCreate extends Component
 
         $this->validateOnly('site_id');
 
-        $this->buildings = Building::where('site_id', $this->site_id)->get();
+        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
     }
 
     /**
@@ -201,7 +201,7 @@ class RoomLivewireCreate extends Component
 
         $this->validateOnly('building_id');
 
-        $this->floors = Floor::where('building_id', $this->building_id)->get();
+        $this->floors = Floor::where('building_id', $this->building_id)->defaultOrder()->get();
     }
 
     /**

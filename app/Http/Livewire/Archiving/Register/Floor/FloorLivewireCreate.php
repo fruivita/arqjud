@@ -164,7 +164,7 @@ class FloorLivewireCreate extends Component
 
         $this->validateOnly('site_id');
 
-        $this->buildings = Building::where('site_id', $this->site_id)->get();
+        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
     }
 
     /**
