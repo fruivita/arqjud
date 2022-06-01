@@ -73,7 +73,7 @@
                 </x-form.select>
 
 
-                <div class="flex flex-col space-x-0 space-y-3 lg:flex-row lg:items-center lg:justify-end lg:space-x-3 lg:space-y-0">
+                <x-button-group>
 
                     <x-feedback.inline/>
 
@@ -93,7 +93,7 @@
                         :text="__('Buildings')"
                         :title="__('Show all records')"/>
 
-                </div>
+                </x-button-group>
 
             </div>
 

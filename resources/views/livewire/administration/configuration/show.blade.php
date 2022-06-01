@@ -24,9 +24,10 @@
                 :value="$configuration->superadmin"/>
 
 
-            @can(\App\Enums\Policy::Update->value, \App\Models\Configuration::class)
+            <x-button-group>
 
-                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-end">
+                @can(\App\Enums\Policy::Update->value, \App\Models\Configuration::class)
+
 
                     <x-link-button
                         class="btn-do"
@@ -35,9 +36,9 @@
                         :text="__('Edit')"
                         :title="__('Edit the record')"/>
 
-                </div>
+                @endcan
 
-            @endcan
+            </x-button-group>
 
         </div>
 

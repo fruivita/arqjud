@@ -108,7 +108,8 @@
 
             </div>
 
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-end">
+
+            <x-button-group>
 
                 <x-link-button
                     class="btn-do"
@@ -117,7 +118,7 @@
                     :text="__('Permissions')"
                     :title="__('Show all records')"/>
 
-            </div>
+            </x-button-group>
 
         </div>
 
