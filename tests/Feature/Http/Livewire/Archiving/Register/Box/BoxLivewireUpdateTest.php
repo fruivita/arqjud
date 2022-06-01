@@ -43,7 +43,7 @@ test('authenticated but without specific permission, cannot access box edit rout
     ->assertForbidden();
 });
 
-test('cannot render edit box record component without specific permission', function () {
+test('cannot render box record edit component without specific permission', function () {
     Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
     ->assertForbidden();
 });

@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="__('Edit the box') . ': ' . $box->name()">
+<x-page :header="__('Edit the box')">
 
     <x-container class="space-y-6">
 
