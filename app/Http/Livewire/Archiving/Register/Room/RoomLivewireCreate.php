@@ -64,13 +64,6 @@ class RoomLivewireCreate extends Component
     public ?Collection $floors = null;
 
     /**
-     * Selected floor id.
-     *
-     * @var int|null
-     */
-    public $floor_id = null;
-
-    /**
      * Rules for validation of inputs.
      *
      * @return array<string, mixed>
@@ -83,7 +76,7 @@ class RoomLivewireCreate extends Component
                 'required',
                 'integer',
                 'between:1,100000',
-                "unique:rooms,number,null,id,floor_id,{$this->floor_id}",
+                "unique:rooms,number,null,id,floor_id,{$this->room->floor_id}",
             ],
 
             'room.description' => [
@@ -107,7 +100,7 @@ class RoomLivewireCreate extends Component
                 'exists:buildings,id',
             ],
 
-            'floor_id' => [
+            'room.floor_id' => [
                 'bail',
                 'required',
                 'integer',
@@ -128,7 +121,7 @@ class RoomLivewireCreate extends Component
             'room.description' => __('Description'),
             'site_id' => __('Site'),
             'building_id' => __('Building'),
-            'floor_id' => __('Floor'),
+            'room.floor_id' => __('Floor'),
         ];
     }
 
@@ -183,7 +176,8 @@ class RoomLivewireCreate extends Component
      */
     public function updatedSiteId()
     {
-        $this->reset(['building_id', 'buildings', 'floor_id', 'floors']);
+        $this->reset(['building_id', 'buildings', 'floors']);
+        $this->room->floor_id = null;
 
         $this->validateOnly('site_id');
 
@@ -197,7 +191,8 @@ class RoomLivewireCreate extends Component
      */
     public function updatedBuildingId()
     {
-        $this->reset(['floor_id', 'floors']);
+        $this->reset(['floors']);
+        $this->room->floor_id = null;
 
         $this->validateOnly('building_id');
 
@@ -212,8 +207,6 @@ class RoomLivewireCreate extends Component
     public function store()
     {
         $this->validate();
-
-        $this->room->floor_id = $this->floor_id;
 
         $saved = $this->room->save();
 

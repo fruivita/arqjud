@@ -254,7 +254,7 @@
                                 wire:key="rooms-{{ $floor_id }}"
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
-                                wire:model="box.room_id"
+                                wire:model.defer="box.room_id"
                                 :error="$errors->first('box.room_id')"
                                 icon="door-closed"
                                 required

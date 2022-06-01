@@ -193,18 +193,6 @@ test('box.room_id must previously exist in the database', function () {
     ->assertHasErrors(['box.room_id' => 'exists']);
 });
 
-test('box.room_id is validated in real time', function () {
-    grantPermission(PermissionType::BoxUpdate->value);
-
-    $room = Room::factory()->create();
-
-    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
-    ->set('box.room_id', $room->id)
-    ->assertHasNoErrors()
-    ->set('box.room_id', 'foo')
-    ->assertHasErrors(['box.room_id' => 'integer']);
-});
-
 test('box.year is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 

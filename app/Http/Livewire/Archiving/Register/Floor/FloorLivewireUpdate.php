@@ -161,6 +161,7 @@ class FloorLivewireUpdate extends Component
     public function updatedSiteId()
     {
         $this->reset(['buildings']);
+        $this->floor->building_id = null;
 
         $this->validateOnly('site_id');
 

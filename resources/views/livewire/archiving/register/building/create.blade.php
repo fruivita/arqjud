@@ -46,8 +46,8 @@
 
                 <x-form.select
                     wire:key="site"
-                    wire:model.defer="site_id"
-                    :error="$errors->first('site_id')"
+                    wire:model.defer="building.site_id"
+                    :error="$errors->first('building.site_id')"
                     icon="pin-map"
                     required
                     :text="__('Site')"

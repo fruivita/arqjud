@@ -126,9 +126,9 @@
 
                         <x-form.select
                             wire:key="floors-{{ $building_id }}"
-                            wire:model.defer="floor_id"
+                            wire:model.defer="room.floor_id"
                             class="w-full"
-                            :error="$errors->first('floor_id')"
+                            :error="$errors->first('room.floor_id')"
                             icon="layers"
                             required
                             :text="__('Floor')"

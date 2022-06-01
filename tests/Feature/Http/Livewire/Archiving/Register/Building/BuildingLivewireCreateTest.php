@@ -79,7 +79,7 @@ test('name and site_id must be unique', function () {
 
     Livewire::test(BuildingLivewireCreate::class)
     ->set('building.name', 'foo')
-    ->set('site_id', $site->id)
+    ->set('building.site_id', $site->id)
     ->call('store')
     ->assertHasErrors(['building.name' => 'unique']);
 });
@@ -115,27 +115,27 @@ test('site_id is required', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
     Livewire::test(BuildingLivewireCreate::class)
-    ->set('site_id', '')
+    ->set('building.site_id', '')
     ->call('store')
-    ->assertHasErrors(['site_id' => 'required']);
+    ->assertHasErrors(['building.site_id' => 'required']);
 });
 
 test('site_id must be an integer', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
     Livewire::test(BuildingLivewireCreate::class)
-    ->set('site_id', 'foo')
+    ->set('building.site_id', 'foo')
     ->call('store')
-    ->assertHasErrors(['site_id' => 'integer']);
+    ->assertHasErrors(['building.site_id' => 'integer']);
 });
 
 test('site_id must previously exist in the database', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
     Livewire::test(BuildingLivewireCreate::class)
-    ->set('site_id', 10)
+    ->set('building.site_id', 10)
     ->call('store')
-    ->assertHasErrors(['site_id' => 'exists']);
+    ->assertHasErrors(['building.site_id' => 'exists']);
 });
 
 // Happy path
@@ -154,7 +154,7 @@ test('emits feedback event when creates a building record', function () {
 
     Livewire::test(BuildingLivewireCreate::class)
     ->set('building.name', 'name')
-    ->set('site_id', $site->id)
+    ->set('building.site_id', $site->id)
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
@@ -178,7 +178,7 @@ test('creates a building record with specific permission', function () {
     Livewire::test(BuildingLivewireCreate::class)
     ->set('building.name', 'foo')
     ->set('building.description', 'foo bar')
-    ->set('site_id', $site->id)
+    ->set('building.site_id', $site->id)
     ->call('store')
     ->assertOk();
 

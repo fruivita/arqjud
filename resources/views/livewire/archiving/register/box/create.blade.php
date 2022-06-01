@@ -57,8 +57,8 @@
 
                     <x-form.input
                         wire:key="box-year"
-                        wire:model.lazy="year"
-                        :error="$errors->first('year')"
+                        wire:model.lazy="box.year"
+                        :error="$errors->first('box.year')"
                         icon="calendar-range"
                         min="1900"
                         :max="now()->format('Y')"
@@ -71,11 +71,11 @@
 
                     <x-form.input
                         wire:key="box-number"
-                        wire:model.lazy="number"
+                        wire:model.lazy="box.number"
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
-                        wire:target="year"
-                        :error="$errors->first('number')"
+                        wire:target="box.year"
+                        :error="$errors->first('box.number')"
                         icon="tag"
                         min="1"
                         :placeholder="__('Only numbers')"
@@ -91,8 +91,8 @@
 
                     <x-form.input
                         wire:key="box-stand"
-                        wire:model.defer="stand"
-                        :error="$errors->first('stand')"
+                        wire:model.defer="box.stand"
+                        :error="$errors->first('box.stand')"
                         icon="bookshelf"
                         min="1"
                         max="1000"
@@ -104,8 +104,8 @@
 
                     <x-form.input
                         wire:key="box-shelf"
-                        wire:model.defer="shelf"
-                        :error="$errors->first('shelf')"
+                        wire:model.defer="box.shelf"
+                        :error="$errors->first('box.shelf')"
                         icon="list-nested"
                         min="1"
                         max="1000"
@@ -133,8 +133,8 @@
 
                 <x-form.textarea
                     wire:key="box-description"
-                    wire:model.defer="description"
-                    :error="$errors->first('description')"
+                    wire:model.defer="box.description"
+                    :error="$errors->first('box.description')"
                     icon="blockquote-left"
                     maxlength="255"
                     :placeholder="__('About the box')"
@@ -269,8 +269,8 @@
                                 wire:key="rooms-{{ $floor_id }}"
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
-                                wire:model="room_id"
-                                :error="$errors->first('room_id')"
+                                wire:model.defer="box.room_id"
+                                :error="$errors->first('box.room_id')"
                                 icon="door-closed"
                                 required
                                 :text="__('Room')"

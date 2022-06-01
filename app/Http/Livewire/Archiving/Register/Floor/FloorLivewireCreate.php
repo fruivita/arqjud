@@ -49,13 +49,6 @@ class FloorLivewireCreate extends Component
     public ?Collection $buildings = null;
 
     /**
-     * Selected building id.
-     *
-     * @var int|null
-     */
-    public $building_id = null;
-
-    /**
      * Rules for validation of inputs.
      *
      * @return array<string, mixed>
@@ -68,7 +61,7 @@ class FloorLivewireCreate extends Component
                 'required',
                 'integer',
                 'between:-100,300',
-                "unique:floors,number,null,id,building_id,{$this->building_id}",
+                "unique:floors,number,null,id,building_id,{$this->floor->building_id}",
             ],
 
             'floor.description' => [
@@ -85,7 +78,7 @@ class FloorLivewireCreate extends Component
                 'exists:sites,id',
             ],
 
-            'building_id' => [
+            'floor.building_id' => [
                 'bail',
                 'required',
                 'integer',
@@ -105,7 +98,7 @@ class FloorLivewireCreate extends Component
             'floor.number' => __('Floor'),
             'floor.description' => __('Description'),
             'site_id' => __('Site'),
-            'building_id' => __('Building'),
+            'floor.building_id' => __('Building'),
         ];
     }
 
@@ -160,7 +153,8 @@ class FloorLivewireCreate extends Component
      */
     public function updatedSiteId()
     {
-        $this->reset(['building_id', 'buildings']);
+        $this->reset(['buildings']);
+        $this->floor->building_id = null;
 
         $this->validateOnly('site_id');
 
@@ -175,8 +169,6 @@ class FloorLivewireCreate extends Component
     public function store()
     {
         $this->validate();
-
-        $this->floor->building_id = $this->building_id;
 
         $saved = $this->floor->save();
 

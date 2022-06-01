@@ -87,8 +87,8 @@
 
                         <x-form.select
                             wire:key="buildings-{{ $site_id }}"
-                            wire:model.defer="building_id"
-                            :error="$errors->first('building_id')"
+                            wire:model.defer="floor.building_id"
+                            :error="$errors->first('floor.building_id')"
                             icon="building"
                             required
                             :text="__('Building')"

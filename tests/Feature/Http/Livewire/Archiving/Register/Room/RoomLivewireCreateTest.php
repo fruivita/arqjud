@@ -84,7 +84,7 @@ test('number and floor_id must be unique', function () {
 
     Livewire::test(RoomLivewireCreate::class)
     ->set('room.number', 1)
-    ->set('floor_id', $floor->id)
+    ->set('room.floor_id', $floor->id)
     ->call('store')
     ->assertHasErrors(['room.number' => 'unique']);
 });
@@ -198,27 +198,27 @@ test('floor_id is required', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
     Livewire::test(RoomLivewireCreate::class)
-    ->set('floor_id', '')
+    ->set('room.floor_id', '')
     ->call('store')
-    ->assertHasErrors(['floor_id' => 'required']);
+    ->assertHasErrors(['room.floor_id' => 'required']);
 });
 
 test('floor_id must be an integer', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
     Livewire::test(RoomLivewireCreate::class)
-    ->set('floor_id', 'foo')
+    ->set('room.floor_id', 'foo')
     ->call('store')
-    ->assertHasErrors(['floor_id' => 'integer']);
+    ->assertHasErrors(['room.floor_id' => 'integer']);
 });
 
 test('floor_id must previously exist in the database', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
     Livewire::test(RoomLivewireCreate::class)
-    ->set('floor_id', 10)
+    ->set('room.floor_id', 10)
     ->call('store')
-    ->assertHasErrors(['floor_id' => 'exists']);
+    ->assertHasErrors(['room.floor_id' => 'exists']);
 });
 
 // Happy path
@@ -237,7 +237,7 @@ test('emits feedback event when creates a room record', function () {
 
     Livewire::test(RoomLivewireCreate::class)
     ->set('room.number', 1)
-    ->set('floor_id', $floor->id)
+    ->set('room.floor_id', $floor->id)
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
@@ -285,7 +285,7 @@ test('creates a room record with specific permission', function () {
     Livewire::test(RoomLivewireCreate::class)
     ->set('room.number', 1)
     ->set('room.description', 'foo bar')
-    ->set('floor_id', $floor->id)
+    ->set('room.floor_id', $floor->id)
     ->call('store')
     ->assertOk();
 

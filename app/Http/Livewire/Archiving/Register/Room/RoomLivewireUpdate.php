@@ -187,6 +187,7 @@ class RoomLivewireUpdate extends Component
     public function updatedSiteId()
     {
         $this->reset(['building_id', 'buildings', 'floors']);
+        $this->room->floor_id = null;
 
         $this->validateOnly('site_id');
 
@@ -201,6 +202,7 @@ class RoomLivewireUpdate extends Component
     public function updatedBuildingId()
     {
         $this->reset(['floors']);
+        $this->room->floor_id = null;
 
         $this->validateOnly('building_id');
 

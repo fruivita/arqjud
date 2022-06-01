@@ -83,7 +83,7 @@ test('number and building_id must be unique', function () {
 
     Livewire::test(FloorLivewireCreate::class)
     ->set('floor.number', 1)
-    ->set('building_id', $building->id)
+    ->set('floor.building_id', $building->id)
     ->call('store')
     ->assertHasErrors(['floor.number' => 'unique']);
 });
@@ -158,27 +158,27 @@ test('building_id is required', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
     Livewire::test(FloorLivewireCreate::class)
-    ->set('building_id', '')
+    ->set('floor.building_id', '')
     ->call('store')
-    ->assertHasErrors(['building_id' => 'required']);
+    ->assertHasErrors(['floor.building_id' => 'required']);
 });
 
 test('building_id must be an integer', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
     Livewire::test(FloorLivewireCreate::class)
-    ->set('building_id', 'foo')
+    ->set('floor.building_id', 'foo')
     ->call('store')
-    ->assertHasErrors(['building_id' => 'integer']);
+    ->assertHasErrors(['floor.building_id' => 'integer']);
 });
 
 test('building_id must previously exist in the database', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
     Livewire::test(FloorLivewireCreate::class)
-    ->set('building_id', 10)
+    ->set('floor.building_id', 10)
     ->call('store')
-    ->assertHasErrors(['building_id' => 'exists']);
+    ->assertHasErrors(['floor.building_id' => 'exists']);
 });
 
 // Happy path
@@ -197,7 +197,7 @@ test('emits feedback event when creates a floor record', function () {
 
     Livewire::test(FloorLivewireCreate::class)
     ->set('floor.number', 1)
-    ->set('building_id', $building->id)
+    ->set('floor.building_id', $building->id)
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
@@ -233,7 +233,7 @@ test('creates a floor record with specific permission', function () {
     Livewire::test(FloorLivewireCreate::class)
     ->set('floor.number', 1)
     ->set('floor.description', 'foo bar')
-    ->set('building_id', $building->id)
+    ->set('floor.building_id', $building->id)
     ->call('store')
     ->assertOk();
 

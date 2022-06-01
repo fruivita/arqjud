@@ -244,6 +244,7 @@ class BoxLivewireUpdate extends Component
     public function updatedSiteId()
     {
         $this->reset(['building_id', 'buildings', 'floor_id', 'floors', 'rooms']);
+        $this->box->room_id = null;
 
         $this->validateOnly('site_id');
 
@@ -258,6 +259,7 @@ class BoxLivewireUpdate extends Component
     public function updatedBuildingId()
     {
         $this->reset(['floor_id', 'floors', 'rooms']);
+        $this->box->room_id = null;
 
         $this->validateOnly('building_id');
 
@@ -272,20 +274,11 @@ class BoxLivewireUpdate extends Component
     public function updatedFloorId()
     {
         $this->reset(['rooms']);
+        $this->box->room_id = null;
 
         $this->validateOnly('floor_id');
 
         $this->rooms = Room::where('floor_id', $this->floor_id)->get();
-    }
-
-    /**
-     * Runs after a property called $room_id is updated.
-     *
-     * @return void
-     */
-    public function updatedBoxRoomId()
-    {
-        $this->validateOnly('box.room_id');
     }
 
     /**

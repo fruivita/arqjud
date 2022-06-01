@@ -34,13 +34,6 @@ class BuildingLivewireCreate extends Component
     public ?Collection $sites = null;
 
     /**
-     * Parent site id.
-     *
-     * @var int|null
-     */
-    public $site_id = null;
-
-    /**
      * Rules for validation of inputs.
      *
      * @return array<string, mixed>
@@ -53,7 +46,7 @@ class BuildingLivewireCreate extends Component
                 'required',
                 'string',
                 'max:100',
-                "unique:buildings,name,null,id,site_id,{$this->site_id}",
+                "unique:buildings,name,null,id,site_id,{$this->building->site_id}",
             ],
 
             'building.description' => [
@@ -63,7 +56,7 @@ class BuildingLivewireCreate extends Component
                 'max:255',
             ],
 
-            'site_id' => [
+            'building.site_id' => [
                 'bail',
                 'required',
                 'integer',
@@ -82,7 +75,7 @@ class BuildingLivewireCreate extends Component
         return [
             'building.name' => __('Name'),
             'building.description' => __('Description'),
-            'site_id' => __('Site'),
+            'building.site_id' => __('Site'),
         ];
     }
 
@@ -138,8 +131,6 @@ class BuildingLivewireCreate extends Component
     public function store()
     {
         $this->validate();
-
-        $this->building->site_id = $this->site_id;
 
         $saved = $this->building->save();
 
