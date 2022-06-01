@@ -106,7 +106,7 @@
                                     <x-link-button
                                         class="btn-do"
                                         icon="pencil-square"
-                                        {{-- href="{{ route('administration.doc.edit', $doc) }}" --}}
+                                        :href="route('archiving.register.room.edit', $room)"
                                         :text="__('Edit')"
                                         :title="__('Edit the record')"/>
 

@@ -16,15 +16,19 @@ use App\Http\Livewire\Archiving\Register\Box\BoxLivewireUpdate;
 use App\Http\Livewire\Archiving\Register\Building\BuildingLivewireCreate;
 use App\Http\Livewire\Archiving\Register\Building\BuildingLivewireIndex;
 use App\Http\Livewire\Archiving\Register\Building\BuildingLivewireShow;
+use App\Http\Livewire\Archiving\Register\Building\BuildingLivewireUpdate;
 use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireCreate;
 use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireIndex;
 use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireShow;
+use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireUpdate;
 use App\Http\Livewire\Archiving\Register\Room\RoomLivewireCreate;
 use App\Http\Livewire\Archiving\Register\Room\RoomLivewireIndex;
 use App\Http\Livewire\Archiving\Register\Room\RoomLivewireShow;
+use App\Http\Livewire\Archiving\Register\Room\RoomLivewireUpdate;
 use App\Http\Livewire\Archiving\Register\Site\SiteLivewireCreate;
 use App\Http\Livewire\Archiving\Register\Site\SiteLivewireIndex;
 use App\Http\Livewire\Archiving\Register\Site\SiteLivewireShow;
+use App\Http\Livewire\Archiving\Register\Site\SiteLivewireUpdate;
 use App\Http\Livewire\Authorization\Delegation\DelegationLivewireIndex;
 use App\Http\Livewire\Authorization\Permission\PermissionLivewireIndex;
 use App\Http\Livewire\Authorization\Permission\PermissionLivewireShow;
@@ -128,24 +132,28 @@ Route::middleware('auth')->group(function () {
                 Route::get('/', SiteLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Site::class);
                 Route::get('show/{site}', SiteLivewireShow::class)->name('show')->can(Policy::View->value, Site::class);
                 Route::get('create', SiteLivewireCreate::class)->name('create')->can(Policy::Create->value, Site::class);
+                Route::get('edit/{site}', SiteLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Site::class);
             });
 
             Route::prefix('predio')->name('building.')->group(function () {
                 Route::get('/', BuildingLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Building::class);
                 Route::get('show/{building}', BuildingLivewireShow::class)->name('show')->can(Policy::View->value, Building::class);
                 Route::get('create', BuildingLivewireCreate::class)->name('create')->can(Policy::Create->value, Building::class);
+                Route::get('edit/{building}', BuildingLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Building::class);
             });
 
             Route::prefix('andar')->name('floor.')->group(function () {
                 Route::get('/', FloorLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Floor::class);
                 Route::get('show/{floor}', FloorLivewireShow::class)->name('show')->can(Policy::View->value, Floor::class);
                 Route::get('create', FloorLivewireCreate::class)->name('create')->can(Policy::Create->value, Floor::class);
+                Route::get('edit/{floor}', FloorLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Floor::class);
             });
 
             Route::prefix('sala')->name('room.')->group(function () {
                 Route::get('/', RoomLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Room::class);
                 Route::get('show/{room}', RoomLivewireShow::class)->name('show')->can(Policy::View->value, Room::class);
                 Route::get('create', RoomLivewireCreate::class)->name('create')->can(Policy::Create->value, Room::class);
+                Route::get('edit/{room}', RoomLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Room::class);
             });
         });
     });
