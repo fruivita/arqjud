@@ -73,7 +73,7 @@
 
                         <x-table.cell>
 
-                            <div class="flex flex-col justify-center space-y-3">
+                            <x-action-button-group>
 
                                 @can(\App\Enums\Policy::DelegationDelete->value, [$user])
 
@@ -110,7 +110,7 @@
 
                                 @endcan
 
-                            </div>
+                            </x-action-button-group>
 
                         </x-table.cell>
 
