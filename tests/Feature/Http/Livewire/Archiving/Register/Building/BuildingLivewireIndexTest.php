@@ -6,8 +6,8 @@
 
 use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
-use App\Http\Livewire\Archiving\Register\Site\SiteLivewireIndex;
-use App\Models\Site;
+use App\Http\Livewire\Archiving\Register\Building\BuildingLivewireIndex;
+use App\Models\Building;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Livewire\Livewire;
@@ -24,80 +24,80 @@ afterEach(function () {
 });
 
 // Authorization
-test('cannot list site records without being authenticated', function () {
+test('cannot list building records without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.site.index'))
+    get(route('archiving.register.building.index'))
     ->assertRedirect(route('login'));
 });
 
-test('authenticated but without specific permission, cannot access site records listing route', function () {
-    get(route('archiving.register.site.index'))
+test('authenticated but without specific permission, cannot access building records listing route', function () {
+    get(route('archiving.register.building.index'))
     ->assertForbidden();
 });
 
-test('cannot render listing component from site records without specific permission', function () {
-    Livewire::test(SiteLivewireIndex::class)->assertForbidden();
+test('cannot render listing component from building records without specific permission', function () {
+    Livewire::test(BuildingLivewireIndex::class)->assertForbidden();
 });
 
-test('cannot set the site record which will be deleted without specific permission', function () {
-    grantPermission(PermissionType::SiteViewAny->value);
+test('cannot set the building record which will be deleted without specific permission', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
 
-    $site = Site::factory()->create();
+    $building = Building::factory()->create();
 
-    Livewire::test(SiteLivewireIndex::class)
+    Livewire::test(BuildingLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $site->id)
+    ->call('markToDelete', $building->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', new Site());
+    ->assertSet('deleting', new Building());
 });
 
-test('cannot delete a site record without specific permission', function () {
-    grantPermission(PermissionType::SiteViewAny->value);
+test('cannot delete a building record without specific permission', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
 
-    $site = Site::factory()->create(['name' => 'foo']);
+    $building = Building::factory()->create(['name' => 'foo']);
 
-    Livewire::test(SiteLivewireIndex::class)
+    Livewire::test(BuildingLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $site->id)
+    ->call('markToDelete', $building->id)
     ->call('destroy')
     ->assertForbidden();
 
-    expect(Site::where('name', 'foo')->exists())->toBeTrue();
+    expect(Building::where('name', 'foo')->exists())->toBeTrue();
 });
 
 // Rules
 test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::SiteViewAny->value);
+    grantPermission(PermissionType::BuildingViewAny->value);
 
-    Livewire::test(SiteLivewireIndex::class)
+    Livewire::test(BuildingLivewireIndex::class)
     ->set('per_page', 33) // possible values: 10/25/50/100
     ->assertHasErrors(['per_page' => 'in']);
 });
 
 // Happy path
-test('pagination returns the amount of expected site records', function () {
-    grantPermission(PermissionType::SiteViewAny->value);
+test('pagination returns the amount of expected building records', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
 
-    Site::factory(120)->create();
+    Building::factory(120)->create();
 
-    Livewire::test(SiteLivewireIndex::class)
-    ->assertCount('sites', 10)
+    Livewire::test(BuildingLivewireIndex::class)
+    ->assertCount('buildings', 10)
     ->set('per_page', 10)
-    ->assertCount('sites', 10)
+    ->assertCount('buildings', 10)
     ->set('per_page', 25)
-    ->assertCount('sites', 25)
+    ->assertCount('buildings', 25)
     ->set('per_page', 50)
-    ->assertCount('sites', 50)
+    ->assertCount('buildings', 50)
     ->set('per_page', 100)
-    ->assertCount('sites', 100);
+    ->assertCount('buildings', 100);
 });
 
 test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::SiteViewAny->value);
+    grantPermission(PermissionType::BuildingViewAny->value);
 
-    Livewire::test(SiteLivewireIndex::class)
+    Livewire::test(BuildingLivewireIndex::class)
     ->assertSessionMissing('per_page')
     ->set('per_page', 10)
     ->assertSessionHas('per_page', 10)
@@ -109,22 +109,22 @@ test('pagination creates the session variables', function () {
     ->assertSessionHas('per_page', 100);
 });
 
-test('lists site records with specific permission', function () {
-    grantPermission(PermissionType::SiteViewAny->value);
+test('lists building records with specific permission', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
 
-    get(route('archiving.register.site.index'))
+    get(route('archiving.register.building.index'))
     ->assertOk()
-    ->assertSeeLivewire(SiteLivewireIndex::class);
+    ->assertSeeLivewire(BuildingLivewireIndex::class);
 });
 
-test('emits feedback event when deleting a site record', function () {
-    grantPermission(PermissionType::SiteViewAny->value);
-    grantPermission(PermissionType::SiteDelete->value);
+test('emits feedback event when deleting a building record', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
+    grantPermission(PermissionType::BuildingDelete->value);
 
-    $site = Site::factory()->create(['name' => 'foo']);
+    $building = Building::factory()->create(['name' => 'foo']);
 
-    Livewire::test(SiteLivewireIndex::class)
-    ->call('markToDelete', $site->id)
+    Livewire::test(BuildingLivewireIndex::class)
+    ->call('markToDelete', $building->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -136,32 +136,32 @@ test('emits feedback event when deleting a site record', function () {
     ]);
 });
 
-test('defines the site record that will be deleted with specific permission', function () {
-    grantPermission(PermissionType::SiteViewAny->value);
-    grantPermission(PermissionType::SiteDelete->value);
+test('defines the building record that will be deleted with specific permission', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
+    grantPermission(PermissionType::BuildingDelete->value);
 
-    $site = Site::factory()->create(['name' => 'foo']);
+    $building = Building::factory()->create(['name' => 'foo']);
 
-    Livewire::test(SiteLivewireIndex::class)
-    ->call('markToDelete', $site->id)
+    Livewire::test(BuildingLivewireIndex::class)
+    ->call('markToDelete', $building->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $site->id);
+    ->assertSet('deleting.id', $building->id);
 });
 
-test('deletes a site record with specific permission', function () {
-    grantPermission(PermissionType::SiteViewAny->value);
-    grantPermission(PermissionType::SiteDelete->value);
+test('deletes a building record with specific permission', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
+    grantPermission(PermissionType::BuildingDelete->value);
 
-    $site = Site::factory()->create(['name' => 'foo']);
+    $building = Building::factory()->create(['name' => 'foo']);
 
-    expect(Site::where('name', 'foo')->exists())->toBeTrue();
+    expect(Building::where('name', 'foo')->exists())->toBeTrue();
 
-    Livewire::test(SiteLivewireIndex::class)
-    ->call('markToDelete', $site->id)
+    Livewire::test(BuildingLivewireIndex::class)
+    ->call('markToDelete', $building->id)
     ->assertOk()
-    ->call('destroy', $site->id)
+    ->call('destroy', $building->id)
     ->assertOk();
 
-    expect(Site::where('name', 'foo')->doesntExist())->toBeTrue();
+    expect(Building::where('name', 'foo')->doesntExist())->toBeTrue();
 });
