@@ -24,8 +24,8 @@ class BoxFactory extends Factory
         return [
             'number' => $this->faker->unique()->numberBetween(),
             'year' => $this->faker->numberBetween(1900, 2020),
-            'stand' => $this->faker->optional()->numerify('####'),
-            'shelf' => $this->faker->optional()->numerify('##'),
+            'stand' => $this->faker->optional()->numberBetween(1000, 9999),
+            'shelf' => $this->faker->optional()->numberBetween(10, 99),
             'description' => $this->faker->optional()->sentence(),
             'room_id' => Room::factory(),
         ];
