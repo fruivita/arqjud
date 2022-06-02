@@ -46,7 +46,7 @@ class Permission extends Model
     }
 
     /**
-     * Previous record.
+     * Previous record based on defaultOrder.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -59,7 +59,7 @@ class Permission extends Model
     }
 
     /**
-     * Next record.
+     * Next record based on defaultOrder.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

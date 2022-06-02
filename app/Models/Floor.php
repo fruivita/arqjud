@@ -49,7 +49,7 @@ class Floor extends Model
     }
 
     /**
-     * Previous record.
+     * Previous record based on defaultOrder.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -62,7 +62,7 @@ class Floor extends Model
     }
 
     /**
-     * Next record.
+     * Next record based on defaultOrder.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
