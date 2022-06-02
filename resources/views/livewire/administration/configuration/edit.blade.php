@@ -25,7 +25,10 @@
 
                     <x-form.input
                         wire:key="configuration-superadmin"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="configuration.superadmin"
+                        wire:target="update"
                         autocomplete="off"
                         :error="$errors->first('configuration.superadmin')"
                         icon="person"

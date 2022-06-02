@@ -59,7 +59,10 @@
 
                     <x-form.input
                         wire:key="box-year"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.year"
+                        wire:target="update"
                         :error="$errors->first('box.year')"
                         icon="calendar-range"
                         min="1900"
@@ -73,7 +76,10 @@
 
                     <x-form.input
                         wire:key="box-number"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.number"
+                        wire:target="box.year,update"
                         :error="$errors->first('box.number')"
                         icon="tag"
                         min="1"
@@ -90,7 +96,10 @@
 
                     <x-form.input
                         wire:key="box-stand"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.stand"
+                        wire:target="update"
                         :error="$errors->first('box.stand')"
                         icon="bookshelf"
                         min="1"
@@ -103,7 +112,10 @@
 
                     <x-form.input
                         wire:key="box-shelf"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.shelf"
+                        wire:target="update"
                         :error="$errors->first('box.shelf')"
                         icon="list-nested"
                         min="1"
@@ -118,7 +130,10 @@
 
                 <x-form.textarea
                     wire:key="box-description"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="box.description"
+                    wire:target="update"
                     :error="$errors->first('box.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -136,6 +151,7 @@
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model="site_id"
+                        wire:target="site_id,update"
                         :error="$errors->first('site_id')"
                         icon="pin-map"
                         required
@@ -174,6 +190,7 @@
                             wire:loading.delay.attr="disabled"
                             wire:loading.delay.class="cursor-not-allowed"
                             wire:model="building_id"
+                            wire:target="building_id,site_id,update"
                             :error="$errors->first('building_id')"
                             icon="building"
                             required
@@ -215,6 +232,7 @@
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model="floor_id"
+                                wire:target="floor_id,building_id,site_id,update"
                                 class="w-full"
                                 :error="$errors->first('floor_id')"
                                 icon="layers"
@@ -255,6 +273,7 @@
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model.defer="box.room_id"
+                                wire:target="floor_id,building_id,site_id,update"
                                 :error="$errors->first('box.room_id')"
                                 icon="door-closed"
                                 required

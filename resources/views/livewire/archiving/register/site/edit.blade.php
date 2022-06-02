@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="__('Edit the site')  . ': ' .  $site->name">
+<x-page :header="__('Edit the site')">
 
     <x-container class="space-y-6">
 
@@ -57,7 +57,10 @@
 
                 <x-form.input
                     wire:key="site-name"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="site.name"
+                    wire:target="update"
                     :error="$errors->first('site.name')"
                     icon="pin-map"
                     maxlength="100"
@@ -71,7 +74,10 @@
 
                 <x-form.textarea
                     wire:key="site-description"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="site.description"
+                    wire:target="update"
                     :error="$errors->first('site.description')"
                     icon="blockquote-left"
                     maxlength="255"

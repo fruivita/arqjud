@@ -20,7 +20,10 @@
 
                 <x-form.input
                     wire:key="building-name"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="building.name"
+                    wire:target="store"
                     :error="$errors->first('building.name')"
                     icon="building"
                     maxlength="100"
@@ -34,7 +37,10 @@
 
                 <x-form.textarea
                     wire:key="building-description"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="building.description"
+                    wire:target="store"
                     :error="$errors->first('building.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -46,7 +52,10 @@
 
                 <x-form.select
                     wire:key="site"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="building.site_id"
+                    wire:target="store"
                     :error="$errors->first('building.site_id')"
                     icon="pin-map"
                     required

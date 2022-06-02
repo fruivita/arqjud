@@ -20,7 +20,10 @@
 
                 <x-form.input
                     wire:key="doc-app-route-name"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="doc.app_route_name"
+                    wire:target="update"
                     :error="$errors->first('doc.app_route_name')"
                     icon="signpost-2"
                     maxlength="255"
@@ -34,7 +37,10 @@
 
                 <x-form.input
                     wire:key="doc-link"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="doc.doc_link"
+                    wire:target="update"
                     :error="$errors->first('doc.doc_link')"
                     icon="link"
                     maxlength="255"

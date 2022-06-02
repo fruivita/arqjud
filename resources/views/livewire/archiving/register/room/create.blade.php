@@ -20,7 +20,10 @@
 
                 <x-form.input
                     wire:key="room-number"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="room.number"
+                    wire:target="store"
                     :error="$errors->first('room.number')"
                     icon="layers"
                     min="1"
@@ -34,7 +37,10 @@
 
                 <x-form.textarea
                     wire:key="room-description"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="room.description"
+                    wire:target="store"
                     :error="$errors->first('room.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -52,6 +58,7 @@
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model="site_id"
+                        wire:target="site_id,store"
                         :error="$errors->first('site_id')"
                         icon="pin-map"
                         required
@@ -90,6 +97,7 @@
                             wire:loading.delay.attr="disabled"
                             wire:loading.delay.class="cursor-not-allowed"
                             wire:model="building_id"
+                            wire:target="building_id,site_id,store"
                             :error="$errors->first('building_id')"
                             icon="building"
                             required
@@ -126,7 +134,10 @@
 
                         <x-form.select
                             wire:key="floors-{{ $building_id }}"
+                            wire:loading.delay.attr="disabled"
+                            wire:loading.delay.class="cursor-not-allowed"
                             wire:model.defer="room.floor_id"
+                            wire:target="building_id,site_id,store"
                             class="w-full"
                             :error="$errors->first('room.floor_id')"
                             icon="layers"

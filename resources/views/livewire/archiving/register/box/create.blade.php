@@ -24,7 +24,10 @@
 
                         <x-form.input
                             wire:key="box-amount-can"
+                            wire:loading.delay.attr="disabled"
+                            wire:loading.delay.class="cursor-not-allowed"
                             wire:model.defer="amount"
+                            wire:target="store"
                             :error="$errors->first('amount')"
                             icon="collection"
                             min="1"
@@ -39,7 +42,10 @@
 
                         <x-form.input
                             wire:key="box-amount-cannot"
+                            wire:loading.delay.attr="disabled"
+                            wire:loading.delay.class="cursor-not-allowed"
                             wire:model.defer="amount"
+                            wire:target="store"
                             class="cursor-not-allowed"
                             disabled
                             :error="$errors->first('amount')"
@@ -57,7 +63,10 @@
 
                     <x-form.input
                         wire:key="box-year"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
                         wire:model.lazy="box.year"
+                        wire:target="store"
                         :error="$errors->first('box.year')"
                         icon="calendar-range"
                         min="1900"
@@ -71,10 +80,10 @@
 
                     <x-form.input
                         wire:key="box-number"
-                        wire:model.lazy="box.number"
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
-                        wire:target="box.year"
+                        wire:model.defer="box.number"
+                        wire:target="box.year,store"
                         :error="$errors->first('box.number')"
                         icon="tag"
                         min="1"
@@ -91,7 +100,10 @@
 
                     <x-form.input
                         wire:key="box-stand"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.stand"
+                        wire:target="store"
                         :error="$errors->first('box.stand')"
                         icon="bookshelf"
                         min="1"
@@ -104,7 +116,10 @@
 
                     <x-form.input
                         wire:key="box-shelf"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.shelf"
+                        wire:target="store"
                         :error="$errors->first('box.shelf')"
                         icon="list-nested"
                         min="1"
@@ -117,7 +132,10 @@
 
                     <x-form.input
                         wire:key="box-volumes"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="volumes"
+                        wire:target="store"
                         :error="$errors->first('volumes')"
                         icon="collection"
                         min="1"
@@ -133,7 +151,10 @@
 
                 <x-form.textarea
                     wire:key="box-description"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="box.description"
+                    wire:target="store"
                     :error="$errors->first('box.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -151,6 +172,7 @@
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model="site_id"
+                        wire:target="site_id,store"
                         :error="$errors->first('site_id')"
                         icon="pin-map"
                         required
@@ -189,6 +211,7 @@
                             wire:loading.delay.attr="disabled"
                             wire:loading.delay.class="cursor-not-allowed"
                             wire:model="building_id"
+                            wire:target="building_id,site_id,store"
                             :error="$errors->first('building_id')"
                             icon="building"
                             required
@@ -230,6 +253,7 @@
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model="floor_id"
+                                wire:target="floor_id,building_id,site_id,store"
                                 class="w-full"
                                 :error="$errors->first('floor_id')"
                                 icon="layers"
@@ -270,6 +294,7 @@
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model.defer="box.room_id"
+                                wire:target="floor_id,building_id,site_id,store"
                                 :error="$errors->first('box.room_id')"
                                 icon="door-closed"
                                 required

@@ -20,7 +20,10 @@
 
                 <x-form.input
                     wire:key="site-name"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="site.name"
+                    wire:target="store"
                     :error="$errors->first('site.name')"
                     icon="pin-map"
                     maxlength="100"
@@ -34,7 +37,10 @@
 
                 <x-form.textarea
                     wire:key="site-description"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="site.description"
+                    wire:target="store"
                     :error="$errors->first('site.description')"
                     icon="blockquote-left"
                     maxlength="255"

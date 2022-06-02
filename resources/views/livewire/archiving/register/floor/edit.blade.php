@@ -57,7 +57,10 @@
 
                 <x-form.input
                     wire:key="floor-number"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="floor.number"
+                    wire:target="update"
                     :error="$errors->first('floor.number')"
                     icon="layers"
                     min="-100"
@@ -71,7 +74,10 @@
 
                 <x-form.textarea
                     wire:key="floor-description"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="floor.description"
+                    wire:target="update"
                     :error="$errors->first('floor.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -87,6 +93,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model="site_id"
+                    wire:target="site_id,update"
                     :error="$errors->first('site_id')"
                     icon="pin-map"
                     required
@@ -120,7 +127,10 @@
 
                         <x-form.select
                             wire:key="buildings-{{ $site_id }}"
+                            wire:loading.delay.attr="disabled"
+                            wire:loading.delay.class="cursor-not-allowed"
                             wire:model.defer="floor.building_id"
+                            wire:target="site_id,update"
                             :error="$errors->first('floor.building_id')"
                             icon="building"
                             required

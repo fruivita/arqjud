@@ -28,7 +28,9 @@
 
                 <x-form.checkbox
                     wire:key="checkbox-corporate"
+                    wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
+                    wire:target="store"
                     wire:model.defer="import"
                     name="import"
                     :text="\App\Enums\ImportationType::Corporate->label()"

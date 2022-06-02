@@ -57,7 +57,10 @@
 
                 <x-form.input
                     wire:key="building-name"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="building.name"
+                    wire:target="update"
                     :error="$errors->first('building.name')"
                     icon="pin-map"
                     maxlength="100"
@@ -71,7 +74,10 @@
 
                 <x-form.textarea
                     wire:key="building-description"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="building.description"
+                    wire:target="update"
                     :error="$errors->first('building.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -83,7 +89,10 @@
 
                 <x-form.select
                     wire:key="building-site"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="building.site_id"
+                    wire:target="update"
                     :error="$errors->first('building.site_id')"
                     icon="pin-map"
                     required
