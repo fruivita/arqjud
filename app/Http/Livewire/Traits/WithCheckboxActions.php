@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Traits;
 
 use App\Enums\CheckboxAction;
+use Illuminate\Support\Collection;
 
 /**
  * Trait designed to be used in a livewire component that needs it.
@@ -177,7 +178,7 @@ trait WithCheckboxActions
      *
      * @return string[]
      */
-    private function toStandardArray($collection)
+    private function toStandardArray(Collection $collection)
     {
         return $collection
                 ->map(fn ($id) => (string) $id)

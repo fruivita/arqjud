@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\DocFactory;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +25,7 @@ class Documentation extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeDefaultOrder($query)
+    public function scopeDefaultOrder(Builder $query)
     {
         return $query->orderBy('app_route_name', 'asc');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,7 +44,7 @@ class Room extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeDefaultOrder($query)
+    public function scopeDefaultOrder(Builder $query)
     {
         return $query->orderBy('number', 'asc');
     }

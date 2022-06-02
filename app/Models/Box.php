@@ -60,7 +60,7 @@ class Box extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeDefaultOrder($query)
+    public function scopeDefaultOrder(Builder $query)
     {
         return $query
         ->orderBy('year', 'desc')

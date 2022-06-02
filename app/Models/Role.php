@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +55,7 @@ class Role extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeDefaultOrder($query)
+    public function scopeDefaultOrder(Builder $query)
     {
         return $query->orderBy('id', 'desc');
     }
@@ -66,7 +67,7 @@ class Role extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeAvaiableToAssign($query)
+    public function scopeAvaiableToAssign(Builder $query)
     {
         return $query->where('id', '<=', auth()->user()->role_id);
     }

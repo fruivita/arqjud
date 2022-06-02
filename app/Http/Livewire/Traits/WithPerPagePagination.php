@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Traits;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Livewire\WithPagination;
 
 /**
@@ -73,7 +74,7 @@ trait WithPerPagePagination
      *
      * @return void
      */
-    public function updatedPerPage($value)
+    public function updatedPerPage(string $value)
     {
         $this->validateOnly(
             field: 'per_page',
@@ -93,7 +94,7 @@ trait WithPerPagePagination
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function applyPagination($query)
+    public function applyPagination(Builder $query)
     {
         return $query->paginate(
             session()->get('per_page', $this->per_page)
