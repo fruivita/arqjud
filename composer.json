@@ -1,12 +1,12 @@
 {
     "name": "fruivita/arqjud",
-    "type": "project",
     "description": "Aplicação para controle de arquivo judicial.",
+    "license": "MIT",
+    "type": "project",
     "keywords": [
         "fruivita",
         "laravel"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Fábio Cassiano",
@@ -50,6 +50,8 @@
         "spatie/laravel-ignition": "^1.0",
         "spatie/pest-plugin-test-time": "^1.0"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "App\\": "app/",
@@ -63,6 +65,20 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
         }
     },
     "scripts": {
@@ -85,21 +101,5 @@
         "csfix": "vendor/bin/php-cs-fixer fix -v --config=.php-cs-fixer.dist.php --allow-risky=yes",
         "nointegration": "composer test -- --exclude-group=integration",
         "test": "vendor/bin/pest -d memory_limit=2048M --colors=always --stop-on-failure"
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": []
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        },
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "process-timeout": 0,
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
