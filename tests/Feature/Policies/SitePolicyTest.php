@@ -5,6 +5,8 @@
  */
 
 use App\Enums\PermissionType;
+use App\Models\Building;
+use App\Models\Site;
 use App\Policies\SitePolicy;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
@@ -39,7 +41,21 @@ test('user without permission cannot update a site', function () {
 });
 
 test('user without permission cannot delete a site', function () {
-    expect((new SitePolicy())->delete($this->user))->toBeFalse();
+    $site = Site::factory()->create();
+    $site->loadCount('buildings');
+
+    expect((new SitePolicy())->delete($this->user, $site))->toBeFalse();
+});
+
+test('site with buildings cannot be delete', function () {
+    grantPermission(PermissionType::SiteDelete->value);
+
+    $site = Site::factory()
+    ->has(Building::factory(2), 'buildings')
+    ->create();
+    $site->loadCount('buildings');
+
+    expect((new SitePolicy())->delete($this->user, $site))->toBeFalse();
 });
 
 // Happy path
@@ -175,17 +191,20 @@ test('permission to individually delete a site is cached for 5 seconds', functio
     testTime()->freeze();
     grantPermission(PermissionType::SiteDelete->value);
 
+    $site = Site::factory()->create();
+    $site->loadCount('buildings');
+
     $key = "{$this->user->username}-permissions";
 
     // no cache
-    expect((new SitePolicy())->delete($this->user))->toBeTrue()
+    expect((new SitePolicy())->delete($this->user, $site))->toBeTrue()
     ->and(cache()->missing($key))->toBeTrue();
 
     // create the permissions cache when making a request
     get(route('home'));
 
     // with cache
-    expect((new SitePolicy())->delete($this->user))->toBeTrue()
+    expect((new SitePolicy())->delete($this->user, $site))->toBeTrue()
     ->and(cache()->has($key))->toBeTrue();
 
     // revoke permission and move time to expiration limit
@@ -193,13 +212,13 @@ test('permission to individually delete a site is cached for 5 seconds', functio
     testTime()->addSeconds(5);
 
     // permission is still cached
-    expect((new SitePolicy())->delete($this->user))->toBeTrue()
+    expect((new SitePolicy())->delete($this->user, $site))->toBeTrue()
     ->and(cache()->has($key))->toBeTrue();
 
     // expires cache
     testTime()->addSeconds(1);
 
-    expect((new SitePolicy())->delete($this->user))->toBeFalse()
+    expect((new SitePolicy())->delete($this->user, $site))->toBeFalse()
     ->and(cache()->missing($key))->toBeTrue();
 });
 
@@ -226,3 +245,22 @@ test('user with permission can individually update a site', function () {
 
     expect((new SitePolicy())->update($this->user))->toBeTrue();
 });
+
+test('user with permission can individually delete a site', function () {
+    grantPermission(PermissionType::SiteDelete->value);
+
+    $site = Site::factory()->create();
+    $site->loadCount('buildings');
+
+    expect((new SitePolicy())->delete($this->user, $site))->toBeTrue();
+});
+
+test('site without buildings can be deleted', function () {
+    grantPermission(PermissionType::SiteDelete->value);
+
+    $site = Site::factory()->create();
+    $site->loadCount('buildings');
+
+    expect((new SitePolicy())->delete($this->user, $site))->toBeTrue();
+});
+

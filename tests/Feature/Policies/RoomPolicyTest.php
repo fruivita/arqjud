@@ -5,6 +5,8 @@
  */
 
 use App\Enums\PermissionType;
+use App\Models\Box;
+use App\Models\Room;
 use App\Policies\RoomPolicy;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
@@ -39,7 +41,21 @@ test('user without permission cannot update a room', function () {
 });
 
 test('user without permission cannot delete a room', function () {
-    expect((new RoomPolicy())->delete($this->user))->toBeFalse();
+    $room = Room::factory()->create();
+    $room->loadCount('boxes');
+
+    expect((new RoomPolicy())->delete($this->user, $room))->toBeFalse();
+});
+
+test('room with boxes cannot be delete', function () {
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()
+    ->has(Box::factory(2), 'boxes')
+    ->create();
+    $room->loadCount('boxes');
+
+    expect((new RoomPolicy())->delete($this->user, $room))->toBeFalse();
 });
 
 // Happy path
@@ -175,17 +191,20 @@ test('permission to individually delete a room is cached for 5 seconds', functio
     testTime()->freeze();
     grantPermission(PermissionType::RoomDelete->value);
 
+    $room = Room::factory()->create();
+    $room->loadCount('boxes');
+
     $key = "{$this->user->username}-permissions";
 
     // no cache
-    expect((new RoomPolicy())->delete($this->user))->toBeTrue()
+    expect((new RoomPolicy())->delete($this->user, $room))->toBeTrue()
     ->and(cache()->missing($key))->toBeTrue();
 
     // create the permissions cache when making a request
     get(route('home'));
 
     // with cache
-    expect((new RoomPolicy())->delete($this->user))->toBeTrue()
+    expect((new RoomPolicy())->delete($this->user, $room))->toBeTrue()
     ->and(cache()->has($key))->toBeTrue();
 
     // revoke permission and move time to expiration limit
@@ -193,13 +212,13 @@ test('permission to individually delete a room is cached for 5 seconds', functio
     testTime()->addSeconds(5);
 
     // permission is still cached
-    expect((new RoomPolicy())->delete($this->user))->toBeTrue()
+    expect((new RoomPolicy())->delete($this->user, $room))->toBeTrue()
     ->and(cache()->has($key))->toBeTrue();
 
     // expires cache
     testTime()->addSeconds(1);
 
-    expect((new RoomPolicy())->delete($this->user))->toBeFalse()
+    expect((new RoomPolicy())->delete($this->user, $room))->toBeFalse()
     ->and(cache()->missing($key))->toBeTrue();
 });
 
@@ -225,4 +244,22 @@ test('user with permission can individually update a room', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     expect((new RoomPolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually delete a room', function () {
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()->create();
+    $room->loadCount('boxes');
+
+    expect((new RoomPolicy())->delete($this->user, $room))->toBeTrue();
+});
+
+test('room without boxes can be deleted', function () {
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()->create();
+    $room->loadCount('boxes');
+
+    expect((new RoomPolicy())->delete($this->user, $room))->toBeTrue();
 });

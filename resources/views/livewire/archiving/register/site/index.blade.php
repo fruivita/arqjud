@@ -95,7 +95,7 @@
                                 @endcan
 
 
-                                @can(\App\Enums\Policy::Delete->value, \App\Models\Site::class)
+                                @can(\App\Enums\Policy::Delete->value, $site)
 
                                     <x-button
                                         wire:click="markToDelete({{ $site->id }})"
@@ -136,7 +136,7 @@
     {{ $sites->links() }}
 
 
-    @can(\App\Enums\Policy::Delete->value, \App\Models\Site::class)
+    @can(\App\Enums\Policy::Delete->value, $deleting)
 
         {{-- Modal to confirm the deletion --}}
         <x-confirmation-modal

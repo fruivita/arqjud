@@ -75,9 +75,7 @@ class RoomLivewireIndex extends Component
     public function getRoomsProperty()
     {
         return $this->applyPagination(
-            Room::withCount('boxes')
-            ->with('floor.building.site')
-            ->defaultOrder()
+            Room::with('floor.building.site')->defaultOrder()
         );
     }
 
@@ -102,7 +100,7 @@ class RoomLivewireIndex extends Component
      */
     public function markToDelete(Room $room)
     {
-        $this->authorize(Policy::Delete->value, Room::class);
+        $this->authorize(Policy::Delete->value, $room);
 
         $this->deleting = $room;
 
@@ -116,7 +114,7 @@ class RoomLivewireIndex extends Component
      */
     public function destroy()
     {
-        $this->authorize(Policy::Delete->value, Room::class);
+        $this->authorize(Policy::Delete->value, $this->deleting);
 
         $deleted = $this->deleting->delete();
 

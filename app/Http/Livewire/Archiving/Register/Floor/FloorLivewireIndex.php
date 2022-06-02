@@ -75,9 +75,7 @@ class FloorLivewireIndex extends Component
     public function getFloorsProperty()
     {
         return $this->applyPagination(
-            Floor::withCount('rooms')
-            ->with('building.site')
-            ->defaultOrder()
+            Floor::with('building.site')->defaultOrder()
         );
     }
 
@@ -102,7 +100,7 @@ class FloorLivewireIndex extends Component
      */
     public function markToDelete(Floor $floor)
     {
-        $this->authorize(Policy::Delete->value, Floor::class);
+        $this->authorize(Policy::Delete->value, $floor);
 
         $this->deleting = $floor;
 
@@ -116,7 +114,7 @@ class FloorLivewireIndex extends Component
      */
     public function destroy()
     {
-        $this->authorize(Policy::Delete->value, Floor::class);
+        $this->authorize(Policy::Delete->value, $this->deleting);
 
         $deleted = $this->deleting->delete();
 

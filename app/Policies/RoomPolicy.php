@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Enums\PermissionType;
+use App\Models\Room;
 use App\Models\User;
 
 /**
@@ -59,14 +60,17 @@ class RoomPolicy extends Policy
     }
 
     /**
-     * Determine whether the user can delete a model.
+     * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
+     * @param \App\Models\Room $room
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function delete(User $user)
+    public function delete(User $user, Room $room)
     {
-        return $this->hasAnyPermission($user, [PermissionType::RoomDelete]);
+        return
+            $room->boxes_count === 0
+            && $this->hasAnyPermission($user, [PermissionType::RoomDelete]);
     }
 }

@@ -7,6 +7,7 @@
 use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Site\SiteLivewireIndex;
+use App\Models\Building;
 use App\Models\Site;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
@@ -53,6 +54,22 @@ test('cannot set the site record which will be deleted without specific permissi
     ->assertSet('deleting', new Site());
 });
 
+test('cannot set the site record which will be deleted if he has buildings', function () {
+    grantPermission(PermissionType::SiteViewAny->value);
+    grantPermission(PermissionType::SiteDelete->value);
+
+    $site = Site::factory()
+    ->has(Building::factory(2), 'buildings')
+    ->create();
+
+    Livewire::test(SiteLivewireIndex::class)
+    ->assertOk()
+    ->call('markToDelete', $site->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', new Site());
+});
+
 test('cannot delete a site record without specific permission', function () {
     grantPermission(PermissionType::SiteViewAny->value);
 
@@ -65,6 +82,27 @@ test('cannot delete a site record without specific permission', function () {
     ->assertForbidden();
 
     expect(Site::where('name', 'foo')->exists())->toBeTrue();
+});
+
+test('cannot delete a site record if he has buildings', function () {
+    grantPermission(PermissionType::SiteViewAny->value);
+    grantPermission(PermissionType::SiteDelete->value);
+
+    $site = Site::factory()->create();
+
+    $component = Livewire::test(SiteLivewireIndex::class)
+    ->call('markToDelete', $site->id)
+    ->assertOk();
+
+    $buildings = Building::factory(2)->make();
+
+    $site->buildings()->saveMany($buildings);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Site::where('id', $site->id)->get())->toHaveCount(1);
 });
 
 // Rules
@@ -136,7 +174,7 @@ test('emits feedback event when deleting a site record', function () {
     ]);
 });
 
-test('defines the site record that will be deleted with specific permission', function () {
+test('defines the site record that will be deleted with specific permission and if it has no buildings', function () {
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 
@@ -149,7 +187,7 @@ test('defines the site record that will be deleted with specific permission', fu
     ->assertSet('deleting.id', $site->id);
 });
 
-test('deletes a site record with specific permission', function () {
+test('deletes a site record with specific permission if it has no buildings', function () {
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 

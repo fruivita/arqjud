@@ -75,9 +75,7 @@ class BuildingLivewireIndex extends Component
     public function getBuildingsProperty()
     {
         return $this->applyPagination(
-            Building::withCount('floors')
-            ->with('site')
-            ->defaultOrder()
+            Building::with('site')->defaultOrder()
         );
     }
 
@@ -102,7 +100,7 @@ class BuildingLivewireIndex extends Component
      */
     public function markToDelete(Building $building)
     {
-        $this->authorize(Policy::Delete->value, Building::class);
+        $this->authorize(Policy::Delete->value, $building);
 
         $this->deleting = $building;
 
@@ -116,7 +114,7 @@ class BuildingLivewireIndex extends Component
      */
     public function destroy()
     {
-        $this->authorize(Policy::Delete->value, Building::class);
+        $this->authorize(Policy::Delete->value, $this->deleting);
 
         $deleted = $this->deleting->delete();
 

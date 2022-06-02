@@ -113,7 +113,7 @@
                                 @endcan
 
 
-                                @can(\App\Enums\Policy::Delete->value, \App\Models\Room::class)
+                                @can(\App\Enums\Policy::Delete->value, $room)
 
                                     <x-button
                                         wire:click="markToDelete({{ $room->id }})"
@@ -154,7 +154,7 @@
     {{ $rooms->links() }}
 
 
-    @can(\App\Enums\Policy::Delete->value, \App\Models\Room::class)
+    @can(\App\Enums\Policy::Delete->value, $deleting)
 
         {{-- Modal to confirm the deletion --}}
         <x-confirmation-modal

@@ -8,6 +8,7 @@ use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireIndex;
 use App\Models\Floor;
+use App\Models\Room;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Livewire\Livewire;
@@ -53,6 +54,22 @@ test('cannot set the floor record which will be deleted without specific permiss
     ->assertSet('deleting', new Floor());
 });
 
+test('cannot set the floor record which will be deleted if he has rooms', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+    grantPermission(PermissionType::FloorDelete->value);
+
+    $floor = floor::factory()
+    ->has(Room::factory(2), 'rooms')
+    ->create();
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->assertOk()
+    ->call('markToDelete', $floor->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', new Floor());
+});
+
 test('cannot delete a floor record without specific permission', function () {
     grantPermission(PermissionType::FloorViewAny->value);
 
@@ -65,6 +82,27 @@ test('cannot delete a floor record without specific permission', function () {
     ->assertForbidden();
 
     expect(Floor::where('number', 20)->exists())->toBeTrue();
+});
+
+test('cannot delete a floor record if he has rooms', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+    grantPermission(PermissionType::FloorDelete->value);
+
+    $floor = Floor::factory()->create();
+
+    $component = Livewire::test(FloorLivewireIndex::class)
+    ->call('markToDelete', $floor->id)
+    ->assertOk();
+
+    $rooms = Room::factory(2)->make();
+
+    $floor->rooms()->saveMany($rooms);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Floor::where('id', $floor->id)->get())->toHaveCount(1);
 });
 
 // Rules
@@ -136,7 +174,7 @@ test('emits feedback event when deleting a floor record', function () {
     ]);
 });
 
-test('defines the floor record that will be deleted with specific permission', function () {
+test('defines the floor record that will be deleted with specific permission if it has no rooms', function () {
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 
@@ -149,7 +187,7 @@ test('defines the floor record that will be deleted with specific permission', f
     ->assertSet('deleting.id', $floor->id);
 });
 
-test('deletes a floor record with specific permission', function () {
+test('deletes a floor record with specific permission if it has no rooms', function () {
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 

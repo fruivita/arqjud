@@ -7,6 +7,7 @@
 use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Room\RoomLivewireIndex;
+use App\Models\Box;
 use App\Models\Room;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
@@ -53,6 +54,22 @@ test('cannot set the room record which will be deleted without specific permissi
     ->assertSet('deleting', new Room());
 });
 
+test('cannot set the room record which will be deleted if he has boxes', function () {
+    grantPermission(PermissionType::RoomViewAny->value);
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()
+    ->has(Box::factory(2), 'boxes')
+    ->create();
+
+    Livewire::test(RoomLivewireIndex::class)
+    ->assertOk()
+    ->call('markToDelete', $room->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', new Room());
+});
+
 test('cannot delete a room record without specific permission', function () {
     grantPermission(PermissionType::RoomViewAny->value);
 
@@ -65,6 +82,27 @@ test('cannot delete a room record without specific permission', function () {
     ->assertForbidden();
 
     expect(Room::where('number', 20)->exists())->toBeTrue();
+});
+
+test('cannot delete a room record if he has boxes', function () {
+    grantPermission(PermissionType::RoomViewAny->value);
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()->create();
+
+    $component = Livewire::test(RoomLivewireIndex::class)
+    ->call('markToDelete', $room->id)
+    ->assertOk();
+
+    $boxes = Box::factory(2)->make();
+
+    $room->boxes()->saveMany($boxes);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Room::where('id', $room->id)->get())->toHaveCount(1);
 });
 
 // Rules
@@ -136,7 +174,7 @@ test('emits feedback event when deleting a room record', function () {
     ]);
 });
 
-test('defines the room record that will be deleted with specific permission', function () {
+test('defines the room record that will be deleted with specific permission if it has no boxes', function () {
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 
@@ -149,7 +187,7 @@ test('defines the room record that will be deleted with specific permission', fu
     ->assertSet('deleting.id', $room->id);
 });
 
-test('deletes a room record with specific permission', function () {
+test('deletes a room record with specific permission if it has no boxes', function () {
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 

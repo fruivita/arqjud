@@ -8,6 +8,7 @@ use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Building\BuildingLivewireIndex;
 use App\Models\Building;
+use App\Models\Floor;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Livewire\Livewire;
@@ -53,6 +54,22 @@ test('cannot set the building record which will be deleted without specific perm
     ->assertSet('deleting', new Building());
 });
 
+test('cannot set the building record which will be deleted if he has floors', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
+    grantPermission(PermissionType::BuildingDelete->value);
+
+    $building = Building::factory()
+    ->has(Floor::factory(2), 'floors')
+    ->create();
+
+    Livewire::test(BuildingLivewireIndex::class)
+    ->assertOk()
+    ->call('markToDelete', $building->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', new Building());
+});
+
 test('cannot delete a building record without specific permission', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
 
@@ -65,6 +82,27 @@ test('cannot delete a building record without specific permission', function () 
     ->assertForbidden();
 
     expect(Building::where('name', 'foo')->exists())->toBeTrue();
+});
+
+test('cannot delete a building record if he has floors', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
+    grantPermission(PermissionType::BuildingDelete->value);
+
+    $building = Building::factory()->create();
+
+    $component = Livewire::test(BuildingLivewireIndex::class)
+    ->call('markToDelete', $building->id)
+    ->assertOk();
+
+    $floors = Floor::factory(2)->make();
+
+    $building->floors()->saveMany($floors);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Building::where('id', $building->id)->get())->toHaveCount(1);
 });
 
 // Rules
@@ -136,7 +174,7 @@ test('emits feedback event when deleting a building record', function () {
     ]);
 });
 
-test('defines the building record that will be deleted with specific permission', function () {
+test('defines the building record that will be deleted with specific permission if it has no floors', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
@@ -149,7 +187,7 @@ test('defines the building record that will be deleted with specific permission'
     ->assertSet('deleting.id', $building->id);
 });
 
-test('deletes a building record with specific permission', function () {
+test('deletes a building record with specific permission if it has no floors', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
     grantPermission(PermissionType::BuildingDelete->value);
 

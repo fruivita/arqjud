@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Enums\PermissionType;
+use App\Models\Site;
 use App\Models\User;
 
 /**
@@ -59,14 +60,17 @@ class SitePolicy extends Policy
     }
 
     /**
-     * Determine whether the user can delete a model.
+     * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
+     * @param \App\Models\Site $site
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function delete(User $user)
+    public function delete(User $user, Site $site)
     {
-        return $this->hasAnyPermission($user, [PermissionType::SiteDelete]);
+        return
+            $site->buildings_count === 0
+            && $this->hasAnyPermission($user, [PermissionType::SiteDelete]);
     }
 }

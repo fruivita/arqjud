@@ -75,7 +75,7 @@ class SiteLivewireIndex extends Component
     public function getSitesProperty()
     {
         return $this->applyPagination(
-            Site::withCount('buildings')->defaultOrder()
+            Site::defaultOrder()
         );
     }
 
@@ -100,7 +100,7 @@ class SiteLivewireIndex extends Component
      */
     public function markToDelete(Site $site)
     {
-        $this->authorize(Policy::Delete->value, Site::class);
+        $this->authorize(Policy::Delete->value, $site);
 
         $this->deleting = $site;
 
@@ -114,7 +114,7 @@ class SiteLivewireIndex extends Component
      */
     public function destroy()
     {
-        $this->authorize(Policy::Delete->value, Site::class);
+        $this->authorize(Policy::Delete->value, $this->deleting);
 
         $deleted = $this->deleting->delete();
 

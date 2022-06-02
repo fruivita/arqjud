@@ -5,6 +5,8 @@
  */
 
 use App\Enums\PermissionType;
+use App\Models\Floor;
+use App\Models\Room;
 use App\Policies\FloorPolicy;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
@@ -39,7 +41,21 @@ test('user without permission cannot update a floor', function () {
 });
 
 test('user without permission cannot delete a floor', function () {
-    expect((new FloorPolicy())->delete($this->user))->toBeFalse();
+    $floor = Floor::factory()->create();
+    $floor->loadCount('rooms');
+
+    expect((new FloorPolicy())->delete($this->user, $floor))->toBeFalse();
+});
+
+test('floor with rooms cannot be delete', function () {
+    grantPermission(PermissionType::FloorDelete->value);
+
+    $floor = Floor::factory()
+    ->has(Room::factory(2), 'rooms')
+    ->create();
+    $floor->loadCount('rooms');
+
+    expect((new FloorPolicy())->delete($this->user, $floor))->toBeFalse();
 });
 
 // Happy path
@@ -175,17 +191,20 @@ test('permission to individually delete a floor is cached for 5 seconds', functi
     testTime()->freeze();
     grantPermission(PermissionType::FloorDelete->value);
 
+    $floor = Floor::factory()->create();
+    $floor->loadCount('rooms');
+
     $key = "{$this->user->username}-permissions";
 
     // no cache
-    expect((new FloorPolicy())->delete($this->user))->toBeTrue()
+    expect((new FloorPolicy())->delete($this->user, $floor))->toBeTrue()
     ->and(cache()->missing($key))->toBeTrue();
 
     // create the permissions cache when making a request
     get(route('home'));
 
     // with cache
-    expect((new FloorPolicy())->delete($this->user))->toBeTrue()
+    expect((new FloorPolicy())->delete($this->user, $floor))->toBeTrue()
     ->and(cache()->has($key))->toBeTrue();
 
     // revoke permission and move time to expiration limit
@@ -193,13 +212,13 @@ test('permission to individually delete a floor is cached for 5 seconds', functi
     testTime()->addSeconds(5);
 
     // permission is still cached
-    expect((new FloorPolicy())->delete($this->user))->toBeTrue()
+    expect((new FloorPolicy())->delete($this->user, $floor))->toBeTrue()
     ->and(cache()->has($key))->toBeTrue();
 
     // expires cache
     testTime()->addSeconds(1);
 
-    expect((new FloorPolicy())->delete($this->user))->toBeFalse()
+    expect((new FloorPolicy())->delete($this->user, $floor))->toBeFalse()
     ->and(cache()->missing($key))->toBeTrue();
 });
 
@@ -225,4 +244,22 @@ test('user with permission can individually update a floor', function () {
     grantPermission(PermissionType::FloorUpdate->value);
 
     expect((new FloorPolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually delete a floor', function () {
+    grantPermission(PermissionType::FloorDelete->value);
+
+    $floor = Floor::factory()->create();
+    $floor->loadCount('rooms');
+
+    expect((new FloorPolicy())->delete($this->user, $floor))->toBeTrue();
+});
+
+test('floor without rooms can be deleted', function () {
+    grantPermission(PermissionType::FloorDelete->value);
+
+    $floor = Floor::factory()->create();
+    $floor->loadCount('rooms');
+
+    expect((new FloorPolicy())->delete($this->user, $floor))->toBeTrue();
 });

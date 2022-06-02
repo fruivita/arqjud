@@ -16,6 +16,13 @@ class Site extends Model
     protected $table = 'sites';
 
     /**
+     * The relationship counts that should be eager loaded on every query.
+     *
+     * @var array
+     */
+    protected $withCount = ['buildings'];
+
+    /**
      * Relationship site (1:N) buildings.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
