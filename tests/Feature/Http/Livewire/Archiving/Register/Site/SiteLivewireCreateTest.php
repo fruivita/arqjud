@@ -142,3 +142,15 @@ test('creates a site record with specific permission', function () {
     expect($site->name)->toBe('foo')
     ->and($site->description)->toBe('foo bar');
 });
+
+test('reset to a blank model after the site is created', function () {
+    grantPermission(PermissionType::SiteCreate->value);
+
+    $blank = new Site();
+
+    Livewire::test(SiteLivewireCreate::class)
+    ->set('site.name', 'foo')
+    ->call('store')
+    ->assertOk()
+    ->assertSet('site', $blank);
+});

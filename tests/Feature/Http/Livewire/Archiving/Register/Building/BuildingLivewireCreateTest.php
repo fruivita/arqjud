@@ -188,3 +188,18 @@ test('creates a building record with specific permission', function () {
     ->and($building->description)->toBe('foo bar')
     ->and($building->site->id)->toBe($site->id);
 });
+
+test('reset to a blank model after the building is created', function () {
+    grantPermission(PermissionType::BuildingCreate->value);
+
+    $site = Site::factory()->create();
+
+    $blank = new Building();
+
+    Livewire::test(BuildingLivewireCreate::class)
+    ->set('building.name', 'foo')
+    ->set('building.site_id', $site->id)
+    ->call('store')
+    ->assertOk()
+    ->assertSet('building', $blank);
+});

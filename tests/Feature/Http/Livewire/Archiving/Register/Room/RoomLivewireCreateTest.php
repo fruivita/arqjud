@@ -295,3 +295,18 @@ test('creates a room record with specific permission', function () {
     ->and($room->description)->toBe('foo bar')
     ->and($room->floor->id)->toBe($floor->id);
 });
+
+test('reset to a blank model after the room is created', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+
+    $floor = Floor::factory()->create();
+
+    $blank = new Room();
+
+    Livewire::test(RoomLivewireCreate::class)
+    ->set('room.number', 1)
+    ->set('room.floor_id', $floor->id)
+    ->call('store')
+    ->assertOk()
+    ->assertSet('room', $blank);
+});

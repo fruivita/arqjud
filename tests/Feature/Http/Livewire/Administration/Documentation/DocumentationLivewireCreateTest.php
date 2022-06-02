@@ -191,3 +191,16 @@ test('creates an application documentation record with specific permission', fun
     expect($documentation->app_route_name)->toBe('administration.log.index')
     ->and($documentation->doc_link)->toBe('http://valid-url.com');
 });
+
+test('reset to a blank model after the application documentation is created', function () {
+    grantPermission(PermissionType::DocumentationCreate->value);
+
+    $blank = new Documentation();
+
+    Livewire::test(DocumentationLivewireCreate::class)
+    ->set('doc.app_route_name', 'administration.log.index')
+    ->set('doc.doc_link', 'http://valid-url.com')
+    ->call('store')
+    ->assertOk()
+    ->assertSet('doc', $blank);
+});

@@ -210,6 +210,8 @@ class RoomLivewireCreate extends Component
 
         $saved = $this->room->save();
 
+        $this->room = $this->blankModel();
+
         $this->flashSelf($saved);
     }
 }

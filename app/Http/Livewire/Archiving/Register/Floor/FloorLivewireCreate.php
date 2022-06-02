@@ -172,6 +172,8 @@ class FloorLivewireCreate extends Component
 
         $saved = $this->floor->save();
 
+        $this->floor = $this->blankModel();
+
         $this->flashSelf($saved);
     }
 }

@@ -116,6 +116,8 @@ class SiteLivewireCreate extends Component
 
         $saved = $this->site->save();
 
+        $this->site = $this->blankModel();
+
         $this->flashSelf($saved);
     }
 }

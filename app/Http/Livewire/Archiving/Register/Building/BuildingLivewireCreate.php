@@ -134,6 +134,8 @@ class BuildingLivewireCreate extends Component
 
         $saved = $this->building->save();
 
+        $this->building = $this->blankModel();
+
         $this->flashSelf($saved);
     }
 }
