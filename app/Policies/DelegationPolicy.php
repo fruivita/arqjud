@@ -33,7 +33,7 @@ class DelegationPolicy extends Policy
     public function create(User $user, User $delegated)
     {
         return
-            ! empty($user->role_id)
+            $user->role_granted_by === null
             // authenticated user has more permissions than the receiver
             && $user->role_id > $delegated->role_id
             // same department

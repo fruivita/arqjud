@@ -80,6 +80,33 @@ test('user cannot delegate role without specific permission', function () {
     expect((new DelegationPolicy())->create($this->user, $user_bar))->toBeFalse();
 });
 
+test('user cannot delegate delegated role', function () {
+    $department = Department::factory()->create();
+
+    $this->user->department_id = $department->id;
+    $this->user->role_id = Role::ADMINISTRATOR;
+    $this->user->save();
+
+    grantPermission(PermissionType::DelegationCreate->value);
+
+    logout();
+
+    $user_bar = login('bar');
+
+    $user_bar->department_id = $department->id;
+    $user_bar->role_id = Role::ADMINISTRATOR;
+    $user_bar->role_granted_by = $this->user->id;
+    $user_bar->old_role_id = Role::BUSINESSMANAGER;
+    $user_bar->save();
+
+    $user_taz = User::factory()->create([
+        'department_id' => $department->id,
+        'role_id' => Role::OBSERVER,
+    ]);
+
+    expect((new DelegationPolicy())->create($user_bar, $user_taz))->toBeFalse();
+});
+
 test('user cannot remove non-existent delegation', function () {
     $department = Department::factory()->create();
 
