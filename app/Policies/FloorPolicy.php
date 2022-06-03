@@ -62,7 +62,7 @@ class FloorPolicy extends Policy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\User  $user
      * @param \App\Models\Floor $floor
      *
      * @return bool|\Illuminate\Auth\Access\Response

@@ -263,4 +263,3 @@ test('site without buildings can be deleted', function () {
 
     expect((new SitePolicy())->delete($this->user, $site))->toBeTrue();
 });
-
