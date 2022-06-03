@@ -68,6 +68,19 @@ class User extends CorporateUser implements LdapAuthenticatable
     }
 
     /**
+     * User's old role, that is, before delegation. Used to return to the
+     * previous role
+     *
+     * Relationship user (N:1) role.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function oldRole()
+    {
+        return $this->belongsTo(Role::class, 'old_role_id', 'id');
+    }
+
+    /**
      * User who delegated the role to someone else.
      *
      * Relationship delegatedUsers (N:1) delegator.
@@ -113,6 +126,9 @@ class User extends CorporateUser implements LdapAuthenticatable
         $delegated
             ->delegator()
             ->associate($this);
+        $delegated
+            ->oldRole()
+            ->associate($delegated->role);
         $delegated
             ->role()
             ->associate($this->role);

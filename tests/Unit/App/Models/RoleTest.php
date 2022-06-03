@@ -264,7 +264,7 @@ test('returns roles using the defined avaiable to assign scope', function () {
 });
 
 test('roles are in the correct hierarchical order', function () {
-    // role with lower id has higher functional hierarchy in the application
+    // role with higher id has higher functional hierarchy in the application
     expect(Role::ADMINISTRATOR)->toBeGreaterThan(Role::BUSINESSMANAGER)
     ->and(Role::BUSINESSMANAGER)->toBeGreaterThan(Role::OBSERVER)
     ->and(Role::OBSERVER)->toBeGreaterThan(Role::ORDINARY);

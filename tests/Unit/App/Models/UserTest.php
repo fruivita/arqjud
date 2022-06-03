@@ -49,6 +49,7 @@ test('throws exception when trying to set invalid relationship', function ($fiel
 })->with([
     ['role_id',         10, 'Cannot add or update a child row'], // nonexistent
     ['role_granted_by', 10, 'Cannot add or update a child row'], // nonexistent
+    ['old_role_id',         10, 'Cannot add or update a child row'], // nonexistent
 ]);
 
 // Happy path
@@ -86,6 +87,18 @@ test('one user has one role', function () {
     $user->load(['role']);
 
     expect($user->role)->toBeInstanceOf(Role::class);
+});
+
+test('one user can have one old role', function () {
+    $role = Role::factory()->create();
+
+    $user = User::factory()
+    ->for($role, 'oldRole')
+    ->create();
+
+    $user->load(['oldRole']);
+
+    expect($user->oldRole)->toBeInstanceOf(Role::class);
 });
 
 test('default user role is ordinary', function () {
@@ -218,7 +231,7 @@ test('search, with partial term or not, returns the expected values', function (
     ->and(User::search('foo baz')->get())->toHaveCount(1);
 });
 
-test('method delegate grant to the informed user the same role', function () {
+test('method delegate grant to the informed user the same role and save his old role', function () {
     $user_foo = User::factory()->create([
         'role_id' => Role::BUSINESSMANAGER,
     ]);
@@ -232,7 +245,8 @@ test('method delegate grant to the informed user the same role', function () {
     $user_bar->refresh();
 
     expect($user_bar->role_id)->toBe(Role::BUSINESSMANAGER)
-    ->and($user_bar->role_granted_by)->toBe($user_foo->id);
+    ->and($user_bar->role_granted_by)->toBe($user_foo->id)
+    ->and($user_bar->old_role_id)->toBe(Role::OBSERVER);
 });
 
 test('revokeDelegation revokes the permission of the user and everyone he delegated by setting the default (ordinary) role for everyone', function () {

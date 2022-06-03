@@ -26,18 +26,15 @@ class UserFactory extends Factory
         return array_merge(
             (new CorporateUserFactory())->definition(),
             [
-                'name' => rand(0, 1)
-                        ? null
-                        : $this->faker->text(50),
-
+                'name' => $this->faker->optional()->text(50),
                 'username' => $this->faker->unique()->text(20),
-
                 'password' => null,
                 'guid' => $this->faker->unique()->uuid(),
                 'domain' => $this->faker->domainName(),
                 'role_id' => Role::factory(),
                 'department_id' => Department::DEPARTMENTLESS,
                 'role_granted_by' => null,
+                'old_role_id' => null,
             ]
         );
     }
