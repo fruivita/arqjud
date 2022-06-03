@@ -81,6 +81,17 @@ class User extends CorporateUser implements LdapAuthenticatable
     }
 
     /**
+     * Check if the user's role was obtained by delegation or if it is an
+     * original role.
+     *
+     * @return bool true if by delegation or false otherwise
+     */
+    public function roleByDelegation()
+    {
+        return ! is_null($this->role_granted_by);
+    }
+
+    /**
      * User who delegated the role to someone else.
      *
      * Relationship delegatedUsers (N:1) delegator.

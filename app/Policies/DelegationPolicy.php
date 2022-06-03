@@ -33,7 +33,7 @@ class DelegationPolicy extends Policy
     public function create(User $user, User $delegated)
     {
         return
-            $user->role_granted_by === null
+            $user->roleByDelegation() === false
             // authenticated user has more permissions than the receiver
             && $user->role_id > $delegated->role_id
             // same department
@@ -52,7 +52,7 @@ class DelegationPolicy extends Policy
     public function delete(User $user, User $delegated)
     {
         return
-            ! empty($delegated->role_granted_by)
+            $delegated->roleByDelegation()
             // authenticated user has more or the same level of permissions as the receiver
             && $user->role_id >= $delegated->role_id
             // same department

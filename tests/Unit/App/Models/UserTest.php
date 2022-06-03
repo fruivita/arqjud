@@ -413,3 +413,18 @@ test('permissions() returns the id of all user permissions', function () {
         PermissionType::SimulationCreate->value
     );
 });
+
+test("roleByDelegation check if the user's role was obtained by delegation or if it is an original role", function () {
+    $user_foo = User::factory()->create();
+
+    $user_bar = User::factory()->create();
+
+    expect($user_bar->roleByDelegation())->toBeFalse();
+
+    $user_bar->old_role_id = $user_bar->role_id;
+    $user_bar->role_id = $user_foo->role_id;
+    $user_bar->role_granted_by = $user_foo->id;
+    $user_bar->save();
+
+    expect($user_bar->roleByDelegation())->toBeTrue();
+});
