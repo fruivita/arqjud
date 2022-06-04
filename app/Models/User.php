@@ -69,7 +69,7 @@ class User extends CorporateUser implements LdapAuthenticatable
 
     /**
      * User's old role, that is, before delegation. Used to return to the
-     * previous role
+     * previous role.
      *
      * Relationship user (N:1) role.
      *
