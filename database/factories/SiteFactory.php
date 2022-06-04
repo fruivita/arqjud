@@ -21,7 +21,7 @@ class SiteFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->city(),
+            'name' => $this->faker->unique()->text(20),
             'description' => $this->faker->optional()->sentence(),
         ];
     }

@@ -23,8 +23,8 @@ class RoleFactory extends Factory
     {
         return [
             'id' => $this->faker->unique()->numberBetween(1, maxSafeInteger()),
-            'name' => $this->faker->unique()->text(50),
-            'description' => $this->faker->text(255),
+            'name' => $this->faker->unique()->text(20),
+            'description' => $this->faker->optional()->sentence(),
         ];
     }
 }

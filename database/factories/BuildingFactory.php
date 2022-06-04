@@ -22,7 +22,7 @@ class BuildingFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->streetName(),
+            'name' => $this->faker->unique()->text(20),
             'description' => $this->faker->optional()->sentence(),
             'site_id' => Site::factory(),
         ];
