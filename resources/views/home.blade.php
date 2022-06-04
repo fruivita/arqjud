@@ -16,17 +16,6 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
-
-                <x-link-card
-                    icon="box2"
-                    :href="route('archiving.register.box.index')"
-                    :text="__('Manage boxes')"
-                    :title="__('Application boxes management')"/>
-
-            @endcan
-
-
             @can(\App\Enums\Policy::ViewAny->value, \App\Models\Site::class)
 
                 <x-link-card
@@ -67,6 +56,17 @@
                     :href="route('archiving.register.room.index')"
                     :text="__('Manage rooms')"
                     :title="__('Application rooms management')"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
+
+                <x-link-card
+                    icon="box2"
+                    :href="route('archiving.register.box.index')"
+                    :text="__('Manage boxes')"
+                    :title="__('Application boxes management')"/>
 
             @endcan
 
