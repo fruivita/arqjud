@@ -17,16 +17,16 @@
 @props(['icon', 'text'])
 
 
-<div class="bg-primary-300 rounded dark:bg-secondary-600 shadow-lg shadow-secondary-500 dark:shadow-primary-500">
+<div class="bg-primary-300 rounded shadow-lg shadow-secondary-500 dark:bg-secondary-600 dark:shadow-primary-500 hover:bg-primary-200 hover:dark:bg-secondary-500">
 
     <a
-        class="flex flex-col items-center space-y-6 p-3"
+        class="flex flex-col items-center p-3 space-y-6"
         {{ $attributes }}
     >
 
-        <x-icon :name="$icon" class="w-16 h-16"/>
+        <x-icon :name="$icon" class="h-16 w-16"/>
 
-        <span class="text-center break-words">{{ $text }}</span>
+        <span class="break-words text-center">{{ $text }}</span>
 
     </a>
 
