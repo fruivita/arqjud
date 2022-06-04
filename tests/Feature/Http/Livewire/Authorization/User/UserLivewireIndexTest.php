@@ -289,12 +289,14 @@ test('role update removes eventual delegation', function () {
     $this->user->role_id = Role::ADMINISTRATOR;
     $this->user->department_id = $department->id;
     $this->user->role_granted_by = $bar->id;
+    $this->user->old_role_id = Role::OBSERVER;
     $this->user->save();
 
     Livewire::test(UserLivewireIndex::class)
     ->call('edit', $this->user)
     ->assertSet('editing.role_id', Role::ADMINISTRATOR)
     ->assertSet('editing.role_granted_by', $bar->id)
+    ->assertSet('editing.old_role_id', Role::OBSERVER)
     ->set('editing.role_id', Role::BUSINESSMANAGER)
     ->call('update')
     ->assertOk();
@@ -302,7 +304,8 @@ test('role update removes eventual delegation', function () {
     $this->user->refresh();
 
     expect($this->user->role_id)->toBe(Role::BUSINESSMANAGER)
-    ->and($this->user->role_granted_by)->toBeNull();
+    ->and($this->user->role_granted_by)->toBeNull()
+    ->and($this->user->old_role_id)->toBeNull();
 });
 
 test('search returns expected results', function () {

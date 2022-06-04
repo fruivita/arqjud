@@ -111,6 +111,7 @@ test('user cannot remove higher role user delegation', function () {
         'department_id' => $this->department->id,
         'role_id' => Role::ADMINISTRATOR,
         'role_granted_by' => $user_bar->id,
+        'old_role_id' => Role::OBSERVER,
     ]);
 
     Livewire::test(DelegationLivewireIndex::class)
@@ -118,7 +119,8 @@ test('user cannot remove higher role user delegation', function () {
     ->assertForbidden();
 
     expect($user_taz->role_id)->toBe(Role::ADMINISTRATOR)
-    ->and($user_taz->role_granted_by)->toBe($user_bar->id);
+    ->and($user_taz->role_granted_by)->toBe($user_bar->id)
+    ->and($user_taz->old_role_id)->toBe(Role::OBSERVER);
 });
 
 test('user cannot remove user delegation from another department', function () {
@@ -134,6 +136,7 @@ test('user cannot remove user delegation from another department', function () {
         'department_id' => $department_a->id,
         'role_id' => Role::ADMINISTRATOR,
         'role_granted_by' => $user_bar->id,
+        'old_role_id' => Role::OBSERVER,
     ]);
 
     Livewire::test(DelegationLivewireIndex::class)
@@ -141,7 +144,8 @@ test('user cannot remove user delegation from another department', function () {
     ->assertForbidden();
 
     expect($user_taz->role_id)->toBe(Role::ADMINISTRATOR)
-    ->and($user_taz->role_granted_by)->toBe($user_bar->id);
+    ->and($user_taz->role_granted_by)->toBe($user_bar->id)
+    ->and($user_taz->old_role_id)->toBe(Role::OBSERVER);
 });
 
 // Rules
@@ -222,7 +226,7 @@ test('pagination creates the session variables', function () {
     ->assertSessionHas('per_page', 100);
 });
 
-test('displays only the users available for delegation, that is, only those from the same department', function () {
+test('displays only the users from the same department', function () {
     grantPermission(PermissionType::DelegationViewAny->value);
 
     User::factory(30)->create();
@@ -248,7 +252,8 @@ test('user can delegate role within the same department if delegated role is low
     ->assertOk();
 
     expect($user_bar->role_id)->toBe(Role::BUSINESSMANAGER)
-    ->and($user_bar->role_granted_by)->toBe($this->user->id);
+    ->and($user_bar->role_granted_by)->toBe($this->user->id)
+    ->and($user_bar->old_role_id)->toBe(Role::ORDINARY);
 });
 
 test('user can remove user delegation from the same department, with the same or lower role, even delegated by someone else', function () {
@@ -257,19 +262,21 @@ test('user can remove user delegation from the same department, with the same or
 
     $user_bar = User::factory()->create([
         'department_id' => $this->department->id,
-        'role_id' => Role::BUSINESSMANAGER,
+        'role_id' => Role::OBSERVER,
     ]);
 
     $user_baz = User::factory()->create([
         'department_id' => $this->department->id,
         'role_id' => Role::BUSINESSMANAGER,
-        'role_granted_by' => $user_bar->id,
+        'role_granted_by' => $this->user->id,
+        'old_role_id' => Role::OBSERVER,
     ]);
 
     $user_taz = User::factory()->create([
         'department_id' => $this->department->id,
         'role_id' => Role::OBSERVER,
         'role_granted_by' => $user_bar->id,
+        'old_role_id' => Role::ORDINARY,
     ]);
 
     Livewire::test(DelegationLivewireIndex::class)
@@ -278,19 +285,21 @@ test('user can remove user delegation from the same department, with the same or
     ->call('destroy', $user_taz)
     ->assertOk();
 
-    expect($user_baz->role_id)->toBe(Role::ORDINARY)
+    expect($user_baz->role_id)->toBe(Role::OBSERVER)
     ->and($user_baz->role_granted_by)->toBeNull()
+    ->and($user_baz->old_role_id)->toBeNull()
     ->and($user_taz->role_id)->toBe(Role::ORDINARY)
-    ->and($user_taz->role_granted_by)->toBeNull();
+    ->and($user_taz->role_granted_by)->toBeNull()
+    ->and($user_taz->old_role_id)->toBeNull();
 });
 
-test('delegation assigns authenticated user role and revocation assigns ordinary role', function () {
+test("delegation assigns authenticated user role and revocation assigns the previous user's role", function () {
     grantPermission(PermissionType::DelegationViewAny->value);
     grantPermission(PermissionType::DelegationCreate->value);
 
     $user_bar = User::factory()->create([
         'department_id' => $this->department->id,
-        'role_id' => Role::ORDINARY,
+        'role_id' => Role::OBSERVER,
     ]);
 
     $livewire = Livewire::test(DelegationLivewireIndex::class)
@@ -298,97 +307,16 @@ test('delegation assigns authenticated user role and revocation assigns ordinary
     ->assertOk();
 
     expect($user_bar->role_id)->toBe(Role::BUSINESSMANAGER)
-    ->and($user_bar->role_granted_by)->toBe($this->user->id);
+    ->and($user_bar->role_granted_by)->toBe($this->user->id)
+    ->and($user_bar->old_role_id)->toBe(Role::OBSERVER);
 
     $livewire
     ->call('destroy', $user_bar)
     ->assertOk();
 
-    expect($user_bar->role_id)->toBe(Role::ORDINARY)
-    ->and($user_bar->role_granted_by)->toBeNull();
-});
-
-test("when removing a user's delegation, it also removes the delegations made by the user", function () {
-    grantPermission(PermissionType::DelegationViewAny->value);
-    grantPermission(PermissionType::DelegationCreate->value);
-
-    $user_bar = User::factory()->create([
-        'department_id' => $this->department->id,
-        'role_id' => Role::BUSINESSMANAGER,
-        'role_granted_by' => $this->user->id,
-    ]);
-
-    $user_baz = User::factory()->create([
-        'department_id' => $this->department->id,
-        'role_id' => Role::OBSERVER,
-        'role_granted_by' => $user_bar->id,
-    ]);
-
-    $user_taz = User::factory()->create([
-        'department_id' => $this->department->id,
-        'role_id' => Role::OBSERVER,
-        'role_granted_by' => $user_bar->id,
-    ]);
-
-    $user_loren = User::factory()->create([
-        'department_id' => $this->department->id,
-        'role_id' => Role::BUSINESSMANAGER,
-        'role_granted_by' => $this->user->id,
-    ]);
-
-    $user_ipsen = User::factory()->create([
-        'department_id' => $this->department->id,
-        'role_id' => Role::BUSINESSMANAGER,
-        'role_granted_by' => $this->user->id,
-    ]);
-
-    Livewire::test(DelegationLivewireIndex::class)
-    ->call('destroy', $user_bar)
-    ->assertOk();
-
-    $this->user->refresh();
-    $user_bar->refresh();
-    $user_baz->refresh();
-    $user_taz->refresh();
-    $user_loren->refresh();
-    $user_ipsen->refresh();
-
-    expect($this->user->role_id)->toBe(Role::BUSINESSMANAGER)
-    ->and($this->user->role_granted_by)->toBeNull()
-    ->and($user_bar->role_id)->toBe(Role::ORDINARY)
+    expect($user_bar->role_id)->toBe(Role::OBSERVER)
     ->and($user_bar->role_granted_by)->toBeNull()
-    ->and($user_baz->role_id)->toBe(Role::ORDINARY)
-    ->and($user_baz->role_granted_by)->toBeNull()
-    ->and($user_taz->role_id)->toBe(Role::ORDINARY)
-    ->and($user_taz->role_granted_by)->toBeNull()
-    ->and($user_loren->role_id)->toBe(Role::BUSINESSMANAGER)
-    ->and($user_loren->role_granted_by)->toBe($this->user->id)
-    ->and($user_ipsen->role_id)->toBe(Role::BUSINESSMANAGER)
-    ->and($user_ipsen->role_granted_by)->toBe($this->user->id);
-});
-
-test('remove the delegation itself', function () {
-    $user_bar = User::factory()->create([
-        'department_id' => $this->department->id,
-        'role_id' => Role::ADMINISTRATOR,
-    ]);
-
-    $this->user->role_id = Role::ADMINISTRATOR;
-    $this->user->role_granted_by = $user_bar->id;
-    $this->user->save();
-
-    grantPermission(PermissionType::DelegationViewAny->value);
-    grantPermission(PermissionType::DelegationCreate->value);
-
-    expect($this->user->role_id)->toBe(Role::ADMINISTRATOR)
-    ->and($this->user->role_granted_by)->toBe($user_bar->id);
-
-    Livewire::test(DelegationLivewireIndex::class)
-    ->call('destroy', $this->user)
-    ->assertOk();
-
-    expect($this->user->role_id)->toBe(Role::ORDINARY)
-    ->and($this->user->role_granted_by)->toBeNull();
+    ->and($user_bar->old_role_id)->toBeNull();
 });
 
 test('search returns expected results', function () {
@@ -407,7 +335,7 @@ test('search returns expected results', function () {
         'department_id' => $this->department->id,
     ]);
 
-    // will not be displayed, because from another department
+    // will not be displayed, because its from another department
     User::factory()
     ->for(Department::factory(), 'department')
     ->create([

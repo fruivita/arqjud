@@ -49,7 +49,7 @@ test('throws exception when trying to set invalid relationship', function ($fiel
 })->with([
     ['role_id',         10, 'Cannot add or update a child row'], // nonexistent
     ['role_granted_by', 10, 'Cannot add or update a child row'], // nonexistent
-    ['old_role_id',         10, 'Cannot add or update a child row'], // nonexistent
+    ['old_role_id',     10, 'Cannot add or update a child row'], // nonexistent
 ]);
 
 // Happy path
@@ -124,9 +124,13 @@ test('if do not inform a department, the default department is "departmentless"'
 test('user can delegate their role to several others, however the user can only receive a single delegation', function () {
     $delegated_amount = 3;
 
-    $user_delegator = User::factory()->create();
+    $user_delegator = User::factory()->create(['role_id' => Role::ADMINISTRATOR]);
 
-    User::factory(3)->create(['role_granted_by' => $user_delegator->id]);
+    User::factory(3)->create([
+        'role_id' => Role::BUSINESSMANAGER,
+        'role_granted_by' => $user_delegator->id,
+        'old_role_id' => Role::OBSERVER,
+    ]);
 
     $user_delegator->load(['delegatedUsers', 'delegator']);
     $user_delegated = User::with('delegator')
@@ -249,7 +253,7 @@ test('method delegate grant to the informed user the same role and save his old 
     ->and($user_bar->old_role_id)->toBe(Role::OBSERVER);
 });
 
-test('revokeDelegation revokes the permission of the user and everyone he delegated by setting the default (ordinary) role for everyone', function () {
+test('revokeDelegation revokes the role of the user and return it to his previous role', function () {
     $user_foo = User::factory()->create([
         'role_id' => Role::BUSINESSMANAGER,
     ]);
@@ -257,116 +261,55 @@ test('revokeDelegation revokes the permission of the user and everyone he delega
     $user_bar = User::factory()->create([
         'role_id' => Role::BUSINESSMANAGER,
         'role_granted_by' => $user_foo->id,
-    ]);
-
-    $user_baz = User::factory()->create([
-        'role_id' => Role::OBSERVER,
-        'role_granted_by' => $user_bar->id,
-    ]);
-
-    $user_taz = User::factory()->create([
-        'role_id' => Role::OBSERVER,
-        'role_granted_by' => $user_bar->id,
-    ]);
-
-    $user_loren = User::factory()->create([
-        'role_id' => Role::BUSINESSMANAGER,
-        'role_granted_by' => $user_foo->id,
-    ]);
-
-    $user_ipsen = User::factory()->create([
-        'role_id' => Role::BUSINESSMANAGER,
-        'role_granted_by' => $user_foo->id,
+        'old_role_id' => Role::OBSERVER,
     ]);
 
     $user_bar->revokeDelegation();
 
     $user_foo->refresh();
     $user_bar->refresh();
-    $user_baz->refresh();
-    $user_taz->refresh();
-    $user_loren->refresh();
-    $user_ipsen->refresh();
 
     expect($user_foo->role_id)->toBe(Role::BUSINESSMANAGER)
     ->and($user_foo->role_granted_by)->toBeNull()
-    ->and($user_bar->role_id)->toBe(Role::ORDINARY)
+    ->and($user_foo->role_granted_by)->toBeNull()
+    ->and($user_bar->role_id)->toBe(Role::OBSERVER)
     ->and($user_bar->role_granted_by)->toBeNull()
-    ->and($user_baz->role_id)->toBe(Role::ORDINARY)
-    ->and($user_baz->role_granted_by)->toBeNull()
-    ->and($user_taz->role_id)->toBe(Role::ORDINARY)
-    ->and($user_taz->role_granted_by)->toBeNull()
-    ->and($user_loren->role_id)->toBe(Role::BUSINESSMANAGER)
-    ->and($user_loren->role_granted_by)->toBe($user_foo->id)
-    ->and($user_ipsen->role_id)->toBe(Role::BUSINESSMANAGER)
-    ->and($user_ipsen->role_granted_by)->toBe($user_foo->id);
+    ->and($user_bar->role_granted_by)->toBeNull();
 });
 
-test('revokeDelegatedUsers removes delegations made by the user', function () {
+test("updateAndRevokeDelegatedUsers updates the role, removes the user's delegations and the ones he made", function () {
     $user_foo = User::factory()->create([
         'role_id' => Role::BUSINESSMANAGER,
     ]);
 
-    $user_bar = User::factory()->create([
-        'role_id' => Role::BUSINESSMANAGER,
-        'role_granted_by' => $user_foo->id,
-    ]);
-
     $user_baz = User::factory()->create([
-        'role_id' => Role::OBSERVER,
-        'role_granted_by' => $user_foo->id,
-    ]);
-
-    $user_foo->revokeDelegatedUsers();
-
-    $user_foo->refresh();
-    $user_bar->refresh();
-    $user_baz->refresh();
-
-    expect($user_foo->role_id)->toBe(Role::BUSINESSMANAGER)
-    ->and($user_foo->role_granted_by)->toBeNull()
-    ->and($user_bar->role_id)->toBe(Role::ORDINARY)
-    ->and($user_bar->role_granted_by)->toBeNull()
-    ->and($user_baz->role_id)->toBe(Role::ORDINARY)
-    ->and($user_baz->role_granted_by)->toBeNull();
-});
-
-test("updateAndRevokeDelegatedUsers updates the role and removes the user's delegations and the ones he made", function () {
-    $user_foo = User::factory()->create([
-        'role_id' => Role::BUSINESSMANAGER,
-    ]);
-
-    $user_bar = User::factory()->create([
         'role_id' => Role::BUSINESSMANAGER,
         'role_granted_by' => $user_foo->id,
-    ]);
-
-    $user_baz = User::factory()->create([
-        'role_id' => Role::OBSERVER,
-        'role_granted_by' => $user_bar->id,
+        'old_role_id' => Role::OBSERVER,
     ]);
 
     $user_taz = User::factory()->create([
         'role_id' => Role::BUSINESSMANAGER,
-        'role_granted_by' => $user_bar->id,
+        'role_granted_by' => $user_foo->id,
+        'old_role_id' => Role::ORDINARY,
     ]);
 
-    $user_bar->role_id = Role::ADMINISTRATOR;
-    $user_bar->updateAndRevokeDelegatedUsers();
+    $user_foo->role_id = Role::ADMINISTRATOR;
+    $user_foo->updateAndRevokeDelegatedUsers();
 
     $user_foo->refresh();
-    $user_bar->refresh();
     $user_baz->refresh();
     $user_taz->refresh();
 
-    expect($user_foo->role_id)->toBe(Role::BUSINESSMANAGER)
+    expect($user_foo->role_id)->toBe(Role::ADMINISTRATOR)
     ->and($user_foo->role_granted_by)->toBeNull()
-    ->and($user_bar->role_id)->toBe(Role::ADMINISTRATOR)
-    ->and($user_bar->role_granted_by)->toBeNull()
-    ->and($user_baz->role_id)->toBe(Role::ORDINARY)
+    ->and($user_foo->old_role_id)->toBeNull()
+    ->and($user_baz->role_id)->toBe(Role::OBSERVER)
     ->and($user_baz->role_granted_by)->toBeNull()
+    ->and($user_baz->old_role_id)->toBeNull()
     ->and($user_taz->role_id)->toBe(Role::ORDINARY)
-    ->and($user_taz->role_granted_by)->toBeNull();
+    ->and($user_taz->role_granted_by)->toBeNull()
+    ->and($user_taz->old_role_id)->toBeNull();
 });
 
 test('isSuperAdmin correctly identifies a superadmin', function () {

@@ -148,31 +148,33 @@ class User extends CorporateUser implements LdapAuthenticatable
     }
 
     /**
-     * Revokes the user's role delegation, as well as the ones he delegated,
-     * returning everyone to the ordinary role.
+     * Revokes the user's role delegation, restoring his previous role.
      *
      * @return bool
      */
     public function revokeDelegation()
     {
-        $this->role()->associate(Role::ORDINARY);
-
-        return $this->updateAndRevokeDelegatedUsers();
+        $this
+        ->role()->associate($this->old_role_id)
+        ->oldRole()->dissociate()
+        ->delegator()->dissociate()
+        ->save();
     }
 
     /**
-     * Revokes delegations made by the user.
+     * Revokes delegations made by the user restoring the previous role of each
+     * user.
      *
-     * @return int
+     * @return void
      */
-    public function revokeDelegatedUsers()
+    private function revokeDelegatedUsers()
     {
-        return $this
-        ->delegatedUsers()
-        ->update([
-            'role_granted_by' => null,
-            'role_id' => Role::ORDINARY,
-        ]);
+        $this->delegatedUsers()->get()->each(function ($user) {
+            $user->role_id = $user->old_role_id;
+            $user->role_granted_by = null;
+            $user->old_role_id = null;
+            $user->save();
+        });
     }
 
     /**
@@ -185,9 +187,10 @@ class User extends CorporateUser implements LdapAuthenticatable
         try {
             DB::beginTransaction();
 
-            $this->delegator()->dissociate();
-
-            $this->save();
+            $this
+            ->delegator()->dissociate()
+            ->oldRole()->dissociate()
+            ->save();
 
             $this->revokeDelegatedUsers();
 
