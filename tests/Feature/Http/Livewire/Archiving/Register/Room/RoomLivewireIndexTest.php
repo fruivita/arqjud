@@ -17,6 +17,9 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
+    $this->room = Room::factory()->create();
+    $this->room->load('floor.building.site');
+
     login('foo');
 });
 
@@ -44,65 +47,64 @@ test('cannot render listing component from room records without specific permiss
 test('cannot set the room record which will be deleted without specific permission', function () {
     grantPermission(PermissionType::RoomViewAny->value);
 
-    $room = Room::factory()->create();
-
     Livewire::test(RoomLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $room->id)
+    ->call('markToDelete', $this->room->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', new Room());
+    ->assertSet('deleting', null);
 });
 
 test('cannot set the room record which will be deleted if it has boxes', function () {
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 
-    $room = Room::factory()
-    ->has(Box::factory(2), 'boxes')
+    Box::factory()
+    ->for($this->room, 'room')
     ->create();
 
     Livewire::test(RoomLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $room->id)
+    ->call('markToDelete', $this->room->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', new Room());
+    ->assertSet('deleting', null);
 });
 
 test('cannot delete a room record without specific permission', function () {
     grantPermission(PermissionType::RoomViewAny->value);
+    grantPermission(PermissionType::RoomDelete->value);
 
-    $room = Room::factory()->create(['number' => 20]);
+    $component = Livewire::test(RoomLivewireIndex::class)
+    ->call('markToDelete', $this->room->id)
+    ->assertOk();
 
-    Livewire::test(RoomLivewireIndex::class)
-    ->assertOk()
-    ->call('markToDelete', $room->id)
+    revokePermission(PermissionType::RoomDelete->value);
+
+    $component
     ->call('destroy')
     ->assertForbidden();
 
-    expect(Room::where('number', 20)->exists())->toBeTrue();
+    expect(Room::where('id', $this->room->id)->exists())->toBeTrue();
 });
 
 test('cannot delete a room record if it has boxes', function () {
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 
-    $room = Room::factory()->create();
-
     $component = Livewire::test(RoomLivewireIndex::class)
-    ->call('markToDelete', $room->id)
+    ->call('markToDelete', $this->room->id)
     ->assertOk();
 
-    $boxes = Box::factory(2)->make();
-
-    $room->boxes()->saveMany($boxes);
+    Box::factory()
+    ->for($this->room, 'room')
+    ->create();
 
     $component
     ->call('destroy')
     ->assertForbidden();
 
-    expect(Room::where('id', $room->id)->get())->toHaveCount(1);
+    expect(Room::where('id', $this->room->id)->exists())->toBeTrue();
 });
 
 // Rules
@@ -159,10 +161,8 @@ test('emits feedback event when deleting a room record', function () {
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 
-    $room = Room::factory()->create(['number' => 20]);
-
     Livewire::test(RoomLivewireIndex::class)
-    ->call('markToDelete', $room->id)
+    ->call('markToDelete', $this->room->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -178,28 +178,24 @@ test('defines the room record that will be deleted with specific permission if i
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 
-    $room = Room::factory()->create(['number' => 20]);
-
     Livewire::test(RoomLivewireIndex::class)
-    ->call('markToDelete', $room->id)
+    ->call('markToDelete', $this->room->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $room->id);
+    ->assertSet('deleting.id', $this->room->id);
 });
 
 test('delete a room record with specific permission if it has no boxes', function () {
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 
-    $room = Room::factory()->create(['number' => 20]);
-
-    expect(Room::where('number', 20)->exists())->toBeTrue();
+    expect(Room::where('id', $this->room->id)->exists())->toBeTrue();
 
     Livewire::test(RoomLivewireIndex::class)
-    ->call('markToDelete', $room->id)
+    ->call('markToDelete', $this->room->id)
     ->assertOk()
-    ->call('destroy', $room->id)
+    ->call('destroy', $this->room->id)
     ->assertOk();
 
-    expect(Room::where('number', 20)->doesntExist())->toBeTrue();
+    expect(Room::where('id', $this->room->id)->doesntExist())->toBeTrue();
 });
