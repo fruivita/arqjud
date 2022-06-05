@@ -117,6 +117,8 @@ class BuildingLivewireUpdate extends Component
      */
     public function mount()
     {
+        $this->building->load('site');
+
         $this->sites = Site::defaultOrder()->get();
     }
 
