@@ -19,10 +19,10 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->building = Building::factory()->create(['name' => 'foo']);
+    $this->building = Building::factory()->create();
     $this->building->load('site');
 
-    $this->floor = Floor::factory()->create(['number' => 20]);
+    $this->floor = Floor::factory()->create();
     $this->floor->load('building.site');
 
     login('foo');
@@ -61,7 +61,7 @@ test('cannot set the building record which will be deleted without specific perm
     ->assertSet('deleting', null);
 });
 
-test('cannot set the building record which will be deleted if he has floors', function () {
+test('cannot set the building record which will be deleted it it has floors', function () {
     grantPermission(PermissionType::SiteUpdate->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
@@ -87,10 +87,10 @@ test('cannot delete a building record without specific permission', function () 
     ->call('destroy')
     ->assertForbidden();
 
-    expect(Building::where('name', 'foo')->exists())->toBeTrue();
+    expect(Building::where('id', $this->building->id)->exists())->toBeTrue();
 });
 
-test('cannot delete a building record if he has floors', function () {
+test('cannot delete a building record it it has floors', function () {
     grantPermission(PermissionType::SiteUpdate->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
@@ -106,7 +106,7 @@ test('cannot delete a building record if he has floors', function () {
     ->call('destroy')
     ->assertForbidden();
 
-    expect(Building::where('name', 'foo')->exists())->toBeTrue();
+    expect(Building::where('id', $this->building->id)->exists())->toBeTrue();
 });
 
 // Rules
@@ -283,11 +283,11 @@ test('defines the building record that will be deleted with specific permission 
     ->assertSet('deleting.id', $this->building->id);
 });
 
-test('deletes a building record with specific permission if it has no floors', function () {
+test('delete a building record with specific permission if it has no floors', function () {
     grantPermission(PermissionType::SiteUpdate->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
-    expect(Building::where('name', 'foo')->exists())->toBeTrue();
+    expect(Building::where('id', $this->building->id)->exists())->toBeTrue();
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->building->site])
     ->call('markToDelete', $this->building->id)
@@ -295,6 +295,6 @@ test('deletes a building record with specific permission if it has no floors', f
     ->call('destroy', $this->building->id)
     ->assertOk();
 
-    expect(Building::where('name', 'foo')->doesntExist())->toBeTrue();
+    expect(Building::where('id', $this->building->id)->doesntExist())->toBeTrue();
 });
 
