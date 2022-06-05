@@ -97,14 +97,14 @@ test('cannot delete a floor record if it has rooms', function () {
     ->assertOk();
 
     Room::factory()
-    ->for($this->floor)
+    ->for($this->floor, 'floor')
     ->create();
 
     $component
     ->call('destroy')
     ->assertForbidden();
 
-    expect(Floor::where('id', $this->floor->id)->get())->toHaveCount(1);
+    expect(Floor::where('id', $this->floor->id)->exists())->toBeTrue();
 });
 
 // Rules
