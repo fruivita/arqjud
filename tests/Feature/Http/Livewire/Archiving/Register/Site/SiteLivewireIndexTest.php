@@ -57,7 +57,7 @@ test('cannot set the site record which will be deleted without specific permissi
     ->assertSet('deleting', null);
 });
 
-test('cannot set the site record which will be deleted it it has buildings', function () {
+test('cannot set the site record which will be deleted if it has buildings', function () {
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 

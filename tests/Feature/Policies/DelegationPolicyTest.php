@@ -196,7 +196,7 @@ test('permission to list delegations is cached for 5 seconds', function () {
     ->and(cache()->missing($key))->toBeTrue();
 });
 
-test('user can list delegations from his department it it has permission', function () {
+test('user can list delegations from his department if it has permission', function () {
     grantPermission(PermissionType::DelegationViewAny->value);
 
     expect((new DelegationPolicy())->viewAny($this->user))->toBeTrue();

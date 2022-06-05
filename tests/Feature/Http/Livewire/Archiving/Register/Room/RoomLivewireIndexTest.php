@@ -54,7 +54,7 @@ test('cannot set the room record which will be deleted without specific permissi
     ->assertSet('deleting', new Room());
 });
 
-test('cannot set the room record which will be deleted it it has boxes', function () {
+test('cannot set the room record which will be deleted if it has boxes', function () {
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 
@@ -84,7 +84,7 @@ test('cannot delete a room record without specific permission', function () {
     expect(Room::where('number', 20)->exists())->toBeTrue();
 });
 
-test('cannot delete a room record it it has boxes', function () {
+test('cannot delete a room record if it has boxes', function () {
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 

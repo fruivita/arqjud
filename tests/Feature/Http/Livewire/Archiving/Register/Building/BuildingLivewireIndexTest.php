@@ -84,7 +84,7 @@ test('cannot delete a building record without specific permission', function () 
     expect(Building::where('name', 'foo')->exists())->toBeTrue();
 });
 
-test('cannot delete a building record it it has floors', function () {
+test('cannot delete a building record if it has floors', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
     grantPermission(PermissionType::BuildingDelete->value);
 

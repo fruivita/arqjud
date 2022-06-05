@@ -61,7 +61,7 @@ test('cannot set the building record which will be deleted without specific perm
     ->assertSet('deleting', null);
 });
 
-test('cannot set the building record which will be deleted it it has floors', function () {
+test('cannot set the building record which will be deleted if it has floors', function () {
     grantPermission(PermissionType::SiteUpdate->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
@@ -90,7 +90,7 @@ test('cannot delete a building record without specific permission', function () 
     expect(Building::where('id', $this->building->id)->exists())->toBeTrue();
 });
 
-test('cannot delete a building record it it has floors', function () {
+test('cannot delete a building record if it has floors', function () {
     grantPermission(PermissionType::SiteUpdate->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
@@ -239,10 +239,6 @@ test('emits feedback event when update a site record', function () {
 test('emits feedback event when deleting a building record', function () {
     grantPermission(PermissionType::SiteUpdate->value);
     grantPermission(PermissionType::BuildingDelete->value);
-
-    Building::factory(120)
-    ->for($this->building->site, 'site')
-    ->create();
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->building->site])
     ->call('markToDelete', $this->building->id)
