@@ -154,7 +154,7 @@ class User extends CorporateUser implements LdapAuthenticatable
      */
     public function revokeDelegation()
     {
-        $this
+        return $this
         ->role()->associate($this->old_role_id)
         ->oldRole()->dissociate()
         ->delegator()->dissociate()
