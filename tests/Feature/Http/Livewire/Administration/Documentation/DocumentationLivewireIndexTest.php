@@ -149,7 +149,7 @@ test('defines the application documentation record that will be deleted with spe
     ->assertSet('deleting.id', $doc->id);
 });
 
-test('deletes an application documentation record with specific permission', function () {
+test('delete an application documentation record with specific permission', function () {
     grantPermission(PermissionType::DocumentationViewAny->value);
     grantPermission(PermissionType::DocumentationDelete->value);
 

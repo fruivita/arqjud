@@ -54,7 +54,7 @@ test('cannot set the building record which will be deleted without specific perm
     ->assertSet('deleting', new Building());
 });
 
-test('cannot set the building record which will be deleted if he has floors', function () {
+test('cannot set the building record which will be deleted if it has floors', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
@@ -84,7 +84,7 @@ test('cannot delete a building record without specific permission', function () 
     expect(Building::where('name', 'foo')->exists())->toBeTrue();
 });
 
-test('cannot delete a building record if he has floors', function () {
+test('cannot delete a building record it it has floors', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
@@ -187,7 +187,7 @@ test('defines the building record that will be deleted with specific permission 
     ->assertSet('deleting.id', $building->id);
 });
 
-test('deletes a building record with specific permission if it has no floors', function () {
+test('delete a building record with specific permission if it has no floors', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
     grantPermission(PermissionType::BuildingDelete->value);
 

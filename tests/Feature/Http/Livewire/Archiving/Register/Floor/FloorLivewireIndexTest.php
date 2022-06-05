@@ -54,7 +54,7 @@ test('cannot set the floor record which will be deleted without specific permiss
     ->assertSet('deleting', new Floor());
 });
 
-test('cannot set the floor record which will be deleted if he has rooms', function () {
+test('cannot set the floor record which will be deleted it it has rooms', function () {
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 
@@ -84,7 +84,7 @@ test('cannot delete a floor record without specific permission', function () {
     expect(Floor::where('number', 20)->exists())->toBeTrue();
 });
 
-test('cannot delete a floor record if he has rooms', function () {
+test('cannot delete a floor record it it has rooms', function () {
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 
@@ -187,7 +187,7 @@ test('defines the floor record that will be deleted with specific permission if 
     ->assertSet('deleting.id', $floor->id);
 });
 
-test('deletes a floor record with specific permission if it has no rooms', function () {
+test('delete a floor record with specific permission if it has no rooms', function () {
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 
