@@ -160,7 +160,7 @@
 
                             <x-table.row>
 
-                                <x-table.cell colspan="1">{{ __('No record found') }}</x-table.cell>
+                                <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
 
                             </x-table.row>
 
