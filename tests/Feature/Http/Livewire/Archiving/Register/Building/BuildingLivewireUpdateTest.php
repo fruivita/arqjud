@@ -23,9 +23,6 @@ beforeEach(function () {
     $this->floor = Floor::factory()->create();
     $this->floor->load('building.site');
 
-    $this->room = Room::factory()->create();
-    $this->room->load('floor.building.site');
-
     login('foo');
 });
 
@@ -66,9 +63,13 @@ test('cannot set the floor record which will be deleted if it has rooms', functi
     grantPermission(PermissionType::BuildingUpdate->value);
     grantPermission(PermissionType::FloorDelete->value);
 
-    Livewire::test(BuildingLivewireUpdate::class, ['building' => $this->room->floor->building])
+    Room::factory()
+    ->for($this->floor, 'floor')
+    ->create();
+
+    Livewire::test(BuildingLivewireUpdate::class, ['building' => $this->floor->building])
     ->assertOk()
-    ->call('markToDelete', $this->room->floor->id)
+    ->call('markToDelete', $this->floor->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -216,7 +217,6 @@ test('site_id must previously exist in the database', function () {
 // Happy path
 test('pagination returns the amount of expected floors records', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
-    grantPermission(PermissionType::FloorDelete->value);
 
     Floor::factory(120)
     ->for($this->floor->building, 'building')
@@ -236,7 +236,6 @@ test('pagination returns the amount of expected floors records', function () {
 
 test('pagination creates the session variables', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
-    grantPermission(PermissionType::FloorDelete->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['building' => $this->floor->building])
     ->assertSessionMissing('per_page')
@@ -290,7 +289,7 @@ test('sites are available for selection in building update', function () {
     Site::factory(10)->create();
 
     Livewire::test(BuildingLivewireUpdate::class, ['building' => $this->floor->building])
-    ->assertCount('sites', 12);
+    ->assertCount('sites', 11);
 });
 
 test('update a building record with specific permission', function () {

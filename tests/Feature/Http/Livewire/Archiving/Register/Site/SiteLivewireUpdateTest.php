@@ -22,9 +22,6 @@ beforeEach(function () {
     $this->building = Building::factory()->create();
     $this->building->load('site');
 
-    $this->floor = Floor::factory()->create();
-    $this->floor->load('building.site');
-
     login('foo');
 });
 
@@ -65,9 +62,13 @@ test('cannot set the building record which will be deleted if it has floors', fu
     grantPermission(PermissionType::SiteUpdate->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
-    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->floor->building->site])
+    Floor::factory()
+    ->for($this->building, 'building')
+    ->create();
+
+    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->building->site])
     ->assertOk()
-    ->call('markToDelete', $this->floor->building->id)
+    ->call('markToDelete', $this->building->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -186,7 +187,7 @@ test('description must be a maximum of 255 characters', function () {
 // Happy path
 test('pagination returns the amount of expected building records', function () {
     grantPermission(PermissionType::SiteUpdate->value);
-    grantPermission(PermissionType::BuildingDelete->value);
+
     Building::factory(120)
     ->for($this->building->site, 'site')
     ->create();
@@ -205,7 +206,6 @@ test('pagination returns the amount of expected building records', function () {
 
 test('pagination creates the session variables', function () {
     grantPermission(PermissionType::SiteUpdate->value);
-    grantPermission(PermissionType::BuildingDelete->value);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->building->site])
     ->assertSessionMissing('per_page')

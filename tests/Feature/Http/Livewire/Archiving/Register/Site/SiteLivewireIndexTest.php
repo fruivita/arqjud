@@ -19,9 +19,6 @@ beforeEach(function () {
 
     $this->site = Site::factory()->create();
 
-    $this->building = Building::factory()->create();
-    $this->building->load('site');
-
     login('foo');
 });
 
@@ -61,9 +58,13 @@ test('cannot set the site record which will be deleted if it has buildings', fun
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 
+    Building::factory()
+    ->for($this->site, 'site')
+    ->create();
+
     Livewire::test(SiteLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $this->building->site->id)
+    ->call('markToDelete', $this->site->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
