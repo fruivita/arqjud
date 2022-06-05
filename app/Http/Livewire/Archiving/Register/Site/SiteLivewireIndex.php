@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Site;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithLimit;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -16,23 +17,10 @@ use Livewire\Component;
 class SiteLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
     use WithLimit;
     use WithPerPagePagination;
-
-    /**
-     * Should the modal for deleting the resource be displayed?
-     *
-     * @var bool
-     */
-    public $show_delete_modal = false;
-
-    /**
-     * Resource that will be deleted.
-     *
-     * @var \App\Models\Site|null
-     */
-    public $deleting = null;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -43,28 +31,6 @@ class SiteLivewireIndex extends Component
     public function boot()
     {
         $this->authorize(Policy::ViewAny->value, Site::class);
-    }
-
-    /**
-     * Runs once, immediately after the component is instantiated, but before
-     * render() is called. This is only called once on initial page load and
-     * never called again, even on component refreshes.
-     *
-     * @return void
-     */
-    public function mount()
-    {
-        $this->deleting = $this->blankModel();
-    }
-
-    /**
-     * Blank model.
-     *
-     * @return \App\Models\Site
-     */
-    private function blankModel()
-    {
-        return new Site();
     }
 
     /**
@@ -92,7 +58,7 @@ class SiteLivewireIndex extends Component
     }
 
     /**
-     * Displays the modal and defines the resource to be deleted.
+     * Triggers the modal to confirm the deletion.
      *
      * @param \App\Models\Site $site
      *
@@ -100,29 +66,6 @@ class SiteLivewireIndex extends Component
      */
     public function markToDelete(Site $site)
     {
-        $this->authorize(Policy::Delete->value, $site);
-
-        $this->deleting = $site;
-
-        $this->show_delete_modal = true;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return void
-     */
-    public function destroy()
-    {
-        $this->authorize(Policy::Delete->value, $this->deleting);
-
-        $deleted = $this->deleting->delete();
-
-        $this->fill([
-            'show_delete_modal' => false,
-            'deleting' => $this->blankModel(),
-        ]);
-
-        $this->notify($deleted);
+        $this->askForConfirmation($site);
     }
 }

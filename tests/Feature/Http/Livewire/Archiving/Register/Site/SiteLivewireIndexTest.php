@@ -17,6 +17,11 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
+    $this->site = Site::factory()->create();
+
+    $this->building = Building::factory()->create();
+    $this->building->load('site');
+
     login('foo');
 });
 
@@ -44,65 +49,58 @@ test('cannot render listing component from site records without specific permiss
 test('cannot set the site record which will be deleted without specific permission', function () {
     grantPermission(PermissionType::SiteViewAny->value);
 
-    $site = Site::factory()->create();
-
     Livewire::test(SiteLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $site->id)
+    ->call('markToDelete', $this->site->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', new Site());
+    ->assertSet('deleting', null);
 });
 
 test('cannot set the site record which will be deleted if he has buildings', function () {
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 
-    $site = Site::factory()
-    ->has(Building::factory(2), 'buildings')
-    ->create();
-
     Livewire::test(SiteLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $site->id)
+    ->call('markToDelete', $this->building->site->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', new Site());
+    ->assertSet('deleting', null);
 });
 
 test('cannot delete a site record without specific permission', function () {
     grantPermission(PermissionType::SiteViewAny->value);
+    grantPermission(PermissionType::SiteDelete->value);
 
-    $site = Site::factory()->create(['name' => 'foo']);
+    $component = Livewire::test(SiteLivewireIndex::class)
+    ->call('markToDelete', $this->site->id)
+    ->assertOk();
 
-    Livewire::test(SiteLivewireIndex::class)
-    ->assertOk()
-    ->call('markToDelete', $site->id)
-    ->call('destroy')
+    revokePermission(PermissionType::SiteDelete->value);
+
+    $component->call('destroy')
     ->assertForbidden();
 
-    expect(Site::where('name', 'foo')->exists())->toBeTrue();
+    expect(Site::where('id', $this->site->id)->exists())->toBeTrue();
 });
 
-test('cannot delete a site record if he has buildings', function () {
+test('cannot delete a site record if it has buildings', function () {
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 
-    $site = Site::factory()->create();
-
     $component = Livewire::test(SiteLivewireIndex::class)
-    ->call('markToDelete', $site->id)
+    ->call('markToDelete', $this->site->id)
     ->assertOk();
 
-    $buildings = Building::factory(2)->make();
+    Building::factory()
+    ->for($this->site)
+    ->create();
 
-    $site->buildings()->saveMany($buildings);
-
-    $component
-    ->call('destroy')
+    $component->call('destroy')
     ->assertForbidden();
 
-    expect(Site::where('id', $site->id)->get())->toHaveCount(1);
+    expect(Site::where('id', $this->site->id)->exists())->toBeTrue();
 });
 
 // Rules
@@ -159,10 +157,8 @@ test('emits feedback event when deleting a site record', function () {
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 
-    $site = Site::factory()->create(['name' => 'foo']);
-
     Livewire::test(SiteLivewireIndex::class)
-    ->call('markToDelete', $site->id)
+    ->call('markToDelete', $this->site->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -178,28 +174,24 @@ test('defines the site record that will be deleted with specific permission and 
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 
-    $site = Site::factory()->create(['name' => 'foo']);
-
     Livewire::test(SiteLivewireIndex::class)
-    ->call('markToDelete', $site->id)
+    ->call('markToDelete', $this->site->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $site->id);
+    ->assertSet('deleting.id', $this->site->id);
 });
 
 test('deletes a site record with specific permission if it has no buildings', function () {
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 
-    $site = Site::factory()->create(['name' => 'foo']);
-
-    expect(Site::where('name', 'foo')->exists())->toBeTrue();
+    expect(Site::where('id', $this->site->id)->exists())->toBeTrue();
 
     Livewire::test(SiteLivewireIndex::class)
-    ->call('markToDelete', $site->id)
+    ->call('markToDelete', $this->site->id)
     ->assertOk()
-    ->call('destroy', $site->id)
+    ->call('destroy', $this->site->id)
     ->assertOk();
 
-    expect(Site::where('name', 'foo')->doesntExist())->toBeTrue();
+    expect(Site::where('id', $this->site->id)->doesntExist())->toBeTrue();
 });
