@@ -17,6 +17,9 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
+    $this->floor = Floor::factory()->create();
+    $this->floor->load('building.site');
+
     login('foo');
 });
 
@@ -44,65 +47,64 @@ test('cannot render listing component from floor records without specific permis
 test('cannot set the floor record which will be deleted without specific permission', function () {
     grantPermission(PermissionType::FloorViewAny->value);
 
-    $floor = Floor::factory()->create();
-
     Livewire::test(FloorLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $floor->id)
+    ->call('markToDelete', $this->floor->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', new Floor());
+    ->assertSet('deleting', null);
 });
 
 test('cannot set the floor record which will be deleted if it has rooms', function () {
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 
-    $floor = floor::factory()
-    ->has(Room::factory(2), 'rooms')
+    Room::factory()
+    ->for($this->floor, 'floor')
     ->create();
 
     Livewire::test(FloorLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $floor->id)
+    ->call('markToDelete', $this->floor->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', new Floor());
+    ->assertSet('deleting', null);
 });
 
 test('cannot delete a floor record without specific permission', function () {
     grantPermission(PermissionType::FloorViewAny->value);
+    grantPermission(PermissionType::FloorDelete->value);
 
-    $floor = Floor::factory()->create(['number' => 20]);
+    $component = Livewire::test(FloorLivewireIndex::class)
+    ->call('markToDelete', $this->floor->id)
+    ->assertOk();
 
-    Livewire::test(FloorLivewireIndex::class)
-    ->assertOk()
-    ->call('markToDelete', $floor->id)
+    revokePermission(PermissionType::FloorDelete->value);
+
+    $component
     ->call('destroy')
     ->assertForbidden();
 
-    expect(Floor::where('number', 20)->exists())->toBeTrue();
+    expect(Floor::where('id', $this->floor->id)->exists())->toBeTrue();
 });
 
 test('cannot delete a floor record if it has rooms', function () {
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 
-    $floor = Floor::factory()->create();
-
     $component = Livewire::test(FloorLivewireIndex::class)
-    ->call('markToDelete', $floor->id)
+    ->call('markToDelete', $this->floor->id)
     ->assertOk();
 
-    $rooms = Room::factory(2)->make();
-
-    $floor->rooms()->saveMany($rooms);
+    Room::factory()
+    ->for($this->floor)
+    ->create();
 
     $component
     ->call('destroy')
     ->assertForbidden();
 
-    expect(Floor::where('id', $floor->id)->get())->toHaveCount(1);
+    expect(Floor::where('id', $this->floor->id)->get())->toHaveCount(1);
 });
 
 // Rules
@@ -159,10 +161,8 @@ test('emits feedback event when deleting a floor record', function () {
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 
-    $floor = Floor::factory()->create(['number' => 20]);
-
     Livewire::test(FloorLivewireIndex::class)
-    ->call('markToDelete', $floor->id)
+    ->call('markToDelete', $this->floor->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -178,28 +178,24 @@ test('defines the floor record that will be deleted with specific permission if 
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 
-    $floor = Floor::factory()->create(['number' => 20]);
-
     Livewire::test(FloorLivewireIndex::class)
-    ->call('markToDelete', $floor->id)
+    ->call('markToDelete', $this->floor->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $floor->id);
+    ->assertSet('deleting.id', $this->floor->id);
 });
 
 test('delete a floor record with specific permission if it has no rooms', function () {
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 
-    $floor = Floor::factory()->create(['number' => 20]);
-
-    expect(Floor::where('number', 20)->exists())->toBeTrue();
+    expect(Floor::where('id', $this->floor->id)->exists())->toBeTrue();
 
     Livewire::test(FloorLivewireIndex::class)
-    ->call('markToDelete', $floor->id)
+    ->call('markToDelete', $this->floor->id)
     ->assertOk()
-    ->call('destroy', $floor->id)
+    ->call('destroy', $this->floor->id)
     ->assertOk();
 
-    expect(Floor::where('number', 20)->doesntExist())->toBeTrue();
+    expect(Floor::where('id', $this->floor->id)->doesntExist())->toBeTrue();
 });
