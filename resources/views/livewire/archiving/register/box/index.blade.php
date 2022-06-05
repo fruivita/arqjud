@@ -63,7 +63,7 @@
                 <x-table.heading>{{ __('Shelf') }}</x-table.heading>
 
 
-                <x-table.heading>{{ __('Volumes') }}</x-table.heading>
+                <x-table.heading>{{ __('Qty of volumes') }}</x-table.heading>
 
 
                 <x-table.heading>{{ __('Site') }}</x-table.heading>

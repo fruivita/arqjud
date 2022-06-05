@@ -110,10 +110,10 @@
 
                     <x-slot name="head">
 
-                        <x-table.heading>{{ __('Rooms') }}</x-table.heading>
+                        <x-table.heading>{{ __('Room') }}</x-table.heading>
 
 
-                        <x-table.heading>{{ __('Boxes') }}</x-table.heading>
+                        <x-table.heading>{{ __('Qty of boxes') }}</x-table.heading>
 
 
                         <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>

@@ -47,7 +47,7 @@
                 <x-table.heading>{{ __('Building') }}</x-table.heading>
 
 
-                <x-table.heading>{{ __('Floors') }}</x-table.heading>
+                <x-table.heading>{{ __('Qty of floors') }}</x-table.heading>
 
 
                 <x-table.heading>{{ __('Site') }}</x-table.heading>

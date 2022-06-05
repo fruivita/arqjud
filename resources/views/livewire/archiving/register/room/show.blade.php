@@ -115,13 +115,13 @@
 
                     <x-slot name="head">
 
-                        <x-table.heading>{{ __('Boxes') }}</x-table.heading>
+                        <x-table.heading>{{ __('Box') }}</x-table.heading>
 
 
                         <x-table.heading>{{ __('Year') }}</x-table.heading>
 
 
-                        <x-table.heading>{{ __('Volumes') }}</x-table.heading>
+                        <x-table.heading>{{ __('Qty of volumes') }}</x-table.heading>
 
 
                         <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>

@@ -142,7 +142,7 @@
                         max="1000"
                         :placeholder="__('Only numbers')"
                         required
-                        :text="__('Volumes')"
+                        :text="__('Qty of volumes')"
                         :title="__('Inform the number of volumes of the boxes')"
                         type="number"/>
 

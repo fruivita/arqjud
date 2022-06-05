@@ -79,7 +79,7 @@
 
 
             <x-show-value
-                :key="__('Volumes')"
+                :key="__('Qty of volumes')"
                 :value="$box->volumes_count"/>
 
 
