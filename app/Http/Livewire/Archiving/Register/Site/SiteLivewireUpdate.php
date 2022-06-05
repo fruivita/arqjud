@@ -3,8 +3,11 @@
 namespace App\Http\Livewire\Archiving\Register\Site;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
+use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Http\Livewire\Traits\WithPreviousNext;
+use App\Models\Building;
 use App\Models\Site;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -16,7 +19,9 @@ use Livewire\Component;
 class SiteLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
+    use WithPerPagePagination;
     use WithPreviousNext;
 
     /**
@@ -87,13 +92,39 @@ class SiteLivewireUpdate extends Component
     }
 
     /**
+     * Computed property to list paged buildings.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getBuildingsProperty()
+    {
+        return $this->applyPagination(
+            $this->site->buildings()->defaultOrder()
+        );
+    }
+
+    /**
      * Renders the component.
      *
      * @return \Illuminate\Http\Response
      */
     public function render()
     {
-        return view('livewire.archiving.register.site.edit')->layout('layouts.app');
+        return view('livewire.archiving.register.site.edit', [
+            'buildings' => $this->buildings,
+        ])->layout('layouts.app');
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Building $building
+     *
+     * @return void
+     */
+    public function markToDelete(Building $building)
+    {
+        $this->askForConfirmation($building);
     }
 
     /**
