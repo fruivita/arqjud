@@ -62,7 +62,7 @@
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.year"
-                        wire:target="update"
+                        wire:target="storeVolume,update"
                         :error="$errors->first('box.year')"
                         icon="calendar-range"
                         min="1900"
@@ -79,7 +79,7 @@
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.number"
-                        wire:target="box.year,update"
+                        wire:target="box.year,storeVolume,update"
                         :error="$errors->first('box.number')"
                         icon="tag"
                         min="1"
@@ -99,7 +99,7 @@
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.stand"
-                        wire:target="update"
+                        wire:target="storeVolume,update"
                         :error="$errors->first('box.stand')"
                         icon="bookshelf"
                         min="1"
@@ -115,7 +115,7 @@
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.shelf"
-                        wire:target="update"
+                        wire:target="storeVolume,update"
                         :error="$errors->first('box.shelf')"
                         icon="list-nested"
                         min="1"
@@ -133,7 +133,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="box.description"
-                    wire:target="update"
+                    wire:target="storeVolume,update"
                     :error="$errors->first('box.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -151,7 +151,7 @@
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model="site_id"
-                        wire:target="site_id,update"
+                        wire:target="site_id,storeVolume,update"
                         :error="$errors->first('site_id')"
                         icon="pin-map"
                         required
@@ -190,7 +190,7 @@
                             wire:loading.delay.attr="disabled"
                             wire:loading.delay.class="cursor-not-allowed"
                             wire:model="building_id"
-                            wire:target="building_id,site_id,update"
+                            wire:target="building_id,site_id,storeVolume,update"
                             :error="$errors->first('building_id')"
                             icon="building"
                             required
@@ -232,7 +232,7 @@
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model="floor_id"
-                                wire:target="floor_id,building_id,site_id,update"
+                                wire:target="floor_id,building_id,site_id,storeVolume,update"
                                 class="w-full"
                                 :error="$errors->first('floor_id')"
                                 icon="layers"
@@ -273,7 +273,7 @@
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model.defer="box.room_id"
-                                wire:target="floor_id,building_id,site_id,update"
+                                wire:target="floor_id,building_id,site_id,storeVolume,update"
                                 :error="$errors->first('box.room_id')"
                                 icon="door-closed"
                                 required
@@ -311,6 +311,10 @@
 
 
                     <x-button
+                        wire:key="btn-submit"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:target="floor_id,building_id,site_id,storeVolume,update"
                         class="btn-do"
                         icon="save"
                         :text="__('Save')"
@@ -331,6 +335,81 @@
 
         </form>
 
+
+        <div class="overflow-x-auto">
+
+            <div class="flex items-center justify-between mb-3">
+
+                @can(\App\Enums\Policy::Create->value, \App\Models\BoxVolume::class)
+
+                    <x-button
+                        wire:click="storeVolume()"
+                        wire:key="btn-store-volume"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:target="floor_id,building_id,site_id,storeVolume,update"
+                        class="btn-do mr-3"
+                        icon="plus-circle"
+                        :text="__('New')"
+                        :title="__('Create a new record')"
+                        type="button"/>
+
+
+                    <x-error>{{ $errors->first('volume') }}</x-error>
+
+                @else
+
+                    <div></div>
+
+                @endcan
+
+
+                <x-perpage
+                    wire:key="per-page"
+                    wire:model="per_page"
+                    :error="$errors->first('per_page')"/>
+
+            </div>
+
+
+            <x-table wire:key="table-volumes" wire:loading.delay.class="opacity-25">
+
+                <x-slot name="head">
+
+                    <x-table.heading>{{ __('Volume') }}</x-table.heading>
+
+                </x-slot>
+
+
+                <x-slot name="body">
+
+                    @forelse ( $volumes ?? [] as $volume )
+
+                        <x-table.row>
+
+                            <x-table.cell>{{ $volume->number }}</x-table.cell>
+
+                        </x-table.row>
+
+                    @empty
+
+                        <x-table.row>
+
+                            <x-table.cell colspan="1">{{ __('No record found') }}</x-table.cell>
+
+                        </x-table.row>
+
+                    @endforelse
+
+                </x-slot>
+
+            </x-table>
+
+        </div>
+
     </x-container>
+
+
+    {{ $volumes->links() }}
 
 </x-page>

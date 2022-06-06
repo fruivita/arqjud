@@ -4,14 +4,17 @@ namespace App\Http\Livewire\Archiving\Register\Box;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
+use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Http\Livewire\Traits\WithPreviousNext;
 use App\Models\Box;
+use App\Models\BoxVolume;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
 use App\Models\Site;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 /**
@@ -22,6 +25,7 @@ class BoxLivewireUpdate extends Component
 {
     use AuthorizesRequests;
     use WithFeedbackEvents;
+    use WithPerPagePagination;
     use WithPreviousNext;
 
     /**
@@ -151,13 +155,6 @@ class BoxLivewireUpdate extends Component
                 'string',
                 'max:255',
             ],
-
-            // 'volumes' => [
-            //     'bail',
-            //     'required',
-            //     'integer',
-            //     'between:1,1000',
-            // ],
         ];
     }
 
@@ -227,13 +224,27 @@ class BoxLivewireUpdate extends Component
     }
 
     /**
+     * Computed property to list paged box volumes.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getVolumesProperty()
+    {
+        return $this->applyPagination(
+            $this->box->volumes()->defaultOrder()
+        );
+    }
+
+    /**
      * Renders the component.
      *
      * @return \Illuminate\Http\Response
      */
     public function render()
     {
-        return view('livewire.archiving.register.box.edit')->layout('layouts.app');
+        return view('livewire.archiving.register.box.edit', [
+            'volumes' => $this->volumes
+        ])->layout('layouts.app');
     }
 
     /**
@@ -293,5 +304,44 @@ class BoxLivewireUpdate extends Component
         $saved = $this->box->save();
 
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return void
+     */
+    public function storeVolume()
+    {
+        $this->authorize(Policy::Create->value, BoxVolume::class);
+
+        $next_number = $this->box->nextVolumeNumber();
+
+        $this->validateVolume($next_number);
+
+        $new_volume = new BoxVolume();
+        $new_volume->number = $next_number;
+
+        $saved = $this->box->volumes()->save($new_volume)
+        ? true
+        : false;
+
+        $this->notify($saved, $new_volume->number);
+    }
+
+    /**
+     * Validate the box volume number.
+     *
+     * @param mixed $value
+     *
+     * @return void
+     */
+    private function validateVolume($value)
+    {
+        Validator::make(
+            data: ['volume' => $value],
+            rules: ['volume' => ['required', 'integer', 'between:1,1000']],
+            customAttributes: ['volume' => __('Volume')]
+        )->validate();
     }
 }

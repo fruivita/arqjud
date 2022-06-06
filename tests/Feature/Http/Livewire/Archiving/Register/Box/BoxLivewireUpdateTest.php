@@ -8,6 +8,7 @@ use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireUpdate;
 use App\Models\Box;
+use App\Models\BoxVolume;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -48,7 +49,25 @@ test('cannot render box record edit component without specific permission', func
     ->assertForbidden();
 });
 
+test('cannot create a box volume without without specific permission', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->call('storeVolume')
+    ->assertForbidden();
+
+    expect($this->box->volumes()->doesntExist())->toBeTrue();
+});
+
 // Rules
+test('does not accept pagination outside the options offered', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->set('per_page', 33) // possible values: 10/25/50/100
+    ->assertHasErrors(['per_page' => 'in']);
+});
+
 test('site_id is optional', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
@@ -349,7 +368,54 @@ test('description must be a maximum of 255 characters', function () {
     ->assertHasErrors(['box.description' => 'max']);
 });
 
+test('box volume number must be between 1 and 50000', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+    grantPermission(PermissionType::BoxVolumeCreate->value);
+
+    BoxVolume::factory()
+    ->for($this->box, 'box')
+    ->create(['number' => 50000]);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->call('storeVolume')
+    ->assertHasErrors(['volume' => 'between']);
+});
+
 // Happy path
+test('pagination returns the amount of expected box volumes records', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    BoxVolume::factory(120)
+    ->for($this->box, 'box')
+    ->create();
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->assertCount('volumes', 10)
+    ->set('per_page', 10)
+    ->assertCount('volumes', 10)
+    ->set('per_page', 25)
+    ->assertCount('volumes', 25)
+    ->set('per_page', 50)
+    ->assertCount('volumes', 50)
+    ->set('per_page', 100)
+    ->assertCount('volumes', 100);
+});
+
+test('pagination creates the session variables', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->assertSessionMissing('per_page')
+    ->set('per_page', 10)
+    ->assertSessionHas('per_page', 10)
+    ->set('per_page', 25)
+    ->assertSessionHas('per_page', 25)
+    ->set('per_page', 50)
+    ->assertSessionHas('per_page', 50)
+    ->set('per_page', 100)
+    ->assertSessionHas('per_page', 100);
+});
+
 test('renders edit box record component with specific permission', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
@@ -371,6 +437,26 @@ test('emits feedback event when update a box record', function () {
     ->set('box.room_id', $room->id)
     ->call('update')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
+});
+
+test('emits feedback event when create a box volume record', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+    grantPermission(PermissionType::BoxVolumeCreate->value);
+
+    BoxVolume::factory()
+    ->for($this->box, 'box')
+    ->create(['number' => 10]);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->call('storeVolume')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => '11', // 10 + 1 (the number of the volume created)
+        'timeout' => 3000,
+    ]);
 });
 
 test('sites are available for selection in box update', function () {
@@ -470,4 +556,19 @@ test('update a box record with specific permission', function () {
     ->and($this->box->shelf)->toBe(5)
     ->and($this->box->description)->toBe('foo bar')
     ->and($this->box->room->id)->toBe($room->id);
+});
+
+test('create a box volume with specific permission', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+    grantPermission(PermissionType::BoxVolumeCreate->value);
+
+    BoxVolume::factory()
+    ->for($this->box, 'box')
+    ->create(['number' => 10]);
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->call('storeVolume')
+    ->assertOk();
+
+    expect($this->box->volumes()->where('number', 11)->exists())->toBeTrue();
 });
