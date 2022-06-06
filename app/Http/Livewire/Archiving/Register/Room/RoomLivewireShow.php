@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Archiving\Register\Room;
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Http\Livewire\Traits\WithPreviousNext;
-use App\Models\Box;
 use App\Models\Room;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;

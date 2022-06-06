@@ -79,7 +79,7 @@ class BoxLivewireShow extends Component
     public function render()
     {
         return view('livewire.archiving.register.box.show', [
-            'volumes' => $this->volumes
+            'volumes' => $this->volumes,
         ])->layout('layouts.app');
     }
 }

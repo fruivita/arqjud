@@ -243,7 +243,7 @@ class BoxLivewireUpdate extends Component
     public function render()
     {
         return view('livewire.archiving.register.box.edit', [
-            'volumes' => $this->volumes
+            'volumes' => $this->volumes,
         ])->layout('layouts.app');
     }
 

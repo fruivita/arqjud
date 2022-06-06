@@ -293,4 +293,3 @@ test('delete a building record with specific permission if it has no floors', fu
 
     expect(Building::where('id', $this->building->id)->doesntExist())->toBeTrue();
 });
-
