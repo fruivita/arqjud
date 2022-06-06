@@ -189,6 +189,14 @@ test('one box has many box volumes', function () {
     expect($box->volumes)->toHaveCount(3);
 });
 
+test('nextVolumeNumber return the number to be used to create the new box volume', function () {
+    $box = Box::factory()
+        ->has(BoxVolume::factory()->state(['number' => 10]), 'volumes')
+        ->create();
+
+    expect($box->nextVolumeNumber())->toBe(11);
+});
+
 test('search, with partial term or not, returns the expected values', function () {
     Box::factory()->create(['number' => 100, 'year' => 2015]);
     Box::factory()->create(['number' => 120152, 'year' => 2020]);

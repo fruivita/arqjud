@@ -21,6 +21,13 @@ class Box extends Model
     protected $fillable = ['year', 'number', 'stand', 'shelf', 'description'];
 
     /**
+     * The relationship counts that should be eager loaded on every query.
+     *
+     * @var array
+     */
+    protected $withCount = ['volumes'];
+
+    /**
      * Relationship box (N:1) room.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -122,6 +129,16 @@ class Box extends Model
                 ->where('number', 'like', "%{$term}%")
                 ->orWhere('year', 'like', "%{$term}%");
         });
+    }
+
+    /**
+     * Generates the next box volume number.
+     *
+     * @return int
+     */
+    public function nextVolumeNumber()
+    {
+        return $this->volumes()->max('number') + 1;
     }
 
     /**
