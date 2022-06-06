@@ -57,7 +57,7 @@
 
 
             {{-- message itself --}}
-            <p x-text="message"></p>
+            <p class="text-center" x-text="message"></p>
 
         </div>
 
