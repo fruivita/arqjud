@@ -40,7 +40,7 @@
         </div>
 
 
-        <x-table wire:key="table-building" wire:loading.delay.class="opacity-25">
+        <x-table wire:key="table-buildings" wire:loading.delay.class="opacity-25">
 
             <x-slot name="head">
 

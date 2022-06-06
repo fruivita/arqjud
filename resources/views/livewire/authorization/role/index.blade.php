@@ -21,7 +21,7 @@
             :error="$errors->first('per_page')"/>
 
 
-        <x-table wire:key="table-role-permission" wire:loading.delay.class="opacity-25">
+        <x-table wire:key="table-roles-permission" wire:loading.delay.class="opacity-25">
 
             <x-slot name="head">
 

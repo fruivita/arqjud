@@ -97,7 +97,7 @@
                     @enderror
 
 
-                    <x-table wire:key="table-permission" wire:loading.delay.class="opacity-25">
+                    <x-table wire:key="table-permissions" wire:loading.delay.class="opacity-25">
 
                         <x-slot name="head">
 

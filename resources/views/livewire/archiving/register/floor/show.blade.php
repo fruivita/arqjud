@@ -106,7 +106,7 @@
                     :error="$errors->first('per_page')"/>
 
 
-                <x-table wire:key="table-room" wire:loading.delay.class="opacity-25">
+                <x-table wire:key="table-rooms" wire:loading.delay.class="opacity-25">
 
                     <x-slot name="head">
 

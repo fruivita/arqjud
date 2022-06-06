@@ -32,7 +32,7 @@
             :error="$errors->first('per_page')"/>
 
 
-        <x-table wire:key="table-delegation" wire:loading.delay.class="opacity-25">
+        <x-table wire:key="table-delegations" wire:loading.delay.class="opacity-25">
 
             <x-slot name="head">
 
