@@ -68,9 +68,7 @@ class RoomLivewireShow extends Component
     public function getBoxesProperty()
     {
         return $this->applyPagination(
-            Box::withCount('volumes')
-            ->where('room_id', $this->room->id)
-            ->defaultOrder()
+            $this->room->boxes()->defaultOrder()
         );
     }
 
