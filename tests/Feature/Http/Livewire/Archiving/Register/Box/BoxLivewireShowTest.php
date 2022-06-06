@@ -7,6 +7,7 @@
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireShow;
 use App\Models\Box;
+use App\Models\BoxVolume;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Livewire\Livewire;
@@ -42,7 +43,50 @@ test('cannot render individual box view component without specific permission', 
     ->assertForbidden();
 });
 
+// Rules
+test('does not accept pagination outside the options offered', function () {
+    grantPermission(PermissionType::BoxView->value);
+
+    Livewire::test(BoxLivewireShow::class, ['box' => $this->box])
+    ->set('per_page', 33) // possible values: 10/25/50/100
+    ->assertHasErrors(['per_page' => 'in']);
+});
+
 // Happy path
+test('pagination returns the amount of expected box volumes records', function () {
+    grantPermission(PermissionType::BoxView->value);
+
+    BoxVolume::factory(120)
+    ->for($this->box, 'box')
+    ->create();
+
+    Livewire::test(BoxLivewireShow::class, ['box' => $this->box])
+    ->assertCount('volumes', 10)
+    ->set('per_page', 10)
+    ->assertCount('volumes', 10)
+    ->set('per_page', 25)
+    ->assertCount('volumes', 25)
+    ->set('per_page', 50)
+    ->assertCount('volumes', 50)
+    ->set('per_page', 100)
+    ->assertCount('volumes', 100);
+});
+
+test('pagination creates the session variables', function () {
+    grantPermission(PermissionType::BoxView->value);
+
+    Livewire::test(BoxLivewireShow::class, ['box' => $this->box])
+    ->assertSessionMissing('per_page')
+    ->set('per_page', 10)
+    ->assertSessionHas('per_page', 10)
+    ->set('per_page', 25)
+    ->assertSessionHas('per_page', 25)
+    ->set('per_page', 50)
+    ->assertSessionHas('per_page', 50)
+    ->set('per_page', 100)
+    ->assertSessionHas('per_page', 100);
+});
+
 test('renders individual role view component with specific permission', function () {
     grantPermission(PermissionType::BoxView->value);
 

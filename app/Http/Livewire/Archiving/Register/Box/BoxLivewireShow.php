@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Box;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Http\Livewire\Traits\WithPreviousNext;
 use App\Models\Box;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -14,6 +15,7 @@ use Livewire\Component;
 class BoxLivewireShow extends Component
 {
     use AuthorizesRequests;
+    use WithPerPagePagination;
     use WithPreviousNext;
 
     /**
@@ -54,9 +56,19 @@ class BoxLivewireShow extends Component
      */
     public function mount()
     {
-        $this->box
-        ->loadCount('volumes')
-        ->load(['room.floor.building.site']);
+        $this->box->load(['room.floor.building.site']);
+    }
+
+    /**
+     * Computed property to list paged box volumes.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getVolumesProperty()
+    {
+        return $this->applyPagination(
+            $this->box->volumes()->defaultOrder()
+        );
     }
 
     /**
@@ -66,6 +78,8 @@ class BoxLivewireShow extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.box.show')->layout('layouts.app');
+        return view('livewire.archiving.register.box.show', [
+            'volumes' => $this->volumes
+        ])->layout('layouts.app');
     }
 }
