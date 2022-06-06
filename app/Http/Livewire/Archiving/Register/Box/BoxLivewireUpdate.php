@@ -326,17 +326,17 @@ class BoxLivewireUpdate extends Component
         ? true
         : false;
 
-        $this->notify($saved, $new_volume->number);
+        $this->notify($saved, (string) $new_volume->number);
     }
 
     /**
      * Validate the box volume number.
      *
-     * @param mixed $value
+     * @param int $value
      *
      * @return void
      */
-    private function validateVolume($value)
+    private function validateVolume(int $value)
     {
         Validator::make(
             data: ['volume' => $value],
