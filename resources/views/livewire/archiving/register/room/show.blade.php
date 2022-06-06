@@ -12,6 +12,9 @@
 
 <x-page :header="__('Room') . ': ' . $room->number">
 
+    <x-backtrace :model="$room"/>
+
+
     <x-container class="space-y-6">
 
         <div class="flex justify-between">

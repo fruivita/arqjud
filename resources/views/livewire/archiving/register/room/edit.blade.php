@@ -12,6 +12,9 @@
 
 <x-page :header="__('Edit the room')">
 
+    <x-backtrace :model="$room"/>
+
+
     <x-container class="space-y-6">
 
         <div class="flex justify-between">

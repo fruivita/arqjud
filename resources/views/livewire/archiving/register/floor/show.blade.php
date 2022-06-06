@@ -12,6 +12,9 @@
 
 <x-page :header="__('Floor') . ': ' . $floor->number">
 
+    <x-backtrace :model="$floor"/>
+
+
     <x-container class="space-y-6">
 
         <div class="flex justify-between">

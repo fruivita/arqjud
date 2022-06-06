@@ -12,6 +12,9 @@
 
 <x-page :header="__('Box') . ': ' . $box->name()">
 
+    <x-backtrace :model="$box"/>
+
+
     <x-container class="space-y-6">
 
         <div class="flex justify-between">

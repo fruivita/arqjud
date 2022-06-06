@@ -132,6 +132,21 @@ class Box extends Model
     }
 
     /**
+     * Links to the parent entities.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function parentEntitiesLinks()
+    {
+        return collect([
+            __('Site') => route('archiving.register.site.show', $this->room->floor->building->site),
+            __('Building') => route('archiving.register.building.show', $this->room->floor->building),
+            __('Floor') => route('archiving.register.floor.show', $this->room->floor),
+            __('Room') => route('archiving.register.room.show', $this->room),
+        ]);
+    }
+
+    /**
      * Generates the next box volume number.
      *
      * @return int

@@ -2265,6 +2265,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-3{
   margin-top: 0.75rem;
 }
+.mr-3{
+  margin-right: 0.75rem;
+}
 .inline{
   display: inline;
 }
@@ -2642,6 +2645,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity));
 }
+.underline{
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+}
 .opacity-0{
   opacity: 0;
 }
@@ -2731,11 +2738,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .hover\:border-l-4:hover{
   border-left-width: 4px;
-}
-
-.hover\:bg-primary-400:hover{
-  --tw-bg-opacity: 1;
-  background-color: rgb(45 212 191 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-primary-200:hover{
@@ -2864,16 +2866,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .dark .dark\:even\:bg-secondary-800:nth-child(even){
   --tw-bg-opacity: 1;
   background-color: rgb(30 41 59 / var(--tw-bg-opacity));
-}
-
-.dark .hover\:dark\:bg-secondary-800:hover{
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
-}
-
-.dark .hover\:dark\:bg-secondary-700:hover{
-  --tw-bg-opacity: 1;
-  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
 }
 
 .dark .hover\:dark\:bg-secondary-500:hover{

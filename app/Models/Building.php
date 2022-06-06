@@ -80,4 +80,16 @@ class Building extends Model
         ->orderBy('name', 'asc')
         ->take(1);
     }
+
+    /**
+     * Links to the parent entities.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function parentEntitiesLinks()
+    {
+        return collect([
+            __('Site') => route('archiving.register.site.show', $this->site),
+        ]);
+    }
 }

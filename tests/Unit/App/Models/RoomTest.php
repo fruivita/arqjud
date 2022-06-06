@@ -123,3 +123,17 @@ test('one room has many boxes', function () {
 
     expect($room->boxes)->toHaveCount(3);
 });
+
+test('parentEntitiesLinks returns show parents routes sorted from most distant to closest relationship', function () {
+    $room = Room::factory()->create();
+
+    $room->load('floor.building.site');
+
+    $room->parentEntitiesLinks();
+
+    expect($room->parentEntitiesLinks()->toArray())->toBe([
+        __('Site') => route('archiving.register.site.show', $room->floor->building->site),
+        __('Building') => route('archiving.register.building.show', $room->floor->building),
+        __('Floor') => route('archiving.register.floor.show', $room->floor),
+    ]);
+});

@@ -80,4 +80,17 @@ class Floor extends Model
         ->orderBy('number', 'asc')
         ->take(1);
     }
+
+    /**
+     * Links to the parent entities.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function parentEntitiesLinks()
+    {
+        return collect([
+            __('Site') => route('archiving.register.site.show', $this->building->site),
+            __('Building') => route('archiving.register.building.show', $this->building),
+        ]);
+    }
 }

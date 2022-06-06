@@ -209,6 +209,21 @@ test('search, with partial term or not, returns the expected values', function (
     ->and(Box::search('100')->get())->toHaveCount(1);
 });
 
+test('parentEntitiesLinks returns show parents routes sorted from most distant to closest relationship', function () {
+    $box = Box::factory()->create();
+
+    $box->load('room.floor.building.site');
+
+    $box->parentEntitiesLinks();
+
+    expect($box->parentEntitiesLinks()->toArray())->toBe([
+        __('Site') => route('archiving.register.site.show', $box->room->floor->building->site),
+        __('Building') => route('archiving.register.building.show', $box->room->floor->building),
+        __('Floor') => route('archiving.register.floor.show', $box->room->floor),
+        __('Room') => route('archiving.register.room.show', $box->room),
+    ]);
+});
+
 test('createMany method creates and persists sequential boxes with equal attributes and sequential boxes', function () {
     $template = Box::factory()->makeOne(['number' => 10]);
     $room = Room::factory()->create();

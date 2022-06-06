@@ -116,3 +116,15 @@ test('one building has many floors', function () {
 
     expect($building->floors)->toHaveCount(3);
 });
+
+test('parentEntitiesLinks returns show parents routes sorted from most distant to closest relationship', function () {
+    $building = Building::factory()->create();
+
+    $building->load('site');
+
+    $building->parentEntitiesLinks();
+
+    expect($building->parentEntitiesLinks()->toArray())->toBe([
+        __('Site') => route('archiving.register.site.show', $building->site)
+    ]);
+});
