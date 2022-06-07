@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /*
- * @see https://laravel.com/docs/8.x/migrations
+ * @see https://laravel.com/docs/migrations
  * @see https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
  */
 return new class extends Migration {
@@ -16,23 +16,22 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('boxes', function (Blueprint $table) {
+        Schema::create('shelves', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('shelf_id');
+            $table->unsignedBigInteger('stand_id');
             $table->unsignedInteger('number');
-            $table->unsignedSmallInteger('year');
             $table->string('description', 255)->nullable();
             $table->timestamps();
 
             $table->unique([
+                'stand_id',
                 'number',
-                'year',
             ]);
 
             $table
-                ->foreign('shelf_id')
+                ->foreign('stand_id')
                 ->references('id')
-                ->on('shelves')
+                ->on('stands')
                 ->onUpdate('cascade');
         });
     }
@@ -44,6 +43,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('boxes');
+        Schema::dropIfExists('shelves');
     }
 };
