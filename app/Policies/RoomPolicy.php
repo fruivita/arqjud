@@ -70,7 +70,7 @@ class RoomPolicy extends Policy
     public function delete(User $user, Room $room)
     {
         return
-            $room->boxes_count === 0
+            $room->stands_count === 0
             && $this->hasAnyPermission($user, [PermissionType::RoomDelete]);
     }
 }

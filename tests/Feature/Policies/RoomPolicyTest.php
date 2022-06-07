@@ -5,7 +5,7 @@
  */
 
 use App\Enums\PermissionType;
-use App\Models\Box;
+use App\Models\Stand;
 use App\Models\Room;
 use App\Policies\RoomPolicy;
 use Database\Seeders\DepartmentSeeder;
@@ -42,18 +42,18 @@ test('user without permission cannot update a room', function () {
 
 test('user without permission cannot delete a room', function () {
     $room = Room::factory()->create();
-    $room->loadCount('boxes');
+    $room->loadCount('stands');
 
     expect((new RoomPolicy())->delete($this->user, $room))->toBeFalse();
 });
 
-test('room with boxes cannot be delete', function () {
+test('room with stands cannot be delete', function () {
     grantPermission(PermissionType::RoomDelete->value);
 
     $room = Room::factory()
-    ->has(Box::factory(2), 'boxes')
+    ->has(Stand::factory(2), 'stands')
     ->create();
-    $room->loadCount('boxes');
+    $room->loadCount('stands');
 
     expect((new RoomPolicy())->delete($this->user, $room))->toBeFalse();
 });
@@ -192,7 +192,7 @@ test('permission to individually delete a room is cached for 5 seconds', functio
     grantPermission(PermissionType::RoomDelete->value);
 
     $room = Room::factory()->create();
-    $room->loadCount('boxes');
+    $room->loadCount('stands');
 
     $key = "{$this->user->username}-permissions";
 
@@ -250,16 +250,16 @@ test('user with permission can individually delete a room', function () {
     grantPermission(PermissionType::RoomDelete->value);
 
     $room = Room::factory()->create();
-    $room->loadCount('boxes');
+    $room->loadCount('stands');
 
     expect((new RoomPolicy())->delete($this->user, $room))->toBeTrue();
 });
 
-test('room without boxes can be deleted', function () {
+test('room without stands can be deleted', function () {
     grantPermission(PermissionType::RoomDelete->value);
 
     $room = Room::factory()->create();
-    $room->loadCount('boxes');
+    $room->loadCount('stands');
 
     expect((new RoomPolicy())->delete($this->user, $room))->toBeTrue();
 });
