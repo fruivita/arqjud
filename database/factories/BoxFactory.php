@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Box;
-use App\Models\Room;
+use App\Models\Shelf;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,10 +24,8 @@ class BoxFactory extends Factory
         return [
             'number' => $this->faker->unique()->numberBetween(),
             'year' => $this->faker->numberBetween(1900, 2020),
-            'stand' => $this->faker->optional()->numberBetween(1000, 9999),
-            'shelf' => $this->faker->optional()->numberBetween(10, 99),
             'description' => $this->faker->optional()->sentence(),
-            'room_id' => Room::factory(),
+            'shelf_id' => Shelf::factory(),
         ];
     }
 }
