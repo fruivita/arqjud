@@ -72,11 +72,11 @@ test('returns the buildings using the default sort scope defined', function () {
     Building::factory()->create(['name' => $first]);
     Building::factory()->create(['name' => $second]);
 
-    $Buildings = Building::defaultOrder()->get();
+    $buildings = Building::defaultOrder()->get();
 
-    expect($Buildings->get(0)->name)->toBe($first)
-    ->and($Buildings->get(1)->name)->toBe($second)
-    ->and($Buildings->get(2)->name)->toBe($third);
+    expect($buildings->get(0)->name)->toBe($first)
+    ->and($buildings->get(1)->name)->toBe($second)
+    ->and($buildings->get(2)->name)->toBe($third);
 });
 
 test('one building belongs to one site', function () {

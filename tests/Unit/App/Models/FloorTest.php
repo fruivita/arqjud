@@ -86,11 +86,11 @@ test('returns the floors using the default sort scope defined', function () {
     Floor::factory()->create(['number' => $first]);
     Floor::factory()->create(['number' => $second]);
 
-    $Floors = Floor::defaultOrder()->get();
+    $floors = Floor::defaultOrder()->get();
 
-    expect($Floors->get(0)->number)->toBe($first)
-    ->and($Floors->get(1)->number)->toBe($second)
-    ->and($Floors->get(2)->number)->toBe($third);
+    expect($floors->get(0)->number)->toBe($first)
+    ->and($floors->get(1)->number)->toBe($second)
+    ->and($floors->get(2)->number)->toBe($third);
 });
 
 test('one floor belongs to one building', function () {

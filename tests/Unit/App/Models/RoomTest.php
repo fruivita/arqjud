@@ -80,11 +80,11 @@ test('returns the rooms using the default sort scope defined', function () {
     Room::factory()->create(['number' => $first]);
     Room::factory()->create(['number' => $second]);
 
-    $Rooms = Room::defaultOrder()->get();
+    $rooms = Room::defaultOrder()->get();
 
-    expect($Rooms->get(0)->number)->toBe($first)
-    ->and($Rooms->get(1)->number)->toBe($second)
-    ->and($Rooms->get(2)->number)->toBe($third);
+    expect($rooms->get(0)->number)->toBe($first)
+    ->and($rooms->get(1)->number)->toBe($second)
+    ->and($rooms->get(2)->number)->toBe($third);
 });
 
 test('one room belongs to one floor', function () {
