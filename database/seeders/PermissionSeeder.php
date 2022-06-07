@@ -51,7 +51,9 @@ class PermissionSeeder extends Seeder
         ->concat($this->rolePermissions())
         ->concat($this->roomPermissions())
         ->concat($this->simulationPermissions())
+        ->concat($this->shelfPermissions())
         ->concat($this->sitePermissions())
+        ->concat($this->standPermissions())
         ->concat($this->userPermissions());
     }
 
@@ -400,6 +402,40 @@ class PermissionSeeder extends Seeder
     /**
      * @return \Illuminate\Support\LazyCollection
      */
+    private function shelfPermissions()
+    {
+        return LazyCollection::make([
+            [
+                'id' => PermissionType::ShelfViewAny->value,
+                'name' => __('Shelf: View all'),
+                'description' => __('Permission to view all registered shelves.'),
+            ],
+            [
+                'id' => PermissionType::ShelfView->value,
+                'name' => __('Shelf: View one'),
+                'description' => __('Permission to individually view registered shelves.'),
+            ],
+            [
+                'id' => PermissionType::ShelfCreate->value,
+                'name' => __('Shelf: Create one'),
+                'description' => __('Permission to individually create shelves.'),
+            ],
+            [
+                'id' => PermissionType::ShelfUpdate->value,
+                'name' => __('Shelf: Update one'),
+                'description' => __('Permission to individually update registered shelves.'),
+            ],
+            [
+                'id' => PermissionType::ShelfDelete->value,
+                'name' => __('Shelf: Delete one'),
+                'description' => __('Permission to individually delete registered shelves.'),
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
     private function sitePermissions()
     {
         return LazyCollection::make([
@@ -427,6 +463,40 @@ class PermissionSeeder extends Seeder
                 'id' => PermissionType::SiteDelete->value,
                 'name' => __('Site: Delete one'),
                 'description' => __('Permission to individually delete registered sites.'),
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
+    private function standPermissions()
+    {
+        return LazyCollection::make([
+            [
+                'id' => PermissionType::StandViewAny->value,
+                'name' => __('Stand: View all'),
+                'description' => __('Permission to view all registered stands.'),
+            ],
+            [
+                'id' => PermissionType::StandView->value,
+                'name' => __('Stand: View one'),
+                'description' => __('Permission to individually view registered stands.'),
+            ],
+            [
+                'id' => PermissionType::StandCreate->value,
+                'name' => __('Stand: Create one'),
+                'description' => __('Permission to individually create stands.'),
+            ],
+            [
+                'id' => PermissionType::StandUpdate->value,
+                'name' => __('Stand: Update one'),
+                'description' => __('Permission to individually update registered stands.'),
+            ],
+            [
+                'id' => PermissionType::StandDelete->value,
+                'name' => __('Stand: Delete one'),
+                'description' => __('Permission to individually delete registered stands.'),
             ],
         ]);
     }
