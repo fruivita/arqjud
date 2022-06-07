@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the site')">
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <form wire:key="form-site" wire:submit.prevent="update" method="POST">
 
@@ -62,20 +62,16 @@
                         :title="__('Save the record')"
                         type="submit"/>
 
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="pin-map"
-                        :href="route('archiving.register.site.index')"
-                        :text="__('Sites')"
-                        :title="__('Show all records')"/>
-
                 </x-button-group>
 
             </div>
 
         </form>
 
+    </x-container>
+
+
+    <x-container>
 
         <div class="overflow-x-auto">
 

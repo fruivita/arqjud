@@ -12,7 +12,7 @@
 
 <x-page :header="__('New rooms')">
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <form wire:key="form-room" wire:submit.prevent="store" method="POST">
 
@@ -179,14 +179,6 @@
                         :text="__('Save')"
                         :title="__('Save the record')"
                         type="submit"/>
-
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="layers"
-                        :href="route('archiving.register.room.index')"
-                        :text="__('Rooms')"
-                        :title="__('Show all records')"/>
 
                 </x-button-group>
 

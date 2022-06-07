@@ -15,7 +15,7 @@
     <x-backtrace :model="$floor"/>
 
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <form wire:key="form-floor" wire:submit.prevent="update" method="POST">
 
@@ -138,20 +138,16 @@
                         :title="__('Save the record')"
                         type="submit"/>
 
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="layers"
-                        :href="route('archiving.register.floor.index')"
-                        :text="__('Floors')"
-                        :title="__('Show all records')"/>
-
                 </x-button-group>
 
             </div>
 
         </form>
 
+    </x-container>
+
+
+    <x-container>
 
         <div class="overflow-x-auto">
 

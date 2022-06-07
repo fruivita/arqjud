@@ -15,7 +15,7 @@
     <x-backtrace :model="$building"/>
 
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <div class="space-y-6">
 
@@ -47,101 +47,97 @@
 
                 @endcan
 
-
-                <x-link-button
-                    class="btn-do"
-                    icon="building"
-                    :href="route('archiving.register.building.index')"
-                    :text="__('Buildings')"
-                    :title="__('Show all records')"/>
-
             </x-button-group>
 
+        </div>
 
-            <div class="overflow-x-auto">
-
-                <x-perpage
-                    wire:key="per-page"
-                    wire:model="per_page"
-                    class="mb-3"
-                    :error="$errors->first('per_page')"/>
+    </x-container>
 
 
-                <x-table wire:key="table-floors" wire:loading.delay.class="opacity-25">
+    <x-container>
 
-                    <x-slot name="head">
+        <div class="overflow-x-auto">
 
-                        <x-table.heading>{{ __('Floor') }}</x-table.heading>
-
-
-                        <x-table.heading>{{ __('Qty of rooms') }}</x-table.heading>
-
-
-                        <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
-
-                    </x-slot>
+            <x-perpage
+                wire:key="per-page"
+                wire:model="per_page"
+                class="mb-3"
+                :error="$errors->first('per_page')"/>
 
 
-                    <x-slot name="body">
+            <x-table wire:key="table-floors" wire:loading.delay.class="opacity-25">
 
-                        @forelse ( $floors ?? [] as $floor )
+                <x-slot name="head">
 
-                            <x-table.row>
-
-                                <x-table.cell>{{ $floor->number }}</x-table.cell>
+                    <x-table.heading>{{ __('Floor') }}</x-table.heading>
 
 
-                                <x-table.cell>{{ $floor->rooms_count }}</x-table.cell>
+                    <x-table.heading>{{ __('Qty of rooms') }}</x-table.heading>
 
 
-                                <x-table.cell>
+                    <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
 
-                                    <x-action-button-group>
-
-                                        @can(\App\Enums\Policy::View->value, \App\Models\Floor::class)
-
-                                            <x-link-button
-                                                class="btn-do"
-                                                icon="eye"
-                                                :href="route('archiving.register.floor.show', $floor)"
-                                                :text="__('Show')"
-                                                :title="__('Show the record')"/>
-
-                                        @endcan
+                </x-slot>
 
 
-                                        @can(\App\Enums\Policy::Update->value, \App\Models\Floor::class)
+                <x-slot name="body">
 
-                                            <x-link-button
-                                                class="btn-do"
-                                                icon="pencil-square"
-                                                :href="route('archiving.register.floor.edit', $floor)"
-                                                :text="__('Edit')"
-                                                :title="__('Edit the record')"/>
+                    @forelse ( $floors ?? [] as $floor )
 
-                                        @endcan
+                        <x-table.row>
 
-                                    </x-action-button-group>
+                            <x-table.cell>{{ $floor->number }}</x-table.cell>
 
-                                </x-table.cell>
 
-                            </x-table.row>
+                            <x-table.cell>{{ $floor->rooms_count }}</x-table.cell>
 
-                        @empty
 
-                            <x-table.row>
+                            <x-table.cell>
 
-                                <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
+                                <x-action-button-group>
 
-                            </x-table.row>
+                                    @can(\App\Enums\Policy::View->value, \App\Models\Floor::class)
 
-                        @endforelse
+                                        <x-link-button
+                                            class="btn-do"
+                                            icon="eye"
+                                            :href="route('archiving.register.floor.show', $floor)"
+                                            :text="__('Show')"
+                                            :title="__('Show the record')"/>
 
-                    </x-slot>
+                                    @endcan
 
-                </x-table>
 
-            </div>
+                                    @can(\App\Enums\Policy::Update->value, \App\Models\Floor::class)
+
+                                        <x-link-button
+                                            class="btn-do"
+                                            icon="pencil-square"
+                                            :href="route('archiving.register.floor.edit', $floor)"
+                                            :text="__('Edit')"
+                                            :title="__('Edit the record')"/>
+
+                                    @endcan
+
+                                </x-action-button-group>
+
+                            </x-table.cell>
+
+                        </x-table.row>
+
+                    @empty
+
+                        <x-table.row>
+
+                            <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
+
+                        </x-table.row>
+
+                    @endforelse
+
+                </x-slot>
+
+            </x-table>
 
         </div>
 

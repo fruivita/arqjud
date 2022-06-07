@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the route documentation')">
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <form wire:key="form-doc" wire:submit.prevent="update" method="POST">
 
@@ -62,14 +62,6 @@
                         :text="__('Save')"
                         :title="__('Save the record')"
                         type="submit"/>
-
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="book"
-                        :href="route('administration.doc.index')"
-                        :text="__('Documentation')"
-                        :title="__('Show all records')"/>
 
                 </x-button-group>
 

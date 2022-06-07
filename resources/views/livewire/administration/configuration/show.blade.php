@@ -15,7 +15,7 @@
 
 <x-page :header="__('Application settings')">
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <div class="space-y-6">
 

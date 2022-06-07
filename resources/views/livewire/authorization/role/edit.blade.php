@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the role')">
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <form wire:key="form-role" wire:submit.prevent="update" method="POST">
 
@@ -164,14 +164,6 @@
                         :text="__('Save')"
                         :title="__('Save the record')"
                         type="submit"/>
-
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="award"
-                        :href="route('authorization.role.index')"
-                        :text="__('Roles')"
-                        :title="__('Show all records')"/>
 
                 </x-button-group>
 

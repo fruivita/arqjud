@@ -15,7 +15,7 @@
     <x-backtrace :model="$box"/>
 
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <div class="space-y-6">
 
@@ -81,14 +81,6 @@
                         :title="__('Edit the record')"/>
 
                 @endcan
-
-
-                <x-link-button
-                    class="btn-do"
-                    icon="box2"
-                    :href="route('archiving.register.box.index')"
-                    :text="__('Boxes')"
-                    :title="__('Show all records')"/>
 
             </x-button-group>
 

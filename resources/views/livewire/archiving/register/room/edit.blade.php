@@ -15,7 +15,7 @@
     <x-backtrace :model="$room"/>
 
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <form wire:key="form-room" wire:submit.prevent="update" method="POST">
 
@@ -177,14 +177,6 @@
                         :text="__('Save')"
                         :title="__('Save the record')"
                         type="submit"/>
-
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="door-closed"
-                        :href="route('archiving.register.room.index')"
-                        :text="__('Rooms')"
-                        :title="__('Show all records')"/>
 
                 </x-button-group>
 

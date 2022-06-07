@@ -15,7 +15,7 @@
     <x-backtrace :model="$building"/>
 
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <form wire:key="form-building" wire:submit.prevent="update" method="POST">
 
@@ -97,20 +97,16 @@
                         :title="__('Save the record')"
                         type="submit"/>
 
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="building"
-                        :href="route('archiving.register.building.index')"
-                        :text="__('Buildings')"
-                        :title="__('Show all records')"/>
-
                 </x-button-group>
 
             </div>
 
         </form>
 
+    </x-container>
+
+
+    <x-container>
 
         <div class="overflow-x-auto">
 

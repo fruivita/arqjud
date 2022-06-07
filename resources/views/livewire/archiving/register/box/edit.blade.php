@@ -287,14 +287,6 @@
                         :title="__('Save the record')"
                         type="submit"/>
 
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="box2"
-                        :href="route('archiving.register.box.index')"
-                        :text="__('Boxes')"
-                        :title="__('Show all records')"/>
-
                 </x-button-group>
 
             </div>

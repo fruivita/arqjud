@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the permission')">
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <form wire:key="form-permission" wire:submit.prevent="update" method="POST">
 
@@ -164,14 +164,6 @@
                         :text="__('Save')"
                         :title="__('Save the record')"
                         type="submit"/>
-
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="vector-pen"
-                        :href="route('authorization.permission.index')"
-                        :text="__('Permissions')"
-                        :title="__('Show all records')"/>
 
                 </x-button-group>
 

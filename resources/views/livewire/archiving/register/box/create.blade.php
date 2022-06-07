@@ -12,7 +12,7 @@
 
 <x-page :header="__('New boxes')">
 
-    <x-container class="space-y-6">
+    <x-container>
 
         <form wire:key="form-box" wire:submit.prevent="store" method="POST">
 
@@ -337,14 +337,6 @@
                         :text="__('Save')"
                         :title="__('Save the record')"
                         type="submit"/>
-
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="box2"
-                        :href="route('archiving.register.box.index')"
-                        :text="__('Boxes')"
-                        :title="__('Show all records')"/>
 
                 </x-button-group>
 
