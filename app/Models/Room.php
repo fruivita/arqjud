@@ -20,7 +20,7 @@ class Room extends Model
      *
      * @var array
      */
-    protected $withCount = ['boxes'];
+    protected $withCount = ['stands'];
 
     /**
      * Relationship room (N:1) floor.
@@ -33,13 +33,13 @@ class Room extends Model
     }
 
     /**
-     * Relationship room (1:N) boxes.
+     * Relationship room (1:N) stands.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function boxes()
+    public function stands()
     {
-        return $this->hasMany(Box::class, 'room_id', 'id');
+        return $this->hasMany(Stand::class, 'room_id', 'id');
     }
 
     /**

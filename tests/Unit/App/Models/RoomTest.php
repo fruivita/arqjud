@@ -7,6 +7,7 @@
 use App\Models\Box;
 use App\Models\Floor;
 use App\Models\Room;
+use App\Models\Stand;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 
@@ -98,14 +99,14 @@ test('one room belongs to one floor', function () {
     expect($room->floor)->toBeInstanceOf(Floor::class);
 });
 
-test('one room has many boxes', function () {
+test('one room has many stands', function () {
     Room::factory()
-        ->has(Box::factory(3), 'boxes')
+        ->has(Stand::factory(3), 'stands')
         ->create();
 
-    $room = Room::with('boxes')->first();
+    $room = Room::with('stands')->first();
 
-    expect($room->boxes)->toHaveCount(3);
+    expect($room->stands)->toHaveCount(3);
 });
 
 test('parentEntitiesLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
