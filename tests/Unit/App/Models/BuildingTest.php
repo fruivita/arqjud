@@ -63,22 +63,6 @@ test('optional fields are set', function () {
     expect(Site::count())->toBe(1);
 });
 
-test('previous returns the correct previous record, even if it is the first', function () {
-    $building_1 = Building::factory()->create(['name' => 'bar']);
-    $building_2 = Building::factory()->create(['name' => 'foo']);
-
-    expect($building_2->previous()->first()->id)->toBe($building_1->id)
-    ->and($building_1->previous()->first())->toBeNull();
-});
-
-test('next returns the correct back record even though it is the last', function () {
-    $building_1 = Building::factory()->create(['name' => 'bar']);
-    $building_2 = Building::factory()->create(['name' => 'foo']);
-
-    expect($building_1->next()->first()->id)->toBe($building_2->id)
-    ->and($building_2->next()->first())->toBeNull();
-});
-
 test('returns the buildings using the default sort scope defined', function () {
     $first = 'bar';
     $second = 'baz';

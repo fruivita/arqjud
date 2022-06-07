@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Archiving\Register\Floor;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithPerPagePagination;
-use App\Http\Livewire\Traits\WithPreviousNext;
 use App\Models\Floor;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -16,7 +15,6 @@ class FloorLivewireShow extends Component
 {
     use AuthorizesRequests;
     use WithPerPagePagination;
-    use WithPreviousNext;
 
     /**
      * Resource on display.
@@ -24,17 +22,6 @@ class FloorLivewireShow extends Component
      * @var \App\Models\Floor
      */
     public Floor $floor;
-
-    /**
-     * Base resource that will be used to define the ids of the previous record
-     * of the next one.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function workingModel()
-    {
-        return $this->floor;
-    }
 
     /**
      * Runs on every request, immediately after the component is instantiated,

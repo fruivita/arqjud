@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Archiving\Register\Box;
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
-use App\Http\Livewire\Traits\WithPreviousNext;
 use App\Models\Box;
 use App\Models\BoxVolume;
 use App\Models\Building;
@@ -26,7 +25,6 @@ class BoxLivewireUpdate extends Component
     use AuthorizesRequests;
     use WithFeedbackEvents;
     use WithPerPagePagination;
-    use WithPreviousNext;
 
     /**
      * Editing resource.
@@ -176,17 +174,6 @@ class BoxLivewireUpdate extends Component
             'box.stand' => __('Stand'),
             'box.description' => __('Description'),
         ];
-    }
-
-    /**
-     * Base resource that will be used to define the ids of the previous record
-     * of the next one.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function workingModel()
-    {
-        return $this->box;
     }
 
     /**

@@ -70,22 +70,6 @@ test('optional fields are set', function () {
     expect(Room::count())->toBe(1);
 });
 
-test('previous returns the correct previous record, even if it is the first', function () {
-    $room_1 = Room::factory()->create(['number' => 100]);
-    $room_2 = Room::factory()->create(['number' => 200]);
-
-    expect($room_2->previous()->first()->id)->toBe($room_1->id)
-    ->and($room_1->previous()->first())->toBeNull();
-});
-
-test('next returns the correct back record even though it is the last', function () {
-    $room_1 = Room::factory()->create(['number' => 100]);
-    $room_2 = Room::factory()->create(['number' => 200]);
-
-    expect($room_1->next()->first()->id)->toBe($room_2->id)
-    ->and($room_2->next()->first())->toBeNull();
-});
-
 test('returns the rooms using the default sort scope defined', function () {
     $first = 100;
     $second = 200;

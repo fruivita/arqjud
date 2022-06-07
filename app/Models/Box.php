@@ -75,44 +75,6 @@ class Box extends Model
     }
 
     /**
-     * Previous record based on defaultOrder.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function previous()
-    {
-        return self::select('id')
-        ->whereRaw('year >= (select year from boxes where id = ?)', [$this->id])
-        ->where(function ($query) {
-            return $query
-            ->whereRaw('year > (select year from boxes where id = ?)', [$this->id])
-            ->orWhereRaw('number > (select number from boxes where id = ?)', [$this->id]);
-        })
-        ->orderBy('year', 'asc')
-        ->orderBy('number', 'asc')
-        ->take(1);
-    }
-
-    /**
-     * Next record based on defaultOrder.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function next()
-    {
-        return self::select('id', 'number')
-        ->whereRaw('year <= (select year from boxes where id = ?)', [$this->id])
-        ->where(function ($query) {
-            return $query
-            ->whereRaw('year < (select year from boxes where id = ?)', [$this->id])
-            ->orWhereRaw('number < (select number from boxes where id = ?)', [$this->id]);
-        })
-        ->orderBy('year', 'desc')
-        ->orderBy('number', 'desc')
-        ->take(1);
-    }
-
-    /**
      * Records filtered by the term entered.
      *
      * The filter applies to the number and the year through the OR clause.

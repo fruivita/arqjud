@@ -48,22 +48,6 @@ test('optional fields are set', function () {
     expect(Site::count())->toBe(1);
 });
 
-test('previous returns the correct previous record, even if it is the first', function () {
-    $site_1 = Site::factory()->create(['name' => 'bar']);
-    $site_2 = Site::factory()->create(['name' => 'foo']);
-
-    expect($site_2->previous()->first()->id)->toBe($site_1->id)
-    ->and($site_1->previous()->first())->toBeNull();
-});
-
-test('next returns the correct back record even though it is the last', function () {
-    $site_1 = Site::factory()->create(['name' => 'bar']);
-    $site_2 = Site::factory()->create(['name' => 'foo']);
-
-    expect($site_1->next()->first()->id)->toBe($site_2->id)
-    ->and($site_2->next()->first())->toBeNull();
-});
-
 test('returns the sites using the default sort scope defined', function () {
     $first = 'bar';
     $second = 'baz';

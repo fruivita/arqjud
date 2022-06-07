@@ -6,7 +6,6 @@ use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithCheckboxActions;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
-use App\Http\Livewire\Traits\WithPreviousNext;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Traits\WithCaching;
@@ -23,7 +22,6 @@ class PermissionLivewireUpdate extends Component
     use WithCheckboxActions;
     use WithFeedbackEvents;
     use WithPerPagePagination;
-    use WithPreviousNext;
 
     /**
      * Editing resource.
@@ -76,17 +74,6 @@ class PermissionLivewireUpdate extends Component
             'permission.description' => __('Description'),
             'selected' => __('Role'),
         ];
-    }
-
-    /**
-     * Base resource that will be used to define the ids of the previous record
-     * of the next one.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function workingModel()
-    {
-        return $this->permission;
     }
 
     /**

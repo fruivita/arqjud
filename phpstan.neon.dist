@@ -53,7 +53,6 @@ parameters:
     -
       message: '#Call to an undefined static method Illuminate\\Support\\Facades\\[a-zA-Z]+\:\:should[Not]*HaveReceived\(\)#'
       path: tests/*
-    - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:[previous\|next]+\(\)#'
     - '#Call to an undefined method LdapRecord\\Models\\ActiveDirectory\\User\:\:can\(\)#'
     - '#Call to an undefined method LdapRecord\\Models\\ActiveDirectory\\User\:\:delegate\(\)#'
 

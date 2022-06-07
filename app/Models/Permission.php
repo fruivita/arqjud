@@ -46,32 +46,6 @@ class Permission extends Model
     }
 
     /**
-     * Previous record based on defaultOrder.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function previous()
-    {
-        return self::select('id')
-        ->where('id', '<', $this->id)
-        ->orderBy('id', 'desc')
-        ->take(1);
-    }
-
-    /**
-     * Next record based on defaultOrder.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function next()
-    {
-        return self::select('id')
-        ->where('id', '>', $this->id)
-        ->orderBy('id', 'asc')
-        ->take(1);
-    }
-
-    /**
      * Saves the permission in the database and syncs the roles in an atomic
      * operation i.e. all or nothing.
      *

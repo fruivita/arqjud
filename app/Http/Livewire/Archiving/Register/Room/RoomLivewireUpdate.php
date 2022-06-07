@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Archiving\Register\Room;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
-use App\Http\Livewire\Traits\WithPreviousNext;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -21,7 +20,6 @@ class RoomLivewireUpdate extends Component
 {
     use AuthorizesRequests;
     use WithFeedbackEvents;
-    use WithPreviousNext;
 
     /**
      * Editing resource.
@@ -125,17 +123,6 @@ class RoomLivewireUpdate extends Component
             'building_id' => __('Building'),
             'room.floor_id' => __('Floor'),
         ];
-    }
-
-    /**
-     * Base resource that will be used to define the ids of the previous record
-     * of the next one.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function workingModel()
-    {
-        return $this->room;
     }
 
     /**

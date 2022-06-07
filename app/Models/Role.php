@@ -73,32 +73,6 @@ class Role extends Model
     }
 
     /**
-     * Previous record based on defaultOrder.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function previous()
-    {
-        return self::select('id')
-        ->where('id', '>', $this->id)
-        ->orderBy('id', 'asc')
-        ->take(1);
-    }
-
-    /**
-     * Next record based on defaultOrder.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function next()
-    {
-        return self::select('id')
-        ->where('id', '<', $this->id)
-        ->orderBy('id', 'desc')
-        ->take(1);
-    }
-
-    /**
      * It saves the role in the database and synchronizes its permissions in an
      * atomic operation, that is, all or nothing.
      *

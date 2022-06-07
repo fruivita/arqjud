@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Archiving\Register\Building;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithPerPagePagination;
-use App\Http\Livewire\Traits\WithPreviousNext;
 use App\Models\Building;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -16,7 +15,6 @@ class BuildingLivewireShow extends Component
 {
     use AuthorizesRequests;
     use WithPerPagePagination;
-    use WithPreviousNext;
 
     /**
      * Resource on display.
@@ -24,17 +22,6 @@ class BuildingLivewireShow extends Component
      * @var \App\Models\Building
      */
     public Building $building;
-
-    /**
-     * Base resource that will be used to define the ids of the previous record
-     * of the next one.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function workingModel()
-    {
-        return $this->building;
-    }
 
     /**
      * Runs on every request, immediately after the component is instantiated,

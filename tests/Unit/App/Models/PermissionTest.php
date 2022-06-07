@@ -125,22 +125,6 @@ test('atomicSaveWithRoles method saves the new attributes and creates relationsh
     ->and($permission->roles->modelKeys())->toBe([1, 3]);
 });
 
-test('previous returns the correct previous record, even if it is the first', function () {
-    $permission_1 = Permission::factory()->create(['id' => 1]);
-    $permission_2 = Permission::factory()->create(['id' => 2]);
-
-    expect($permission_2->previous()->first()->id)->toBe($permission_1->id)
-    ->and($permission_1->previous()->first())->toBeNull();
-});
-
-test('next returns the correct back record even though it is the last', function () {
-    $permission_1 = Permission::factory()->create(['id' => 1]);
-    $permission_2 = Permission::factory()->create(['id' => 2]);
-
-    expect($permission_1->next()->first()->id)->toBe($permission_2->id)
-    ->and($permission_2->next()->first())->toBeNull();
-});
-
 test('returns the permissions using the defined default sort scope', function () {
     $first = 1;
     $second = 2;

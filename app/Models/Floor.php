@@ -56,32 +56,6 @@ class Floor extends Model
     }
 
     /**
-     * Previous record based on defaultOrder.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function previous()
-    {
-        return self::select('id')
-        ->whereRaw('number < (select number from floors where id = ?)', [$this->id])
-        ->orderBy('number', 'desc')
-        ->take(1);
-    }
-
-    /**
-     * Next record based on defaultOrder.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function next()
-    {
-        return self::select('id')
-        ->whereRaw('number > (select number from floors where id = ?)', [$this->id])
-        ->orderBy('number', 'asc')
-        ->take(1);
-    }
-
-    /**
      * Links to the parent entities.
      *
      * @return \Illuminate\Support\Collection

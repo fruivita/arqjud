@@ -77,22 +77,6 @@ test('optional fields are set', function () {
     expect(Floor::count())->toBe(1);
 });
 
-test('previous returns the correct previous record, even if it is the first', function () {
-    $floor_1 = Floor::factory()->create(['number' => 100]);
-    $floor_2 = Floor::factory()->create(['number' => 200]);
-
-    expect($floor_2->previous()->first()->id)->toBe($floor_1->id)
-    ->and($floor_1->previous()->first())->toBeNull();
-});
-
-test('next returns the correct back record even though it is the last', function () {
-    $floor_1 = Floor::factory()->create(['number' => 100]);
-    $floor_2 = Floor::factory()->create(['number' => 200]);
-
-    expect($floor_1->next()->first()->id)->toBe($floor_2->id)
-    ->and($floor_2->next()->first())->toBeNull();
-});
-
 test('returns the floors using the default sort scope defined', function () {
     $first = 100;
     $second = 200;

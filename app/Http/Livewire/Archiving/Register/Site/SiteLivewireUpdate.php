@@ -6,7 +6,6 @@ use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
-use App\Http\Livewire\Traits\WithPreviousNext;
 use App\Models\Building;
 use App\Models\Site;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -22,7 +21,6 @@ class SiteLivewireUpdate extends Component
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
-    use WithPreviousNext;
 
     /**
      * Editing resource.
@@ -67,17 +65,6 @@ class SiteLivewireUpdate extends Component
             'site.name' => __('Name'),
             'site.description' => __('Description'),
         ];
-    }
-
-    /**
-     * Base resource that will be used to define the ids of the previous record
-     * of the next one.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function workingModel()
-    {
-        return $this->site;
     }
 
     /**

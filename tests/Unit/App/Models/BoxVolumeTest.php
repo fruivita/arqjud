@@ -52,22 +52,6 @@ test('fields in their maximum size are accepted', function () {
     expect(BoxVolume::count())->toBe(1);
 });
 
-test('previous returns the correct previous record, even if it is the first', function () {
-    $box_volume_1 = BoxVolume::factory()->create(['number' => 10]);
-    $box_volume_2 = BoxVolume::factory()->create(['number' => 20]);
-
-    expect($box_volume_2->previous()->first()->id)->toBe($box_volume_1->id)
-    ->and($box_volume_1->previous()->first())->toBeNull();
-});
-
-test('next returns the correct back record even though it is the last', function () {
-    $box_volume_1 = BoxVolume::factory()->create(['number' => 10]);
-    $box_volume_2 = BoxVolume::factory()->create(['number' => 20]);
-
-    expect($box_volume_1->next()->first()->id)->toBe($box_volume_2->id)
-    ->and($box_volume_2->next()->first())->toBeNull();
-});
-
 test('returns the box volumes using the default sort scope defined', function () {
     $first = 100;
     $second = 200;

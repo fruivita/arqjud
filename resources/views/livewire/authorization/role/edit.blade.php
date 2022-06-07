@@ -14,43 +14,6 @@
 
     <x-container class="space-y-6">
 
-        <div class="flex justify-between">
-
-            @isset($previous)
-
-                <x-link-button
-                    class="btn-do"
-                    icon="chevron-double-left"
-                    :href="route('authorization.role.edit', $previous)"
-                    prepend="true"
-                    :text="__('Previous')"
-                    :title="__('Show previous record')"/>
-
-            @else
-
-              <div></div>
-
-            @endisset
-
-
-            @isset($next)
-
-                <x-link-button
-                    class="btn-do"
-                    icon="chevron-double-right"
-                    :href="route('authorization.role.edit', $next)"
-                    :text="__('Next')"
-                    :title="__('Show next record')"/>
-
-            @else
-
-                <div></div>
-
-            @endisset
-
-        </div>
-
-
         <form wire:key="form-role" wire:submit.prevent="update" method="POST">
 
             <div class="space-y-6">

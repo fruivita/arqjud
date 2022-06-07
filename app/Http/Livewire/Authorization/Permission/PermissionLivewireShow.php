@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Authorization\Permission;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithPerPagePagination;
-use App\Http\Livewire\Traits\WithPreviousNext;
 use App\Models\Permission;
 use App\Traits\WithCaching;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -18,7 +17,6 @@ class PermissionLivewireShow extends Component
     use AuthorizesRequests;
     use WithCaching;
     use WithPerPagePagination;
-    use WithPreviousNext;
 
     /**
      * Resource on display.
@@ -36,17 +34,6 @@ class PermissionLivewireShow extends Component
     public function boot()
     {
         $this->authorize(Policy::View->value, Permission::class);
-    }
-
-    /**
-     * Base resource that will be used to define the ids of the previous record
-     * of the next one.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function workingModel()
-    {
-        return $this->permission;
     }
 
     /**

@@ -17,43 +17,6 @@
 
     <x-container class="space-y-6">
 
-        <div class="flex justify-between">
-
-            @isset($previous)
-
-                <x-link-button
-                    class="btn-do"
-                    icon="chevron-double-left"
-                    :href="route('archiving.register.floor.show', $previous)"
-                    prepend="true"
-                    :text="__('Previous')"
-                    :title="__('Show previous record')"/>
-
-            @else
-
-              <div></div>
-
-            @endisset
-
-
-            @isset($next)
-
-                <x-link-button
-                    class="btn-do"
-                    icon="chevron-double-right"
-                    :href="route('archiving.register.floor.show', $next)"
-                    :text="__('Next')"
-                    :title="__('Show next record')"/>
-
-            @else
-
-                <div></div>
-
-            @endisset
-
-        </div>
-
-
         <div class="space-y-6">
 
             <x-show-value

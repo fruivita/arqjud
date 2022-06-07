@@ -6,7 +6,6 @@ use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
-use App\Http\Livewire\Traits\WithPreviousNext;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -25,7 +24,6 @@ class FloorLivewireUpdate extends Component
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
-    use WithPreviousNext;
 
     /**
      * Editing resource.
@@ -107,17 +105,6 @@ class FloorLivewireUpdate extends Component
             'site_id' => __('Site'),
             'floor.building_id' => __('Building'),
         ];
-    }
-
-    /**
-     * Base resource that will be used to define the ids of the previous record
-     * of the next one.
-     *
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function workingModel()
-    {
-        return $this->floor;
     }
 
     /**
