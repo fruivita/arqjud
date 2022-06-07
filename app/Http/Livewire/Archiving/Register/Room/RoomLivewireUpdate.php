@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Archiving\Register\Room;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
+use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -20,6 +21,7 @@ class RoomLivewireUpdate extends Component
 {
     use AuthorizesRequests;
     use WithFeedbackEvents;
+    use WithPerPagePagination;
 
     /**
      * Editing resource.
@@ -156,6 +158,19 @@ class RoomLivewireUpdate extends Component
         $this->floors = Floor::where('building_id', $this->building_id)->defaultOrder()->get();
     }
 
+
+    /**
+     * Computed property to list paged stands.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getStandsProperty()
+    {
+        return $this->applyPagination(
+            $this->room->stands()->defaultOrder()
+        );
+    }
+
     /**
      * Renders the component.
      *
@@ -163,7 +178,9 @@ class RoomLivewireUpdate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.room.edit')->layout('layouts.app');
+        return view('livewire.archiving.register.room.edit', [
+            'stands' => $this->stands,
+        ])->layout('layouts.app');
     }
 
     /**
