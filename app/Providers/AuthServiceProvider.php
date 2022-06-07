@@ -24,10 +24,18 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
+        \App\Models\Box::class => \App\Policies\BoxPolicy::class,
+        \App\Models\BoxVolume::class => \App\Policies\BoxVolumePolicy::class,
+        \App\Models\Building::class => \App\Policies\BuildingPolicy::class,
         \App\Models\Configuration::class => \App\Policies\ConfigurationPolicy::class,
         \App\Models\Documentation::class => \App\Policies\DocumentationPolicy::class,
+        \App\Models\Floor::class => \App\Policies\FloorPolicy::class,
         \App\Models\Permission::class => \App\Policies\PermissionPolicy::class,
         \App\Models\Role::class => \App\Policies\RolePolicy::class,
+        \App\Models\Room::class => \App\Policies\RoomPolicy::class,
+        \App\Models\Shelf::class => \App\Policies\ShelfPolicy::class,
+        \App\Models\Site::class => \App\Policies\SitePolicy::class,
+        \App\Models\Stand::class => \App\Policies\StandPolicy::class,
         \App\Models\User::class => \App\Policies\UserPolicy::class,
     ];
 
