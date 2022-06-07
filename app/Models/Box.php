@@ -18,7 +18,7 @@ class Box extends Model
 
     protected $table = 'boxes';
 
-    protected $fillable = ['year', 'number', 'stand', 'shelf', 'description'];
+    protected $fillable = ['year', 'number', 'description'];
 
     /**
      * The relationship counts that should be eager loaded on every query.
@@ -28,13 +28,13 @@ class Box extends Model
     protected $withCount = ['volumes'];
 
     /**
-     * Relationship box (N:1) room.
+     * Relationship box (N:1) shelf.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function room()
+    public function shelf()
     {
-        return $this->belongsTo(Room::class, 'room_id', 'id');
+        return $this->belongsTo(Shelf::class, 'shelf_id', 'id');
     }
 
     /**
@@ -96,16 +96,22 @@ class Box extends Model
     /**
      * Links to the parent entities.
      *
+     * @param bool $root must include the root element?
+     *
      * @return \Illuminate\Support\Collection
      */
-    public function parentEntitiesLinks()
+    public function parentEntitiesLinks(bool $root)
     {
         return collect([
-            __('Site') => route('archiving.register.site.show', $this->room->floor->building->site),
-            __('Building') => route('archiving.register.building.show', $this->room->floor->building),
-            __('Floor') => route('archiving.register.floor.show', $this->room->floor),
-            __('Room') => route('archiving.register.room.show', $this->room),
-        ]);
+            __('Site') => route('archiving.register.site.show', $this->shelf->stand->room->floor->building->site),
+            __('Building') => route('archiving.register.building.show', $this->shelf->stand->room->floor->building),
+            __('Floor') => route('archiving.register.floor.show', $this->shelf->stand->room->floor),
+            __('Room') => route('archiving.register.room.show', $this->shelf->stand->room),
+            __('Stand') => route('archiving.register.stand.show', $this->shelf->stand),
+            __('Shelf') => route('archiving.register.shelf.show', $this->shelf),
+        ])->when($root, function ($collection) {
+            return $collection->put(__('Box'), route('archiving.register.box.show', $this));
+        });
     }
 
     /**
@@ -119,21 +125,21 @@ class Box extends Model
     }
 
     /**
-     * Creates several boxes in the informed room and persists them in the
+     * Creates several boxes in the informed shelf and persists them in the
      * database.
      *
-     * @param \App\Models\Box  $template template for creating the boxes
-     * @param int              $amount   number of boxes to create
-     * @param int              $volumes  number of box volumes
-     * @param \App\Models\Room $room
+     * @param \App\Models\Box   $template template for creating the boxes
+     * @param int               $amount   number of boxes to create
+     * @param int               $volumes  number of box volumes
+     * @param \App\Models\Shelf $shelf
      *
      * @return bool
      */
-    public static function createMany(Box $template, int $amount, int $volumes, Room $room)
+    public static function createMany(Box $template, int $amount, int $volumes, Shelf $shelf)
     {
         try {
-            DB::transaction(function () use ($template, $amount, $volumes, $room) {
-                $boxes = self::generateMany($template, $amount, $room);
+            DB::transaction(function () use ($template, $amount, $volumes, $shelf) {
+                $boxes = self::generateMany($template, $amount, $shelf);
 
                 self::insert($boxes->toArray());
 
@@ -152,7 +158,7 @@ class Box extends Model
                     'template' => $template,
                     'amount' => $amount,
                     'volumes' => $volumes,
-                    'room' => $room,
+                    'shelf' => $shelf,
                     'exception' => $th,
                 ]
             );
@@ -163,30 +169,28 @@ class Box extends Model
 
     /**
      * Generates a collection with all attributes of the boxes 'cloned' from
-     * the box template and as a child of the room.
+     * the box template and as a child of the shelf.
      *
      * The number of the first box will be the one defined in the template and
      * the others will be increments by one.
      *
      * @param \App\Models\Box  $template template for creating the boxes
      * @param int              $amount   number of boxes to create
-     * @param \App\Models\Room $room     parent of all boxes
+     * @param \App\Models\Shelf $shelf     parent of all boxes
      *
      * @return \Illuminate\Support\Collection
      */
-    private static function generateMany(Box $template, int $amount, Room $room)
+    private static function generateMany(Box $template, int $amount, Shelf $shelf)
     {
         return
         collect()
         ->range($template->number, $template->number + $amount - 1)
-        ->map(function ($value) use ($template, $room) {
+        ->map(function ($value) use ($template, $shelf) {
             return [
                 'year' => $template->year,
                 'number' => $value,
-                'stand' => $template->stand,
-                'shelf' => $template->shelf,
                 'description' => $template->description,
-                'room_id' => $room->id,
+                'shelf_id' => $shelf->id,
             ];
         });
     }

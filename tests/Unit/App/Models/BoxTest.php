@@ -7,6 +7,7 @@
 use App\Models\Box;
 use App\Models\BoxVolume;
 use App\Models\Room;
+use App\Models\Shelf;
 use Illuminate\Database\QueryException;
 
 // Exceptions
@@ -30,12 +31,6 @@ test('throws exception when trying to create box with invalid field', function (
     ['year',   -1,         'Out of range value'],       // min 0
     ['year',   65536,      'Out of range value'],       // max 65536
     ['year',   'foo',      'Incorrect integer value'],  // not convertible to integer
-    ['stand',  -1,         'Out of range'],             // min 0
-    ['stand',  4294967296, 'Out of range'],             // max 4294967295
-    ['stand',  'foo',      'Incorrect integer value'],  // not convertible to integer
-    ['shelf',  -1,         'Out of range'],             // min 0
-    ['shelf',  4294967296, 'Out of range'],             // max 4294967295
-    ['shelf',  'foo',      'Incorrect integer value'],  // not convertible to integer
 ]);
 
 test('throws exception when trying to set invalid relationship', function ($field, $value, $message) {
@@ -43,8 +38,8 @@ test('throws exception when trying to set invalid relationship', function ($fiel
         fn () => Box::factory()->create([$field => $value])
     )->toThrow(QueryException::class, $message);
 })->with([
-    ['room_id', 10,   'Cannot add or update a child row'], // nonexistent
-    ['room_id', null, 'cannot be null'],                   // nonexistent
+    ['shelf_id', 10,   'Cannot add or update a child row'], // nonexistent
+    ['shelf_id', null, 'cannot be null'],                   // nonexistent
 ]);
 
 // Happy path
@@ -58,17 +53,6 @@ test('fields in their maximum size are accepted', function () {
     Box::factory()->create([
         'number' => 4294967295,
         'year' => 65535,
-        'stand' => 4294967295,
-        'shelf' => 4294967295,
-    ]);
-
-    expect(Box::count())->toBe(1);
-});
-
-test('optional fields are set', function () {
-    Box::factory()->create([
-        'stand' => null,
-        'shelf' => null,
     ]);
 
     expect(Box::count())->toBe(1);
@@ -101,16 +85,16 @@ test('returns the boxes using the default sort scope defined', function () {
     ->and($boxes->get(2)->id)->toBe($third->id);
 });
 
-test('one box belongs to one room', function () {
-    $room = Room::factory()->create();
+test('one box belongs to one shelf', function () {
+    $shelf = Shelf::factory()->create();
 
     $box = Box::factory()
-        ->for($room, 'room')
+        ->for($shelf, 'shelf')
         ->create();
 
-    $box->load(['room']);
+    $box->load(['shelf']);
 
-    expect($box->room)->toBeInstanceOf(Room::class);
+    expect($box->shelf)->toBeInstanceOf(Shelf::class);
 });
 
 test('one box has many box volumes', function () {
@@ -143,38 +127,52 @@ test('search, with partial term or not, returns the expected values', function (
     ->and(Box::search('100')->get())->toHaveCount(1);
 });
 
-test('parentEntitiesLinks returns show parents routes sorted from most distant to closest relationship', function () {
+test('parentEntitiesLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
     $box = Box::factory()->create();
 
-    $box->load('room.floor.building.site');
+    $box->load('shelf.stand.room.floor.building.site');
 
-    $box->parentEntitiesLinks();
+    expect($box->parentEntitiesLinks(false)->toArray())->toBe([
+        __('Site') => route('archiving.register.site.show', $box->shelf->stand->room->floor->building->site),
+        __('Building') => route('archiving.register.building.show', $box->shelf->stand->room->floor->building),
+        __('Floor') => route('archiving.register.floor.show', $box->shelf->stand->room->floor),
+        __('Room') => route('archiving.register.room.show', $box->shelf->stand->room),
+        __('Stand') => route('archiving.register.stand.show', $box->shelf->stand),
+        __('Shelf') => route('archiving.register.shelf.show', $box->shelf),
+    ]);
+});
 
-    expect($box->parentEntitiesLinks()->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $box->room->floor->building->site),
-        __('Building') => route('archiving.register.building.show', $box->room->floor->building),
-        __('Floor') => route('archiving.register.floor.show', $box->room->floor),
-        __('Room') => route('archiving.register.room.show', $box->room),
+test('parentEntitiesLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
+    $box = Box::factory()->create();
+
+    $box->load('shelf.stand.room.floor.building.site');
+
+    expect($box->parentEntitiesLinks(true)->toArray())->toBe([
+        __('Site') => route('archiving.register.site.show', $box->shelf->stand->room->floor->building->site),
+        __('Building') => route('archiving.register.building.show', $box->shelf->stand->room->floor->building),
+        __('Floor') => route('archiving.register.floor.show', $box->shelf->stand->room->floor),
+        __('Room') => route('archiving.register.room.show', $box->shelf->stand->room),
+        __('Stand') => route('archiving.register.stand.show', $box->shelf->stand),
+        __('Shelf') => route('archiving.register.shelf.show', $box->shelf),
+        __('Box') => route('archiving.register.box.show', $box),
     ]);
 });
 
 test('createMany method creates and persists sequential boxes with equal attributes and sequential boxes', function () {
     $template = Box::factory()->makeOne(['number' => 10]);
-    $room = Room::factory()->create();
+    $shelf = Shelf::factory()->create();
 
-    Box::createMany($template, 30, 5, $room);
+    Box::createMany($template, 30, 5, $shelf);
 
     $boxes = Box::with('volumes')->get();
 
     $box = $boxes->random();
 
     expect($boxes)->toHaveCount(30)
-    ->and($room->load('boxes')->boxes)->toHaveCount(30)
+    ->and($shelf->load('boxes')->boxes)->toHaveCount(30)
     ->and($boxes->first()->number)->toBe(10)
     ->and($boxes->last()->number)->toBe(39)
     ->and($box->year)->toBe($template->year)
-    ->and($box->stand)->toBe($template->stand)
-    ->and($box->shelf)->toBe($template->shelf)
     ->and($box->volumes)->toHaveCount(5)
     ->and($box->volumes->first()->number)->toBe(1)
     ->and($box->volumes->last()->number)->toBe(5);
