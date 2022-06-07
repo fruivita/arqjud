@@ -12,6 +12,9 @@
 
 <x-page :header="__('New rooms')">
 
+    <x-backtrace :model="$floor" :root="true"/>
+
+
     <x-container>
 
         <form wire:key="form-room" wire:submit.prevent="store" method="POST">

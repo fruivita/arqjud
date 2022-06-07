@@ -108,16 +108,27 @@ test('one room has many boxes', function () {
     expect($room->boxes)->toHaveCount(3);
 });
 
-test('parentEntitiesLinks returns show parents routes sorted from most distant to closest relationship', function () {
+test('parentEntitiesLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
     $room = Room::factory()->create();
 
     $room->load('floor.building.site');
 
-    $room->parentEntitiesLinks();
-
-    expect($room->parentEntitiesLinks()->toArray())->toBe([
+    expect($room->parentEntitiesLinks(false)->toArray())->toBe([
         __('Site') => route('archiving.register.site.show', $room->floor->building->site),
         __('Building') => route('archiving.register.building.show', $room->floor->building),
         __('Floor') => route('archiving.register.floor.show', $room->floor),
+    ]);
+});
+
+test('parentEntitiesLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
+    $room = Room::factory()->create();
+
+    $room->load('floor.building.site');
+
+    expect($room->parentEntitiesLinks(true)->toArray())->toBe([
+        __('Site') => route('archiving.register.site.show', $room->floor->building->site),
+        __('Building') => route('archiving.register.building.show', $room->floor->building),
+        __('Floor') => route('archiving.register.floor.show', $room->floor),
+        __('Room') => route('archiving.register.room.show', $room),
     ]);
 });

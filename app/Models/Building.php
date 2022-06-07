@@ -58,12 +58,16 @@ class Building extends Model
     /**
      * Links to the parent entities.
      *
+     * @param bool $root must include the root element?
+     *
      * @return \Illuminate\Support\Collection
      */
-    public function parentEntitiesLinks()
+    public function parentEntitiesLinks(bool $root)
     {
         return collect([
             __('Site') => route('archiving.register.site.show', $this->site),
-        ]);
+        ])->when($root, function ($collection) {
+            return $collection->put(__('Building'), route('archiving.register.building.show', $this));
+        });
     }
 }

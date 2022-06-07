@@ -73,3 +73,18 @@ test('one site has many buildings', function () {
 
     expect($site->buildings)->toHaveCount(3);
 });
+
+
+test('parentEntitiesLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
+    $site = Site::factory()->create();
+
+    expect($site->parentEntitiesLinks(false))->toBeEmpty();
+});
+
+test('parentEntitiesLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
+    $site = Site::factory()->create();
+
+    expect($site->parentEntitiesLinks(true)->toArray())->toBe([
+        __('Site') => route('archiving.register.site.show', $site),
+    ]);
+});

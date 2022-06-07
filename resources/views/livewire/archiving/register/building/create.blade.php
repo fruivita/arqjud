@@ -12,6 +12,9 @@
 
 <x-page :header="__('New buildings')">
 
+    <x-backtrace :model="$site" :root="true"/>
+
+
     <x-container>
 
         <form wire:key="form-building" wire:submit.prevent="store" method="POST">

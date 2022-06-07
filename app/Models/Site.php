@@ -45,4 +45,18 @@ class Site extends Model
     {
         return $query->orderBy('name', 'asc');
     }
+
+    /**
+     * Links to the parent entities.
+     *
+     * @param bool $root must include the root element?
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function parentEntitiesLinks(bool $root)
+    {
+        return collect()->when($root, function ($collection) {
+            return $collection->put(__('Site'), route('archiving.register.site.show', $this));
+        });
+    }
 }

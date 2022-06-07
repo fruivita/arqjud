@@ -4,6 +4,7 @@
 
     Props:
     - model: child model to generate links to its parents
+    - root: must include the root (child) model or only its parents
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -14,12 +15,12 @@
 --}}
 
 
-@props(['model'])
+@props(['model', 'root' => false])
 
 
 <div class="font-bold">
 
-    @foreach ($model->parentEntitiesLinks() ?? [] as $label => $link)
+    @foreach ($model->parentEntitiesLinks($root) ?? [] as $label => $link)
 
         <a class="underline" href="{{ $link }}">{{ $label }}</a>
 
