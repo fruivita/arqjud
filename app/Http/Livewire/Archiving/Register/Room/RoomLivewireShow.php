@@ -47,14 +47,14 @@ class RoomLivewireShow extends Component
     }
 
     /**
-     * Computed property to list paged boxes.
+     * Computed property to list paged stands.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getBoxesProperty()
+    public function getStandsProperty()
     {
         return $this->applyPagination(
-            $this->room->boxes()->defaultOrder()
+            $this->room->stands()->defaultOrder()
         );
     }
 
@@ -66,7 +66,7 @@ class RoomLivewireShow extends Component
     public function render()
     {
         return view('livewire.archiving.register.room.show', [
-            'boxes' => $this->boxes,
+            'stands' => $this->stands,
         ])->layout('layouts.app');
     }
 }
