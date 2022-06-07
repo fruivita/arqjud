@@ -145,7 +145,7 @@ Route::middleware('auth')->group(function () {
             Route::prefix('andar')->name('floor.')->group(function () {
                 Route::get('/', FloorLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Floor::class);
                 Route::get('show/{floor}', FloorLivewireShow::class)->name('show')->can(Policy::View->value, Floor::class);
-                Route::get('predio/{building}create', FloorLivewireCreate::class)->name('create')->can(Policy::Create->value, Floor::class);
+                Route::get('predio/{building}/create', FloorLivewireCreate::class)->name('create')->can(Policy::Create->value, Floor::class);
                 Route::get('edit/{floor}', FloorLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Floor::class);
             });
 
