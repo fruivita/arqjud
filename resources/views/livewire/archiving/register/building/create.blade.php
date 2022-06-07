@@ -18,6 +18,11 @@
 
             <div class="space-y-6">
 
+                <x-show-value
+                    :key="__('Site')"
+                    :value="$site->name"/>
+
+
                 <x-form.input
                     wire:key="building-name"
                     wire:loading.delay.attr="disabled"
@@ -48,38 +53,6 @@
                     :text="__('Description')"
                     :title="__('Describes the building')"
                     withcounter/>
-
-
-                <x-form.select
-                    wire:key="site"
-                    wire:loading.delay.attr="disabled"
-                    wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="building.site_id"
-                    wire:target="store"
-                    :error="$errors->first('building.site_id')"
-                    icon="pin-map"
-                    required
-                    :text="__('Site')"
-                    :title="__('Choose site')">
-
-                    <option value="">{{ __('Select...') }}</option>
-
-
-                    @forelse ($sites ?? [] as $site)
-
-                        <option value="{{ $site->id }}">
-
-                            {{ $site->name }}
-
-                        </option>
-
-                    @empty
-
-                        <option value="-1">{{ __('No record found') }}</option>
-
-                    @endforelse
-
-                </x-form.select>
 
 
                 <x-button-group>

@@ -22,46 +22,18 @@ class RoomLivewireCreate extends Component
     use WithFeedbackEvents;
 
     /**
+     * Parent resource.
+     *
+     * @var \App\Models\Floor
+     */
+    public Floor $floor;
+
+    /**
      * Resource that will be created.
      *
      * @var \App\Models\Room
      */
     public Room $room;
-
-    /**
-     * All sites.
-     *
-     * @var \Illuminate\Support\Collection|null
-     */
-    public ?Collection $sites = null;
-
-    /**
-     * Selected site id.
-     *
-     * @var int|null
-     */
-    public $site_id = null;
-
-    /**
-     * Selected site buildings.
-     *
-     * @var \Illuminate\Support\Collection|null
-     */
-    public ?Collection $buildings = null;
-
-    /**
-     * Selected building id.
-     *
-     * @var int|null
-     */
-    public $building_id = null;
-
-    /**
-     * Selected building floors.
-     *
-     * @var \Illuminate\Support\Collection|null
-     */
-    public ?Collection $floors = null;
 
     /**
      * Rules for validation of inputs.
@@ -76,7 +48,7 @@ class RoomLivewireCreate extends Component
                 'required',
                 'integer',
                 'between:1,100000',
-                "unique:rooms,number,null,id,floor_id,{$this->room->floor_id}",
+                "unique:rooms,number,null,id,floor_id,{$this->floor->id}",
             ],
 
             'room.description' => [
@@ -84,27 +56,6 @@ class RoomLivewireCreate extends Component
                 'nullable',
                 'string',
                 'max:255',
-            ],
-
-            'site_id' => [
-                'bail',
-                'nullable',
-                'integer',
-                'exists:sites,id',
-            ],
-
-            'building_id' => [
-                'bail',
-                'nullable',
-                'integer',
-                'exists:buildings,id',
-            ],
-
-            'room.floor_id' => [
-                'bail',
-                'required',
-                'integer',
-                'exists:floors,id',
             ],
         ];
     }
@@ -119,9 +70,6 @@ class RoomLivewireCreate extends Component
         return [
             'room.number' => __('Room'),
             'room.description' => __('Description'),
-            'site_id' => __('Site'),
-            'building_id' => __('Building'),
-            'room.floor_id' => __('Floor'),
         ];
     }
 
@@ -145,7 +93,7 @@ class RoomLivewireCreate extends Component
      */
     public function mount()
     {
-        $this->sites = Site::defaultOrder()->get();
+        $this->floor->load('building.site');
         $this->room = $this->blankModel();
     }
 
@@ -170,36 +118,6 @@ class RoomLivewireCreate extends Component
     }
 
     /**
-     * Runs after a property called $site_id is updated.
-     *
-     * @return void
-     */
-    public function updatedSiteId()
-    {
-        $this->reset(['building_id', 'buildings', 'floors']);
-        $this->room->floor_id = null;
-
-        $this->validateOnly('site_id');
-
-        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
-    }
-
-    /**
-     * Runs after a property called $building_id is updated.
-     *
-     * @return void
-     */
-    public function updatedBuildingId()
-    {
-        $this->reset(['floors']);
-        $this->room->floor_id = null;
-
-        $this->validateOnly('building_id');
-
-        $this->floors = Floor::where('building_id', $this->building_id)->defaultOrder()->get();
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @return void
@@ -208,7 +126,9 @@ class RoomLivewireCreate extends Component
     {
         $this->validate();
 
-        $saved = $this->room->save();
+        $saved = $this->floor->rooms()->save($this->room)
+        ? true
+        : false;
 
         $this->room = $this->blankModel();
 

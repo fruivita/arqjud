@@ -7,7 +7,6 @@ use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Models\Building;
 use App\Models\Site;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Collection;
 use Livewire\Component;
 
 /**
@@ -20,18 +19,18 @@ class BuildingLivewireCreate extends Component
     use WithFeedbackEvents;
 
     /**
+     * Parent resource.
+     *
+     * @var \App\Models\Site
+     */
+    public Site $site;
+
+    /**
      * Resource that will be created.
      *
      * @var \App\Models\Building
      */
     public Building $building;
-
-    /**
-     * All sites.
-     *
-     * @var \Illuminate\Support\Collection|null
-     */
-    public ?Collection $sites = null;
 
     /**
      * Rules for validation of inputs.
@@ -46,7 +45,7 @@ class BuildingLivewireCreate extends Component
                 'required',
                 'string',
                 'max:100',
-                "unique:buildings,name,null,id,site_id,{$this->building->site_id}",
+                "unique:buildings,name,null,id,site_id,{$this->site->id}",
             ],
 
             'building.description' => [
@@ -54,13 +53,6 @@ class BuildingLivewireCreate extends Component
                 'nullable',
                 'string',
                 'max:255',
-            ],
-
-            'building.site_id' => [
-                'bail',
-                'required',
-                'integer',
-                'exists:sites,id',
             ],
         ];
     }
@@ -75,7 +67,6 @@ class BuildingLivewireCreate extends Component
         return [
             'building.name' => __('Name'),
             'building.description' => __('Description'),
-            'building.site_id' => __('Site'),
         ];
     }
 
@@ -99,7 +90,6 @@ class BuildingLivewireCreate extends Component
      */
     public function mount()
     {
-        $this->sites = Site::defaultOrder()->get();
         $this->building = $this->blankModel();
     }
 
@@ -132,7 +122,9 @@ class BuildingLivewireCreate extends Component
     {
         $this->validate();
 
-        $saved = $this->building->save();
+        $saved = $this->site->buildings()->save($this->building)
+        ? true
+        : false;
 
         $this->building = $this->blankModel();
 

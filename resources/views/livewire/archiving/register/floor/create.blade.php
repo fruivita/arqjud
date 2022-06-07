@@ -18,6 +18,16 @@
 
             <div class="space-y-6">
 
+                <x-show-value
+                    :key="__('Site')"
+                    :value="$building->site->name"/>
+
+
+                <x-show-value
+                    :key="__('Building')"
+                    :value="$building->name"/>
+
+
                 <x-form.input
                     wire:key="floor-number"
                     wire:loading.delay.attr="disabled"
@@ -48,83 +58,6 @@
                     :text="__('Description')"
                     :title="__('Describes the floor')"
                     withcounter/>
-
-
-                {{-- Site --}}
-                <div>
-
-                    <x-form.select
-                        wire:key="site"
-                        wire:loading.delay.attr="disabled"
-                        wire:loading.delay.class="cursor-not-allowed"
-                        wire:model="site_id"
-                        wire:target="site_id,store"
-                        :error="$errors->first('site_id')"
-                        icon="pin-map"
-                        required
-                        :text="__('Site')"
-                        :title="__('Choose site')">
-
-                        <option value="">{{ __('Select...') }}</option>
-
-
-                        @forelse ($sites ?? [] as $site)
-
-                            <option value="{{ $site->id }}">
-
-                                {{ $site->name }}
-
-                            </option>
-
-                        @empty
-
-                            <option value="-1">{{ __('No record found') }}</option>
-
-                        @endforelse
-
-                    </x-form.select>
-
-                </div>
-
-
-                {{-- Building --}}
-                <div>
-
-                    @if($site_id >= 1)
-
-                        <x-form.select
-                            wire:key="buildings-{{ $site_id }}"
-                            wire:loading.delay.attr="disabled"
-                            wire:loading.delay.class="cursor-not-allowed"
-                            wire:model.defer="floor.building_id"
-                            wire:target="site_id,store"
-                            :error="$errors->first('floor.building_id')"
-                            icon="building"
-                            required
-                            :text="__('Building')"
-                            :title="__('Choose building')">
-
-                            <option value="">{{ __('Select...') }}</option>
-
-                            @forelse ($buildings ?? [] as $building)
-
-                                <option value="{{ $building->id }}">
-
-                                    {{ $building->name }}
-
-                                </option>
-
-                            @empty
-
-                                <option value="-1">{{ __('No record found') }}</option>
-
-                            @endforelse
-
-                        </x-form.select>
-
-                    @endif
-
-                </div>
 
 
                 <x-button-group>

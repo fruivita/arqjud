@@ -14,30 +14,11 @@
 
     <x-container>
 
-        <div class="flex items-center justify-between mb-3">
-
-            @can(\App\Enums\Policy::Create->value, \App\Models\Building::class)
-
-                <x-link-button
-                    class="btn-do"
-                    icon="plus-circle"
-                    :href="route('archiving.register.building.create')"
-                    :text="__('New')"
-                    :title="__('Create a new record')"/>
-
-            @else
-
-                <div></div>
-
-            @endcan
-
-
-            <x-perpage
-                wire:key="per-page"
-                wire:model="per_page"
-                :error="$errors->first('per_page')"/>
-
-        </div>
+        <x-perpage
+            wire:key="per-page"
+            wire:model="per_page"
+            class="mb-3"
+            :error="$errors->first('per_page')"/>
 
 
         <x-table wire:key="table-buildings" wire:loading.delay.class="opacity-25">

@@ -21,32 +21,18 @@ class FloorLivewireCreate extends Component
     use WithFeedbackEvents;
 
     /**
+     * Parent resource.
+     *
+     * @var \App\Models\Building
+     */
+    public Building $building;
+
+    /**
      * Resource that will be created.
      *
      * @var \App\Models\Floor
      */
     public Floor $floor;
-
-    /**
-     * All sites.
-     *
-     * @var \Illuminate\Support\Collection|null
-     */
-    public ?Collection $sites = null;
-
-    /**
-     * Selected site id.
-     *
-     * @var int|null
-     */
-    public $site_id = null;
-
-    /**
-     * Selected site buildings.
-     *
-     * @var \Illuminate\Support\Collection|null
-     */
-    public ?Collection $buildings = null;
 
     /**
      * Rules for validation of inputs.
@@ -61,7 +47,7 @@ class FloorLivewireCreate extends Component
                 'required',
                 'integer',
                 'between:-100,300',
-                "unique:floors,number,null,id,building_id,{$this->floor->building_id}",
+                "unique:floors,number,null,id,building_id,{$this->building->id}",
             ],
 
             'floor.description' => [
@@ -69,20 +55,6 @@ class FloorLivewireCreate extends Component
                 'nullable',
                 'string',
                 'max:255',
-            ],
-
-            'site_id' => [
-                'bail',
-                'nullable',
-                'integer',
-                'exists:sites,id',
-            ],
-
-            'floor.building_id' => [
-                'bail',
-                'required',
-                'integer',
-                'exists:buildings,id',
             ],
         ];
     }
@@ -97,8 +69,6 @@ class FloorLivewireCreate extends Component
         return [
             'floor.number' => __('Floor'),
             'floor.description' => __('Description'),
-            'site_id' => __('Site'),
-            'floor.building_id' => __('Building'),
         ];
     }
 
@@ -122,7 +92,7 @@ class FloorLivewireCreate extends Component
      */
     public function mount()
     {
-        $this->sites = Site::defaultOrder()->get();
+        $this->building->load('site');
         $this->floor = $this->blankModel();
     }
 
@@ -147,21 +117,6 @@ class FloorLivewireCreate extends Component
     }
 
     /**
-     * Runs after a property called $site_id is updated.
-     *
-     * @return void
-     */
-    public function updatedSiteId()
-    {
-        $this->reset(['buildings']);
-        $this->floor->building_id = null;
-
-        $this->validateOnly('site_id');
-
-        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @return void
@@ -170,7 +125,9 @@ class FloorLivewireCreate extends Component
     {
         $this->validate();
 
-        $saved = $this->floor->save();
+        $saved = $this->building->floors()->save($this->floor)
+        ? true
+        : false;
 
         $this->floor = $this->blankModel();
 

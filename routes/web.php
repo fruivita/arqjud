@@ -138,21 +138,21 @@ Route::middleware('auth')->group(function () {
             Route::prefix('predio')->name('building.')->group(function () {
                 Route::get('/', BuildingLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Building::class);
                 Route::get('show/{building}', BuildingLivewireShow::class)->name('show')->can(Policy::View->value, Building::class);
-                Route::get('create', BuildingLivewireCreate::class)->name('create')->can(Policy::Create->value, Building::class);
+                Route::get('localidade/{site}/create', BuildingLivewireCreate::class)->name('create')->can(Policy::Create->value, Building::class);
                 Route::get('edit/{building}', BuildingLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Building::class);
             });
 
             Route::prefix('andar')->name('floor.')->group(function () {
                 Route::get('/', FloorLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Floor::class);
                 Route::get('show/{floor}', FloorLivewireShow::class)->name('show')->can(Policy::View->value, Floor::class);
-                Route::get('create', FloorLivewireCreate::class)->name('create')->can(Policy::Create->value, Floor::class);
+                Route::get('predio/{building}create', FloorLivewireCreate::class)->name('create')->can(Policy::Create->value, Floor::class);
                 Route::get('edit/{floor}', FloorLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Floor::class);
             });
 
             Route::prefix('sala')->name('room.')->group(function () {
                 Route::get('/', RoomLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Room::class);
                 Route::get('show/{room}', RoomLivewireShow::class)->name('show')->can(Policy::View->value, Room::class);
-                Route::get('create', RoomLivewireCreate::class)->name('create')->can(Policy::Create->value, Room::class);
+                Route::get('andar/{floor}/create', RoomLivewireCreate::class)->name('create')->can(Policy::Create->value, Room::class);
                 Route::get('edit/{room}', RoomLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Room::class);
             });
         });

@@ -19,6 +19,8 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
+    $this->building = Building::factory()->create();
+
     login('foo');
 });
 
@@ -30,17 +32,17 @@ afterEach(function () {
 test('cannot create a floor record without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.floor.create'))
+    get(route('archiving.register.floor.create', $this->building))
     ->assertRedirect(route('login'));
 });
 
 test('authenticated but without specific permission, cannot access floor record creation route', function () {
-    get(route('archiving.register.floor.create'))
+    get(route('archiving.register.floor.create', $this->building))
     ->assertForbidden();
 });
 
 test('cannot render floor record creation component without specific permission', function () {
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->assertForbidden();
 });
 
@@ -48,7 +50,7 @@ test('cannot render floor record creation component without specific permission'
 test('number is required', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.number', '')
     ->call('store')
     ->assertHasErrors(['floor.number' => 'required']);
@@ -57,7 +59,7 @@ test('number is required', function () {
 test('number must be an integer', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.number', ['foo'])
     ->call('store')
     ->assertHasErrors(['floor.number' => 'integer']);
@@ -66,7 +68,7 @@ test('number must be an integer', function () {
 test('number must be between -100 and 300', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.number', -101)
     ->call('store')
     ->assertHasErrors(['floor.number' => 'between'])
@@ -78,12 +80,10 @@ test('number must be between -100 and 300', function () {
 test('number and building_id must be unique', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    $building = Building::factory()->create();
-    Floor::factory()->create(['number' => 1, 'building_id' => $building->id]);
+    Floor::factory()->create(['number' => 1, 'building_id' => $this->building->id]);
 
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.number', 1)
-    ->set('floor.building_id', $building->id)
     ->call('store')
     ->assertHasErrors(['floor.number' => 'unique']);
 });
@@ -91,7 +91,7 @@ test('number and building_id must be unique', function () {
 test('description is optional', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.description', '')
     ->call('store')
     ->assertHasNoErrors(['floor.description']);
@@ -100,7 +100,7 @@ test('description is optional', function () {
 test('description must be a string', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.description', ['foo'])
     ->call('store')
     ->assertHasErrors(['floor.description' => 'string']);
@@ -109,83 +109,17 @@ test('description must be a string', function () {
 test('description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.description', Str::random(256))
     ->call('store')
     ->assertHasErrors(['floor.description' => 'max']);
-});
-
-test('site_id is optional', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    Livewire::test(FloorLivewireCreate::class)
-    ->set('site_id', '')
-    ->call('store')
-    ->assertHasNoErrors(['site_id']);
-});
-
-test('site_id must be an integer', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    Livewire::test(FloorLivewireCreate::class)
-    ->set('site_id', 'foo')
-    ->call('store')
-    ->assertHasErrors(['site_id' => 'integer']);
-});
-
-test('site_id must previously exist in the database', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    Livewire::test(FloorLivewireCreate::class)
-    ->set('site_id', 10)
-    ->call('store')
-    ->assertHasErrors(['site_id' => 'exists']);
-});
-
-test('site_id is validated in real time', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    $site = Site::factory()->create();
-
-    Livewire::test(FloorLivewireCreate::class)
-    ->set('site_id', $site->id)
-    ->assertHasNoErrors()
-    ->set('site_id', 'foo')
-    ->assertHasErrors(['site_id' => 'integer']);
-});
-
-test('building_id is required', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    Livewire::test(FloorLivewireCreate::class)
-    ->set('floor.building_id', '')
-    ->call('store')
-    ->assertHasErrors(['floor.building_id' => 'required']);
-});
-
-test('building_id must be an integer', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    Livewire::test(FloorLivewireCreate::class)
-    ->set('floor.building_id', 'foo')
-    ->call('store')
-    ->assertHasErrors(['floor.building_id' => 'integer']);
-});
-
-test('building_id must previously exist in the database', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    Livewire::test(FloorLivewireCreate::class)
-    ->set('floor.building_id', 10)
-    ->call('store')
-    ->assertHasErrors(['floor.building_id' => 'exists']);
 });
 
 // Happy path
 test('renders floor record creation component with specific permission', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    get(route('archiving.register.floor.create'))
+    get(route('archiving.register.floor.create', $this->building))
     ->assertOk()
     ->assertSeeLivewire(FloorLivewireCreate::class);
 });
@@ -193,47 +127,20 @@ test('renders floor record creation component with specific permission', functio
 test('emits feedback event when creates a floor record', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    $building = Building::factory()->create();
-
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.number', 1)
-    ->set('floor.building_id', $building->id)
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
-});
-
-test('sites are available for selection in floor creation', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    Site::factory(10)->create();
-
-    Livewire::test(FloorLivewireCreate::class)
-    ->assertCount('sites', 10);
-});
-
-test('buildings are available by selecting a site', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    $site = Site::factory()
-    ->has(Building::factory(10), 'buildings')
-    ->create();
-
-    Livewire::test(FloorLivewireCreate::class)
-    ->set('site_id', $site->id)
-    ->assertCount('buildings', 10);
 });
 
 test('creates a floor record with specific permission', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    $building = Building::factory()->create();
-
     expect(Floor::count())->toBe(0);
 
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.number', 1)
     ->set('floor.description', 'foo bar')
-    ->set('floor.building_id', $building->id)
     ->call('store')
     ->assertOk();
 
@@ -241,19 +148,16 @@ test('creates a floor record with specific permission', function () {
 
     expect($floor->number)->toBe(1)
     ->and($floor->description)->toBe('foo bar')
-    ->and($floor->building->id)->toBe($building->id);
+    ->and($floor->building->id)->toBe($this->building->id);
 });
 
 test('reset to a blank model after the floor is created', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    $building = Building::factory()->create();
-
     $blank = new Floor();
 
-    Livewire::test(FloorLivewireCreate::class)
+    Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.number', 1)
-    ->set('floor.building_id', $building->id)
     ->call('store')
     ->assertOk()
     ->assertSet('floor', $blank);
