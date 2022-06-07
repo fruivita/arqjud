@@ -98,15 +98,31 @@ test('permissions id to create a usage simulation are set', function () {
     expect(PermissionType::SimulationCreate->value)->toBe(230003);
 });
 
+test('permissions ids for shelves administration are set', function () {
+    expect(PermissionType::ShelfViewAny->value)->toBe(240001)
+    ->and(PermissionType::ShelfView->value)->toBe(240002)
+    ->and(PermissionType::ShelfCreate->value)->toBe(240003)
+    ->and(PermissionType::ShelfUpdate->value)->toBe(240004)
+    ->and(PermissionType::ShelfDelete->value)->toBe(240005);
+});
+
 test('permissions ids for sites administration are set', function () {
-    expect(PermissionType::SiteViewAny->value)->toBe(240001)
-    ->and(PermissionType::SiteView->value)->toBe(240002)
-    ->and(PermissionType::SiteCreate->value)->toBe(240003)
-    ->and(PermissionType::SiteUpdate->value)->toBe(240004)
-    ->and(PermissionType::SiteDelete->value)->toBe(240005);
+    expect(PermissionType::SiteViewAny->value)->toBe(250001)
+    ->and(PermissionType::SiteView->value)->toBe(250002)
+    ->and(PermissionType::SiteCreate->value)->toBe(250003)
+    ->and(PermissionType::SiteUpdate->value)->toBe(250004)
+    ->and(PermissionType::SiteDelete->value)->toBe(250005);
+});
+
+test('permissions ids for stands administration are set', function () {
+    expect(PermissionType::StandViewAny->value)->toBe(260001)
+    ->and(PermissionType::StandView->value)->toBe(260002)
+    ->and(PermissionType::StandCreate->value)->toBe(260003)
+    ->and(PermissionType::StandUpdate->value)->toBe(260004)
+    ->and(PermissionType::StandDelete->value)->toBe(260005);
 });
 
 test('permissions ids for users administration are set', function () {
-    expect(PermissionType::UserViewAny->value)->toBe(250001)
-    ->and(PermissionType::UserUpdate->value)->toBe(250004);
+    expect(PermissionType::UserViewAny->value)->toBe(270001)
+    ->and(PermissionType::UserUpdate->value)->toBe(270004);
 });

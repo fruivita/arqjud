@@ -73,13 +73,25 @@ enum PermissionType: int
     case RoomDelete = 220005;
     // Simulation
     case SimulationCreate = 230003;
+    // Shelf
+    case ShelfViewAny = 240001;
+    case ShelfView = 240002;
+    case ShelfCreate = 240003;
+    case ShelfUpdate = 240004;
+    case ShelfDelete = 240005;
     // Site
-    case SiteViewAny = 240001;
-    case SiteView = 240002;
-    case SiteCreate = 240003;
-    case SiteUpdate = 240004;
-    case SiteDelete = 240005;
+    case SiteViewAny = 250001;
+    case SiteView = 250002;
+    case SiteCreate = 250003;
+    case SiteUpdate = 250004;
+    case SiteDelete = 250005;
+    // Stand
+    case StandViewAny = 260001;
+    case StandView = 260002;
+    case StandCreate = 260003;
+    case StandUpdate = 260004;
+    case StandDelete = 260005;
     // User
-    case UserViewAny = 250001;
-    case UserUpdate = 250004;
+    case UserViewAny = 270001;
+    case UserUpdate = 270004;
 }
