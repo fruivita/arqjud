@@ -35,7 +35,7 @@
                         maxlength="20"
                         :placeholder="__('Ldap user')"
                         required
-                        :text="__('New Super Adminitrator')"
+                        :text="__('New super adminitrator')"
                         :title="__('Inform a network user')"
                         type="text"
                         withcounter/>
