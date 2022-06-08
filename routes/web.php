@@ -25,10 +25,18 @@ use App\Http\Livewire\Archiving\Register\Room\RoomLivewireCreate;
 use App\Http\Livewire\Archiving\Register\Room\RoomLivewireIndex;
 use App\Http\Livewire\Archiving\Register\Room\RoomLivewireShow;
 use App\Http\Livewire\Archiving\Register\Room\RoomLivewireUpdate;
+use App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireCreate;
+use App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireIndex;
+use App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireShow;
+use App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireUpdate;
 use App\Http\Livewire\Archiving\Register\Site\SiteLivewireCreate;
 use App\Http\Livewire\Archiving\Register\Site\SiteLivewireIndex;
 use App\Http\Livewire\Archiving\Register\Site\SiteLivewireShow;
 use App\Http\Livewire\Archiving\Register\Site\SiteLivewireUpdate;
+use App\Http\Livewire\Archiving\Register\Stand\StandLivewireCreate;
+use App\Http\Livewire\Archiving\Register\Stand\StandLivewireIndex;
+use App\Http\Livewire\Archiving\Register\Stand\StandLivewireShow;
+use App\Http\Livewire\Archiving\Register\Stand\StandLivewireUpdate;
 use App\Http\Livewire\Authorization\Delegation\DelegationLivewireIndex;
 use App\Http\Livewire\Authorization\Permission\PermissionLivewireIndex;
 use App\Http\Livewire\Authorization\Permission\PermissionLivewireShow;
@@ -46,7 +54,9 @@ use App\Models\Floor;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Room;
+use App\Models\Shelf;
 use App\Models\Site;
+use App\Models\Stand;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -154,6 +164,20 @@ Route::middleware('auth')->group(function () {
                 Route::get('show/{room}', RoomLivewireShow::class)->name('show')->can(Policy::View->value, Room::class);
                 Route::get('andar/{floor}/create', RoomLivewireCreate::class)->name('create')->can(Policy::Create->value, Room::class);
                 Route::get('edit/{room}', RoomLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Room::class);
+            });
+
+            Route::prefix('estante')->name('stand.')->group(function () {
+                Route::get('/', StandLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Stand::class);
+                Route::get('show/{stand}', StandLivewireShow::class)->name('show')->can(Policy::View->value, Stand::class);
+                Route::get('sala/{room}/create', StandLivewireCreate::class)->name('create')->can(Policy::Create->value, Stand::class);
+                Route::get('edit/{stand}', StandLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Stand::class);
+            });
+
+            Route::prefix('prateleira')->name('shelf.')->group(function () {
+                Route::get('/', ShelfLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Shelf::class);
+                Route::get('show/{shelf}', ShelfLivewireShow::class)->name('show')->can(Policy::View->value, Shelf::class);
+                Route::get('estante/{stand}/create', ShelfLivewireCreate::class)->name('create')->can(Policy::Create->value, Shelf::class);
+                Route::get('edit/{shelf}', ShelfLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Shelf::class);
             });
         });
     });
