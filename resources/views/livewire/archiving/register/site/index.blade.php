@@ -1,5 +1,5 @@
 {{--
-    View livewire for listing the sites.
+    View livewire for listing sites.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/

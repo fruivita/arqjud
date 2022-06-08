@@ -1,5 +1,5 @@
 {{--
-    View livewire for listing the buildings.
+    View livewire for listing buildings.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/

@@ -1,5 +1,5 @@
 {{--
-    View livewire for boxes listing.
+    View livewire for listing boxes.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -21,32 +21,6 @@
 
     <x-container>
 
-        <div class="flex items-center justify-between mb-3">
-
-            @can(\App\Enums\Policy::Create->value, \App\Models\Box::class)
-
-                <x-link-button
-                    class="btn-do"
-                    icon="plus-circle"
-                    :href="route('archiving.register.box.create')"
-                    :text="__('New')"
-                    :title="__('Create a new record')"/>
-
-            @else
-
-                <div></div>
-
-            @endcan
-
-
-            <x-perpage
-                wire:key="per-page"
-                wire:model="per_page"
-                :error="$errors->first('per_page')"/>
-
-        </div>
-
-
         <x-table wire:key="table-boxes" wire:loading.delay.class="opacity-25">
 
             <x-slot name="head">
@@ -55,12 +29,6 @@
 
 
                 <x-table.heading>{{ __('Year') }}</x-table.heading>
-
-
-                <x-table.heading>{{ __('Stand') }}</x-table.heading>
-
-
-                <x-table.heading>{{ __('Shelf') }}</x-table.heading>
 
 
                 <x-table.heading>{{ __('Qty of volumes') }}</x-table.heading>
@@ -76,6 +44,12 @@
 
 
                 <x-table.heading>{{ __('Room') }}</x-table.heading>
+
+
+                <x-table.heading>{{ __('Stand') }}</x-table.heading>
+
+
+                <x-table.heading>{{ __('Shelf') }}</x-table.heading>
 
 
                 <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
@@ -95,25 +69,25 @@
                         <x-table.cell>{{ $box->year }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $box->stand }}</x-table.cell>
-
-
-                        <x-table.cell>{{ $box->shelf }}</x-table.cell>
-
-
                         <x-table.cell>{{ $box->volumes_count }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $box->room->floor->building->site->name }}</x-table.cell>
+                        <x-table.cell>{{ $box->shelf->stand->room->floor->building->site->name }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $box->room->floor->building->name }}</x-table.cell>
+                        <x-table.cell>{{ $box->shelf->stand->room->floor->building->name }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $box->room->floor->number }}</x-table.cell>
+                        <x-table.cell>{{ $box->shelf->stand->room->floor->number }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $box->room->number }}</x-table.cell>
+                        <x-table.cell>{{ $box->shelf->stand->room->number }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $box->shelf->stand->number }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $box->shelf->number }}</x-table.cell>
 
 
                         <x-table.cell>

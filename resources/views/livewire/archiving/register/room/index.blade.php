@@ -1,5 +1,5 @@
 {{--
-    View livewire for listing the rooms.
+    View livewire for listing rooms.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -28,7 +28,7 @@
                 <x-table.heading>{{ __('Room') }}</x-table.heading>
 
 
-                <x-table.heading>{{ __('Qty of boxes') }}</x-table.heading>
+                <x-table.heading>{{ __('Qty of stands') }}</x-table.heading>
 
 
                 <x-table.heading>{{ __('Site') }}</x-table.heading>
@@ -54,7 +54,7 @@
                         <x-table.cell>{{ $room->number }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $room->boxes_count }}</x-table.cell>
+                        <x-table.cell>{{ $room->stands_count }}</x-table.cell>
 
 
                         <x-table.cell>{{ $room->floor->building->site->name }}</x-table.cell>
