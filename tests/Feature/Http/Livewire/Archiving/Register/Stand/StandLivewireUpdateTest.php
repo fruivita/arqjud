@@ -1,0 +1,380 @@
+<?php
+
+/**
+ * @see https://pestphp.com/docs/
+ */
+
+use App\Enums\FeedbackType;
+use App\Enums\PermissionType;
+use App\Http\Livewire\Archiving\Register\Stand\StandLivewireUpdate;
+use App\Models\Building;
+use App\Models\Floor;
+use App\Models\Room;
+use App\Models\Shelf;
+use App\Models\Site;
+use App\Models\Stand;
+use Database\Seeders\DepartmentSeeder;
+use Database\Seeders\RoleSeeder;
+use Illuminate\Support\Str;
+use Livewire\Livewire;
+use function Pest\Laravel\get;
+
+beforeEach(function () {
+    $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
+
+    $this->stand = Stand::factory()->create();
+
+    login('foo');
+});
+
+afterEach(function () {
+    logout();
+});
+
+// Authorization
+test('cannot update a stand record without being authenticated', function () {
+    logout();
+
+    get(route('archiving.register.stand.edit', $this->stand))
+    ->assertRedirect(route('login'));
+});
+
+test('authenticated but without specific permission, cannot access stand record edit route', function () {
+    get(route('archiving.register.stand.edit', $this->stand))
+    ->assertForbidden();
+});
+
+test('cannot render stand record edit component without specific permission', function () {
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->assertForbidden();
+});
+
+// Rules
+test('does not accept pagination outside the options offered', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('per_page', 33) // possible values: 10/25/50/100
+    ->assertHasErrors(['per_page' => 'in']);
+});
+
+test('number is required', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.number', '')
+    ->call('update')
+    ->assertHasErrors(['stand.number' => 'required']);
+});
+
+test('number must be an integer', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.number', ['foo'])
+    ->call('update')
+    ->assertHasErrors(['stand.number' => 'integer']);
+});
+
+test('number must be between 1 and 100000', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.number', 0)
+    ->call('update')
+    ->assertHasErrors(['stand.number' => 'between'])
+    ->set('stand.number', 100001)
+    ->call('update')
+    ->assertHasErrors(['stand.number' => 'between']);
+});
+
+test('number and room_id must be unique', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $room = Room::factory()->create();
+    Stand::factory()->create(['number' => 1, 'room_id' => $room->id]);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.number', 1)
+    ->set('stand.room_id', $room->id)
+    ->call('update')
+    ->assertHasErrors(['stand.number' => 'unique']);
+});
+
+test('description is optional', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.description', '')
+    ->call('update')
+    ->assertHasNoErrors(['stand.description']);
+});
+
+test('description must be a string', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.description', ['foo'])
+    ->call('update')
+    ->assertHasErrors(['stand.description' => 'string']);
+});
+
+test('description must be a maximum of 255 characters', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.description', Str::random(256))
+    ->call('update')
+    ->assertHasErrors(['stand.description' => 'max']);
+});
+
+test('site_id is required', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('site_id', '')
+    ->call('update')
+    ->assertHasErrors(['site_id' => 'required']);
+});
+
+test('site_id must be an integer', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('site_id', 'foo')
+    ->call('update')
+    ->assertHasErrors(['site_id' => 'integer']);
+});
+
+test('site_id must previously exist in the database', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('site_id', 10)
+    ->call('update')
+    ->assertHasErrors(['site_id' => 'exists']);
+});
+
+test('site_id is validated in real time', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $site = Site::factory()->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('site_id', $site->id)
+    ->assertHasNoErrors()
+    ->set('site_id', 'foo')
+    ->assertHasErrors(['site_id' => 'integer']);
+});
+
+test('building_id is required', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('building_id', '')
+    ->call('update')
+    ->assertHasErrors(['building_id' => 'required']);
+});
+
+test('building_id must be an integer', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('building_id', 'foo')
+    ->call('update')
+    ->assertHasErrors(['building_id' => 'integer']);
+});
+
+test('building_id must previously exist in the database', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('building_id', 10)
+    ->call('update')
+    ->assertHasErrors(['building_id' => 'exists']);
+});
+
+test('building_id is validated in real time', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $building = Building::factory()->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('building_id', $building->id)
+    ->assertHasNoErrors()
+    ->set('building_id', 'foo')
+    ->assertHasErrors(['building_id' => 'integer']);
+});
+
+test('floor_id is required', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('floor_id', '')
+    ->call('update')
+    ->assertHasErrors(['floor_id' => 'required']);
+});
+
+test('floor_id must be an integer', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('floor_id', 'foo')
+    ->call('update')
+    ->assertHasErrors(['floor_id' => 'integer']);
+});
+
+test('floor_id must previously exist in the database', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('floor_id', 10)
+    ->call('update')
+    ->assertHasErrors(['floor_id' => 'exists']);
+});
+
+test('room_id is required', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.room_id', '')
+    ->call('update')
+    ->assertHasErrors(['stand.room_id' => 'required']);
+});
+
+test('room_id must be an integer', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.room_id', 'foo')
+    ->call('update')
+    ->assertHasErrors(['stand.room_id' => 'integer']);
+});
+
+test('room_id must previously exist in the database', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.room_id', 10)
+    ->call('update')
+    ->assertHasErrors(['stand.room_id' => 'exists']);
+});
+
+// Happy path
+test('pagination returns the amount of shelves expected', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Shelf::factory(120)
+    ->for($this->stand, 'stand')
+    ->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->assertCount('shelves', 10)
+    ->set('per_page', 10)
+    ->assertCount('shelves', 10)
+    ->set('per_page', 25)
+    ->assertCount('shelves', 25)
+    ->set('per_page', 50)
+    ->assertCount('shelves', 50)
+    ->set('per_page', 100)
+    ->assertCount('shelves', 100);
+});
+
+test('pagination creates the session variables', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->assertSessionMissing('per_page')
+    ->set('per_page', 10)
+    ->assertSessionHas('per_page', 10)
+    ->set('per_page', 25)
+    ->assertSessionHas('per_page', 25)
+    ->set('per_page', 50)
+    ->assertSessionHas('per_page', 50)
+    ->set('per_page', 100)
+    ->assertSessionHas('per_page', 100);
+});
+
+test('renders edit stand record component with specific permission', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    get(route('archiving.register.stand.edit', $this->stand))
+    ->assertOk()
+    ->assertSeeLivewire(StandLivewireUpdate::class);
+});
+
+test('emits feedback event when update a stand record', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $room = Room::factory()->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.number', 1)
+    ->set('stand.room_id', $room->id)
+    ->call('update')
+    ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
+});
+
+test('sites are available for selection in stand update', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Site::factory(10)->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->assertCount('sites', 11);
+});
+
+test('buildings are available by selecting a site', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $site = Site::factory()
+    ->has(Building::factory(10), 'buildings')
+    ->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('site_id', $site->id)
+    ->assertCount('buildings', 10);
+});
+
+test('floors are available by selecting a building', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $building = Building::factory()
+    ->has(Floor::factory(10), 'floors')
+    ->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('building_id', $building->id)
+    ->assertCount('floors', 10);
+});
+
+test('rooms are available by selecting a floor', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $floor = Floor::factory()
+    ->has(Room::factory(10), 'rooms')
+    ->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('floor_id', $floor->id)
+    ->assertCount('rooms', 10);
+});
+
+test('update a stand record with specific permission', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $room = Room::factory()->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('stand.number', 1)
+    ->set('stand.description', 'foo bar')
+    ->set('stand.room_id', $room->id)
+    ->call('update')
+    ->assertOk();
+
+    $this->stand->refresh()->load('room');
+
+    expect($this->stand->number)->toBe(1)
+    ->and($this->stand->description)->toBe('foo bar')
+    ->and($this->stand->room->id)->toBe($room->id);
+});
