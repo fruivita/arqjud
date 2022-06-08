@@ -71,6 +71,28 @@
             @endcan
 
 
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Stand::class)
+
+                <x-link-card
+                    icon="bookshelf"
+                    :href="route('archiving.register.stand.index')"
+                    :text="__('Stands')"
+                    :title="__('Application stands management')"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Shelf::class)
+
+                <x-link-card
+                    icon="list-nested"
+                    :href="route('archiving.register.shelf.index')"
+                    :text="__('Shelves')"
+                    :title="__('Application shelves management')"/>
+
+            @endcan
+
+
             @can(\App\Enums\Policy::View->value, \App\Models\Configuration::class)
 
                 <x-link-card

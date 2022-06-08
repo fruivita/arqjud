@@ -46,6 +46,8 @@
         || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Building::class)
         || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Floor::class)
         || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Room::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Stand::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Shelf::class)
     )
 
         <x-menu.group :name="__('Register')">
@@ -94,6 +96,30 @@
                     :href="route('archiving.register.room.index')"
                     :text="__('Rooms')"
                     :title="__('Rooms management')"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Stand::class)
+
+                <x-menu.link
+                    class="{{ request()->routeIs('archiving.register.stand.*') ? 'active': '' }}"
+                    icon="bookshelf"
+                    :href="route('archiving.register.stand.index')"
+                    :text="__('Stands')"
+                    :title="__('Stands management')"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Shelf::class)
+
+                <x-menu.link
+                    class="{{ request()->routeIs('archiving.register.shelf.*') ? 'active': '' }}"
+                    icon="list-nested"
+                    :href="route('archiving.register.shelf.index')"
+                    :text="__('Shelves')"
+                    :title="__('Shelves management')"/>
 
             @endcan
 
