@@ -24,7 +24,7 @@ afterEach(function () {
 });
 
 // Forbidden
-test('user without permission cannot list shelfs records', function () {
+test('user without permission cannot list shelves records', function () {
     expect((new ShelfPolicy())->viewAny($this->user))->toBeFalse();
 });
 
@@ -59,7 +59,7 @@ test('shelf with boxes cannot be delete', function () {
 });
 
 // Happy path
-test('permission to list shelfs records is cached for 5 seconds', function () {
+test('permission to list shelves records is cached for 5 seconds', function () {
     testTime()->freeze();
     grantPermission(PermissionType::ShelfViewAny->value);
 
@@ -222,7 +222,7 @@ test('permission to individually delete a shelf is cached for 5 seconds', functi
     ->and(cache()->missing($key))->toBeTrue();
 });
 
-test('user with permission can list shelfs records', function () {
+test('user with permission can list shelves records', function () {
     grantPermission(PermissionType::ShelfViewAny->value);
 
     expect((new ShelfPolicy())->viewAny($this->user))->toBeTrue();
