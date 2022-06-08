@@ -233,6 +233,18 @@ test('floor_id must previously exist in the database', function () {
     ->assertHasErrors(['floor_id' => 'exists']);
 });
 
+test('floor_id is validated in real time', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $floor = Floor::factory()->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
+    ->set('floor_id', $floor->id)
+    ->assertHasNoErrors()
+    ->set('floor_id', 'foo')
+    ->assertHasErrors(['floor_id' => 'integer']);
+});
+
 test('room_id is required', function () {
     grantPermission(PermissionType::StandUpdate->value);
 
