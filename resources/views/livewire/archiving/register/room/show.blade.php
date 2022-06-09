@@ -68,24 +68,40 @@
 
         <div class="overflow-x-auto">
 
-            <x-perpage
-                wire:key="per-page"
-                wire:model="per_page"
-                class="mb-3"
-                :error="$errors->first('per_page')"/>
+            <div class="flex items-center justify-between mb-3">
+
+                @can(\App\Enums\Policy::Create->value, \App\Models\Stand::class)
+
+                    <x-link-button
+                        class="btn-do"
+                        icon="plus-circle"
+                        :href="route('archiving.register.stand.create', $room)"
+                        :text="__('New')"
+                        :title="__('Create a new record')"/>
+
+                @else
+
+                    <div></div>
+
+                @endcan
 
 
-            <x-table wire:key="table-boxes" wire:loading.delay.class="opacity-25">
+                <x-perpage
+                    wire:key="per-page"
+                    wire:model="per_page"
+                    :error="$errors->first('per_page')"/>
+
+            </div>
+
+
+            <x-table wire:key="table-stands" wire:loading.delay.class="opacity-25">
 
                 <x-slot name="head">
 
-                    <x-table.heading>{{ __('Box') }}</x-table.heading>
+                    <x-table.heading>{{ __('Stand') }}</x-table.heading>
 
 
-                    <x-table.heading>{{ __('Year') }}</x-table.heading>
-
-
-                    <x-table.heading>{{ __('Qty of volumes') }}</x-table.heading>
+                    <x-table.heading>{{ __('Qty of shelves') }}</x-table.heading>
 
 
                     <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
@@ -95,41 +111,38 @@
 
                 <x-slot name="body">
 
-                    @forelse ( $boxes ?? [] as $box )
+                    @forelse ( $stands ?? [] as $stand )
 
                         <x-table.row>
 
-                            <x-table.cell>{{ $box->number }}</x-table.cell>
+                            <x-table.cell>{{ $stand->number }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $box->year }}</x-table.cell>
-
-
-                            <x-table.cell>{{ $box->volumes_count }}</x-table.cell>
+                            <x-table.cell>{{ $stand->shelves_count }}</x-table.cell>
 
 
                             <x-table.cell>
 
                                 <x-action-button-group>
 
-                                    @can(\App\Enums\Policy::View->value, \App\Models\Box::class)
+                                    @can(\App\Enums\Policy::View->value, \App\Models\Stand::class)
 
                                         <x-link-button
                                             class="btn-do"
                                             icon="eye"
-                                            :href="route('archiving.register.box.show', $box)"
+                                            :href="route('archiving.register.stand.show', $stand)"
                                             :text="__('Show')"
                                             :title="__('Show the record')"/>
 
                                     @endcan
 
 
-                                    @can(\App\Enums\Policy::Update->value, \App\Models\Box::class)
+                                    @can(\App\Enums\Policy::Update->value, \App\Models\Stand::class)
 
                                         <x-link-button
                                             class="btn-do"
                                             icon="pencil-square"
-                                            :href="route('archiving.register.box.edit', $box)"
+                                            :href="route('archiving.register.stand.edit', $stand)"
                                             :text="__('Edit')"
                                             :title="__('Edit the record')"/>
 
@@ -160,6 +173,6 @@
     </x-container>
 
 
-    {{ $boxes->links() }}
+    {{ $stands->links() }}
 
 </x-page>
