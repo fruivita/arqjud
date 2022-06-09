@@ -1,5 +1,5 @@
 {{--
-    View livewire for individual creation of floor.
+    View livewire for individual creation of stand.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -10,56 +10,66 @@
 --}}
 
 
-<x-page :header="__('New floors')">
+<x-page :header="__('New stands')">
 
-    <x-backtrace :model="$building" :root="true"/>
+    <x-backtrace :model="$room" :root="true"/>
 
 
     <x-container>
 
-        <form wire:key="form-floor" wire:submit.prevent="store" method="POST">
+        <form wire:key="form-stand" wire:submit.prevent="store" method="POST">
 
             <div class="space-y-6">
 
                 <x-show-value
                     :key="__('Site')"
-                    :value="$building->site->name"/>
+                    :value="$room->floor->building->site->name"/>
 
 
                 <x-show-value
                     :key="__('Building')"
-                    :value="$building->name"/>
+                    :value="$room->floor->building->name"/>
+
+
+                <x-show-value
+                    :key="__('Floor')"
+                    :value="$room->floor->number"/>
+
+
+                <x-show-value
+                    :key="__('Room')"
+                    :value="$room->number"/>
 
 
                 <x-form.input
-                    wire:key="floor-number"
+                    wire:key="stand-number"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="floor.number"
+                    wire:model.defer="stand.number"
                     wire:target="store"
-                    :error="$errors->first('floor.number')"
-                    icon="layers"
-                    min="-100"
-                    max="300"
+                    :error="$errors->first('stand.number')"
+                    icon="bookshelf"
+                    min="1"
+                    max="100000"
                     :placeholder="__('Only numbers')"
                     required
-                    :text="__('Floor')"
-                    :title="__('Inform the floor number')"
+                    :text="__('Stand')"
+                    :title="__('Inform the stand number')"
                     type="number"/>
 
 
                 <x-form.textarea
-                    wire:key="floor-description"
+                    wire:key="stand-description"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="floor.description"
+                    wire:model.defer="stand.description"
                     wire:target="store"
-                    :error="$errors->first('floor.description')"
+                    :error="$errors->first('stand.description')"
                     icon="blockquote-left"
                     maxlength="255"
-                    :placeholder="__('About the floor')"
+                    :placeholder="__('About the stand')"
                     :text="__('Description')"
-                    :title="__('Describes the floor')"
+                    :title="__('Describes the stand')"
                     withcounter/>
 
 
@@ -93,20 +103,26 @@
             :error="$errors->first('per_page')"/>
 
 
-        <x-table wire:key="table-floors" wire:loading.delay.class="opacity-25">
+        <x-table wire:key="table-stands" wire:loading.delay.class="opacity-25">
 
             <x-slot name="head">
 
-                <x-table.heading>{{ __('Floor') }}</x-table.heading>
+                <x-table.heading>{{ __('Stand') }}</x-table.heading>
 
 
-                <x-table.heading>{{ __('Qty of rooms') }}</x-table.heading>
+                <x-table.heading>{{ __('Qty of shelves') }}</x-table.heading>
 
 
                 <x-table.heading>{{ __('Site') }}</x-table.heading>
 
 
                 <x-table.heading>{{ __('Building') }}</x-table.heading>
+
+
+                <x-table.heading>{{ __('Floor') }}</x-table.heading>
+
+
+                <x-table.heading>{{ __('Room') }}</x-table.heading>
 
 
                 <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
@@ -116,55 +132,61 @@
 
             <x-slot name="body">
 
-                @forelse ($floors ?? [] as $floor)
+                @forelse ($stands ?? [] as $stand)
 
                     <x-table.row>
 
-                        <x-table.cell>{{ $floor->number }}</x-table.cell>
+                        <x-table.cell>{{ $stand->number }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $floor->rooms_count }}</x-table.cell>
+                        <x-table.cell>{{ $stand->shelves_count }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $floor->building->site->name }}</x-table.cell>
+                        <x-table.cell>{{ $stand->room->floor->building->site->name }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $floor->building->name }}</x-table.cell>
+                        <x-table.cell>{{ $stand->room->floor->building->name }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $stand->room->floor->number }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $stand->room->number }}</x-table.cell>
 
 
                         <x-table.cell>
 
                             <x-action-button-group>
 
-                                @can(\App\Enums\Policy::View->value, \App\Models\Floor::class)
+                                @can(\App\Enums\Policy::View->value, \App\Models\Stand::class)
 
                                     <x-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        :href="route('archiving.register.floor.show', $floor)"
+                                        :href="route('archiving.register.stand.show', $stand)"
                                         :text="__('Show')"
                                         :title="__('Show the record')"/>
 
                                 @endcan
 
 
-                                @can(\App\Enums\Policy::Update->value, \App\Models\Floor::class)
+                                @can(\App\Enums\Policy::Update->value, \App\Models\Stand::class)
 
                                     <x-link-button
                                         class="btn-do"
                                         icon="pencil-square"
-                                        :href="route('archiving.register.floor.edit', $floor)"
+                                        :href="route('archiving.register.stand.edit', $stand)"
                                         :text="__('Edit')"
                                         :title="__('Edit the record')"/>
 
                                 @endcan
 
 
-                                @can(\App\Enums\Policy::Delete->value, $floor)
+                                @can(\App\Enums\Policy::Delete->value, $stand)
 
                                     <x-button
-                                        wire:click="markToDelete({{ $floor->id }})"
-                                        wire:key="btn-delete-{{ $floor->id }}"
+                                        wire:click="markToDelete({{ $stand->id }})"
+                                        wire:key="btn-delete-{{ $stand->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"
                                         class="btn-danger w-full"
@@ -185,7 +207,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell colspan="5">{{ __('No record found') }}</x-table.cell>
+                        <x-table.cell colspan="7">{{ __('No record found') }}</x-table.cell>
 
                     </x-table.row>
 
@@ -198,7 +220,7 @@
     </x-container>
 
 
-    {{ $floors->links() }}
+    {{ $stands->links() }}
 
 
     @can(\App\Enums\Policy::Delete->value, $deleting)

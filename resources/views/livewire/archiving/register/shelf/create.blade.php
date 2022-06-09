@@ -1,5 +1,5 @@
 {{--
-    View livewire for individual creation of floor.
+    View livewire for individual creation of shelf.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -10,56 +10,71 @@
 --}}
 
 
-<x-page :header="__('New floors')">
+<x-page :header="__('New shelves')">
 
-    <x-backtrace :model="$building" :root="true"/>
+    <x-backtrace :model="$stand" :root="true"/>
 
 
     <x-container>
 
-        <form wire:key="form-floor" wire:submit.prevent="store" method="POST">
+        <form wire:key="form-shelf" wire:submit.prevent="store" method="POST">
 
             <div class="space-y-6">
 
                 <x-show-value
                     :key="__('Site')"
-                    :value="$building->site->name"/>
+                    :value="$stand->room->floor->building->site->name"/>
 
 
                 <x-show-value
                     :key="__('Building')"
-                    :value="$building->name"/>
+                    :value="$stand->room->floor->building->name"/>
+
+
+                <x-show-value
+                    :key="__('Floor')"
+                    :value="$stand->room->floor->number"/>
+
+
+                <x-show-value
+                    :key="__('Room')"
+                    :value="$stand->room->number"/>
+
+
+                <x-show-value
+                    :key="__('Stand')"
+                    :value="$stand->number"/>
 
 
                 <x-form.input
-                    wire:key="floor-number"
+                    wire:key="shelf-number"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="floor.number"
+                    wire:model.defer="shelf.number"
                     wire:target="store"
-                    :error="$errors->first('floor.number')"
-                    icon="layers"
-                    min="-100"
-                    max="300"
+                    :error="$errors->first('shelf.number')"
+                    icon="list-nested"
+                    min="1"
+                    max="100000"
                     :placeholder="__('Only numbers')"
                     required
-                    :text="__('Floor')"
-                    :title="__('Inform the floor number')"
+                    :text="__('Shelf')"
+                    :title="__('Inform the shelf number')"
                     type="number"/>
 
 
                 <x-form.textarea
-                    wire:key="floor-description"
+                    wire:key="shelf-description"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="floor.description"
+                    wire:model.defer="shelf.description"
                     wire:target="store"
-                    :error="$errors->first('floor.description')"
+                    :error="$errors->first('shelf.description')"
                     icon="blockquote-left"
                     maxlength="255"
-                    :placeholder="__('About the floor')"
+                    :placeholder="__('About the shelf')"
                     :text="__('Description')"
-                    :title="__('Describes the floor')"
+                    :title="__('Describes the shelf')"
                     withcounter/>
 
 
@@ -93,20 +108,29 @@
             :error="$errors->first('per_page')"/>
 
 
-        <x-table wire:key="table-floors" wire:loading.delay.class="opacity-25">
+        <x-table wire:key="table-shelves" wire:loading.delay.class="opacity-25">
 
             <x-slot name="head">
 
-                <x-table.heading>{{ __('Floor') }}</x-table.heading>
+                <x-table.heading>{{ __('Shelf') }}</x-table.heading>
 
 
-                <x-table.heading>{{ __('Qty of rooms') }}</x-table.heading>
+                <x-table.heading>{{ __('Qty of boxes') }}</x-table.heading>
 
 
                 <x-table.heading>{{ __('Site') }}</x-table.heading>
 
 
                 <x-table.heading>{{ __('Building') }}</x-table.heading>
+
+
+                <x-table.heading>{{ __('Floor') }}</x-table.heading>
+
+
+                <x-table.heading>{{ __('Room') }}</x-table.heading>
+
+
+                <x-table.heading>{{ __('Stand') }}</x-table.heading>
 
 
                 <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
@@ -116,55 +140,64 @@
 
             <x-slot name="body">
 
-                @forelse ($floors ?? [] as $floor)
+                @forelse ($shelves ?? [] as $shelf)
 
                     <x-table.row>
 
-                        <x-table.cell>{{ $floor->number }}</x-table.cell>
+                        <x-table.cell>{{ $shelf->number }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $floor->rooms_count }}</x-table.cell>
+                        <x-table.cell>{{ $shelf->boxes_count }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $floor->building->site->name }}</x-table.cell>
+                        <x-table.cell>{{ $shelf->stand->room->floor->building->site->name }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $floor->building->name }}</x-table.cell>
+                        <x-table.cell>{{ $shelf->stand->room->floor->building->name }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $shelf->stand->room->floor->number }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $shelf->stand->room->number }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $shelf->stand->number }}</x-table.cell>
 
 
                         <x-table.cell>
 
                             <x-action-button-group>
 
-                                @can(\App\Enums\Policy::View->value, \App\Models\Floor::class)
+                                @can(\App\Enums\Policy::View->value, \App\Models\Shelf::class)
 
                                     <x-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        :href="route('archiving.register.floor.show', $floor)"
+                                        :href="route('archiving.register.shelf.show', $shelf)"
                                         :text="__('Show')"
                                         :title="__('Show the record')"/>
 
                                 @endcan
 
 
-                                @can(\App\Enums\Policy::Update->value, \App\Models\Floor::class)
+                                @can(\App\Enums\Policy::Update->value, \App\Models\Shelf::class)
 
                                     <x-link-button
                                         class="btn-do"
                                         icon="pencil-square"
-                                        :href="route('archiving.register.floor.edit', $floor)"
+                                        :href="route('archiving.register.shelf.edit', $shelf)"
                                         :text="__('Edit')"
                                         :title="__('Edit the record')"/>
 
                                 @endcan
 
 
-                                @can(\App\Enums\Policy::Delete->value, $floor)
+                                @can(\App\Enums\Policy::Delete->value, $shelf)
 
                                     <x-button
-                                        wire:click="markToDelete({{ $floor->id }})"
-                                        wire:key="btn-delete-{{ $floor->id }}"
+                                        wire:click="markToDelete({{ $shelf->id }})"
+                                        wire:key="btn-delete-{{ $shelf->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"
                                         class="btn-danger w-full"
@@ -185,7 +218,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell colspan="5">{{ __('No record found') }}</x-table.cell>
+                        <x-table.cell colspan="8">{{ __('No record found') }}</x-table.cell>
 
                     </x-table.row>
 
@@ -198,7 +231,7 @@
     </x-container>
 
 
-    {{ $floors->links() }}
+    {{ $shelves->links() }}
 
 
     @can(\App\Enums\Policy::Delete->value, $deleting)
