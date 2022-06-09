@@ -97,7 +97,7 @@ test('cannot delete a building record if it has floors', function () {
     ->assertOk();
 
     Floor::factory()
-    ->for($this->building)
+    ->for($this->building, 'building')
     ->create();
 
     $component

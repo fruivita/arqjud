@@ -510,15 +510,15 @@ test('sites, buildings, floors and rooms are pre-selected according to the edit 
     $this->box->load('room.floor.building.site');
 
     Room::factory(4)
-    ->for($this->box->room->floor)
+    ->for($this->box->room->floor, 'floor')
     ->create();
 
     Floor::factory(8)
-    ->for($this->box->room->floor->building)
+    ->for($this->box->room->floor->building, 'building')
     ->create();
 
     Building::factory(2)
-    ->for($this->box->room->floor->building->site)
+    ->for($this->box->room->floor->building->site, 'site')
     ->create();
 
     Site::factory(15)->create();

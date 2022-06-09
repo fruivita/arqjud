@@ -95,7 +95,7 @@ test('cannot delete a site record if it has buildings', function () {
     ->assertOk();
 
     Building::factory()
-    ->for($this->site)
+    ->for($this->site, 'site')
     ->create();
 
     $component->call('destroy')
