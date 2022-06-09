@@ -43,7 +43,7 @@ class BoxLivewireShow extends Component
      */
     public function mount()
     {
-        $this->box->load(['room.floor.building.site']);
+        $this->box->load(['shelf.stand.room.floor.building.site']);
     }
 
     /**

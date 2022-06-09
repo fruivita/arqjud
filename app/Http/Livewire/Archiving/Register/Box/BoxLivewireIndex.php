@@ -36,20 +36,14 @@ class BoxLivewireIndex extends Component
     }
 
     /**
-     * Computed property to list the paginated boxes and their:
-     * - room
-     * - floor
-     * - building
-     * - site
-     * - volumes quantity.
+     * Computed property to list the paginated boxes.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getBoxesProperty()
     {
         return $this->applyPagination(
-            Box::withCount('volumes')
-            ->with(['room.floor.building.site'])
+            Box::with(['shelf.stand.room.floor.building.site'])
             ->search($this->term)
             ->defaultOrder()
         );
