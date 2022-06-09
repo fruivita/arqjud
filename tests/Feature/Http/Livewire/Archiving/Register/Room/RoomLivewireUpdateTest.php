@@ -10,6 +10,7 @@ use App\Http\Livewire\Archiving\Register\Room\RoomLivewireUpdate;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
+use App\Models\Shelf;
 use App\Models\Site;
 use App\Models\Stand;
 use Database\Seeders\DepartmentSeeder;
@@ -46,6 +47,81 @@ test('authenticated but without specific permission, cannot access room record e
 test('cannot render room record edit component without specific permission', function () {
     Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
     ->assertForbidden();
+});
+
+test('cannot set the stand record which will be deleted without specific permission', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+
+    $stand = Stand::factory()
+    ->for($this->room, 'room')
+    ->create();
+
+    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    ->assertOk()
+    ->call('markToDelete', $stand->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot set the stand record which will be deleted if it has shelves', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $shelf = Shelf::factory()
+    ->for(Stand::factory()->for($this->room, 'room'), 'stand')
+    ->create();
+
+    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    ->assertOk()
+    ->call('markToDelete', $shelf->stand_id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot delete a stand record without specific permission', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()
+    ->for($this->room, 'room')
+    ->create();
+
+    $component = Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    ->call('markToDelete', $stand->id)
+    ->assertOk();
+
+    revokePermission(PermissionType::StandDelete->value);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Stand::where('id', $stand->id)->exists())->toBeTrue();
+});
+
+test('cannot delete a stand record if it has shelves', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()
+    ->for($this->room, 'room')
+    ->create();
+
+    $component = Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    ->call('markToDelete', $stand->id)
+    ->assertOk();
+
+    Shelf::factory()
+    ->for($stand, 'stand')
+    ->create();
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Stand::where('id', $stand->id)->exists())->toBeTrue();
 });
 
 // Rules
@@ -287,6 +363,27 @@ test('emits feedback event when update a room record', function () {
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
 
+test('emits feedback event when deleting a stand record', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()
+    ->for($this->room, 'room')
+    ->create();
+
+    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    ->call('markToDelete', $stand->id)
+    ->call('destroy')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => null,
+        'timeout' => 3000,
+    ]);
+});
+
 test('sites are available for selection in room update', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
@@ -337,4 +434,36 @@ test('update a room record with specific permission', function () {
     expect($this->room->number)->toBe(1)
     ->and($this->room->description)->toBe('foo bar')
     ->and($this->room->floor->id)->toBe($floor->id);
+});
+
+test('defines the stand record that will be deleted with specific permission if it has no shelves', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()
+    ->for($this->room, 'room')
+    ->create();
+
+    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    ->call('markToDelete', $stand->id)
+    ->assertOk()
+    ->assertSet('show_delete_modal', true)
+    ->assertSet('deleting.id', $stand->id);
+});
+
+test('delete a stand record with specific permission if it has no shelves', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()
+    ->for($this->room, 'room')
+    ->create();
+
+    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    ->call('markToDelete', $stand->id)
+    ->assertOk()
+    ->call('destroy', $stand->id)
+    ->assertOk();
+
+    expect(Stand::where('id', $stand->id)->doesntExist())->toBeTrue();
 });

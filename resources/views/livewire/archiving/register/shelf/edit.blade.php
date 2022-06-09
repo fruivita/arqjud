@@ -1,5 +1,5 @@
 {{--
-    View livewire for individual editing of rooms.
+    View livewire for individual editing of shelves.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -10,46 +10,46 @@
 --}}
 
 
-<x-page :header="__('Edit the room')">
+<x-page :header="__('Edit the shelf')">
 
-    <x-backtrace :model="$room"/>
+    <x-backtrace :model="$shelf"/>
 
 
     <x-container>
 
-        <form wire:key="form-room" wire:submit.prevent="update" method="POST">
+        <form wire:key="form-shelf" wire:submit.prevent="update" method="POST">
 
             <div class="space-y-6">
 
                 <x-form.input
-                    wire:key="room-number"
+                    wire:key="shelf-number"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="room.number"
+                    wire:model.defer="shelf.number"
                     wire:target="update"
-                    :error="$errors->first('room.number')"
-                    icon="layers"
+                    :error="$errors->first('shelf.number')"
+                    icon="list-nested"
                     min="1"
                     max="100000"
                     :placeholder="__('Only numbers')"
                     required
-                    :text="__('Room')"
-                    :title="__('Inform the room number')"
+                    :text="__('Shelf')"
+                    :title="__('Inform the shelf number')"
                     type="number"/>
 
 
                 <x-form.textarea
-                    wire:key="room-description"
+                    wire:key="shelf-description"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="room.description"
+                    wire:model.defer="shelf.description"
                     wire:target="update"
-                    :error="$errors->first('room.description')"
+                    :error="$errors->first('shelf.description')"
                     icon="blockquote-left"
                     maxlength="255"
-                    :placeholder="__('About the room')"
+                    :placeholder="__('About the shelf')"
                     :text="__('Description')"
-                    :title="__('Describes the room')"
+                    :title="__('Describes the shelf')"
                     withcounter/>
 
 
@@ -135,9 +135,9 @@
                             wire:key="floors-{{ $building_id }}"
                             wire:loading.delay.attr="disabled"
                             wire:loading.delay.class="cursor-not-allowed"
-                            wire:model.defer="room.floor_id"
+                            wire:model="floor_id"
                             wire:target="building_id,site_id,update"
-                            :error="$errors->first('room.floor_id')"
+                            :error="$errors->first('floor_id')"
                             icon="layers"
                             required
                             :text="__('Floor')"
@@ -150,6 +150,86 @@
                                 <option value="{{ $floor->id }}">
 
                                     {{ $floor->number }}
+
+                                </option>
+
+                            @empty
+
+                                <option value="-1">{{ __('No record found') }}</option>
+
+                            @endforelse
+
+                        </x-form.select>
+
+                    @endif
+
+                </div>
+
+
+                {{-- Room --}}
+                <div>
+
+                    @if($floor_id >= 1)
+
+                        <x-form.select
+                            wire:key="rooms-{{ $floor_id }}"
+                            wire:loading.delay.attr="disabled"
+                            wire:loading.delay.class="cursor-not-allowed"
+                            wire:model="room_id"
+                            wire:target="floor_id,building_id,site_id,update"
+                            :error="$errors->first('room_id')"
+                            icon="door-closed"
+                            required
+                            :text="__('Room')"
+                            :title="__('Choose room')">
+
+                            <option value="">{{ __('Select...') }}</option>
+
+                            @forelse ($rooms ?? [] as $room)
+
+                                <option value="{{ $room->id }}">
+
+                                    {{ $room->number }}
+
+                                </option>
+
+                            @empty
+
+                                <option value="-1">{{ __('No record found') }}</option>
+
+                            @endforelse
+
+                        </x-form.select>
+
+                    @endif
+
+                </div>
+
+
+                {{-- Stand --}}
+                <div>
+
+                    @if($room_id >= 1)
+
+                        <x-form.select
+                            wire:key="stands-{{ $room_id }}"
+                            wire:loading.delay.attr="disabled"
+                            wire:loading.delay.class="cursor-not-allowed"
+                            wire:model.defer="shelf.stand_id"
+                            wire:target="building_id,floor_id,room_id,site_id,update"
+                            :error="$errors->first('shelf.stand_id')"
+                            icon="bookshelf"
+                            required
+                            :text="__('Stand')"
+                            :title="__('Choose stand')">
+
+                            <option value="">{{ __('Select...') }}</option>
+
+                            @forelse ($stands ?? [] as $stand)
+
+                                <option value="{{ $stand->id }}">
+
+                                    {{ $stand->number }}
 
                                 </option>
 
@@ -193,12 +273,12 @@
 
             <div class="flex items-center justify-between mb-3">
 
-                @can(\App\Enums\Policy::Create->value, \App\Models\Stand::class)
+                @can(\App\Enums\Policy::Create->value, \App\Models\Box::class)
 
                     <x-link-button
                         class="btn-do"
                         icon="plus-circle"
-                        :href="route('archiving.register.stand.create', $room)"
+                        :href="route('archiving.register.box.create', $shelf)"
                         :text="__('New')"
                         :title="__('Create a new record')"/>
 
@@ -217,14 +297,14 @@
             </div>
 
 
-            <x-table wire:key="table-stands" wire:loading.delay.class="opacity-25">
+            <x-table wire:key="table-boxes" wire:loading.delay.class="opacity-25">
 
                 <x-slot name="head">
 
-                    <x-table.heading>{{ __('Stand') }}</x-table.heading>
+                    <x-table.heading>{{ __('Box') }}</x-table.heading>
 
 
-                    <x-table.heading>{{ __('Qty of shelves') }}</x-table.heading>
+                    <x-table.heading>{{ __('Qty of volumes') }}</x-table.heading>
 
 
                     <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
@@ -234,56 +314,52 @@
 
                 <x-slot name="body">
 
-                    @forelse ( $stands ?? [] as $stand )
+                    @forelse ( $boxes ?? [] as $box )
 
                         <x-table.row>
 
-                            <x-table.cell>{{ $stand->number }}</x-table.cell>
+                            <x-table.cell>{{ $box->number }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $stand->shelves_count }}</x-table.cell>
+                            <x-table.cell>{{ $box->volumes_count }}</x-table.cell>
 
 
                             <x-table.cell>
 
                                 <x-action-button-group>
 
-                                    @can(\App\Enums\Policy::View->value, \App\Models\Stand::class)
+                                    @can(\App\Enums\Policy::View->value, \App\Models\Box::class)
 
                                         <x-link-button
                                             class="btn-do"
                                             icon="eye"
-                                            :href="route('archiving.register.stand.show', $stand)"
+                                            :href="route('archiving.register.box.show', $box)"
                                             :text="__('Show')"
                                             :title="__('Show the record')"/>
 
                                     @endcan
 
 
-                                    @can(\App\Enums\Policy::Update->value, \App\Models\Stand::class)
+                                    @can(\App\Enums\Policy::Update->value, \App\Models\Box::class)
 
                                         <x-link-button
                                             class="btn-do"
                                             icon="pencil-square"
-                                            :href="route('archiving.register.stand.edit', $stand)"
+                                            :href="route('archiving.register.box.edit', $box)"
                                             :text="__('Edit')"
                                             :title="__('Edit the record')"/>
 
                                     @endcan
 
 
-                                    @can(\App\Enums\Policy::Delete->value, $stand)
+                                    @can(\App\Enums\Policy::Delete->value, \App\Models\Box::class)
 
-                                        <x-button
-                                            wire:click="markToDelete({{ $stand->id }})"
-                                            wire:key="btn-delete-{{ $stand->id }}"
-                                            wire:loading.delay.attr="disabled"
-                                            wire:loading.delay.class="cursor-not-allowed"
-                                            class="btn-danger w-full"
-                                            icon="trash"
+                                        <x-link-button
+                                            class="btn-danger"
+                                            icon="pencil-square"
+                                            {{-- href="{{ route('authorization.permission.edit', $permission) }}" --}}
                                             :text="__('Delete')"
-                                            :title="__('Delete the record')"
-                                            type="button"/>
+                                            :title="__('Delete the record')"/>
 
                                     @endcan
 
@@ -297,7 +373,7 @@
 
                         <x-table.row>
 
-                            <x-table.cell colspan="4">{{ __('No record found') }}</x-table.cell>
+                            <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
 
                         </x-table.row>
 
@@ -312,18 +388,6 @@
     </x-container>
 
 
-    {{ $stands->links() }}
-
-
-    @can(\App\Enums\Policy::Delete->value, $deleting)
-
-        {{-- Modal to confirm the deletion --}}
-        <x-confirmation-modal
-            wire:model="show_delete_modal"
-            wire:key="deleting-modal-{{ $deleting->id }}"
-            wire:submit.prevent="destroy"
-            :question="__('Delete :attribute?', ['attribute' => $deleting->number])"/>
-
-    @endcan
+    {{ $boxes->links() }}
 
 </x-page>

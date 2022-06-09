@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Archiving\Register\Stand;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
+use App\Models\Shelf;
 use App\Models\Stand;
 use App\Models\Site;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -21,6 +23,7 @@ use Livewire\Component;
 class StandLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
 
@@ -265,5 +268,17 @@ class StandLivewireUpdate extends Component
         $saved = $this->stand->save();
 
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Shelf $shelf
+     *
+     * @return void
+     */
+    public function markToDelete(Shelf $shelf)
+    {
+        $this->askForConfirmation($shelf);
     }
 }

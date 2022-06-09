@@ -3,12 +3,14 @@
 namespace App\Http\Livewire\Archiving\Register\Room;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
 use App\Models\Site;
+use App\Models\Stand;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -20,6 +22,7 @@ use Livewire\Component;
 class RoomLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
 
@@ -225,5 +228,17 @@ class RoomLivewireUpdate extends Component
         $saved = $this->room->save();
 
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Stand $stand
+     *
+     * @return void
+     */
+    public function markToDelete(Stand $stand)
+    {
+        $this->askForConfirmation($stand);
     }
 }

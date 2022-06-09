@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Archiving\Register\Shelf;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Models\Box;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -22,6 +24,7 @@ use Livewire\Component;
 class ShelfLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
 
@@ -304,5 +307,17 @@ class ShelfLivewireUpdate extends Component
         $saved = $this->shelf->save();
 
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Box $box
+     *
+     * @return void
+     */
+    public function markToDelete(Box $box)
+    {
+        $this->askForConfirmation($box);
     }
 }

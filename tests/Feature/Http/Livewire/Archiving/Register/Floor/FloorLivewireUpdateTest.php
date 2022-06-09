@@ -380,7 +380,7 @@ test('defines the room record that will be deleted with specific permission if i
     ->assertSet('deleting.id', $this->room->id);
 });
 
-test('delete a floor record with specific permission if it has no rooms', function () {
+test('delete a room record with specific permission if it has no boxes', function () {
     grantPermission(PermissionType::FloorUpdate->value);
     grantPermission(PermissionType::RoomDelete->value);
 

@@ -184,7 +184,7 @@
                     <x-table.heading>{{ __('Room') }}</x-table.heading>
 
 
-                    <x-table.heading>{{ __('Qty of boxes') }}</x-table.heading>
+                    <x-table.heading>{{ __('Qty of stands') }}</x-table.heading>
 
 
                     <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
@@ -201,7 +201,7 @@
                             <x-table.cell>{{ $room->number }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $room->boxes_count }}</x-table.cell>
+                            <x-table.cell>{{ $room->stands_count }}</x-table.cell>
 
 
                             <x-table.cell>
