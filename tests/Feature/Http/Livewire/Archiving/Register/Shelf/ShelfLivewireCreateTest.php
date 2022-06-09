@@ -7,6 +7,7 @@
 use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireCreate;
+use App\Models\Box;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -49,7 +50,86 @@ test('cannot render shelf record creation component without specific permission'
     ->assertForbidden();
 });
 
+test('cannot set the shelf record which will be deleted without specific permission', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+
+    $shelf = Shelf::factory()->create();
+
+    Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
+    ->assertOk()
+    ->call('markToDelete', $shelf->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot set the shelf record which will be deleted if it has boxes', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+    grantPermission(PermissionType::ShelfDelete->value);
+
+    $shelf = Shelf::factory()->create();
+
+    Box::factory()
+    ->for($shelf, 'shelf')
+    ->create();
+
+    Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
+    ->assertOk()
+    ->call('markToDelete', $shelf->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot delete a shelf record without specific permission', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+    grantPermission(PermissionType::ShelfDelete->value);
+
+    $shelf = Shelf::factory()->create();
+
+    $component = Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
+    ->call('markToDelete', $shelf->id)
+    ->assertOk();
+
+    revokePermission(PermissionType::ShelfDelete->value);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Shelf::where('id', $shelf->id)->exists())->toBeTrue();
+});
+
+test('cannot delete a shelf record if it has shelves', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+    grantPermission(PermissionType::ShelfDelete->value);
+
+    $shelf = Shelf::factory()->create();
+
+    $component = Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
+    ->call('markToDelete', $shelf->id)
+    ->assertOk();
+
+    Box::factory()
+    ->for($shelf, 'shelf')
+    ->create();
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Shelf::where('id', $shelf->id)->exists())->toBeTrue();
+});
+
 // Rules
+test('does not accept pagination outside the options offered', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+
+    Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
+    ->set('per_page', 33) // possible values: 10/25/50/100
+    ->assertHasErrors(['per_page' => 'in']);
+});
+
 test('number is required', function () {
     grantPermission(PermissionType::ShelfCreate->value);
 
@@ -119,6 +199,40 @@ test('description must be a maximum of 255 characters', function () {
 });
 
 // Happy path
+test('pagination returns the amount of expected shelf records', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+
+    Shelf::factory(120)
+    ->for($this->stand, 'stand')
+    ->create();
+
+    Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
+    ->assertCount('shelves', 10)
+    ->set('per_page', 10)
+    ->assertCount('shelves', 10)
+    ->set('per_page', 25)
+    ->assertCount('shelves', 25)
+    ->set('per_page', 50)
+    ->assertCount('shelves', 50)
+    ->set('per_page', 100)
+    ->assertCount('shelves', 100);
+});
+
+test('pagination creates the session variables', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+
+    Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
+    ->assertSessionMissing('per_page')
+    ->set('per_page', 10)
+    ->assertSessionHas('per_page', 10)
+    ->set('per_page', 25)
+    ->assertSessionHas('per_page', 25)
+    ->set('per_page', 50)
+    ->assertSessionHas('per_page', 50)
+    ->set('per_page', 100)
+    ->assertSessionHas('per_page', 100);
+});
+
 test('renders shelf record creation component with specific permission', function () {
     grantPermission(PermissionType::ShelfCreate->value);
 
@@ -134,6 +248,25 @@ test('emits feedback event when creates a shelf record', function () {
     ->set('shelf.number', 1)
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
+});
+
+test('emits feedback event when deleting a shelf record', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+    grantPermission(PermissionType::ShelfDelete->value);
+
+    $shelf = Shelf::factory()->create();
+
+    Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
+    ->call('markToDelete', $shelf->id)
+    ->call('destroy')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => null,
+        'timeout' => 3000,
+    ]);
 });
 
 test('creates a shelf record with specific permission', function () {
@@ -164,4 +297,32 @@ test('reset to a blank model after the shelf is created', function () {
     ->call('store')
     ->assertOk()
     ->assertSet('shelf', $blank);
+});
+
+test('defines the shelf record that will be deleted with specific permission if it has no shelves', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+    grantPermission(PermissionType::ShelfDelete->value);
+
+    $shelf = Shelf::factory()->create();
+
+    Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
+    ->call('markToDelete', $shelf->id)
+    ->assertOk()
+    ->assertSet('show_delete_modal', true)
+    ->assertSet('deleting.id', $shelf->id);
+});
+
+test('delete a shelf record with specific permission if it has no shelves', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+    grantPermission(PermissionType::ShelfDelete->value);
+
+    $shelf = Shelf::factory()->create();
+
+    Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
+    ->call('markToDelete', $shelf->id)
+    ->assertOk()
+    ->call('destroy', $shelf->id)
+    ->assertOk();
+
+    expect(Shelf::where('id', $shelf->id)->doesntExist())->toBeTrue();
 });

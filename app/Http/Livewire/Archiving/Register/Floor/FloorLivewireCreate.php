@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Archiving\Register\Floor;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
+use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Site;
@@ -18,7 +20,9 @@ use Livewire\Component;
 class FloorLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
+    use WithPerPagePagination;
 
     /**
      * Parent resource.
@@ -107,13 +111,27 @@ class FloorLivewireCreate extends Component
     }
 
     /**
+     * Computed property to list paginated floors.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getFloorsProperty()
+    {
+        return $this->applyPagination(
+            $this->building->floors()->latest()
+        );
+    }
+
+    /**
      * Renders the component.
      *
      * @return \Illuminate\Http\Response
      */
     public function render()
     {
-        return view('livewire.archiving.register.floor.create')->layout('layouts.app');
+        return view('livewire.archiving.register.floor.create', [
+            'floors' => $this->floors,
+        ])->layout('layouts.app');
     }
 
     /**
@@ -131,6 +149,20 @@ class FloorLivewireCreate extends Component
 
         $this->floor = $this->blankModel();
 
+        $this->resetPage();
+
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Floor $floor
+     *
+     * @return void
+     */
+    public function markToDelete(Floor $floor)
+    {
+        $this->askForConfirmation($floor);
     }
 }

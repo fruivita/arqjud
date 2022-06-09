@@ -11,6 +11,7 @@ use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
 use App\Models\Site;
+use App\Models\Stand;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Str;
@@ -47,7 +48,86 @@ test('cannot render room record creation component without specific permission',
     ->assertForbidden();
 });
 
+test('cannot set the room record which will be deleted without specific permission', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+
+    $room = Room::factory()->create();
+
+    Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->assertOk()
+    ->call('markToDelete', $room->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot set the room record which will be deleted if it has stands', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()->create();
+
+    Stand::factory()
+    ->for($room, 'room')
+    ->create();
+
+    Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->assertOk()
+    ->call('markToDelete', $room->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot delete a room record without specific permission', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()->create();
+
+    $component = Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->call('markToDelete', $room->id)
+    ->assertOk();
+
+    revokePermission(PermissionType::RoomDelete->value);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Room::where('id', $room->id)->exists())->toBeTrue();
+});
+
+test('cannot delete a room record if it has stands', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()->create();
+
+    $component = Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->call('markToDelete', $room->id)
+    ->assertOk();
+
+    Stand::factory()
+    ->for($room, 'room')
+    ->create();
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Room::where('id', $room->id)->exists())->toBeTrue();
+});
+
 // Rules
+test('does not accept pagination outside the options offered', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+
+    Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->set('per_page', 33) // possible values: 10/25/50/100
+    ->assertHasErrors(['per_page' => 'in']);
+});
+
 test('number is required', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
@@ -117,6 +197,40 @@ test('description must be a maximum of 255 characters', function () {
 });
 
 // Happy path
+test('pagination returns the amount of expected room records', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+
+    Room::factory(120)
+    ->for($this->floor, 'floor')
+    ->create();
+
+    Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->assertCount('rooms', 10)
+    ->set('per_page', 10)
+    ->assertCount('rooms', 10)
+    ->set('per_page', 25)
+    ->assertCount('rooms', 25)
+    ->set('per_page', 50)
+    ->assertCount('rooms', 50)
+    ->set('per_page', 100)
+    ->assertCount('rooms', 100);
+});
+
+test('pagination creates the session variables', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+
+    Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->assertSessionMissing('per_page')
+    ->set('per_page', 10)
+    ->assertSessionHas('per_page', 10)
+    ->set('per_page', 25)
+    ->assertSessionHas('per_page', 25)
+    ->set('per_page', 50)
+    ->assertSessionHas('per_page', 50)
+    ->set('per_page', 100)
+    ->assertSessionHas('per_page', 100);
+});
+
 test('renders room record creation component with specific permission', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
@@ -132,6 +246,25 @@ test('emits feedback event when creates a room record', function () {
     ->set('room.number', 1)
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
+});
+
+test('emits feedback event when deleting a room record', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()->create();
+
+    Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->call('markToDelete', $room->id)
+    ->call('destroy')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => null,
+        'timeout' => 3000,
+    ]);
 });
 
 test('creates a room record with specific permission', function () {
@@ -162,4 +295,32 @@ test('reset to a blank model after the room is created', function () {
     ->call('store')
     ->assertOk()
     ->assertSet('room', $blank);
+});
+
+test('defines the room record that will be deleted with specific permission if it has no stands', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()->create();
+
+    Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->call('markToDelete', $room->id)
+    ->assertOk()
+    ->assertSet('show_delete_modal', true)
+    ->assertSet('deleting.id', $room->id);
+});
+
+test('delete a room record with specific permission if it has no stands', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+    grantPermission(PermissionType::RoomDelete->value);
+
+    $room = Room::factory()->create();
+
+    Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->call('markToDelete', $room->id)
+    ->assertOk()
+    ->call('destroy', $room->id)
+    ->assertOk();
+
+    expect(Room::where('id', $room->id)->doesntExist())->toBeTrue();
 });

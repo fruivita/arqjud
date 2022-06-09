@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Archiving\Register\Building;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
+use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Building;
 use App\Models\Site;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -16,7 +18,9 @@ use Livewire\Component;
 class BuildingLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
+    use WithPerPagePagination;
 
     /**
      * Parent resource.
@@ -104,13 +108,27 @@ class BuildingLivewireCreate extends Component
     }
 
     /**
+     * Computed property to list paginated buildings.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getBuildingsProperty()
+    {
+        return $this->applyPagination(
+            $this->site->buildings()->latest()
+        );
+    }
+
+    /**
      * Renders the component.
      *
      * @return \Illuminate\Http\Response
      */
     public function render()
     {
-        return view('livewire.archiving.register.building.create')->layout('layouts.app');
+        return view('livewire.archiving.register.building.create', [
+            'buildings' => $this->buildings,
+        ])->layout('layouts.app');
     }
 
     /**
@@ -128,6 +146,20 @@ class BuildingLivewireCreate extends Component
 
         $this->building = $this->blankModel();
 
+        $this->resetPage();
+
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Building $building
+     *
+     * @return void
+     */
+    public function markToDelete(Building $building)
+    {
+        $this->askForConfirmation($building);
     }
 }

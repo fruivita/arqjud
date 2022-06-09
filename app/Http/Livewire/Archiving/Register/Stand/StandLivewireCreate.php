@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Archiving\Register\Stand;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
+use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -20,7 +22,9 @@ use Livewire\Component;
 class StandLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
+    use WithPerPagePagination;
 
     /**
      * Parent resource.
@@ -109,13 +113,27 @@ class StandLivewireCreate extends Component
     }
 
     /**
+     * Computed property to list paginated stands.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getStandsProperty()
+    {
+        return $this->applyPagination(
+            $this->room->stands()->latest()
+        );
+    }
+
+    /**
      * Renders the component.
      *
      * @return \Illuminate\Http\Response
      */
     public function render()
     {
-        return view('livewire.archiving.register.stand.create')->layout('layouts.app');
+        return view('livewire.archiving.register.stand.create', [
+            'stands' => $this->stands,
+        ])->layout('layouts.app');
     }
 
     /**
@@ -133,6 +151,20 @@ class StandLivewireCreate extends Component
 
         $this->stand = $this->blankModel();
 
+        $this->resetPage();
+
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Stand $stand
+     *
+     * @return void
+     */
+    public function markToDelete(Stand $stand)
+    {
+        $this->askForConfirmation($stand);
     }
 }

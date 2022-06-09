@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Archiving\Register\Shelf;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
+use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -21,7 +23,9 @@ use Livewire\Component;
 class ShelfLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
+    use WithPerPagePagination;
 
     /**
      * Parent resource.
@@ -110,13 +114,27 @@ class ShelfLivewireCreate extends Component
     }
 
     /**
+     * Computed property to list paginated shelves.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getShelvesProperty()
+    {
+        return $this->applyPagination(
+            $this->stand->shelves()->latest()
+        );
+    }
+
+    /**
      * Renders the component.
      *
      * @return \Illuminate\Http\Response
      */
     public function render()
     {
-        return view('livewire.archiving.register.shelf.create')->layout('layouts.app');
+        return view('livewire.archiving.register.shelf.create', [
+            'shelves' => $this->shelves,
+        ])->layout('layouts.app');
     }
 
     /**
@@ -134,6 +152,20 @@ class ShelfLivewireCreate extends Component
 
         $this->shelf = $this->blankModel();
 
+        $this->resetPage();
+
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Shelf $shelf
+     *
+     * @return void
+     */
+    public function markToDelete(Shelf $shelf)
+    {
+        $this->askForConfirmation($shelf);
     }
 }

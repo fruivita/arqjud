@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Archiving\Register\Site;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
+use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Site;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -15,7 +17,9 @@ use Livewire\Component;
 class SiteLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
+    use WithPerPagePagination;
 
     /**
      * Resource that will be created.
@@ -96,13 +100,27 @@ class SiteLivewireCreate extends Component
     }
 
     /**
+     * Computed property to list paginated sites.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getSitesProperty()
+    {
+        return $this->applyPagination(
+            Site::latest()
+        );
+    }
+
+    /**
      * Renders the component.
      *
      * @return \Illuminate\Http\Response
      */
     public function render()
     {
-        return view('livewire.archiving.register.site.create')->layout('layouts.app');
+        return view('livewire.archiving.register.site.create', [
+            'sites' => $this->sites,
+        ])->layout('layouts.app');
     }
 
     /**
@@ -118,6 +136,20 @@ class SiteLivewireCreate extends Component
 
         $this->site = $this->blankModel();
 
+        $this->resetPage();
+
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Site $site
+     *
+     * @return void
+     */
+    public function markToDelete(Site $site)
+    {
+        $this->askForConfirmation($site);
     }
 }

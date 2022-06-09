@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Archiving\Register\Room;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
+use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -19,7 +21,9 @@ use Livewire\Component;
 class RoomLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
+    use WithPerPagePagination;
 
     /**
      * Parent resource.
@@ -108,13 +112,27 @@ class RoomLivewireCreate extends Component
     }
 
     /**
+     * Computed property to list paginated rooms.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getRoomsProperty()
+    {
+        return $this->applyPagination(
+            $this->floor->rooms()->latest()
+        );
+    }
+
+    /**
      * Renders the component.
      *
      * @return \Illuminate\Http\Response
      */
     public function render()
     {
-        return view('livewire.archiving.register.room.create')->layout('layouts.app');
+        return view('livewire.archiving.register.room.create', [
+            'rooms' => $this->rooms,
+        ])->layout('layouts.app');
     }
 
     /**
@@ -132,6 +150,20 @@ class RoomLivewireCreate extends Component
 
         $this->room = $this->blankModel();
 
+        $this->resetPage();
+
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Room $room
+     *
+     * @return void
+     */
+    public function markToDelete(Room $room)
+    {
+        $this->askForConfirmation($room);
     }
 }

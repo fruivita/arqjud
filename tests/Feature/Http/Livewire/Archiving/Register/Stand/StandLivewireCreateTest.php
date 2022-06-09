@@ -10,6 +10,7 @@ use App\Http\Livewire\Archiving\Register\Stand\StandLivewireCreate;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
+use App\Models\Shelf;
 use App\Models\Site;
 use App\Models\Stand;
 use Database\Seeders\DepartmentSeeder;
@@ -48,7 +49,86 @@ test('cannot render stand record creation component without specific permission'
     ->assertForbidden();
 });
 
+test('cannot set the stand record which will be deleted without specific permission', function () {
+    grantPermission(PermissionType::StandCreate->value);
+
+    $stand = Stand::factory()->create();
+
+    Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->assertOk()
+    ->call('markToDelete', $stand->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot set the stand record which will be deleted if it has shelves', function () {
+    grantPermission(PermissionType::StandCreate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()->create();
+
+    Shelf::factory()
+    ->for($stand, 'stand')
+    ->create();
+
+    Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->assertOk()
+    ->call('markToDelete', $stand->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot delete a stand record without specific permission', function () {
+    grantPermission(PermissionType::StandCreate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()->create();
+
+    $component = Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->call('markToDelete', $stand->id)
+    ->assertOk();
+
+    revokePermission(PermissionType::StandDelete->value);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Stand::where('id', $stand->id)->exists())->toBeTrue();
+});
+
+test('cannot delete a stand record if it has shelves', function () {
+    grantPermission(PermissionType::StandCreate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()->create();
+
+    $component = Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->call('markToDelete', $stand->id)
+    ->assertOk();
+
+    Shelf::factory()
+    ->for($stand, 'stand')
+    ->create();
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Stand::where('id', $stand->id)->exists())->toBeTrue();
+});
+
 // Rules
+test('does not accept pagination outside the options offered', function () {
+    grantPermission(PermissionType::StandCreate->value);
+
+    Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->set('per_page', 33) // possible values: 10/25/50/100
+    ->assertHasErrors(['per_page' => 'in']);
+});
+
 test('number is required', function () {
     grantPermission(PermissionType::StandCreate->value);
 
@@ -118,6 +198,40 @@ test('description must be a maximum of 255 characters', function () {
 });
 
 // Happy path
+test('pagination returns the amount of expected stand records', function () {
+    grantPermission(PermissionType::StandCreate->value);
+
+    Stand::factory(120)
+    ->for($this->room, 'room')
+    ->create();
+
+    Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->assertCount('stands', 10)
+    ->set('per_page', 10)
+    ->assertCount('stands', 10)
+    ->set('per_page', 25)
+    ->assertCount('stands', 25)
+    ->set('per_page', 50)
+    ->assertCount('stands', 50)
+    ->set('per_page', 100)
+    ->assertCount('stands', 100);
+});
+
+test('pagination creates the session variables', function () {
+    grantPermission(PermissionType::StandCreate->value);
+
+    Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->assertSessionMissing('per_page')
+    ->set('per_page', 10)
+    ->assertSessionHas('per_page', 10)
+    ->set('per_page', 25)
+    ->assertSessionHas('per_page', 25)
+    ->set('per_page', 50)
+    ->assertSessionHas('per_page', 50)
+    ->set('per_page', 100)
+    ->assertSessionHas('per_page', 100);
+});
+
 test('renders stand record creation component with specific permission', function () {
     grantPermission(PermissionType::StandCreate->value);
 
@@ -133,6 +247,25 @@ test('emits feedback event when creates a stand record', function () {
     ->set('stand.number', 1)
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
+});
+
+test('emits feedback event when deleting a stand record', function () {
+    grantPermission(PermissionType::StandCreate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()->create();
+
+    Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->call('markToDelete', $stand->id)
+    ->call('destroy')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => null,
+        'timeout' => 3000,
+    ]);
 });
 
 test('creates a stand record with specific permission', function () {
@@ -163,4 +296,32 @@ test('reset to a blank model after the stand is created', function () {
     ->call('store')
     ->assertOk()
     ->assertSet('stand', $blank);
+});
+
+test('defines the stand record that will be deleted with specific permission if it has no shelves', function () {
+    grantPermission(PermissionType::StandCreate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()->create();
+
+    Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->call('markToDelete', $stand->id)
+    ->assertOk()
+    ->assertSet('show_delete_modal', true)
+    ->assertSet('deleting.id', $stand->id);
+});
+
+test('delete a stand record with specific permission if it has no shelves', function () {
+    grantPermission(PermissionType::StandCreate->value);
+    grantPermission(PermissionType::StandDelete->value);
+
+    $stand = Stand::factory()->create();
+
+    Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->call('markToDelete', $stand->id)
+    ->assertOk()
+    ->call('destroy', $stand->id)
+    ->assertOk();
+
+    expect(Stand::where('id', $stand->id)->doesntExist())->toBeTrue();
 });
