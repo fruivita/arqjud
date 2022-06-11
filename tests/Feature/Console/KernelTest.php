@@ -16,7 +16,7 @@ beforeEach(function () {
     Event::fake();
 });
 
-// outside the scheduled time
+// scheduled time 1:00
 test('schedule out of time, does not trigger jobs', function ($datetime, $job) {
     testTime()->freeze($datetime);
 
@@ -27,6 +27,7 @@ test('schedule out of time, does not trigger jobs', function ($datetime, $job) {
     Bus::assertNothingDispatched();
 })->with([
     ['2020-10-20 00:59:59', ImportCorporateStructure::class],
+    ['2020-10-20 01:01:00', ImportCorporateStructure::class],
 ]);
 
 // Happy path
@@ -42,4 +43,5 @@ test('schedule at the correct time, triggers the scheduled jobs', function ($dat
     Bus::assertDispatched($job);
 })->with([
     ['2020-10-20 01:00:00', ImportCorporateStructure::class],
+    ['2020-10-20 01:00:59', ImportCorporateStructure::class],
 ]);
