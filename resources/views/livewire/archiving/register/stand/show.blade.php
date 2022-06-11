@@ -71,113 +71,11 @@
 
     <x-container>
 
-        <div class="overflow-x-auto">
-
-            <div class="flex items-center justify-between mb-3">
-
-                @can(\App\Enums\Policy::Create->value, \App\Models\Shelf::class)
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="plus-circle"
-                        :href="route('archiving.register.shelf.create', $stand)"
-                        :text="__('New')"
-                        :title="__('Create a new record')"/>
-
-                @else
-
-                    <div></div>
-
-                @endcan
-
-
-                <x-perpage
-                    wire:key="per-page"
-                    wire:model="per_page"
-                    :error="$errors->first('per_page')"/>
-
-            </div>
-
-
-            <x-table wire:key="table-shelves" wire:loading.delay.class="opacity-25">
-
-                <x-slot name="head">
-
-                    <x-table.heading>{{ __('Shelf') }}</x-table.heading>
-
-
-                    <x-table.heading>{{ __('Qty of boxes') }}</x-table.heading>
-
-
-                    <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
-
-                </x-slot>
-
-
-                <x-slot name="body">
-
-                    @forelse ( $shelves ?? [] as $shelf )
-
-                        <x-table.row>
-
-                            <x-table.cell>{{ $shelf->number }}</x-table.cell>
-
-
-                            <x-table.cell>{{ $shelf->boxes_count }}</x-table.cell>
-
-
-                            <x-table.cell>
-
-                                <x-action-button-group>
-
-                                    @can(\App\Enums\Policy::View->value, \App\Models\Shelf::class)
-
-                                        <x-link-button
-                                            class="btn-do"
-                                            icon="eye"
-                                            :href="route('archiving.register.shelf.show', $shelf)"
-                                            :text="__('Show')"
-                                            :title="__('Show the record')"/>
-
-                                    @endcan
-
-
-                                    @can(\App\Enums\Policy::Update->value, \App\Models\Shelf::class)
-
-                                        <x-link-button
-                                            class="btn-do"
-                                            icon="pencil-square"
-                                            :href="route('archiving.register.shelf.edit', $shelf)"
-                                            :text="__('Edit')"
-                                            :title="__('Edit the record')"/>
-
-                                    @endcan
-
-                                </x-action-button-group>
-
-                            </x-table.cell>
-
-                        </x-table.row>
-
-                    @empty
-
-                        <x-table.row>
-
-                            <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
-
-                        </x-table.row>
-
-                    @endforelse
-
-                </x-slot>
-
-            </x-table>
-
-        </div>
+        <x-table.index.shelf
+            :shelves="$shelves"
+            :parent="$stand"
+            withnewbutton/>
 
     </x-container>
-
-
-    {{ $shelves->links() }}
 
 </x-page>

@@ -17,7 +17,8 @@
         <x-table.index.shelf
             :deleting="$deleting"
             :shelves="$shelves"
-            withdeletebutton/>
+            withdeletebutton
+            withparents/>
 
     </x-container>
 
