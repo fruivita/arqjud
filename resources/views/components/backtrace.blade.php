@@ -3,7 +3,7 @@
     model.
 
     Props:
-    - model: child model to generate links to its parents
+    - model: child model to generate links to its parents (backtrace links)
     - root: must include the root (child) model or only its parents
 
     @see https://laravel.com/docs/blade
@@ -18,7 +18,7 @@
 @props(['model', 'root' => false])
 
 
-<div class="font-bold">
+<div class="font-bold mx-3 text-right text-sm lg:mx-0">
 
     @foreach ($model->parentEntitiesLinks($root) ?? [] as $label => $link)
 
@@ -27,7 +27,7 @@
 
         @unless ($loop->last)
 
-            <span>>></span>
+            <span>></span>
 
         @endunless
 
