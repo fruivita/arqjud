@@ -17,7 +17,8 @@
         <x-table.index.floor
             :deleting="$deleting"
             :floors="$floors"
-            withdeletebutton/>
+            withdeletebutton
+            withparents/>
 
     </x-container>
 
