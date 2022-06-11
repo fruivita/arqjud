@@ -17,7 +17,8 @@
         <x-table.index.building
             :buildings="$buildings"
             :deleting="$deleting"
-            withdeletebutton/>
+            withdeletebutton
+            withparents/>
 
     </x-container>
 
