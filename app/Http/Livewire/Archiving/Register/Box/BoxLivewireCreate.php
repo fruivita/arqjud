@@ -9,7 +9,9 @@ use App\Models\BoxVolume;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
+use App\Models\Shelf;
 use App\Models\Site;
+use App\Models\Stand;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -94,6 +96,34 @@ class BoxLivewireCreate extends Component
     public ?Collection $rooms = null;
 
     /**
+     * Selected room id.
+     *
+     * @var int|null
+     */
+    public $room_id = null;
+
+    /**
+     * Selected room stands.
+     *
+     * @var \Illuminate\Support\Collection|null
+     */
+    public ?Collection $stands = null;
+
+    /**
+     * Selected stand id.
+     *
+     * @var int|null
+     */
+    public $stand_id = null;
+
+    /**
+     * Selected stand shelves.
+     *
+     * @var \Illuminate\Support\Collection|null
+     */
+    public ?Collection $shelves = null;
+
+    /**
      * Rules for validation of inputs.
      *
      * @return array<string, mixed>
@@ -122,11 +152,25 @@ class BoxLivewireCreate extends Component
                 'exists:floors,id',
             ],
 
-            'box.room_id' => [
+            'room_id' => [
+                'bail',
+                'nullable',
+                'integer',
+                'exists:rooms,id',
+            ],
+
+            'stand_id' => [
+                'bail',
+                'nullable',
+                'integer',
+                'exists:stands,id',
+            ],
+
+            'box.shelf_id' => [
                 'bail',
                 'required',
                 'integer',
-                'exists:rooms,id',
+                'exists:shelves,id',
             ],
 
             'amount' => [
@@ -149,20 +193,6 @@ class BoxLivewireCreate extends Component
                 'integer',
                 'min:1',
                 "unique:boxes,number,null,id,year,{$this->box->year}",
-            ],
-
-            'box.stand' => [
-                'bail',
-                'nullable',
-                'integer',
-                'between:1,1000',
-            ],
-
-            'box.shelf' => [
-                'bail',
-                'nullable',
-                'integer',
-                'between:1,1000',
             ],
 
             'box.description' => [
@@ -192,12 +222,12 @@ class BoxLivewireCreate extends Component
             'site_id' => __('Site'),
             'building_id' => __('Building'),
             'floor_id' => __('Floor'),
-            'box.room_id' => __('Room'),
+            'room_id' => __('Room'),
+            'stand_id' => __('Stand'),
+            'box.shelf_id' => __('Shelf'),
             'amount' => __('Amount'),
             'box.year' => __('Year'),
             'box.number' => __('Number'),
-            'box.shelf' => __('Shelf'),
-            'box.stand' => __('Stand'),
             'box.description' => __('Description'),
             'volumes' => __('Volumes'),
         ];
@@ -254,8 +284,14 @@ class BoxLivewireCreate extends Component
      */
     public function updatedSiteId()
     {
-        $this->reset(['building_id', 'buildings', 'floor_id', 'floors', 'rooms']);
-        $this->box->room_id = null;
+        $this->reset([
+            'building_id', 'buildings',
+            'floor_id', 'floors',
+            'room_id', 'rooms',
+            'stand_id', 'stands',
+            'shelves'
+        ]);
+        $this->box->shelf_id = null;
 
         $this->validateOnly('site_id');
 
@@ -269,8 +305,13 @@ class BoxLivewireCreate extends Component
      */
     public function updatedBuildingId()
     {
-        $this->reset(['floor_id', 'floors', 'rooms']);
-        $this->box->room_id = null;
+        $this->reset([
+            'floor_id', 'floors',
+            'room_id', 'rooms',
+            'stand_id', 'stands',
+            'shelves'
+        ]);
+        $this->box->shelf_id = null;
 
         $this->validateOnly('building_id');
 
@@ -284,12 +325,49 @@ class BoxLivewireCreate extends Component
      */
     public function updatedFloorId()
     {
-        $this->reset(['rooms']);
-        $this->box->room_id = null;
+        $this->reset([
+            'room_id', 'rooms',
+            'stand_id', 'stands',
+            'shelves'
+        ]);
+        $this->box->shelf_id = null;
 
         $this->validateOnly('floor_id');
 
         $this->rooms = Room::where('floor_id', $this->floor_id)->get();
+    }
+
+    /**
+     * Runs after a property called $room_id is updated.
+     *
+     * @return void
+     */
+    public function updatedRoomId()
+    {
+        $this->reset([
+            'stand_id', 'stands',
+            'shelves'
+        ]);
+        $this->box->shelf_id = null;
+
+        $this->validateOnly('room_id');
+
+        $this->stands = Stand::where('room_id', $this->room_id)->get();
+    }
+
+    /**
+     * Runs after a property called $stand_id is updated.
+     *
+     * @return void
+     */
+    public function updatedStandId()
+    {
+        $this->reset(['shelves']);
+        $this->box->shelf_id = null;
+
+        $this->validateOnly('stand_id');
+
+        $this->shelves = Shelf::where('stand_id', $this->stand_id)->get();
     }
 
     /**
@@ -317,7 +395,7 @@ class BoxLivewireCreate extends Component
             $this->box,
             $this->amount(),
             $this->volumes(),
-            Room::find($this->box->room_id),
+            Shelf::find($this->box->shelf_id),
         );
 
         $this->flashSelf($saved);
