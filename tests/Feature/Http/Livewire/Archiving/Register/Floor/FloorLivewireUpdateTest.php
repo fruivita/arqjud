@@ -12,6 +12,7 @@ use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
 use App\Models\Site;
+use App\Models\Stand;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Str;
@@ -60,11 +61,11 @@ test('cannot set the room record which will be deleted without specific permissi
     ->assertSet('deleting', null);
 });
 
-test('cannot set the room record which will be deleted if it has boxes', function () {
+test('cannot set the room record which will be deleted if it has stands', function () {
     grantPermission(PermissionType::FloorUpdate->value);
     grantPermission(PermissionType::RoomDelete->value);
 
-    Box::factory()
+    Stand::factory()
     ->for($this->room, 'room')
     ->create();
 
@@ -93,7 +94,7 @@ test('cannot delete a room record without specific permission', function () {
     expect(Room::where('id', $this->room->id)->exists())->toBeTrue();
 });
 
-test('cannot delete a room record if it has boxes', function () {
+test('cannot delete a room record if it has stands', function () {
     grantPermission(PermissionType::FloorUpdate->value);
     grantPermission(PermissionType::RoomDelete->value);
 
@@ -101,7 +102,7 @@ test('cannot delete a room record if it has boxes', function () {
     ->call('markToDelete', $this->room->id)
     ->assertOk();
 
-    Box::factory()
+    Stand::factory()
     ->for($this->room, 'room')
     ->create();
 
@@ -369,7 +370,7 @@ test('update a floor record with specific permission', function () {
     ->and($this->room->floor->building->id)->toBe($building->id);
 });
 
-test('defines the room record that will be deleted with specific permission if it has no boxes', function () {
+test('defines the room record that will be deleted with specific permission if it has no stands', function () {
     grantPermission(PermissionType::FloorUpdate->value);
     grantPermission(PermissionType::RoomDelete->value);
 
@@ -380,7 +381,7 @@ test('defines the room record that will be deleted with specific permission if i
     ->assertSet('deleting.id', $this->room->id);
 });
 
-test('delete a room record with specific permission if it has no boxes', function () {
+test('delete a room record with specific permission if it has no stands', function () {
     grantPermission(PermissionType::FloorUpdate->value);
     grantPermission(PermissionType::RoomDelete->value);
 
