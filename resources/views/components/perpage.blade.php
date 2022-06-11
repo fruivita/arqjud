@@ -13,7 +13,7 @@
 --}}
 
 
-@props(['error' => ''])
+@props(['error' => null])
 
 
 <div

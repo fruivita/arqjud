@@ -1,6 +1,9 @@
 {{--
     Default modal.
 
+    Props:
+    - id: the modal's id
+
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
     @see https://tailwindcss.com/docs/dark-mode

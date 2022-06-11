@@ -1,9 +1,6 @@
 {{--
     Actions on multiple checkboxes in a table.
 
-    Props:
-    - error: error message that will be displayed
-
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
     @see https://tailwindcss.com/docs/dark-mode

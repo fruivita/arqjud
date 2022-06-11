@@ -17,7 +17,7 @@
 --}}
 
 
-@props(['error' => '', 'icon', 'id', 'text', 'title'])
+@props(['error' => null, 'icon', 'id', 'text', 'title'])
 
 
 @php $id = $id ?? md5(random_int(PHP_INT_MIN, PHP_INT_MAX)); @endphp

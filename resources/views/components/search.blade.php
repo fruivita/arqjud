@@ -14,7 +14,7 @@
 --}}
 
 
-@props(['error' => '', 'withcounter' => false])
+@props(['error' => null, 'withcounter' => false])
 
 
 <div
