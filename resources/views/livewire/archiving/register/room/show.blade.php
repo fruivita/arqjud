@@ -66,113 +66,11 @@
 
     <x-container>
 
-        <div class="overflow-x-auto">
-
-            <div class="flex items-center justify-between mb-3">
-
-                @can(\App\Enums\Policy::Create->value, \App\Models\Stand::class)
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="plus-circle"
-                        :href="route('archiving.register.stand.create', $room)"
-                        :text="__('New')"
-                        :title="__('Create a new record')"/>
-
-                @else
-
-                    <div></div>
-
-                @endcan
-
-
-                <x-perpage
-                    wire:key="per-page"
-                    wire:model="per_page"
-                    :error="$errors->first('per_page')"/>
-
-            </div>
-
-
-            <x-table wire:key="table-stands" wire:loading.delay.class="opacity-25">
-
-                <x-slot name="head">
-
-                    <x-table.heading>{{ __('Stand') }}</x-table.heading>
-
-
-                    <x-table.heading>{{ __('Qty of shelves') }}</x-table.heading>
-
-
-                    <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
-
-                </x-slot>
-
-
-                <x-slot name="body">
-
-                    @forelse ( $stands ?? [] as $stand )
-
-                        <x-table.row>
-
-                            <x-table.cell>{{ $stand->number }}</x-table.cell>
-
-
-                            <x-table.cell>{{ $stand->shelves_count }}</x-table.cell>
-
-
-                            <x-table.cell>
-
-                                <x-action-button-group>
-
-                                    @can(\App\Enums\Policy::View->value, \App\Models\Stand::class)
-
-                                        <x-link-button
-                                            class="btn-do"
-                                            icon="eye"
-                                            :href="route('archiving.register.stand.show', $stand)"
-                                            :text="__('Show')"
-                                            :title="__('Show the record')"/>
-
-                                    @endcan
-
-
-                                    @can(\App\Enums\Policy::Update->value, \App\Models\Stand::class)
-
-                                        <x-link-button
-                                            class="btn-do"
-                                            icon="pencil-square"
-                                            :href="route('archiving.register.stand.edit', $stand)"
-                                            :text="__('Edit')"
-                                            :title="__('Edit the record')"/>
-
-                                    @endcan
-
-                                </x-action-button-group>
-
-                            </x-table.cell>
-
-                        </x-table.row>
-
-                    @empty
-
-                        <x-table.row>
-
-                            <x-table.cell colspan="4">{{ __('No record found') }}</x-table.cell>
-
-                        </x-table.row>
-
-                    @endforelse
-
-                </x-slot>
-
-            </x-table>
-
-        </div>
+        <x-table.index.stand
+            :stands="$stands"
+            :parent="$room"
+            withnewbutton/>
 
     </x-container>
-
-
-    {{ $stands->links() }}
 
 </x-page>

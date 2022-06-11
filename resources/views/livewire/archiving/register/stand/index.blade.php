@@ -17,7 +17,8 @@
         <x-table.index.stand
             :deleting="$deleting"
             :stands="$stands"
-            withdeletebutton/>
+            withdeletebutton
+            withparents/>
 
     </x-container>
 
