@@ -61,113 +61,11 @@
 
     <x-container>
 
-        <div class="overflow-x-auto">
-
-            <div class="flex items-center justify-between mb-3">
-
-                @can(\App\Enums\Policy::Create->value, \App\Models\Room::class)
-
-                    <x-link-button
-                        class="btn-do"
-                        icon="plus-circle"
-                        :href="route('archiving.register.room.create', $floor)"
-                        :text="__('New')"
-                        :title="__('Create a new record')"/>
-
-                @else
-
-                    <div></div>
-
-                @endcan
-
-
-                <x-perpage
-                    wire:key="per-page"
-                    wire:model="per_page"
-                    :error="$errors->first('per_page')"/>
-
-            </div>
-
-
-            <x-table wire:key="table-rooms" wire:loading.delay.class="opacity-25">
-
-                <x-slot name="head">
-
-                    <x-table.heading>{{ __('Room') }}</x-table.heading>
-
-
-                    <x-table.heading>{{ __('Qty of stands') }}</x-table.heading>
-
-
-                    <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
-
-                </x-slot>
-
-
-                <x-slot name="body">
-
-                    @forelse ( $rooms ?? [] as $room )
-
-                        <x-table.row>
-
-                            <x-table.cell>{{ $room->number }}</x-table.cell>
-
-
-                            <x-table.cell>{{ $room->stands_count }}</x-table.cell>
-
-
-                            <x-table.cell>
-
-                                <x-action-button-group>
-
-                                    @can(\App\Enums\Policy::View->value, \App\Models\Room::class)
-
-                                        <x-link-button
-                                            class="btn-do"
-                                            icon="eye"
-                                            :href="route('archiving.register.room.show', $room)"
-                                            :text="__('Show')"
-                                            :title="__('Show the record')"/>
-
-                                    @endcan
-
-
-                                    @can(\App\Enums\Policy::Update->value, \App\Models\Room::class)
-
-                                        <x-link-button
-                                            class="btn-do"
-                                            icon="pencil-square"
-                                            :href="route('archiving.register.room.edit', $room)"
-                                            :text="__('Edit')"
-                                            :title="__('Edit the record')"/>
-
-                                    @endcan
-
-                                </x-action-button-group>
-
-                            </x-table.cell>
-
-                        </x-table.row>
-
-                    @empty
-
-                        <x-table.row>
-
-                            <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
-
-                        </x-table.row>
-
-                    @endforelse
-
-                </x-slot>
-
-            </x-table>
-
-        </div>
+        <x-table.index.room
+            :rooms="$rooms"
+            :parent="$floor"
+            withnewbutton/>
 
     </x-container>
-
-
-    {{ $rooms->links() }}
 
 </x-page>

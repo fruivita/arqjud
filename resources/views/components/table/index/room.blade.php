@@ -7,6 +7,7 @@
     - parent: parent element of the item that will eventually be created
     - withdeletebutton: whether the delete button should be displayed
     - withnewbutton: whether the new button should be displayed
+    - withparents: whether the parent info should be displayed
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -22,7 +23,8 @@
     'deleting' => null,
     'parent' => null,
     'withdeletebutton' => false,
-    'withnewbutton' => false
+    'withnewbutton' => false,
+    'withparents' => false
 ])
 
 
@@ -70,13 +72,17 @@
                 <x-table.heading>{{ __('Qty of stands') }}</x-table.heading>
 
 
-                <x-table.heading>{{ __('Site') }}</x-table.heading>
+                @if ($withparents)
+
+                    <x-table.heading>{{ __('Site') }}</x-table.heading>
 
 
-                <x-table.heading>{{ __('Building') }}</x-table.heading>
+                    <x-table.heading>{{ __('Building') }}</x-table.heading>
 
 
-                <x-table.heading>{{ __('Floor') }}</x-table.heading>
+                    <x-table.heading>{{ __('Floor') }}</x-table.heading>
+
+                @endif
 
 
                 <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
@@ -96,13 +102,17 @@
                         <x-table.cell>{{ $room->stands_count }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $room->floor->building->site->name }}</x-table.cell>
+                        @if ($withparents)
+
+                            <x-table.cell>{{ $room->floor->building->site->name }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $room->floor->building->name }}</x-table.cell>
+                            <x-table.cell>{{ $room->floor->building->name }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $room->floor->number }}</x-table.cell>
+                            <x-table.cell>{{ $room->floor->number }}</x-table.cell>
+
+                        @endif
 
 
                         <x-table.cell>
@@ -161,7 +171,15 @@
 
                     <x-table.row>
 
-                        <x-table.cell colspan="6">{{ __('No record found') }}</x-table.cell>
+                        @if ($withparents)
+
+                            <x-table.cell colspan="6">{{ __('No record found') }}</x-table.cell>
+
+                        @else
+
+                            <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
+
+                        @endif
 
                     </x-table.row>
 
