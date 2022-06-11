@@ -117,7 +117,11 @@ class BuildingLivewireUpdate extends Component
     public function getFloorsProperty()
     {
         return $this->applyPagination(
-            $this->building->floors()->defaultOrder()
+            $this
+                ->building
+                ->floors()
+                ->withCount('rooms')
+                ->defaultOrder()
         );
     }
 

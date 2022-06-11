@@ -41,7 +41,7 @@ class SiteLivewireIndex extends Component
     public function getSitesProperty()
     {
         return $this->applyPagination(
-            Site::defaultOrder()
+            Site::withCount('buildings')->defaultOrder()
         );
     }
 

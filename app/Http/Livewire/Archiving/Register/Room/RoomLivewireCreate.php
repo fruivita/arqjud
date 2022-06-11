@@ -119,7 +119,11 @@ class RoomLivewireCreate extends Component
     public function getRoomsProperty()
     {
         return $this->applyPagination(
-            $this->floor->rooms()->latest()
+            $this
+                ->floor
+                ->rooms()
+                ->withcount('stands')
+                ->latest()
         );
     }
 

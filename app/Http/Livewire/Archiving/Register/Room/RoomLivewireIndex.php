@@ -41,7 +41,7 @@ class RoomLivewireIndex extends Component
     public function getRoomsProperty()
     {
         return $this->applyPagination(
-            Room::with('floor.building.site')->defaultOrder()
+            Room::withcount('stands')->with('floor.building.site')->defaultOrder()
         );
     }
 

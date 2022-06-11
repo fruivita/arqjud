@@ -16,13 +16,6 @@ class Room extends Model
     protected $table = 'rooms';
 
     /**
-     * The relationship counts that should be eager loaded on every query.
-     *
-     * @var array
-     */
-    protected $withCount = ['stands'];
-
-    /**
      * Relationship room (N:1) floor.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

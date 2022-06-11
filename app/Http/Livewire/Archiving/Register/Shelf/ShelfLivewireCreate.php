@@ -121,7 +121,11 @@ class ShelfLivewireCreate extends Component
     public function getShelvesProperty()
     {
         return $this->applyPagination(
-            $this->stand->shelves()->latest()
+            $this
+                ->stand
+                ->shelves()
+                ->withCount('boxes')
+                ->latest()
         );
     }
 

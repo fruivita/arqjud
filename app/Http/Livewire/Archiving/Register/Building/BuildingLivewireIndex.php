@@ -41,7 +41,7 @@ class BuildingLivewireIndex extends Component
     public function getBuildingsProperty()
     {
         return $this->applyPagination(
-            Building::with('site')->defaultOrder()
+            Building::withCount('floors')->with('site')->defaultOrder()
         );
     }
 

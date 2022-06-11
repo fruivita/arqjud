@@ -21,13 +21,6 @@ class Box extends Model
     protected $fillable = ['year', 'number', 'description'];
 
     /**
-     * The relationship counts that should be eager loaded on every query.
-     *
-     * @var array
-     */
-    protected $withCount = ['volumes'];
-
-    /**
      * Relationship box (N:1) shelf.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

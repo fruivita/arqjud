@@ -15,13 +15,6 @@ class Building extends Model
     protected $table = 'buildings';
 
     /**
-     * The relationship counts that should be eager loaded on every query.
-     *
-     * @var array
-     */
-    protected $withCount = ['floors'];
-
-    /**
      * Relationship building (N:1) site.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

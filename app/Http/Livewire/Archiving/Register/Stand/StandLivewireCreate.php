@@ -120,7 +120,11 @@ class StandLivewireCreate extends Component
     public function getStandsProperty()
     {
         return $this->applyPagination(
-            $this->room->stands()->latest()
+            $this
+                ->room
+                ->stands()
+                ->withcount('shelves')
+                ->latest()
         );
     }
 

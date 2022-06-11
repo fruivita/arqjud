@@ -41,7 +41,7 @@ class ShelfLivewireIndex extends Component
     public function getShelvesProperty()
     {
         return $this->applyPagination(
-            Shelf::with('stand.room.floor.building.site')->defaultOrder()
+            Shelf::withCount('boxes')->with('stand.room.floor.building.site')->defaultOrder()
         );
     }
 

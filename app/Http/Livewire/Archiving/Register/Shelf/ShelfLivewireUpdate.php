@@ -219,7 +219,11 @@ class ShelfLivewireUpdate extends Component
     public function getBoxesProperty()
     {
         return $this->applyPagination(
-            $this->shelf->boxes()->defaultOrder()
+            $this
+                ->shelf
+                ->boxes()
+                ->withCount('volumes')
+                ->defaultOrder()
         );
     }
 

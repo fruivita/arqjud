@@ -54,7 +54,11 @@ class StandLivewireShow extends Component
     public function getShelvesProperty()
     {
         return $this->applyPagination(
-            $this->stand->shelves()->defaultOrder()
+            $this
+                ->stand
+                ->shelves()
+                ->withcount('boxes')
+                ->defaultOrder()
         );
     }
 

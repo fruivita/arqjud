@@ -86,7 +86,11 @@ class SiteLivewireUpdate extends Component
     public function getBuildingsProperty()
     {
         return $this->applyPagination(
-            $this->site->buildings()->defaultOrder()
+            $this
+                ->site
+                ->buildings()
+                ->withCount('floors')
+                ->defaultOrder()
         );
     }
 

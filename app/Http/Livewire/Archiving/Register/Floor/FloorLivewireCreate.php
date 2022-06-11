@@ -118,7 +118,11 @@ class FloorLivewireCreate extends Component
     public function getFloorsProperty()
     {
         return $this->applyPagination(
-            $this->building->floors()->latest()
+            $this
+                ->building
+                ->floors()
+                ->withCount('rooms')
+                ->latest()
         );
     }
 

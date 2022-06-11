@@ -54,7 +54,11 @@ class RoomLivewireShow extends Component
     public function getStandsProperty()
     {
         return $this->applyPagination(
-            $this->room->stands()->defaultOrder()
+            $this
+                ->room
+                ->stands()
+                ->withCount('shelves')
+                ->defaultOrder()
         );
     }
 

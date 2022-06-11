@@ -41,7 +41,7 @@ class StandLivewireIndex extends Component
     public function getStandsProperty()
     {
         return $this->applyPagination(
-            Stand::with('room.floor.building.site')->defaultOrder()
+            Stand::withcount('shelves')->with('room.floor.building.site')->defaultOrder()
         );
     }
 

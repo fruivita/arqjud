@@ -107,7 +107,7 @@ class SiteLivewireCreate extends Component
     public function getSitesProperty()
     {
         return $this->applyPagination(
-            Site::latest()
+            Site::withCount('buildings')->latest()
         );
     }
 

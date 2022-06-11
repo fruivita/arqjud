@@ -16,13 +16,6 @@ class Shelf extends Model
     protected $table = 'shelves';
 
     /**
-     * The relationship counts that should be eager loaded on every query.
-     *
-     * @var array
-     */
-    protected $withCount = ['boxes'];
-
-    /**
      * Relationship shelf (N:1) stand.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

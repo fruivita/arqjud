@@ -41,7 +41,7 @@ class FloorLivewireIndex extends Component
     public function getFloorsProperty()
     {
         return $this->applyPagination(
-            Floor::with('building.site')->defaultOrder()
+            Floor::withcount('rooms')->with('building.site')->defaultOrder()
         );
     }
 

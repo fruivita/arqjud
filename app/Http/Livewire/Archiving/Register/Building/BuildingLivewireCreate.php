@@ -115,7 +115,11 @@ class BuildingLivewireCreate extends Component
     public function getBuildingsProperty()
     {
         return $this->applyPagination(
-            $this->site->buildings()->latest()
+            $this
+                ->site
+                ->buildings()
+                ->withCount('floors')
+                ->latest()
         );
     }
 

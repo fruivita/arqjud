@@ -54,7 +54,11 @@ class FloorLivewireShow extends Component
     public function getRoomsProperty()
     {
         return $this->applyPagination(
-            $this->floor->rooms()->defaultOrder()
+            $this
+                ->floor
+                ->rooms()
+                ->withCount('stands')
+                ->defaultOrder()
         );
     }
 

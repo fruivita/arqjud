@@ -16,13 +16,6 @@ class Stand extends Model
     protected $table = 'stands';
 
     /**
-     * The relationship counts that should be eager loaded on every query.
-     *
-     * @var array
-     */
-    protected $withCount = ['shelves'];
-
-    /**
      * Relationship stand (N:1) room.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
