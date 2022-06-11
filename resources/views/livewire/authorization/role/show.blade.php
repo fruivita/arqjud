@@ -85,11 +85,10 @@
 
                                     @can(\App\Enums\Policy::View->value, \App\Models\Permission::class)
 
-                                        <x-link-button
+                                        <x-icon-link-button
                                             class="btn-do"
                                             icon="eye"
                                             :href="route('authorization.permission.show', $permission)"
-                                            :text="__('Show')"
                                             :title="__('Show the record')"/>
 
                                     @endcan
@@ -97,11 +96,10 @@
 
                                     @can(\App\Enums\Policy::Update->value, \App\Models\Permission::class)
 
-                                        <x-link-button
+                                        <x-icon-link-button
                                             class="btn-do"
                                             icon="pencil-square"
                                             :href="route('authorization.permission.edit', $permission)"
-                                            :text="__('Edit')"
                                             :title="__('Edit the record')"/>
 
                                     @endcan

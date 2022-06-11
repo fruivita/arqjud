@@ -10,7 +10,7 @@
 --}}
 
 
-<div class="flex flex-col justify-center space-y-3">
+<div class="flex space-x-3">
 
     {{ $slot }}
 

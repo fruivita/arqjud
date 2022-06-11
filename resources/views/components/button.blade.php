@@ -19,7 +19,7 @@
 
 
 <button
-    {{ $attributes->merge(['class' => "btn"]) }}
+    {{ $attributes->merge(['class' => 'btn']) }}
     {{ $attributes->except('class') }}
 >
 

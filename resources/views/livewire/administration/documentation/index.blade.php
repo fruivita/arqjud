@@ -73,11 +73,10 @@
 
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Documentation::class)
 
-                                    <x-link-button
+                                    <x-icon-link-button
                                         class="btn-do"
                                         icon="pencil-square"
                                         :href="route('administration.doc.edit', $doc)"
-                                        :text="__('Edit')"
                                         :title="__('Edit the record')"/>
 
                                 @endcan
@@ -85,14 +84,13 @@
 
                                 @can(\App\Enums\Policy::Delete->value, \App\Models\Documentation::class)
 
-                                    <x-button
+                                    <x-icon-button
                                         wire:click="markToDelete({{ $doc->id }})"
                                         wire:key="btn-delete-{{ $doc->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"
                                         class="btn-danger w-full"
                                         icon="trash"
-                                        :text="__('Delete')"
                                         :title="__('Delete the record')"
                                         type="button"/>
 

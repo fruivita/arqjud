@@ -88,11 +88,10 @@
 
                                 @can(\App\Enums\Policy::View->value, \App\Models\Site::class)
 
-                                    <x-link-button
+                                    <x-icon-link-button
                                         class="btn-do"
                                         icon="eye"
                                         :href="route('archiving.register.site.show', $site)"
-                                        :text="__('Show')"
                                         :title="__('Show the record')"/>
 
                                 @endcan
@@ -100,11 +99,10 @@
 
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Site::class)
 
-                                    <x-link-button
+                                    <x-icon-link-button
                                         class="btn-do"
                                         icon="pencil-square"
                                         :href="route('archiving.register.site.edit', $site)"
-                                        :text="__('Edit')"
                                         :title="__('Edit the record')"/>
 
                                 @endcan
@@ -112,14 +110,13 @@
 
                                 @can(\App\Enums\Policy::Delete->value, $site)
 
-                                    <x-button
+                                    <x-icon-button
                                         wire:click="markToDelete({{ $site->id }})"
                                         wire:key="btn-delete-{{ $site->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"
                                         class="btn-danger w-full"
                                         icon="trash"
-                                        :text="__('Delete')"
                                         :title="__('Delete the record')"
                                         type="button"/>
 

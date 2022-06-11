@@ -73,14 +73,13 @@
 
                                 @can(\App\Enums\Policy::Update->value, \App\Models\User::class)
 
-                                    <x-button
+                                    <x-icon-button
                                         wire:click="edit({{ $user->id }})"
                                         wire:key="edit-button-{{ $user->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"
                                         class="btn-do"
                                         icon="pencil-square"
-                                        :text="__('Edit')"
                                         :title="__('Edit the record')"
                                         type="button"/>
 

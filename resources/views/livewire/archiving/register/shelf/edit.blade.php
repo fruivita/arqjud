@@ -330,11 +330,10 @@
 
                                     @can(\App\Enums\Policy::View->value, \App\Models\Box::class)
 
-                                        <x-link-button
+                                        <x-icon-link-button
                                             class="btn-do"
                                             icon="eye"
                                             :href="route('archiving.register.box.show', $box)"
-                                            :text="__('Show')"
                                             :title="__('Show the record')"/>
 
                                     @endcan
@@ -342,11 +341,10 @@
 
                                     @can(\App\Enums\Policy::Update->value, \App\Models\Box::class)
 
-                                        <x-link-button
+                                        <x-icon-link-button
                                             class="btn-do"
                                             icon="pencil-square"
                                             :href="route('archiving.register.box.edit', $box)"
-                                            :text="__('Edit')"
                                             :title="__('Edit the record')"/>
 
                                     @endcan
@@ -354,11 +352,10 @@
 
                                     @can(\App\Enums\Policy::Delete->value, \App\Models\Box::class)
 
-                                        <x-link-button
+                                        <x-icon-link-button
                                             class="btn-danger"
                                             icon="pencil-square"
                                             {{-- href="{{ route('authorization.permission.edit', $permission) }}" --}}
-                                            :text="__('Delete')"
                                             :title="__('Delete the record')"/>
 
                                     @endcan

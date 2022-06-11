@@ -127,11 +127,10 @@
 
                                 @can(\App\Enums\Policy::View->value, \App\Models\Stand::class)
 
-                                    <x-link-button
+                                    <x-icon-link-button
                                         class="btn-do"
                                         icon="eye"
                                         :href="route('archiving.register.stand.show', $stand)"
-                                        :text="__('Show')"
                                         :title="__('Show the record')"/>
 
                                 @endcan
@@ -139,11 +138,10 @@
 
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Stand::class)
 
-                                    <x-link-button
+                                    <x-icon-link-button
                                         class="btn-do"
                                         icon="pencil-square"
                                         :href="route('archiving.register.stand.edit', $stand)"
-                                        :text="__('Edit')"
                                         :title="__('Edit the record')"/>
 
                                 @endcan
@@ -154,14 +152,13 @@
                                     && auth()->user()->can(\App\Enums\Policy::Delete->value, $stand)
                                 )
 
-                                    <x-button
+                                    <x-icon-button
                                         wire:click="markToDelete({{ $stand->id }})"
                                         wire:key="btn-delete-{{ $stand->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"
                                         class="btn-danger w-full"
                                         icon="trash"
-                                        :text="__('Delete')"
                                         :title="__('Delete the record')"
                                         type="button"/>
 
