@@ -30,16 +30,6 @@
 
 
             <x-show-value
-                :key="__('Stand')"
-                :value="$box->stand"/>
-
-
-            <x-show-value
-                :key="__('Shelf')"
-                :value="$box->shelf"/>
-
-
-            <x-show-value
                 :key="__('Description')"
                 :value="$box->description"/>
 
@@ -51,22 +41,32 @@
 
             <x-show-value
                 :key="__('Site')"
-                :value="$box->room->floor->building->site->name"/>
+                :value="$box->shelf->stand->room->floor->building->site->name"/>
 
 
             <x-show-value
                 :key="__('Building')"
-                :value="$box->room->floor->building->name"/>
+                :value="$box->shelf->stand->room->floor->building->name"/>
 
 
             <x-show-value
                 :key="__('Floor')"
-                :value="$box->room->floor->number"/>
+                :value="$box->shelf->stand->room->floor->number"/>
 
 
             <x-show-value
                 :key="__('Room')"
-                :value="$box->room->number"/>
+                :value="$box->shelf->stand->room->number"/>
+
+
+            <x-show-value
+                :key="__('Stand')"
+                :value="$box->shelf->stand->number"/>
+
+
+            <x-show-value
+                :key="__('Shelf')"
+                :value="$box->shelf->number"/>
 
 
             <x-button-group>
