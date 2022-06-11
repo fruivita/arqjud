@@ -70,7 +70,7 @@ class StandPolicy extends Policy
     public function delete(User $user, Stand $stand)
     {
         return
-            $stand->shelves_count === 0
+            $stand->loadCount('shelves')->shelves_count === 0
             && $this->hasAnyPermission($user, [PermissionType::StandDelete]);
     }
 }

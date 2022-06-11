@@ -70,7 +70,7 @@ class ShelfPolicy extends Policy
     public function delete(User $user, Shelf $shelf)
     {
         return
-            $shelf->boxes_count === 0
+            $shelf->loadCount('boxes')->boxes_count === 0
             && $this->hasAnyPermission($user, [PermissionType::ShelfDelete]);
     }
 }

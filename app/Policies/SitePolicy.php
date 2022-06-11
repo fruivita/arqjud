@@ -70,7 +70,7 @@ class SitePolicy extends Policy
     public function delete(User $user, Site $site)
     {
         return
-            $site->buildings_count === 0
+            $site->loadCount('buildings')->buildings_count === 0
             && $this->hasAnyPermission($user, [PermissionType::SiteDelete]);
     }
 }

@@ -70,7 +70,7 @@ class FloorPolicy extends Policy
     public function delete(User $user, Floor $floor)
     {
         return
-            $floor->rooms_count === 0
+            $floor->loadCount('rooms')->rooms_count === 0
             && $this->hasAnyPermission($user, [PermissionType::FloorDelete]);
     }
 }

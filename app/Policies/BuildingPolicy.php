@@ -70,7 +70,7 @@ class BuildingPolicy extends Policy
     public function delete(User $user, Building $building)
     {
         return
-            $building->floors_count === 0
+            $building->loadCount('floors')->floors_count === 0
             && $this->hasAnyPermission($user, [PermissionType::BuildingDelete]);
     }
 }
