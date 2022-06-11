@@ -7,6 +7,7 @@
     - parent: parent element of the item that will eventually be created
     - withdeletebutton: whether the delete button should be displayed
     - withnewbutton: whether the new button should be displayed
+    - withparents: whether the parent info should be displayed
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
