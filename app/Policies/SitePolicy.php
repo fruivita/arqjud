@@ -5,12 +5,15 @@ namespace App\Policies;
 use App\Enums\PermissionType;
 use App\Models\Site;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class SitePolicy extends Policy
+class SitePolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      *
@@ -20,7 +23,7 @@ class SitePolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::SiteViewAny]);
+        return $user->hasPermission(PermissionType::SiteViewAny);
     }
 
     /**
@@ -32,7 +35,7 @@ class SitePolicy extends Policy
      */
     public function view(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::SiteView]);
+        return $user->hasPermission(PermissionType::SiteView);
     }
 
     /**
@@ -44,7 +47,7 @@ class SitePolicy extends Policy
      */
     public function create(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::SiteCreate]);
+        return $user->hasPermission(PermissionType::SiteCreate);
     }
 
     /**
@@ -56,7 +59,7 @@ class SitePolicy extends Policy
      */
     public function update(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::SiteUpdate]);
+        return $user->hasPermission(PermissionType::SiteUpdate);
     }
 
     /**
@@ -69,8 +72,12 @@ class SitePolicy extends Policy
      */
     public function delete(User $user, Site $site)
     {
+        if (isset($site->buildings_count) !== true) {
+            $site->loadCount('buildings');
+        }
+
         return
-            $site->loadCount('buildings')->buildings_count === 0
-            && $this->hasAnyPermission($user, [PermissionType::SiteDelete]);
+            $site->buildings_count === 0
+            && $user->hasPermission(PermissionType::SiteDelete);
     }
 }

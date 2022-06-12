@@ -5,12 +5,15 @@ namespace App\Policies;
 use App\Enums\PermissionType;
 use App\Models\Room;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class RoomPolicy extends Policy
+class RoomPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      *
@@ -20,7 +23,7 @@ class RoomPolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::RoomViewAny]);
+        return $user->hasPermission(PermissionType::RoomViewAny);
     }
 
     /**
@@ -32,7 +35,7 @@ class RoomPolicy extends Policy
      */
     public function view(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::RoomView]);
+        return $user->hasPermission(PermissionType::RoomView);
     }
 
     /**
@@ -44,7 +47,7 @@ class RoomPolicy extends Policy
      */
     public function create(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::RoomCreate]);
+        return $user->hasPermission(PermissionType::RoomCreate);
     }
 
     /**
@@ -56,7 +59,7 @@ class RoomPolicy extends Policy
      */
     public function update(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::RoomUpdate]);
+        return $user->hasPermission(PermissionType::RoomUpdate);
     }
 
     /**
@@ -69,8 +72,12 @@ class RoomPolicy extends Policy
      */
     public function delete(User $user, Room $room)
     {
+        if (isset($room->stands_count) !== true) {
+            $room->loadCount('stands');
+        }
+
         return
-            $room->loadCount('stands')->stands_count === 0
-            && $this->hasAnyPermission($user, [PermissionType::RoomDelete]);
+            $room->stands_count === 0
+            && $user->hasPermission(PermissionType::RoomDelete);
     }
 }

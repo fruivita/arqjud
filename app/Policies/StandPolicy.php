@@ -5,12 +5,15 @@ namespace App\Policies;
 use App\Enums\PermissionType;
 use App\Models\Stand;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class StandPolicy extends Policy
+class StandPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      *
@@ -20,7 +23,7 @@ class StandPolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::StandViewAny]);
+        return $user->hasPermission(PermissionType::StandViewAny);
     }
 
     /**
@@ -32,7 +35,7 @@ class StandPolicy extends Policy
      */
     public function view(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::StandView]);
+        return $user->hasPermission(PermissionType::StandView);
     }
 
     /**
@@ -44,7 +47,7 @@ class StandPolicy extends Policy
      */
     public function create(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::StandCreate]);
+        return $user->hasPermission(PermissionType::StandCreate);
     }
 
     /**
@@ -56,7 +59,7 @@ class StandPolicy extends Policy
      */
     public function update(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::StandUpdate]);
+        return $user->hasPermission(PermissionType::StandUpdate);
     }
 
     /**
@@ -69,8 +72,12 @@ class StandPolicy extends Policy
      */
     public function delete(User $user, Stand $stand)
     {
+        if (isset($stand->shelves_count) !== true) {
+            $stand->loadCount('shelves');
+        }
+
         return
-            $stand->loadCount('shelves')->shelves_count === 0
-            && $this->hasAnyPermission($user, [PermissionType::StandDelete]);
+            $stand->shelves_count === 0
+            && $user->hasPermission(PermissionType::StandDelete);
     }
 }

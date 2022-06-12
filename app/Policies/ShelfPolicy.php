@@ -5,12 +5,15 @@ namespace App\Policies;
 use App\Enums\PermissionType;
 use App\Models\Shelf;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class ShelfPolicy extends Policy
+class ShelfPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      *
@@ -20,7 +23,7 @@ class ShelfPolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::ShelfViewAny]);
+        return $user->hasPermission(PermissionType::ShelfViewAny);
     }
 
     /**
@@ -32,7 +35,7 @@ class ShelfPolicy extends Policy
      */
     public function view(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::ShelfView]);
+        return $user->hasPermission(PermissionType::ShelfView);
     }
 
     /**
@@ -44,7 +47,7 @@ class ShelfPolicy extends Policy
      */
     public function create(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::ShelfCreate]);
+        return $user->hasPermission(PermissionType::ShelfCreate);
     }
 
     /**
@@ -56,7 +59,7 @@ class ShelfPolicy extends Policy
      */
     public function update(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::ShelfUpdate]);
+        return $user->hasPermission(PermissionType::ShelfUpdate);
     }
 
     /**
@@ -69,8 +72,12 @@ class ShelfPolicy extends Policy
      */
     public function delete(User $user, Shelf $shelf)
     {
+        if (isset($shelf->boxes_count) !== true) {
+            $shelf->loadCount('boxes');
+        }
+
         return
-            $shelf->loadCount('boxes')->boxes_count === 0
-            && $this->hasAnyPermission($user, [PermissionType::ShelfDelete]);
+            $shelf->boxes_count === 0
+            && $user->hasPermission(PermissionType::ShelfDelete);
     }
 }

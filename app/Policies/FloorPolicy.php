@@ -5,12 +5,15 @@ namespace App\Policies;
 use App\Enums\PermissionType;
 use App\Models\Floor;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class FloorPolicy extends Policy
+class FloorPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      *
@@ -20,7 +23,7 @@ class FloorPolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::FloorViewAny]);
+        return $user->hasPermission(PermissionType::FloorViewAny);
     }
 
     /**
@@ -32,7 +35,7 @@ class FloorPolicy extends Policy
      */
     public function view(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::FloorView]);
+        return $user->hasPermission(PermissionType::FloorView);
     }
 
     /**
@@ -44,7 +47,7 @@ class FloorPolicy extends Policy
      */
     public function create(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::FloorCreate]);
+        return $user->hasPermission(PermissionType::FloorCreate);
     }
 
     /**
@@ -56,7 +59,7 @@ class FloorPolicy extends Policy
      */
     public function update(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::FloorUpdate]);
+        return $user->hasPermission(PermissionType::FloorUpdate);
     }
 
     /**
@@ -69,8 +72,12 @@ class FloorPolicy extends Policy
      */
     public function delete(User $user, Floor $floor)
     {
+        if (isset($floor->rooms_count) !== true) {
+            $floor->loadCount('rooms');
+        }
+
         return
-            $floor->loadCount('rooms')->rooms_count === 0
-            && $this->hasAnyPermission($user, [PermissionType::FloorDelete]);
+            $floor->rooms_count === 0
+            && $user->hasPermission(PermissionType::FloorDelete);
     }
 }
