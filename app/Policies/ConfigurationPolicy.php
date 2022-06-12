@@ -4,12 +4,15 @@ namespace App\Policies;
 
 use App\Enums\PermissionType;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class ConfigurationPolicy extends Policy
+class ConfigurationPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view a model.
      *
@@ -19,7 +22,7 @@ class ConfigurationPolicy extends Policy
      */
     public function view(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::ConfigurationView]);
+        return $user->hasPermission(PermissionType::ConfigurationView);
     }
 
     /**
@@ -31,6 +34,6 @@ class ConfigurationPolicy extends Policy
      */
     public function update(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::ConfigurationUpdate]);
+        return $user->hasPermission(PermissionType::ConfigurationUpdate);
     }
 }

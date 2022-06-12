@@ -4,12 +4,15 @@ namespace App\Policies;
 
 use App\Enums\PermissionType;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class ImportationPolicy extends Policy
+class ImportationPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can create simulations.
      *
@@ -19,6 +22,6 @@ class ImportationPolicy extends Policy
      */
     public function create(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::ImportationCreate]);
+        return $user->hasPermission(PermissionType::ImportationCreate);
     }
 }

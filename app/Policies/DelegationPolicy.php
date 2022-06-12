@@ -4,12 +4,15 @@ namespace App\Policies;
 
 use App\Enums\PermissionType;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class DelegationPolicy extends Policy
+class DelegationPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any delegations in their department.
      *
@@ -19,7 +22,7 @@ class DelegationPolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::DelegationViewAny]);
+        return $user->hasPermission(PermissionType::DelegationViewAny);
     }
 
     /**
@@ -38,7 +41,7 @@ class DelegationPolicy extends Policy
             && $user->role_id > $delegated->role_id
             // same department
             && $user->department_id == $delegated->department_id
-            && $this->hasAnyPermission($user, [PermissionType::DelegationCreate]);
+            && $user->hasPermission(PermissionType::DelegationCreate);
     }
 
     /**

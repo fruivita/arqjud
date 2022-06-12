@@ -4,12 +4,15 @@ namespace App\Policies;
 
 use App\Enums\PermissionType;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class BoxVolumePolicy extends Policy
+class BoxVolumePolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      *
@@ -19,7 +22,7 @@ class BoxVolumePolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxVolumeViewAny]);
+        return $user->hasPermission(PermissionType::BoxVolumeViewAny);
     }
 
     /**
@@ -31,7 +34,7 @@ class BoxVolumePolicy extends Policy
      */
     public function view(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxVolumeView]);
+        return $user->hasPermission(PermissionType::BoxVolumeView);
     }
 
     /**
@@ -43,7 +46,7 @@ class BoxVolumePolicy extends Policy
      */
     public function create(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxVolumeCreate]);
+        return $user->hasPermission(PermissionType::BoxVolumeCreate);
     }
 
     /**
@@ -55,7 +58,7 @@ class BoxVolumePolicy extends Policy
      */
     public function update(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxVolumeUpdate]);
+        return $user->hasPermission(PermissionType::BoxVolumeUpdate);
     }
 
     /**
@@ -67,6 +70,6 @@ class BoxVolumePolicy extends Policy
      */
     public function delete(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxVolumeDelete]);
+        return $user->hasPermission(PermissionType::BoxVolumeDelete);
     }
 }

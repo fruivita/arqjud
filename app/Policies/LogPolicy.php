@@ -4,12 +4,15 @@ namespace App\Policies;
 
 use App\Enums\PermissionType;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class LogPolicy extends Policy
+class LogPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any log files.
      *
@@ -19,7 +22,7 @@ class LogPolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::LogViewAny]);
+        return $user->hasPermission(PermissionType::LogViewAny);
     }
 
     /**
@@ -31,7 +34,7 @@ class LogPolicy extends Policy
      */
     public function delete(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::LogDelete]);
+        return $user->hasPermission(PermissionType::LogDelete);
     }
 
     /**
@@ -43,6 +46,6 @@ class LogPolicy extends Policy
      */
     public function download(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::LogDownload]);
+        return $user->hasPermission(PermissionType::LogDownload);
     }
 }

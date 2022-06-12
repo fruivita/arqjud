@@ -4,12 +4,15 @@ namespace App\Policies;
 
 use App\Enums\PermissionType;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class BoxPolicy extends Policy
+class BoxPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      *
@@ -19,7 +22,7 @@ class BoxPolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxViewAny]);
+        return $user->hasPermission(PermissionType::BoxViewAny);
     }
 
     /**
@@ -31,7 +34,7 @@ class BoxPolicy extends Policy
      */
     public function view(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxView]);
+        return $user->hasPermission(PermissionType::BoxView);
     }
 
     /**
@@ -43,7 +46,7 @@ class BoxPolicy extends Policy
      */
     public function create(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxCreate]);
+        return $user->hasPermission(PermissionType::BoxCreate);
     }
 
     /**
@@ -55,7 +58,7 @@ class BoxPolicy extends Policy
      */
     public function createMany(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxCreateMany]);
+        return $user->hasPermission(PermissionType::BoxCreateMany);
     }
 
     /**
@@ -67,7 +70,7 @@ class BoxPolicy extends Policy
      */
     public function update(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxUpdate]);
+        return $user->hasPermission(PermissionType::BoxUpdate);
     }
 
     /**
@@ -79,6 +82,6 @@ class BoxPolicy extends Policy
      */
     public function delete(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::BoxDelete]);
+        return $user->hasPermission(PermissionType::BoxDelete);
     }
 }

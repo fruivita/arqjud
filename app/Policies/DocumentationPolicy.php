@@ -4,12 +4,15 @@ namespace App\Policies;
 
 use App\Enums\PermissionType;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class DocumentationPolicy extends Policy
+class DocumentationPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      *
@@ -19,7 +22,7 @@ class DocumentationPolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::DocumentationViewAny]);
+        return $user->hasPermission(PermissionType::DocumentationViewAny);
     }
 
     /**
@@ -31,7 +34,7 @@ class DocumentationPolicy extends Policy
      */
     public function create(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::DocumentationCreate]);
+        return $user->hasPermission(PermissionType::DocumentationCreate);
     }
 
     /**
@@ -43,7 +46,7 @@ class DocumentationPolicy extends Policy
      */
     public function update(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::DocumentationUpdate]);
+        return $user->hasPermission(PermissionType::DocumentationUpdate);
     }
 
     /**
@@ -55,6 +58,6 @@ class DocumentationPolicy extends Policy
      */
     public function delete(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::DocumentationDelete]);
+        return $user->hasPermission(PermissionType::DocumentationDelete);
     }
 }

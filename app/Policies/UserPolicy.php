@@ -4,12 +4,15 @@ namespace App\Policies;
 
 use App\Enums\PermissionType;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class UserPolicy extends Policy
+class UserPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      *
@@ -19,7 +22,7 @@ class UserPolicy extends Policy
      */
     public function viewAny(User $user)
     {
-        return $this->hasAnyPermission($user, [PermissionType::UserViewAny]);
+        return $user->hasPermission(PermissionType::UserViewAny);
     }
 
     /**
@@ -36,6 +39,6 @@ class UserPolicy extends Policy
                 $editing === null // Loading the page
                 || $user->role_id >= $editing->role_id // performing the update
             )
-            && $this->hasAnyPermission($user, [PermissionType::UserUpdate]);
+            && $user->hasPermission(PermissionType::UserUpdate);
     }
 }

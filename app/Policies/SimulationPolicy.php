@@ -4,12 +4,15 @@ namespace App\Policies;
 
 use App\Enums\PermissionType;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * @see https://laravel.com/docs/authorization
  */
-class SimulationPolicy extends Policy
+class SimulationPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can create simulations.
      *
@@ -21,7 +24,7 @@ class SimulationPolicy extends Policy
     {
         return
             session()->missing('simulated')
-            && $this->hasAnyPermission($user, [PermissionType::SimulationCreate]);
+            && $user->hasPermission(PermissionType::SimulationCreate);
     }
 
     /**
