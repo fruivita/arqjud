@@ -164,38 +164,6 @@ test('user cannot remove user delegation from another department', function () {
 });
 
 // Happy path
-test('permission to list delegations is cached for 5 seconds', function () {
-    testTime()->freeze();
-    grantPermission(PermissionType::DelegationViewAny->value);
-
-    $key = "{$this->user->username}-permissions";
-
-    // no cache
-    expect((new DelegationPolicy())->viewAny($this->user))->toBeTrue()
-    ->and(cache()->missing($key))->toBeTrue();
-
-    // create the permissions cache when making a request
-    get(route('home'));
-
-    // with cache
-    expect((new DelegationPolicy())->viewAny($this->user))->toBeTrue()
-    ->and(cache()->has($key))->toBeTrue();
-
-    // revoke permission and move time to expiration limit
-    revokePermission(PermissionType::DelegationViewAny->value);
-    testTime()->addSeconds(5);
-
-    // permission is still cached
-    expect((new DelegationPolicy())->viewAny($this->user))->toBeTrue()
-    ->and(cache()->has($key))->toBeTrue();
-
-    // expires cache
-    testTime()->addSeconds(1);
-
-    expect((new DelegationPolicy())->viewAny($this->user))->toBeFalse()
-    ->and(cache()->missing($key))->toBeTrue();
-});
-
 test('user can list delegations from his department if it has permission', function () {
     grantPermission(PermissionType::DelegationViewAny->value);
 
