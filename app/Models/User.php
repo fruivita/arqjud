@@ -256,15 +256,17 @@ class User extends CorporateUser implements LdapAuthenticatable
      */
     public function permissions()
     {
-        if ($this->role === null) {
-            $this->refresh();
-        }
+        return once(function () {
+            if ($this->role === null) {
+                $this->refresh();
+            }
 
-        $this->load(['role.permissions' => function ($query) {
-            $query->select('id');
-        }]);
+            $this->load(['role.permissions' => function ($query) {
+                $query->select('id');
+            }]);
 
-        return $this->role->permissions->pluck('id');
+            return $this->role->permissions->pluck('id');
+        });
     }
 
     /**
@@ -276,45 +278,9 @@ class User extends CorporateUser implements LdapAuthenticatable
      */
     public function hasPermission(PermissionType $permission)
     {
-        if ($this->role === null) {
-            $this->refresh();
-        }
-
-        $this->load(['role.permissions' => function ($query) use ($permission) {
-            $query->select('id')->where('id', $permission->value);
-        }]);
-
-        return
-            $this->role instanceof Role
-            && $this->role->permissions->isNotEmpty()
-            && $this->role->permissions->first()->id === $permission->value
-            ? true
-            : false;
-    }
-
-    /**
-     * Checks if the user has one of the given permissions.
-     *
-     * @param \App\Enums\PermissionType[] $permissions
-     *
-     * @return bool
-     */
-    public function hasAnyPermission(array $permissions)
-    {
-        if ($this->role === null) {
-            $this->refresh();
-        }
-
-        $this->load(['role.permissions' => function ($query) use ($permissions) {
-            $query->select('id')->whereIn('id', $permissions);
-        }]);
-
-        return
-            $this->role instanceof Role
-            && $this->role->permissions->isNotEmpty()
-            && in_array(PermissionType::from($this->role->permissions->first()->id), $permissions)
-            ? true
-            : false;
+        return $this
+            ->permissions()
+            ->contains($permission->value);
     }
 
     /**

@@ -145,6 +145,8 @@ test('user can delegate their role to several others, however the user can only 
 });
 
 test('hasPermission tells whether or not the user has a certain permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     login('foo');
 
     expect(authenticatedUser()->hasPermission(PermissionType::SimulationCreate))->toBeFalse();
@@ -156,41 +158,6 @@ test('hasPermission tells whether or not the user has a certain permission', fun
     revokePermission(PermissionType::SimulationCreate->value);
 
     expect(authenticatedUser()->hasPermission(PermissionType::SimulationCreate))->toBeFalse();
-
-    logout();
-});
-
-test('hasAnyPermission tells if the user has one of the given permissions', function () {
-    login('foo');
-
-    expect(authenticatedUser()->hasAnyPermission([
-        PermissionType::DelegationCreate,
-        PermissionType::DocumentationUpdate,
-        PermissionType::SimulationCreate,
-    ]))->toBeFalse();
-
-    grantPermission(PermissionType::DocumentationUpdate->value);
-
-    expect(authenticatedUser()->hasAnyPermission([PermissionType::DocumentationUpdate]))->toBeTrue()
-    ->and(authenticatedUser()->hasAnyPermission([PermissionType::DelegationCreate, PermissionType::SimulationCreate]))->toBeFalse();
-
-    grantPermission(PermissionType::SimulationCreate->value);
-
-    expect(authenticatedUser()->hasAnyPermission([PermissionType::DocumentationUpdate]))->toBeTrue()
-    ->and(authenticatedUser()->hasAnyPermission([PermissionType::SimulationCreate]))->toBeTrue()
-    ->and(authenticatedUser()->hasAnyPermission([PermissionType::DocumentationUpdate, PermissionType::SimulationCreate]))->toBeTrue()
-    ->and(authenticatedUser()->hasAnyPermission([PermissionType::DelegationCreate]))->toBeFalse();
-
-    revokePermission(PermissionType::DocumentationUpdate->value);
-    revokePermission(PermissionType::SimulationCreate->value);
-
-    expect(authenticatedUser()->hasAnyPermission([
-        PermissionType::DelegationCreate,
-        PermissionType::DocumentationUpdate,
-        PermissionType::SimulationCreate,
-    ]))->toBeFalse();
-
-    expect(authenticatedUser()->hasAnyPermission([]))->toBeFalse();
 
     logout();
 });
