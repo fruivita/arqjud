@@ -36,7 +36,7 @@ test('throws exception when trying to set invalid relationship', function ($fiel
     )->toThrow(QueryException::class, $message);
 })->with([
     ['box_id', 10,   'Cannot add or update a child row'], // nonexistent
-    ['box_id', null, 'cannot be null'],                   // nonexistent
+    ['box_id', null, 'cannot be null'],                   // required
 ]);
 
 // Happy path
