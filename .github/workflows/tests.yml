@@ -85,7 +85,7 @@ jobs:
           echo ${{ github.event_name }}
           echo ${{ github.event_name != 'pull_request' }}
           php --version
-          ./vendor/bin/pest --coverage --colors=always --stop-on-failure --exclude-group=integration
+          ./vendor/bin/pest -d memory_limit=2048M --coverage --colors=always --stop-on-failure --exclude-group=integration
 
       - name: Upload coverage to Code Climate
         uses: paambaati/codeclimate-action@v3.0.0
