@@ -230,6 +230,8 @@ class RoomLivewireUpdate extends Component
 
         $saved = $this->room->save();
 
+        $this->room->refresh();
+
         $this->flashSelf($saved);
     }
 

@@ -310,6 +310,8 @@ class ShelfLivewireUpdate extends Component
 
         $saved = $this->shelf->save();
 
+        $this->shelf->refresh();
+
         $this->flashSelf($saved);
     }
 

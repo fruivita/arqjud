@@ -201,6 +201,8 @@ class FloorLivewireUpdate extends Component
 
         $saved = $this->floor->save();
 
+        $this->floor->refresh();
+
         $this->flashSelf($saved);
     }
 }

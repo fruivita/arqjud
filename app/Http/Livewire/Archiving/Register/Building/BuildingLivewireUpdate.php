@@ -160,6 +160,8 @@ class BuildingLivewireUpdate extends Component
 
         $saved = $this->building->save();
 
+        $this->building->refresh();
+
         $this->flashSelf($saved);
     }
 }

@@ -271,6 +271,8 @@ class StandLivewireUpdate extends Component
 
         $saved = $this->stand->save();
 
+        $this->stand->refresh();
+
         $this->flashSelf($saved);
     }
 

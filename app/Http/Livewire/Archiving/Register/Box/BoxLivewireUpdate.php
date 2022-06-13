@@ -374,6 +374,8 @@ class BoxLivewireUpdate extends Component
 
         $saved = $this->box->save();
 
+        $this->box->refresh();
+
         $this->flashSelf($saved);
     }
 
