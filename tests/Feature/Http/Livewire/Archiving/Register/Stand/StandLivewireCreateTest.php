@@ -78,6 +78,8 @@ test('cannot set the stand record which will be deleted if it has shelves', func
 });
 
 test('cannot delete a stand record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::StandCreate->value);
     grantPermission(PermissionType::StandDelete->value);
 

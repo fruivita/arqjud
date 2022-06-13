@@ -75,6 +75,8 @@ test('cannot set the building record which will be deleted if it has floors', fu
 });
 
 test('cannot delete a building record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::SiteUpdate->value);
     grantPermission(PermissionType::BuildingDelete->value);
 

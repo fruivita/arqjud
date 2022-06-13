@@ -76,6 +76,8 @@ test('cannot set the floor record which will be deleted if it has rooms', functi
 });
 
 test('cannot delete a floor record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::BuildingUpdate->value);
     grantPermission(PermissionType::FloorDelete->value);
 

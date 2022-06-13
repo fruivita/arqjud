@@ -77,6 +77,8 @@ test('cannot set the room record which will be deleted if it has stands', functi
 });
 
 test('cannot delete a room record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::FloorUpdate->value);
     grantPermission(PermissionType::RoomDelete->value);
 

@@ -82,6 +82,8 @@ test('cannot set the shelf record which will be deleted if it has boxes', functi
 });
 
 test('cannot delete a shelf record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::StandUpdate->value);
     grantPermission(PermissionType::ShelfDelete->value);
 

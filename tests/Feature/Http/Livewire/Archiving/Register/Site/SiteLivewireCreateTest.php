@@ -75,6 +75,8 @@ test('cannot set the site record which will be deleted if it has buildings', fun
 });
 
 test('cannot delete a site record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::SiteCreate->value);
     grantPermission(PermissionType::SiteDelete->value);
 
