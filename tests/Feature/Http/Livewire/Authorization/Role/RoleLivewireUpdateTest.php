@@ -48,6 +48,8 @@ test('cannot render role editing component without specific permission', functio
 });
 
 test('unable to update role without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::RoleUpdate->value);
 
     $livewire = Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
@@ -56,9 +58,6 @@ test('unable to update role without specific permission', function () {
 
     // remove permission
     revokePermission(PermissionType::RoleUpdate->value);
-
-    // cache expires in 5 seconds
-    $this->travel(6)->seconds();
 
     $livewire
     ->call('update')

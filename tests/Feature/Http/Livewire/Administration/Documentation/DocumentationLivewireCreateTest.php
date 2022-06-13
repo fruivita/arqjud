@@ -44,6 +44,8 @@ test('cannot render application documentation record creation component without 
 });
 
 test('cannot create an application documentation record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::DocumentationCreate->value);
 
     $livewire = Livewire::test(DocumentationLivewireCreate::class)
@@ -51,9 +53,6 @@ test('cannot create an application documentation record without specific permiss
 
     // remove permission
     revokePermission(PermissionType::DocumentationCreate->value);
-
-    // cache expires in 5 seconds
-    $this->travel(6)->seconds();
 
     $livewire
     ->call('store')

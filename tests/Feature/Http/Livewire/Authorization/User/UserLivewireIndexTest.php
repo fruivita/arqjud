@@ -54,6 +54,8 @@ test('cannot display user edit modal without specific permission', function () {
 });
 
 test('cannot update a user without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::UserViewAny->value);
     grantPermission(PermissionType::UserUpdate->value);
 
@@ -63,9 +65,6 @@ test('cannot update a user without specific permission', function () {
     ->assertSet('show_edit_modal', true);
 
     revokePermission(PermissionType::UserUpdate->value);
-
-    // expires cache in 5 seconds
-    $this->travel(6)->seconds();
 
     $livewire
     ->call('update')
@@ -260,6 +259,8 @@ test('updates a user with specific permission', function () {
 
     grantPermission(PermissionType::UserViewAny->value);
     grantPermission(PermissionType::UserUpdate->value);
+
+    $this->user->refresh();
 
     Livewire::test(UserLivewireIndex::class)
     ->call('edit', $this->user)

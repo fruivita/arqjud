@@ -45,6 +45,8 @@ test('cannot render config editing component without specific permission', funct
 });
 
 test('cannot update configuration without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::ConfigurationUpdate->value);
 
     $livewire = Livewire::test(ConfigurationLivewireUpdate::class)
@@ -52,9 +54,6 @@ test('cannot update configuration without specific permission', function () {
 
     // remove permission
     revokePermission(PermissionType::ConfigurationUpdate->value);
-
-    // cache expires in 5 seconds
-    $this->travel(6)->seconds();
 
     $livewire
     ->call('update')

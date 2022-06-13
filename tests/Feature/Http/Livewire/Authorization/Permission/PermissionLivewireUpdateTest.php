@@ -48,6 +48,8 @@ test('cannot render permission edit component without specific permission', func
 });
 
 test('cannot update permission without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::PermissionUpdate->value);
 
     $livewire = Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
@@ -56,9 +58,6 @@ test('cannot update permission without specific permission', function () {
 
     // remove permission
     revokePermission(PermissionType::PermissionUpdate->value);
-
-    // cache expires in 5 seconds
-    $this->travel(6)->seconds();
 
     $livewire
     ->call('update')

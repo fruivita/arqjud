@@ -46,6 +46,8 @@ test('cannot render application documentation record editing component without s
 });
 
 test('cannot update application documentation record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     $livewire = Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
@@ -53,9 +55,6 @@ test('cannot update application documentation record without specific permission
 
     // remove permission
     revokePermission(PermissionType::DocumentationUpdate->value);
-
-    // cache expires in 5 seconds
-    $this->travel(6)->seconds();
 
     $livewire
     ->call('update')
