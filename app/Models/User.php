@@ -240,13 +240,15 @@ class User extends CorporateUser implements LdapAuthenticatable
      */
     public function isSuperAdmin()
     {
-        $configuration = Configuration::find(Configuration::MAIN);
+        return once(function () {
+            $configuration = Configuration::find(Configuration::MAIN);
 
-        return
-            ! empty($configuration)
-            && $configuration->superadmin === $this->username
-            ? true
-            : false;
+            return
+                isset($configuration)
+                && $configuration->superadmin === $this->username
+                ? true
+                : false;
+        });
     }
 
     /**

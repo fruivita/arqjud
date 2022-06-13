@@ -8,7 +8,6 @@ use App\Policies\DelegationPolicy;
 use App\Policies\ImportationPolicy;
 use App\Policies\LogPolicy;
 use App\Policies\SimulationPolicy;
-use App\Traits\WithCaching;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -16,8 +15,6 @@ use Laravel\Fortify\Fortify;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    use WithCaching;
-
     /**
      * The model to policy mappings for the application.
      *
@@ -59,15 +56,7 @@ class AuthServiceProvider extends ServiceProvider
     private function registerGates()
     {
         Gate::before(function (User $user) {
-            $this->useCache();
-
-            $is_super_admin = $this->cache(
-                key: "{$user->username}-is-super-admin",
-                seconds: 5,
-                callback: fn () => $user->isSuperAdmin()
-            );
-
-            if ($is_super_admin === true) {
+            if ($user->isSuperAdmin() === true) {
                 return true;
             }
         });
