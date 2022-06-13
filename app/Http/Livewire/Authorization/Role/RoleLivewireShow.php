@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Authorization\Role;
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Role;
-use App\Traits\WithCaching;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -15,7 +14,6 @@ use Livewire\Component;
 class RoleLivewireShow extends Component
 {
     use AuthorizesRequests;
-    use WithCaching;
     use WithPerPagePagination;
 
     /**

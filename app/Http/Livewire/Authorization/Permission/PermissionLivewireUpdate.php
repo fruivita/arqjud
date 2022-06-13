@@ -8,7 +8,6 @@ use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Permission;
 use App\Models\Role;
-use App\Traits\WithCaching;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -18,7 +17,6 @@ use Livewire\Component;
 class PermissionLivewireUpdate extends Component
 {
     use AuthorizesRequests;
-    use WithCaching;
     use WithCheckboxActions;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -169,15 +167,7 @@ class PermissionLivewireUpdate extends Component
      */
     private function allCheckableRows()
     {
-        $this->useCache();
-
-        return $this->cache(
-            key: 'all-checkable' . $this->id,
-            seconds: 60,
-            callback: function () {
-                return Role::select('id')->get();
-            }
-        );
+        return Role::select('id')->get();
     }
 
     /**

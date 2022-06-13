@@ -15,7 +15,6 @@ use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
-use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
@@ -237,49 +236,15 @@ test('pagination creates the session variables', function () {
     ->assertSessionHas('per_page', 100);
 });
 
-test('getCheckAllProperty is cached with one minute expiration', function () {
+test('getCheckAllProperty displays expected results', function () {
     grantPermission(PermissionType::RoleUpdate->value);
     $count = Permission::count();
 
-    $livewire = Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role]);
-
-    expect(cache()->missing('all-checkable' . $livewire->id))->toBeTrue();
-
-    testTime()->freeze();
-    $livewire->set('checkbox_action', CheckboxAction::CheckAll->value);
-    testTime()->addSeconds(60);
-
-    // will not be counted as the cache has already been registered for 1 minute
-    Permission::factory(3)->create();
-
-    expect(cache()->has('all-checkable' . $livewire->id))->toBeTrue()
-    ->and(cache()->get('all-checkable' . $livewire->id))->toHaveCount($count);
-
-    // will expire cache
-    testTime()->addSeconds(1);
-    expect(cache()->missing('all-checkable' . $livewire->id))->toBeTrue();
-});
-
-test('getCheckAllProperty displays expected results according to cache', function () {
-    grantPermission(PermissionType::RoleUpdate->value);
-    $count = Permission::count();
-
-    testTime()->freeze();
     $livewire = Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
     ->set('checkbox_action', CheckboxAction::CheckAll->value);
-    testTime()->addSeconds(60);
 
-    // will not be counted as the cache has already been registered for 1 minute
     Permission::factory(3)->create();
 
-    $livewire
-    ->set('checkbox_action', CheckboxAction::CheckAll->value)
-    ->assertCount('CheckAll', $count);
-
-    // will expire cache
-    testTime()->addSeconds(1);
-
-    // count new inserts after expired
     $livewire
     ->set('checkbox_action', CheckboxAction::CheckAll->value)
     ->assertCount('CheckAll', $count + 3);
