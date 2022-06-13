@@ -433,7 +433,7 @@ test('update a room record with specific permission', function () {
 
     $this->room->refresh()->load('floor');
 
-    expect($this->room->number)->toBe(1)
+    expect($this->room->number)->toBe('1')
     ->and($this->room->description)->toBe('foo bar')
     ->and($this->room->floor->id)->toBe($floor->id);
 });

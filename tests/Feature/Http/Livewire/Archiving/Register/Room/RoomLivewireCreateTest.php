@@ -280,7 +280,7 @@ test('creates a room record with specific permission', function () {
 
     $room = Room::with('floor')->first();
 
-    expect($room->number)->toBe(1)
+    expect($room->number)->toBe('1')
     ->and($room->description)->toBe('foo bar')
     ->and($room->floor->id)->toBe($this->floor->id);
 });

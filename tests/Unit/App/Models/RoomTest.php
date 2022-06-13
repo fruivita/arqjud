@@ -16,7 +16,7 @@ test('throws exception when trying to create rooms in duplicate, that is, with t
 
     expect(
         fn () => Room::factory(2)->create([
-            'number' => 100,
+            'number' => '100',
             'floor_id' => $floor->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
@@ -27,9 +27,8 @@ test('throws exception when trying to create room with invalid field', function 
         fn () => Room::factory()->create([$field => $value])
     )->toThrow(QueryException::class, $message);
 })->with([
-    ['number',      -1,               'Out of range'],             // min 0
-    ['number',      4294967296,       'Out of range'],             // max 4294967295
-    ['number',     'foo',             'Incorrect integer value'],  // not convertible to integer
+    ['number',      null,             'cannot be null'],           // required
+    ['number',      Str::random(51),  'Data too long for column'], // maximum 50 characters
     ['description', Str::random(256), 'Data too long for column'], // maximum 255 characters
 ]);
 
@@ -49,15 +48,9 @@ test('create many rooms', function () {
     expect(Room::count())->toBe(30);
 });
 
-test('fields in their minimum size are accepted', function () {
-    Room::factory()->create(['number' => 0]);
-
-    expect(Room::count())->toBe(1);
-});
-
 test('fields in their maximum size are accepted', function () {
     Room::factory()->create([
-        'number' => 4294967295,
+        'number' => Str::random(50),
         'description' => Str::random(255),
     ]);
 
@@ -71,9 +64,9 @@ test('optional fields are set', function () {
 });
 
 test('returns the rooms using the default sort scope defined', function () {
-    $first = 100;
-    $second = 200;
-    $third = 300;
+    $first = '100';
+    $second = '200';
+    $third = '300';
 
     Room::factory()->create(['number' => $third]);
     Room::factory()->create(['number' => $first]);

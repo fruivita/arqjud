@@ -19,7 +19,7 @@ return new class extends Migration {
         Schema::create('rooms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('floor_id');
-            $table->unsignedInteger('number');
+            $table->string('number', 50);
             $table->string('description', 255)->nullable();
             $table->timestamps();
 
