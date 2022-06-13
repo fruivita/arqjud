@@ -18,6 +18,11 @@ class Box extends Model
 
     protected $table = 'boxes';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
     protected $fillable = ['year', 'number', 'description'];
 
     /**
