@@ -31,17 +31,30 @@ parameters:
     - App\Http\Livewire\Archiving\Register\Box\BoxLivewireIndex
     - App\Http\Livewire\Archiving\Register\Box\BoxLivewireShow
     - App\Http\Livewire\Archiving\Register\Box\BoxLivewireUpdate
+    - App\Http\Livewire\Archiving\Register\Site\SiteLivewireCreate
     - App\Http\Livewire\Archiving\Register\Site\SiteLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Room\RoomLivewireIndex
     - App\Http\Livewire\Archiving\Register\Site\SiteLivewireShow
     - App\Http\Livewire\Archiving\Register\Site\SiteLivewireUpdate
+    - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireCreate
+    - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireIndex
     - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireShow
     - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireUpdate
+    - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireCreate
+    - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireIndex
     - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireShow
     - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireUpdate
+    - App\Http\Livewire\Archiving\Register\Room\RoomLivewireCreate
+    - App\Http\Livewire\Archiving\Register\Room\RoomLivewireIndex
     - App\Http\Livewire\Archiving\Register\Room\RoomLivewireShow
+    - App\Http\Livewire\Archiving\Register\Room\RoomLivewireUpdate
+    - App\Http\Livewire\Archiving\Register\Stand\StandLivewireCreate
+    - App\Http\Livewire\Archiving\Register\Stand\StandLivewireIndex
+    - App\Http\Livewire\Archiving\Register\Stand\StandLivewireShow
+    - App\Http\Livewire\Archiving\Register\Stand\StandLivewireUpdate
+    - App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireCreate
+    - App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireIndex
+    - App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireShow
+    - App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireUpdate
     - Illuminate\Database\Eloquent\Model
     - LdapRecord\Models\ActiveDirectory\User
 
