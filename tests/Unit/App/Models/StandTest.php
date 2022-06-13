@@ -108,12 +108,12 @@ test('one stand has many shelves', function () {
     expect($stand->shelves)->toHaveCount(3);
 });
 
-test('parentEntitiesLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
+test('parentLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
     $stand = Stand::factory()->create();
 
     $stand->load('room.floor.building.site');
 
-    expect($stand->parentEntitiesLinks(false)->toArray())->toBe([
+    expect($stand->parentLinks(false)->toArray())->toBe([
         __('Site') => route('archiving.register.site.show', $stand->room->floor->building->site),
         __('Building') => route('archiving.register.building.show', $stand->room->floor->building),
         __('Floor') => route('archiving.register.floor.show', $stand->room->floor),
@@ -121,12 +121,12 @@ test('parentEntitiesLinks returns only show parents routes sorted from most dist
     ]);
 });
 
-test('parentEntitiesLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
+test('parentLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
     $stand = Stand::factory()->create();
 
     $stand->load('room.floor.building.site');
 
-    expect($stand->parentEntitiesLinks(true)->toArray())->toBe([
+    expect($stand->parentLinks(true)->toArray())->toBe([
         __('Site') => route('archiving.register.site.show', $stand->room->floor->building->site),
         __('Building') => route('archiving.register.building.show', $stand->room->floor->building),
         __('Floor') => route('archiving.register.floor.show', $stand->room->floor),

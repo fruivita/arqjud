@@ -20,7 +20,7 @@
 
 <div class="font-bold mx-3 text-right text-sm lg:mx-0">
 
-    @foreach ($model->parentEntitiesLinks($root) ?? [] as $label => $link)
+    @foreach ($model->parentLinks($root) ?? [] as $label => $link)
 
         <a class="underline" href="{{ $link }}">{{ $label }}</a>
 

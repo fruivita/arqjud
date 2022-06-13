@@ -56,7 +56,7 @@ class Shelf extends Model
      *
      * @return \Illuminate\Support\Collection
      */
-    public function parentEntitiesLinks(bool $root)
+    public function parentLinks(bool $root)
     {
         return collect([
             __('Site') => route('archiving.register.site.show', $this->stand->room->floor->building->site),
