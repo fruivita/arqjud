@@ -533,11 +533,13 @@ test('shelves are available by selecting a stand', function () {
 test('suggests the next box number (max number + 1) according to the selected year', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Box::factory()->create(['year' => 2020, 'number' => 10]);
+    Box::factory()->create(['year' => 2020, 'number' => 21]);
+    Box::factory()->create(['year' => 2020, 'number' => 111]);
+    Box::factory()->create(['year' => 2020, 'number' => 20]);
 
     Livewire::test(BoxLivewireCreate::class)
     ->set('box.year', 2020)
-    ->assertSet('box.number', 11)
+    ->assertSet('box.number', 112)
     ->set('box.year', 2021)
     ->assertSet('box.number', 1);
 });
