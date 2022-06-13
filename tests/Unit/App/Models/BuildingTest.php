@@ -107,7 +107,7 @@ test('parentEntitiesLinks returns only show parents routes sorted from most dist
     $building->load('site');
 
     expect($building->parentEntitiesLinks(false)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $building->site)
+        __('Site') => route('archiving.register.site.show', $building->site),
     ]);
 });
 

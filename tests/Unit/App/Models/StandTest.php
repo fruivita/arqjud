@@ -108,7 +108,6 @@ test('one stand has many shelves', function () {
     expect($stand->shelves)->toHaveCount(3);
 });
 
-
 test('parentEntitiesLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
     $stand = Stand::factory()->create();
 

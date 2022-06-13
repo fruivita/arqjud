@@ -6,7 +6,6 @@
 
 use App\Models\Box;
 use App\Models\BoxVolume;
-use App\Models\Room;
 use App\Models\Shelf;
 use Illuminate\Database\QueryException;
 

@@ -7,9 +7,7 @@
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireShow;
 use App\Models\Box;
-use App\Models\Room;
 use App\Models\Shelf;
-use App\Models\Stand;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Livewire\Livewire;

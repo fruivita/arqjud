@@ -65,7 +65,7 @@ class StandPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\User  $user
      * @param \App\Models\Stand $stand
      *
      * @return bool|\Illuminate\Auth\Access\Response

@@ -4,7 +4,6 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Box;
 use App\Models\Floor;
 use App\Models\Room;
 use App\Models\Stand;

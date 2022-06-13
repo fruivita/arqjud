@@ -74,7 +74,6 @@ test('one site has many buildings', function () {
     expect($site->buildings)->toHaveCount(3);
 });
 
-
 test('parentEntitiesLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
     $site = Site::factory()->create();
 

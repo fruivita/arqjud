@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Stand;
 use App\Models\Shelf;
+use App\Models\Stand;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

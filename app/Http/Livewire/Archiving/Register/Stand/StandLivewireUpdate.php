@@ -10,8 +10,8 @@ use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
 use App\Models\Shelf;
-use App\Models\Stand;
 use App\Models\Site;
+use App\Models\Stand;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -211,7 +211,7 @@ class StandLivewireUpdate extends Component
     public function render()
     {
         return view('livewire.archiving.register.stand.edit', [
-            'shelves' => $this->shelves
+            'shelves' => $this->shelves,
         ])->layout('layouts.app');
     }
 

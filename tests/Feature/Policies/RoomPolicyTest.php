@@ -5,8 +5,8 @@
  */
 
 use App\Enums\PermissionType;
-use App\Models\Stand;
 use App\Models\Room;
+use App\Models\Stand;
 use App\Policies\RoomPolicy;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;

@@ -6,7 +6,6 @@
 
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Stand\StandLivewireShow;
-use App\Models\Room;
 use App\Models\Shelf;
 use App\Models\Stand;
 use Database\Seeders\DepartmentSeeder;

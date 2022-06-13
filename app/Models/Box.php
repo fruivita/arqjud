@@ -167,9 +167,9 @@ class Box extends Model
      * The number of the first box will be the one defined in the template and
      * the others will be increments by one.
      *
-     * @param \App\Models\Box  $template template for creating the boxes
-     * @param int              $amount   number of boxes to create
-     * @param \App\Models\Shelf $shelf     parent of all boxes
+     * @param \App\Models\Box   $template template for creating the boxes
+     * @param int               $amount   number of boxes to create
+     * @param \App\Models\Shelf $shelf    parent of all boxes
      *
      * @return \Illuminate\Support\Collection
      */

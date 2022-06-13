@@ -7,7 +7,6 @@
 use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireUpdate;
-use App\Models\Box;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;

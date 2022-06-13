@@ -161,7 +161,6 @@ class RoomLivewireUpdate extends Component
         $this->floors = Floor::where('building_id', $this->building_id)->defaultOrder()->get();
     }
 
-
     /**
      * Computed property to list paged stands.
      *

@@ -289,7 +289,7 @@ class BoxLivewireCreate extends Component
             'floor_id', 'floors',
             'room_id', 'rooms',
             'stand_id', 'stands',
-            'shelves'
+            'shelves',
         ]);
         $this->box->shelf_id = null;
 
@@ -309,7 +309,7 @@ class BoxLivewireCreate extends Component
             'floor_id', 'floors',
             'room_id', 'rooms',
             'stand_id', 'stands',
-            'shelves'
+            'shelves',
         ]);
         $this->box->shelf_id = null;
 
@@ -328,7 +328,7 @@ class BoxLivewireCreate extends Component
         $this->reset([
             'room_id', 'rooms',
             'stand_id', 'stands',
-            'shelves'
+            'shelves',
         ]);
         $this->box->shelf_id = null;
 
@@ -346,7 +346,7 @@ class BoxLivewireCreate extends Component
     {
         $this->reset([
             'stand_id', 'stands',
-            'shelves'
+            'shelves',
         ]);
         $this->box->shelf_id = null;
 
