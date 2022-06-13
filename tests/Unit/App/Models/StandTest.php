@@ -70,6 +70,21 @@ test('optional fields are set', function () {
     expect(Stand::count())->toBe(1);
 });
 
+test('zero is a valid value for the stand number.', function () {
+    Stand::factory()->create(['number' => 0]);
+
+    $stand = Stand::first();
+
+    expect($stand->number)->toBe(0);
+});
+
+test('uninformedStand returns the model with the expected attributes', function () {
+    $stand = Stand::uninformedStand();
+
+    expect($stand->number)->toBe(0)
+    ->and($stand->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
+});
+
 test('returns the stands using the default sort scope defined', function () {
     $first = 100;
     $second = 200;

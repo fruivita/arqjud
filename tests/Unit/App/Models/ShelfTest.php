@@ -70,6 +70,21 @@ test('optional fields are set', function () {
     expect(Shelf::count())->toBe(1);
 });
 
+test('zero is a valid value for the shelf number.', function () {
+    Shelf::factory()->create(['number' => 0]);
+
+    $shelf = Shelf::first();
+
+    expect($shelf->number)->toBe(0);
+});
+
+test('uninformedShelf returns the model with the expected attributes.', function () {
+    $shelf = Shelf::uninformedShelf();
+
+    expect($shelf->number)->toBe(0)
+    ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
+});
+
 test('returns the shelves using the default sort scope defined', function () {
     $first = 100;
     $second = 200;

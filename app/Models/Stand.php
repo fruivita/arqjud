@@ -16,6 +16,13 @@ class Stand extends Model
     protected $table = 'stands';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = ['number', 'description'];
+
+    /**
      * Relationship stand (N:1) room.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -66,5 +73,19 @@ class Stand extends Model
         ])->when($root, function ($collection) {
             return $collection->put(__('Stand'), route('archiving.register.stand.show', $this));
         });
+    }
+
+    /**
+     * Default stand to be used when creating a room.
+     *
+     * @return self
+     */
+    public static function uninformedStand()
+    {
+        return new self([
+            'number' => 0,
+            'description' => __('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'),
+
+        ]);
     }
 }
