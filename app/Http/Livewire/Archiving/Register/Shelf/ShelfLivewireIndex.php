@@ -34,7 +34,7 @@ class ShelfLivewireIndex extends Component
     }
 
     /**
-     * Computed property to list paginated Shelves.
+     * Computed property to list paginated shelves.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
