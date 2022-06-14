@@ -70,7 +70,7 @@ test('optional fields are set', function () {
     expect(Shelf::count())->toBe(1);
 });
 
-test('zero is a valid value for the shelf number.', function () {
+test('zero is a valid value for the shelf number', function () {
     Shelf::factory()->create(['number' => 0]);
 
     $shelf = Shelf::first();

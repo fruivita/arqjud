@@ -65,7 +65,7 @@ test('fields in their maximum size are accepted', function () {
     expect(Floor::count())->toBe(1);
 });
 
-test('zero is a valid value for the floor number.', function () {
+test('zero is a valid value for the floor number', function () {
     Floor::factory()->create(['number' => 0]);
 
     $floor = Floor::first();
