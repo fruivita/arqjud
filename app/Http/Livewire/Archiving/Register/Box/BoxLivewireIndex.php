@@ -3,6 +3,9 @@
 namespace App\Http\Livewire\Archiving\Register\Box;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
+use App\Http\Livewire\Traits\WithFeedbackEvents;
+use App\Http\Livewire\Traits\WithLimit;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Box;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -15,6 +18,9 @@ use Livewire\Component;
 class BoxLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
+    use WithFeedbackEvents;
+    use WithLimit;
     use WithPerPagePagination;
 
     /**
@@ -44,6 +50,7 @@ class BoxLivewireIndex extends Component
     {
         return $this->applyPagination(
             Box::with(['shelf.stand.room.floor.building.site'])
+            ->withCount('volumes')
             ->search($this->term)
             ->defaultOrder()
         );
@@ -94,5 +101,17 @@ class BoxLivewireIndex extends Component
         )->validate();
 
         $this->resetPage();
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\Box $box
+     *
+     * @return void
+     */
+    public function markToDelete(Box $box)
+    {
+        $this->askForConfirmation($box);
     }
 }

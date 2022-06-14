@@ -4,9 +4,11 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireIndex;
 use App\Models\Box;
+use App\Models\BoxVolume;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Str;
@@ -15,6 +17,9 @@ use function Pest\Laravel\get;
 
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
+
+    $this->box = Box::factory()->create();
+    $this->box->load('shelf.stand.room.floor.building.site');
 
     login('foo');
 });
@@ -38,6 +43,71 @@ test('authenticated but without specific permission, unable to access boxes list
 
 test('cannot render boxes listing component without specific permission', function () {
     Livewire::test(BoxLivewireIndex::class)->assertForbidden();
+});
+
+test('cannot set the box record which will be deleted without specific permission', function () {
+    grantPermission(PermissionType::BoxViewAny->value);
+
+    Livewire::test(BoxLivewireIndex::class)
+    ->assertOk()
+    ->call('markToDelete', $this->box->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot set the box record which will be deleted if it has volumes', function () {
+    grantPermission(PermissionType::BoxViewAny->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    BoxVolume::factory()
+    ->for($this->box, 'box')
+    ->create();
+
+    Livewire::test(BoxLivewireIndex::class)
+    ->assertOk()
+    ->call('markToDelete', $this->box->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot delete a box record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
+    grantPermission(PermissionType::BoxViewAny->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $component = Livewire::test(BoxLivewireIndex::class)
+    ->call('markToDelete', $this->box->id)
+    ->assertOk();
+
+    revokePermission(PermissionType::BoxDelete->value);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Box::where('id', $this->box->id)->exists())->toBeTrue();
+});
+
+test('cannot delete a box record if it has volumes', function () {
+    grantPermission(PermissionType::BoxViewAny->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $component = Livewire::test(BoxLivewireIndex::class)
+    ->call('markToDelete', $this->box->id)
+    ->assertOk();
+
+    BoxVolume::factory()
+    ->for($this->box, 'box')
+    ->create();
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Box::where('id', $this->box->id)->exists())->toBeTrue();
 });
 
 // Rules
@@ -141,4 +211,47 @@ test('search returns expected results', function () {
     ->assertCount('boxes', 2)
     ->set('term', '2020')
     ->assertCount('boxes', 2);
+});
+
+test('emits feedback event when deleting a box record', function () {
+    grantPermission(PermissionType::BoxViewAny->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    Livewire::test(BoxLivewireIndex::class)
+    ->call('markToDelete', $this->box->id)
+    ->call('destroy')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => null,
+        'timeout' => 3000,
+    ]);
+});
+
+test('defines the box record that will be deleted with specific permission if it has no shelves', function () {
+    grantPermission(PermissionType::BoxViewAny->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    Livewire::test(BoxLivewireIndex::class)
+    ->call('markToDelete', $this->box->id)
+    ->assertOk()
+    ->assertSet('show_delete_modal', true)
+    ->assertSet('deleting.id', $this->box->id);
+});
+
+test('delete a box record with specific permission if it has no shelves', function () {
+    grantPermission(PermissionType::BoxViewAny->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    expect(Box::where('id', $this->box->id)->exists())->toBeTrue();
+
+    Livewire::test(BoxLivewireIndex::class)
+    ->call('markToDelete', $this->box->id)
+    ->assertOk()
+    ->call('destroy', $this->box->id)
+    ->assertOk();
+
+    expect(Box::where('id', $this->box->id)->doesntExist())->toBeTrue();
 });
