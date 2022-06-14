@@ -84,10 +84,10 @@
                         <x-table.cell>{{ $box->shelf->stand->room->number }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $box->shelf->stand->number }}</x-table.cell>
+                        <x-table.cell>{{ $box->shelf->stand->numberForHumans() }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $box->shelf->number }}</x-table.cell>
+                        <x-table.cell>{{ $box->shelf->numberForHumans() }}</x-table.cell>
 
 
                         <x-table.cell>

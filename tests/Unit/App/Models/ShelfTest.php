@@ -78,11 +78,19 @@ test('zero is a valid value for the shelf number.', function () {
     expect($shelf->number)->toBe(0);
 });
 
-test('uninformedShelf returns the model with the expected attributes.', function () {
+test('uninformedShelf returns the model with the expected attributes', function () {
     $shelf = Shelf::uninformedShelf();
 
     expect($shelf->number)->toBe(0)
     ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
+});
+
+test('numberForHumans() return the number ready to show on page', function () {
+    $shelf = Shelf::factory()->make(['number' => 0]);
+    $shelf_1 = Shelf::factory()->make(['number' => 10]);
+
+    expect($shelf->numberForHumans())->toBe(__('Uninformed'))
+    ->and($shelf_1->numberForHumans())->toBe(10);
 });
 
 test('returns the shelves using the default sort scope defined', function () {

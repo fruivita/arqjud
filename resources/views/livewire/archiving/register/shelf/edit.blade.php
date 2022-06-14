@@ -229,7 +229,7 @@
 
                                 <option value="{{ $stand->id }}">
 
-                                    {{ $stand->number }}
+                                    {{ $stand->numberForHumans() }}
 
                                 </option>
 

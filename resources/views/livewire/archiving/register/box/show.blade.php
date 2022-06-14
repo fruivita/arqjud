@@ -61,12 +61,12 @@
 
             <x-show-value
                 :key="__('Stand')"
-                :value="$box->shelf->stand->number"/>
+                :value="$box->shelf->stand->numberForHumans()"/>
 
 
             <x-show-value
                 :key="__('Shelf')"
-                :value="$box->shelf->number"/>
+                :value="$box->shelf->numberForHumans()"/>
 
 
             <x-button-group>

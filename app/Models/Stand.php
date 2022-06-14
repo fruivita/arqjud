@@ -36,6 +36,16 @@ class Stand extends Model
     }
 
     /**
+     * Get the stand's number ready to show on page.
+     *
+     * @return string
+     */
+    public function numberForHumans()
+    {
+        return $this->number ?: __('Uninformed');
+    }
+
+    /**
      * Default ordering of the model.
      *
      * Order: number asc

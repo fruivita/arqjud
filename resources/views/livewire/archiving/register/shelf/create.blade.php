@@ -43,7 +43,7 @@
 
                 <x-show-value
                     :key="__('Stand')"
-                    :value="$stand->number"/>
+                    :value="$stand->numberForHumans()"/>
 
 
                 <x-form.input

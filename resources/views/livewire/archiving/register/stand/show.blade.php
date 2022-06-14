@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="__('Stand') . ': ' . $stand->number">
+<x-page :header="__('Stand') . ': ' . $stand->numberForHumans()">
 
     <x-backtrace :model="$stand"/>
 
@@ -21,7 +21,7 @@
 
             <x-show-value
                 :key="__('Stand')"
-                :value="$stand->number"/>
+                :value="$stand->numberForHumans()"/>
 
 
             <x-show-value

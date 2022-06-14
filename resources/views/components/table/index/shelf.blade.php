@@ -102,7 +102,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell>{{ $shelf->number }}</x-table.cell>
+                        <x-table.cell>{{ $shelf->numberForHumans() }}</x-table.cell>
 
 
                         <x-table.cell>{{ $shelf->boxes_count }}</x-table.cell>
@@ -122,7 +122,7 @@
                             <x-table.cell>{{ $shelf->stand->room->number }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $shelf->stand->number }}</x-table.cell>
+                            <x-table.cell>{{ $shelf->stand->numberForHumans() }}</x-table.cell>
 
                         @endif
 

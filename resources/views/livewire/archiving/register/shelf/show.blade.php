@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="__('Shelf') . ': ' . $shelf->number">
+<x-page :header="__('Shelf') . ': ' . $shelf->numberForHumans()">
 
     <x-backtrace :model="$shelf"/>
 
@@ -21,7 +21,7 @@
 
             <x-show-value
                 :key="__('Shelf')"
-                :value="$shelf->number"/>
+                :value="$shelf->numberForHumans()"/>
 
 
             <x-show-value
@@ -51,7 +51,7 @@
 
             <x-show-value
                 :key="__('Stand')"
-                :value="$shelf->stand->number"/>
+                :value="$shelf->stand->numberForHumans()"/>
 
 
             <x-button-group>

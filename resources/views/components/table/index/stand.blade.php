@@ -99,7 +99,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell>{{ $stand->number }}</x-table.cell>
+                        <x-table.cell>{{ $stand->numberForHumans() }}</x-table.cell>
 
 
                         <x-table.cell>{{ $stand->shelves_count }}</x-table.cell>
