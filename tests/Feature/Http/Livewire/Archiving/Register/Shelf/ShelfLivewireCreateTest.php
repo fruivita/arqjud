@@ -98,7 +98,7 @@ test('cannot delete a shelf record without specific permission', function () {
     expect(Shelf::where('id', $shelf->id)->exists())->toBeTrue();
 });
 
-test('cannot delete a shelf record if it has shelves', function () {
+test('cannot delete a shelf record if it has boxes', function () {
     grantPermission(PermissionType::ShelfCreate->value);
     grantPermission(PermissionType::ShelfDelete->value);
 
