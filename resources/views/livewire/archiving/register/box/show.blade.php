@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="__('Box') . ': ' . $box->name()">
+<x-page :header="__('Box') . ': ' . $box->numberForHumans()">
 
     <x-backtrace :model="$box"/>
 

@@ -57,10 +57,10 @@ test('fields in their maximum size are accepted', function () {
     expect(Box::count())->toBe(1);
 });
 
-test('name returns the name of the box ready for display', function () {
+test('numberForHumans returns the number and year of the box ready for display', function () {
     $box = Box::factory()->create(['number' => 100, 'year' => 2020]);
 
-    expect($box->name())->toBe('100/2020');
+    expect($box->numberForHumans())->toBe('100/2020');
 });
 
 test('returns the boxes using the default sort scope defined', function () {
