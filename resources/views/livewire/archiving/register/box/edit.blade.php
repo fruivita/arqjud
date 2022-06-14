@@ -58,42 +58,6 @@
                 </div>
 
 
-                <div class="gap-x-3 gap-y-6 grid grid-cols-1 sm:grid-cols-2">
-
-                    <x-form.input
-                        wire:key="box-stand"
-                        wire:loading.delay.attr="disabled"
-                        wire:loading.delay.class="cursor-not-allowed"
-                        wire:model.defer="box.stand"
-                        wire:target="storeVolume,update"
-                        :error="$errors->first('box.stand')"
-                        icon="bookshelf"
-                        min="1"
-                        max="1000"
-                        :placeholder="__('Only numbers')"
-                        :text="__('Stand')"
-                        :title="__('Inform the stand number')"
-                        type="number"/>
-
-
-                    <x-form.input
-                        wire:key="box-shelf"
-                        wire:loading.delay.attr="disabled"
-                        wire:loading.delay.class="cursor-not-allowed"
-                        wire:model.defer="box.shelf"
-                        wire:target="storeVolume,update"
-                        :error="$errors->first('box.shelf')"
-                        icon="list-nested"
-                        min="1"
-                        max="1000"
-                        :placeholder="__('Only numbers')"
-                        :text="__('Shelf')"
-                        :title="__('Inform the shelf number')"
-                        type="number"/>
-
-                </div>
-
-
                 <x-form.textarea
                     wire:key="box-description"
                     wire:loading.delay.attr="disabled"
@@ -198,7 +162,7 @@
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model="floor_id"
-                                wire:target="floor_id,building_id,site_id,storeVolume,update"
+                                wire:target="building_id,floor_id,site_id,storeVolume,update"
                                 class="w-full"
                                 :error="$errors->first('floor_id')"
                                 icon="layers"
@@ -238,9 +202,9 @@
                                 wire:key="rooms-{{ $floor_id }}"
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
-                                wire:model.defer="box.room_id"
-                                wire:target="floor_id,building_id,site_id,storeVolume,update"
-                                :error="$errors->first('box.room_id')"
+                                wire:model="room_id"
+                                wire:target="building_id,floor_id,site_id,storeVolume,update"
+                                :error="$errors->first('room_id')"
                                 icon="door-closed"
                                 required
                                 :text="__('Room')"
@@ -271,6 +235,90 @@
                 </div>
 
 
+                <div class="gap-x-3 gap-y-6 grid grid-cols-1 sm:grid-cols-2">
+
+                    {{-- Stand --}}
+                    <div>
+
+                        @if($room_id >= 1)
+
+                            <x-form.select
+                                wire:key="stands-{{ $room_id }}"
+                                wire:loading.delay.attr="disabled"
+                                wire:loading.delay.class="cursor-not-allowed"
+                                wire:model="stand_id"
+                                wire:target="building_id,floor_id,room_id,site_id,storeVolume,update"
+                                :error="$errors->first('stand_id')"
+                                icon="bookshelf"
+                                required
+                                :text="__('Stand')"
+                                :title="__('Choose stand')">
+
+                                <option value="">{{ __('Select...') }}</option>
+
+                                @forelse ($stands ?? [] as $stand)
+
+                                    <option value="{{ $stand->id }}">
+
+                                        {{ $stand->numberForHumans() }}
+
+                                    </option>
+
+                                @empty
+
+                                    <option value="-1">{{ __('No record found') }}</option>
+
+                                @endforelse
+
+                            </x-form.select>
+
+                        @endif
+
+                    </div>
+
+
+                    {{-- Shelf --}}
+                    <div>
+
+                        @if($stand_id >= 1)
+
+                            <x-form.select
+                                wire:key="shelves-{{ $stand_id }}"
+                                wire:loading.delay.attr="disabled"
+                                wire:loading.delay.class="cursor-not-allowed"
+                                wire:model.defer="box.shelf_id"
+                                wire:target="building_id,floor_id,room_id,stand_id,site_id,storeVolume,update"
+                                :error="$errors->first('box.shelf_id')"
+                                icon="list-nested"
+                                required
+                                :text="__('Shelf')"
+                                :title="__('Choose shelf')">
+
+                                <option value="">{{ __('Select...') }}</option>
+
+                                @forelse ($shelves ?? [] as $shelf)
+
+                                    <option value="{{ $shelf->id }}">
+
+                                        {{ $shelf->numberForHumans() }}
+
+                                    </option>
+
+                                @empty
+
+                                    <option value="-1">{{ __('No record found') }}</option>
+
+                                @endforelse
+
+                            </x-form.select>
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+
                 <x-button-group>
 
                     <x-feedback.inline/>
@@ -280,7 +328,7 @@
                         wire:key="btn-submit"
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
-                        wire:target="floor_id,building_id,site_id,storeVolume,update"
+                        wire:target="building_id,floor_id,room_id,stand_id,site_id,storeVolume,update"
                         class="btn-do"
                         icon="save"
                         :text="__('Save')"
@@ -305,7 +353,7 @@
                         wire:key="btn-store-volume"
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
-                        wire:target="floor_id,building_id,site_id,storeVolume,update"
+                        wire:target="building_id,floor_id,room_id,stand_id,site_id,storeVolume,update"
                         class="btn-do mr-3"
                         icon="plus-circle"
                         :text="__('New')"
