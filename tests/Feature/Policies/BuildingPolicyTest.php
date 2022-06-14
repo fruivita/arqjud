@@ -45,7 +45,7 @@ test('user without permission cannot delete a building', function () {
     expect((new BuildingPolicy())->delete($this->user, $building))->toBeFalse();
 });
 
-test('building with floors cannot be delete', function () {
+test('building with floors cannot be deleted', function () {
     grantPermission(PermissionType::BuildingDelete->value);
 
     $building = Building::factory()

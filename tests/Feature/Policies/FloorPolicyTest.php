@@ -45,7 +45,7 @@ test('user without permission cannot delete a floor', function () {
     expect((new FloorPolicy())->delete($this->user, $floor))->toBeFalse();
 });
 
-test('floor with rooms cannot be delete', function () {
+test('floor with rooms cannot be deleted', function () {
     grantPermission(PermissionType::FloorDelete->value);
 
     $floor = Floor::factory()

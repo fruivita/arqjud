@@ -45,7 +45,7 @@ test('user without permission cannot delete a room', function () {
     expect((new RoomPolicy())->delete($this->user, $room))->toBeFalse();
 });
 
-test('room with stands cannot be delete', function () {
+test('room with stands cannot be deleted', function () {
     grantPermission(PermissionType::RoomDelete->value);
 
     $room = Room::factory()

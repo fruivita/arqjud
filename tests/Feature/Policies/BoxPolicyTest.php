@@ -49,7 +49,7 @@ test('user without permission cannot delete a box', function () {
     expect((new BoxPolicy())->delete($this->user, $box))->toBeFalse();
 });
 
-test('box with volumes cannot be delete', function () {
+test('box with volumes cannot be deleted', function () {
     grantPermission(PermissionType::BoxDelete->value);
 
     $box = Box::factory()

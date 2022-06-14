@@ -45,7 +45,7 @@ test('user without permission cannot delete a stand', function () {
     expect((new StandPolicy())->delete($this->user, $stand))->toBeFalse();
 });
 
-test('stand with shelves cannot be delete', function () {
+test('stand with shelves cannot be deleted', function () {
     grantPermission(PermissionType::StandDelete->value);
 
     $stand = Stand::factory()

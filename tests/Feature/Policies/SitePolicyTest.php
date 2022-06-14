@@ -45,7 +45,7 @@ test('user without permission cannot delete a site', function () {
     expect((new SitePolicy())->delete($this->user, $site))->toBeFalse();
 });
 
-test('site with buildings cannot be delete', function () {
+test('site with buildings cannot be deleted', function () {
     grantPermission(PermissionType::SiteDelete->value);
 
     $site = Site::factory()

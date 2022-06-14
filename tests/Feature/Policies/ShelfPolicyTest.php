@@ -45,7 +45,7 @@ test('user without permission cannot delete a shelf', function () {
     expect((new ShelfPolicy())->delete($this->user, $shelf))->toBeFalse();
 });
 
-test('shelf with boxes cannot be delete', function () {
+test('shelf with boxes cannot be deleted', function () {
     grantPermission(PermissionType::ShelfDelete->value);
 
     $shelf = Shelf::factory()
