@@ -8,12 +8,8 @@ use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Box\BoxLivewireCreate;
 use App\Models\Box;
-use App\Models\Building;
-use App\Models\Floor;
-use App\Models\Room;
+use App\Models\BoxVolume;
 use App\Models\Shelf;
-use App\Models\Site;
-use App\Models\Stand;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Str;
@@ -22,6 +18,8 @@ use function Pest\Laravel\get;
 
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
+
+    $this->shelf = Shelf::factory()->create();
 
     login('foo');
 });
@@ -34,247 +32,106 @@ afterEach(function () {
 test('cannot create a box record without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.box.create'))
+    get(route('archiving.register.box.create', $this->shelf))
     ->assertRedirect(route('login'));
 });
 
 test('authenticated but without specific permission, cannot access box record creation route', function () {
-    get(route('archiving.register.box.create'))
+    get(route('archiving.register.box.create', $this->shelf))
     ->assertForbidden();
 });
 
 test('cannot render box record creation component without specific permission', function () {
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->assertForbidden();
 });
 
+test('cannot set the box record which will be deleted without specific permission', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    $box = Box::factory()->create();
+
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->assertOk()
+    ->call('markToDelete', $box->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot set the box record which will be deleted if it has volumes', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()->create();
+
+    BoxVolume::factory()
+    ->for($box, 'box')
+    ->create();
+
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->assertOk()
+    ->call('markToDelete', $box->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot delete a box record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
+    grantPermission(PermissionType::BoxCreate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()->create();
+
+    $component = Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->call('markToDelete', $box->id)
+    ->assertOk();
+
+    revokePermission(PermissionType::BoxDelete->value);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Box::where('id', $box->id)->exists())->toBeTrue();
+});
+
+test('cannot delete a box record if it has volumes', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()->create();
+
+    $component = Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->call('markToDelete', $box->id)
+    ->assertOk();
+
+    BoxVolume::factory()
+    ->for($box, 'box')
+    ->create();
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Box::where('id', $box->id)->exists())->toBeTrue();
+});
+
 // Rules
-test('site_id is optional', function () {
+test('does not accept pagination outside the options offered', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('site_id', '')
-    ->call('store')
-    ->assertHasNoErrors(['site_id']);
-});
-
-test('site_id must be an integer', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('site_id', 'foo')
-    ->call('store')
-    ->assertHasErrors(['site_id' => 'integer']);
-});
-
-test('site_id must previously exist in the database', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('site_id', 10)
-    ->call('store')
-    ->assertHasErrors(['site_id' => 'exists']);
-});
-
-test('site_id is validated in real time', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    $site = Site::factory()->create();
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('site_id', $site->id)
-    ->assertHasNoErrors()
-    ->set('site_id', 'foo')
-    ->assertHasErrors(['site_id' => 'integer']);
-});
-
-test('building_id is optional', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('building_id', '')
-    ->call('store')
-    ->assertHasNoErrors(['building_id']);
-});
-
-test('building_id must be an integer', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('building_id', 'foo')
-    ->call('store')
-    ->assertHasErrors(['building_id' => 'integer']);
-});
-
-test('building_id must previously exist in the database', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('building_id', 10)
-    ->call('store')
-    ->assertHasErrors(['building_id' => 'exists']);
-});
-
-test('building_id is validated in real time', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    $building = Building::factory()->create();
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('building_id', $building->id)
-    ->assertHasNoErrors()
-    ->set('building_id', 'foo')
-    ->assertHasErrors(['building_id' => 'integer']);
-});
-
-test('floor_id is optional', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('floor_id', '')
-    ->call('store')
-    ->assertHasNoErrors(['floor_id']);
-});
-
-test('floor_id must be an integer', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('floor_id', 'foo')
-    ->call('store')
-    ->assertHasErrors(['floor_id' => 'integer']);
-});
-
-test('floor_id must previously exist in the database', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('floor_id', 10)
-    ->call('store')
-    ->assertHasErrors(['floor_id' => 'exists']);
-});
-
-test('floor_id is validated in real time', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    $floor = Floor::factory()->create();
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('floor_id', $floor->id)
-    ->assertHasNoErrors()
-    ->set('floor_id', 'foo')
-    ->assertHasErrors(['floor_id' => 'integer']);
-});
-
-test('room_id is optional', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('room_id', '')
-    ->call('store')
-    ->assertHasNoErrors(['room_id']);
-});
-
-test('room_id must be an integer', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('room_id', 'foo')
-    ->call('store')
-    ->assertHasErrors(['room_id' => 'integer']);
-});
-
-test('room_id must previously exist in the database', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('room_id', 10)
-    ->call('store')
-    ->assertHasErrors(['room_id' => 'exists']);
-});
-
-test('room_id is validated in real time', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    $room = Room::factory()->create();
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('room_id', $room->id)
-    ->assertHasNoErrors()
-    ->set('room_id', 'foo')
-    ->assertHasErrors(['room_id' => 'integer']);
-});
-
-test('stand_id is optional', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('stand_id', '')
-    ->call('store')
-    ->assertHasNoErrors(['stand_id']);
-});
-
-test('stand_id must be an integer', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('stand_id', 'foo')
-    ->call('store')
-    ->assertHasErrors(['stand_id' => 'integer']);
-});
-
-test('stand_id must previously exist in the database', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('stand_id', 10)
-    ->call('store')
-    ->assertHasErrors(['stand_id' => 'exists']);
-});
-
-test('stand_id is validated in real time', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    $stand = Stand::factory()->create();
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('stand_id', $stand->id)
-    ->assertHasNoErrors()
-    ->set('stand_id', 'foo')
-    ->assertHasErrors(['stand_id' => 'integer']);
-});
-
-test('box.shelf_id is required', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('box.shelf_id', '')
-    ->call('store')
-    ->assertHasErrors(['box.shelf_id' => 'required']);
-});
-
-test('box.shelf_id must be an integer', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('box.shelf_id', 'foo')
-    ->call('store')
-    ->assertHasErrors(['box.shelf_id' => 'integer']);
-});
-
-test('box.shelf_id must previously exist in the database', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('box.shelf_id', 10)
-    ->call('store')
-    ->assertHasErrors(['box.shelf_id' => 'exists']);
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->set('per_page', 33) // possible values: 10/25/50/100
+    ->assertHasErrors(['per_page' => 'in']);
 });
 
 test('amount is required', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('amount', '')
     ->call('store')
     ->assertHasErrors(['amount' => 'required']);
@@ -283,7 +140,7 @@ test('amount is required', function () {
 test('amount must be an integer', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('amount', 'foo')
     ->call('store')
     ->assertHasErrors(['amount' => 'integer']);
@@ -292,7 +149,7 @@ test('amount must be an integer', function () {
 test('amount must be between 1 and 1000', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('amount', 0)
     ->call('store')
     ->assertHasErrors(['amount' => 'between'])
@@ -304,7 +161,7 @@ test('amount must be between 1 and 1000', function () {
 test('box.year is required', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.year', '')
     ->call('store')
     ->assertHasErrors(['box.year' => 'required']);
@@ -313,7 +170,7 @@ test('box.year is required', function () {
 test('box.year must be an integer', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.year', 'foo')
     ->call('store')
     ->assertHasErrors(['box.year' => 'integer']);
@@ -322,7 +179,7 @@ test('box.year must be an integer', function () {
 test('box.year must be between 1900 and the current year', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.year', 1899)
     ->call('store')
     ->assertHasErrors(['box.year' => 'between'])
@@ -334,7 +191,7 @@ test('box.year must be between 1900 and the current year', function () {
 test('box.year is validated in real time', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.year', 1900)
     ->assertHasNoErrors()
     ->set('box.year', 1889)
@@ -344,7 +201,7 @@ test('box.year is validated in real time', function () {
 test('box.number is required', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.number', '')
     ->call('store')
     ->assertHasErrors(['box.number' => 'required']);
@@ -353,7 +210,7 @@ test('box.number is required', function () {
 test('box.number must be an integer', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.number', 'foo')
     ->call('store')
     ->assertHasErrors(['box.number' => 'integer']);
@@ -362,7 +219,7 @@ test('box.number must be an integer', function () {
 test('box.number must be greater then 1', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.number', 0)
     ->call('store')
     ->assertHasErrors(['box.number' => 'min']);
@@ -373,7 +230,7 @@ test('box.number and year must be unique', function () {
 
     Box::factory()->create(['year' => 2020, 'number' => 10]);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.year', 2020)
     ->set('box.number', 10)
     ->call('store')
@@ -383,7 +240,7 @@ test('box.number and year must be unique', function () {
 test('box.description is optional', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.description', '')
     ->call('store')
     ->assertHasNoErrors(['box.description']);
@@ -392,7 +249,7 @@ test('box.description is optional', function () {
 test('box.description must be a string', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.description', ['foo'])
     ->call('store')
     ->assertHasErrors(['box.description' => 'string']);
@@ -401,7 +258,7 @@ test('box.description must be a string', function () {
 test('box.description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.description', Str::random(256))
     ->call('store')
     ->assertHasErrors(['box.description' => 'max']);
@@ -410,7 +267,7 @@ test('box.description must be a maximum of 255 characters', function () {
 test('volumes is required', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('volumes', '')
     ->call('store')
     ->assertHasErrors(['volumes' => 'required']);
@@ -419,7 +276,7 @@ test('volumes is required', function () {
 test('volumes must be an integer', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('volumes', 'foo')
     ->call('store')
     ->assertHasErrors(['volumes' => 'integer']);
@@ -428,7 +285,7 @@ test('volumes must be an integer', function () {
 test('volumes must be between 1 and 1000', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('volumes', 0)
     ->call('store')
     ->assertHasErrors(['volumes' => 'between'])
@@ -438,10 +295,44 @@ test('volumes must be between 1 and 1000', function () {
 });
 
 // Happy path
+test('pagination returns the amount of expected boxes records', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Box::factory(120)
+    ->for($this->shelf, 'shelf')
+    ->create();
+
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->assertCount('boxes', 10)
+    ->set('per_page', 10)
+    ->assertCount('boxes', 10)
+    ->set('per_page', 25)
+    ->assertCount('boxes', 25)
+    ->set('per_page', 50)
+    ->assertCount('boxes', 50)
+    ->set('per_page', 100)
+    ->assertCount('boxes', 100);
+});
+
+test('pagination creates the session variables', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->assertSessionMissing('per_page')
+    ->set('per_page', 10)
+    ->assertSessionHas('per_page', 10)
+    ->set('per_page', 25)
+    ->assertSessionHas('per_page', 25)
+    ->set('per_page', 50)
+    ->assertSessionHas('per_page', 50)
+    ->set('per_page', 100)
+    ->assertSessionHas('per_page', 100);
+});
+
 test('renders box record creation component with specific permission', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    get(route('archiving.register.box.create'))
+    get(route('archiving.register.box.create', $this->shelf))
     ->assertOk()
     ->assertSeeLivewire(BoxLivewireCreate::class);
 });
@@ -449,85 +340,32 @@ test('renders box record creation component with specific permission', function 
 test('emits feedback event when creates a box record', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    $shelf = Shelf::factory()->create();
-
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('amount', 1)
     ->set('box.year', 2000)
     ->set('box.number', 10)
     ->set('volumes', 2)
-    ->set('box.shelf_id', $shelf->id)
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
 
-test('sites are available for selection in box creation', function () {
+test('emits feedback event when deleting a box record', function () {
     grantPermission(PermissionType::BoxCreate->value);
+    grantPermission(PermissionType::BoxDelete->value);
 
-    Site::factory(10)->create();
+    $box = Box::factory()->create();
 
-    Livewire::test(BoxLivewireCreate::class)
-    ->assertCount('sites', 10);
-});
-
-test('buildings are available by selecting a site', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    $site = Site::factory()
-    ->has(Building::factory(10), 'buildings')
-    ->create();
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('site_id', $site->id)
-    ->assertCount('buildings', 10);
-});
-
-test('floors are available by selecting a building', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    $building = Building::factory()
-    ->has(Floor::factory(10), 'floors')
-    ->create();
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('building_id', $building->id)
-    ->assertCount('floors', 10);
-});
-
-test('rooms are available by selecting a floor', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    $floor = Floor::factory()
-    ->has(Room::factory(10), 'rooms')
-    ->create();
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('floor_id', $floor->id)
-    ->assertCount('rooms', 10);
-});
-
-test('stands are available by selecting a room', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    $room = Room::factory()
-    ->has(Stand::factory(10), 'stands')
-    ->create();
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('room_id', $room->id)
-    ->assertCount('stands', 10);
-});
-
-test('shelves are available by selecting a stand', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    $stand = Stand::factory()
-    ->has(Shelf::factory(10), 'shelves')
-    ->create();
-
-    Livewire::test(BoxLivewireCreate::class)
-    ->set('stand_id', $stand->id)
-    ->assertCount('shelves', 10);
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->call('markToDelete', $box->id)
+    ->call('destroy')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => null,
+        'timeout' => 3000,
+    ]);
 });
 
 test('suggests the next box number (max number + 1) according to the selected year', function () {
@@ -537,7 +375,7 @@ test('suggests the next box number (max number + 1) according to the selected ye
     Box::factory()->create(['year' => 2020, 'number' => 111]);
     Box::factory()->create(['year' => 2020, 'number' => 20]);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('box.year', 2020)
     ->assertSet('box.number', 112)
     ->set('box.year', 2021)
@@ -547,49 +385,39 @@ test('suggests the next box number (max number + 1) according to the selected ye
 test('default quantity for create boxes is 1', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->assertSet('amount', 1);
 });
 
 test('default quantity for volumes boxes is 1', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->assertSet('volumes', 1);
 });
 
-test('without permission to create multiples, amount is ignored and only one box is created.', function () {
+test('without permission to create multiples, amount is ignored and only one box is created', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    $shelf = Shelf::factory()->create();
-
-    expect(Box::count())->toBe(0);
-
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('amount', 10)
     ->set('box.year', 2000)
     ->set('box.number', 55)
     ->set('volumes', 1)
-    ->set('box.shelf_id', $shelf->id)
     ->call('store')
     ->assertOk();
 
     expect(Box::count())->toBe(1);
 });
 
-test('without permission to create box volumes, volumes property is ignored and only one volume is created for the box.', function () {
+test('without permission to create box volumes, volumes property is ignored and only one volume is created for the box', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    $shelf = Shelf::factory()->create();
-
-    expect(Box::count())->toBe(0);
-
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('amount', 1)
     ->set('box.year', 2000)
     ->set('box.number', 55)
     ->set('volumes', 20)
-    ->set('box.shelf_id', $shelf->id)
     ->call('store')
     ->assertOk();
 
@@ -603,17 +431,12 @@ test('creates the amount of boxes defined', function () {
     grantPermission(PermissionType::BoxCreate->value);
     grantPermission(PermissionType::BoxCreateMany->value);
 
-    $shelf = Shelf::factory()->create();
-
-    expect(Box::count())->toBe(0);
-
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('amount', 10)
     ->set('box.year', 2000)
     ->set('box.number', 55)
     ->set('box.description', 'foo bar')
     ->set('volumes', 1)
-    ->set('box.shelf_id', $shelf->id)
     ->call('store')
     ->assertOk();
 
@@ -633,23 +456,18 @@ test('creates the amount of boxes defined', function () {
     ->and($last->number)->toBe(64)
     ->and($box->description)->toBe('foo bar')
     ->and($box->volumes_count)->toBe(1)
-    ->and($box->shelf->id)->toBe($shelf->id);
+    ->and($box->shelf->id)->toBe($this->shelf->id);
 });
 
 test('creates the amount of volumes defined', function () {
     grantPermission(PermissionType::BoxCreate->value);
     grantPermission(PermissionType::BoxVolumeCreate->value);
 
-    $shelf = Shelf::factory()->create();
-
-    expect(Box::count())->toBe(0);
-
-    Livewire::test(BoxLivewireCreate::class)
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
     ->set('amount', 1)
     ->set('box.year', 2000)
     ->set('box.number', 55)
     ->set('volumes', 20)
-    ->set('box.shelf_id', $shelf->id)
     ->call('store')
     ->assertOk();
 
@@ -658,4 +476,45 @@ test('creates the amount of volumes defined', function () {
     expect($box->volumes)->toHaveCount(20)
     ->and($box->volumes->first()->number)->toBe(1)
     ->and($box->volumes->last()->number)->toBe(20);
+});
+
+test('reset to a blank model after the box is created', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    $blank = new Box();
+
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->set('box.year', 2000)
+    ->set('box.number', 55)
+    ->call('store')
+    ->assertOk()
+    ->assertSet('box', $blank);
+});
+
+test('defines the box record that will be deleted with specific permission if it has no volumes', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()->create();
+
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->call('markToDelete', $box->id)
+    ->assertOk()
+    ->assertSet('show_delete_modal', true)
+    ->assertSet('deleting.id', $box->id);
+});
+
+test('delete a box record with specific permission if it has no volumes', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()->create();
+
+    Livewire::test(BoxLivewireCreate::class, ['shelf' => $this->shelf])
+    ->call('markToDelete', $box->id)
+    ->assertOk()
+    ->call('destroy', $box->id)
+    ->assertOk();
+
+    expect(Box::where('id', $box->id)->doesntExist())->toBeTrue();
 });
