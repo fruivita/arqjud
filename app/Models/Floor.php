@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @see https://laravel.com/docs/eloquent
@@ -63,5 +65,44 @@ class Floor extends Model
         ])->when($root, function ($collection) {
             return $collection->put(__('Floor'), route('archiving.register.floor.show', $this));
         });
+    }
+
+    /**
+     * Save the informed room as a child of the floor. Also create the default
+     * stand and shelf.
+     *
+     * The default stand and shelf are the ones that has not been
+     * reviewed/created by user request.
+     *
+     * @param \App\Models\Room $room
+     *
+     * @return bool
+     */
+    public function createRoom(Room $room)
+    {
+        try {
+            DB::transaction(function () use ($room) {
+                $this->rooms()->save($room);
+
+                $stand = Stand::uninformedStand();
+
+                $room->stands()->save($stand);
+
+                $stand->shelves()->save(Shelf::uninformedShelf());
+            });
+
+            return true;
+        } catch (\Throwable $th) {
+            Log::error(
+                __('Shelf creation failed'),
+                [
+                    'floor' => $this,
+                    'room' => $room,
+                    'exception' => $th,
+                ]
+            );
+
+            return false;
+        }
     }
 }

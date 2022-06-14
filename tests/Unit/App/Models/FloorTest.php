@@ -79,6 +79,34 @@ test('optional fields are set', function () {
     expect(Floor::count())->toBe(1);
 });
 
+test('createRoom save the room as a child of the floor and create a default stand and shelf', function () {
+    $room = new Room();
+    $room->number = 10;
+    $room->description = 'foo';
+
+    $floor = Floor::factory()->create();
+
+    $floor->createRoom($room);
+
+    $floor->load('rooms.stands.shelves');
+
+    $room = $floor->rooms->first();
+
+    $stand = $room->stands->first();
+
+    $shelf = $stand->shelves->first();
+
+    expect($room->number)->toBe('10')
+    ->and($room->description)->toBe('foo')
+    ->and($room->floor_id)->toBe($floor->id)
+    ->and($stand->number)->toBe(0)
+    ->and($stand->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'))
+    ->and($stand->room_id)->toBe($room->id)
+    ->and($shelf->number)->toBe(0)
+    ->and($shelf->stand_id)->toBe($stand->id)
+    ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
+});
+
 test('returns the floors using the default sort scope defined', function () {
     $first = 100;
     $second = 200;
