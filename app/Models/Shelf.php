@@ -16,13 +16,6 @@ class Shelf extends Model
     protected $table = 'shelves';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
-    protected $fillable = ['number', 'description'];
-
-    /**
      * Relationship shelf (N:1) stand.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -83,10 +76,10 @@ class Shelf extends Model
      */
     public static function uninformedShelf()
     {
-        return new self([
-            'number' => 0,
-            'description' => __('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'),
+        $shelf = new self();
+        $shelf->number = 0;
+        $shelf->description = __('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored');
 
-        ]);
+        return $shelf;
     }
 }
