@@ -270,8 +270,6 @@ test('emits feedback event when deleting a stand record', function () {
 test('creates a stand record with specific permission', function () {
     grantPermission(PermissionType::StandCreate->value);
 
-    expect(Stand::count())->toBe(0);
-
     Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
     ->set('stand.number', 1)
     ->set('stand.description', 'foo bar')
@@ -283,6 +281,26 @@ test('creates a stand record with specific permission', function () {
     expect($stand->number)->toBe(1)
     ->and($stand->description)->toBe('foo bar')
     ->and($stand->room->id)->toBe($this->room->id);
+});
+
+test('when creating a stand, a default shelf is also created', function () {
+    grantPermission(PermissionType::StandCreate->value);
+
+    Livewire::test(StandLivewireCreate::class, ['room' => $this->room])
+    ->set('stand.number', 1)
+    ->set('stand.description', 'foo bar')
+    ->call('store')
+    ->assertOk();
+
+    $stand = Stand::with('shelves')->first();
+    $shelf = $stand->shelves()->first();
+
+    expect($stand->number)->toBe(1)
+    ->and($stand->description)->toBe('foo bar')
+    ->and($stand->room_id)->toBe($this->room->id)
+    ->and($shelf->number)->toBe(0)
+    ->and($shelf->stand_id)->toBe($stand->id)
+    ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
 });
 
 test('reset to a blank model after the stand is created', function () {

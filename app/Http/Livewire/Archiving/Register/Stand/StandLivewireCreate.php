@@ -145,7 +145,7 @@ class StandLivewireCreate extends Component
     {
         $this->validate();
 
-        $saved = $this->room->stands()->save($this->stand)
+        $saved = $this->room->createStand($this->stand)
         ? true
         : false;
 

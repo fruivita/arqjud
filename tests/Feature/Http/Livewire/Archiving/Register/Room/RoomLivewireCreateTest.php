@@ -9,6 +9,7 @@ use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Room\RoomLivewireCreate;
 use App\Models\Floor;
 use App\Models\Room;
+use App\Models\Shelf;
 use App\Models\Stand;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
@@ -270,8 +271,6 @@ test('emits feedback event when deleting a room record', function () {
 test('creates a room record with specific permission', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
-    expect(Room::count())->toBe(0);
-
     Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
     ->set('room.number', 1)
     ->set('room.description', 'foo bar')
@@ -283,6 +282,30 @@ test('creates a room record with specific permission', function () {
     expect($room->number)->toBe('1')
     ->and($room->description)->toBe('foo bar')
     ->and($room->floor->id)->toBe($this->floor->id);
+});
+
+test('when creating a room, a default stand and shelf are also created', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+
+    Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
+    ->set('room.number', 1)
+    ->set('room.description', 'foo bar')
+    ->call('store')
+    ->assertOk();
+
+    $room = Room::with('stands.shelves')->first();
+    $stand = $room->stands()->first();
+    $shelf = $stand->shelves()->first();
+
+    expect($room->number)->toBe('1')
+    ->and($room->description)->toBe('foo bar')
+    ->and($room->floor_id)->toBe($this->floor->id)
+    ->and($stand->number)->toBe(0)
+    ->and($stand->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'))
+    ->and($stand->room_id)->toBe($room->id)
+    ->and($shelf->number)->toBe(0)
+    ->and($shelf->stand_id)->toBe($stand->id)
+    ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
 });
 
 test('reset to a blank model after the room is created', function () {

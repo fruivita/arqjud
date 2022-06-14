@@ -145,7 +145,7 @@ class RoomLivewireCreate extends Component
     {
         $this->validate();
 
-        $saved = $this->floor->rooms()->save($this->room)
+        $saved = $this->floor->createRoom($this->room)
         ? true
         : false;
 
