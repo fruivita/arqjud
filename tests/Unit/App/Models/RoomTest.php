@@ -63,6 +63,29 @@ test('optional fields are set', function () {
     expect(Room::count())->toBe(1);
 });
 
+test('createStand save the stand as a child of the room and create a default shelf', function () {
+    $stand = new Stand();
+    $stand->number = 10;
+    $stand->description = 'foo';
+
+    $room = Room::factory()->create();
+
+    $room->createStand($stand);
+
+    $room->load('stands.shelves');
+
+    $stand = $room->stands->first();
+
+    $shelf = $stand->shelves->first();
+
+    expect($stand->number)->toBe(10)
+    ->and($stand->description)->toBe('foo')
+    ->and($stand->room_id)->toBe($room->id)
+    ->and($shelf->number)->toBe(0)
+    ->and($shelf->stand_id)->toBe($stand->id)
+    ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
+});
+
 test('returns the rooms using the default sort scope defined', function () {
     $first = '100';
     $second = '200';

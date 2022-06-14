@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @see https://laravel.com/docs/eloquent
@@ -65,5 +67,40 @@ class Room extends Model
         ])->when($root, function ($collection) {
             return $collection->put(__('Room'), route('archiving.register.room.show', $this));
         });
+    }
+
+    /**
+     * Save the informed stand as a child of the room. Also create the default
+     * shelf.
+     *
+     * The default shelf is the one that has not been reviewed/created by user
+     * request.
+     *
+     * @param \App\Models\Stand $stand
+     *
+     * @return bool
+     */
+    public function createStand(Stand $stand)
+    {
+        try {
+            DB::transaction(function () use ($stand) {
+                $this->stands()->save($stand);
+
+                $stand->shelves()->save(Shelf::uninformedShelf());
+            });
+
+            return true;
+        } catch (\Throwable $th) {
+            Log::error(
+                __('Stand creation failed'),
+                [
+                    'room' => $this,
+                    'stand' => $stand,
+                    'exception' => $th,
+                ]
+            );
+
+            return false;
+        }
     }
 }
