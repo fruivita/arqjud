@@ -5,6 +5,8 @@
  */
 
 use App\Enums\PermissionType;
+use App\Models\Box;
+use App\Models\BoxVolume;
 use App\Policies\BoxPolicy;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
@@ -41,7 +43,21 @@ test('user without permission cannot update a box', function () {
 });
 
 test('user without permission cannot delete a box', function () {
-    expect((new BoxPolicy())->delete($this->user))->toBeFalse();
+    $box = Box::factory()->create();
+    $box->loadCount('volumes');
+
+    expect((new BoxPolicy())->delete($this->user, $box))->toBeFalse();
+});
+
+test('box with volumes cannot be delete', function () {
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()
+    ->has(BoxVolume::factory(2), 'volumes')
+    ->create();
+    $box->loadCount('volumes');
+
+    expect((new BoxPolicy())->delete($this->user, $box))->toBeFalse();
 });
 
 // Happy path
@@ -74,3 +90,22 @@ test('user with permission can individually update a box', function () {
 
     expect((new BoxPolicy())->update($this->user))->toBeTrue();
 });
+
+test('user with permission can individually delete a box', function () {
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()->create();
+    $box->loadCount('volumes');
+
+    expect((new BoxPolicy())->delete($this->user, $box))->toBeTrue();
+});
+
+test('box without volumes can be deleted', function () {
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = box::factory()->create();
+    $box->loadCount('volumes');
+
+    expect((new BoxPolicy())->delete($this->user, $box))->toBeTrue();
+});
+

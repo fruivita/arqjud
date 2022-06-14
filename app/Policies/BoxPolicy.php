@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Enums\PermissionType;
+use App\Models\Box;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -74,14 +75,21 @@ class BoxPolicy
     }
 
     /**
-     * Determine whether the user can delete a model.
+     * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
+     * @param \App\Models\Box $box
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function delete(User $user)
+    public function delete(User $user, Box $box)
     {
-        return $user->hasPermission(PermissionType::BoxDelete);
+        if (isset($box->volumes_count) !== true) {
+            $box->loadCount('volumes');
+        }
+
+        return
+            $box->volumes_count === 0
+            && $user->hasPermission(PermissionType::BoxDelete);
     }
 }
