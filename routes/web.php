@@ -134,7 +134,7 @@ Route::middleware('auth')->group(function () {
             Route::prefix('caixa')->name('box.')->group(function () {
                 Route::get('/', BoxLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Box::class);
                 Route::get('show/{box}', BoxLivewireShow::class)->name('show')->can(Policy::View->value, Box::class);
-                Route::get('create', BoxLivewireCreate::class)->name('create')->can(Policy::Create->value, Box::class);
+                Route::get('prateleira/{shelf}/create', BoxLivewireCreate::class)->name('create')->can(Policy::Create->value, Box::class);
                 Route::get('edit/{box}', BoxLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Box::class);
             });
 
