@@ -123,13 +123,13 @@ class Box extends Model
     }
 
     /**
-     * Creates several boxes in the informed shelf and persists them in the
-     * database.
+     * Creates several boxes as child of the informed shelf and persists them
+     * in the database.
      *
      * @param \App\Models\Box   $template template for creating the boxes
      * @param int               $amount   number of boxes to create
      * @param int               $volumes  number of box volumes
-     * @param \App\Models\Shelf $shelf
+     * @param \App\Models\Shelf $shelf    parent element
      *
      * @return bool
      */
