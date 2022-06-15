@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Box;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Box;
@@ -25,6 +26,7 @@ use Livewire\Component;
 class BoxLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
 
@@ -400,6 +402,18 @@ class BoxLivewireUpdate extends Component
         : false;
 
         $this->notify($saved, (string) $new_volume->number);
+    }
+
+    /**
+     * Triggers the modal to confirm the deletion.
+     *
+     * @param \App\Models\BoxVolume $box_volume
+     *
+     * @return void
+     */
+    public function markToDelete(BoxVolume $box_volume)
+    {
+        $this->askForConfirmation($box_volume);
     }
 
     /**

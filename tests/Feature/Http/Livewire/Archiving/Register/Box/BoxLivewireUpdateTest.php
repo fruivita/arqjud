@@ -61,6 +61,44 @@ test('cannot create a box volume without without specific permission', function 
     expect($this->box->volumes()->doesntExist())->toBeTrue();
 });
 
+test('cannot set the box volume record which will be deleted without specific permission', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    $volume = BoxVolume::factory()
+    ->for($this->box, 'box')
+    ->create();
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->assertOk()
+    ->call('markToDelete', $volume->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot delete a box volume record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
+    grantPermission(PermissionType::BoxUpdate->value);
+    grantPermission(PermissionType::BoxVolumeDelete->value);
+
+    $volume = BoxVolume::factory()
+    ->for($this->box, 'box')
+    ->create();
+
+    $component = Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->call('markToDelete', $volume->id)
+    ->assertOk();
+
+    revokePermission(PermissionType::BoxVolumeDelete->value);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(BoxVolume::where('id', $volume->id)->exists())->toBeTrue();
+});
+
 // Rules
 test('does not accept pagination outside the options offered', function () {
     grantPermission(PermissionType::BoxUpdate->value);
@@ -92,7 +130,7 @@ test('site_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
-    ->set('site_id', 10)
+    ->set('site_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['site_id' => 'exists']);
 });
@@ -131,7 +169,7 @@ test('building_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
-    ->set('building_id', 10)
+    ->set('building_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['building_id' => 'exists']);
 });
@@ -170,7 +208,7 @@ test('floor_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
-    ->set('floor_id', 10)
+    ->set('floor_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['floor_id' => 'exists']);
 });
@@ -209,7 +247,7 @@ test('room_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
-    ->set('room_id', 10)
+    ->set('room_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['room_id' => 'exists']);
 });
@@ -248,7 +286,7 @@ test('stand_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
-    ->set('stand_id', 10)
+    ->set('stand_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['stand_id' => 'exists']);
 });
@@ -287,7 +325,7 @@ test('box.shelf_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
-    ->set('box.shelf_id', 10)
+    ->set('box.shelf_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['box.shelf_id' => 'exists']);
 });
@@ -477,6 +515,27 @@ test('emits feedback event when create a box volume record', function () {
     ]);
 });
 
+test('emits feedback event when deleting a box volume record', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+    grantPermission(PermissionType::BoxVolumeDelete->value);
+
+    $volume = BoxVolume::factory()
+    ->for($this->box, 'box')
+    ->create();
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->call('markToDelete', $volume->id)
+    ->call('destroy')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => null,
+        'timeout' => 3000,
+    ]);
+});
+
 test('sites are available for selection in box update', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
@@ -621,4 +680,21 @@ test('create a box volume with specific permission', function () {
     ->assertOk();
 
     expect($this->box->volumes()->where('number', 11)->exists())->toBeTrue();
+});
+
+test('delete a box volume record with specific permission', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+    grantPermission(PermissionType::BoxVolumeDelete->value);
+
+    $volume = BoxVolume::factory()
+    ->for($this->box, 'box')
+    ->create();
+
+    Livewire::test(BoxLivewireUpdate::class, ['box' => $this->box])
+    ->call('markToDelete', $volume->id)
+    ->assertOk()
+    ->call('destroy', $volume->id)
+    ->assertOk();
+
+    expect(BoxVolume::where('id', $volume->id)->doesntExist())->toBeTrue();
 });
