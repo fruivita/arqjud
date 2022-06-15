@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Archiving\Register\Room;
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
-use App\Http\Livewire\Traits\WithLimit;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Room;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -19,7 +18,6 @@ class RoomLivewireIndex extends Component
     use AuthorizesRequests;
     use WithDeleteModel;
     use WithFeedbackEvents;
-    use WithLimit;
     use WithPerPagePagination;
 
     /**

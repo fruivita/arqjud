@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Administration\Documentation;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
-use App\Http\Livewire\Traits\WithLimit;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Documentation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -17,7 +16,6 @@ class DocumentationLivewireIndex extends Component
 {
     use AuthorizesRequests;
     use WithFeedbackEvents;
-    use WithLimit;
     use WithPerPagePagination;
 
     /**

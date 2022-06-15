@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Archiving\Register\Box;
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
-use App\Http\Livewire\Traits\WithLimit;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Box;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -20,7 +19,6 @@ class BoxLivewireIndex extends Component
     use AuthorizesRequests;
     use WithDeleteModel;
     use WithFeedbackEvents;
-    use WithLimit;
     use WithPerPagePagination;
 
     /**

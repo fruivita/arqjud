@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Archiving\Register\Shelf;
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
-use App\Http\Livewire\Traits\WithLimit;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Shelf;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -19,7 +18,6 @@ class ShelfLivewireIndex extends Component
     use AuthorizesRequests;
     use WithDeleteModel;
     use WithFeedbackEvents;
-    use WithLimit;
     use WithPerPagePagination;
 
     /**
