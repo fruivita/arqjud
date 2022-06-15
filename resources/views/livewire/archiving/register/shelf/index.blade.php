@@ -14,7 +14,7 @@
 
     <x-container>
 
-        <x-table.index.shelf
+        <x-table.model.shelf
             :deleting="$deleting"
             :shelves="$shelves"
             withdeletebutton

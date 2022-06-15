@@ -281,7 +281,7 @@
 
     <x-container>
 
-        <x-table.index.box
+        <x-table.model.box
             :boxes="$boxes"
             :deleting="$deleting"
             :parent="$shelf"

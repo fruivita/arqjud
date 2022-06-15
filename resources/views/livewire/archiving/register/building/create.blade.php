@@ -81,7 +81,7 @@
 
     <x-container>
 
-        <x-table.index.building
+        <x-table.model.building
             :buildings="$buildings"
             :deleting="$deleting"
             withdeletebutton/>

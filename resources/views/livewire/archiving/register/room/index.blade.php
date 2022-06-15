@@ -14,7 +14,7 @@
 
     <x-container>
 
-        <x-table.index.room
+        <x-table.model.room
             :deleting="$deleting"
             :rooms="$rooms"
             withdeletebutton

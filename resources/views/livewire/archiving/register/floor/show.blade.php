@@ -65,7 +65,7 @@
 
     <x-container>
 
-        <x-table.index.room
+        <x-table.model.room
             :rooms="$rooms"
             :parent="$floor"
             withnewbutton/>

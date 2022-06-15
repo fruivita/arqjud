@@ -90,7 +90,7 @@
 
     <x-container>
 
-        <x-table.index.floor
+        <x-table.model.floor
             :deleting="$deleting"
             :floors="$floors"
             withdeletebutton/>

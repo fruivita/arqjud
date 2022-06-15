@@ -73,7 +73,7 @@
 
     <x-container>
 
-        <x-table.index.site
+        <x-table.model.site
             :deleting="$deleting"
             :sites="$sites"/>
 

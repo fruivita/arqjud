@@ -21,7 +21,7 @@
 
     <x-container>
 
-        <x-table.index.box
+        <x-table.model.box
             :deleting="$deleting"
             :boxes="$boxes"
             withdeletebutton

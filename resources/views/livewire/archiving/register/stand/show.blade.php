@@ -79,7 +79,7 @@
 
     <x-container>
 
-        <x-table.index.shelf
+        <x-table.model.shelf
             :shelves="$shelves"
             :parent="$stand"
             withnewbutton/>

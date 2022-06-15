@@ -157,7 +157,7 @@
 
     <x-container>
 
-        <x-table.index.room
+        <x-table.model.room
             :rooms="$rooms"
             :deleting="$deleting"
             :parent="$floor"

@@ -84,7 +84,7 @@
 
     <x-container>
 
-        <x-table.index.box
+        <x-table.model.box
             :boxes="$boxes"
             :parent="$shelf"
             withnewbutton/>

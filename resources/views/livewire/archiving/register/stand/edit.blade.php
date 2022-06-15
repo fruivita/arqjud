@@ -241,7 +241,7 @@
 
     <x-container>
 
-        <x-table.index.shelf
+        <x-table.model.shelf
             :shelves="$shelves"
             :deleting="$deleting"
             :parent="$stand"

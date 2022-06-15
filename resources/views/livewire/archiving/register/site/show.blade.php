@@ -48,7 +48,7 @@
 
     <x-container>
 
-        <x-table.index.building
+        <x-table.model.building
             :buildings="$buildings"
             :parent="$site"
             withnewbutton/>
