@@ -184,7 +184,7 @@ class BoxLivewireCreate extends Component
     {
         $this->validateOnly('box.year');
 
-        $this->box->number = Box::where('year', $this->box->year)->max('number') + 1;
+        $this->box->number = Box::nextBoxNumber($this->box->year);
     }
 
     /**

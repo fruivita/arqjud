@@ -123,6 +123,16 @@ class Box extends Model
     }
 
     /**
+     * Generates the next box number.
+     *
+     * @return int
+     */
+    public static function nextBoxNumber(int $year)
+    {
+        return self::where('year', $year)->max('number') + 1;
+    }
+
+    /**
      * Creates several boxes as child of the informed shelf and persists them
      * in the database.
      *

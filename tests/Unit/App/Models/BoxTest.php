@@ -106,12 +106,20 @@ test('one box has many box volumes', function () {
     expect($box->volumes)->toHaveCount(3);
 });
 
-test('nextVolumeNumber return the number to be used to create the new box volume', function () {
+test('nextVolumeNumber return the volume number to be used to create the new box volume', function () {
     $box = Box::factory()
         ->has(BoxVolume::factory()->state(['number' => 10]), 'volumes')
         ->create();
 
     expect($box->nextVolumeNumber())->toBe(11);
+});
+
+test('nextBoxNumber return the box number to be used to create the new box', function () {
+    Box::factory()->create(['year' => 2020, 'number' => 30]);
+    Box::factory()->create(['year' => 2020, 'number' => 20]);
+
+    expect(Box::nextBoxNumber(2020))->toBe(31)
+    ->and(Box::nextBoxNumber(2021))->toBe(1);
 });
 
 test('search, with partial term or not, returns the expected values', function () {
