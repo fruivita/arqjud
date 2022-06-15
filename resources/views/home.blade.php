@@ -60,17 +60,6 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
-
-                <x-link-card
-                    icon="box2"
-                    :href="route('archiving.register.box.index')"
-                    :text="__('Manage boxes')"
-                    :title="__('Application boxes management')"/>
-
-            @endcan
-
-
             @can(\App\Enums\Policy::ViewAny->value, \App\Models\Stand::class)
 
                 <x-link-card
@@ -89,6 +78,17 @@
                     :href="route('archiving.register.shelf.index')"
                     :text="__('Shelves')"
                     :title="__('Application shelves management')"/>
+
+            @endcan
+
+
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
+
+                <x-link-card
+                    icon="box2"
+                    :href="route('archiving.register.box.index')"
+                    :text="__('Manage boxes')"
+                    :title="__('Application boxes management')"/>
 
             @endcan
 
