@@ -46,11 +46,11 @@ class Box extends Model
     }
 
     /**
-     * Box name.
+     * Get the box's number and year ready to show on page.
      *
      * @return string
      */
-    public function name()
+    public function numberForHumans()
     {
         return $this->number . '/' . $this->year;
     }
