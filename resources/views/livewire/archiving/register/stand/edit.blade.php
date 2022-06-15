@@ -242,9 +242,9 @@
     <x-container>
 
         <x-table.model.shelf
-            :shelves="$shelves"
             :deleting="$deleting"
             :parent="$stand"
+            :shelves="$shelves"
             withdeletebutton
             withnewbutton/>
 

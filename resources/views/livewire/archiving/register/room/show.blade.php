@@ -71,8 +71,8 @@
     <x-container>
 
         <x-table.model.stand
-            :stands="$stands"
             :parent="$room"
+            :stands="$stands"
             withnewbutton/>
 
     </x-container>

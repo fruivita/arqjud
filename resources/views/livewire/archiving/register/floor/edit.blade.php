@@ -158,8 +158,8 @@
     <x-container>
 
         <x-table.model.room
-            :rooms="$rooms"
             :deleting="$deleting"
+            :rooms="$rooms"
             :parent="$floor"
             withdeletebutton
             withnewbutton/>

@@ -109,8 +109,8 @@
     <x-container>
 
         <x-table.model.floor
-            :floors="$floors"
             :deleting="$deleting"
+            :floors="$floors"
             :parent="$building"
             withdeletebutton
             withnewbutton/>

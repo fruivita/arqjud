@@ -187,8 +187,8 @@
     <x-container>
 
         <x-table.model.box
-            :deleting="$deleting"
             :boxes="$boxes"
+            :deleting="$deleting"
             withdeletebutton/>
 
     </x-container>

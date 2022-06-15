@@ -80,8 +80,8 @@
     <x-container>
 
         <x-table.model.shelf
-            :shelves="$shelves"
             :parent="$stand"
+            :shelves="$shelves"
             withnewbutton/>
 
     </x-container>

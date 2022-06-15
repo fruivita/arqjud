@@ -198,9 +198,9 @@
     <x-container>
 
         <x-table.model.stand
-            :stands="$stands"
             :deleting="$deleting"
             :parent="$room"
+            :stands="$stands"
             withdeletebutton
             withnewbutton/>
 

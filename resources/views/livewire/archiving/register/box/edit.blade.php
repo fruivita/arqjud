@@ -343,8 +343,8 @@
     <x-container>
 
         <x-table.model.volume
-            :volumes="$volumes"
             :deleting="$deleting"
+            :volumes="$volumes"
             withdeletebutton
             withnewbutton/>
 
