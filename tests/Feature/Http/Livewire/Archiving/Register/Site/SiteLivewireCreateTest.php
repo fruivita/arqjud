@@ -260,8 +260,6 @@ test('emits feedback event when deleting a site record', function () {
 test('creates a site record with specific permission', function () {
     grantPermission(PermissionType::SiteCreate->value);
 
-    expect(Site::count())->toBe(0);
-
     Livewire::test(SiteLivewireCreate::class)
     ->set('site.name', 'foo')
     ->set('site.description', 'foo bar')

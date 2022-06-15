@@ -267,8 +267,6 @@ test('emits feedback event when deleting a building record', function () {
 test('creates a building record with specific permission', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    expect(Building::count())->toBe(0);
-
     Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
     ->set('building.name', 'foo')
     ->set('building.description', 'foo bar')

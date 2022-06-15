@@ -270,8 +270,6 @@ test('emits feedback event when deleting a floor record', function () {
 test('creates a floor record with specific permission', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    expect(Floor::count())->toBe(0);
-
     Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
     ->set('floor.number', 1)
     ->set('floor.description', 'foo bar')

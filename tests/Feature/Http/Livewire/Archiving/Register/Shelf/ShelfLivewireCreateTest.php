@@ -270,8 +270,6 @@ test('emits feedback event when deleting a shelf record', function () {
 test('creates a shelf record with specific permission', function () {
     grantPermission(PermissionType::ShelfCreate->value);
 
-    expect(Shelf::count())->toBe(0);
-
     Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
     ->set('shelf.number', 1)
     ->set('shelf.description', 'foo bar')
