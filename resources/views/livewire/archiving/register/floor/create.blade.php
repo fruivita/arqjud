@@ -21,14 +21,18 @@
 
             <div class="space-y-6">
 
-                <x-show-value
-                    :key="__('Site')"
-                    :value="$building->site->name"/>
+                <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
+
+                    <x-show-value
+                        :key="__('Site')"
+                        :value="$building->site->name"/>
 
 
-                <x-show-value
-                    :key="__('Building')"
-                    :value="$building->name"/>
+                    <x-show-value
+                        :key="__('Building')"
+                        :value="$building->name"/>
+
+                </div>
 
 
                 <x-form.input

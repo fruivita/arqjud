@@ -21,24 +21,32 @@
 
             <div class="space-y-6">
 
-                <x-show-value
-                    :key="__('Site')"
-                    :value="$room->floor->building->site->name"/>
+                <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
+
+                    <x-show-value
+                        :key="__('Site')"
+                        :value="$room->floor->building->site->name"/>
 
 
-                <x-show-value
-                    :key="__('Building')"
-                    :value="$room->floor->building->name"/>
+                    <x-show-value
+                        :key="__('Building')"
+                        :value="$room->floor->building->name"/>
+
+                </div>
 
 
-                <x-show-value
-                    :key="__('Floor')"
-                    :value="$room->floor->number"/>
+                <div class="gap-x-3 gap-y-6 grid grid-cols-1 md:grid-cols-2">
+
+                    <x-show-value
+                        :key="__('Floor')"
+                        :value="$room->floor->number"/>
 
 
-                <x-show-value
-                    :key="__('Room')"
-                    :value="$room->number"/>
+                    <x-show-value
+                        :key="__('Room')"
+                        :value="$room->number"/>
+
+                </div>
 
 
                 <x-form.input

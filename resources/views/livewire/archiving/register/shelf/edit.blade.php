@@ -53,63 +53,31 @@
                     withcounter/>
 
 
-                {{-- Site --}}
-                <x-form.select
-                    wire:key="site"
-                    wire:loading.delay.attr="disabled"
-                    wire:loading.delay.class="cursor-not-allowed"
-                    wire:model="site_id"
-                    wire:target="site_id,update"
-                    :error="$errors->first('site_id')"
-                    icon="pin-map"
-                    required
-                    :text="__('Site')"
-                    :title="__('Choose site')">
+                <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
 
-                    <option value="">{{ __('Select...') }}</option>
-
-
-                    @forelse ($sites ?? [] as $site)
-
-                        <option value="{{ $site->id }}">
-
-                            {{ $site->name }}
-
-                        </option>
-
-                    @empty
-
-                        <option value="-1">{{ __('No record found') }}</option>
-
-                    @endforelse
-
-                </x-form.select>
-
-
-                {{-- Building --}}
-                <div>
-
-                    @if($site_id >= 1)
+                    {{-- Site --}}
+                    <div>
 
                         <x-form.select
-                            wire:key="buildings-{{ $site_id }}"
+                            wire:key="site"
                             wire:loading.delay.attr="disabled"
                             wire:loading.delay.class="cursor-not-allowed"
-                            wire:model="building_id"
-                            wire:target="building_id,site_id,update"
-                            :error="$errors->first('building_id')"
-                            icon="building"
+                            wire:model="site_id"
+                            wire:target="site_id,update"
+                            :error="$errors->first('site_id')"
+                            icon="pin-map"
                             required
-                            :text="__('Building')"
-                            :title="__('Choose building')">
+                            :text="__('Site')"
+                            :title="__('Choose site')">
 
                             <option value="">{{ __('Select...') }}</option>
 
-                            @forelse ($buildings ?? [] as $building)
 
-                                <option value="{{ $building->id }}">
+                            @forelse ($sites ?? [] as $site)
 
-                                    {{ $building->name }}
+                                <option value="{{ $site->id }}">
+
+                                    {{ $site->name }}
 
                                 </option>
 
@@ -121,127 +89,171 @@
 
                         </x-form.select>
 
-                    @endif
+                    </div>
+
+
+                    {{-- Building --}}
+                    <div>
+
+                        @if($site_id >= 1)
+
+                            <x-form.select
+                                wire:key="buildings-{{ $site_id }}"
+                                wire:loading.delay.attr="disabled"
+                                wire:loading.delay.class="cursor-not-allowed"
+                                wire:model="building_id"
+                                wire:target="building_id,site_id,update"
+                                :error="$errors->first('building_id')"
+                                icon="building"
+                                required
+                                :text="__('Building')"
+                                :title="__('Choose building')">
+
+                                <option value="">{{ __('Select...') }}</option>
+
+                                @forelse ($buildings ?? [] as $building)
+
+                                    <option value="{{ $building->id }}">
+
+                                        {{ $building->name }}
+
+                                    </option>
+
+                                @empty
+
+                                    <option value="-1">{{ __('No record found') }}</option>
+
+                                @endforelse
+
+                            </x-form.select>
+
+                        @endif
+
+                    </div>
 
                 </div>
 
 
-                {{-- Floor --}}
-                <div>
+                <div class="gap-x-3 gap-y-6 grid grid-cols-1 sm:grid-cols-3">
 
-                    @if($building_id >= 1)
+                    {{-- Floor --}}
+                    <div>
 
-                        <x-form.select
-                            wire:key="floors-{{ $building_id }}"
-                            wire:loading.delay.attr="disabled"
-                            wire:loading.delay.class="cursor-not-allowed"
-                            wire:model="floor_id"
-                            wire:target="building_id,site_id,update"
-                            :error="$errors->first('floor_id')"
-                            icon="layers"
-                            required
-                            :text="__('Floor')"
-                            :title="__('Choose floor')">
+                        @if($building_id >= 1)
 
-                            <option value="">{{ __('Select...') }}</option>
+                            <x-form.select
+                                wire:key="floors-{{ $building_id }}"
+                                wire:loading.delay.attr="disabled"
+                                wire:loading.delay.class="cursor-not-allowed"
+                                wire:model="floor_id"
+                                wire:target="building_id,site_id,update"
+                                :error="$errors->first('floor_id')"
+                                icon="layers"
+                                required
+                                :text="__('Floor')"
+                                :title="__('Choose floor')">
 
-                            @forelse ($floors ?? [] as $floor)
+                                <option value="">{{ __('Select...') }}</option>
 
-                                <option value="{{ $floor->id }}">
+                                @forelse ($floors ?? [] as $floor)
 
-                                    {{ $floor->number }}
+                                    <option value="{{ $floor->id }}">
 
-                                </option>
+                                        {{ $floor->number }}
 
-                            @empty
+                                    </option>
 
-                                <option value="-1">{{ __('No record found') }}</option>
+                                @empty
 
-                            @endforelse
+                                    <option value="-1">{{ __('No record found') }}</option>
 
-                        </x-form.select>
+                                @endforelse
 
-                    @endif
+                            </x-form.select>
 
-                </div>
+                        @endif
 
-
-                {{-- Room --}}
-                <div>
-
-                    @if($floor_id >= 1)
-
-                        <x-form.select
-                            wire:key="rooms-{{ $floor_id }}"
-                            wire:loading.delay.attr="disabled"
-                            wire:loading.delay.class="cursor-not-allowed"
-                            wire:model="room_id"
-                            wire:target="building_id,floor_id,site_id,update"
-                            :error="$errors->first('room_id')"
-                            icon="door-closed"
-                            required
-                            :text="__('Room')"
-                            :title="__('Choose room')">
-
-                            <option value="">{{ __('Select...') }}</option>
-
-                            @forelse ($rooms ?? [] as $room)
-
-                                <option value="{{ $room->id }}">
-
-                                    {{ $room->number }}
-
-                                </option>
-
-                            @empty
-
-                                <option value="-1">{{ __('No record found') }}</option>
-
-                            @endforelse
-
-                        </x-form.select>
-
-                    @endif
-
-                </div>
+                    </div>
 
 
-                {{-- Stand --}}
-                <div>
+                    {{-- Room --}}
+                    <div>
 
-                    @if($room_id >= 1)
+                        @if($floor_id >= 1)
 
-                        <x-form.select
-                            wire:key="stands-{{ $room_id }}"
-                            wire:loading.delay.attr="disabled"
-                            wire:loading.delay.class="cursor-not-allowed"
-                            wire:model.defer="shelf.stand_id"
-                            wire:target="building_id,floor_id,room_id,site_id,update"
-                            :error="$errors->first('shelf.stand_id')"
-                            icon="bookshelf"
-                            required
-                            :text="__('Stand')"
-                            :title="__('Choose stand')">
+                            <x-form.select
+                                wire:key="rooms-{{ $floor_id }}"
+                                wire:loading.delay.attr="disabled"
+                                wire:loading.delay.class="cursor-not-allowed"
+                                wire:model="room_id"
+                                wire:target="building_id,floor_id,site_id,update"
+                                :error="$errors->first('room_id')"
+                                icon="door-closed"
+                                required
+                                :text="__('Room')"
+                                :title="__('Choose room')">
 
-                            <option value="">{{ __('Select...') }}</option>
+                                <option value="">{{ __('Select...') }}</option>
 
-                            @forelse ($stands ?? [] as $stand)
+                                @forelse ($rooms ?? [] as $room)
 
-                                <option value="{{ $stand->id }}">
+                                    <option value="{{ $room->id }}">
 
-                                    {{ $stand->numberForHumans() }}
+                                        {{ $room->number }}
 
-                                </option>
+                                    </option>
 
-                            @empty
+                                @empty
 
-                                <option value="-1">{{ __('No record found') }}</option>
+                                    <option value="-1">{{ __('No record found') }}</option>
 
-                            @endforelse
+                                @endforelse
 
-                        </x-form.select>
+                            </x-form.select>
 
-                    @endif
+                        @endif
+
+                    </div>
+
+
+                    {{-- Stand --}}
+                    <div>
+
+                        @if($room_id >= 1)
+
+                            <x-form.select
+                                wire:key="stands-{{ $room_id }}"
+                                wire:loading.delay.attr="disabled"
+                                wire:loading.delay.class="cursor-not-allowed"
+                                wire:model.defer="shelf.stand_id"
+                                wire:target="building_id,floor_id,room_id,site_id,update"
+                                :error="$errors->first('shelf.stand_id')"
+                                icon="bookshelf"
+                                required
+                                :text="__('Stand')"
+                                :title="__('Choose stand')">
+
+                                <option value="">{{ __('Select...') }}</option>
+
+                                @forelse ($stands ?? [] as $stand)
+
+                                    <option value="{{ $stand->id }}">
+
+                                        {{ $stand->numberForHumans() }}
+
+                                    </option>
+
+                                @empty
+
+                                    <option value="-1">{{ __('No record found') }}</option>
+
+                                @endforelse
+
+                            </x-form.select>
+
+                        @endif
+
+                    </div>
 
                 </div>
 

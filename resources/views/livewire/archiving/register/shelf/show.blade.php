@@ -29,29 +29,37 @@
                 :value="$shelf->description"/>
 
 
-            <x-show-value
-                :key="__('Site')"
-                :value="$shelf->stand->room->floor->building->site->name"/>
+            <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
+
+                <x-show-value
+                    :key="__('Site')"
+                    :value="$shelf->stand->room->floor->building->site->name"/>
 
 
-            <x-show-value
-                :key="__('Building')"
-                :value="$shelf->stand->room->floor->building->name"/>
+                <x-show-value
+                    :key="__('Building')"
+                    :value="$shelf->stand->room->floor->building->name"/>
+
+            </div>
 
 
-            <x-show-value
-                :key="__('Floor')"
-                :value="$shelf->stand->room->floor->number"/>
+            <div class="gap-x-3 gap-y-6 grid grid-cols-1 sm:grid-cols-3">
+
+                <x-show-value
+                    :key="__('Floor')"
+                    :value="$shelf->stand->room->floor->number"/>
 
 
-            <x-show-value
-                :key="__('Room')"
-                :value="$shelf->stand->room->number"/>
+                <x-show-value
+                    :key="__('Room')"
+                    :value="$shelf->stand->room->number"/>
 
 
-            <x-show-value
-                :key="__('Stand')"
-                :value="$shelf->stand->numberForHumans()"/>
+                <x-show-value
+                    :key="__('Stand')"
+                    :value="$shelf->stand->numberForHumans()"/>
+
+            </div>
 
 
             <x-button-group>

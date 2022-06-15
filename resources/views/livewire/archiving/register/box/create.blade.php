@@ -21,37 +21,39 @@
 
             <div class="space-y-6">
 
-                <x-show-value
-                    :key="__('Site')"
-                    :value="$shelf->stand->room->floor->building->site->name"/>
+                <div class="gap-x-3 gap-y-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+
+                    <x-show-value
+                        class="md:col-span-2"
+                        :key="__('Site')"
+                        :value="$shelf->stand->room->floor->building->site->name"/>
 
 
-                <x-show-value
-                    :key="__('Building')"
-                    :value="$shelf->stand->room->floor->building->name"/>
+                    <x-show-value
+                        class="md:col-span-2"
+                        :key="__('Building')"
+                        :value="$shelf->stand->room->floor->building->name"/>
 
 
-                <x-show-value
-                    :key="__('Floor')"
-                    :value="$shelf->stand->room->floor->number"/>
+                    <x-show-value
+                        :key="__('Floor')"
+                        :value="$shelf->stand->room->floor->number"/>
 
 
-                <x-show-value
-                    :key="__('Room')"
-                    :value="$shelf->stand->room->number"/>
+                    <x-show-value
+                        :key="__('Room')"
+                        :value="$shelf->stand->room->number"/>
 
 
-                <x-show-value
-                    :key="__('Stand')"
-                    :value="$shelf->stand->numberForHumans()"/>
+                    <x-show-value
+                        :key="__('Stand')"
+                        :value="$shelf->stand->numberForHumans()"/>
 
 
-                <x-show-value
-                    :key="__('Shelf')"
-                    :value="$shelf->numberForHumans()"/>
+                    <x-show-value
+                        :key="__('Shelf')"
+                        :value="$shelf->numberForHumans()"/>
 
-
-                <div class="gap-x-3 gap-y-6 grid grid-cols-1 md:grid-cols-2">
 
                     <x-form.input
                         wire:key="box-year"
@@ -85,10 +87,6 @@
                         :title="__('Inform the box number')"
                         type="number"/>
 
-                </div>
-
-
-                <div class="gap-x-3 gap-y-6 grid grid-cols-1 md:grid-cols-2">
 
                     <x-form.input
                         wire:key="box-volumes"

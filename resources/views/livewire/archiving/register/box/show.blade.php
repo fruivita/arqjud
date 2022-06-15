@@ -21,12 +21,7 @@
 
             <x-show-value
                 :key="__('Number')"
-                :value="$box->number"/>
-
-
-            <x-show-value
-                :key="__('Year')"
-                :value="$box->year"/>
+                :value="$box->numberForHumans()"/>
 
 
             <x-show-value
@@ -34,39 +29,40 @@
                 :value="$box->description"/>
 
 
-            <x-show-value
-                :key="__('Qty of volumes')"
-                :value="$box->volumes_count"/>
+            <div class="gap-x-3 gap-y-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+
+                <x-show-value
+                    class="md:col-span-2"
+                    :key="__('Site')"
+                    :value="$box->shelf->stand->room->floor->building->site->name"/>
 
 
-            <x-show-value
-                :key="__('Site')"
-                :value="$box->shelf->stand->room->floor->building->site->name"/>
+                <x-show-value
+                    class="md:col-span-2"
+                    :key="__('Building')"
+                    :value="$box->shelf->stand->room->floor->building->name"/>
 
 
-            <x-show-value
-                :key="__('Building')"
-                :value="$box->shelf->stand->room->floor->building->name"/>
+                <x-show-value
+                    :key="__('Floor')"
+                    :value="$box->shelf->stand->room->floor->number"/>
 
 
-            <x-show-value
-                :key="__('Floor')"
-                :value="$box->shelf->stand->room->floor->number"/>
+                <x-show-value
+                    :key="__('Room')"
+                    :value="$box->shelf->stand->room->number"/>
 
 
-            <x-show-value
-                :key="__('Room')"
-                :value="$box->shelf->stand->room->number"/>
+                <x-show-value
+                    :key="__('Stand')"
+                    :value="$box->shelf->stand->numberForHumans()"/>
 
 
-            <x-show-value
-                :key="__('Stand')"
-                :value="$box->shelf->stand->numberForHumans()"/>
+                <x-show-value
+                    :key="__('Shelf')"
+                    :value="$box->shelf->numberForHumans()"/>
 
-
-            <x-show-value
-                :key="__('Shelf')"
-                :value="$box->shelf->numberForHumans()"/>
+            </div>
 
 
             <x-button-group>

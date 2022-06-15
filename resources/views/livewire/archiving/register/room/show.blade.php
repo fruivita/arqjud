@@ -29,14 +29,18 @@
                 :value="$room->description"/>
 
 
-            <x-show-value
-                :key="__('Site')"
-                :value="$room->floor->building->site->name"/>
+            <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
+
+                <x-show-value
+                    :key="__('Site')"
+                    :value="$room->floor->building->site->name"/>
 
 
-            <x-show-value
-                :key="__('Building')"
-                :value="$room->floor->building->name"/>
+                <x-show-value
+                    :key="__('Building')"
+                    :value="$room->floor->building->name"/>
+
+            </div>
 
 
             <x-show-value
