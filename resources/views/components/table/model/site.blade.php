@@ -150,7 +150,11 @@
 </div>
 
 
-@can(\App\Enums\Policy::Delete->value, $deleting)
+@if(
+    isset($deleting->id)
+    && auth()->user()->can(\App\Enums\Policy::Delete->value, $deleting)
+)
+
 
     {{-- Modal to confirm the deletion --}}
     <x-confirmation-modal

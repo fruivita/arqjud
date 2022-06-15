@@ -201,7 +201,7 @@
 
 
 @if(
-    $withdeletebutton == true
+    isset($deleting->id)
     && auth()->user()->can(\App\Enums\Policy::Delete->value, $deleting)
 )
 
