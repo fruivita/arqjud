@@ -284,23 +284,4 @@ class User extends CorporateUser implements LdapAuthenticatable
             ->permissions()
             ->contains($permission->value);
     }
-
-    /**
-     * Records filtered by the term entered.
-     *
-     * The filter applies to the name and the username through the OR clause.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string|null                           $term
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public static function scopeSearch(Builder $query, string $term = null)
-    {
-        return $query->when($term, function ($query, $term) {
-            $query
-                ->where('username', 'like', "%{$term}%")
-                ->orWhere('name', 'like', "%{$term}%");
-        });
-    }
 }

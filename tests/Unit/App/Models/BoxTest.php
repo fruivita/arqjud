@@ -122,18 +122,6 @@ test('nextBoxNumber return the box number to be used to create the new box', fun
     ->and(Box::nextBoxNumber(2021))->toBe(1);
 });
 
-test('search, with partial term or not, returns the expected values', function () {
-    Box::factory()->create(['number' => 100, 'year' => 2015]);
-    Box::factory()->create(['number' => 120152, 'year' => 2020]);
-    Box::factory()->create(['number' => 200, 'year' => 2020]);
-
-    expect(Box::search('20')->get())->toHaveCount(3)
-    ->and(Box::search('2015')->get())->toHaveCount(2)
-    ->and(Box::search('12015')->get())->toHaveCount(1)
-    ->and(Box::search('10')->get())->toHaveCount(1)
-    ->and(Box::search('100')->get())->toHaveCount(1);
-});
-
 test('parentLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
     $box = Box::factory()->create();
 
