@@ -82,8 +82,6 @@
                                         <x-button
                                             class="btn-danger"
                                             wire:key="delegation-destroy-{{ $user->id }}"
-                                            wire:loading.delay.attr="disabled"
-                                            wire:loading.delay.class="cursor-not-allowed"
                                             class="btn-danger w-full"
                                             icon="x-circle"
                                             :text="__('Revoke')"
@@ -98,8 +96,6 @@
 
                                         <x-button
                                             wire:key="delegation-create-{{ $user->id }}"
-                                            wire:loading.delay.attr="disabled"
-                                            wire:loading.delay.class="cursor-not-allowed"
                                             class="btn-do w-full"
                                             icon="check-circle"
                                             :text="__('Grant')"
