@@ -151,7 +151,7 @@ test('ids of the roles that will be associated with the permission must previous
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
-    ->set('selected', [-10])
+    ->set('selected', [9090909090])
     ->call('update')
     ->assertHasErrors(['selected' => 'exists']);
 });

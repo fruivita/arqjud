@@ -131,7 +131,7 @@ test('id of the role that will be associated with the user must previously exist
 
     Livewire::test(UserLivewireIndex::class)
     ->call('edit', $this->user->id)
-    ->set('editing.role_id', -1)
+    ->set('editing.role_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['editing.role_id' => 'exists']);
 });

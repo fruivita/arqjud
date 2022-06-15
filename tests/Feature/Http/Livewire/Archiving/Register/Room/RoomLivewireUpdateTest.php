@@ -227,7 +227,7 @@ test('site_id must previously exist in the database', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
-    ->set('site_id', 10)
+    ->set('site_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['site_id' => 'exists']);
 });
@@ -266,7 +266,7 @@ test('building_id must previously exist in the database', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
-    ->set('building_id', 10)
+    ->set('building_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['building_id' => 'exists']);
 });
@@ -305,7 +305,7 @@ test('floor_id must previously exist in the database', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
-    ->set('room.floor_id', 10)
+    ->set('room.floor_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['room.floor_id' => 'exists']);
 });

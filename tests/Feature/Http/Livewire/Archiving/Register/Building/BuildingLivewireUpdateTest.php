@@ -211,7 +211,7 @@ test('site_id must previously exist in the database', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['building' => $this->floor->building])
-    ->set('building.site_id', 10)
+    ->set('building.site_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['building.site_id' => 'exists']);
 });
