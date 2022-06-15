@@ -8,6 +8,7 @@ use App\Enums\FeedbackType;
 use App\Enums\PermissionType;
 use App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireUpdate;
 use App\Models\Box;
+use App\Models\BoxVolume;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -48,6 +49,83 @@ test('authenticated but without specific permission, cannot access shelf record 
 test('cannot render shelf record edit component without specific permission', function () {
     Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
     ->assertForbidden();
+});
+
+test('cannot set the box record which will be deleted without specific permission', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+
+    $box = Box::factory()
+    ->for($this->shelf, 'shelf')
+    ->create();
+
+    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    ->assertOk()
+    ->call('markToDelete', $box->id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot set the box record which will be deleted if it has box volumes', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $volume = BoxVolume::factory()
+    ->for(Box::factory()->for($this->shelf, 'shelf'), 'box')
+    ->create();
+
+    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    ->assertOk()
+    ->call('markToDelete', $volume->box_id)
+    ->assertForbidden()
+    ->assertSet('show_delete_modal', false)
+    ->assertSet('deleting', null);
+});
+
+test('cannot delete a box record without specific permission', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
+    grantPermission(PermissionType::ShelfUpdate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()
+    ->for($this->shelf, 'shelf')
+    ->create();
+
+    $component = Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    ->call('markToDelete', $box->id)
+    ->assertOk();
+
+    revokePermission(PermissionType::BoxDelete->value);
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Box::where('id', $box->id)->exists())->toBeTrue();
+});
+
+test('cannot delete a box record if it has box volumes', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()
+    ->for($this->shelf, 'shelf')
+    ->create();
+
+    $component = Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    ->call('markToDelete', $box->id)
+    ->assertOk();
+
+    BoxVolume::factory()
+    ->for($box, 'box')
+    ->create();
+
+    $component
+    ->call('destroy')
+    ->assertForbidden();
+
+    expect(Box::where('id', $box->id)->exists())->toBeTrue();
 });
 
 // Rules
@@ -367,6 +445,27 @@ test('emits feedback event when update a shelf record', function () {
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
 
+test('emits feedback event when deleting a box record', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()
+    ->for($this->shelf, 'shelf')
+    ->create();
+
+    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    ->call('markToDelete', $box->id)
+    ->call('destroy')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => null,
+        'timeout' => 3000,
+    ]);
+});
+
 test('sites are available for selection in shelf update', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
@@ -441,4 +540,36 @@ test('update a shelf record with specific permission', function () {
     expect($this->shelf->number)->toBe(1)
     ->and($this->shelf->description)->toBe('foo bar')
     ->and($this->shelf->stand->id)->toBe($stand->id);
+});
+
+test('defines the box record that will be deleted with specific permission if it has no box volumes', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()
+    ->for($this->shelf, 'shelf')
+    ->create();
+
+    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    ->call('markToDelete', $box->id)
+    ->assertOk()
+    ->assertSet('show_delete_modal', true)
+    ->assertSet('deleting.id', $box->id);
+});
+
+test('delete a box record with specific permission if it has no box volumes', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+    grantPermission(PermissionType::BoxDelete->value);
+
+    $box = Box::factory()
+    ->for($this->shelf, 'shelf')
+    ->create();
+
+    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    ->call('markToDelete', $box->id)
+    ->assertOk()
+    ->call('destroy', $box->id)
+    ->assertOk();
+
+    expect(Box::where('id', $box->id)->doesntExist())->toBeTrue();
 });
