@@ -12,6 +12,13 @@
 
 <x-page :header="__('Sites')">
 
+    <x-search
+        wire:key="search"
+        wire:model.debounce.500ms="term"
+        :error="$errors->first('term')"
+        withcounter/>
+
+
     <x-container>
 
         <x-table.model.site
