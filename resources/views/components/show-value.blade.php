@@ -17,7 +17,7 @@
 @props(['key', 'value'])
 
 
-<div class="bg-primary-100 p-3 rounded dark:bg-secondary-800">
+<div {{ $attributes->merge(['class' => "bg-primary-100 p-3 rounded dark:bg-secondary-800"]) }}>
 
     <p>
 
