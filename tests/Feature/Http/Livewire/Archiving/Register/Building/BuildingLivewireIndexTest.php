@@ -11,6 +11,7 @@ use App\Models\Building;
 use App\Models\Floor;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -118,6 +119,32 @@ test('does not accept pagination outside the options offered', function () {
     ->assertHasErrors(['per_page' => 'in']);
 });
 
+test('searchable term must be a string', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
+
+    Livewire::test(BuildingLivewireIndex::class)
+    ->set('term', ['foo'])
+    ->assertHasErrors(['term' => 'string']);
+});
+
+test('searchable term must be a maximum of 50 characters', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
+
+    Livewire::test(BuildingLivewireIndex::class)
+    ->set('term', Str::random(51))
+    ->assertHasErrors(['term' => 'max']);
+});
+
+test('searchable term is validated in real time', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
+
+    Livewire::test(BuildingLivewireIndex::class)
+    ->set('term', Str::random(50))
+    ->assertHasNoErrors()
+    ->set('term', Str::random(51))
+    ->assertHasErrors(['term' => 'max']);
+});
+
 // Happy path
 test('pagination returns the amount of expected building records', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
@@ -157,6 +184,26 @@ test('lists building records with specific permission', function () {
     get(route('archiving.register.building.index'))
     ->assertOk()
     ->assertSeeLivewire(BuildingLivewireIndex::class);
+});
+
+test('search returns expected results', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
+
+    $this->building->delete();
+
+    Building::factory()->create(['name' => 'foo']);
+
+    Building::factory()->create(['name' => 'bar baz']); // contains bar
+
+    Building::factory()->create(['name' => 'bar']);
+
+    Livewire::test(BuildingLivewireIndex::class)
+    ->set('term', 'foo')
+    ->assertCount('buildings', 1)
+    ->set('term', 'bar')
+    ->assertCount('buildings', 2)
+    ->set('term', '')
+    ->assertCount('buildings', 3);
 });
 
 test('emits feedback event when deleting a building record', function () {

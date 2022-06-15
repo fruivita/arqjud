@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Authorization\User;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\Searchable;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Role;
@@ -17,6 +18,7 @@ use Livewire\Component;
 class UserLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use Searchable;
     use WithFeedbackEvents;
     use WithPerPagePagination;
 
@@ -40,13 +42,6 @@ class UserLivewireIndex extends Component
      * @var bool
      */
     public $show_edit_modal = false;
-
-    /**
-     * Searchable term entered by the user.
-     *
-     * @var string
-     */
-    public $term;
 
     /**
      * Rules for validation of inputs.
@@ -109,7 +104,7 @@ class UserLivewireIndex extends Component
     {
         return $this->applyPagination(
             User::with('delegator')
-            ->search($this->term)
+            ->whereLike(['name', 'username'], $this->term)
             ->defaultOrder()
         );
     }
@@ -124,41 +119,6 @@ class UserLivewireIndex extends Component
         return view('livewire.authorization.user.index', [
             'users' => $this->users,
         ])->layout('layouts.app');
-    }
-
-    /**
-     * Get custom attributes for query strings.
-     *
-     * @return array<string, mixed>
-     */
-    protected function queryString()
-    {
-        return [
-            'term' => [
-                'except' => '',
-                'as' => 's',
-            ],
-        ];
-    }
-
-    /**
-     * Returns the pagination to the initial pagination.
-     *
-     * Runs before a property called $term is updated.
-     *
-     * @param mixed $value
-     *
-     * @return void
-     */
-    public function updatingTerm($value)
-    {
-        Validator::make(
-            data: ['term' => $value],
-            rules: ['term' => ['nullable', 'string', 'max:50']],
-            customAttributes: ['term' => __('Searchable term')]
-        )->validate();
-
-        $this->resetPage();
     }
 
     /**

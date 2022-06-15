@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Room;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\Searchable;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -16,6 +17,7 @@ use Livewire\Component;
 class RoomLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use Searchable;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -39,7 +41,9 @@ class RoomLivewireIndex extends Component
     public function getRoomsProperty()
     {
         return $this->applyPagination(
-            Room::withcount('stands')->with('floor.building.site')->defaultOrder()
+            Room::withcount('stands')
+            ->whereLike('number', $this->term)
+            ->with('floor.building.site')->defaultOrder()
         );
     }
 

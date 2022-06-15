@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Authorization\Delegation;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\Searchable;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -15,14 +16,8 @@ use Livewire\Component;
 class DelegationLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use Searchable;
     use WithPerPagePagination;
-
-    /**
-     * Searchable term entered by the user.
-     *
-     * @var string
-     */
-    public $term;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -44,7 +39,7 @@ class DelegationLivewireIndex extends Component
     {
         return $this->applyPagination(
             User::with('delegator')
-            ->search($this->term)
+            ->whereLike(['name', 'username'], $this->term)
             ->where('department_id', auth()->user()->department_id)
             ->defaultOrder()
         );
@@ -60,41 +55,6 @@ class DelegationLivewireIndex extends Component
         return view('livewire.authorization.delegation.index', [
             'users' => $this->users,
         ])->layout('layouts.app');
-    }
-
-    /**
-     * Get custom attributes for query strings.
-     *
-     * @return array<string, mixed>
-     */
-    protected function queryString()
-    {
-        return [
-            'term' => [
-                'except' => '',
-                'as' => 's',
-            ],
-        ];
-    }
-
-    /**
-     * Returns the pagination to the initial pagination.
-     *
-     * Runs before a property called $term is updated.
-     *
-     * @param mixed $value
-     *
-     * @return void
-     */
-    public function updatingTerm($value)
-    {
-        Validator::make(
-            data: ['term' => $value],
-            rules: ['term' => ['nullable', 'string', 'max:50']],
-            customAttributes: ['term' => __('Searchable term')]
-        )->validate();
-
-        $this->resetPage();
     }
 
     /**

@@ -189,6 +189,8 @@ test('list boxes with specific permission', function () {
 test('search returns expected results', function () {
     grantPermission(PermissionType::BoxViewAny->value);
 
+    $this->box->delete();
+
     Box::factory()->create([
         'number' => '100',
         'year' => '2015',
@@ -210,7 +212,9 @@ test('search returns expected results', function () {
     ->set('term', '2015')
     ->assertCount('boxes', 2)
     ->set('term', '2020')
-    ->assertCount('boxes', 2);
+    ->assertCount('boxes', 2)
+    ->set('term', '')
+    ->assertCount('boxes', 3);
 });
 
 test('emits feedback event when deleting a box record', function () {

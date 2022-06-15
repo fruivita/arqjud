@@ -11,6 +11,7 @@ use App\Models\Room;
 use App\Models\Stand;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -118,6 +119,32 @@ test('does not accept pagination outside the options offered', function () {
     ->assertHasErrors(['per_page' => 'in']);
 });
 
+test('searchable term must be a string', function () {
+    grantPermission(PermissionType::RoomViewAny->value);
+
+    Livewire::test(RoomLivewireIndex::class)
+    ->set('term', ['foo'])
+    ->assertHasErrors(['term' => 'string']);
+});
+
+test('searchable term must be a maximum of 50 characters', function () {
+    grantPermission(PermissionType::RoomViewAny->value);
+
+    Livewire::test(RoomLivewireIndex::class)
+    ->set('term', Str::random(51))
+    ->assertHasErrors(['term' => 'max']);
+});
+
+test('searchable term is validated in real time', function () {
+    grantPermission(PermissionType::RoomViewAny->value);
+
+    Livewire::test(RoomLivewireIndex::class)
+    ->set('term', Str::random(50))
+    ->assertHasNoErrors()
+    ->set('term', Str::random(51))
+    ->assertHasErrors(['term' => 'max']);
+});
+
 // Happy path
 test('pagination returns the amount of expected room records', function () {
     grantPermission(PermissionType::RoomViewAny->value);
@@ -157,6 +184,26 @@ test('lists room records with specific permission', function () {
     get(route('archiving.register.room.index'))
     ->assertOk()
     ->assertSeeLivewire(RoomLivewireIndex::class);
+});
+
+test('search returns expected results', function () {
+    grantPermission(PermissionType::RoomViewAny->value);
+
+    $this->room->delete();
+
+    Room::factory()->create(['number' => 10]);
+
+    Room::factory()->create(['number' => 210]); // contains 10
+
+    Room::factory()->create(['number' => 20]);
+
+    Livewire::test(RoomLivewireIndex::class)
+    ->set('term', '210')
+    ->assertCount('rooms', 1)
+    ->set('term', '10')
+    ->assertCount('rooms', 2)
+    ->set('term', '')
+    ->assertCount('rooms', 3);
 });
 
 test('emits feedback event when deleting a room record', function () {

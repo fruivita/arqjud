@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Box;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\Searchable;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -17,16 +18,10 @@ use Livewire\Component;
 class BoxLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use Searchable;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
-
-    /**
-     * Searchable term entered by the user.
-     *
-     * @var string
-     */
-    public $term;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -49,7 +44,7 @@ class BoxLivewireIndex extends Component
         return $this->applyPagination(
             Box::with(['shelf.stand.room.floor.building.site'])
             ->withCount('volumes')
-            ->search($this->term)
+            ->whereLike(['number', 'year'], $this->term)
             ->defaultOrder()
         );
     }
@@ -64,41 +59,6 @@ class BoxLivewireIndex extends Component
         return view('livewire.archiving.register.box.index', [
             'boxes' => $this->boxes,
         ])->layout('layouts.app');
-    }
-
-    /**
-     * Get custom attributes for query strings.
-     *
-     * @return array<string, mixed>
-     */
-    protected function queryString()
-    {
-        return [
-            'term' => [
-                'except' => '',
-                'as' => 's',
-            ],
-        ];
-    }
-
-    /**
-     * Returns the pagination to the initial pagination.
-     *
-     * Runs before a property called $term is updated.
-     *
-     * @param mixed $value
-     *
-     * @return void
-     */
-    public function updatingTerm($value)
-    {
-        Validator::make(
-            data: ['term' => $value],
-            rules: ['term' => ['nullable', 'string', 'max:50']],
-            customAttributes: ['term' => __('Searchable term')]
-        )->validate();
-
-        $this->resetPage();
     }
 
     /**

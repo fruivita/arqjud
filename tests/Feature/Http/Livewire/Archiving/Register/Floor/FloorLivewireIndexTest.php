@@ -11,6 +11,7 @@ use App\Models\Floor;
 use App\Models\Room;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -118,6 +119,32 @@ test('does not accept pagination outside the options offered', function () {
     ->assertHasErrors(['per_page' => 'in']);
 });
 
+test('searchable term must be a string', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->set('term', ['foo'])
+    ->assertHasErrors(['term' => 'string']);
+});
+
+test('searchable term must be a maximum of 50 characters', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->set('term', Str::random(51))
+    ->assertHasErrors(['term' => 'max']);
+});
+
+test('searchable term is validated in real time', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->set('term', Str::random(50))
+    ->assertHasNoErrors()
+    ->set('term', Str::random(51))
+    ->assertHasErrors(['term' => 'max']);
+});
+
 // Happy path
 test('pagination returns the amount of expected floor records', function () {
     grantPermission(PermissionType::FloorViewAny->value);
@@ -157,6 +184,26 @@ test('lists floor records with specific permission', function () {
     get(route('archiving.register.floor.index'))
     ->assertOk()
     ->assertSeeLivewire(FloorLivewireIndex::class);
+});
+
+test('search returns expected results', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    $this->floor->delete();
+
+    Floor::factory()->create(['number' => 10]);
+
+    Floor::factory()->create(['number' => 210]); // contains 10
+
+    Floor::factory()->create(['number' => 20]);
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->set('term', '210')
+    ->assertCount('floors', 1)
+    ->set('term', '10')
+    ->assertCount('floors', 2)
+    ->set('term', '')
+    ->assertCount('floors', 3);
 });
 
 test('emits feedback event when deleting a floor record', function () {

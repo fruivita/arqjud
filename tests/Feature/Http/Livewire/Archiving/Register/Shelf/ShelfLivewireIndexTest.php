@@ -11,6 +11,7 @@ use App\Models\Box;
 use App\Models\Shelf;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -118,6 +119,32 @@ test('does not accept pagination outside the options offered', function () {
     ->assertHasErrors(['per_page' => 'in']);
 });
 
+test('searchable term must be a string', function () {
+    grantPermission(PermissionType::ShelfViewAny->value);
+
+    Livewire::test(ShelfLivewireIndex::class)
+    ->set('term', ['foo'])
+    ->assertHasErrors(['term' => 'string']);
+});
+
+test('searchable term must be a maximum of 50 characters', function () {
+    grantPermission(PermissionType::ShelfViewAny->value);
+
+    Livewire::test(ShelfLivewireIndex::class)
+    ->set('term', Str::random(51))
+    ->assertHasErrors(['term' => 'max']);
+});
+
+test('searchable term is validated in real time', function () {
+    grantPermission(PermissionType::ShelfViewAny->value);
+
+    Livewire::test(ShelfLivewireIndex::class)
+    ->set('term', Str::random(50))
+    ->assertHasNoErrors()
+    ->set('term', Str::random(51))
+    ->assertHasErrors(['term' => 'max']);
+});
+
 // Happy path
 test('pagination returns the amount of expected shelf records', function () {
     grantPermission(PermissionType::ShelfViewAny->value);
@@ -157,6 +184,26 @@ test('lists shelf records with specific permission', function () {
     get(route('archiving.register.shelf.index'))
     ->assertOk()
     ->assertSeeLivewire(ShelfLivewireIndex::class);
+});
+
+test('search returns expected results', function () {
+    grantPermission(PermissionType::ShelfViewAny->value);
+
+    $this->shelf->delete();
+
+    Shelf::factory()->create(['number' => 10]);
+
+    Shelf::factory()->create(['number' => 210]); // contains 10
+
+    Shelf::factory()->create(['number' => 20]);
+
+    Livewire::test(ShelfLivewireIndex::class)
+    ->set('term', '210')
+    ->assertCount('shelves', 1)
+    ->set('term', '10')
+    ->assertCount('shelves', 2)
+    ->set('term', '')
+    ->assertCount('shelves', 3);
 });
 
 test('emits feedback event when deleting a shelf record', function () {

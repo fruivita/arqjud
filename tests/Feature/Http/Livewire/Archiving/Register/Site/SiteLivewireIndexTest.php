@@ -11,6 +11,7 @@ use App\Models\Building;
 use App\Models\Site;
 use Database\Seeders\DepartmentSeeder;
 use Database\Seeders\RoleSeeder;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -115,6 +116,32 @@ test('does not accept pagination outside the options offered', function () {
     ->assertHasErrors(['per_page' => 'in']);
 });
 
+test('searchable term must be a string', function () {
+    grantPermission(PermissionType::SiteViewAny->value);
+
+    Livewire::test(SiteLivewireIndex::class)
+    ->set('term', ['foo'])
+    ->assertHasErrors(['term' => 'string']);
+});
+
+test('searchable term must be a maximum of 50 characters', function () {
+    grantPermission(PermissionType::SiteViewAny->value);
+
+    Livewire::test(SiteLivewireIndex::class)
+    ->set('term', Str::random(51))
+    ->assertHasErrors(['term' => 'max']);
+});
+
+test('searchable term is validated in real time', function () {
+    grantPermission(PermissionType::SiteViewAny->value);
+
+    Livewire::test(SiteLivewireIndex::class)
+    ->set('term', Str::random(50))
+    ->assertHasNoErrors()
+    ->set('term', Str::random(51))
+    ->assertHasErrors(['term' => 'max']);
+});
+
 // Happy path
 test('pagination returns the amount of expected site records', function () {
     grantPermission(PermissionType::SiteViewAny->value);
@@ -154,6 +181,26 @@ test('lists site records with specific permission', function () {
     get(route('archiving.register.site.index'))
     ->assertOk()
     ->assertSeeLivewire(SiteLivewireIndex::class);
+});
+
+test('search returns expected results', function () {
+    grantPermission(PermissionType::SiteViewAny->value);
+
+    $this->site->delete();
+
+    Site::factory()->create(['name' => 'foo']);
+
+    Site::factory()->create(['name' => 'bar baz']); // contains bar
+
+    Site::factory()->create(['name' => 'bar']);
+
+    Livewire::test(SiteLivewireIndex::class)
+    ->set('term', 'foo')
+    ->assertCount('sites', 1)
+    ->set('term', 'bar')
+    ->assertCount('sites', 2)
+    ->set('term', '')
+    ->assertCount('sites', 3);
 });
 
 test('emits feedback event when deleting a site record', function () {

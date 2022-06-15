@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Stand;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\Searchable;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -16,6 +17,7 @@ use Livewire\Component;
 class StandLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use Searchable;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -39,7 +41,10 @@ class StandLivewireIndex extends Component
     public function getStandsProperty()
     {
         return $this->applyPagination(
-            Stand::withcount('shelves')->with('room.floor.building.site')->defaultOrder()
+            Stand::withcount('shelves')
+            ->with('room.floor.building.site')
+            ->whereLike('number', $this->term)
+            ->defaultOrder()
         );
     }
 
