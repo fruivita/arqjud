@@ -337,81 +337,17 @@
 
         </form>
 
-
-        <div class="overflow-x-auto">
-
-            <div class="flex items-center justify-between mb-3">
-
-                @can(\App\Enums\Policy::Create->value, \App\Models\BoxVolume::class)
-
-                    <x-button
-                        wire:click="storeVolume()"
-                        wire:key="btn-store-volume"
-                        wire:loading.delay.attr="disabled"
-                        wire:loading.delay.class="cursor-not-allowed"
-                        wire:target="building_id,floor_id,room_id,stand_id,site_id,storeVolume,update"
-                        class="btn-do mr-3"
-                        icon="plus-circle"
-                        :text="__('New')"
-                        :title="__('Create a new record')"
-                        type="button"/>
-
-
-                    <x-error>{{ $errors->first('volume') }}</x-error>
-
-                @else
-
-                    <div></div>
-
-                @endcan
-
-
-                <x-perpage
-                    wire:key="per-page"
-                    wire:model="per_page"
-                    :error="$errors->first('per_page')"/>
-
-            </div>
-
-
-            <x-table wire:key="table-volumes" wire:loading.delay.class="opacity-25">
-
-                <x-slot name="head">
-
-                    <x-table.heading>{{ __('Volume') }}</x-table.heading>
-
-                </x-slot>
-
-
-                <x-slot name="body">
-
-                    @forelse ( $volumes ?? [] as $volume )
-
-                        <x-table.row>
-
-                            <x-table.cell>{{ $volume->number }}</x-table.cell>
-
-                        </x-table.row>
-
-                    @empty
-
-                        <x-table.row>
-
-                            <x-table.cell colspan="1">{{ __('No record found') }}</x-table.cell>
-
-                        </x-table.row>
-
-                    @endforelse
-
-                </x-slot>
-
-            </x-table>
-
-        </div>
-
     </x-container>
 
 
-    {{ $volumes->links() }}
+    <x-container>
+
+        <x-table.model.volume
+            :volumes="$volumes"
+            :deleting="$deleting"
+            withdeletebutton
+            withnewbutton/>
+
+    </x-container>
 
 </x-page>
