@@ -161,10 +161,10 @@ test('number must be between -100 and 300', function () {
 test('number and building_id must be unique', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    Floor::factory()->create(['number' => 1, 'building_id' => $this->building->id]);
+    Floor::factory()->create(['number' => 99, 'building_id' => $this->building->id]);
 
     Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
-    ->set('floor.number', 1)
+    ->set('floor.number', 99)
     ->call('store')
     ->assertHasErrors(['floor.number' => 'unique']);
 });
@@ -271,14 +271,14 @@ test('creates a floor record with specific permission', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
     Livewire::test(FloorLivewireCreate::class, ['building' => $this->building])
-    ->set('floor.number', 1)
+    ->set('floor.number', 99)
     ->set('floor.description', 'foo bar')
     ->call('store')
     ->assertOk();
 
     $floor = Floor::with('building')->first();
 
-    expect($floor->number)->toBe(1)
+    expect($floor->number)->toBe(99)
     ->and($floor->description)->toBe('foo bar')
     ->and($floor->building->id)->toBe($this->building->id);
 });

@@ -169,10 +169,10 @@ test('number and floor_id must be unique', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     $floor = Floor::factory()->create();
-    Room::factory()->create(['number' => 1, 'floor_id' => $floor->id]);
+    Room::factory()->create(['number' => 99, 'floor_id' => $floor->id]);
 
     Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
-    ->set('room.number', 1)
+    ->set('room.number', 99)
     ->set('room.floor_id', $floor->id)
     ->call('update')
     ->assertHasErrors(['room.number' => 'unique']);
@@ -425,7 +425,7 @@ test('update a room record with specific permission', function () {
     $floor = Floor::factory()->create();
 
     Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
-    ->set('room.number', 1)
+    ->set('room.number', 99)
     ->set('room.description', 'foo bar')
     ->set('room.floor_id', $floor->id)
     ->call('update')
@@ -433,7 +433,7 @@ test('update a room record with specific permission', function () {
 
     $this->room->refresh()->load('floor');
 
-    expect($this->room->number)->toBe('1')
+    expect($this->room->number)->toBe('99')
     ->and($this->room->description)->toBe('foo bar')
     ->and($this->room->floor->id)->toBe($floor->id);
 });

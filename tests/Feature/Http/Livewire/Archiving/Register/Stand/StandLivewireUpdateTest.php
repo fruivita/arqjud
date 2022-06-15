@@ -170,10 +170,10 @@ test('number and room_id must be unique', function () {
     grantPermission(PermissionType::StandUpdate->value);
 
     $room = Room::factory()->create();
-    Stand::factory()->create(['number' => 1, 'room_id' => $room->id]);
+    Stand::factory()->create(['number' => 99, 'room_id' => $room->id]);
 
     Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
-    ->set('stand.number', 1)
+    ->set('stand.number', 99)
     ->set('stand.room_id', $room->id)
     ->call('update')
     ->assertHasErrors(['stand.number' => 'unique']);
@@ -477,7 +477,7 @@ test('update a stand record with specific permission', function () {
     $room = Room::factory()->create();
 
     Livewire::test(StandLivewireUpdate::class, ['stand' => $this->stand])
-    ->set('stand.number', 1)
+    ->set('stand.number', 99)
     ->set('stand.description', 'foo bar')
     ->set('stand.room_id', $room->id)
     ->call('update')
@@ -485,7 +485,7 @@ test('update a stand record with specific permission', function () {
 
     $this->stand->refresh()->load('room');
 
-    expect($this->stand->number)->toBe(1)
+    expect($this->stand->number)->toBe(99)
     ->and($this->stand->description)->toBe('foo bar')
     ->and($this->stand->room->id)->toBe($room->id);
 });

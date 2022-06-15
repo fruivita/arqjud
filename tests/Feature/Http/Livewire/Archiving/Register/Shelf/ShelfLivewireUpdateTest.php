@@ -171,10 +171,10 @@ test('number and stand_id must be unique', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     $stand = Stand::factory()->create();
-    Shelf::factory()->create(['number' => 1, 'stand_id' => $stand->id]);
+    Shelf::factory()->create(['number' => 99, 'stand_id' => $stand->id]);
 
     Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
-    ->set('shelf.number', 1)
+    ->set('shelf.number', 99)
     ->set('shelf.stand_id', $stand->id)
     ->call('update')
     ->assertHasErrors(['shelf.number' => 'unique']);
@@ -529,7 +529,7 @@ test('update a shelf record with specific permission', function () {
     $stand = Stand::factory()->create();
 
     Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
-    ->set('shelf.number', 1)
+    ->set('shelf.number', 99)
     ->set('shelf.description', 'foo bar')
     ->set('shelf.stand_id', $stand->id)
     ->call('update')
@@ -537,7 +537,7 @@ test('update a shelf record with specific permission', function () {
 
     $this->shelf->refresh()->load('stand');
 
-    expect($this->shelf->number)->toBe(1)
+    expect($this->shelf->number)->toBe(99)
     ->and($this->shelf->description)->toBe('foo bar')
     ->and($this->shelf->stand->id)->toBe($stand->id);
 });

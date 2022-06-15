@@ -162,10 +162,10 @@ test('number must be between 1 and 100000', function () {
 test('number and floor_id must be unique', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
-    Room::factory()->create(['number' => 1, 'floor_id' => $this->floor->id]);
+    Room::factory()->create(['number' => 99, 'floor_id' => $this->floor->id]);
 
     Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
-    ->set('room.number', 1)
+    ->set('room.number', 99)
     ->call('store')
     ->assertHasErrors(['room.number' => 'unique']);
 });
@@ -272,14 +272,14 @@ test('creates a room record with specific permission', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
     Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
-    ->set('room.number', 1)
+    ->set('room.number', 99)
     ->set('room.description', 'foo bar')
     ->call('store')
     ->assertOk();
 
     $room = Room::with('floor')->first();
 
-    expect($room->number)->toBe('1')
+    expect($room->number)->toBe('99')
     ->and($room->description)->toBe('foo bar')
     ->and($room->floor->id)->toBe($this->floor->id);
 });
@@ -288,7 +288,7 @@ test('when creating a room, a default stand and shelf are also created', functio
     grantPermission(PermissionType::RoomCreate->value);
 
     Livewire::test(RoomLivewireCreate::class, ['floor' => $this->floor])
-    ->set('room.number', 1)
+    ->set('room.number', 99)
     ->set('room.description', 'foo bar')
     ->call('store')
     ->assertOk();
@@ -297,7 +297,7 @@ test('when creating a room, a default stand and shelf are also created', functio
     $stand = $room->stands()->first();
     $shelf = $stand->shelves()->first();
 
-    expect($room->number)->toBe('1')
+    expect($room->number)->toBe('99')
     ->and($room->description)->toBe('foo bar')
     ->and($room->floor_id)->toBe($this->floor->id)
     ->and($stand->number)->toBe(0)

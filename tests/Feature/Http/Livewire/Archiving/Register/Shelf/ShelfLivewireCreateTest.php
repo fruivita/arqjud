@@ -161,10 +161,10 @@ test('number must be between 1 and 100000', function () {
 test('number and stand_id must be unique', function () {
     grantPermission(PermissionType::ShelfCreate->value);
 
-    Shelf::factory()->create(['number' => 1, 'stand_id' => $this->stand->id]);
+    Shelf::factory()->create(['number' => 99, 'stand_id' => $this->stand->id]);
 
     Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
-    ->set('shelf.number', 1)
+    ->set('shelf.number', 99)
     ->call('store')
     ->assertHasErrors(['shelf.number' => 'unique']);
 });
@@ -271,14 +271,14 @@ test('creates a shelf record with specific permission', function () {
     grantPermission(PermissionType::ShelfCreate->value);
 
     Livewire::test(ShelfLivewireCreate::class, ['stand' => $this->stand])
-    ->set('shelf.number', 1)
+    ->set('shelf.number', 99)
     ->set('shelf.description', 'foo bar')
     ->call('store')
     ->assertOk();
 
     $shelf = Shelf::with('stand')->first();
 
-    expect($shelf->number)->toBe(1)
+    expect($shelf->number)->toBe(99)
     ->and($shelf->description)->toBe('foo bar')
     ->and($shelf->stand->id)->toBe($this->stand->id);
 });
