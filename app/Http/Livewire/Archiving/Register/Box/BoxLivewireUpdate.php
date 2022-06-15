@@ -230,22 +230,7 @@ class BoxLivewireUpdate extends Component
     {
         $this->box->load('shelf.stand.room.floor.building.site');
 
-        $this->sites = Site::defaultOrder()->get();
-        $this->site_id = $this->box->shelf->stand->room->floor->building->site->id;
-
-        $this->buildings = Building::where('site_id', $this->site_id)->get();
-        $this->building_id = $this->box->shelf->stand->room->floor->building->id;
-
-        $this->floors = Floor::where('building_id', $this->building_id)->get();
-        $this->floor_id = $this->box->shelf->stand->room->floor->id;
-
-        $this->rooms = Room::where('floor_id', $this->floor_id)->get();
-        $this->room_id = $this->box->shelf->stand->room->id;
-
-        $this->stands = Stand::where('room_id', $this->room_id)->get();
-        $this->stand_id = $this->box->shelf->stand->id;
-
-        $this->shelves = Shelf::where('stand_id', $this->stand_id)->get();
+        $this->initializeParentProperties();
     }
 
     /**
@@ -414,6 +399,32 @@ class BoxLivewireUpdate extends Component
     public function markToDelete(BoxVolume $box_volume)
     {
         $this->askForConfirmation($box_volume);
+    }
+
+    /**
+     * Initializes the parent properties/relationships of the item being
+     * edited.
+     *
+     * @return void
+     */
+    private function initializeParentProperties()
+    {
+        $this->sites = Site::defaultOrder()->get();
+        $this->site_id = $this->box->shelf->stand->room->floor->building->site->id;
+
+        $this->buildings = Building::where('site_id', $this->site_id)->get();
+        $this->building_id = $this->box->shelf->stand->room->floor->building->id;
+
+        $this->floors = Floor::where('building_id', $this->building_id)->get();
+        $this->floor_id = $this->box->shelf->stand->room->floor->id;
+
+        $this->rooms = Room::where('floor_id', $this->floor_id)->get();
+        $this->room_id = $this->box->shelf->stand->room->id;
+
+        $this->stands = Stand::where('room_id', $this->room_id)->get();
+        $this->stand_id = $this->box->shelf->stand->id;
+
+        $this->shelves = Shelf::where('stand_id', $this->stand_id)->get();
     }
 
     /**

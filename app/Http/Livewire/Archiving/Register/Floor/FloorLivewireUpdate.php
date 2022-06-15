@@ -129,10 +129,7 @@ class FloorLivewireUpdate extends Component
     {
         $this->floor->load('building.site');
 
-        $this->sites = Site::defaultOrder()->get();
-        $this->site_id = $this->floor->building->site->id;
-
-        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
+        $this->initializeParentProperties();
     }
 
     /**
@@ -204,5 +201,19 @@ class FloorLivewireUpdate extends Component
         $this->floor->refresh();
 
         $this->flashSelf($saved);
+    }
+
+    /**
+     * Initializes the parent properties/relationships of the item being
+     * edited.
+     *
+     * @return void
+     */
+    private function initializeParentProperties()
+    {
+        $this->sites = Site::defaultOrder()->get();
+        $this->site_id = $this->floor->building->site->id;
+
+        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
     }
 }

@@ -152,13 +152,7 @@ class RoomLivewireUpdate extends Component
     {
         $this->room->load('floor.building.site');
 
-        $this->sites = Site::defaultOrder()->get();
-        $this->site_id = $this->room->floor->building->site->id;
-
-        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
-        $this->building_id = $this->room->floor->building->id;
-
-        $this->floors = Floor::where('building_id', $this->building_id)->defaultOrder()->get();
+        $this->initializeParentProperties();
     }
 
     /**
@@ -245,5 +239,22 @@ class RoomLivewireUpdate extends Component
     public function markToDelete(Stand $stand)
     {
         $this->askForConfirmation($stand);
+    }
+
+    /**
+     * Initializes the parent properties/relationships of the item being
+     * edited.
+     *
+     * @return void
+     */
+    private function initializeParentProperties()
+    {
+        $this->sites = Site::defaultOrder()->get();
+        $this->site_id = $this->room->floor->building->site->id;
+
+        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
+        $this->building_id = $this->room->floor->building->id;
+
+        $this->floors = Floor::where('building_id', $this->building_id)->defaultOrder()->get();
     }
 }

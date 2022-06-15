@@ -196,19 +196,7 @@ class ShelfLivewireUpdate extends Component
     {
         $this->shelf->load('stand.room.floor.building.site');
 
-        $this->sites = Site::defaultOrder()->get();
-        $this->site_id = $this->shelf->stand->room->floor->building->site->id;
-
-        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
-        $this->building_id = $this->shelf->stand->room->floor->building->id;
-
-        $this->floors = Floor::where('building_id', $this->building_id)->defaultOrder()->get();
-        $this->floor_id = $this->shelf->stand->room->floor->id;
-
-        $this->rooms = Room::where('floor_id', $this->floor_id)->defaultOrder()->get();
-        $this->room_id = $this->shelf->stand->room->id;
-
-        $this->stands = Stand::where('room_id', $this->room_id)->defaultOrder()->get();
+        $this->initializeParentProperties();
     }
 
     /**
@@ -325,5 +313,28 @@ class ShelfLivewireUpdate extends Component
     public function markToDelete(Box $box)
     {
         $this->askForConfirmation($box);
+    }
+
+    /**
+     * Initializes the parent properties/relationships of the item being
+     * edited.
+     *
+     * @return void
+     */
+    private function initializeParentProperties()
+    {
+        $this->sites = Site::defaultOrder()->get();
+        $this->site_id = $this->shelf->stand->room->floor->building->site->id;
+
+        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
+        $this->building_id = $this->shelf->stand->room->floor->building->id;
+
+        $this->floors = Floor::where('building_id', $this->building_id)->defaultOrder()->get();
+        $this->floor_id = $this->shelf->stand->room->floor->id;
+
+        $this->rooms = Room::where('floor_id', $this->floor_id)->defaultOrder()->get();
+        $this->room_id = $this->shelf->stand->room->id;
+
+        $this->stands = Stand::where('room_id', $this->room_id)->defaultOrder()->get();
     }
 }
