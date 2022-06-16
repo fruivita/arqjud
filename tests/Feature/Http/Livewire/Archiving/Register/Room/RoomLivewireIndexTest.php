@@ -192,9 +192,7 @@ test('search returns expected results', function () {
     $this->room->delete();
 
     Room::factory()->create(['number' => 10]);
-
     Room::factory()->create(['number' => 210]); // contains 10
-
     Room::factory()->create(['number' => 20]);
 
     Livewire::test(RoomLivewireIndex::class)

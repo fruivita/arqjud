@@ -189,9 +189,7 @@ test('search returns expected results', function () {
     $this->site->delete();
 
     Site::factory()->create(['name' => 'foo']);
-
     Site::factory()->create(['name' => 'bar baz']); // contains bar
-
     Site::factory()->create(['name' => 'bar']);
 
     Livewire::test(SiteLivewireIndex::class)

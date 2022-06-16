@@ -192,9 +192,7 @@ test('search returns expected results', function () {
     $this->floor->delete();
 
     Floor::factory()->create(['number' => 10]);
-
     Floor::factory()->create(['number' => 210]); // contains 10
-
     Floor::factory()->create(['number' => 20]);
 
     Livewire::test(FloorLivewireIndex::class)

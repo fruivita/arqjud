@@ -192,9 +192,7 @@ test('search returns expected results', function () {
     $this->shelf->delete();
 
     Shelf::factory()->create(['number' => 10]);
-
     Shelf::factory()->create(['number' => 210]); // contains 10
-
     Shelf::factory()->create(['number' => 20]);
 
     Livewire::test(ShelfLivewireIndex::class)

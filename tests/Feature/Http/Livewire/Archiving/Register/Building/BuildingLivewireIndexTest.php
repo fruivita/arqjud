@@ -192,9 +192,7 @@ test('search returns expected results', function () {
     $this->building->delete();
 
     Building::factory()->create(['name' => 'foo']);
-
     Building::factory()->create(['name' => 'bar baz']); // contains bar
-
     Building::factory()->create(['name' => 'bar']);
 
     Livewire::test(BuildingLivewireIndex::class)

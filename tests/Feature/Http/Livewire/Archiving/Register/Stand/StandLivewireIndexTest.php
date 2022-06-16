@@ -192,9 +192,7 @@ test('search returns expected results', function () {
     $this->stand->delete();
 
     Stand::factory()->create(['number' => 10]);
-
     Stand::factory()->create(['number' => 210]); // contains 10
-
     Stand::factory()->create(['number' => 20]);
 
     Livewire::test(StandLivewireIndex::class)
