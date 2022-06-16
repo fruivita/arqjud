@@ -1,8 +1,6 @@
 <?php
 
-namespace App;
-
-if (! function_exists('App\maxSafeInteger')) {
+if (! function_exists('maxSafeInteger')) {
     /**
      * The maximum integer acceptable by JavaScript. Especially useful for
      * applications that use Livewire.
@@ -18,7 +16,7 @@ if (! function_exists('App\maxSafeInteger')) {
     }
 }
 
-if (! function_exists('App\stringToArrayAssoc')) {
+if (! function_exists('stringToArrayAssoc')) {
     /**
      * Splits a string based on the given delimiter and returns it as an
      * associative array using the braces for each value extracted from the
@@ -53,5 +51,48 @@ if (! function_exists('App\stringToArrayAssoc')) {
         } catch (\Throwable $exception) {
             return null;
         }
+    }
+}
+
+if (! function_exists('standForHumans')) {
+    /**
+     * Get the stand's number ready to show on page.
+     *
+     * @param int $number stand's number
+     *
+     * @return mixed
+     */
+    function standForHumans(int $number)
+    {
+        return $number ?: __('Uninformed');
+    }
+}
+
+if (! function_exists('shelfForHumans')) {
+    /**
+     * Get the shelf's number ready to show on page.
+     *
+     * @param int $number shelf's number
+     *
+     * @return mixed
+     */
+    function shelfForHumans(int $number)
+    {
+        return $number ?: __('Uninformed');
+    }
+}
+
+if (! function_exists('boxForHumans')) {
+    /**
+     * Get the box's number and year ready to show on page.
+     *
+     * @param int $number box's number
+     * @param int $year   box's year
+     *
+     * @return string
+     */
+    function boxForHumans(int $number, int $year)
+    {
+        return "{$number}/{$year}";
     }
 }

@@ -4,9 +4,6 @@
  * @see https://pestphp.com/docs/
  */
 
-use function App\maxSafeInteger;
-use function App\stringToArrayAssoc;
-
 // Invalid
 test('stringToArrayAssoc returns null if invalid values are given', function ($keys, $delimiter, $string) {
     expect(stringToArrayAssoc($keys, $delimiter, $string))->toBeNull();
@@ -49,4 +46,18 @@ test('stringToArrayAssoc explodes the string based on the delimiter and returns 
     ];
 
     expect(stringToArrayAssoc($keys, $delimiter, $string))->toMatchArray($expected);
+});
+
+test('standForHumans returns the number itself or, if zero, the string representing it', function () {
+    expect(standForHumans(0))->toBe(__('Uninformed'))
+    ->and(standForHumans(10))->toBe(10);
+});
+
+test('shelfForHumans returns the number itself or, if zero, the string representing it', function () {
+    expect(standForHumans(0))->toBe(__('Uninformed'))
+    ->and(standForHumans(10))->toBe(10);
+});
+
+test('boxForHumans returns concatenation of values to display it on screen', function () {
+    expect(boxForHumans(10, 2020))->toBe('10/2020');
 });
