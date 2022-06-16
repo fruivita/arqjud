@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -38,17 +37,31 @@ class Room extends Model
     }
 
     /**
-     * Default ordering of the model.
+     * All rooms.
      *
-     * Order: number asc
+     * Extra columns:
+     * - site_name: parent site name
+     * - building_name: parent building name
+     * - floor_number: parent floor number
+     * - stands_count: child stands count
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function scopeDefaultOrder(Builder $query)
+    public static function hierarchy()
     {
-        return $query->orderBy('number', 'asc');
+        return
+        self::join('floors', 'rooms.floor_id', '=', 'floors.id')
+        ->join('buildings', 'floors.building_id', '=', 'buildings.id')
+        ->join('sites', 'buildings.site_id', '=', 'sites.id')
+        ->leftJoin('stands', 'stands.room_id', '=', 'rooms.id')
+        ->select([
+            'rooms.*',
+            'floors.number as floor_number',
+            'buildings.name as building_name',
+            'sites.name as site_name',
+            DB::raw('COUNT(stands.room_id) as stands_count')
+        ])
+        ->groupBy('rooms.id');
     }
 
     /**

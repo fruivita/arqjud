@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @see https://laravel.com/docs/eloquent
@@ -36,27 +36,47 @@ class Shelf extends Model
     }
 
     /**
+     * All shelves.
+     *
+     * Extra columns:
+     * - site_name: parent site name
+     * - building_name: parent building name
+     * - floor_number: parent floor number
+     * - room_number: parent room number
+     * - stand_number: parent stand number
+     * - boxes_count: child boxes count
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public static function hierarchy()
+    {
+        return
+        self::join('stands', 'shelves.stand_id', '=', 'stands.id')
+        ->join('rooms', 'stands.room_id', '=', 'rooms.id')
+        ->join('floors', 'rooms.floor_id', '=', 'floors.id')
+        ->join('buildings', 'floors.building_id', '=', 'buildings.id')
+        ->join('sites', 'buildings.site_id', '=', 'sites.id')
+        ->leftJoin('boxes', 'boxes.shelf_id', '=', 'shelves.id')
+        ->select([
+            'shelves.*',
+            'stands.number as stand_number',
+            'rooms.number as room_number',
+            'floors.number as floor_number',
+            'buildings.name as building_name',
+            'sites.name as site_name',
+            DB::raw('COUNT(boxes.shelf_id) as boxes_count')
+        ])
+        ->groupBy('shelves.id');
+    }
+
+    /**
      * Get the shelf's number ready to show on page.
      *
      * @return string
      */
     public function numberForHumans()
     {
-        return $this->number ?: __('Uninformed');
-    }
-
-    /**
-     * Default ordering of the model.
-     *
-     * Order: number asc
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeDefaultOrder(Builder $query)
-    {
-        return $query->orderBy('number', 'asc');
+        return shelfForHumans($this->number);
     }
 
     /**

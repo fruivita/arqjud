@@ -93,22 +93,6 @@ test('numberForHumans() return the number ready to show on page', function () {
     ->and($shelf_1->numberForHumans())->toBe(10);
 });
 
-test('returns the shelves using the default sort scope defined', function () {
-    $first = 100;
-    $second = 200;
-    $third = 300;
-
-    Shelf::factory()->create(['number' => $third]);
-    Shelf::factory()->create(['number' => $first]);
-    Shelf::factory()->create(['number' => $second]);
-
-    $shelf = Shelf::defaultOrder()->get();
-
-    expect($shelf->get(0)->number)->toBe($first)
-    ->and($shelf->get(1)->number)->toBe($second)
-    ->and($shelf->get(2)->number)->toBe($third);
-});
-
 test('one shelf belongs to one stand', function () {
     $stand = Stand::factory()->create();
 
@@ -158,4 +142,36 @@ test('parentLinks returns show parents routes, included the root element route, 
         __('Stand') => route('archiving.register.stand.show', $shelf->stand),
         __('Shelf') => route('archiving.register.shelf.show', $shelf),
     ]);
+});
+
+test('hierarchy returns all shelves with the respective stand, room, floor, building, site and the number of boxes of each', function () {
+    Shelf::factory()->create(['number' => 10]);
+    Shelf::factory()->has(Box::factory(1), 'boxes')->create(['number' => 20]);
+    Shelf::factory()->has(Box::factory(2), 'boxes')->create(['number' => 30]);
+
+    $all = Shelf::hierarchy()->get();
+
+    $shelf_10 = $all->firstWhere('number', 10);
+    $shelf_20 = $all->firstWhere('number', 20);
+    $shelf_30 = $all->firstWhere('number', 30);
+
+    expect($all)->toHaveCount(3)
+    ->and(empty($shelf_10->site_name))->toBeFalse()
+    ->and(empty($shelf_10->building_name))->toBeFalse()
+    ->and(empty($shelf_10->floor_number))->toBeFalse()
+    ->and(empty($shelf_10->room_number))->toBeFalse()
+    ->and(empty($shelf_10->stand_number))->toBeFalse()
+    ->and($shelf_10->boxes_count)->toBe(0)
+    ->and(empty($shelf_20->site_name))->toBeFalse()
+    ->and(empty($shelf_20->building_name))->toBeFalse()
+    ->and(empty($shelf_20->floor_number))->toBeFalse()
+    ->and(empty($shelf_20->room_number))->toBeFalse()
+    ->and(empty($shelf_20->stand_number))->toBeFalse()
+    ->and($shelf_20->boxes_count)->toBe(1)
+    ->and(empty($shelf_30->site_name))->toBeFalse()
+    ->and(empty($shelf_30->building_name))->toBeFalse()
+    ->and(empty($shelf_30->floor_number))->toBeFalse()
+    ->and(empty($shelf_30->room_number))->toBeFalse()
+    ->and(empty($shelf_30->stand_number))->toBeFalse()
+    ->and($shelf_30->boxes_count)->toBe(2);
 });

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @see https://laravel.com/docs/eloquent
@@ -35,17 +36,25 @@ class Building extends Model
     }
 
     /**
-     * Default ordering of the model.
+     * All buildings.
      *
-     * Order: name asc
+     * Extra columns:
+     * - site_name: parent site name
+     * - floors_count: child floors count
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function scopeDefaultOrder($query)
+    public static function hierarchy()
     {
-        return $query->orderBy('name', 'asc');
+        return
+        self::join('sites', 'buildings.site_id', '=', 'sites.id')
+        ->leftJoin('floors', 'floors.building_id', '=', 'buildings.id')
+        ->select([
+            'buildings.*',
+            'sites.name as site_name',
+            DB::raw('COUNT(floors.building_id) as floors_count')
+        ])
+        ->groupBy('buildings.id');
     }
 
     /**

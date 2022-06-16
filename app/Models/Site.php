@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @see https://laravel.com/docs/eloquent
@@ -26,17 +26,22 @@ class Site extends Model
     }
 
     /**
-     * Default ordering of the model.
+     * All sites.
      *
-     * Order: name asc
+     * Extra columns:
+     * - buildings_count: child buildings count
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function scopeDefaultOrder(Builder $query)
+    public static function hierarchy()
     {
-        return $query->orderBy('name', 'asc');
+        return
+        self::leftJoin('buildings', 'buildings.site_id', '=', 'sites.id')
+        ->select([
+            'sites.*',
+            DB::raw('COUNT(buildings.site_id) as buildings_count')
+        ])
+        ->groupBy('sites.id');
     }
 
     /**

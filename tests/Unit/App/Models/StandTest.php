@@ -93,22 +93,6 @@ test('numberForHumans() return the number ready to show on page', function () {
     ->and($stand_1->numberForHumans())->toBe(10);
 });
 
-test('returns the stands using the default sort scope defined', function () {
-    $first = 100;
-    $second = 200;
-    $third = 300;
-
-    Stand::factory()->create(['number' => $third]);
-    Stand::factory()->create(['number' => $first]);
-    Stand::factory()->create(['number' => $second]);
-
-    $stands = Stand::defaultOrder()->get();
-
-    expect($stands->get(0)->number)->toBe($first)
-    ->and($stands->get(1)->number)->toBe($second)
-    ->and($stands->get(2)->number)->toBe($third);
-});
-
 test('one stand belongs to one room', function () {
     $room = Room::factory()->create();
 
@@ -156,4 +140,33 @@ test('parentLinks returns show parents routes, included the root element route, 
         __('Room') => route('archiving.register.room.show', $stand->room),
         __('Stand') => route('archiving.register.stand.show', $stand),
     ]);
+});
+
+test('hierarchy returns all stands with the respective room, floor, building, site and the number of shelves of each', function () {
+    Stand::factory()->create(['number' => 10]);
+    Stand::factory()->has(Shelf::factory(1), 'shelves')->create(['number' => 20]);
+    Stand::factory()->has(Shelf::factory(2), 'shelves')->create(['number' => 30]);
+
+    $all = Stand::hierarchy()->get();
+
+    $stand_10 = $all->firstWhere('number', 10);
+    $stand_20 = $all->firstWhere('number', 20);
+    $stand_30 = $all->firstWhere('number', 30);
+
+    expect($all)->toHaveCount(3)
+    ->and(empty($stand_10->site_name))->toBeFalse()
+    ->and(empty($stand_10->building_name))->toBeFalse()
+    ->and(empty($stand_10->floor_number))->toBeFalse()
+    ->and(empty($stand_10->room_number))->toBeFalse()
+    ->and($stand_10->shelves_count)->toBe(0)
+    ->and(empty($stand_20->site_name))->toBeFalse()
+    ->and(empty($stand_20->building_name))->toBeFalse()
+    ->and(empty($stand_20->floor_number))->toBeFalse()
+    ->and(empty($stand_20->room_number))->toBeFalse()
+    ->and($stand_20->shelves_count)->toBe(1)
+    ->and(empty($stand_30->site_name))->toBeFalse()
+    ->and(empty($stand_30->building_name))->toBeFalse()
+    ->and(empty($stand_30->floor_number))->toBeFalse()
+    ->and(empty($stand_30->room_number))->toBeFalse()
+    ->and($stand_30->shelves_count)->toBe(2);
 });

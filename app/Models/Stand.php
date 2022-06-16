@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @see https://laravel.com/docs/eloquent
@@ -36,27 +36,44 @@ class Stand extends Model
     }
 
     /**
+     * All stands.
+     *
+     * Extra columns:
+     * - site_name: parent site name
+     * - building_name: parent building name
+     * - floor_number: parent floor number
+     * - room_number: parent room number
+     * - shelves_count: child shelves count
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public static function hierarchy()
+    {
+        return
+        self::join('rooms', 'stands.room_id', '=', 'rooms.id')
+        ->join('floors', 'rooms.floor_id', '=', 'floors.id')
+        ->join('buildings', 'floors.building_id', '=', 'buildings.id')
+        ->join('sites', 'buildings.site_id', '=', 'sites.id')
+        ->leftJoin('shelves', 'shelves.stand_id', '=', 'stands.id')
+        ->select([
+            'stands.*',
+            'rooms.number as room_number',
+            'floors.number as floor_number',
+            'buildings.name as building_name',
+            'sites.name as site_name',
+            DB::raw('COUNT(shelves.stand_id) as shelves_count')
+        ])
+        ->groupBy('stands.id');
+    }
+
+    /**
      * Get the stand's number ready to show on page.
      *
      * @return string
      */
     public function numberForHumans()
     {
-        return $this->number ?: __('Uninformed');
-    }
-
-    /**
-     * Default ordering of the model.
-     *
-     * Order: number asc
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeDefaultOrder(Builder $query)
-    {
-        return $query->orderBy('number', 'asc');
+        return standForHumans($this->number);
     }
 
     /**

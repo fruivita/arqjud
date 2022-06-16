@@ -107,22 +107,6 @@ test('createRoom save the room as a child of the floor and create a default stan
     ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
 });
 
-test('returns the floors using the default sort scope defined', function () {
-    $first = 100;
-    $second = 200;
-    $third = 300;
-
-    Floor::factory()->create(['number' => $third]);
-    Floor::factory()->create(['number' => $first]);
-    Floor::factory()->create(['number' => $second]);
-
-    $floors = Floor::defaultOrder()->get();
-
-    expect($floors->get(0)->number)->toBe($first)
-    ->and($floors->get(1)->number)->toBe($second)
-    ->and($floors->get(2)->number)->toBe($third);
-});
-
 test('one floor belongs to one building', function () {
     $building = Building::factory()->create();
 
@@ -166,4 +150,27 @@ test('parentLinks returns show parents routes, included the root element route, 
         __('Building') => route('archiving.register.building.show', $floor->building),
         __('Floor') => route('archiving.register.floor.show', $floor),
     ]);
+});
+
+test('hierarchy returns all floors with the respective building, site and the number of rooms of each', function () {
+    Floor::factory()->create(['number' => 10]);
+    Floor::factory()->has(Room::factory(1), 'rooms')->create(['number' => 20]);
+    Floor::factory()->has(Room::factory(2), 'rooms')->create(['number' => 30]);
+
+    $all = Floor::hierarchy()->get();
+
+    $floor_10 = $all->firstWhere('number', 10);
+    $floor_20 = $all->firstWhere('number', 20);
+    $floor_30 = $all->firstWhere('number', 30);
+
+    expect($all)->toHaveCount(3)
+    ->and(empty($floor_10->site_name))->toBeFalse()
+    ->and(empty($floor_10->building_name))->toBeFalse()
+    ->and($floor_10->rooms_count)->toBe(0)
+    ->and(empty($floor_20->site_name))->toBeFalse()
+    ->and(empty($floor_20->building_name))->toBeFalse()
+    ->and($floor_20->rooms_count)->toBe(1)
+    ->and(empty($floor_30->site_name))->toBeFalse()
+    ->and(empty($floor_30->building_name))->toBeFalse()
+    ->and($floor_30->rooms_count)->toBe(2);
 });

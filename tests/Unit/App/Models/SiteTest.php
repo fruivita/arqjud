@@ -48,22 +48,6 @@ test('optional fields are set', function () {
     expect(Site::count())->toBe(1);
 });
 
-test('returns the sites using the default sort scope defined', function () {
-    $first = 'bar';
-    $second = 'baz';
-    $third = 'foo';
-
-    Site::factory()->create(['name' => $third]);
-    Site::factory()->create(['name' => $first]);
-    Site::factory()->create(['name' => $second]);
-
-    $sites = Site::defaultOrder()->get();
-
-    expect($sites->get(0)->name)->toBe($first)
-    ->and($sites->get(1)->name)->toBe($second)
-    ->and($sites->get(2)->name)->toBe($third);
-});
-
 test('one site has many buildings', function () {
     Site::factory()
         ->has(Building::factory(3), 'buildings')
@@ -86,4 +70,21 @@ test('parentLinks returns show parents routes, included the root element route, 
     expect($site->parentLinks(true)->toArray())->toBe([
         __('Site') => route('archiving.register.site.show', $site),
     ]);
+});
+
+test('hierarchy returns all sites with the respective number of buildings of each', function () {
+    Site::factory()->create(['name' => 'foo']);
+    Site::factory()->has(Building::factory(1), 'buildings')->create(['name' => 'bar']);
+    Site::factory()->has(Building::factory(2), 'buildings')->create(['name' => 'baz']);
+
+    $all = Site::hierarchy()->get();
+
+    $foo = $all->firstWhere('name', 'foo');
+    $bar = $all->firstWhere('name', 'bar');
+    $baz = $all->firstWhere('name', 'baz');
+
+    expect($all)->toHaveCount(3)
+    ->and($foo->buildings_count)->toBe(0)
+    ->and($bar->buildings_count)->toBe(1)
+    ->and($baz->buildings_count)->toBe(2);
 });

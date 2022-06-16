@@ -63,27 +63,6 @@ test('numberForHumans returns the number and year of the box ready for display',
     expect($box->numberForHumans())->toBe('100/2020');
 });
 
-test('returns the boxes using the default sort scope defined', function () {
-    $second = Box::factory()->create([
-        'number' => 100,
-        'year' => 2020,
-    ]);
-    $first = Box::factory()->create([
-        'number' => 200,
-        'year' => 2020,
-    ]);
-    $third = Box::factory()->create([
-        'number' => 100,
-        'year' => 2019,
-    ]);
-
-    $boxes = Box::defaultOrder()->get();
-
-    expect($boxes->get(0)->id)->toBe($first->id)
-    ->and($boxes->get(1)->id)->toBe($second->id)
-    ->and($boxes->get(2)->id)->toBe($third->id);
-});
-
 test('one box belongs to one shelf', function () {
     $shelf = Shelf::factory()->create();
 
@@ -171,4 +150,39 @@ test('createMany method creates and persists sequential boxes with equal attribu
     ->and($box->volumes)->toHaveCount(5)
     ->and($box->volumes->first()->number)->toBe(1)
     ->and($box->volumes->last()->number)->toBe(5);
+});
+
+test('hierarchy returns all boxes with the respective shelf, stand, room, floor, building, site and the number of volumes of each', function () {
+    Box::factory()->create(['number' => 10]);
+    Box::factory()->has(BoxVolume::factory(1), 'volumes')->create(['number' => 20]);
+    Box::factory()->has(BoxVolume::factory(2), 'volumes')->create(['number' => 30]);
+
+    $all = Box::hierarchy()->get();
+
+    $box_10 = $all->firstWhere('number', 10);
+    $box_20 = $all->firstWhere('number', 20);
+    $box_30 = $all->firstWhere('number', 30);
+
+    expect($all)->toHaveCount(3)
+    ->and(empty($box_10->site_name))->toBeFalse()
+    ->and(empty($box_10->building_name))->toBeFalse()
+    ->and(empty($box_10->floor_number))->toBeFalse()
+    ->and(empty($box_10->room_number))->toBeFalse()
+    ->and(empty($box_10->stand_number))->toBeFalse()
+    ->and(empty($box_10->shelf_number))->toBeFalse()
+    ->and($box_10->volumes_count)->toBe(0)
+    ->and(empty($box_20->site_name))->toBeFalse()
+    ->and(empty($box_20->building_name))->toBeFalse()
+    ->and(empty($box_20->floor_number))->toBeFalse()
+    ->and(empty($box_20->room_number))->toBeFalse()
+    ->and(empty($box_20->stand_number))->toBeFalse()
+    ->and(empty($box_20->shelf_number))->toBeFalse()
+    ->and($box_20->volumes_count)->toBe(1)
+    ->and(empty($box_30->site_name))->toBeFalse()
+    ->and(empty($box_30->building_name))->toBeFalse()
+    ->and(empty($box_30->floor_number))->toBeFalse()
+    ->and(empty($box_30->room_number))->toBeFalse()
+    ->and(empty($box_30->stand_number))->toBeFalse()
+    ->and(empty($box_30->shelf_number))->toBeFalse()
+    ->and($box_30->volumes_count)->toBe(2);
 });

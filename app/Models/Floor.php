@@ -37,17 +37,28 @@ class Floor extends Model
     }
 
     /**
-     * Default ordering of the model.
+     * All floors.
      *
-     * Order: number asc
+     * Extra columns:
+     * - site_name: parent site name
+     * - building_name: parent building name
+     * - rooms_count: child rooms count
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function scopeDefaultOrder($query)
+    public static function hierarchy()
     {
-        return $query->orderBy('number', 'asc');
+        return
+        self::join('buildings', 'floors.building_id', '=', 'buildings.id')
+        ->join('sites', 'buildings.site_id', '=', 'sites.id')
+        ->leftJoin('rooms', 'rooms.floor_id', '=', 'floors.id')
+        ->select([
+            'floors.*',
+            'buildings.name as building_name',
+            'sites.name as site_name',
+            DB::raw('COUNT(rooms.floor_id) as rooms_count')
+        ])
+        ->groupBy('floors.id');
     }
 
     /**

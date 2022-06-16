@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -46,30 +45,50 @@ class Box extends Model
     }
 
     /**
+     * All boxes.
+     *
+     * Extra columns:
+     * - site_name: parent site name
+     * - building_name: parent building name
+     * - floor_number: parent floor number
+     * - room_number: parent room number
+     * - stand_number: parent stand number
+     * - shelf_number: parent shelf number
+     * - volumes_count: child box volumes count
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public static function hierarchy()
+    {
+        return
+        self::join('shelves', 'boxes.shelf_id', '=', 'shelves.id')
+        ->join('stands', 'shelves.stand_id', '=', 'stands.id')
+        ->join('rooms', 'stands.room_id', '=', 'rooms.id')
+        ->join('floors', 'rooms.floor_id', '=', 'floors.id')
+        ->join('buildings', 'floors.building_id', '=', 'buildings.id')
+        ->join('sites', 'buildings.site_id', '=', 'sites.id')
+        ->leftJoin('box_volumes', 'box_volumes.box_id', '=', 'boxes.id')
+        ->select([
+            'boxes.*',
+            'shelves.number as shelf_number',
+            'stands.number as stand_number',
+            'rooms.number as room_number',
+            'floors.number as floor_number',
+            'buildings.name as building_name',
+            'sites.name as site_name',
+            DB::raw('COUNT(box_volumes.box_id) as volumes_count')
+        ])
+        ->groupBy('boxes.id');
+    }
+
+    /**
      * Get the box's number and year ready to show on page.
      *
      * @return string
      */
     public function numberForHumans()
     {
-        return $this->number . '/' . $this->year;
-    }
-
-    /**
-     * Default ordering of the model.
-     *
-     * Order: year desc
-     * Order: number desc
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeDefaultOrder(Builder $query)
-    {
-        return $query
-        ->orderBy('year', 'desc')
-        ->orderBy('number', 'desc');
+        return boxForHumans($this->number, $this->year);
     }
 
     /**
