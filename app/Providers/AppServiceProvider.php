@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\View\Composers\DocumentationComposer;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -37,6 +37,16 @@ class AppServiceProvider extends ServiceProvider
                     }
                 });
 
+            });
+
+            return $this;
+        });
+
+        Builder::macro('orderByWhen', function($column, $direction) {
+            $this->when($column, function(Builder $query, $column) use ($direction) {
+                $query->orderBy($column, $direction);
+            }, function(Builder $query) {
+                $query->latest();
             });
 
             return $this;
