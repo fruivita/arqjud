@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use function App\maxSafeInteger;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
