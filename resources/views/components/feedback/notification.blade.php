@@ -41,7 +41,7 @@
     x-on:mouseover.once="clearTimeout(timeout_id)"
     x-transition.duration.500ms
     x-bind:class="type"
-    class="border-l-8 border-r-8 bottom-3 fixed ml-3 p-3 right-3 z-30"
+    class="border-l-8 border-r-8 top-12 fixed ml-3 p-3 right-3 z-30"
 >
 
     <div class="flex items-center space-x-3">
