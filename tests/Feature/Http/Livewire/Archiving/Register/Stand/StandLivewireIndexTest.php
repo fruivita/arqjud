@@ -246,3 +246,10 @@ test('delete a stand record with specific permission if it has no shelves', func
 
     expect(Stand::where('id', $this->stand->id)->doesntExist())->toBeTrue();
 });
+
+test('StandLivewireIndex uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(StandLivewireIndex::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
+});

@@ -347,3 +347,10 @@ test('delete a room record with specific permission if it has no stands', functi
 
     expect(Room::where('id', $room->id)->doesntExist())->toBeTrue();
 });
+
+test('RoomLivewireCreate uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(RoomLivewireCreate::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
+});

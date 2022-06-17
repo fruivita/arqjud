@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Room;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -18,6 +19,7 @@ use Livewire\Component;
 class RoomLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -116,11 +118,9 @@ class RoomLivewireCreate extends Component
     public function getRoomsProperty()
     {
         return $this->applyPagination(
-            $this
-                ->floor
-                ->rooms()
-                ->withcount('stands')
-                ->latest()
+            Room::hierarchy()
+            ->where('rooms.floor_id', $this->floor->id)
+            ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
 

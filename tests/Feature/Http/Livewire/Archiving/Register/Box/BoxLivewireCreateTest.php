@@ -518,3 +518,10 @@ test('delete a box record with specific permission if it has no volumes', functi
 
     expect(Box::where('id', $box->id)->doesntExist())->toBeTrue();
 });
+
+test('BoxLivewireCreate uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(BoxLivewireCreate::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
+});

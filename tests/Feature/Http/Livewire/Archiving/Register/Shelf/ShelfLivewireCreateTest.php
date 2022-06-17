@@ -322,3 +322,10 @@ test('delete a shelf record with specific permission if it has no shelves', func
 
     expect(Shelf::where('id', $shelf->id)->doesntExist())->toBeTrue();
 });
+
+test('ShelfLivewireCreate uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(ShelfLivewireCreate::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
+});

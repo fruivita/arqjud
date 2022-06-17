@@ -246,3 +246,10 @@ test('delete a building record with specific permission if it has no floors', fu
 
     expect(Building::where('id', $this->building->id)->doesntExist())->toBeTrue();
 });
+
+test('BuildingLivewireIndex uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(BuildingLivewireIndex::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
+});

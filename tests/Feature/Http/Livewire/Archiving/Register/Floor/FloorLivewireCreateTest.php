@@ -322,3 +322,10 @@ test('delete a floor record with specific permission if it has no rooms', functi
 
     expect(Floor::where('id', $floor->id)->doesntExist())->toBeTrue();
 });
+
+test('FloorLivewireCreate uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(FloorLivewireCreate::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
+});

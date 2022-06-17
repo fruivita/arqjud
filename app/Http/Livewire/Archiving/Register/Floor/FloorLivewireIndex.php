@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Archiving\Register\Floor;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\Searchable;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -18,6 +19,7 @@ class FloorLivewireIndex extends Component
 {
     use AuthorizesRequests;
     use Searchable;
+    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -41,10 +43,9 @@ class FloorLivewireIndex extends Component
     public function getFloorsProperty()
     {
         return $this->applyPagination(
-            Floor::withcount('rooms')
-            ->with('building.site')
-            ->whereLike('number', $this->term)
-            ->defaultOrder()
+            Floor::hierarchy()
+            ->whereLike('floors.number', $this->term)
+            ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
 

@@ -243,3 +243,10 @@ test('delete a site record with specific permission if it has no buildings', fun
 
     expect(Site::where('id', $this->site->id)->doesntExist())->toBeTrue();
 });
+
+test('SiteLivewireIndex uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(SiteLivewireIndex::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
+});

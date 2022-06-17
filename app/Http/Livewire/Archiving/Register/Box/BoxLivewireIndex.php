@@ -4,12 +4,12 @@ namespace App\Http\Livewire\Archiving\Register\Box;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\Searchable;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Box;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 /**
@@ -19,6 +19,7 @@ class BoxLivewireIndex extends Component
 {
     use AuthorizesRequests;
     use Searchable;
+    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -42,10 +43,9 @@ class BoxLivewireIndex extends Component
     public function getBoxesProperty()
     {
         return $this->applyPagination(
-            Box::with(['shelf.stand.room.floor.building.site'])
-            ->withCount('volumes')
-            ->whereLike(['number', 'year'], $this->term)
-            ->defaultOrder()
+            Box::hierarchy()
+            ->whereLike(['boxes.number', 'boxes.year'], $this->term)
+            ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
 

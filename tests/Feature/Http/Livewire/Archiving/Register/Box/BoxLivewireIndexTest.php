@@ -259,3 +259,10 @@ test('delete a box record with specific permission if it has no shelves', functi
 
     expect(Box::where('id', $this->box->id)->doesntExist())->toBeTrue();
 });
+
+test('BoxLivewireIndex uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(BoxLivewireIndex::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
+});

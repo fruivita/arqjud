@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Box;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -19,6 +20,7 @@ use Livewire\Component;
 class BoxLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -155,11 +157,9 @@ class BoxLivewireCreate extends Component
     public function getBoxesProperty()
     {
         return $this->applyPagination(
-            $this
-                ->shelf
-                ->boxes()
-                ->withCount('volumes')
-                ->latest()
+            Box::hierarchy()
+            ->where('boxes.shelf_id', $this->shelf->id)
+            ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
 

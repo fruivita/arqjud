@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Archiving\Register\Stand;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\Searchable;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -18,6 +19,7 @@ class StandLivewireIndex extends Component
 {
     use AuthorizesRequests;
     use Searchable;
+    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -41,10 +43,9 @@ class StandLivewireIndex extends Component
     public function getStandsProperty()
     {
         return $this->applyPagination(
-            Stand::withcount('shelves')
-            ->with('room.floor.building.site')
-            ->whereLike('number', $this->term)
-            ->defaultOrder()
+            Stand::hierarchy()
+            ->whereLike('stands.number', $this->term)
+            ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
 

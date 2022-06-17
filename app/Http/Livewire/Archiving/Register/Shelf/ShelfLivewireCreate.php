@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Shelf;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -18,6 +19,7 @@ use Livewire\Component;
 class ShelfLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -116,11 +118,9 @@ class ShelfLivewireCreate extends Component
     public function getShelvesProperty()
     {
         return $this->applyPagination(
-            $this
-                ->stand
-                ->shelves()
-                ->withCount('boxes')
-                ->latest()
+            Shelf::hierarchy()
+            ->where('shelves.stand_id', $this->stand->id)
+            ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
 
