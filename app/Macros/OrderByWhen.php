@@ -19,7 +19,7 @@ class OrderByWhen
 {
     public function __invoke()
     {
-        return function (string $column, string $direction) {
+        return function ($column, $direction) {
 
             $this->when($column,
 

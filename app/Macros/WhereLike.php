@@ -18,7 +18,7 @@ class WhereLike
 {
     public function __invoke()
     {
-        return function ($columns, string $value) {
+        return function ($columns, $value) {
 
             $this->when($value, function(Builder $query, string $value) use ($columns) {
 
