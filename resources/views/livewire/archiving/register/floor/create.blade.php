@@ -93,6 +93,8 @@
         <x-table.model.floor
             :deleting="$deleting"
             :floors="$floors"
+            :sort_column="$sort_column"
+            :sort_direction="$sort_direction"
             withdeletebutton/>
 
     </x-container>

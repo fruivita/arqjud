@@ -4,6 +4,8 @@
     Props:
     - deleting: item to be deleted
     - sites: sites that will be displayed
+    - sort_column: column used to sort
+    - sort_direction: column sort direction
     - withnewbutton: whether the new button should be displayed
 
     @see https://laravel.com/docs/blade
@@ -16,9 +18,11 @@
 
 
 @props([
-    'deleting' => $deleting,
-    'sites' => $sites,
-    'withnewbutton' => false
+    'deleting',
+    'sites',
+    'sort_column' => null,
+    'sort_direction' => null,
+    'withnewbutton' => false,
 ])
 
 
@@ -59,10 +63,26 @@
 
             <x-slot name="head">
 
-                <x-table.heading>{{ __('Site') }}</x-table.heading>
+                <x-table.heading
+                    wire:click="sortBy('name')"
+                    :direction="$sort_column === 'name' ? $sort_direction : null"
+                    sortable
+                >
+
+                    {{ __('Site') }}
+
+                </x-table.heading>
 
 
-                <x-table.heading>{{ __('Qty of buildings') }}</x-table.heading>
+                <x-table.heading
+                    wire:click="sortBy('buildings_count')"
+                    :direction="$sort_column === 'buildings_count' ? $sort_direction : null"
+                    sortable
+                >
+
+                    {{ __('Qty of buildings') }}
+
+                </x-table.heading>
 
 
                 <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>

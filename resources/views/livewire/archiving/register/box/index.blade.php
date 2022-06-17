@@ -24,6 +24,8 @@
         <x-table.model.box
             :boxes="$boxes"
             :deleting="$deleting"
+            :sort_column="$sort_column"
+            :sort_direction="$sort_direction"
             withdeletebutton
             withparents/>
 

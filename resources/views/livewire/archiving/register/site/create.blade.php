@@ -75,7 +75,9 @@
 
         <x-table.model.site
             :deleting="$deleting"
-            :sites="$sites"/>
+            :sites="$sites"
+            :sort_column="$sort_column"
+            :sort_direction="$sort_direction"/>
 
     </x-container>
 

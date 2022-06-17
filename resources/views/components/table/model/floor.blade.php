@@ -2,9 +2,11 @@
     Livewire view for listing floors.
 
     Props:
-    - floors: floors that will be displayed
     - deleting: item to be deleted
+    - floors: floors that will be displayed
     - parent: parent element of the item that will eventually be created
+    - sort_column: column used to sort
+    - sort_direction: column sort direction
     - withdeletebutton: whether the delete button should be displayed
     - withnewbutton: whether the new button should be displayed
     - withparents: whether the parent info should be displayed
@@ -19,9 +21,11 @@
 
 
 @props([
-    'floors' => $floors,
     'deleting' => null,
+    'floors',
     'parent' => null,
+    'sort_column' => null,
+    'sort_direction' => null,
     'withdeletebutton' => false,
     'withnewbutton' => false,
     'withparents' => false
@@ -66,18 +70,50 @@
 
             <x-slot name="head">
 
-                <x-table.heading>{{ __('Floor') }}</x-table.heading>
+                <x-table.heading
+                    wire:click="sortBy('number')"
+                    :direction="$sort_column === 'number' ? $sort_direction : null"
+                    sortable
+                >
+
+                    {{ __('Floor') }}
+
+                </x-table.heading>
 
 
-                <x-table.heading>{{ __('Qty of rooms') }}</x-table.heading>
+                <x-table.heading
+                    wire:click="sortBy('rooms_count')"
+                    :direction="$sort_column === 'rooms_count' ? $sort_direction : null"
+                    sortable
+                >
+
+                    {{ __('Qty of rooms') }}
+
+                </x-table.heading>
 
 
                 @if ($withparents)
 
-                    <x-table.heading>{{ __('Site') }}</x-table.heading>
+                    <x-table.heading
+                        wire:click="sortBy('sites.name')"
+                        :direction="$sort_column === 'sites.name' ? $sort_direction : null"
+                        sortable
+                    >
+
+                        {{ __('Site') }}
+
+                    </x-table.heading>
 
 
-                    <x-table.heading>{{ __('Building') }}</x-table.heading>
+                    <x-table.heading
+                        wire:click="sortBy('buildings.name')"
+                        :direction="$sort_column === 'buildings.name' ? $sort_direction : null"
+                        sortable
+                    >
+
+                        {{ __('Building') }}
+
+                    </x-table.heading>
 
                 @endif
 
@@ -101,10 +137,10 @@
 
                         @if ($withparents)
 
-                            <x-table.cell>{{ $floor->building->site->name }}</x-table.cell>
+                            <x-table.cell>{{ $floor->site_name }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $floor->building->name }}</x-table.cell>
+                            <x-table.cell>{{ $floor->building_name }}</x-table.cell>
 
                         @endif
 

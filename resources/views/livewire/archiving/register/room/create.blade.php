@@ -98,6 +98,8 @@
         <x-table.model.room
             :deleting="$deleting"
             :rooms="$rooms"
+            :sort_column="$sort_column"
+            :sort_direction="$sort_direction"
             withdeletebutton/>
 
     </x-container>

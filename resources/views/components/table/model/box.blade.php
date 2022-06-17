@@ -5,6 +5,8 @@
     - boxes: boxes that will be displayed
     - deleting: item to be deleted
     - parent: parent element of the item that will eventually be created
+    - sort_column: column used to sort
+    - sort_direction: column sort direction
     - withdeletebutton: whether the delete button should be displayed
     - withnewbutton: whether the new button should be displayed
     - withparents: whether the parent info should be displayed
@@ -19,9 +21,11 @@
 
 
 @props([
-    'boxes' => $boxes,
+    'boxes',
     'deleting' => null,
     'parent' => null,
+    'sort_column' => null,
+    'sort_direction' => null,
     'withdeletebutton' => false,
     'withnewbutton' => false,
     'withparents' => false
@@ -66,33 +70,105 @@
 
             <x-slot name="head">
 
-                <x-table.heading>{{ __('Number') }}</x-table.heading>
+                <x-table.heading
+                    wire:click="sortBy('number')"
+                    :direction="$sort_column === 'number' ? $sort_direction : null"
+                    sortable
+                >
+
+                    {{ __('Number') }}
+
+                </x-table.heading>
 
 
-                <x-table.heading>{{ __('Year') }}</x-table.heading>
+                <x-table.heading
+                    wire:click="sortBy('year')"
+                    :direction="$sort_column === 'year' ? $sort_direction : null"
+                    sortable
+                >
+
+                    {{ __('Year') }}
+
+                </x-table.heading>
 
 
-                <x-table.heading>{{ __('Qty of volumes') }}</x-table.heading>
+                <x-table.heading
+                    wire:click="sortBy('volumes_count')"
+                    :direction="$sort_column === 'volumes_count' ? $sort_direction : null"
+                    sortable
+                >
+
+                    {{ __('Qty of volumes') }}
+
+                </x-table.heading>
 
 
                 @if ($withparents)
 
-                    <x-table.heading>{{ __('Site') }}</x-table.heading>
+                    <x-table.heading
+                        wire:click="sortBy('sites.name')"
+                        :direction="$sort_column === 'sites.name' ? $sort_direction : null"
+                        sortable
+                    >
+
+                        {{ __('Site') }}
+
+                    </x-table.heading>
 
 
-                    <x-table.heading>{{ __('Building') }}</x-table.heading>
+                    <x-table.heading
+                        wire:click="sortBy('buildings.name')"
+                        :direction="$sort_column === 'buildings.name' ? $sort_direction : null"
+                        sortable
+                    >
+
+                        {{ __('Building') }}
+
+                    </x-table.heading>
 
 
-                    <x-table.heading>{{ __('Floor') }}</x-table.heading>
+                    <x-table.heading
+                        wire:click="sortBy('floors.number')"
+                        :direction="$sort_column === 'floors.number' ? $sort_direction : null"
+                        sortable
+                    >
+
+                        {{ __('Floor') }}
+
+                    </x-table.heading>
 
 
-                    <x-table.heading>{{ __('Room') }}</x-table.heading>
+                    <x-table.heading
+                        wire:click="sortBy('rooms.number')"
+                        :direction="$sort_column === 'rooms.number' ? $sort_direction : null"
+                        sortable
+                    >
+
+                        {{ __('Room') }}
+
+                    </x-table.heading>
 
 
-                    <x-table.heading>{{ __('Stand') }}</x-table.heading>
+                    <x-table.heading
+                        wire:click="sortBy('stands.number')"
+                        :direction="$sort_column === 'stands.number' ? $sort_direction : null"
+                        sortable
+                    >
+
+                        {{ __('Stand') }}
+
+                    </x-table.heading>
 
 
-                    <x-table.heading>{{ __('Shelf') }}</x-table.heading>
+                    <x-table.heading
+                        wire:click="sortBy('shelves.number')"
+                        :direction="$sort_column === 'shelves.number' ? $sort_direction : null"
+                        sortable
+                    >
+
+                        {{ __('Shelf') }}
+
+                    </x-table.heading>
 
                 @endif
 
@@ -119,22 +195,22 @@
 
                         @if ($withparents)
 
-                            <x-table.cell>{{ $box->shelf->stand->room->floor->building->site->name }}</x-table.cell>
+                            <x-table.cell>{{ $box->site_name }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $box->shelf->stand->room->floor->building->name }}</x-table.cell>
+                            <x-table.cell>{{ $box->building_name }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $box->shelf->stand->room->floor->number }}</x-table.cell>
+                            <x-table.cell>{{ $box->floor_number }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $box->shelf->stand->room->number }}</x-table.cell>
+                            <x-table.cell>{{ $box->room_number }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $box->shelf->stand->numberForHumans() }}</x-table.cell>
+                            <x-table.cell>{{ standForHumans($box->stand_number) }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $box->shelf->numberForHumans() }}</x-table.cell>
+                            <x-table.cell>{{ shelfForHumans($box->shelf_number) }}</x-table.cell>
 
                         @endif
 

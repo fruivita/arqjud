@@ -5,6 +5,8 @@
     - buildings: buildings that will be displayed
     - deleting: item to be deleted
     - parent: parent element of the item that will eventually be created
+    - sort_column: column used to sort
+    - sort_direction: column sort direction
     - withdeletebutton: whether the delete button should be displayed
     - withnewbutton: whether the new button should be displayed
     - withparents: whether the parent info should be displayed
@@ -19,9 +21,11 @@
 
 
 @props([
-    'buildings' => $buildings,
+    'buildings',
     'deleting' => null,
     'parent' => null,
+    'sort_column' => null,
+    'sort_direction' => null,
     'withdeletebutton' => false,
     'withnewbutton' => false,
     'withparents' => false
@@ -66,15 +70,39 @@
 
             <x-slot name="head">
 
-                <x-table.heading>{{ __('Building') }}</x-table.heading>
+                <x-table.heading
+                    wire:click="sortBy('name')"
+                    :direction="$sort_column === 'name' ? $sort_direction : null"
+                    sortable
+                >
+
+                    {{ __('Building') }}
+
+                </x-table.heading>
 
 
-                <x-table.heading>{{ __('Qty of floors') }}</x-table.heading>
+                <x-table.heading
+                    wire:click="sortBy('floors_count')"
+                    :direction="$sort_column === 'floors_count' ? $sort_direction : null"
+                    sortable
+                >
+
+                    {{ __('Qty of floors') }}
+
+                </x-table.heading>
 
 
                 @if ($withparents)
 
-                    <x-table.heading>{{ __('Site') }}</x-table.heading>
+                    <x-table.heading
+                        wire:click="sortBy('sites.name')"
+                        :direction="$sort_column === 'sites.name' ? $sort_direction : null"
+                        sortable
+                    >
+
+                        {{ __('Site') }}
+
+                    </x-table.heading>
 
                 @endif
 
@@ -98,7 +126,7 @@
 
                         @if ($withparents)
 
-                            <x-table.cell>{{ $building->site->name }}</x-table.cell>
+                            <x-table.cell>{{ $building->site_name }}</x-table.cell>
 
                         @endif
 
