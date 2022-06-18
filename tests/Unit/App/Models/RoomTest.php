@@ -109,31 +109,31 @@ test('one room has many stands', function () {
 });
 
 test('parentLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
-    $room = Room::factory()->create();
+    Room::factory()->create();
 
-    $room->load('floor.building.site');
+    $room = Room::hierarchy()->first();
 
     expect($room->parentLinks(false)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $room->floor->building->site),
-        __('Building') => route('archiving.register.building.show', $room->floor->building),
-        __('Floor') => route('archiving.register.floor.show', $room->floor),
+        __('Site') => route('archiving.register.site.show', $room->site_id),
+        __('Building') => route('archiving.register.building.show', $room->building_id),
+        __('Floor') => route('archiving.register.floor.show', $room->floor_id),
     ]);
 });
 
 test('parentLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
-    $room = Room::factory()->create();
+    Room::factory()->create();
 
-    $room->load('floor.building.site');
+    $room = Room::hierarchy()->first();
 
     expect($room->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $room->floor->building->site),
-        __('Building') => route('archiving.register.building.show', $room->floor->building),
-        __('Floor') => route('archiving.register.floor.show', $room->floor),
-        __('Room') => route('archiving.register.room.show', $room),
+        __('Site') => route('archiving.register.site.show', $room->site_id),
+        __('Building') => route('archiving.register.building.show', $room->building_id),
+        __('Floor') => route('archiving.register.floor.show', $room->floor_id),
+        __('Room') => route('archiving.register.room.show', $room->id),
     ]);
 });
 
-test('hierarchy returns all rooms with the respective floor, building, site and the number of stands of each', function () {
+test('hierarchy returns all rooms with the respective floor, building, site id and number/name and the number of stands of each', function () {
     Room::factory()->create(['number' => 10]);
     Room::factory()->has(Stand::factory(1), 'stands')->create(['number' => 20]);
     Room::factory()->has(Stand::factory(2), 'stands')->create(['number' => 30]);
@@ -145,16 +145,13 @@ test('hierarchy returns all rooms with the respective floor, building, site and 
     $room_30 = $all->firstWhere('number', 30);
 
     expect($all)->toHaveCount(3)
+    ->and(empty($room_10->site_id))->toBeFalse()
     ->and(empty($room_10->site_name))->toBeFalse()
+    ->and(empty($room_10->building_id))->toBeFalse()
     ->and(empty($room_10->building_name))->toBeFalse()
+    ->and(empty($room_10->floor_id))->toBeFalse()
     ->and(empty($room_10->floor_number))->toBeFalse()
     ->and($room_10->stands_count)->toBe(0)
-    ->and(empty($room_20->site_name))->toBeFalse()
-    ->and(empty($room_20->building_name))->toBeFalse()
-    ->and(empty($room_20->floor_number))->toBeFalse()
     ->and($room_20->stands_count)->toBe(1)
-    ->and(empty($room_30->site_name))->toBeFalse()
-    ->and(empty($room_30->building_name))->toBeFalse()
-    ->and(empty($room_30->floor_number))->toBeFalse()
     ->and($room_30->stands_count)->toBe(2);
 });

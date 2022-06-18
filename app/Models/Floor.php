@@ -40,11 +40,12 @@ class Floor extends Model
      * All floors.
      *
      * Extra columns:
+     * - site_id: parent site id
      * - site_name: parent site name
      * - building_name: parent building name
      * - rooms_count: child rooms count
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Query\Builder
      */
     public static function hierarchy()
     {
@@ -54,8 +55,9 @@ class Floor extends Model
         ->leftJoin('rooms', 'rooms.floor_id', '=', 'floors.id')
         ->select([
             'floors.*',
-            'buildings.name as building_name',
+            'sites.id as site_id',
             'sites.name as site_name',
+            'buildings.name as building_name',
             DB::raw('COUNT(rooms.floor_id) as rooms_count')
         ])
         ->groupBy('floors.id');
@@ -71,10 +73,10 @@ class Floor extends Model
     public function parentLinks(bool $root)
     {
         return collect([
-            __('Site') => route('archiving.register.site.show', $this->building->site),
-            __('Building') => route('archiving.register.building.show', $this->building),
+            __('Site') => route('archiving.register.site.show', $this->site_id),
+            __('Building') => route('archiving.register.building.show', $this->building_id),
         ])->when($root, function ($collection) {
-            return $collection->put(__('Floor'), route('archiving.register.floor.show', $this));
+            return $collection->put(__('Floor'), route('archiving.register.floor.show', $this->id));
         });
     }
 

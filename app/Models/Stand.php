@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -39,13 +40,16 @@ class Stand extends Model
      * All stands.
      *
      * Extra columns:
+     * - site_id: parent site id
      * - site_name: parent site name
+     * - building_id: parent building id
      * - building_name: parent building name
+     * - floor_id: parent floor id
      * - floor_number: parent floor number
      * - room_number: parent room number
      * - shelves_count: child shelves count
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Query\Builder
      */
     public static function hierarchy()
     {
@@ -57,24 +61,30 @@ class Stand extends Model
         ->leftJoin('shelves', 'shelves.stand_id', '=', 'stands.id')
         ->select([
             'stands.*',
-            'rooms.number as room_number',
-            'floors.number as floor_number',
-            'buildings.name as building_name',
+            'sites.id as site_id',
             'sites.name as site_name',
+            'buildings.id as building_id',
+            'buildings.name as building_name',
+            'floors.id as floor_id',
+            'floors.number as floor_number',
+            'rooms.number as room_number',
             DB::raw('COUNT(shelves.stand_id) as shelves_count')
         ])
         ->groupBy('stands.id');
     }
 
     /**
-     * Get the stand's number ready to show on page.
+     * Get the stand in human-readable format.
      *
-     * @return string
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    public function numberForHumans()
+    protected function forHumans(): Attribute
     {
-        return standForHumans($this->number);
+        return Attribute::make(
+            get: fn () => standForHumans($this->number)
+        );
     }
+
 
     /**
      * Links to the parent entities.
@@ -86,12 +96,12 @@ class Stand extends Model
     public function parentLinks(bool $root)
     {
         return collect([
-            __('Site') => route('archiving.register.site.show', $this->room->floor->building->site),
-            __('Building') => route('archiving.register.building.show', $this->room->floor->building),
-            __('Floor') => route('archiving.register.floor.show', $this->room->floor),
-            __('Room') => route('archiving.register.room.show', $this->room),
+            __('Site') => route('archiving.register.site.show', $this->site_id),
+            __('Building') => route('archiving.register.building.show', $this->building_id),
+            __('Floor') => route('archiving.register.floor.show', $this->floor_id),
+            __('Room') => route('archiving.register.room.show', $this->room_id),
         ])->when($root, function ($collection) {
-            return $collection->put(__('Stand'), route('archiving.register.stand.show', $this));
+            return $collection->put(__('Stand'), route('archiving.register.stand.show', $this->id));
         });
     }
 

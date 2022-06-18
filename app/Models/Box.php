@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -48,15 +49,20 @@ class Box extends Model
      * All boxes.
      *
      * Extra columns:
+     * - site_id: parent site id
      * - site_name: parent site name
+     * - building_id: parent building id
      * - building_name: parent building name
+     * - floor_id: parent floor id
      * - floor_number: parent floor number
+     * - room_id: parent room id
      * - room_number: parent room number
+     * - stand_id: parent stand id
      * - stand_number: parent stand number
      * - shelf_number: parent shelf number
      * - volumes_count: child box volumes count
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Query\Builder
      */
     public static function hierarchy()
     {
@@ -70,25 +76,56 @@ class Box extends Model
         ->leftJoin('box_volumes', 'box_volumes.box_id', '=', 'boxes.id')
         ->select([
             'boxes.*',
-            'shelves.number as shelf_number',
-            'stands.number as stand_number',
-            'rooms.number as room_number',
-            'floors.number as floor_number',
-            'buildings.name as building_name',
+            'sites.id as site_id',
             'sites.name as site_name',
+            'buildings.id as building_id',
+            'buildings.name as building_name',
+            'floors.id as floor_id',
+            'floors.number as floor_number',
+            'rooms.id as room_id',
+            'rooms.number as room_number',
+            'stands.id as stand_id',
+            'stands.number as stand_number',
+            'shelves.number as shelf_number',
             DB::raw('COUNT(box_volumes.box_id) as volumes_count')
         ])
         ->groupBy('boxes.id');
     }
 
     /**
-     * Get the box's number and year ready to show on page.
+     * Get the box in human-readable format.
      *
-     * @return string
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    public function numberForHumans()
+    protected function forHumans(): Attribute
     {
-        return boxForHumans($this->number, $this->year);
+        return Attribute::make(
+            get: fn () => boxForHumans($this->number, $this->year)
+        );
+    }
+
+    /**
+     * Get the stand in human-readable format.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function standForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => standForHumans($this->stand_number)
+        );
+    }
+
+    /**
+     * Get the shelf in human-readable format.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function shelfForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => shelfForHumans($this->shelf_number)
+        );
     }
 
     /**
@@ -101,14 +138,14 @@ class Box extends Model
     public function parentLinks(bool $root)
     {
         return collect([
-            __('Site') => route('archiving.register.site.show', $this->shelf->stand->room->floor->building->site),
-            __('Building') => route('archiving.register.building.show', $this->shelf->stand->room->floor->building),
-            __('Floor') => route('archiving.register.floor.show', $this->shelf->stand->room->floor),
-            __('Room') => route('archiving.register.room.show', $this->shelf->stand->room),
-            __('Stand') => route('archiving.register.stand.show', $this->shelf->stand),
-            __('Shelf') => route('archiving.register.shelf.show', $this->shelf),
+            __('Site') => route('archiving.register.site.show', $this->site_id),
+            __('Building') => route('archiving.register.building.show', $this->building_id),
+            __('Floor') => route('archiving.register.floor.show', $this->floor_id),
+            __('Room') => route('archiving.register.room.show', $this->room_id),
+            __('Stand') => route('archiving.register.stand.show', $this->stand_id),
+            __('Shelf') => route('archiving.register.shelf.show', $this->shelf_id),
         ])->when($root, function ($collection) {
-            return $collection->put(__('Box'), route('archiving.register.box.show', $this));
+            return $collection->put(__('Box'), route('archiving.register.box.show', $this->id));
         });
     }
 

@@ -68,7 +68,7 @@ test('parentLinks returns show parents routes, included the root element route, 
     $site = Site::factory()->create();
 
     expect($site->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $site),
+        __('Site') => route('archiving.register.site.show', $site->id),
     ]);
 });
 

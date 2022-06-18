@@ -85,14 +85,6 @@ test('uninformedStand returns the model with the expected attributes', function 
     ->and($stand->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
 });
 
-test('numberForHumans() return the number ready to show on page', function () {
-    $stand = Stand::factory()->make(['number' => 0]);
-    $stand_1 = Stand::factory()->make(['number' => 10]);
-
-    expect($stand->numberForHumans())->toBe(__('Uninformed'))
-    ->and($stand_1->numberForHumans())->toBe(10);
-});
-
 test('one stand belongs to one room', function () {
     $room = Room::factory()->create();
 
@@ -116,33 +108,33 @@ test('one stand has many shelves', function () {
 });
 
 test('parentLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
-    $stand = Stand::factory()->create();
+    Stand::factory()->create();
 
-    $stand->load('room.floor.building.site');
+    $stand = Stand::hierarchy()->first();
 
     expect($stand->parentLinks(false)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $stand->room->floor->building->site),
-        __('Building') => route('archiving.register.building.show', $stand->room->floor->building),
-        __('Floor') => route('archiving.register.floor.show', $stand->room->floor),
-        __('Room') => route('archiving.register.room.show', $stand->room),
+        __('Site') => route('archiving.register.site.show', $stand->site_id),
+        __('Building') => route('archiving.register.building.show', $stand->building_id),
+        __('Floor') => route('archiving.register.floor.show', $stand->floor_id),
+        __('Room') => route('archiving.register.room.show', $stand->room_id),
     ]);
 });
 
 test('parentLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
-    $stand = Stand::factory()->create();
+    Stand::factory()->create();
 
-    $stand->load('room.floor.building.site');
+    $stand = Stand::hierarchy()->first();
 
     expect($stand->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $stand->room->floor->building->site),
-        __('Building') => route('archiving.register.building.show', $stand->room->floor->building),
-        __('Floor') => route('archiving.register.floor.show', $stand->room->floor),
-        __('Room') => route('archiving.register.room.show', $stand->room),
-        __('Stand') => route('archiving.register.stand.show', $stand),
+        __('Site') => route('archiving.register.site.show', $stand->site_id),
+        __('Building') => route('archiving.register.building.show', $stand->building_id),
+        __('Floor') => route('archiving.register.floor.show', $stand->floor_id),
+        __('Room') => route('archiving.register.room.show', $stand->room_id),
+        __('Stand') => route('archiving.register.stand.show', $stand->id),
     ]);
 });
 
-test('hierarchy returns all stands with the respective room, floor, building, site and the number of shelves of each', function () {
+test('hierarchy returns all stands with the respective room, floor, building, site id and number/name and the number of shelves of each', function () {
     Stand::factory()->create(['number' => 10]);
     Stand::factory()->has(Shelf::factory(1), 'shelves')->create(['number' => 20]);
     Stand::factory()->has(Shelf::factory(2), 'shelves')->create(['number' => 30]);
@@ -154,19 +146,31 @@ test('hierarchy returns all stands with the respective room, floor, building, si
     $stand_30 = $all->firstWhere('number', 30);
 
     expect($all)->toHaveCount(3)
+    ->and(empty($stand_10->site_id))->toBeFalse()
     ->and(empty($stand_10->site_name))->toBeFalse()
+    ->and(empty($stand_10->building_id))->toBeFalse()
     ->and(empty($stand_10->building_name))->toBeFalse()
+    ->and(empty($stand_10->floor_id))->toBeFalse()
     ->and(empty($stand_10->floor_number))->toBeFalse()
+    ->and(empty($stand_10->room_id))->toBeFalse()
     ->and(empty($stand_10->room_number))->toBeFalse()
     ->and($stand_10->shelves_count)->toBe(0)
-    ->and(empty($stand_20->site_name))->toBeFalse()
-    ->and(empty($stand_20->building_name))->toBeFalse()
-    ->and(empty($stand_20->floor_number))->toBeFalse()
-    ->and(empty($stand_20->room_number))->toBeFalse()
     ->and($stand_20->shelves_count)->toBe(1)
-    ->and(empty($stand_30->site_name))->toBeFalse()
-    ->and(empty($stand_30->building_name))->toBeFalse()
-    ->and(empty($stand_30->floor_number))->toBeFalse()
-    ->and(empty($stand_30->room_number))->toBeFalse()
     ->and($stand_30->shelves_count)->toBe(2);
+});
+
+test('forHumans returns data in human-readable format', function () {
+    Stand::factory()->create(['number' => 10]);
+
+    $stand = Stand::hierarchy()->first();
+
+    expect($stand->for_humans)->toBe(10);
+});
+
+test('forHumans returns "Uninformed" if the stand or shelf number is zero', function () {
+    Stand::factory()->create(['number' => 0]);
+
+    $stand = Stand::hierarchy()->first();
+
+    expect($stand->for_humans)->toBe(__('Uninformed'));
 });

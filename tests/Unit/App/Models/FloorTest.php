@@ -130,29 +130,29 @@ test('one floor has many rooms', function () {
 });
 
 test('parentLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
-    $floor = Floor::factory()->create();
+    Floor::factory()->create();
 
-    $floor->load('building.site');
+    $floor = Floor::hierarchy()->first();
 
     expect($floor->parentLinks(false)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $floor->building->site),
-        __('Building') => route('archiving.register.building.show', $floor->building),
+        __('Site') => route('archiving.register.site.show', $floor->site_id),
+        __('Building') => route('archiving.register.building.show', $floor->building_id),
     ]);
 });
 
 test('parentLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
-    $floor = Floor::factory()->create();
+    Floor::factory()->create();
 
-    $floor->load('building.site');
+    $floor = Floor::hierarchy()->first();
 
     expect($floor->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $floor->building->site),
-        __('Building') => route('archiving.register.building.show', $floor->building),
-        __('Floor') => route('archiving.register.floor.show', $floor),
+        __('Site') => route('archiving.register.site.show', $floor->site_id),
+        __('Building') => route('archiving.register.building.show', $floor->building_id),
+        __('Floor') => route('archiving.register.floor.show', $floor->id),
     ]);
 });
 
-test('hierarchy returns all floors with the respective building, site and the number of rooms of each', function () {
+test('hierarchy returns all floors with the respective building, site id and number/name and the number of rooms of each', function () {
     Floor::factory()->create(['number' => 10]);
     Floor::factory()->has(Room::factory(1), 'rooms')->create(['number' => 20]);
     Floor::factory()->has(Room::factory(2), 'rooms')->create(['number' => 30]);
@@ -164,13 +164,11 @@ test('hierarchy returns all floors with the respective building, site and the nu
     $floor_30 = $all->firstWhere('number', 30);
 
     expect($all)->toHaveCount(3)
+    ->and(empty($floor_10->site_id))->toBeFalse()
     ->and(empty($floor_10->site_name))->toBeFalse()
+    ->and(empty($floor_10->building_id))->toBeFalse()
     ->and(empty($floor_10->building_name))->toBeFalse()
     ->and($floor_10->rooms_count)->toBe(0)
-    ->and(empty($floor_20->site_name))->toBeFalse()
-    ->and(empty($floor_20->building_name))->toBeFalse()
     ->and($floor_20->rooms_count)->toBe(1)
-    ->and(empty($floor_30->site_name))->toBeFalse()
-    ->and(empty($floor_30->building_name))->toBeFalse()
     ->and($floor_30->rooms_count)->toBe(2);
 });

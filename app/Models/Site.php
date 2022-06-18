@@ -31,7 +31,7 @@ class Site extends Model
      * Extra columns:
      * - buildings_count: child buildings count
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Query\Builder
      */
     public static function hierarchy()
     {
@@ -54,7 +54,7 @@ class Site extends Model
     public function parentLinks(bool $root)
     {
         return collect()->when($root, function ($collection) {
-            return $collection->put(__('Site'), route('archiving.register.site.show', $this));
+            return $collection->put(__('Site'), route('archiving.register.site.show', $this->id));
         });
     }
 }

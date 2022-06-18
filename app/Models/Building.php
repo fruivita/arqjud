@@ -42,7 +42,7 @@ class Building extends Model
      * - site_name: parent site name
      * - floors_count: child floors count
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Query\Builder
      */
     public static function hierarchy()
     {
@@ -67,9 +67,9 @@ class Building extends Model
     public function parentLinks(bool $root)
     {
         return collect([
-            __('Site') => route('archiving.register.site.show', $this->site),
+            __('Site') => route('archiving.register.site.show', $this->site_id),
         ])->when($root, function ($collection) {
-            return $collection->put(__('Building'), route('archiving.register.building.show', $this));
+            return $collection->put(__('Building'), route('archiving.register.building.show', $this->id));
         });
     }
 }

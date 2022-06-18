@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -39,14 +40,18 @@ class Shelf extends Model
      * All shelves.
      *
      * Extra columns:
+     * - site_id: parent site id
      * - site_name: parent site name
+     * - building_id: parent building id
      * - building_name: parent building name
+     * - floor_id: parent floor id
      * - floor_number: parent floor number
+     * - room_id: parent room id
      * - room_number: parent room number
      * - stand_number: parent stand number
      * - boxes_count: child boxes count
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Query\Builder
      */
     public static function hierarchy()
     {
@@ -59,24 +64,42 @@ class Shelf extends Model
         ->leftJoin('boxes', 'boxes.shelf_id', '=', 'shelves.id')
         ->select([
             'shelves.*',
-            'stands.number as stand_number',
-            'rooms.number as room_number',
-            'floors.number as floor_number',
-            'buildings.name as building_name',
+            'sites.id as site_id',
             'sites.name as site_name',
+            'buildings.id as building_id',
+            'buildings.name as building_name',
+            'floors.id as floor_id',
+            'floors.number as floor_number',
+            'rooms.id as room_id',
+            'rooms.number as room_number',
+            'stands.number as stand_number',
             DB::raw('COUNT(boxes.shelf_id) as boxes_count')
         ])
         ->groupBy('shelves.id');
     }
 
     /**
-     * Get the shelf's number ready to show on page.
+     * Get the shelf in human-readable format.
      *
-     * @return string
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    public function numberForHumans()
+    protected function forHumans(): Attribute
     {
-        return shelfForHumans($this->number);
+        return Attribute::make(
+            get: fn () => shelfForHumans($this->number)
+        );
+    }
+
+    /**
+     * Get the stand in human-readable format.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function standForHumans(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => standForHumans($this->stand_number)
+        );
     }
 
     /**
@@ -89,13 +112,13 @@ class Shelf extends Model
     public function parentLinks(bool $root)
     {
         return collect([
-            __('Site') => route('archiving.register.site.show', $this->stand->room->floor->building->site),
-            __('Building') => route('archiving.register.building.show', $this->stand->room->floor->building),
-            __('Floor') => route('archiving.register.floor.show', $this->stand->room->floor),
-            __('Room') => route('archiving.register.room.show', $this->stand->room),
-            __('Stand') => route('archiving.register.stand.show', $this->stand),
+            __('Site') => route('archiving.register.site.show', $this->site_id),
+            __('Building') => route('archiving.register.building.show', $this->building_id),
+            __('Floor') => route('archiving.register.floor.show', $this->floor_id),
+            __('Room') => route('archiving.register.room.show', $this->room_id),
+            __('Stand') => route('archiving.register.stand.show', $this->stand_id),
         ])->when($root, function ($collection) {
-            return $collection->put(__('Shelf'), route('archiving.register.shelf.show', $this));
+            return $collection->put(__('Shelf'), route('archiving.register.shelf.show', $this->id));
         });
     }
 

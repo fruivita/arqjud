@@ -7,6 +7,7 @@
 use App\Models\Box;
 use App\Models\BoxVolume;
 use App\Models\Shelf;
+use App\Models\Stand;
 use Illuminate\Database\QueryException;
 
 // Exceptions
@@ -57,12 +58,6 @@ test('fields in their maximum size are accepted', function () {
     expect(Box::count())->toBe(1);
 });
 
-test('numberForHumans returns the number and year of the box ready for display', function () {
-    $box = Box::factory()->create(['number' => 100, 'year' => 2020]);
-
-    expect($box->numberForHumans())->toBe('100/2020');
-});
-
 test('one box belongs to one shelf', function () {
     $shelf = Shelf::factory()->create();
 
@@ -102,33 +97,33 @@ test('nextBoxNumber return the box number to be used to create the new box', fun
 });
 
 test('parentLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
-    $box = Box::factory()->create();
+    Box::factory()->create();
 
-    $box->load('shelf.stand.room.floor.building.site');
+    $box = Box::hierarchy()->first();
 
     expect($box->parentLinks(false)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $box->shelf->stand->room->floor->building->site),
-        __('Building') => route('archiving.register.building.show', $box->shelf->stand->room->floor->building),
-        __('Floor') => route('archiving.register.floor.show', $box->shelf->stand->room->floor),
-        __('Room') => route('archiving.register.room.show', $box->shelf->stand->room),
-        __('Stand') => route('archiving.register.stand.show', $box->shelf->stand),
-        __('Shelf') => route('archiving.register.shelf.show', $box->shelf),
+        __('Site') => route('archiving.register.site.show', $box->site_id),
+        __('Building') => route('archiving.register.building.show', $box->building_id),
+        __('Floor') => route('archiving.register.floor.show', $box->floor_id),
+        __('Room') => route('archiving.register.room.show', $box->room_id),
+        __('Stand') => route('archiving.register.stand.show', $box->stand_id),
+        __('Shelf') => route('archiving.register.shelf.show', $box->shelf_id),
     ]);
 });
 
 test('parentLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
-    $box = Box::factory()->create();
+    Box::factory()->create();
 
-    $box->load('shelf.stand.room.floor.building.site');
+    $box = Box::hierarchy()->first();
 
     expect($box->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $box->shelf->stand->room->floor->building->site),
-        __('Building') => route('archiving.register.building.show', $box->shelf->stand->room->floor->building),
-        __('Floor') => route('archiving.register.floor.show', $box->shelf->stand->room->floor),
-        __('Room') => route('archiving.register.room.show', $box->shelf->stand->room),
-        __('Stand') => route('archiving.register.stand.show', $box->shelf->stand),
-        __('Shelf') => route('archiving.register.shelf.show', $box->shelf),
-        __('Box') => route('archiving.register.box.show', $box),
+        __('Site') => route('archiving.register.site.show', $box->site_id),
+        __('Building') => route('archiving.register.building.show', $box->building_id),
+        __('Floor') => route('archiving.register.floor.show', $box->floor_id),
+        __('Room') => route('archiving.register.room.show', $box->room_id),
+        __('Stand') => route('archiving.register.stand.show', $box->stand_id),
+        __('Shelf') => route('archiving.register.shelf.show', $box->shelf_id),
+        __('Box') => route('archiving.register.box.show', $box->id),
     ]);
 });
 
@@ -152,7 +147,7 @@ test('createMany method creates and persists sequential boxes with equal attribu
     ->and($box->volumes->last()->number)->toBe(5);
 });
 
-test('hierarchy returns all boxes with the respective shelf, stand, room, floor, building, site and the number of volumes of each', function () {
+test('hierarchy returns all boxes with the respective shelf, stand, room, floor, building, site id and number/name and the number of volumes of each', function () {
     Box::factory()->create(['number' => 10]);
     Box::factory()->has(BoxVolume::factory(1), 'volumes')->create(['number' => 20]);
     Box::factory()->has(BoxVolume::factory(2), 'volumes')->create(['number' => 30]);
@@ -164,25 +159,42 @@ test('hierarchy returns all boxes with the respective shelf, stand, room, floor,
     $box_30 = $all->firstWhere('number', 30);
 
     expect($all)->toHaveCount(3)
+    ->and(empty($box_10->site_id))->toBeFalse()
     ->and(empty($box_10->site_name))->toBeFalse()
+    ->and(empty($box_10->building_id))->toBeFalse()
     ->and(empty($box_10->building_name))->toBeFalse()
+    ->and(empty($box_10->floor_id))->toBeFalse()
     ->and(empty($box_10->floor_number))->toBeFalse()
+    ->and(empty($box_10->room_id))->toBeFalse()
     ->and(empty($box_10->room_number))->toBeFalse()
+    ->and(empty($box_10->stand_id))->toBeFalse()
     ->and(empty($box_10->stand_number))->toBeFalse()
+    ->and(empty($box_10->shelf_id))->toBeFalse()
     ->and(empty($box_10->shelf_number))->toBeFalse()
     ->and($box_10->volumes_count)->toBe(0)
-    ->and(empty($box_20->site_name))->toBeFalse()
-    ->and(empty($box_20->building_name))->toBeFalse()
-    ->and(empty($box_20->floor_number))->toBeFalse()
-    ->and(empty($box_20->room_number))->toBeFalse()
-    ->and(empty($box_20->stand_number))->toBeFalse()
-    ->and(empty($box_20->shelf_number))->toBeFalse()
     ->and($box_20->volumes_count)->toBe(1)
-    ->and(empty($box_30->site_name))->toBeFalse()
-    ->and(empty($box_30->building_name))->toBeFalse()
-    ->and(empty($box_30->floor_number))->toBeFalse()
-    ->and(empty($box_30->room_number))->toBeFalse()
-    ->and(empty($box_30->stand_number))->toBeFalse()
-    ->and(empty($box_30->shelf_number))->toBeFalse()
     ->and($box_30->volumes_count)->toBe(2);
+});
+
+test('forHumans returns data in human-readable format', function () {
+    $stand = Stand::factory()->create(['number' => 10]);
+    $shelf = Shelf::factory()->for($stand, 'stand')->create(['number' => 100]);
+    Box::factory()->for($shelf, 'shelf')->create(['number' => 1000, 'year' => 2020]);
+
+    $box = Box::hierarchy()->first();
+
+    expect($box->for_humans)->toBe('1000/2020')
+    ->and($box->stand_for_humans)->toBe(10)
+    ->and($box->shelf_for_humans)->toBe(100);
+});
+
+test('forHumans returns "Uninformed" if the stand or shelf number is zero', function () {
+    $stand = Stand::factory()->create(['number' => 0]);
+    $shelf = Shelf::factory()->for($stand, 'stand')->create(['number' => 0]);
+    Box::factory()->for($shelf, 'shelf')->create();
+
+    $box = Box::hierarchy()->first();
+
+    expect($box->stand_for_humans)->toBe(__('Uninformed'))
+    ->and($box->shelf_for_humans)->toBe(__('Uninformed'));
 });
