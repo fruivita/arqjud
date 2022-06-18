@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Humanize;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class BoxVolume extends Model
 {
     use HasFactory;
+    use Humanize;
 
     protected $table = 'box_volumes';
 
@@ -84,7 +86,7 @@ class BoxVolume extends Model
     protected function forHumans(): Attribute
     {
         return Attribute::make(
-            get: fn () => boxVolumeForHumans($this->number)
+            get: fn () => $this->humanizeBoxVolume($this->number)
         );
     }
 
@@ -96,7 +98,7 @@ class BoxVolume extends Model
     protected function standForHumans(): Attribute
     {
         return Attribute::make(
-            get: fn () => standForHumans($this->stand_number)
+            get: fn () => $this->humanizeStand($this->stand_number)
         );
     }
 
@@ -108,7 +110,7 @@ class BoxVolume extends Model
     protected function shelfForHumans(): Attribute
     {
         return Attribute::make(
-            get: fn () => shelfForHumans($this->shelf_number)
+            get: fn () => $this->humanizeShelf($this->shelf_number)
         );
     }
 
@@ -120,7 +122,7 @@ class BoxVolume extends Model
     protected function boxForHumans(): Attribute
     {
         return Attribute::make(
-            get: fn () => boxForHumans($this->box_number, $this->box_year)
+            get: fn () => $this->humanizeBox($this->box_number, $this->box_year)
         );
     }
 }

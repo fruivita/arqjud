@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Humanize;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 class Shelf extends Model
 {
     use HasFactory;
+    use Humanize;
 
     protected $table = 'shelves';
 
@@ -86,7 +88,7 @@ class Shelf extends Model
     protected function forHumans(): Attribute
     {
         return Attribute::make(
-            get: fn () => shelfForHumans($this->number)
+            get: fn () => $this->humanizeShelf($this->number)
         );
     }
 
@@ -98,7 +100,7 @@ class Shelf extends Model
     protected function standForHumans(): Attribute
     {
         return Attribute::make(
-            get: fn () => standForHumans($this->stand_number)
+            get: fn () => $this->humanizeStand($this->stand_number)
         );
     }
 
