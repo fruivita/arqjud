@@ -183,4 +183,4 @@
         wire:submit.prevent="destroy"
         :question="__('Delete :attribute?', ['attribute' => $deleting->name])"/>
 
-@endcan
+@endif
