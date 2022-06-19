@@ -26,7 +26,7 @@
 
 {{-- textbox container --}}
 <div
-    @if ($withcounter) x-data="{ counter: 0 }"@endif
+    @if ($withcounter) x-data="{ counter: 0 }" @endif
     class="text-left w-full"
     title="{{ $title }}"
 >
