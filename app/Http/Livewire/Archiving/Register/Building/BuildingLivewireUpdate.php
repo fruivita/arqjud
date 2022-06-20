@@ -27,13 +27,6 @@ class BuildingLivewireUpdate extends Component
     use WithSorting;
 
     /**
-     * Editing resource parent data.
-     *
-     * @var array
-     */
-    public array $hierarchy;
-
-    /**
      * Editing resource.
      *
      * @var \App\Models\Building
