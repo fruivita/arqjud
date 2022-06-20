@@ -6,6 +6,7 @@ use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Building;
 use App\Models\Site;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -21,6 +22,7 @@ class SiteLivewireUpdate extends Component
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Editing resource.
@@ -86,11 +88,9 @@ class SiteLivewireUpdate extends Component
     public function getBuildingsProperty()
     {
         return $this->applyPagination(
-            $this
-                ->site
-                ->buildings()
-                ->withCount('floors')
-                ->defaultOrder()
+            Building::hierarchy()
+            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->where('site_id', $this->site->id)
         );
     }
 

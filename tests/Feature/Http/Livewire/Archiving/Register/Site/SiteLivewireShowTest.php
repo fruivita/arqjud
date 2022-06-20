@@ -102,3 +102,10 @@ test('individually view a site with specific permission', function () {
     ->assertOk()
     ->assertSeeLivewire(SiteLivewireShow::class);
 });
+
+test('SiteLivewireShow uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(SiteLivewireShow::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
+});

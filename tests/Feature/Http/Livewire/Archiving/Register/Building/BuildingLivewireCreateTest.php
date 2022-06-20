@@ -32,17 +32,17 @@ afterEach(function () {
 test('cannot create a building record without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.building.create', $this->site))
+    get(route('archiving.register.building.create', $this->site->id))
     ->assertRedirect(route('login'));
 });
 
 test('authenticated but without specific permission, cannot access building record creation route', function () {
-    get(route('archiving.register.building.create', $this->site))
+    get(route('archiving.register.building.create', $this->site->id))
     ->assertForbidden();
 });
 
 test('cannot render building record creation component without specific permission', function () {
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->assertForbidden();
 });
 
@@ -51,7 +51,7 @@ test('cannot set the building record which will be deleted without specific perm
 
     $building = Building::factory()->create();
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->assertOk()
     ->call('markToDelete', $building->id)
     ->assertForbidden()
@@ -69,7 +69,7 @@ test('cannot set the building record which will be deleted if it has floors', fu
     ->for($building, 'building')
     ->create();
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->assertOk()
     ->call('markToDelete', $building->id)
     ->assertForbidden()
@@ -85,7 +85,7 @@ test('cannot delete a building record without specific permission', function () 
 
     $building = Building::factory()->create();
 
-    $component = Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    $component = Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->call('markToDelete', $building->id)
     ->assertOk();
 
@@ -104,7 +104,7 @@ test('cannot delete a building record if it has floors', function () {
 
     $building = Building::factory()->create();
 
-    $component = Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    $component = Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->call('markToDelete', $building->id)
     ->assertOk();
 
@@ -123,7 +123,7 @@ test('cannot delete a building record if it has floors', function () {
 test('does not accept pagination outside the options offered', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('per_page', 33) // possible values: 10/25/50/100
     ->assertHasErrors(['per_page' => 'in']);
 });
@@ -131,7 +131,7 @@ test('does not accept pagination outside the options offered', function () {
 test('name is required', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('building.name', '')
     ->call('store')
     ->assertHasErrors(['building.name' => 'required']);
@@ -140,7 +140,7 @@ test('name is required', function () {
 test('name must be a string', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('building.name', ['foo'])
     ->call('store')
     ->assertHasErrors(['building.name' => 'string']);
@@ -149,7 +149,7 @@ test('name must be a string', function () {
 test('name must be a maximum of 100 characters', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('building.name', Str::random(101))
     ->call('store')
     ->assertHasErrors(['building.name' => 'max']);
@@ -160,7 +160,7 @@ test('name and site_id must be unique', function () {
 
     Building::factory()->create(['name' => 'foo', 'site_id' => $this->site->id]);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('building.name', 'foo')
     ->call('store')
     ->assertHasErrors(['building.name' => 'unique']);
@@ -169,7 +169,7 @@ test('name and site_id must be unique', function () {
 test('description is optional', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('building.description', '')
     ->call('store')
     ->assertHasNoErrors(['building.description']);
@@ -178,7 +178,7 @@ test('description is optional', function () {
 test('description must be a string', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('building.description', ['foo'])
     ->call('store')
     ->assertHasErrors(['building.description' => 'string']);
@@ -187,7 +187,7 @@ test('description must be a string', function () {
 test('description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('building.description', Str::random(256))
     ->call('store')
     ->assertHasErrors(['building.description' => 'max']);
@@ -201,7 +201,7 @@ test('pagination returns the amount of expected building records', function () {
     ->for($this->site, 'site')
     ->create();
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->assertCount('buildings', 10)
     ->set('per_page', 10)
     ->assertCount('buildings', 10)
@@ -216,7 +216,7 @@ test('pagination returns the amount of expected building records', function () {
 test('pagination creates the session variables', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->assertSessionMissing('per_page')
     ->set('per_page', 10)
     ->assertSessionHas('per_page', 10)
@@ -231,7 +231,7 @@ test('pagination creates the session variables', function () {
 test('renders building record creation component with specific permission', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    get(route('archiving.register.building.create', $this->site))
+    get(route('archiving.register.building.create', $this->site->id))
     ->assertOk()
     ->assertSeeLivewire(BuildingLivewireCreate::class);
 });
@@ -239,7 +239,7 @@ test('renders building record creation component with specific permission', func
 test('emits feedback event when creates a building record', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('building.name', 'name')
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
@@ -251,7 +251,7 @@ test('emits feedback event when deleting a building record', function () {
 
     $building = Building::factory()->create();
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->call('markToDelete', $building->id)
     ->call('destroy')
     ->assertOk()
@@ -267,7 +267,7 @@ test('emits feedback event when deleting a building record', function () {
 test('creates a building record with specific permission', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('building.name', 'foo')
     ->set('building.description', 'foo bar')
     ->call('store')
@@ -285,7 +285,7 @@ test('reset to a blank model after the building is created', function () {
 
     $blank = new Building();
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->set('building.name', 'foo')
     ->call('store')
     ->assertOk()
@@ -298,7 +298,7 @@ test('defines the building record that will be deleted with specific permission 
 
     $building = Building::factory()->create();
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->call('markToDelete', $building->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
@@ -311,7 +311,7 @@ test('delete a building record with specific permission if it has no floors', fu
 
     $building = Building::factory()->create();
 
-    Livewire::test(BuildingLivewireCreate::class, ['site' => $this->site])
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->call('markToDelete', $building->id)
     ->assertOk()
     ->call('destroy', $building->id)

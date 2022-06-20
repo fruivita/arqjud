@@ -29,17 +29,17 @@ afterEach(function () {
 test('cannot individually view a building without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.building.show', $this->building))
+    get(route('archiving.register.building.show', $this->building->id))
     ->assertRedirect(route('login'));
 });
 
 test('authenticated but without specific permission, unable to access individual building view route', function () {
-    get(route('archiving.register.building.show', $this->building))
+    get(route('archiving.register.building.show', $this->building->id))
     ->assertForbidden();
 });
 
 test('cannot render individual building view component without specific permission', function () {
-    Livewire::test(BuildingLivewireShow::class, ['building' => $this->building])
+    Livewire::test(BuildingLivewireShow::class, ['id' => $this->building->id])
     ->assertForbidden();
 });
 
@@ -47,7 +47,7 @@ test('cannot render individual building view component without specific permissi
 test('does not accept pagination outside the options offered', function () {
     grantPermission(PermissionType::BuildingView->value);
 
-    Livewire::test(BuildingLivewireShow::class, ['building' => $this->building])
+    Livewire::test(BuildingLivewireShow::class, ['id' => $this->building->id])
     ->set('per_page', 33) // possible values: 10/25/50/100
     ->assertHasErrors(['per_page' => 'in']);
 });
@@ -56,7 +56,7 @@ test('does not accept pagination outside the options offered', function () {
 test('renders individual building view component with specific permission', function () {
     grantPermission(PermissionType::BuildingView->value);
 
-    get(route('archiving.register.building.show', $this->building))
+    get(route('archiving.register.building.show', $this->building->id))
     ->assertOk()
     ->assertSeeLivewire(BuildingLivewireShow::class);
 });
@@ -68,7 +68,7 @@ test('pagination returns the amount of floors expected', function () {
     ->for($this->building, 'building')
     ->create();
 
-    Livewire::test(BuildingLivewireShow::class, ['building' => $this->building])
+    Livewire::test(BuildingLivewireShow::class, ['id' => $this->building->id])
     ->assertCount('floors', 10)
     ->set('per_page', 10)
     ->assertCount('floors', 10)
@@ -83,7 +83,7 @@ test('pagination returns the amount of floors expected', function () {
 test('pagination creates the session variables', function () {
     grantPermission(PermissionType::BuildingView->value);
 
-    Livewire::test(BuildingLivewireShow::class, ['building' => $this->building])
+    Livewire::test(BuildingLivewireShow::class, ['id' => $this->building->id])
     ->assertSessionMissing('per_page')
     ->set('per_page', 10)
     ->assertSessionHas('per_page', 10)
@@ -98,7 +98,14 @@ test('pagination creates the session variables', function () {
 test('individually view a building with specific permission', function () {
     grantPermission(PermissionType::BuildingView->value);
 
-    get(route('archiving.register.building.show', $this->building))
+    get(route('archiving.register.building.show', $this->building->id))
     ->assertOk()
     ->assertSeeLivewire(BuildingLivewireShow::class);
+});
+
+test('BuildingLivewireShow uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(BuildingLivewireShow::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
 });

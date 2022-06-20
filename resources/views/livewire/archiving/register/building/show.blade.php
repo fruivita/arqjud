@@ -31,7 +31,7 @@
 
             <x-show-value
                 :key="__('Site')"
-                :value="$building->site->name"/>
+                :value="$building->site_name"/>
 
 
             <x-button-group>
@@ -59,6 +59,8 @@
         <x-table.model.floor
             :floors="$floors"
             :parent="$building"
+            :sort_column="$sort_column"
+            :sort_direction="$sort_direction"
             withnewbutton/>
 
     </x-container>

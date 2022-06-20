@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Archiving\Register\Site;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
+use App\Models\Building;
 use App\Models\Site;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -15,6 +17,7 @@ class SiteLivewireShow extends Component
 {
     use AuthorizesRequests;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Resource on display.
@@ -42,11 +45,9 @@ class SiteLivewireShow extends Component
     public function getBuildingsProperty()
     {
         return $this->applyPagination(
-            $this
-                ->site
-                ->buildings()
-                ->withCount('floors')
-                ->defaultOrder()
+            Building::hierarchy()
+            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->where('site_id', $this->site->id)
         );
     }
 

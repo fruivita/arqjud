@@ -6,6 +6,7 @@ use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Site;
@@ -23,6 +24,14 @@ class BuildingLivewireUpdate extends Component
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
+
+    /**
+     * Editing resource parent data.
+     *
+     * @var array
+     */
+    public array $hierarchy;
 
     /**
      * Editing resource.
@@ -100,13 +109,15 @@ class BuildingLivewireUpdate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id editing resource id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->building->load('site');
+        $this->building = Building::hierarchy()->findOrFail($id);
 
-        $this->sites = Site::defaultOrder()->get();
+        $this->sites = Site::orderBy('name', 'asc')->get();
     }
 
     /**
@@ -117,11 +128,9 @@ class BuildingLivewireUpdate extends Component
     public function getFloorsProperty()
     {
         return $this->applyPagination(
-            $this
-                ->building
-                ->floors()
-                ->withCount('rooms')
-                ->defaultOrder()
+            Floor::hierarchy()
+            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->where('building_id', $this->building->id)
         );
     }
 

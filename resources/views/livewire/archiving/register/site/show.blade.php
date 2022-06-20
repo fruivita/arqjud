@@ -51,6 +51,8 @@
         <x-table.model.building
             :buildings="$buildings"
             :parent="$site"
+            :sort_column="$sort_column"
+            :sort_direction="$sort_direction"
             withnewbutton/>
 
     </x-container>

@@ -4,7 +4,9 @@ namespace App\Http\Livewire\Archiving\Register\Building;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Building;
+use App\Models\Floor;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -15,6 +17,7 @@ class BuildingLivewireShow extends Component
 {
     use AuthorizesRequests;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Resource on display.
@@ -39,11 +42,13 @@ class BuildingLivewireShow extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id resource on display id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->building->load('site');
+        $this->building = Building::hierarchy()->findOrFail($id);
     }
 
     /**
@@ -54,11 +59,9 @@ class BuildingLivewireShow extends Component
     public function getFloorsProperty()
     {
         return $this->applyPagination(
-            $this
-                ->building
-                ->floors()
-                ->withCount('rooms')
-                ->defaultOrder()
+            Floor::hierarchy()
+            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->where('building_id', $this->building->id)
         );
     }
 

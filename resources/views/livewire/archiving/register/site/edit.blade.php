@@ -77,6 +77,8 @@
             :buildings="$buildings"
             :deleting="$deleting"
             :parent="$site"
+            :sort_column="$sort_column"
+            :sort_direction="$sort_direction"
             withdeletebutton
             withnewbutton/>
 

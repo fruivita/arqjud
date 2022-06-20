@@ -19,10 +19,10 @@ class SiteLivewireIndex extends Component
 {
     use AuthorizesRequests;
     use Searchable;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -43,7 +43,7 @@ class SiteLivewireIndex extends Component
     public function getSitesProperty()
     {
         return $this->applyPagination(
-            Site::hierarchy()
+            Site::withCount('buildings')
             ->whereLike('sites.name', $this->term)
             ->orderByWhen($this->sort_column, $this->sort_direction)
         );

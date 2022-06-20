@@ -18,10 +18,10 @@ use Livewire\Component;
 class SiteLivewireCreate extends Component
 {
     use AuthorizesRequests;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Resource that will be created.
@@ -109,7 +109,7 @@ class SiteLivewireCreate extends Component
     public function getSitesProperty()
     {
         return $this->applyPagination(
-            Site::hierarchy()
+            Site::withCount('buildings')
             ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }

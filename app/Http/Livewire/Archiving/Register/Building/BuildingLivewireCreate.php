@@ -92,10 +92,14 @@ class BuildingLivewireCreate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id parent resource id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
+        $this->site = Site::hierarchy()->findOrFail($id);
+
         $this->building = $this->blankModel();
     }
 
