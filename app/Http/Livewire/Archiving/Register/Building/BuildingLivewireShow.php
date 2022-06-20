@@ -63,7 +63,7 @@ class BuildingLivewireShow extends Component
     }
 
     /**
-     * Computed property to list paged floors.
+     * Computed property to list paged floors based on building id.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */

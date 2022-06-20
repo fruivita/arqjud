@@ -124,7 +124,7 @@ class BuildingLivewireCreate extends Component
     }
 
     /**
-     * Computed property to list paginated buildings.
+     * Computed property to list paginated buildings based on site id.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
