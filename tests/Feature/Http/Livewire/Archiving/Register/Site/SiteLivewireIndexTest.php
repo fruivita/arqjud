@@ -59,9 +59,7 @@ test('cannot set the site record which will be deleted if it has buildings', fun
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 
-    Building::factory()
-    ->for($this->site, 'site')
-    ->create();
+    Building::factory()->for($this->site, 'site')->create();
 
     Livewire::test(SiteLivewireIndex::class)
     ->assertOk()
@@ -97,9 +95,7 @@ test('cannot delete a site record if it has buildings', function () {
     ->call('markToDelete', $this->site->id)
     ->assertOk();
 
-    Building::factory()
-    ->for($this->site, 'site')
-    ->create();
+    Building::factory()->for($this->site, 'site')->create();
 
     $component->call('destroy')
     ->assertForbidden();

@@ -64,9 +64,7 @@ test('renders individual building view component with specific permission', func
 test('pagination returns the amount of floors expected', function () {
     grantPermission(PermissionType::BuildingView->value);
 
-    Floor::factory(120)
-    ->for($this->building, 'building')
-    ->create();
+    Floor::factory(120)->for($this->building, 'building')->create();
 
     Livewire::test(BuildingLivewireShow::class, ['id' => $this->building->id])
     ->assertCount('floors', 10)

@@ -65,9 +65,7 @@ test('cannot set the building record which will be deleted if it has floors', fu
 
     $building = Building::factory()->create();
 
-    Floor::factory()
-    ->for($building, 'building')
-    ->create();
+    Floor::factory()->for($building, 'building')->create();
 
     Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->assertOk()
@@ -108,9 +106,7 @@ test('cannot delete a building record if it has floors', function () {
     ->call('markToDelete', $building->id)
     ->assertOk();
 
-    Floor::factory()
-    ->for($building, 'building')
-    ->create();
+    Floor::factory()->for($building, 'building')->create();
 
     $component
     ->call('destroy')
@@ -197,9 +193,7 @@ test('description must be a maximum of 255 characters', function () {
 test('pagination returns the amount of expected building records', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
-    Building::factory(120)
-    ->for($this->site, 'site')
-    ->create();
+    Building::factory(120)->for($this->site, 'site')->create();
 
     Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->assertCount('buildings', 10)

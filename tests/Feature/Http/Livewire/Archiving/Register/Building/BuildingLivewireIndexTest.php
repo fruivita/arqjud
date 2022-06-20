@@ -19,7 +19,6 @@ beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
     $this->building = Building::factory()->create();
-    $this->building->load('site');
 
     login('foo');
 });
@@ -60,9 +59,7 @@ test('cannot set the building record which will be deleted if it has floors', fu
     grantPermission(PermissionType::BuildingViewAny->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
-    Floor::factory()
-    ->for($this->building, 'building')
-    ->create();
+    Floor::factory()->for($this->building, 'building')->create();
 
     Livewire::test(BuildingLivewireIndex::class)
     ->assertOk()
@@ -99,9 +96,7 @@ test('cannot delete a building record if it has floors', function () {
     ->call('markToDelete', $this->building->id)
     ->assertOk();
 
-    Floor::factory()
-    ->for($this->building, 'building')
-    ->create();
+    Floor::factory()->for($this->building, 'building')->create();
 
     $component
     ->call('destroy')

@@ -64,9 +64,7 @@ test('renders individual site view component with specific permission', function
 test('pagination returns the amount of buildinds expected', function () {
     grantPermission(PermissionType::SiteView->value);
 
-    Building::factory(120)
-    ->for($this->site, 'site')
-    ->create();
+    Building::factory(120)->for($this->site, 'site')->create();
 
     Livewire::test(SiteLivewireShow::class, ['site' => $this->site])
     ->assertCount('buildings', 10)
