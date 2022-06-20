@@ -19,10 +19,10 @@ use Livewire\Component;
 class BuildingLivewireCreate extends Component
 {
     use AuthorizesRequests;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Parent resource.
