@@ -58,6 +58,29 @@ class Building extends Model
     }
 
     /**
+     * Model hierarchical fields.
+     *
+     * keys:
+     * - site_id: parent site id
+     * - site_name: parent site name
+     * - floors_count: child floors count
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function hierarchicalData()
+    {
+        $building = isset($this->site_name)
+        ? $this
+        : self::hierarchy()->find($this->id);
+
+        return collect([
+            'site_id' => $building->site_id,
+            'site_name' => $building->site_name,
+            'floors_count' => $building->floors_count,
+        ]);
+    }
+
+    /**
      * Links to the parent entities.
      *
      * @param bool $root must include the root element?

@@ -7,6 +7,7 @@
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
+use App\Models\Site;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 
@@ -171,4 +172,22 @@ test('hierarchy returns all floors with the respective building, site id and num
     ->and($floor_10->rooms_count)->toBe(0)
     ->and($floor_20->rooms_count)->toBe(1)
     ->and($floor_30->rooms_count)->toBe(2);
+});
+
+test('hierarchical data returns the data present in the model or searches the database', function () {
+    $site = Site::factory()->create();
+    $building = Building::factory()->for($site, 'site')->create();
+
+    Floor::factory()
+    ->for($building, 'building')
+    ->has(Room::factory(2), 'rooms')
+    ->create();
+
+    $data = Floor::first()->hierarchicalData();
+
+    expect($data->get('site_id'))->toBe($site->id)
+    ->and($data->get('site_name'))->toBe($site->name)
+    ->and($data->get('building_id'))->toBe($building->id)
+    ->and($data->get('building_name'))->toBe($building->name)
+    ->and($data->get('rooms_count'))->toBe(2);
 });
