@@ -31,7 +31,7 @@
 
             <x-show-value
                 :key="__('Site')"
-                :value="$building->site_name"/>
+                :value="$hierarchy->get('site_name')"/>
 
 
             <x-button-group>
