@@ -263,8 +263,11 @@ test('renders edit building record component with specific permission', function
 test('emits feedback event when update a building record', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
+    $site = Site::factory()->create();
+
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
     ->set('building.name', 'foo')
+    ->set('building.site_id', $site->id)
     ->call('update')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
