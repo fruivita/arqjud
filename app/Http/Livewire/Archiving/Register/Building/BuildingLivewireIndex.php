@@ -56,9 +56,7 @@ class BuildingLivewireIndex extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.building.index', [
-            'buildings' => $this->buildings,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.building.index')->layout('layouts.app');
     }
 
     /**

@@ -25,11 +25,11 @@ class BuildingLivewireCreate extends Component
     use WithSorting;
 
     /**
-     * Parent resource.
+     * Parent resource id.
      *
-     * @var \App\Models\Site
+     * @var int
      */
-    public Site $site;
+    public int $site_id;
 
     /**
      * Resource that will be created.
@@ -98,9 +98,19 @@ class BuildingLivewireCreate extends Component
      */
     public function mount(int $id)
     {
-        $this->site = Site::hierarchy()->findOrFail($id);
+        $this->site_id = $id;
 
         $this->building = $this->blankModel();
+    }
+
+    /**
+     * Computed propertyto get parent model.
+     *
+     * @return \App\Models\Site
+     */
+    public function getSiteProperty()
+    {
+        return Site::hierarchy()->findOrFail($this->site_id);
     }
 
     /**
@@ -134,9 +144,7 @@ class BuildingLivewireCreate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.building.create', [
-            'buildings' => $this->buildings,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.building.create')->layout('layouts.app');
     }
 
     /**

@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the building')">
 
-    <x-backtrace :model="$building"/>
+    <x-backtrace :model="$this->building"/>
 
 
     <x-container>
@@ -68,7 +68,7 @@
                     <option value="">{{ __('Select...') }}</option>
 
 
-                    @forelse ($sites ?? [] as $site)
+                    @forelse ($this->sites ?? [] as $site)
 
                         <option value="{{ $site->id }}">
 
@@ -109,11 +109,11 @@
     <x-container>
 
         <x-table.model.floor
-            :deleting="$deleting"
-            :floors="$floors"
-            :parent="$building"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :deleting="$this->deleting"
+            :floors="$this->floors"
+            :parent="$this->building"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withdeletebutton
             withnewbutton/>
 

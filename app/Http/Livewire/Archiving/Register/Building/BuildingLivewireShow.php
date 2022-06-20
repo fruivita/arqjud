@@ -21,18 +21,11 @@ class BuildingLivewireShow extends Component
     use WithSorting;
 
     /**
-     * Model hierarchical data.
+     * Resource on display id.
      *
-     * @var \Illuminate\Support\Collection
+     * @var int
      */
-    public Collection $hierarchy;
-
-    /**
-     * Resource on display.
-     *
-     * @var \App\Models\Building
-     */
-    public Building $building;
+    public int $building_id;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -56,9 +49,17 @@ class BuildingLivewireShow extends Component
      */
     public function mount(int $id)
     {
-        $this->building = Building::hierarchy()->findOrFail($id);
+        $this->building_id = $id;
+    }
 
-        $this->hierarchy = $this->building->hierarchicalData();
+    /**
+     * Computed property to get resource on display.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getBuildingProperty()
+    {
+        return Building::hierarchy()->findOrFail($this->building_id);
     }
 
     /**
@@ -82,8 +83,6 @@ class BuildingLivewireShow extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.building.show', [
-            'floors' => $this->floors,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.building.show')->layout('layouts.app');
     }
 }

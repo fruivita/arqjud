@@ -12,7 +12,7 @@
 
 <x-page :header="__('New buildings')">
 
-    <x-backtrace :model="$site" :root="true"/>
+    <x-backtrace :model="$this->site" :root="true"/>
 
 
     <x-container>
@@ -23,7 +23,7 @@
 
                 <x-show-value
                     :key="__('Site')"
-                    :value="$site->name"/>
+                    :value="$this->site->name"/>
 
 
                 <x-form.input
@@ -82,10 +82,10 @@
     <x-container>
 
         <x-table.model.building
-            :buildings="$buildings"
-            :deleting="$deleting"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :buildings="$this->buildings"
+            :deleting="$this->deleting"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withdeletebutton/>
 
     </x-container>

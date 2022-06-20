@@ -134,9 +134,7 @@ class BuildingLivewireUpdate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.building.edit', [
-            'floors' => $this->floors,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.building.edit')->layout('layouts.app');
     }
 
     /**
@@ -161,8 +159,6 @@ class BuildingLivewireUpdate extends Component
         $this->validate();
 
         $saved = $this->building->save();
-
-        $this->building->refresh();
 
         $this->flashSelf($saved);
     }

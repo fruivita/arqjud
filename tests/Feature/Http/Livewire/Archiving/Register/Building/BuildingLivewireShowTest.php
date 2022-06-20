@@ -61,13 +61,6 @@ test('renders individual building view component with specific permission', func
     ->assertSeeLivewire(BuildingLivewireShow::class);
 });
 
-test('hierarchical data is set', function () {
-    grantPermission(PermissionType::BuildingView->value);
-
-    Livewire::test(BuildingLivewireShow::class, ['id' => $this->building->id])
-    ->assertSet('hierarchy', $this->building->hierarchicalData());
-});
-
 test('pagination returns the amount of floors expected', function () {
     grantPermission(PermissionType::BuildingView->value);
 

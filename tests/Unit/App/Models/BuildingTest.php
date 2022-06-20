@@ -124,17 +124,3 @@ test('hierarchy returns all buildings with the respective site id and number/nam
     ->and($bar->floors_count)->toBe(1)
     ->and($baz->floors_count)->toBe(2);
 });
-
-test('hierarchical data returns the data present in the model or searches the database', function () {
-    $site = Site::factory()->create();
-    Building::factory()
-    ->for($site, 'site')
-    ->has(Floor::factory(2), 'floors')
-    ->create();
-
-    $data = Building::first()->hierarchicalData();
-
-    expect($data->get('site_id'))->toBe($site->id)
-    ->and($data->get('site_name'))->toBe($site->name)
-    ->and($data->get('floors_count'))->toBe(2);
-});

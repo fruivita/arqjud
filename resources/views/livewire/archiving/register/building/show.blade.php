@@ -10,9 +10,9 @@
 --}}
 
 
-<x-page :header="__('Building') . ': ' . $building->name">
+<x-page :header="__('Building') . ': ' . $this->building->name">
 
-    <x-backtrace :model="$building"/>
+    <x-backtrace :model="$this->building"/>
 
 
     <x-container>
@@ -21,17 +21,17 @@
 
             <x-show-value
                 :key="__('Building')"
-                :value="$building->name"/>
+                :value="$this->building->name"/>
 
 
             <x-show-value
                 :key="__('Description')"
-                :value="$building->description"/>
+                :value="$this->building->description"/>
 
 
             <x-show-value
                 :key="__('Site')"
-                :value="$hierarchy->get('site_name')"/>
+                :value="$this->building->site_name"/>
 
 
             <x-button-group>
@@ -41,7 +41,7 @@
                     <x-link-button
                         class="btn-do"
                         icon="pencil-square"
-                        :href="route('archiving.register.building.edit', $building)"
+                        :href="route('archiving.register.building.edit', $this->building->id)"
                         :text="__('Edit')"
                         :title="__('Edit the record')"/>
 
@@ -57,10 +57,10 @@
     <x-container>
 
         <x-table.model.floor
-            :floors="$floors"
-            :parent="$building"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :floors="$this->floors"
+            :parent="$this->building"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withnewbutton/>
 
     </x-container>

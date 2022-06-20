@@ -45,7 +45,7 @@
             <x-link-button
                 class="btn-do"
                 icon="plus-circle"
-                :href="route('archiving.register.building.create', $parent)"
+                :href="route('archiving.register.building.create', $parent->id)"
                 :text="__('New')"
                 :title="__('Create a new record')"/>
 
@@ -140,7 +140,7 @@
                                     <x-icon-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        :href="route('archiving.register.building.show', $building)"
+                                        :href="route('archiving.register.building.show', $building->id)"
                                         :title="__('Show the record')"/>
 
                                 @endcan
@@ -151,7 +151,7 @@
                                     <x-icon-link-button
                                         class="btn-do"
                                         icon="pencil-square"
-                                        :href="route('archiving.register.building.edit', $building)"
+                                        :href="route('archiving.register.building.edit', $building->id)"
                                         :title="__('Edit the record')"/>
 
                                 @endcan
