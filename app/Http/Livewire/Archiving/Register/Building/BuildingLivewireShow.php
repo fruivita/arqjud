@@ -8,6 +8,7 @@ use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Building;
 use App\Models\Floor;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 /**
@@ -18,6 +19,13 @@ class BuildingLivewireShow extends Component
     use AuthorizesRequests;
     use WithPerPagePagination;
     use WithSorting;
+
+    /**
+     * Model hierarchical data.
+     *
+     * @var \Illuminate\Support\Collection
+     */
+    public Collection $hierarchy;
 
     /**
      * Resource on display.
@@ -49,6 +57,8 @@ class BuildingLivewireShow extends Component
     public function mount(int $id)
     {
         $this->building = Building::hierarchy()->findOrFail($id);
+
+        $this->hierarchy = $this->building->hierarchicalData();
     }
 
     /**
