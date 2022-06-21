@@ -10,9 +10,9 @@
 --}}
 
 
-<x-page :header="__('Stand') . ': ' . $stand->numberForHumans()">
+<x-page :header="__('Stand') . ': ' . $this->stand->for_humans">
 
-    <x-backtrace :model="$stand"/>
+    <x-backtrace :model="$this->stand"/>
 
 
     <x-container>
@@ -21,24 +21,24 @@
 
             <x-show-value
                 :key="__('Stand')"
-                :value="$stand->numberForHumans()"/>
+                :value="$this->stand->for_humans"/>
 
 
             <x-show-value
                 :key="__('Description')"
-                :value="$stand->description"/>
+                :value="$this->stand->description"/>
 
 
             <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
 
                 <x-show-value
                     :key="__('Site')"
-                    :value="$stand->room->floor->building->site->name"/>
+                    :value="$this->stand->site_name"/>
 
 
                 <x-show-value
                     :key="__('Building')"
-                    :value="$stand->room->floor->building->name"/>
+                    :value="$this->stand->building_name"/>
 
             </div>
 
@@ -47,12 +47,12 @@
 
                 <x-show-value
                     :key="__('Floor')"
-                    :value="$stand->room->floor->number"/>
+                    :value="$this->stand->floor_number"/>
 
 
                 <x-show-value
                     :key="__('Room')"
-                    :value="$stand->room->number"/>
+                    :value="$this->stand->room_number"/>
 
             </div>
 
@@ -64,7 +64,7 @@
                     <x-link-button
                         class="btn-do"
                         icon="pencil-square"
-                        :href="route('archiving.register.stand.edit', $stand)"
+                        :href="route('archiving.register.stand.edit', $this->stand->id)"
                         :text="__('Edit')"
                         :title="__('Edit the record')"/>
 
@@ -80,8 +80,10 @@
     <x-container>
 
         <x-table.model.shelf
-            :parent="$stand"
-            :shelves="$shelves"
+            :parent="$this->stand"
+            :shelves="$this->shelves"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withnewbutton/>
 
     </x-container>

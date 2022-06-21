@@ -19,17 +19,17 @@ use Livewire\Component;
 class StandLivewireCreate extends Component
 {
     use AuthorizesRequests;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
-     * Parent resource.
+     * Parent resource id.
      *
-     * @var \App\Models\Room
+     * @var int
      */
-    public Room $room;
+    public int $room_id;
 
     /**
      * Resource that will be created.
@@ -51,7 +51,7 @@ class StandLivewireCreate extends Component
                 'required',
                 'integer',
                 'between:1,100000',
-                "unique:stands,number,null,id,room_id,{$this->room->id}",
+                "unique:stands,number,null,id,room_id,{$this->room_id}",
             ],
 
             'stand.description' => [
@@ -92,12 +92,25 @@ class StandLivewireCreate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id parent resource id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->room->load('floor.building.site');
+        $this->room_id = $id;
+
         $this->stand = $this->blankModel();
+    }
+
+    /**
+     * Computed property to get parent model.
+     *
+     * @return \App\Models\Room
+     */
+    public function getRoomProperty()
+    {
+        return Room::hierarchy()->findOrFail($this->room_id);
     }
 
     /**
@@ -111,7 +124,7 @@ class StandLivewireCreate extends Component
     }
 
     /**
-     * Computed property to list paginated stands.
+     * Computed property to list paginated stands based on room id.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
@@ -119,7 +132,7 @@ class StandLivewireCreate extends Component
     {
         return $this->applyPagination(
             Stand::hierarchy()
-            ->where('stands.room_id', $this->room->id)
+            ->where('stands.room_id', $this->room_id)
             ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
@@ -131,9 +144,7 @@ class StandLivewireCreate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.stand.create', [
-            'stands' => $this->stands,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.stand.create')->layout('layouts.app');
     }
 
     /**

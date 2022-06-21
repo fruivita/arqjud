@@ -16,6 +16,11 @@ class Stand extends Model
     use HasFactory;
     use Humanize;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'stands';
 
     /**
@@ -76,6 +81,41 @@ class Stand extends Model
     }
 
     /**
+     * Model hierarchical fields.
+     *
+     * keys:
+     * - site_id: parent site id
+     * - site_name: parent site name
+     * - building_id: parent building id
+     * - building_name: parent building name
+     * - floor_id: parent floor id
+     * - floor_number: parent floor number
+     * - room_id: parent room id
+     * - room_number: parent room number
+     * - shelves_count: child shelves count
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function hierarchicalData()
+    {
+        $stand = isset($this->site_name)
+        ? $this
+        : self::hierarchy()->find($this->id);
+
+        return collect([
+            'site_id' => $stand->site_id,
+            'site_name' => $stand->site_name,
+            'building_id' => $stand->building_id,
+            'building_name' => $stand->building_name,
+            'floor_id' => $stand->floor_id,
+            'floor_number' => $stand->floor_number,
+            'room_id' => $stand->room_id,
+            'room_number' => $stand->room_number,
+            'shelves_count' => $stand->shelves_count,
+        ]);
+    }
+
+    /**
      * Get the stand in human-readable format.
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
@@ -97,11 +137,13 @@ class Stand extends Model
      */
     public function parentLinks(bool $root)
     {
+        $hierarchical_data = $this->hierarchicalData();
+
         return collect([
-            __('Site') => route('archiving.register.site.show', $this->site_id),
-            __('Building') => route('archiving.register.building.show', $this->building_id),
-            __('Floor') => route('archiving.register.floor.show', $this->floor_id),
-            __('Room') => route('archiving.register.room.show', $this->room_id),
+            __('Site') => route('archiving.register.site.show', $hierarchical_data->get('site_id')),
+            __('Building') => route('archiving.register.building.show', $hierarchical_data->get('building_id')),
+            __('Floor') => route('archiving.register.floor.show', $hierarchical_data->get('floor_id')),
+            __('Room') => route('archiving.register.room.show', $hierarchical_data->get('room_id')),
         ])->when($root, function ($collection) {
             return $collection->put(__('Stand'), route('archiving.register.stand.show', $this->id));
         });

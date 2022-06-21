@@ -12,7 +12,7 @@
 
 <x-page :header="__('New stands')">
 
-    <x-backtrace :model="$room" :root="true"/>
+    <x-backtrace :model="$this->room" :root="true"/>
 
 
     <x-container>
@@ -25,12 +25,12 @@
 
                     <x-show-value
                         :key="__('Site')"
-                        :value="$room->floor->building->site->name"/>
+                        :value="$this->room->site_name"/>
 
 
                     <x-show-value
                         :key="__('Building')"
-                        :value="$room->floor->building->name"/>
+                        :value="$this->room->building_name"/>
 
                 </div>
 
@@ -39,12 +39,12 @@
 
                     <x-show-value
                         :key="__('Floor')"
-                        :value="$room->floor->number"/>
+                        :value="$this->room->floor_number"/>
 
 
                     <x-show-value
                         :key="__('Room')"
-                        :value="$room->number"/>
+                        :value="$this->room->number"/>
 
                 </div>
 
@@ -105,10 +105,10 @@
     <x-container>
 
         <x-table.model.stand
-            :deleting="$deleting"
-            :stands="$stands"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :deleting="$this->deleting"
+            :stands="$this->stands"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withdeletebutton/>
 
     </x-container>
