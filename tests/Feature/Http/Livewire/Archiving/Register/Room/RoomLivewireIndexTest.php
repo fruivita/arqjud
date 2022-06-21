@@ -19,7 +19,6 @@ beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
     $this->room = Room::factory()->create();
-    $this->room->load('floor.building.site');
 
     login('foo');
 });
@@ -60,9 +59,7 @@ test('cannot set the room record which will be deleted if it has stands', functi
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 
-    Stand::factory()
-    ->for($this->room, 'room')
-    ->create();
+    Stand::factory()->for($this->room, 'room')->create();
 
     Livewire::test(RoomLivewireIndex::class)
     ->assertOk()
@@ -99,9 +96,7 @@ test('cannot delete a room record if it has stands', function () {
     ->call('markToDelete', $this->room->id)
     ->assertOk();
 
-    Stand::factory()
-    ->for($this->room, 'room')
-    ->create();
+    Stand::factory()->for($this->room, 'room')->create();
 
     $component
     ->call('destroy')

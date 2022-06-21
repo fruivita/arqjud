@@ -19,17 +19,17 @@ use Livewire\Component;
 class RoomLivewireCreate extends Component
 {
     use AuthorizesRequests;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
-     * Parent resource.
+     * Parent resource id.
      *
-     * @var \App\Models\Floor
+     * @var int
      */
-    public Floor $floor;
+    public int $floor_id;
 
     /**
      * Resource that will be created.
@@ -51,7 +51,7 @@ class RoomLivewireCreate extends Component
                 'required',
                 'integer',
                 'between:1,100000',
-                "unique:rooms,number,null,id,floor_id,{$this->floor->id}",
+                "unique:rooms,number,null,id,floor_id,{$this->floor_id}",
             ],
 
             'room.description' => [
@@ -92,12 +92,25 @@ class RoomLivewireCreate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id parent resource id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->floor->load('building.site');
+        $this->floor_id = $id;
+
         $this->room = $this->blankModel();
+    }
+
+    /**
+     * Computed property to get parent model.
+     *
+     * @return \App\Models\Floor
+     */
+    public function getFloorProperty()
+    {
+        return Floor::hierarchy()->findOrFail($this->floor_id);
     }
 
     /**
@@ -111,7 +124,7 @@ class RoomLivewireCreate extends Component
     }
 
     /**
-     * Computed property to list paginated rooms.
+     * Computed property to list paginated rooms based on floor id.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
@@ -119,7 +132,7 @@ class RoomLivewireCreate extends Component
     {
         return $this->applyPagination(
             Room::hierarchy()
-            ->where('rooms.floor_id', $this->floor->id)
+            ->where('rooms.floor_id', $this->floor_id)
             ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
@@ -131,9 +144,7 @@ class RoomLivewireCreate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.room.create', [
-            'rooms' => $this->rooms,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.room.create')->layout('layouts.app');
     }
 
     /**

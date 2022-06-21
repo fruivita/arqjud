@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the room')">
 
-    <x-backtrace :model="$room"/>
+    <x-backtrace :model="$this->room"/>
 
 
     <x-container>
@@ -73,7 +73,7 @@
                             <option value="">{{ __('Select...') }}</option>
 
 
-                            @forelse ($sites ?? [] as $site)
+                            @forelse ($this->sites ?? [] as $site)
 
                                 <option value="{{ $site->id }}">
 
@@ -95,10 +95,10 @@
                     {{-- Building --}}
                     <div>
 
-                        @if($site_id >= 1)
+                        @if($this->site_id >= 1)
 
                             <x-form.select
-                                wire:key="buildings-{{ $site_id }}"
+                                wire:key="buildings-{{ $this->site_id }}"
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model="building_id"
@@ -111,7 +111,7 @@
 
                                 <option value="">{{ __('Select...') }}</option>
 
-                                @forelse ($buildings ?? [] as $building)
+                                @forelse ($this->buildings ?? [] as $building)
 
                                     <option value="{{ $building->id }}">
 
@@ -137,10 +137,10 @@
                 {{-- Floor --}}
                 <div>
 
-                    @if($building_id >= 1)
+                    @if($this->building_id >= 1)
 
                         <x-form.select
-                            wire:key="floors-{{ $building_id }}"
+                            wire:key="floors-{{ $this->building_id }}"
                             wire:loading.delay.attr="disabled"
                             wire:loading.delay.class="cursor-not-allowed"
                             wire:model.defer="room.floor_id"
@@ -153,7 +153,7 @@
 
                             <option value="">{{ __('Select...') }}</option>
 
-                            @forelse ($floors ?? [] as $floor)
+                            @forelse ($this->floors ?? [] as $floor)
 
                                 <option value="{{ $floor->id }}">
 
@@ -198,9 +198,11 @@
     <x-container>
 
         <x-table.model.stand
-            :deleting="$deleting"
-            :parent="$room"
-            :stands="$stands"
+            :deleting="$this->deleting"
+            :parent="$this->room"
+            :stands="$this->stands"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withdeletebutton
             withnewbutton/>
 

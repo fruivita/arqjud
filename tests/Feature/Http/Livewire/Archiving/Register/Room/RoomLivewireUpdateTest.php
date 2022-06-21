@@ -35,28 +35,26 @@ afterEach(function () {
 test('cannot update a room record without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.room.edit', $this->room))
+    get(route('archiving.register.room.edit', $this->room->id))
     ->assertRedirect(route('login'));
 });
 
 test('authenticated but without specific permission, cannot access room record edit route', function () {
-    get(route('archiving.register.room.edit', $this->room))
+    get(route('archiving.register.room.edit', $this->room->id))
     ->assertForbidden();
 });
 
 test('cannot render room record edit component without specific permission', function () {
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->assertForbidden();
 });
 
 test('cannot set the stand record which will be deleted without specific permission', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    $stand = Stand::factory()
-    ->for($this->room, 'room')
-    ->create();
+    $stand = Stand::factory()->for($this->room, 'room')->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->assertOk()
     ->call('markToDelete', $stand->id)
     ->assertForbidden()
@@ -68,13 +66,13 @@ test('cannot set the stand record which will be deleted if it has shelves', func
     grantPermission(PermissionType::RoomUpdate->value);
     grantPermission(PermissionType::StandDelete->value);
 
-    $shelf = Shelf::factory()
-    ->for(Stand::factory()->for($this->room, 'room'), 'stand')
-    ->create();
+    $stand = Stand::factory()->for($this->room, 'room')->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Shelf::factory()->for($stand, 'stand')->create();
+
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->assertOk()
-    ->call('markToDelete', $shelf->stand_id)
+    ->call('markToDelete', $stand->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -86,11 +84,9 @@ test('cannot delete a stand record without specific permission', function () {
     grantPermission(PermissionType::RoomUpdate->value);
     grantPermission(PermissionType::StandDelete->value);
 
-    $stand = Stand::factory()
-    ->for($this->room, 'room')
-    ->create();
+    $stand = Stand::factory()->for($this->room, 'room')->create();
 
-    $component = Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    $component = Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->call('markToDelete', $stand->id)
     ->assertOk();
 
@@ -107,17 +103,13 @@ test('cannot delete a stand record if it has shelves', function () {
     grantPermission(PermissionType::RoomUpdate->value);
     grantPermission(PermissionType::StandDelete->value);
 
-    $stand = Stand::factory()
-    ->for($this->room, 'room')
-    ->create();
+    $stand = Stand::factory()->for($this->room, 'room')->create();
 
-    $component = Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    $component = Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->call('markToDelete', $stand->id)
     ->assertOk();
 
-    Shelf::factory()
-    ->for($stand, 'stand')
-    ->create();
+    Shelf::factory()->for($stand, 'stand')->create();
 
     $component
     ->call('destroy')
@@ -130,7 +122,7 @@ test('cannot delete a stand record if it has shelves', function () {
 test('does not accept pagination outside the options offered', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('per_page', 33) // possible values: 10/25/50/100
     ->assertHasErrors(['per_page' => 'in']);
 });
@@ -138,7 +130,7 @@ test('does not accept pagination outside the options offered', function () {
 test('number is required', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.number', '')
     ->call('update')
     ->assertHasErrors(['room.number' => 'required']);
@@ -147,7 +139,7 @@ test('number is required', function () {
 test('number must be an integer', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.number', ['foo'])
     ->call('update')
     ->assertHasErrors(['room.number' => 'integer']);
@@ -156,7 +148,7 @@ test('number must be an integer', function () {
 test('number must be between 1 and 100000', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.number', 0)
     ->call('update')
     ->assertHasErrors(['room.number' => 'between'])
@@ -171,7 +163,7 @@ test('number and floor_id must be unique', function () {
     $floor = Floor::factory()->create();
     Room::factory()->create(['number' => 99, 'floor_id' => $floor->id]);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.number', 99)
     ->set('room.floor_id', $floor->id)
     ->call('update')
@@ -181,7 +173,7 @@ test('number and floor_id must be unique', function () {
 test('description is optional', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.description', '')
     ->call('update')
     ->assertHasNoErrors(['room.description']);
@@ -190,7 +182,7 @@ test('description is optional', function () {
 test('description must be a string', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.description', ['foo'])
     ->call('update')
     ->assertHasErrors(['room.description' => 'string']);
@@ -199,7 +191,7 @@ test('description must be a string', function () {
 test('description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.description', Str::random(256))
     ->call('update')
     ->assertHasErrors(['room.description' => 'max']);
@@ -208,7 +200,7 @@ test('description must be a maximum of 255 characters', function () {
 test('site_id is required', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('site_id', '')
     ->call('update')
     ->assertHasErrors(['site_id' => 'required']);
@@ -217,7 +209,7 @@ test('site_id is required', function () {
 test('site_id must be an integer', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('site_id', 'foo')
     ->call('update')
     ->assertHasErrors(['site_id' => 'integer']);
@@ -226,7 +218,7 @@ test('site_id must be an integer', function () {
 test('site_id must previously exist in the database', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('site_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['site_id' => 'exists']);
@@ -237,7 +229,7 @@ test('site_id is validated in real time', function () {
 
     $site = Site::factory()->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('site_id', $site->id)
     ->assertHasNoErrors()
     ->set('site_id', 'foo')
@@ -247,7 +239,7 @@ test('site_id is validated in real time', function () {
 test('building_id is required', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('building_id', '')
     ->call('update')
     ->assertHasErrors(['building_id' => 'required']);
@@ -256,7 +248,7 @@ test('building_id is required', function () {
 test('building_id must be an integer', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('building_id', 'foo')
     ->call('update')
     ->assertHasErrors(['building_id' => 'integer']);
@@ -265,7 +257,7 @@ test('building_id must be an integer', function () {
 test('building_id must previously exist in the database', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('building_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['building_id' => 'exists']);
@@ -276,7 +268,7 @@ test('building_id is validated in real time', function () {
 
     $building = Building::factory()->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('building_id', $building->id)
     ->assertHasNoErrors()
     ->set('building_id', 'foo')
@@ -286,7 +278,7 @@ test('building_id is validated in real time', function () {
 test('floor_id is required', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.floor_id', '')
     ->call('update')
     ->assertHasErrors(['room.floor_id' => 'required']);
@@ -295,7 +287,7 @@ test('floor_id is required', function () {
 test('floor_id must be an integer', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.floor_id', 'foo')
     ->call('update')
     ->assertHasErrors(['room.floor_id' => 'integer']);
@@ -304,7 +296,7 @@ test('floor_id must be an integer', function () {
 test('floor_id must previously exist in the database', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.floor_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['room.floor_id' => 'exists']);
@@ -314,11 +306,9 @@ test('floor_id must previously exist in the database', function () {
 test('pagination returns the amount of stands expected', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Stand::factory(120)
-    ->for($this->room, 'room')
-    ->create();
+    Stand::factory(120)->for($this->room, 'room')->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->assertCount('stands', 10)
     ->set('per_page', 10)
     ->assertCount('stands', 10)
@@ -333,7 +323,7 @@ test('pagination returns the amount of stands expected', function () {
 test('pagination creates the session variables', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->assertSessionMissing('per_page')
     ->set('per_page', 10)
     ->assertSessionHas('per_page', 10)
@@ -348,7 +338,7 @@ test('pagination creates the session variables', function () {
 test('renders edit room record component with specific permission', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    get(route('archiving.register.room.edit', $this->room))
+    get(route('archiving.register.room.edit', $this->room->id))
     ->assertOk()
     ->assertSeeLivewire(RoomLivewireUpdate::class);
 });
@@ -358,7 +348,7 @@ test('emits feedback event when update a room record', function () {
 
     $floor = Floor::factory()->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.number', 1)
     ->set('room.floor_id', $floor->id)
     ->call('update')
@@ -369,11 +359,9 @@ test('emits feedback event when deleting a stand record', function () {
     grantPermission(PermissionType::RoomUpdate->value);
     grantPermission(PermissionType::StandDelete->value);
 
-    $stand = Stand::factory()
-    ->for($this->room, 'room')
-    ->create();
+    $stand = Stand::factory()->for($this->room, 'room')->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->call('markToDelete', $stand->id)
     ->call('destroy')
     ->assertOk()
@@ -391,31 +379,30 @@ test('sites are available for selection in room update', function () {
 
     Site::factory(10)->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->assertCount('sites', 11);
 });
 
-test('buildings are available by selecting a site', function () {
+test('sets the selected building and floor to null and makes new buildings available when selecting a site', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    $site = Site::factory()
-    ->has(Building::factory(10), 'buildings')
-    ->create();
+    $site = Site::factory()->has(Building::factory(10), 'buildings')->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('site_id', $site->id)
+    ->assertSet('room.building_id', null)
+    ->assertSet('room.floor_id', null)
     ->assertCount('buildings', 10);
 });
 
-test('floors are available by selecting a building', function () {
+test('sets the selected floor to null and makes new floors available when selecting a building', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
-    $building = Building::factory()
-    ->has(Floor::factory(10), 'floors')
-    ->create();
+    $building = Building::factory()->has(Floor::factory(10), 'floors')->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('building_id', $building->id)
+    ->assertSet('room.floor_id', null)
     ->assertCount('floors', 10);
 });
 
@@ -424,29 +411,27 @@ test('update a room record with specific permission', function () {
 
     $floor = Floor::factory()->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->set('room.number', 99)
     ->set('room.description', 'foo bar')
     ->set('room.floor_id', $floor->id)
     ->call('update')
     ->assertOk();
 
-    $this->room->refresh()->load('floor');
+    $this->room->refresh();
 
     expect($this->room->number)->toBe('99')
     ->and($this->room->description)->toBe('foo bar')
-    ->and($this->room->floor->id)->toBe($floor->id);
+    ->and($this->room->floor_id)->toBe($floor->id);
 });
 
 test('defines the stand record that will be deleted with specific permission if it has no shelves', function () {
     grantPermission(PermissionType::RoomUpdate->value);
     grantPermission(PermissionType::StandDelete->value);
 
-    $stand = Stand::factory()
-    ->for($this->room, 'room')
-    ->create();
+    $stand = Stand::factory()->for($this->room, 'room')->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->call('markToDelete', $stand->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
@@ -457,15 +442,20 @@ test('delete a stand record with specific permission if it has no shelves', func
     grantPermission(PermissionType::RoomUpdate->value);
     grantPermission(PermissionType::StandDelete->value);
 
-    $stand = Stand::factory()
-    ->for($this->room, 'room')
-    ->create();
+    $stand = Stand::factory()->for($this->room, 'room')->create();
 
-    Livewire::test(RoomLivewireUpdate::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
     ->call('markToDelete', $stand->id)
     ->assertOk()
     ->call('destroy', $stand->id)
     ->assertOk();
 
     expect(Stand::where('id', $stand->id)->doesntExist())->toBeTrue();
+});
+
+test('RoomLivewireUpdate uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(RoomLivewireUpdate::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
 });

@@ -10,9 +10,9 @@
 --}}
 
 
-<x-page :header="__('Room') . ': ' . $room->number">
+<x-page :header="__('Room') . ': ' . $this->room->number">
 
-    <x-backtrace :model="$room"/>
+    <x-backtrace :model="$this->room"/>
 
 
     <x-container>
@@ -21,31 +21,31 @@
 
             <x-show-value
                 :key="__('Room')"
-                :value="$room->number"/>
+                :value="$this->room->number"/>
 
 
             <x-show-value
                 :key="__('Description')"
-                :value="$room->description"/>
+                :value="$this->room->description"/>
 
 
             <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
 
                 <x-show-value
                     :key="__('Site')"
-                    :value="$room->floor->building->site->name"/>
+                    :value="$this->room->site_name"/>
 
 
                 <x-show-value
                     :key="__('Building')"
-                    :value="$room->floor->building->name"/>
+                    :value="$this->room->building_name"/>
 
             </div>
 
 
             <x-show-value
                 :key="__('Floor')"
-                :value="$room->floor->number"/>
+                :value="$this->room->floor_number"/>
 
 
             <x-button-group>
@@ -55,7 +55,7 @@
                     <x-link-button
                         class="btn-do"
                         icon="pencil-square"
-                        :href="route('archiving.register.room.edit', $room)"
+                        :href="route('archiving.register.room.edit', $this->room->id)"
                         :text="__('Edit')"
                         :title="__('Edit the record')"/>
 
@@ -71,8 +71,10 @@
     <x-container>
 
         <x-table.model.stand
-            :parent="$room"
-            :stands="$stands"
+            :parent="$this->room"
+            :stands="$this->stands"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withnewbutton/>
 
     </x-container>

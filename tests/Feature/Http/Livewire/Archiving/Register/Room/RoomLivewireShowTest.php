@@ -29,17 +29,17 @@ afterEach(function () {
 test('cannot individually view a room without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.room.show', $this->room))
+    get(route('archiving.register.room.show', $this->room->id))
     ->assertRedirect(route('login'));
 });
 
 test('authenticated but without specific permission, unable to access individual room view route', function () {
-    get(route('archiving.register.room.show', $this->room))
+    get(route('archiving.register.room.show', $this->room->id))
     ->assertForbidden();
 });
 
 test('cannot render individual room view component without specific permission', function () {
-    Livewire::test(RoomLivewireShow::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireShow::class, ['id' => $this->room->id])
     ->assertForbidden();
 });
 
@@ -47,7 +47,7 @@ test('cannot render individual room view component without specific permission',
 test('does not accept pagination outside the options offered', function () {
     grantPermission(PermissionType::RoomView->value);
 
-    Livewire::test(RoomLivewireShow::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireShow::class, ['id' => $this->room->id])
     ->set('per_page', 33) // possible values: 10/25/50/100
     ->assertHasErrors(['per_page' => 'in']);
 });
@@ -56,7 +56,7 @@ test('does not accept pagination outside the options offered', function () {
 test('renders individual room view component with specific permission', function () {
     grantPermission(PermissionType::RoomView->value);
 
-    get(route('archiving.register.room.show', $this->room))
+    get(route('archiving.register.room.show', $this->room->id))
     ->assertOk()
     ->assertSeeLivewire(RoomLivewireShow::class);
 });
@@ -64,11 +64,9 @@ test('renders individual room view component with specific permission', function
 test('pagination returns the amount of stands expected', function () {
     grantPermission(PermissionType::RoomView->value);
 
-    Stand::factory(120)
-    ->for($this->room, 'room')
-    ->create();
+    Stand::factory(120)->for($this->room, 'room')->create();
 
-    Livewire::test(RoomLivewireShow::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireShow::class, ['id' => $this->room->id])
     ->assertCount('stands', 10)
     ->set('per_page', 10)
     ->assertCount('stands', 10)
@@ -83,7 +81,7 @@ test('pagination returns the amount of stands expected', function () {
 test('pagination creates the session variables', function () {
     grantPermission(PermissionType::RoomView->value);
 
-    Livewire::test(RoomLivewireShow::class, ['room' => $this->room])
+    Livewire::test(RoomLivewireShow::class, ['id' => $this->room->id])
     ->assertSessionMissing('per_page')
     ->set('per_page', 10)
     ->assertSessionHas('per_page', 10)
@@ -98,7 +96,14 @@ test('pagination creates the session variables', function () {
 test('individually view a room with specific permission', function () {
     grantPermission(PermissionType::RoomView->value);
 
-    get(route('archiving.register.room.show', $this->room))
+    get(route('archiving.register.room.show', $this->room->id))
     ->assertOk()
     ->assertSeeLivewire(RoomLivewireShow::class);
+});
+
+test('RoomLivewireShow uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(RoomLivewireShow::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
 });

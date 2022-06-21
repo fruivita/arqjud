@@ -19,10 +19,10 @@ class RoomLivewireIndex extends Component
 {
     use AuthorizesRequests;
     use Searchable;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -42,11 +42,11 @@ class RoomLivewireIndex extends Component
      */
     public function getRoomsProperty()
     {
-        return
+        return $this->applyPagination(
             Room::hierarchy()
             ->whereLike('rooms.number', $this->term)
             ->orderByWhen($this->sort_column, $this->sort_direction)
-            ->paginate(30);
+        );
     }
 
     /**
@@ -56,9 +56,7 @@ class RoomLivewireIndex extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.room.index', [
-            'rooms' => $this->rooms,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.room.index')->layout('layouts.app');
     }
 
     /**

@@ -4,7 +4,9 @@ namespace App\Http\Livewire\Archiving\Register\Room;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Room;
+use App\Models\Stand;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -15,13 +17,14 @@ class RoomLivewireShow extends Component
 {
     use AuthorizesRequests;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
-     * Resource on display.
+     * Resource on display id.
      *
-     * @var \App\Models\Room
+     * @var int
      */
-    public Room $room;
+    public int $room_id;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -39,26 +42,36 @@ class RoomLivewireShow extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id resource on display id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->room->load('floor.building.site');
+        $this->room_id = $id;
     }
 
     /**
-     * Computed property to list paged stands.
+     * Computed property to get resource on display.
+     *
+     * @return \App\Models\Room
+     */
+    public function getRoomProperty()
+    {
+        return Room::hierarchy()->findOrFail($this->room_id);
+    }
+
+    /**
+     * Computed property to list paged stands based on room id.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getStandsProperty()
     {
         return $this->applyPagination(
-            $this
-                ->room
-                ->stands()
-                ->withCount('shelves')
-                ->defaultOrder()
+            Stand::hierarchy()
+            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->where('room_id', $this->room_id)
         );
     }
 
@@ -69,8 +82,6 @@ class RoomLivewireShow extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.room.show', [
-            'stands' => $this->stands,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.room.show')->layout('layouts.app');
     }
 }

@@ -14,6 +14,11 @@ class Room extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'rooms';
 
     /**
@@ -69,6 +74,37 @@ class Room extends Model
     }
 
     /**
+     * Model hierarchical fields.
+     *
+     * keys:
+     * - site_id: parent site id
+     * - site_name: parent site name
+     * - building_id: parent building id
+     * - building_name: parent building name
+     * - floor_id: parent floor id
+     * - floor_number: parent floor number
+     * - stands_count: child stands count
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function hierarchicalData()
+    {
+        $room = isset($this->site_name)
+        ? $this
+        : self::hierarchy()->find($this->id);
+
+        return collect([
+            'site_id' => $room->site_id,
+            'site_name' => $room->site_name,
+            'building_id' => $room->building_id,
+            'building_name' => $room->building_name,
+            'floor_id' => $room->floor_id,
+            'floor_number' => $room->floor_number,
+            'stands_count' => $room->stands_count,
+        ]);
+    }
+
+    /**
      * Links to the parent entities.
      *
      * @param bool $root must include the root element?
@@ -77,10 +113,12 @@ class Room extends Model
      */
     public function parentLinks(bool $root)
     {
+        $hierarchical_data = $this->hierarchicalData();
+
         return collect([
-            __('Site') => route('archiving.register.site.show', $this->site_id),
-            __('Building') => route('archiving.register.building.show', $this->building_id),
-            __('Floor') => route('archiving.register.floor.show', $this->floor_id),
+            __('Site') => route('archiving.register.site.show', $hierarchical_data->get('site_id')),
+            __('Building') => route('archiving.register.building.show', $hierarchical_data->get('building_id')),
+            __('Floor') => route('archiving.register.floor.show', $hierarchical_data->get('floor_id')),
         ])->when($root, function ($collection) {
             return $collection->put(__('Room'), route('archiving.register.room.show', $this->id));
         });
