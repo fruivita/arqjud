@@ -148,15 +148,6 @@ test('user cannot remove user delegation from another department', function () {
     ->and($user_taz->old_role_id)->toBe(Role::OBSERVER);
 });
 
-// Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::DelegationViewAny->value);
-
-    Livewire::test(DelegationLivewireIndex::class)
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 // Happy path
 test('with specific permission it is possible to render the department delegations listing component', function () {
     grantPermission(PermissionType::DelegationViewAny->value);
@@ -169,44 +160,18 @@ test('with specific permission it is possible to render the department delegatio
 test('pagination returns the expected amount of users', function () {
     grantPermission(PermissionType::DelegationViewAny->value);
 
-    User::factory(120)
-    ->for($this->department, 'department')
-    ->create();
+    User::factory(30)->for($this->department, 'department')->create();
 
     Livewire::test(DelegationLivewireIndex::class)
-    ->assertCount('users', 10)
-    ->set('per_page', 10)
-    ->assertCount('users', 10)
     ->set('per_page', 25)
-    ->assertCount('users', 25)
-    ->set('per_page', 50)
-    ->assertCount('users', 50)
-    ->set('per_page', 100)
-    ->assertCount('users', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::DelegationViewAny->value);
-
-    Livewire::test(DelegationLivewireIndex::class)
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('users', 25);
 });
 
 test('displays only the users from the same department', function () {
     grantPermission(PermissionType::DelegationViewAny->value);
 
     User::factory(30)->create();
-    User::factory(5)
-    ->for($this->department, 'department')
-    ->create();
+    User::factory(5)->for($this->department, 'department')->create();
 
     Livewire::test(DelegationLivewireIndex::class)
     ->assertCount('users', 6);

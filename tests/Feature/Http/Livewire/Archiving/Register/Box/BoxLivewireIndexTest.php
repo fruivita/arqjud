@@ -105,46 +105,15 @@ test('cannot delete a box record if it has volumes', function () {
     expect(Box::where('id', $this->box->id)->exists())->toBeTrue();
 });
 
-// Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::BoxViewAny->value);
-
-    Livewire::test(BoxLivewireIndex::class)
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 // Happy path
 test('pagination returns the amount of boxes expected', function () {
     grantPermission(PermissionType::BoxViewAny->value);
 
-    Box::factory(120)->create();
+    Box::factory(30)->create();
 
     Livewire::test(BoxLivewireIndex::class)
-    ->assertCount('boxes', 10)
-    ->set('per_page', 10)
-    ->assertCount('boxes', 10)
     ->set('per_page', 25)
-    ->assertCount('boxes', 25)
-    ->set('per_page', 50)
-    ->assertCount('boxes', 50)
-    ->set('per_page', 100)
-    ->assertCount('boxes', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::BoxViewAny->value);
-
-    Livewire::test(BoxLivewireIndex::class)
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('boxes', 25);
 });
 
 test('list boxes with specific permission', function () {
@@ -229,9 +198,11 @@ test('delete a box record with specific permission if it has no shelves', functi
     expect(Box::where('id', $this->box->id)->doesntExist())->toBeTrue();
 });
 
-test('BoxLivewireIndex uses the withsorting trait', function () {
+test('BoxLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(BoxLivewireIndex::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

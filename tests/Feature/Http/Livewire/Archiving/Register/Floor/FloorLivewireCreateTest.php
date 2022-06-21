@@ -116,14 +116,6 @@ test('cannot delete a floor record if it has rooms', function () {
 });
 
 // Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 test('number is required', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
@@ -196,33 +188,11 @@ test('description must be a maximum of 255 characters', function () {
 test('pagination returns the amount of expected floor records', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
-    Floor::factory(120)->for($this->building, 'building')->create();
+    Floor::factory(30)->for($this->building, 'building')->create();
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
-    ->assertCount('floors', 10)
-    ->set('per_page', 10)
-    ->assertCount('floors', 10)
     ->set('per_page', 25)
-    ->assertCount('floors', 25)
-    ->set('per_page', 50)
-    ->assertCount('floors', 50)
-    ->set('per_page', 100)
-    ->assertCount('floors', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::FloorCreate->value);
-
-    Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('floors', 25);
 });
 
 test('renders floor record creation component with specific permission', function () {
@@ -317,9 +287,11 @@ test('delete a floor record with specific permission if it has no rooms', functi
     expect(Floor::where('id', $floor->id)->doesntExist())->toBeTrue();
 });
 
-test('FloorLivewireCreate uses the withsorting trait', function () {
+test('FloorLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(FloorLivewireCreate::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

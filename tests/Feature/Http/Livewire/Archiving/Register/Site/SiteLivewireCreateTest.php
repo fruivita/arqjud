@@ -111,14 +111,6 @@ test('cannot delete a site record if it has buildings', function () {
 });
 
 // Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::SiteCreate->value);
-
-    Livewire::test(SiteLivewireCreate::class)
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 test('name is required', function () {
     grantPermission(PermissionType::SiteCreate->value);
 
@@ -188,33 +180,11 @@ test('description must be a maximum of 255 characters', function () {
 test('pagination returns the amount of expected site records', function () {
     grantPermission(PermissionType::SiteCreate->value);
 
-    Site::factory(120)->create();
+    Site::factory(30)->create();
 
     Livewire::test(SiteLivewireCreate::class)
-    ->assertCount('sites', 10)
-    ->set('per_page', 10)
-    ->assertCount('sites', 10)
     ->set('per_page', 25)
-    ->assertCount('sites', 25)
-    ->set('per_page', 50)
-    ->assertCount('sites', 50)
-    ->set('per_page', 100)
-    ->assertCount('sites', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::SiteCreate->value);
-
-    Livewire::test(SiteLivewireCreate::class)
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('sites', 25);
 });
 
 test('renders site record creation component with specific permission', function () {
@@ -308,9 +278,11 @@ test('delete a site record with specific permission if it has no buildings', fun
     expect(Site::where('id', $site->id)->doesntExist())->toBeTrue();
 });
 
-test('SiteLivewireCreate uses the withsorting trait', function () {
+test('SiteLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(SiteLivewireCreate::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

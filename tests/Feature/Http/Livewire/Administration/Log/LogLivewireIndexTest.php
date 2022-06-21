@@ -101,14 +101,6 @@ test('if the initialization values are invalid they will be set by the system', 
 });
 
 // Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::LogViewAny->value);
-
-    Livewire::test(LogLivewireIndex::class)
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 test('filename is required', function () {
     grantPermission(PermissionType::LogViewAny->value);
 
@@ -146,15 +138,8 @@ test('pagination returns the number of lines of the expected application log fil
     grantPermission(PermissionType::LogViewAny->value);
 
     Livewire::test(LogLivewireIndex::class)
-    ->assertCount('file_content', 10)
-    ->set('per_page', 10)
-    ->assertCount('file_content', 10)
     ->set('per_page', 25)
-    ->assertCount('file_content', 25)
-    ->set('per_page', 50)
-    ->assertCount('file_content', 50)
-    ->set('per_page', 100)
-    ->assertCount('file_content', 100);
+    ->assertCount('file_content', 25);
 });
 
 test('returns the amount of expected application log files', function () {
@@ -162,21 +147,6 @@ test('returns the amount of expected application log files', function () {
 
     Livewire::test(LogLivewireIndex::class)
     ->assertCount('log_files', 2);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::LogViewAny->value);
-
-    Livewire::test(LogLivewireIndex::class)
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
 });
 
 test('default log file is the one with the most recent modification', function () {

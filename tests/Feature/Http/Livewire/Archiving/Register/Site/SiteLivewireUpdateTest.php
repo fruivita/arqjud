@@ -116,14 +116,6 @@ test('cannot delete a building record if it has floors', function () {
 });
 
 // Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::SiteUpdate->value);
-
-    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 test('name is required', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
@@ -193,33 +185,11 @@ test('description must be a maximum of 255 characters', function () {
 test('pagination returns the amount of expected building records', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
-    Building::factory(120)->for($this->site, 'site')->create();
+    Building::factory(30)->for($this->site, 'site')->create();
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->assertCount('buildings', 10)
-    ->set('per_page', 10)
-    ->assertCount('buildings', 10)
     ->set('per_page', 25)
-    ->assertCount('buildings', 25)
-    ->set('per_page', 50)
-    ->assertCount('buildings', 50)
-    ->set('per_page', 100)
-    ->assertCount('buildings', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::SiteUpdate->value);
-
-    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('buildings', 25);
 });
 
 test('renders edit site record component with specific permission', function () {
@@ -301,9 +271,11 @@ test('delete a building record with specific permission if it has no floors', fu
     expect(Building::where('id', $building->id)->doesntExist())->toBeTrue();
 });
 
-test('SiteLivewireUpdate uses the withsorting trait', function () {
+test('SiteLivewireUpdate uses trait', function () {
     expect(
         collect(class_uses(SiteLivewireUpdate::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

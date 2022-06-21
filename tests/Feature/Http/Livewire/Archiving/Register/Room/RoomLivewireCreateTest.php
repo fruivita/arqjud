@@ -117,14 +117,6 @@ test('cannot delete a room record if it has stands', function () {
 });
 
 // Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::RoomCreate->value);
-
-    Livewire::test(RoomLivewireCreate::class, ['id' => $this->floor->id])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 test('number is required', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
@@ -197,33 +189,11 @@ test('description must be a maximum of 255 characters', function () {
 test('pagination returns the amount of expected room records', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
-    Room::factory(120)->for($this->floor, 'floor')->create();
+    Room::factory(30)->for($this->floor, 'floor')->create();
 
     Livewire::test(RoomLivewireCreate::class, ['id' => $this->floor->id])
-    ->assertCount('rooms', 10)
-    ->set('per_page', 10)
-    ->assertCount('rooms', 10)
     ->set('per_page', 25)
-    ->assertCount('rooms', 25)
-    ->set('per_page', 50)
-    ->assertCount('rooms', 50)
-    ->set('per_page', 100)
-    ->assertCount('rooms', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::RoomCreate->value);
-
-    Livewire::test(RoomLivewireCreate::class, ['id' => $this->floor->id])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('rooms', 25);
 });
 
 test('renders room record creation component with specific permission', function () {
@@ -342,9 +312,11 @@ test('delete a room record with specific permission if it has no stands', functi
     expect(Room::where('id', $room->id)->doesntExist())->toBeTrue();
 });
 
-test('RoomLivewireCreate uses the withsorting trait', function () {
+test('RoomLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(RoomLivewireCreate::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

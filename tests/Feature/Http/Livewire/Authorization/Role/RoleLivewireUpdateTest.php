@@ -156,14 +156,6 @@ test('ids of the permissions that will be associated with the role must previous
     ->assertHasErrors(['selected' => 'exists']);
 });
 
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::RoleUpdate->value);
-
-    Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 // Happy path
 test('render role edit component with specific permission', function () {
     grantPermission(PermissionType::RoleUpdate->value);
@@ -207,33 +199,11 @@ test('permissions checkbox manipulation actions work as expected', function () {
 test('pagination returns the amount of permissions expected', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
-    Permission::factory(120)->create();
+    Permission::factory(30)->create();
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
-    ->assertCount('permissions', 10)
-    ->set('per_page', 10)
-    ->assertCount('permissions', 10)
     ->set('per_page', 25)
-    ->assertCount('permissions', 25)
-    ->set('per_page', 50)
-    ->assertCount('permissions', 50)
-    ->set('per_page', 100)
-    ->assertCount('permissions', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::RoleUpdate->value);
-
-    Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('permissions', 25);
 });
 
 test('getCheckAllProperty displays expected results', function () {

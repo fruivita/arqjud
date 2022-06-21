@@ -116,14 +116,6 @@ test('cannot delete a box record if it has volumes', function () {
 });
 
 // Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 test('amount is required', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
@@ -294,33 +286,11 @@ test('volumes must be between 1 and 1000', function () {
 test('pagination returns the amount of expected boxes records', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
-    Box::factory(120)->for($this->shelf, 'shelf')->create();
+    Box::factory(30)->for($this->shelf, 'shelf')->create();
 
     Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
-    ->assertCount('boxes', 10)
-    ->set('per_page', 10)
-    ->assertCount('boxes', 10)
     ->set('per_page', 25)
-    ->assertCount('boxes', 25)
-    ->set('per_page', 50)
-    ->assertCount('boxes', 50)
-    ->set('per_page', 100)
-    ->assertCount('boxes', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::BoxCreate->value);
-
-    Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('boxes', 25);
 });
 
 test('renders box record creation component with specific permission', function () {
@@ -513,9 +483,11 @@ test('delete a box record with specific permission if it has no volumes', functi
     expect(Box::where('id', $box->id)->doesntExist())->toBeTrue();
 });
 
-test('BoxLivewireCreate uses the withsorting trait', function () {
+test('BoxLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(BoxLivewireCreate::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

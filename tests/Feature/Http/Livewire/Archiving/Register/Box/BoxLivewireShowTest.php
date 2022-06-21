@@ -43,15 +43,6 @@ test('cannot render individual box view component without specific permission', 
     ->assertForbidden();
 });
 
-// Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::BoxView->value);
-
-    Livewire::test(BoxLivewireShow::class, ['id' => $this->box->id])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 // Happy path
 test('renders individual role view component with specific permission', function () {
     grantPermission(PermissionType::BoxView->value);
@@ -64,33 +55,11 @@ test('renders individual role view component with specific permission', function
 test('pagination returns the amount of expected box volumes records', function () {
     grantPermission(PermissionType::BoxView->value);
 
-    BoxVolume::factory(120)->for($this->box, 'box')->create();
+    BoxVolume::factory(30)->for($this->box, 'box')->create();
 
     Livewire::test(BoxLivewireShow::class, ['id' => $this->box->id])
-    ->assertCount('volumes', 10)
-    ->set('per_page', 10)
-    ->assertCount('volumes', 10)
     ->set('per_page', 25)
-    ->assertCount('volumes', 25)
-    ->set('per_page', 50)
-    ->assertCount('volumes', 50)
-    ->set('per_page', 100)
-    ->assertCount('volumes', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::BoxView->value);
-
-    Livewire::test(BoxLivewireShow::class, ['id' => $this->box->id])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('volumes', 25);
 });
 
 test('individually view a box with specific permission', function () {
@@ -101,9 +70,11 @@ test('individually view a box with specific permission', function () {
     ->assertSeeLivewire(BoxLivewireShow::class);
 });
 
-test('BoxLivewireShow uses the withsorting trait', function () {
+test('BoxLivewireShow uses trait', function () {
     expect(
         collect(class_uses(BoxLivewireShow::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

@@ -106,14 +106,6 @@ test("cannot update user's role of higher level", function () {
 });
 
 // Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::UserViewAny->value);
-
-    Livewire::test(UserLivewireIndex::class)
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 test('id of the role that will be associated with the user must be an integer', function () {
     grantPermission(PermissionType::UserViewAny->value);
     grantPermission(PermissionType::UserUpdate->value);
@@ -159,33 +151,11 @@ test('renders listing component of users with specific permission', function () 
 test('pagination returns the expected amount of users', function () {
     grantPermission(PermissionType::UserViewAny->value);
 
-    User::factory(120)->create();
+    User::factory(30)->create();
 
     Livewire::test(UserLivewireIndex::class)
-    ->assertCount('users', 10)
-    ->set('per_page', 10)
-    ->assertCount('users', 10)
     ->set('per_page', 25)
-    ->assertCount('users', 25)
-    ->set('per_page', 50)
-    ->assertCount('users', 50)
-    ->set('per_page', 100)
-    ->assertCount('users', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::UserViewAny->value);
-
-    Livewire::test(UserLivewireIndex::class)
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('users', 25);
 });
 
 test('display user edit modal with specific permission', function () {

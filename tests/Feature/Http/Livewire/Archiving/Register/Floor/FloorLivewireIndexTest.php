@@ -105,46 +105,15 @@ test('cannot delete a floor record if it has rooms', function () {
     expect(Floor::where('id', $this->floor->id)->exists())->toBeTrue();
 });
 
-// Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::FloorViewAny->value);
-
-    Livewire::test(FloorLivewireIndex::class)
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 // Happy path
 test('pagination returns the amount of expected floor records', function () {
     grantPermission(PermissionType::FloorViewAny->value);
 
-    Floor::factory(120)->create();
+    Floor::factory(30)->create();
 
     Livewire::test(FloorLivewireIndex::class)
-    ->assertCount('floors', 10)
-    ->set('per_page', 10)
-    ->assertCount('floors', 10)
     ->set('per_page', 25)
-    ->assertCount('floors', 25)
-    ->set('per_page', 50)
-    ->assertCount('floors', 50)
-    ->set('per_page', 100)
-    ->assertCount('floors', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::FloorViewAny->value);
-
-    Livewire::test(FloorLivewireIndex::class)
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('floors', 25);
 });
 
 test('lists floor records with specific permission', function () {
@@ -216,9 +185,11 @@ test('delete a floor record with specific permission if it has no rooms', functi
     expect(Floor::where('id', $this->floor->id)->doesntExist())->toBeTrue();
 });
 
-test('FloorLivewireIndex uses the withsorting trait', function () {
+test('FloorLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(FloorLivewireIndex::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

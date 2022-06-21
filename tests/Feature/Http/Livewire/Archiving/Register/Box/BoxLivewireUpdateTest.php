@@ -96,14 +96,6 @@ test('cannot delete a box volume record without specific permission', function (
 });
 
 // Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::BoxUpdate->value);
-
-    Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 test('site_id is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
@@ -437,33 +429,11 @@ test('box volume number must be between 1 and 50000', function () {
 test('pagination returns the amount of expected box volumes records', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
-    BoxVolume::factory(120)->for($this->box, 'box')->create();
+    BoxVolume::factory(30)->for($this->box, 'box')->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->assertCount('volumes', 10)
-    ->set('per_page', 10)
-    ->assertCount('volumes', 10)
     ->set('per_page', 25)
-    ->assertCount('volumes', 25)
-    ->set('per_page', 50)
-    ->assertCount('volumes', 50)
-    ->set('per_page', 100)
-    ->assertCount('volumes', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::BoxUpdate->value);
-
-    Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('volumes', 25);
 });
 
 test('renders edit box record component with specific permission', function () {
@@ -673,10 +643,12 @@ test('delete a box volume record with specific permission', function () {
     expect(BoxVolume::where('id', $volume->id)->doesntExist())->toBeTrue();
 });
 
-test('BoxLivewireUpdate uses the withsorting trait', function () {
+test('BoxLivewireUpdate uses trait', function () {
     expect(
         collect(class_uses(BoxLivewireUpdate::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });
 

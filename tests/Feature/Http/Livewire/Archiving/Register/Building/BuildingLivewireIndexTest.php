@@ -105,46 +105,15 @@ test('cannot delete a building record if it has floors', function () {
     expect(Building::where('id', $this->building->id)->exists())->toBeTrue();
 });
 
-// Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::BuildingViewAny->value);
-
-    Livewire::test(BuildingLivewireIndex::class)
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 // Happy path
 test('pagination returns the amount of expected building records', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
 
-    Building::factory(120)->create();
+    Building::factory(30)->create();
 
     Livewire::test(BuildingLivewireIndex::class)
-    ->assertCount('buildings', 10)
-    ->set('per_page', 10)
-    ->assertCount('buildings', 10)
     ->set('per_page', 25)
-    ->assertCount('buildings', 25)
-    ->set('per_page', 50)
-    ->assertCount('buildings', 50)
-    ->set('per_page', 100)
-    ->assertCount('buildings', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::BuildingViewAny->value);
-
-    Livewire::test(BuildingLivewireIndex::class)
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('buildings', 25);
 });
 
 test('lists building records with specific permission', function () {
@@ -216,9 +185,11 @@ test('delete a building record with specific permission if it has no floors', fu
     expect(Building::where('id', $this->building->id)->doesntExist())->toBeTrue();
 });
 
-test('BuildingLivewireIndex uses the withsorting trait', function () {
+test('BuildingLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(BuildingLivewireIndex::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

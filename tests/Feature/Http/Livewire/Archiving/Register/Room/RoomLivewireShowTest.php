@@ -43,15 +43,6 @@ test('cannot render individual room view component without specific permission',
     ->assertForbidden();
 });
 
-// Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::RoomView->value);
-
-    Livewire::test(RoomLivewireShow::class, ['id' => $this->room->id])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 // Happy path
 test('renders individual room view component with specific permission', function () {
     grantPermission(PermissionType::RoomView->value);
@@ -64,33 +55,11 @@ test('renders individual room view component with specific permission', function
 test('pagination returns the amount of stands expected', function () {
     grantPermission(PermissionType::RoomView->value);
 
-    Stand::factory(120)->for($this->room, 'room')->create();
+    Stand::factory(30)->for($this->room, 'room')->create();
 
     Livewire::test(RoomLivewireShow::class, ['id' => $this->room->id])
-    ->assertCount('stands', 10)
-    ->set('per_page', 10)
-    ->assertCount('stands', 10)
     ->set('per_page', 25)
-    ->assertCount('stands', 25)
-    ->set('per_page', 50)
-    ->assertCount('stands', 50)
-    ->set('per_page', 100)
-    ->assertCount('stands', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::RoomView->value);
-
-    Livewire::test(RoomLivewireShow::class, ['id' => $this->room->id])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('stands', 25);
 });
 
 test('individually view a room with specific permission', function () {
@@ -101,9 +70,11 @@ test('individually view a room with specific permission', function () {
     ->assertSeeLivewire(RoomLivewireShow::class);
 });
 
-test('RoomLivewireShow uses the withsorting trait', function () {
+test('RoomLivewireShow uses trait', function () {
     expect(
         collect(class_uses(RoomLivewireShow::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

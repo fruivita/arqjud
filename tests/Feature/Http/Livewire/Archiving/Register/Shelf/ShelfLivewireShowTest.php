@@ -43,15 +43,6 @@ test('cannot render individual shelf view component without specific permission'
     ->assertForbidden();
 });
 
-// Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::ShelfView->value);
-
-    Livewire::test(ShelfLivewireShow::class, ['id' => $this->shelf->id])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 // Happy path
 test('renders individual shelf view component with specific permission', function () {
     grantPermission(PermissionType::ShelfView->value);
@@ -64,33 +55,11 @@ test('renders individual shelf view component with specific permission', functio
 test('pagination returns the amount of boxes expected', function () {
     grantPermission(PermissionType::ShelfView->value);
 
-    Box::factory(120)->for($this->shelf, 'shelf')->create();
+    Box::factory(30)->for($this->shelf, 'shelf')->create();
 
     Livewire::test(ShelfLivewireShow::class, ['id' => $this->shelf->id])
-    ->assertCount('boxes', 10)
-    ->set('per_page', 10)
-    ->assertCount('boxes', 10)
     ->set('per_page', 25)
-    ->assertCount('boxes', 25)
-    ->set('per_page', 50)
-    ->assertCount('boxes', 50)
-    ->set('per_page', 100)
-    ->assertCount('boxes', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::ShelfView->value);
-
-    Livewire::test(ShelfLivewireShow::class, ['id' => $this->shelf->id])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('boxes', 25);
 });
 
 test('individually view a shelf with specific permission', function () {
@@ -101,9 +70,11 @@ test('individually view a shelf with specific permission', function () {
     ->assertSeeLivewire(ShelfLivewireShow::class);
 });
 
-test('ShelfLivewireShow uses the withsorting trait', function () {
+test('ShelfLivewireShow uses trait', function () {
     expect(
         collect(class_uses(ShelfLivewireShow::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

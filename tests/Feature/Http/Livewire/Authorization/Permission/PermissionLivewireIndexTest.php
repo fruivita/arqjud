@@ -39,46 +39,15 @@ test('cannot render permissions listing component without specific permission', 
     Livewire::test(PermissionLivewireIndex::class)->assertForbidden();
 });
 
-// Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::PermissionViewAny->value);
-
-    Livewire::test(PermissionLivewireIndex::class)
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 // Happy path
 test('pagination returns the amount of permissions expected', function () {
     grantPermission(PermissionType::PermissionViewAny->value);
 
-    Permission::factory(120)->create();
+    Permission::factory(30)->create();
 
     Livewire::test(PermissionLivewireIndex::class)
-    ->assertCount('permissions', 10)
-    ->set('per_page', 10)
-    ->assertCount('permissions', 10)
     ->set('per_page', 25)
-    ->assertCount('permissions', 25)
-    ->set('per_page', 50)
-    ->assertCount('permissions', 50)
-    ->set('per_page', 100)
-    ->assertCount('permissions', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::PermissionViewAny->value);
-
-    Livewire::test(PermissionLivewireIndex::class)
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('permissions', 25);
 });
 
 test('list permissions with specific permission', function () {

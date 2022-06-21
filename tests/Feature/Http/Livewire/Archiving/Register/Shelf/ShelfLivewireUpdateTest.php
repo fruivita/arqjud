@@ -121,14 +121,6 @@ test('cannot delete a box record if it has box volumes', function () {
 });
 
 // Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::ShelfUpdate->value);
-
-    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 test('number is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
@@ -386,33 +378,11 @@ test('stand_id must previously exist in the database', function () {
 test('pagination returns the amount of boxes expected', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Box::factory(120)->for($this->shelf, 'shelf')->create();
+    Box::factory(30)->for($this->shelf, 'shelf')->create();
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
-    ->assertCount('boxes', 10)
-    ->set('per_page', 10)
-    ->assertCount('boxes', 10)
     ->set('per_page', 25)
-    ->assertCount('boxes', 25)
-    ->set('per_page', 50)
-    ->assertCount('boxes', 50)
-    ->set('per_page', 100)
-    ->assertCount('boxes', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::ShelfUpdate->value);
-
-    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('boxes', 25);
 });
 
 test('renders edit shelf record component with specific permission', function () {
@@ -583,9 +553,11 @@ test('delete a box record with specific permission if it has no box volumes', fu
     expect(Box::where('id', $box->id)->doesntExist())->toBeTrue();
 });
 
-test('ShelfLivewireUpdate uses the withsorting trait', function () {
+test('ShelfLivewireUpdate uses trait', function () {
     expect(
         collect(class_uses(ShelfLivewireUpdate::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

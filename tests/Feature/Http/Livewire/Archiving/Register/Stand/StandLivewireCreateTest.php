@@ -116,14 +116,6 @@ test('cannot delete a stand record if it has shelves', function () {
 });
 
 // Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::StandCreate->value);
-
-    Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 test('number is required', function () {
     grantPermission(PermissionType::StandCreate->value);
 
@@ -196,33 +188,11 @@ test('description must be a maximum of 255 characters', function () {
 test('pagination returns the amount of expected stand records', function () {
     grantPermission(PermissionType::StandCreate->value);
 
-    Stand::factory(120)->for($this->room, 'room')->create();
+    Stand::factory(30)->for($this->room, 'room')->create();
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
-    ->assertCount('stands', 10)
-    ->set('per_page', 10)
-    ->assertCount('stands', 10)
     ->set('per_page', 25)
-    ->assertCount('stands', 25)
-    ->set('per_page', 50)
-    ->assertCount('stands', 50)
-    ->set('per_page', 100)
-    ->assertCount('stands', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::StandCreate->value);
-
-    Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('stands', 25);
 });
 
 test('renders stand record creation component with specific permission', function () {
@@ -337,9 +307,11 @@ test('delete a stand record with specific permission if it has no shelves', func
     expect(Stand::where('id', $stand->id)->doesntExist())->toBeTrue();
 });
 
-test('StandLivewireCreate uses the withsorting trait', function () {
+test('StandLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(StandLivewireCreate::class))
-        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+        ->has([
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
     )->toBeTrue();
 });

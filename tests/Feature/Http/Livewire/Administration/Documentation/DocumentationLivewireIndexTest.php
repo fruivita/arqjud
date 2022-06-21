@@ -67,46 +67,15 @@ test('cannot delete an application documentation record without specific permiss
     expect(Documentation::where('app_route_name', 'foo')->exists())->toBeTrue();
 });
 
-// Rules
-test('does not accept pagination outside the options offered', function () {
-    grantPermission(PermissionType::DocumentationViewAny->value);
-
-    Livewire::test(DocumentationLivewireIndex::class)
-    ->set('per_page', 33) // possible values: 10/25/50/100
-    ->assertHasErrors(['per_page' => 'in']);
-});
-
 // Happy path
 test('pagination returns the amount of expected application documentation records', function () {
     grantPermission(PermissionType::DocumentationViewAny->value);
 
-    Documentation::factory(120)->create();
+    Documentation::factory(30)->create();
 
     Livewire::test(DocumentationLivewireIndex::class)
-    ->assertCount('docs', 10)
-    ->set('per_page', 10)
-    ->assertCount('docs', 10)
     ->set('per_page', 25)
-    ->assertCount('docs', 25)
-    ->set('per_page', 50)
-    ->assertCount('docs', 50)
-    ->set('per_page', 100)
-    ->assertCount('docs', 100);
-});
-
-test('pagination creates the session variables', function () {
-    grantPermission(PermissionType::DocumentationViewAny->value);
-
-    Livewire::test(DocumentationLivewireIndex::class)
-    ->assertSessionMissing('per_page')
-    ->set('per_page', 10)
-    ->assertSessionHas('per_page', 10)
-    ->set('per_page', 25)
-    ->assertSessionHas('per_page', 25)
-    ->set('per_page', 50)
-    ->assertSessionHas('per_page', 50)
-    ->set('per_page', 100)
-    ->assertSessionHas('per_page', 100);
+    ->assertCount('docs', 25);
 });
 
 test('lists application documentation records with specific permission', function () {
