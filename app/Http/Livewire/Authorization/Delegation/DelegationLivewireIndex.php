@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Authorization\Delegation;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\Searchable;
+use App\Http\Livewire\Traits\WithSearching;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -16,8 +16,8 @@ use Livewire\Component;
 class DelegationLivewireIndex extends Component
 {
     use AuthorizesRequests;
-    use Searchable;
     use WithPerPagePagination;
+    use WithSearching;
 
     /**
      * Runs on every request, immediately after the component is instantiated,

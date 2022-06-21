@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Authorization\User;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\Searchable;
+use App\Http\Livewire\Traits\WithSearching;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Models\Role;
@@ -18,9 +18,9 @@ use Livewire\Component;
 class UserLivewireIndex extends Component
 {
     use AuthorizesRequests;
-    use Searchable;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSearching;
 
     /**
      * Editing resource.

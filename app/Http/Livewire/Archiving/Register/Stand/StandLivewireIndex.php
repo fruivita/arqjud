@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Stand;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\Searchable;
+use App\Http\Livewire\Traits\WithSearching;
 use App\Http\Livewire\Traits\WithSorting;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
@@ -18,10 +18,10 @@ use Livewire\Component;
 class StandLivewireIndex extends Component
 {
     use AuthorizesRequests;
-    use Searchable;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSearching;
     use WithSorting;
 
     /**

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
  * @see https://www.php.net/manual/en/language.oop5.traits.php
  * @see https://laravel-livewire.com/docs/2.x/traits
  */
-trait Searchable
+trait WithSearching
 {
     /**
      * Searchable term entered by the user.
