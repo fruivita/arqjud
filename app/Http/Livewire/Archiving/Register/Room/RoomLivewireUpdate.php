@@ -148,7 +148,7 @@ class RoomLivewireUpdate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
-     * @param int $id resource on display id
+     * @param int $id editing resource id
      *
      * @return void
      */
