@@ -19,17 +19,17 @@ use Livewire\Component;
 class FloorLivewireCreate extends Component
 {
     use AuthorizesRequests;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
-     * Parent resource.
+     * Parent resource id.
      *
-     * @var \App\Models\Building
+     * @var int
      */
-    public Building $building;
+    public int $building_id;
 
     /**
      * Resource that will be created.
@@ -92,12 +92,25 @@ class FloorLivewireCreate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id parent resource id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->building->load('site');
+        $this->building_id = $id;
+
         $this->floor = $this->blankModel();
+    }
+
+    /**
+     * Computed property to get parent model.
+     *
+     * @return \App\Models\Building
+     */
+    public function getBuildingProperty()
+    {
+        return Building::hierarchy()->findOrFail($this->building_id);
     }
 
     /**
@@ -111,7 +124,7 @@ class FloorLivewireCreate extends Component
     }
 
     /**
-     * Computed property to list paginated floors.
+     * Computed property to list paginated floors based on building id.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
@@ -131,9 +144,7 @@ class FloorLivewireCreate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.floor.create', [
-            'floors' => $this->floors,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.floor.create')->layout('layouts.app');
     }
 
     /**

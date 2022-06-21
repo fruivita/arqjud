@@ -10,9 +10,9 @@
 --}}
 
 
-<x-page :header="__('Floor') . ': ' . $floor->number">
+<x-page :header="__('Floor') . ': ' . $this->floor->number">
 
-    <x-backtrace :model="$floor"/>
+    <x-backtrace :model="$this->floor"/>
 
 
     <x-container>
@@ -21,24 +21,24 @@
 
             <x-show-value
                 :key="__('Floor')"
-                :value="$floor->number"/>
+                :value="$this->floor->number"/>
 
 
             <x-show-value
                 :key="__('Description')"
-                :value="$floor->description"/>
+                :value="$this->floor->description"/>
 
 
             <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
 
                 <x-show-value
                     :key="__('Site')"
-                    :value="$floor->building->site->name"/>
+                    :value="$this->floor->site_name"/>
 
 
                 <x-show-value
                     :key="__('Building')"
-                    :value="$floor->building->name"/>
+                    :value="$this->floor->building_name"/>
 
             </div>
 
@@ -50,7 +50,7 @@
                     <x-link-button
                         class="btn-do"
                         icon="pencil-square"
-                        :href="route('archiving.register.floor.edit', $floor)"
+                        :href="route('archiving.register.floor.edit', $this->floor->id)"
                         :text="__('Edit')"
                         :title="__('Edit the record')"/>
 
@@ -66,8 +66,10 @@
     <x-container>
 
         <x-table.model.room
-            :parent="$floor"
-            :rooms="$rooms"
+            :parent="$this->floor"
+            :rooms="$this->rooms"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withnewbutton/>
 
     </x-container>

@@ -29,17 +29,17 @@ afterEach(function () {
 test('cannot individually view a floor without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.floor.show', $this->floor))
+    get(route('archiving.register.floor.show', $this->floor->id))
     ->assertRedirect(route('login'));
 });
 
 test('authenticated but without specific permission, unable to access individual floor view route', function () {
-    get(route('archiving.register.floor.show', $this->floor))
+    get(route('archiving.register.floor.show', $this->floor->id))
     ->assertForbidden();
 });
 
 test('cannot render individual floor view component without specific permission', function () {
-    Livewire::test(FloorLivewireShow::class, ['floor' => $this->floor])
+    Livewire::test(FloorLivewireShow::class, ['id' => $this->floor->id])
     ->assertForbidden();
 });
 
@@ -47,7 +47,7 @@ test('cannot render individual floor view component without specific permission'
 test('does not accept pagination outside the options offered', function () {
     grantPermission(PermissionType::FloorView->value);
 
-    Livewire::test(FloorLivewireShow::class, ['floor' => $this->floor])
+    Livewire::test(FloorLivewireShow::class, ['id' => $this->floor->id])
     ->set('per_page', 33) // possible values: 10/25/50/100
     ->assertHasErrors(['per_page' => 'in']);
 });
@@ -56,7 +56,7 @@ test('does not accept pagination outside the options offered', function () {
 test('renders individual floor view component with specific permission', function () {
     grantPermission(PermissionType::FloorView->value);
 
-    get(route('archiving.register.floor.show', $this->floor))
+    get(route('archiving.register.floor.show', $this->floor->id))
     ->assertOk()
     ->assertSeeLivewire(FloorLivewireShow::class);
 });
@@ -64,11 +64,9 @@ test('renders individual floor view component with specific permission', functio
 test('pagination returns the amount of rooms expected', function () {
     grantPermission(PermissionType::FloorView->value);
 
-    Room::factory(120)
-    ->for($this->floor, 'floor')
-    ->create();
+    Room::factory(120)->for($this->floor, 'floor')->create();
 
-    Livewire::test(FloorLivewireShow::class, ['floor' => $this->floor])
+    Livewire::test(FloorLivewireShow::class, ['id' => $this->floor->id])
     ->assertCount('rooms', 10)
     ->set('per_page', 10)
     ->assertCount('rooms', 10)
@@ -83,7 +81,7 @@ test('pagination returns the amount of rooms expected', function () {
 test('pagination creates the session variables', function () {
     grantPermission(PermissionType::FloorView->value);
 
-    Livewire::test(FloorLivewireShow::class, ['floor' => $this->floor])
+    Livewire::test(FloorLivewireShow::class, ['id' => $this->floor->id])
     ->assertSessionMissing('per_page')
     ->set('per_page', 10)
     ->assertSessionHas('per_page', 10)
@@ -98,7 +96,14 @@ test('pagination creates the session variables', function () {
 test('individually view a floor with specific permission', function () {
     grantPermission(PermissionType::FloorView->value);
 
-    get(route('archiving.register.floor.show', $this->floor))
+    get(route('archiving.register.floor.show', $this->floor->id))
     ->assertOk()
     ->assertSeeLivewire(FloorLivewireShow::class);
+});
+
+test('FloorLivewireShow uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(FloorLivewireShow::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
 });

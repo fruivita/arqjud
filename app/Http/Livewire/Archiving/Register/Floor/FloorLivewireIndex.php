@@ -19,10 +19,10 @@ class FloorLivewireIndex extends Component
 {
     use AuthorizesRequests;
     use Searchable;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -56,9 +56,7 @@ class FloorLivewireIndex extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.floor.index', [
-            'floors' => $this->floors,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.floor.index')->layout('layouts.app');
     }
 
     /**

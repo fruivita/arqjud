@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -15,6 +14,11 @@ class Floor extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'floors';
 
     /**
@@ -76,7 +80,7 @@ class Floor extends Model
      *
      * @return \Illuminate\Support\Collection
      */
-    public function hierarchicalData()
+    private function hierarchicalData()
     {
         $floor = isset($this->site_name)
         ? $this

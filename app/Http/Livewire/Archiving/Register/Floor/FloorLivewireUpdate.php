@@ -6,6 +6,7 @@ use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
@@ -24,6 +25,7 @@ class FloorLivewireUpdate extends Component
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Editing resource.
@@ -47,7 +49,7 @@ class FloorLivewireUpdate extends Component
     public $site_id = null;
 
     /**
-     * Selected site buildings.
+     * Child buildings based on site id.
      *
      * @var \Illuminate\Support\Collection|null
      */
@@ -123,28 +125,28 @@ class FloorLivewireUpdate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id resource on display id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->floor->load('building.site');
+        $this->floor = Floor::hierarchy()->findOrFail($id);
 
         $this->initializeParentProperties();
     }
 
     /**
-     * Computed property to list paged rooms.
+     * Computed property to list paged rooms based on floor id.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getRoomsProperty()
     {
         return $this->applyPagination(
-            $this
-                ->floor
-                ->rooms()
-                ->withCount('stands')
-                ->defaultOrder()
+            Room::hierarchy()
+            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->where('floor_id', $this->floor->id)
         );
     }
 
@@ -155,9 +157,7 @@ class FloorLivewireUpdate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.floor.edit', [
-            'rooms' => $this->rooms,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.floor.edit')->layout('layouts.app');
     }
 
     /**
@@ -172,7 +172,21 @@ class FloorLivewireUpdate extends Component
 
         $this->validateOnly('site_id');
 
-        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
+        $this->buildings = $this->buildings();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return void
+     */
+    public function update()
+    {
+        $this->validate();
+
+        $saved = $this->floor->save();
+
+        $this->flashSelf($saved);
     }
 
     /**
@@ -188,22 +202,6 @@ class FloorLivewireUpdate extends Component
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @return void
-     */
-    public function update()
-    {
-        $this->validate();
-
-        $saved = $this->floor->save();
-
-        $this->floor->refresh();
-
-        $this->flashSelf($saved);
-    }
-
-    /**
      * Initializes the parent properties/relationships of the item being
      * edited.
      *
@@ -211,9 +209,19 @@ class FloorLivewireUpdate extends Component
      */
     private function initializeParentProperties()
     {
-        $this->sites = Site::defaultOrder()->get();
-        $this->site_id = $this->floor->building->site->id;
+        $this->sites = Site::orderBy('name', 'asc')->get();
+        $this->site_id = $this->floor->site_id;
 
-        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
+        $this->buildings = $this->buildings();
+    }
+
+    /**
+     * Child buildings based on site id.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function buildings()
+    {
+        return Building::where('site_id', $this->site_id)->orderBy('name', 'asc')->get();
     }
 }

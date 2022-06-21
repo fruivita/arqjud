@@ -22,10 +22,10 @@
     <x-container>
 
         <x-table.model.floor
-            :deleting="$deleting"
-            :floors="$floors"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :deleting="$this->deleting"
+            :floors="$this->floors"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withdeletebutton
             withparents/>
 
