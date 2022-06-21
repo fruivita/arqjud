@@ -147,32 +147,6 @@ test('id of the role that will be associated with the user is mandatory', functi
     ->assertHasErrors(['editing.role_id' => 'required']);
 });
 
-test('searchable term must be a string', function () {
-    grantPermission(PermissionType::UserViewAny->value);
-
-    Livewire::test(UserLivewireIndex::class)
-    ->set('term', ['foo'])
-    ->assertHasErrors(['term' => 'string']);
-});
-
-test('searchable term must be a maximum of 50 characters', function () {
-    grantPermission(PermissionType::UserViewAny->value);
-
-    Livewire::test(UserLivewireIndex::class)
-    ->set('term', Str::random(51))
-    ->assertHasErrors(['term' => 'max']);
-});
-
-test('searchable term is validated in real time', function () {
-    grantPermission(PermissionType::UserViewAny->value);
-
-    Livewire::test(UserLivewireIndex::class)
-    ->set('term', Str::random(50))
-    ->assertHasNoErrors()
-    ->set('term', Str::random(51))
-    ->assertHasErrors(['term' => 'max']);
-});
-
 // Happy path
 test('renders listing component of users with specific permission', function () {
     grantPermission(PermissionType::UserViewAny->value);

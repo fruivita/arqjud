@@ -114,32 +114,6 @@ test('does not accept pagination outside the options offered', function () {
     ->assertHasErrors(['per_page' => 'in']);
 });
 
-test('searchable term must be a string', function () {
-    grantPermission(PermissionType::BuildingViewAny->value);
-
-    Livewire::test(BuildingLivewireIndex::class)
-    ->set('term', ['foo'])
-    ->assertHasErrors(['term' => 'string']);
-});
-
-test('searchable term must be a maximum of 50 characters', function () {
-    grantPermission(PermissionType::BuildingViewAny->value);
-
-    Livewire::test(BuildingLivewireIndex::class)
-    ->set('term', Str::random(51))
-    ->assertHasErrors(['term' => 'max']);
-});
-
-test('searchable term is validated in real time', function () {
-    grantPermission(PermissionType::BuildingViewAny->value);
-
-    Livewire::test(BuildingLivewireIndex::class)
-    ->set('term', Str::random(50))
-    ->assertHasNoErrors()
-    ->set('term', Str::random(51))
-    ->assertHasErrors(['term' => 'max']);
-});
-
 // Happy path
 test('pagination returns the amount of expected building records', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
