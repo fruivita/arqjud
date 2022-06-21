@@ -55,7 +55,7 @@ test('cannot set the room record which will be deleted without specific permissi
 
     Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
     ->assertOk()
-    ->call('markToDelete', $room->id)
+    ->call('setToDelete', $room->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -71,7 +71,7 @@ test('cannot set the room record which will be deleted if it has stands', functi
 
     Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
     ->assertOk()
-    ->call('markToDelete', $room->id)
+    ->call('setToDelete', $room->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -86,7 +86,7 @@ test('cannot delete a room record without specific permission', function () {
     $room = Room::factory()->for($this->floor, 'floor')->create();
 
     $component = Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
-    ->call('markToDelete', $room->id)
+    ->call('setToDelete', $room->id)
     ->assertOk();
 
     revokePermission(PermissionType::RoomDelete->value);
@@ -105,7 +105,7 @@ test('cannot delete a room record if it has stands', function () {
     $room = Room::factory()->for($this->floor, 'floor')->create();
 
     $component = Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
-    ->call('markToDelete', $room->id)
+    ->call('setToDelete', $room->id)
     ->assertOk();
 
     Stand::factory()->for($room, 'room')->create();
@@ -322,7 +322,7 @@ test('emits feedback event when deleting a room record', function () {
     $room = Room::factory()->for($this->floor, 'floor')->create();
 
     Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
-    ->call('markToDelete', $room->id)
+    ->call('setToDelete', $room->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -394,7 +394,7 @@ test('defines the room record that will be deleted with specific permission if i
     $room = Room::factory()->for($this->floor, 'floor')->create();
 
     Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
-    ->call('markToDelete', $room->id)
+    ->call('setToDelete', $room->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
     ->assertSet('deleting.id', $room->id);
@@ -407,7 +407,7 @@ test('delete a room record with specific permission if it has no stands', functi
     $room = Room::factory()->for($this->floor, 'floor')->create();
 
     Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
-    ->call('markToDelete', $room->id)
+    ->call('setToDelete', $room->id)
     ->assertOk()
     ->call('destroy', $room->id)
     ->assertOk();

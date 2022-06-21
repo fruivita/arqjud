@@ -108,7 +108,7 @@
                                 )
 
                                     <x-icon-button
-                                        wire:click="markToDelete({{ $volume->id }})"
+                                        wire:click="setToDelete({{ $volume->id }})"
                                         wire:key="btn-delete-{{ $volume->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"

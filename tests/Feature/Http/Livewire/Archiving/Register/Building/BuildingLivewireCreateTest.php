@@ -53,7 +53,7 @@ test('cannot set the building record which will be deleted without specific perm
 
     Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->assertOk()
-    ->call('markToDelete', $building->id)
+    ->call('setToDelete', $building->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -69,7 +69,7 @@ test('cannot set the building record which will be deleted if it has floors', fu
 
     Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
     ->assertOk()
-    ->call('markToDelete', $building->id)
+    ->call('setToDelete', $building->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -84,7 +84,7 @@ test('cannot delete a building record without specific permission', function () 
     $building = Building::factory()->create();
 
     $component = Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
-    ->call('markToDelete', $building->id)
+    ->call('setToDelete', $building->id)
     ->assertOk();
 
     revokePermission(PermissionType::BuildingDelete->value);
@@ -103,7 +103,7 @@ test('cannot delete a building record if it has floors', function () {
     $building = Building::factory()->create();
 
     $component = Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
-    ->call('markToDelete', $building->id)
+    ->call('setToDelete', $building->id)
     ->assertOk();
 
     Floor::factory()->for($building, 'building')->create();
@@ -246,7 +246,7 @@ test('emits feedback event when deleting a building record', function () {
     $building = Building::factory()->create();
 
     Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
-    ->call('markToDelete', $building->id)
+    ->call('setToDelete', $building->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -293,7 +293,7 @@ test('defines the building record that will be deleted with specific permission 
     $building = Building::factory()->create();
 
     Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
-    ->call('markToDelete', $building->id)
+    ->call('setToDelete', $building->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
     ->assertSet('deleting.id', $building->id);
@@ -306,7 +306,7 @@ test('delete a building record with specific permission if it has no floors', fu
     $building = Building::factory()->create();
 
     Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
-    ->call('markToDelete', $building->id)
+    ->call('setToDelete', $building->id)
     ->assertOk()
     ->call('destroy', $building->id)
     ->assertOk();

@@ -228,7 +228,7 @@ class BoxLivewireCreate extends Component
      *
      * @return void
      */
-    public function markToDelete(Box $box)
+    public function setToDelete(Box $box)
     {
         $this->askForConfirmation($box);
     }

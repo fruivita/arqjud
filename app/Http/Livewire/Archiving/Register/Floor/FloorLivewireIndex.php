@@ -66,7 +66,7 @@ class FloorLivewireIndex extends Component
      *
      * @return void
      */
-    public function markToDelete(Floor $floor)
+    public function setToDelete(Floor $floor)
     {
         $this->askForConfirmation($floor);
     }

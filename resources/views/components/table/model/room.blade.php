@@ -191,7 +191,7 @@
                                 )
 
                                     <x-icon-button
-                                        wire:click="markToDelete({{ $room->id }})"
+                                        wire:click="setToDelete({{ $room->id }})"
                                         wire:key="btn-delete-{{ $room->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"

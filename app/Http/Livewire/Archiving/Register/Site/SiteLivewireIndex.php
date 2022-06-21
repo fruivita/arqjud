@@ -68,7 +68,7 @@ class SiteLivewireIndex extends Component
      *
      * @return void
      */
-    public function markToDelete(Site $site)
+    public function setToDelete(Site $site)
     {
         $this->askForConfirmation($site);
     }

@@ -66,7 +66,7 @@ class RoomLivewireIndex extends Component
      *
      * @return void
      */
-    public function markToDelete(Room $room)
+    public function setToDelete(Room $room)
     {
         $this->askForConfirmation($room);
     }

@@ -272,7 +272,7 @@ class StandLivewireUpdate extends Component
      *
      * @return void
      */
-    public function markToDelete(Shelf $shelf)
+    public function setToDelete(Shelf $shelf)
     {
         $this->askForConfirmation($shelf);
     }

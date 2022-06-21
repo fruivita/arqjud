@@ -85,7 +85,7 @@
                                 @can(\App\Enums\Policy::Delete->value, \App\Models\Documentation::class)
 
                                     <x-icon-button
-                                        wire:click="markToDelete({{ $doc->id }})"
+                                        wire:click="setToDelete({{ $doc->id }})"
                                         wire:key="btn-delete-{{ $doc->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"

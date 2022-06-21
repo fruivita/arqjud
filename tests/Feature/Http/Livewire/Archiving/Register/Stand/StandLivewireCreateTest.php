@@ -53,7 +53,7 @@ test('cannot set the stand record which will be deleted without specific permiss
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
     ->assertOk()
-    ->call('markToDelete', $stand->id)
+    ->call('setToDelete', $stand->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -69,7 +69,7 @@ test('cannot set the stand record which will be deleted if it has shelves', func
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
     ->assertOk()
-    ->call('markToDelete', $stand->id)
+    ->call('setToDelete', $stand->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -84,7 +84,7 @@ test('cannot delete a stand record without specific permission', function () {
     $stand = Stand::factory()->create();
 
     $component = Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
-    ->call('markToDelete', $stand->id)
+    ->call('setToDelete', $stand->id)
     ->assertOk();
 
     revokePermission(PermissionType::StandDelete->value);
@@ -103,7 +103,7 @@ test('cannot delete a stand record if it has shelves', function () {
     $stand = Stand::factory()->create();
 
     $component = Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
-    ->call('markToDelete', $stand->id)
+    ->call('setToDelete', $stand->id)
     ->assertOk();
 
     Shelf::factory()->for($stand, 'stand')->create();
@@ -249,7 +249,7 @@ test('emits feedback event when deleting a stand record', function () {
     $stand = Stand::factory()->create();
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
-    ->call('markToDelete', $stand->id)
+    ->call('setToDelete', $stand->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -316,7 +316,7 @@ test('defines the stand record that will be deleted with specific permission if 
     $stand = Stand::factory()->create();
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
-    ->call('markToDelete', $stand->id)
+    ->call('setToDelete', $stand->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
     ->assertSet('deleting.id', $stand->id);
@@ -329,7 +329,7 @@ test('delete a stand record with specific permission if it has no shelves', func
     $stand = Stand::factory()->create();
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
-    ->call('markToDelete', $stand->id)
+    ->call('setToDelete', $stand->id)
     ->assertOk()
     ->call('destroy', $stand->id)
     ->assertOk();

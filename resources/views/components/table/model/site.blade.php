@@ -131,7 +131,7 @@
                                 @can(\App\Enums\Policy::Delete->value, $site)
 
                                     <x-icon-button
-                                        wire:click="markToDelete({{ $site->id }})"
+                                        wire:click="setToDelete({{ $site->id }})"
                                         wire:key="btn-delete-{{ $site->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"

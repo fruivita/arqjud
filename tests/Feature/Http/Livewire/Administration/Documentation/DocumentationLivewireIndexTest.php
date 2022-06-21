@@ -47,7 +47,7 @@ test('cannot set the application documentation record which will be deleted with
 
     Livewire::test(DocumentationLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $doc->id)
+    ->call('setToDelete', $doc->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', new Documentation());
@@ -60,7 +60,7 @@ test('cannot delete an application documentation record without specific permiss
 
     Livewire::test(DocumentationLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $doc->id)
+    ->call('setToDelete', $doc->id)
     ->call('destroy')
     ->assertForbidden();
 
@@ -124,7 +124,7 @@ test('emits feedback event when deleting an application documentation record', f
     $doc = Documentation::factory()->create(['app_route_name' => 'foo']);
 
     Livewire::test(DocumentationLivewireIndex::class)
-    ->call('markToDelete', $doc->id)
+    ->call('setToDelete', $doc->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -143,7 +143,7 @@ test('defines the application documentation record that will be deleted with spe
     $doc = Documentation::factory()->create(['app_route_name' => 'foo']);
 
     Livewire::test(DocumentationLivewireIndex::class)
-    ->call('markToDelete', $doc->id)
+    ->call('setToDelete', $doc->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
     ->assertSet('deleting.id', $doc->id);
@@ -158,7 +158,7 @@ test('delete an application documentation record with specific permission', func
     expect(Documentation::where('app_route_name', 'foo')->exists())->toBeTrue();
 
     Livewire::test(DocumentationLivewireIndex::class)
-    ->call('markToDelete', $doc->id)
+    ->call('setToDelete', $doc->id)
     ->assertOk()
     ->call('destroy', $doc->id)
     ->assertOk();

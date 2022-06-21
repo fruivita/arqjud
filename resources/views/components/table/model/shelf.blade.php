@@ -219,7 +219,7 @@
                                 )
 
                                     <x-icon-button
-                                        wire:click="markToDelete({{ $shelf->id }})"
+                                        wire:click="setToDelete({{ $shelf->id }})"
                                         wire:key="btn-delete-{{ $shelf->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"

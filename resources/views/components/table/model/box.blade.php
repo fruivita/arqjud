@@ -246,7 +246,7 @@
                                 )
 
                                     <x-icon-button
-                                        wire:click="markToDelete({{ $box->id }})"
+                                        wire:click="setToDelete({{ $box->id }})"
                                         wire:key="btn-delete-{{ $box->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"

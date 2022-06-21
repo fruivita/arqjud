@@ -174,7 +174,7 @@ class BuildingLivewireCreate extends Component
      *
      * @return void
      */
-    public function markToDelete(Building $building)
+    public function setToDelete(Building $building)
     {
         $this->askForConfirmation($building);
     }

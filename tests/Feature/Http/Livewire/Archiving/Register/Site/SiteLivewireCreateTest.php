@@ -50,7 +50,7 @@ test('cannot set the site record which will be deleted without specific permissi
 
     Livewire::test(SiteLivewireCreate::class)
     ->assertOk()
-    ->call('markToDelete', $site->id)
+    ->call('setToDelete', $site->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -66,7 +66,7 @@ test('cannot set the site record which will be deleted if it has buildings', fun
 
     Livewire::test(SiteLivewireCreate::class)
     ->assertOk()
-    ->call('markToDelete', $site->id)
+    ->call('setToDelete', $site->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -81,7 +81,7 @@ test('cannot delete a site record without specific permission', function () {
     $site = Site::factory()->create();
 
     $component = Livewire::test(SiteLivewireCreate::class)
-    ->call('markToDelete', $site->id)
+    ->call('setToDelete', $site->id)
     ->assertOk();
 
     revokePermission(PermissionType::SiteDelete->value);
@@ -99,7 +99,7 @@ test('cannot delete a site record if it has buildings', function () {
     $site = Site::factory()->create();
 
     $component = Livewire::test(SiteLivewireCreate::class)
-    ->call('markToDelete', $site->id)
+    ->call('setToDelete', $site->id)
     ->assertOk();
 
     Building::factory()->for($site, 'site')->create();
@@ -241,7 +241,7 @@ test('emits feedback event when deleting a site record', function () {
     $site = Site::factory()->create();
 
     Livewire::test(SiteLivewireCreate::class)
-    ->call('markToDelete', $site->id)
+    ->call('setToDelete', $site->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -287,7 +287,7 @@ test('defines the site record that will be deleted with specific permission and 
     $site = Site::factory()->create();
 
     Livewire::test(SiteLivewireCreate::class)
-    ->call('markToDelete', $site->id)
+    ->call('setToDelete', $site->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
     ->assertSet('deleting.id', $site->id);
@@ -300,7 +300,7 @@ test('delete a site record with specific permission if it has no buildings', fun
     $site = Site::factory()->create();
 
     Livewire::test(SiteLivewireCreate::class)
-    ->call('markToDelete', $site->id)
+    ->call('setToDelete', $site->id)
     ->assertOk()
     ->call('destroy', $site->id)
     ->assertOk();

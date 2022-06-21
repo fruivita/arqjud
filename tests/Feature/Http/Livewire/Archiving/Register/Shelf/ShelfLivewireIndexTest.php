@@ -49,7 +49,7 @@ test('cannot set the shelf record which will be deleted without specific permiss
 
     Livewire::test(ShelfLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $this->shelf->id)
+    ->call('setToDelete', $this->shelf->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -63,7 +63,7 @@ test('cannot set the shelf record which will be deleted if it has boxes', functi
 
     Livewire::test(ShelfLivewireIndex::class)
     ->assertOk()
-    ->call('markToDelete', $this->shelf->id)
+    ->call('setToDelete', $this->shelf->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -76,7 +76,7 @@ test('cannot delete a shelf record without specific permission', function () {
     grantPermission(PermissionType::ShelfDelete->value);
 
     $component = Livewire::test(ShelfLivewireIndex::class)
-    ->call('markToDelete', $this->shelf->id)
+    ->call('setToDelete', $this->shelf->id)
     ->assertOk();
 
     revokePermission(PermissionType::ShelfDelete->value);
@@ -93,7 +93,7 @@ test('cannot delete a shelf record if it has boxes', function () {
     grantPermission(PermissionType::ShelfDelete->value);
 
     $component = Livewire::test(ShelfLivewireIndex::class)
-    ->call('markToDelete', $this->shelf->id)
+    ->call('setToDelete', $this->shelf->id)
     ->assertOk();
 
     Box::factory()->for($this->shelf, 'shelf')->create();
@@ -204,7 +204,7 @@ test('emits feedback event when deleting a shelf record', function () {
     grantPermission(PermissionType::ShelfDelete->value);
 
     Livewire::test(ShelfLivewireIndex::class)
-    ->call('markToDelete', $this->shelf->id)
+    ->call('setToDelete', $this->shelf->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -221,7 +221,7 @@ test('defines the shelf record that will be deleted with specific permission if 
     grantPermission(PermissionType::ShelfDelete->value);
 
     Livewire::test(ShelfLivewireIndex::class)
-    ->call('markToDelete', $this->shelf->id)
+    ->call('setToDelete', $this->shelf->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
     ->assertSet('deleting.id', $this->shelf->id);
@@ -234,7 +234,7 @@ test('delete a shelf record with specific permission if it has no shelves', func
     expect(Shelf::where('id', $this->shelf->id)->exists())->toBeTrue();
 
     Livewire::test(ShelfLivewireIndex::class)
-    ->call('markToDelete', $this->shelf->id)
+    ->call('setToDelete', $this->shelf->id)
     ->assertOk()
     ->call('destroy', $this->shelf->id)
     ->assertOk();

@@ -398,7 +398,7 @@ class BoxLivewireUpdate extends Component
      *
      * @return void
      */
-    public function markToDelete(BoxVolume $box_volume)
+    public function setToDelete(BoxVolume $box_volume)
     {
         $this->askForConfirmation($box_volume);
     }

@@ -53,7 +53,7 @@ test('cannot set the box record which will be deleted without specific permissio
 
     Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
     ->assertOk()
-    ->call('markToDelete', $box->id)
+    ->call('setToDelete', $box->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -69,7 +69,7 @@ test('cannot set the box record which will be deleted if it has volumes', functi
 
     Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
     ->assertOk()
-    ->call('markToDelete', $box->id)
+    ->call('setToDelete', $box->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -84,7 +84,7 @@ test('cannot delete a box record without specific permission', function () {
     $box = Box::factory()->create();
 
     $component = Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
-    ->call('markToDelete', $box->id)
+    ->call('setToDelete', $box->id)
     ->assertOk();
 
     revokePermission(PermissionType::BoxDelete->value);
@@ -103,7 +103,7 @@ test('cannot delete a box record if it has volumes', function () {
     $box = Box::factory()->create();
 
     $component = Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
-    ->call('markToDelete', $box->id)
+    ->call('setToDelete', $box->id)
     ->assertOk();
 
     BoxVolume::factory()->for($box, 'box')->create();
@@ -350,7 +350,7 @@ test('emits feedback event when deleting a box record', function () {
     $box = Box::factory()->create();
 
     Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
-    ->call('markToDelete', $box->id)
+    ->call('setToDelete', $box->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -492,7 +492,7 @@ test('defines the box record that will be deleted with specific permission if it
     $box = Box::factory()->create();
 
     Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
-    ->call('markToDelete', $box->id)
+    ->call('setToDelete', $box->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
     ->assertSet('deleting.id', $box->id);
@@ -505,7 +505,7 @@ test('delete a box record with specific permission if it has no volumes', functi
     $box = Box::factory()->create();
 
     Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
-    ->call('markToDelete', $box->id)
+    ->call('setToDelete', $box->id)
     ->assertOk()
     ->call('destroy', $box->id)
     ->assertOk();

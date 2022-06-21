@@ -68,7 +68,7 @@ test('cannot set the box volume record which will be deleted without specific pe
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
     ->assertOk()
-    ->call('markToDelete', $volume->id)
+    ->call('setToDelete', $volume->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -83,7 +83,7 @@ test('cannot delete a box volume record without specific permission', function (
     $volume = BoxVolume::factory()->for($this->box, 'box')->create();
 
     $component = Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->call('markToDelete', $volume->id)
+    ->call('setToDelete', $volume->id)
     ->assertOk();
 
     revokePermission(PermissionType::BoxVolumeDelete->value);
@@ -512,7 +512,7 @@ test('emits feedback event when deleting a box volume record', function () {
     $volume = BoxVolume::factory()->for($this->box, 'box')->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->call('markToDelete', $volume->id)
+    ->call('setToDelete', $volume->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -665,7 +665,7 @@ test('delete a box volume record with specific permission', function () {
     $volume = BoxVolume::factory()->for($this->box, 'box')->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->call('markToDelete', $volume->id)
+    ->call('setToDelete', $volume->id)
     ->assertOk()
     ->call('destroy', $volume->id)
     ->assertOk();

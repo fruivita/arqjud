@@ -53,7 +53,7 @@ test('cannot set the floor record which will be deleted without specific permiss
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
     ->assertOk()
-    ->call('markToDelete', $floor->id)
+    ->call('setToDelete', $floor->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -69,7 +69,7 @@ test('cannot set the floor record which will be deleted if it has rooms', functi
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
     ->assertOk()
-    ->call('markToDelete', $floor->id)
+    ->call('setToDelete', $floor->id)
     ->assertForbidden()
     ->assertSet('show_delete_modal', false)
     ->assertSet('deleting', null);
@@ -84,7 +84,7 @@ test('cannot delete a floor record without specific permission', function () {
     $floor = Floor::factory()->create();
 
     $component = Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
-    ->call('markToDelete', $floor->id)
+    ->call('setToDelete', $floor->id)
     ->assertOk();
 
     revokePermission(PermissionType::FloorDelete->value);
@@ -103,7 +103,7 @@ test('cannot delete a floor record if it has rooms', function () {
     $floor = Floor::factory()->create();
 
     $component = Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
-    ->call('markToDelete', $floor->id)
+    ->call('setToDelete', $floor->id)
     ->assertOk();
 
     Room::factory()->for($floor, 'floor')->create();
@@ -249,7 +249,7 @@ test('emits feedback event when deleting a floor record', function () {
     $floor = Floor::factory()->create();
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
-    ->call('markToDelete', $floor->id)
+    ->call('setToDelete', $floor->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
@@ -296,7 +296,7 @@ test('defines the floor record that will be deleted with specific permission if 
     $floor = Floor::factory()->create();
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
-    ->call('markToDelete', $floor->id)
+    ->call('setToDelete', $floor->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
     ->assertSet('deleting.id', $floor->id);
@@ -309,7 +309,7 @@ test('delete a floor record with specific permission if it has no rooms', functi
     $floor = Floor::factory()->create();
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
-    ->call('markToDelete', $floor->id)
+    ->call('setToDelete', $floor->id)
     ->assertOk()
     ->call('destroy', $floor->id)
     ->assertOk();

@@ -234,7 +234,7 @@ class RoomLivewireUpdate extends Component
      *
      * @return void
      */
-    public function markToDelete(Stand $stand)
+    public function setToDelete(Stand $stand)
     {
         $this->askForConfirmation($stand);
     }
