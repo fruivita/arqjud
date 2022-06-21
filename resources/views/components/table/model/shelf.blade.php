@@ -45,7 +45,7 @@
             <x-link-button
                 class="btn-do"
                 icon="plus-circle"
-                :href="route('archiving.register.shelf.create', $parent)"
+                :href="route('archiving.register.shelf.create', $parent->id)"
                 :text="__('New')"
                 :title="__('Create a new record')"/>
 
@@ -162,7 +162,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell>{{ $shelf->numberForHumans() }}</x-table.cell>
+                        <x-table.cell>{{ $shelf->for_humans }}</x-table.cell>
 
 
                         <x-table.cell>{{ $shelf->boxes_count }}</x-table.cell>
@@ -182,7 +182,7 @@
                             <x-table.cell>{{ $shelf->room_number }}</x-table.cell>
 
 
-                            <x-table.cell>{{ standForHumans($shelf->stand_number) }}</x-table.cell>
+                            <x-table.cell>{{ $shelf->stand_for_humans }}</x-table.cell>
 
                         @endif
 
@@ -196,7 +196,7 @@
                                     <x-icon-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        :href="route('archiving.register.shelf.show', $shelf)"
+                                        :href="route('archiving.register.shelf.show', $shelf->id)"
                                         :title="__('Show the record')"/>
 
                                 @endcan
@@ -207,7 +207,7 @@
                                     <x-icon-link-button
                                         class="btn-do"
                                         icon="pencil-square"
-                                        :href="route('archiving.register.shelf.edit', $shelf)"
+                                        :href="route('archiving.register.shelf.edit', $shelf->id)"
                                         :title="__('Edit the record')"/>
 
                                 @endcan
@@ -276,6 +276,6 @@
         wire:model="show_delete_modal"
         wire:key="deleting-modal-{{ $deleting->id }}"
         wire:submit.prevent="destroy"
-        :question="__('Delete :attribute?', ['attribute' => $deleting->numberForHumans()])"/>
+        :question="__('Delete :attribute?', ['attribute' => $deleting->for_humans])"/>
 
 @endif

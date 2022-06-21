@@ -19,7 +19,6 @@ beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
     $this->box = Box::factory()->create();
-    $this->box->load('shelf.stand.room.floor.building.site');
 
     login('foo');
 });
@@ -60,9 +59,7 @@ test('cannot set the box record which will be deleted if it has volumes', functi
     grantPermission(PermissionType::BoxViewAny->value);
     grantPermission(PermissionType::BoxDelete->value);
 
-    BoxVolume::factory()
-    ->for($this->box, 'box')
-    ->create();
+    BoxVolume::factory()->for($this->box, 'box')->create();
 
     Livewire::test(BoxLivewireIndex::class)
     ->assertOk()
@@ -99,9 +96,7 @@ test('cannot delete a box record if it has volumes', function () {
     ->call('markToDelete', $this->box->id)
     ->assertOk();
 
-    BoxVolume::factory()
-    ->for($this->box, 'box')
-    ->create();
+    BoxVolume::factory()->for($this->box, 'box')->create();
 
     $component
     ->call('destroy')

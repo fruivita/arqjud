@@ -6,6 +6,7 @@ use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Box;
 use App\Models\BoxVolume;
 use App\Models\Building;
@@ -29,6 +30,7 @@ class BoxLivewireUpdate extends Component
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Editing resource.
@@ -224,24 +226,28 @@ class BoxLivewireUpdate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id editing resource id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->box->load('shelf.stand.room.floor.building.site');
+        $this->box = Box::hierarchy()->findOrFail($id);
 
         $this->initializeParentProperties();
     }
 
     /**
-     * Computed property to list paged box volumes.
+     * Computed property to list paged box volumes based on box id.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getVolumesProperty()
     {
         return $this->applyPagination(
-            $this->box->volumes()->defaultOrder()
+            BoxVolume::hierarchy()
+            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->where('box_id', $this->box->id)
         );
     }
 
@@ -252,9 +258,7 @@ class BoxLivewireUpdate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.box.edit', [
-            'volumes' => $this->volumes,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.box.edit')->layout('layouts.app');
     }
 
     /**
@@ -275,7 +279,7 @@ class BoxLivewireUpdate extends Component
 
         $this->validateOnly('site_id');
 
-        $this->buildings = Building::where('site_id', $this->site_id)->get();
+        $this->buildings = $this->buildings();
     }
 
     /**
@@ -295,7 +299,7 @@ class BoxLivewireUpdate extends Component
 
         $this->validateOnly('building_id');
 
-        $this->floors = Floor::where('building_id', $this->building_id)->get();
+        $this->floors = $this->floors();
     }
 
     /**
@@ -314,7 +318,7 @@ class BoxLivewireUpdate extends Component
 
         $this->validateOnly('floor_id');
 
-        $this->rooms = Room::where('floor_id', $this->floor_id)->get();
+        $this->rooms = $this->rooms();
     }
 
     /**
@@ -332,7 +336,7 @@ class BoxLivewireUpdate extends Component
 
         $this->validateOnly('room_id');
 
-        $this->stands = Stand::where('room_id', $this->room_id)->get();
+        $this->stands = $this->stands();
     }
 
     /**
@@ -347,7 +351,7 @@ class BoxLivewireUpdate extends Component
 
         $this->validateOnly('stand_id');
 
-        $this->shelves = Shelf::where('stand_id', $this->stand_id)->get();
+        $this->shelves = $this->shelves();
     }
 
     /**
@@ -360,8 +364,6 @@ class BoxLivewireUpdate extends Component
         $this->validate();
 
         $saved = $this->box->save();
-
-        $this->box->refresh();
 
         $this->flashSelf($saved);
     }
@@ -409,22 +411,22 @@ class BoxLivewireUpdate extends Component
      */
     private function initializeParentProperties()
     {
-        $this->sites = Site::defaultOrder()->get();
-        $this->site_id = $this->box->shelf->stand->room->floor->building->site->id;
+        $this->sites = Site::orderBy('name', 'asc')->get();
+        $this->site_id = $this->box->site_id;
 
-        $this->buildings = Building::where('site_id', $this->site_id)->get();
-        $this->building_id = $this->box->shelf->stand->room->floor->building->id;
+        $this->buildings = $this->buildings();
+        $this->building_id = $this->box->building_id;
 
-        $this->floors = Floor::where('building_id', $this->building_id)->get();
-        $this->floor_id = $this->box->shelf->stand->room->floor->id;
+        $this->floors = $this->floors();
+        $this->floor_id = $this->box->floor_id;
 
-        $this->rooms = Room::where('floor_id', $this->floor_id)->get();
-        $this->room_id = $this->box->shelf->stand->room->id;
+        $this->rooms = $this->rooms();
+        $this->room_id = $this->box->room_id;
 
-        $this->stands = Stand::where('room_id', $this->room_id)->get();
-        $this->stand_id = $this->box->shelf->stand->id;
+        $this->stands = $this->stands();
+        $this->stand_id = $this->box->stand_id;
 
-        $this->shelves = Shelf::where('stand_id', $this->stand_id)->get();
+        $this->shelves = $this->shelves();
     }
 
     /**
@@ -441,5 +443,55 @@ class BoxLivewireUpdate extends Component
             rules: ['volume' => ['required', 'integer', 'between:1,1000']],
             customAttributes: ['volume' => __('Volume')]
         )->validate();
+    }
+
+    /**
+     * Child buildings based on site id.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function buildings()
+    {
+        return Building::where('site_id', $this->site_id)->orderBy('name', 'asc')->get();
+    }
+
+    /**
+     * Child floors based on building id.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function floors()
+    {
+        return Floor::where('building_id', $this->building_id)->orderBy('number', 'asc')->get();
+    }
+
+    /**
+     * Child rooms based on floor id.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function rooms()
+    {
+        return Room::where('floor_id', $this->floor_id)->orderBy('number', 'asc')->get();
+    }
+
+    /**
+     * Child stands based on room id.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function stands()
+    {
+        return Stand::where('room_id', $this->room_id)->orderBy('number', 'asc')->get();
+    }
+
+    /**
+     * Child shelves based on stand id.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function shelves()
+    {
+        return Shelf::where('stand_id', $this->stand_id)->orderBy('number', 'asc')->get();
     }
 }

@@ -29,17 +29,17 @@ afterEach(function () {
 test('cannot individually view a shelf without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.shelf.show', $this->shelf))
+    get(route('archiving.register.shelf.show', $this->shelf->id))
     ->assertRedirect(route('login'));
 });
 
 test('authenticated but without specific permission, unable to access individual shelf view route', function () {
-    get(route('archiving.register.shelf.show', $this->shelf))
+    get(route('archiving.register.shelf.show', $this->shelf->id))
     ->assertForbidden();
 });
 
 test('cannot render individual shelf view component without specific permission', function () {
-    Livewire::test(ShelfLivewireShow::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireShow::class, ['id' => $this->shelf->id])
     ->assertForbidden();
 });
 
@@ -47,7 +47,7 @@ test('cannot render individual shelf view component without specific permission'
 test('does not accept pagination outside the options offered', function () {
     grantPermission(PermissionType::ShelfView->value);
 
-    Livewire::test(ShelfLivewireShow::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireShow::class, ['id' => $this->shelf->id])
     ->set('per_page', 33) // possible values: 10/25/50/100
     ->assertHasErrors(['per_page' => 'in']);
 });
@@ -56,7 +56,7 @@ test('does not accept pagination outside the options offered', function () {
 test('renders individual shelf view component with specific permission', function () {
     grantPermission(PermissionType::ShelfView->value);
 
-    get(route('archiving.register.shelf.show', $this->shelf))
+    get(route('archiving.register.shelf.show', $this->shelf->id))
     ->assertOk()
     ->assertSeeLivewire(ShelfLivewireShow::class);
 });
@@ -64,11 +64,9 @@ test('renders individual shelf view component with specific permission', functio
 test('pagination returns the amount of boxes expected', function () {
     grantPermission(PermissionType::ShelfView->value);
 
-    Box::factory(120)
-    ->for($this->shelf, 'shelf')
-    ->create();
+    Box::factory(120)->for($this->shelf, 'shelf')->create();
 
-    Livewire::test(ShelfLivewireShow::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireShow::class, ['id' => $this->shelf->id])
     ->assertCount('boxes', 10)
     ->set('per_page', 10)
     ->assertCount('boxes', 10)
@@ -83,7 +81,7 @@ test('pagination returns the amount of boxes expected', function () {
 test('pagination creates the session variables', function () {
     grantPermission(PermissionType::ShelfView->value);
 
-    Livewire::test(ShelfLivewireShow::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireShow::class, ['id' => $this->shelf->id])
     ->assertSessionMissing('per_page')
     ->set('per_page', 10)
     ->assertSessionHas('per_page', 10)
@@ -98,7 +96,14 @@ test('pagination creates the session variables', function () {
 test('individually view a shelf with specific permission', function () {
     grantPermission(PermissionType::ShelfView->value);
 
-    get(route('archiving.register.shelf.show', $this->shelf))
+    get(route('archiving.register.shelf.show', $this->shelf->id))
     ->assertOk()
     ->assertSeeLivewire(ShelfLivewireShow::class);
+});
+
+test('ShelfLivewireShow uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(ShelfLivewireShow::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
 });

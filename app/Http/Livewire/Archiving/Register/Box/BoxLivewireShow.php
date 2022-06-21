@@ -4,7 +4,9 @@ namespace App\Http\Livewire\Archiving\Register\Box;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Box;
+use App\Models\BoxVolume;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -15,13 +17,14 @@ class BoxLivewireShow extends Component
 {
     use AuthorizesRequests;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Resource on display.
      *
-     * @var \App\Models\Box
+     * @var int
      */
-    public Box $box;
+    public int $box_id;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -39,22 +42,36 @@ class BoxLivewireShow extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id resource on display id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->box->load(['shelf.stand.room.floor.building.site']);
+        $this->box_id = $id;
     }
 
     /**
-     * Computed property to list paged box volumes.
+     * Computed property to get resource on display.
+     *
+     * @return \App\Models\Box
+     */
+    public function getBoxProperty()
+    {
+        return Box::hierarchy()->findOrFail($this->box_id);
+    }
+
+    /**
+     * Computed property to list paged box volumes based on box id.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getVolumesProperty()
     {
         return $this->applyPagination(
-            $this->box->volumes()->defaultOrder()
+            BoxVolume::hierarchy()
+            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->where('box_id', $this->box_id)
         );
     }
 
@@ -65,8 +82,6 @@ class BoxLivewireShow extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.box.show', [
-            'volumes' => $this->volumes,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.box.show')->layout('layouts.app');
     }
 }

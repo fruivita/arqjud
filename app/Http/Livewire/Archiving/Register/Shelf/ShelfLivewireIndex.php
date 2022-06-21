@@ -19,10 +19,10 @@ class ShelfLivewireIndex extends Component
 {
     use AuthorizesRequests;
     use Searchable;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -56,9 +56,7 @@ class ShelfLivewireIndex extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.shelf.index', [
-            'shelves' => $this->shelves,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.shelf.index')->layout('layouts.app');
     }
 
     /**

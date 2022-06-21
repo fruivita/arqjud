@@ -22,10 +22,10 @@
     <x-container>
 
         <x-table.model.shelf
-            :deleting="$deleting"
-            :shelves="$shelves"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :deleting="$this->deleting"
+            :shelves="$this->shelves"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withdeletebutton
             withparents/>
 

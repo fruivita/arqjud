@@ -136,6 +136,22 @@ test('parentLinks returns show parents routes, included the root element route, 
     ]);
 });
 
+test('parentLinks returns links based on hierarchical data present in the model or, if not, fetches them from the database', function () {
+    Shelf::factory()->create();
+
+    $shelf = Shelf::first();
+    $shelf->load('stand.room.floor.building');
+
+    expect($shelf->parentLinks(true)->toArray())->toBe([
+        __('Site') => route('archiving.register.site.show', $shelf->stand->room->floor->building->site_id),
+        __('Building') => route('archiving.register.building.show', $shelf->stand->room->floor->building_id),
+        __('Floor') => route('archiving.register.floor.show', $shelf->stand->room->floor_id),
+        __('Room') => route('archiving.register.room.show', $shelf->stand->room->id),
+        __('Stand') => route('archiving.register.stand.show', $shelf->stand_id),
+        __('Shelf') => route('archiving.register.shelf.show', $shelf->id),
+    ]);
+});
+
 test('hierarchy returns all shelves with the respective stand, room, floor, building, site id and number/name and the number of boxes of each', function () {
     Shelf::factory()->create(['number' => 10]);
     Shelf::factory()->has(Box::factory(1), 'boxes')->create(['number' => 20]);

@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the shelf')">
 
-    <x-backtrace :model="$shelf"/>
+    <x-backtrace :model="$this->shelf"/>
 
 
     <x-container>
@@ -73,7 +73,7 @@
                             <option value="">{{ __('Select...') }}</option>
 
 
-                            @forelse ($sites ?? [] as $site)
+                            @forelse ($this->sites ?? [] as $site)
 
                                 <option value="{{ $site->id }}">
 
@@ -95,10 +95,10 @@
                     {{-- Building --}}
                     <div>
 
-                        @if($site_id >= 1)
+                        @if($this->site_id >= 1)
 
                             <x-form.select
-                                wire:key="buildings-{{ $site_id }}"
+                                wire:key="buildings-{{ $this->site_id }}"
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model="building_id"
@@ -111,7 +111,7 @@
 
                                 <option value="">{{ __('Select...') }}</option>
 
-                                @forelse ($buildings ?? [] as $building)
+                                @forelse ($this->buildings ?? [] as $building)
 
                                     <option value="{{ $building->id }}">
 
@@ -139,10 +139,10 @@
                     {{-- Floor --}}
                     <div>
 
-                        @if($building_id >= 1)
+                        @if($this->building_id >= 1)
 
                             <x-form.select
-                                wire:key="floors-{{ $building_id }}"
+                                wire:key="floors-{{ $this->building_id }}"
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model="floor_id"
@@ -155,7 +155,7 @@
 
                                 <option value="">{{ __('Select...') }}</option>
 
-                                @forelse ($floors ?? [] as $floor)
+                                @forelse ($this->floors ?? [] as $floor)
 
                                     <option value="{{ $floor->id }}">
 
@@ -179,10 +179,10 @@
                     {{-- Room --}}
                     <div>
 
-                        @if($floor_id >= 1)
+                        @if($this->floor_id >= 1)
 
                             <x-form.select
-                                wire:key="rooms-{{ $floor_id }}"
+                                wire:key="rooms-{{ $this->floor_id }}"
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model="room_id"
@@ -195,7 +195,7 @@
 
                                 <option value="">{{ __('Select...') }}</option>
 
-                                @forelse ($rooms ?? [] as $room)
+                                @forelse ($this->rooms ?? [] as $room)
 
                                     <option value="{{ $room->id }}">
 
@@ -219,10 +219,10 @@
                     {{-- Stand --}}
                     <div>
 
-                        @if($room_id >= 1)
+                        @if($this->room_id >= 1)
 
                             <x-form.select
-                                wire:key="stands-{{ $room_id }}"
+                                wire:key="stands-{{ $this->room_id }}"
                                 wire:loading.delay.attr="disabled"
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model.defer="shelf.stand_id"
@@ -235,11 +235,11 @@
 
                                 <option value="">{{ __('Select...') }}</option>
 
-                                @forelse ($stands ?? [] as $stand)
+                                @forelse ($this->stands ?? [] as $stand)
 
                                     <option value="{{ $stand->id }}">
 
-                                        {{ $stand->numberForHumans() }}
+                                        {{ $stand->for_humans }}
 
                                     </option>
 
@@ -282,9 +282,11 @@
     <x-container>
 
         <x-table.model.box
-            :boxes="$boxes"
-            :deleting="$deleting"
-            :parent="$shelf"
+            :boxes="$this->boxes"
+            :deleting="$this->deleting"
+            :parent="$this->shelf"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withdeletebutton
             withnewbutton/>
 

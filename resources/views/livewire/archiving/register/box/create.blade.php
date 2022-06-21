@@ -12,7 +12,7 @@
 
 <x-page :header="__('New boxes')">
 
-    <x-backtrace :model="$shelf" :root="true"/>
+    <x-backtrace :model="$this->shelf" :root="true"/>
 
 
     <x-container>
@@ -26,33 +26,33 @@
                     <x-show-value
                         class="md:col-span-2"
                         :key="__('Site')"
-                        :value="$shelf->stand->room->floor->building->site->name"/>
+                        :value="$this->shelf->site_name"/>
 
 
                     <x-show-value
                         class="md:col-span-2"
                         :key="__('Building')"
-                        :value="$shelf->stand->room->floor->building->name"/>
+                        :value="$this->shelf->building_name"/>
 
 
                     <x-show-value
                         :key="__('Floor')"
-                        :value="$shelf->stand->room->floor->number"/>
+                        :value="$this->shelf->floor_number"/>
 
 
                     <x-show-value
                         :key="__('Room')"
-                        :value="$shelf->stand->room->number"/>
+                        :value="$this->shelf->room_number"/>
 
 
                     <x-show-value
                         :key="__('Stand')"
-                        :value="$shelf->stand->numberForHumans()"/>
+                        :value="$this->shelf->stand_for_humans"/>
 
 
                     <x-show-value
                         :key="__('Shelf')"
-                        :value="$shelf->numberForHumans()"/>
+                        :value="$this->shelf->for_humans"/>
 
 
                     <x-form.input
@@ -187,10 +187,10 @@
     <x-container>
 
         <x-table.model.box
-            :boxes="$boxes"
-            :deleting="$deleting"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :boxes="$this->boxes"
+            :deleting="$this->deleting"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withdeletebutton/>
 
     </x-container>

@@ -6,6 +6,7 @@ use App\Enums\Policy;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Box;
 use App\Models\Building;
 use App\Models\Floor;
@@ -27,6 +28,7 @@ class ShelfLivewireUpdate extends Component
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Editing resource.
@@ -190,28 +192,28 @@ class ShelfLivewireUpdate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id editing resource id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->shelf->load('stand.room.floor.building.site');
+        $this->shelf = Shelf::hierarchy()->findOrFail($id);
 
         $this->initializeParentProperties();
     }
 
     /**
-     * Computed property to list paged boxes.
+     * Computed property to list paged boxes based on shelf id.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getBoxesProperty()
     {
         return $this->applyPagination(
-            $this
-                ->shelf
-                ->boxes()
-                ->withCount('volumes')
-                ->defaultOrder()
+            Box::hierarchy()
+            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->where('shelf_id', $this->shelf->id)
         );
     }
 
@@ -222,9 +224,7 @@ class ShelfLivewireUpdate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.shelf.edit', [
-            'boxes' => $this->boxes,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.shelf.edit')->layout('layouts.app');
     }
 
     /**
@@ -239,7 +239,7 @@ class ShelfLivewireUpdate extends Component
 
         $this->validateOnly('site_id');
 
-        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
+        $this->buildings = $this->buildings();
     }
 
     /**
@@ -254,7 +254,7 @@ class ShelfLivewireUpdate extends Component
 
         $this->validateOnly('building_id');
 
-        $this->floors = Floor::where('building_id', $this->building_id)->defaultOrder()->get();
+        $this->floors = $this->floors();
     }
 
     /**
@@ -269,7 +269,7 @@ class ShelfLivewireUpdate extends Component
 
         $this->validateOnly('floor_id');
 
-        $this->rooms = Room::where('floor_id', $this->floor_id)->defaultOrder()->get();
+        $this->rooms = $this->rooms();
     }
 
     /**
@@ -284,7 +284,7 @@ class ShelfLivewireUpdate extends Component
 
         $this->validateOnly('room_id');
 
-        $this->stands = Stand::where('room_id', $this->room_id)->defaultOrder()->get();
+        $this->stands = $this->stands();
     }
 
     /**
@@ -297,8 +297,6 @@ class ShelfLivewireUpdate extends Component
         $this->validate();
 
         $saved = $this->shelf->save();
-
-        $this->shelf->refresh();
 
         $this->flashSelf($saved);
     }
@@ -323,18 +321,58 @@ class ShelfLivewireUpdate extends Component
      */
     private function initializeParentProperties()
     {
-        $this->sites = Site::defaultOrder()->get();
-        $this->site_id = $this->shelf->stand->room->floor->building->site->id;
+        $this->sites = Site::orderBy('name', 'asc')->get();
+        $this->site_id = $this->shelf->site_id;
 
-        $this->buildings = Building::where('site_id', $this->site_id)->defaultOrder()->get();
-        $this->building_id = $this->shelf->stand->room->floor->building->id;
+        $this->buildings = $this->buildings();
+        $this->building_id = $this->shelf->building_id;
 
-        $this->floors = Floor::where('building_id', $this->building_id)->defaultOrder()->get();
-        $this->floor_id = $this->shelf->stand->room->floor->id;
+        $this->floors = $this->floors();
+        $this->floor_id = $this->shelf->floor_id;
 
-        $this->rooms = Room::where('floor_id', $this->floor_id)->defaultOrder()->get();
-        $this->room_id = $this->shelf->stand->room->id;
+        $this->rooms = $this->rooms();
+        $this->room_id = $this->shelf->room_id;
 
-        $this->stands = Stand::where('room_id', $this->room_id)->defaultOrder()->get();
+        $this->stands = $this->stands();
+    }
+
+    /**
+     * Child buildings based on site id.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function buildings()
+    {
+        return Building::where('site_id', $this->site_id)->orderBy('name', 'asc')->get();
+    }
+
+    /**
+     * Child floors based on building id.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function floors()
+    {
+        return Floor::where('building_id', $this->building_id)->orderBy('number', 'asc')->get();
+    }
+
+    /**
+     * Child rooms based on floor id.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function rooms()
+    {
+        return Room::where('floor_id', $this->floor_id)->orderBy('number', 'asc')->get();
+    }
+
+    /**
+     * Child stands based on room id.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function stands()
+    {
+        return Stand::where('room_id', $this->room_id)->orderBy('number', 'asc')->get();
     }
 }

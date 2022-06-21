@@ -127,6 +127,23 @@ test('parentLinks returns show parents routes, included the root element route, 
     ]);
 });
 
+test('parentLinks returns links based on hierarchical data present in the model or, if not, fetches them from the database', function () {
+    Box::factory()->create();
+
+    $box = Box::first();
+    $box->load('shelf.stand.room.floor.building');
+
+    expect($box->parentLinks(true)->toArray())->toBe([
+        __('Site') => route('archiving.register.site.show', $box->shelf->stand->room->floor->building->site_id),
+        __('Building') => route('archiving.register.building.show', $box->shelf->stand->room->floor->building_id),
+        __('Floor') => route('archiving.register.floor.show', $box->shelf->stand->room->floor_id),
+        __('Room') => route('archiving.register.room.show', $box->shelf->stand->room->id),
+        __('Stand') => route('archiving.register.stand.show', $box->shelf->stand_id),
+        __('Shelf') => route('archiving.register.shelf.show', $box->shelf->id),
+        __('Box') => route('archiving.register.box.show', $box->id),
+    ]);
+});
+
 test('createMany method creates and persists sequential boxes with equal attributes and sequential boxes', function () {
     $template = Box::factory()->makeOne(['number' => 10]);
     $shelf = Shelf::factory()->create();

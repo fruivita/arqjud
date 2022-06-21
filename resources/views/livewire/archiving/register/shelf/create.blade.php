@@ -12,7 +12,7 @@
 
 <x-page :header="__('New shelves')">
 
-    <x-backtrace :model="$stand" :root="true"/>
+    <x-backtrace :model="$this->stand" :root="true"/>
 
 
     <x-container>
@@ -25,12 +25,12 @@
 
                     <x-show-value
                         :key="__('Site')"
-                        :value="$stand->room->floor->building->site->name"/>
+                        :value="$this->stand->site_name"/>
 
 
                     <x-show-value
                         :key="__('Building')"
-                        :value="$stand->room->floor->building->name"/>
+                        :value="$this->stand->building_name"/>
 
                 </div>
 
@@ -39,17 +39,17 @@
 
                     <x-show-value
                         :key="__('Floor')"
-                        :value="$stand->room->floor->number"/>
+                        :value="$this->stand->floor_number"/>
 
 
                     <x-show-value
                         :key="__('Room')"
-                        :value="$stand->room->number"/>
+                        :value="$this->stand->room_number"/>
 
 
                     <x-show-value
                         :key="__('Stand')"
-                        :value="$stand->numberForHumans()"/>
+                        :value="$this->stand->for_humans"/>
 
                 </div>
 
@@ -110,10 +110,10 @@
     <x-container>
 
         <x-table.model.shelf
-            :deleting="$deleting"
-            :shelves="$shelves"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :deleting="$this->deleting"
+            :shelves="$this->shelves"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withdeletebutton/>
 
     </x-container>

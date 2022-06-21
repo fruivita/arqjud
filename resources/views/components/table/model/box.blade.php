@@ -45,7 +45,7 @@
             <x-link-button
                 class="btn-do"
                 icon="plus-circle"
-                :href="route('archiving.register.box.create', $parent)"
+                :href="route('archiving.register.box.create', $parent->id)"
                 :text="__('New')"
                 :title="__('Create a new record')"/>
 
@@ -76,7 +76,7 @@
                     sortable
                 >
 
-                    {{ __('Number') }}
+                    {{ __('Box') }}
 
                 </x-table.heading>
 
@@ -207,10 +207,10 @@
                             <x-table.cell>{{ $box->room_number }}</x-table.cell>
 
 
-                            <x-table.cell>{{ standForHumans($box->stand_number) }}</x-table.cell>
+                            <x-table.cell>{{ $box->stand_for_humans }}</x-table.cell>
 
 
-                            <x-table.cell>{{ shelfForHumans($box->shelf_number) }}</x-table.cell>
+                            <x-table.cell>{{ $box->shelf_for_humans }}</x-table.cell>
 
                         @endif
 
@@ -224,7 +224,7 @@
                                     <x-icon-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        :href="route('archiving.register.box.show', $box)"
+                                        :href="route('archiving.register.box.show', $box->id)"
                                         :title="__('Show the record')"/>
 
                                 @endcan
@@ -235,7 +235,7 @@
                                     <x-icon-link-button
                                         class="btn-do"
                                         icon="pencil-square"
-                                        :href="route('archiving.register.box.edit', $box)"
+                                        :href="route('archiving.register.box.edit', $box->id)"
                                         :title="__('Edit the record')"/>
 
                                 @endcan
@@ -303,6 +303,6 @@
         wire:model="show_delete_modal"
         wire:key="deleting-modal-{{ $deleting->id }}"
         wire:submit.prevent="destroy"
-        :question="__('Delete :attribute?', ['attribute' => $deleting->numberForHumans()])"/>
+        :question="__('Delete :attribute?', ['attribute' => $deleting->for_humans])"/>
 
 @endif

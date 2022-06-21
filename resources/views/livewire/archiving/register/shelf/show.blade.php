@@ -10,9 +10,9 @@
 --}}
 
 
-<x-page :header="__('Shelf') . ': ' . $shelf->numberForHumans()">
+<x-page :header="__('Shelf') . ': ' . $this->shelf->for_humans">
 
-    <x-backtrace :model="$shelf"/>
+    <x-backtrace :model="$this->shelf"/>
 
 
     <x-container>
@@ -21,24 +21,24 @@
 
             <x-show-value
                 :key="__('Shelf')"
-                :value="$shelf->numberForHumans()"/>
+                :value="$this->shelf->for_humans"/>
 
 
             <x-show-value
                 :key="__('Description')"
-                :value="$shelf->description"/>
+                :value="$this->shelf->description"/>
 
 
             <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
 
                 <x-show-value
                     :key="__('Site')"
-                    :value="$shelf->stand->room->floor->building->site->name"/>
+                    :value="$this->shelf->site_name"/>
 
 
                 <x-show-value
                     :key="__('Building')"
-                    :value="$shelf->stand->room->floor->building->name"/>
+                    :value="$this->shelf->building_name"/>
 
             </div>
 
@@ -47,17 +47,17 @@
 
                 <x-show-value
                     :key="__('Floor')"
-                    :value="$shelf->stand->room->floor->number"/>
+                    :value="$this->shelf->floor_number"/>
 
 
                 <x-show-value
                     :key="__('Room')"
-                    :value="$shelf->stand->room->number"/>
+                    :value="$this->shelf->room_number"/>
 
 
                 <x-show-value
                     :key="__('Stand')"
-                    :value="$shelf->stand->numberForHumans()"/>
+                    :value="$this->shelf->stand_for_humans"/>
 
             </div>
 
@@ -69,7 +69,7 @@
                     <x-link-button
                         class="btn-do"
                         icon="pencil-square"
-                        :href="route('archiving.register.shelf.edit', $shelf)"
+                        :href="route('archiving.register.shelf.edit', $this->shelf->id)"
                         :text="__('Edit')"
                         :title="__('Edit the record')"/>
 
@@ -85,8 +85,10 @@
     <x-container>
 
         <x-table.model.box
-            :boxes="$boxes"
-            :parent="$shelf"
+            :boxes="$this->boxes"
+            :parent="$this->shelf"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withnewbutton/>
 
     </x-container>

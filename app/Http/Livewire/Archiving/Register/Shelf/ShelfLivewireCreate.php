@@ -19,17 +19,17 @@ use Livewire\Component;
 class ShelfLivewireCreate extends Component
 {
     use AuthorizesRequests;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
-     * Parent resource.
+     * Parent resource id.
      *
-     * @var \App\Models\Stand
+     * @var int
      */
-    public Stand $stand;
+    public int $stand_id;
 
     /**
      * Resource that will be created.
@@ -51,7 +51,7 @@ class ShelfLivewireCreate extends Component
                 'required',
                 'integer',
                 'between:1,100000',
-                "unique:shelves,number,null,id,stand_id,{$this->stand->id}",
+                "unique:shelves,number,null,id,stand_id,{$this->stand_id}",
             ],
 
             'shelf.description' => [
@@ -92,12 +92,25 @@ class ShelfLivewireCreate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id parent resource id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->stand->load('room.floor.building.site');
+        $this->stand_id = $id;
+
         $this->shelf = $this->blankModel();
+    }
+
+    /**
+     * Computed property to get parent model.
+     *
+     * @return \App\Models\Stand
+     */
+    public function getStandProperty()
+    {
+        return Stand::hierarchy()->findOrFail($this->stand_id);
     }
 
     /**
@@ -119,7 +132,7 @@ class ShelfLivewireCreate extends Component
     {
         return $this->applyPagination(
             Shelf::hierarchy()
-            ->where('shelves.stand_id', $this->stand->id)
+            ->where('shelves.stand_id', $this->stand_id)
             ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
@@ -131,9 +144,7 @@ class ShelfLivewireCreate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.shelf.create', [
-            'shelves' => $this->shelves,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.shelf.create')->layout('layouts.app');
     }
 
     /**

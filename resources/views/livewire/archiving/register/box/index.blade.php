@@ -22,10 +22,10 @@
     <x-container>
 
         <x-table.model.box
-            :boxes="$boxes"
-            :deleting="$deleting"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :boxes="$this->boxes"
+            :deleting="$this->deleting"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"
             withdeletebutton
             withparents/>
 

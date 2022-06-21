@@ -19,10 +19,10 @@ class BoxLivewireIndex extends Component
 {
     use AuthorizesRequests;
     use Searchable;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -56,9 +56,7 @@ class BoxLivewireIndex extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.box.index', [
-            'boxes' => $this->boxes,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.box.index')->layout('layouts.app');
     }
 
     /**

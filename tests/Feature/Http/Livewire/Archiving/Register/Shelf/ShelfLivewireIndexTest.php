@@ -19,7 +19,6 @@ beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
     $this->shelf = Shelf::factory()->create();
-    $this->shelf->load('stand.room.floor.building.site');
 
     login('foo');
 });
@@ -60,9 +59,7 @@ test('cannot set the shelf record which will be deleted if it has boxes', functi
     grantPermission(PermissionType::ShelfViewAny->value);
     grantPermission(PermissionType::ShelfDelete->value);
 
-    Box::factory()
-    ->for($this->shelf, 'shelf')
-    ->create();
+    Box::factory()->for($this->shelf, 'shelf')->create();
 
     Livewire::test(ShelfLivewireIndex::class)
     ->assertOk()
@@ -99,9 +96,7 @@ test('cannot delete a shelf record if it has boxes', function () {
     ->call('markToDelete', $this->shelf->id)
     ->assertOk();
 
-    Box::factory()
-    ->for($this->shelf, 'shelf')
-    ->create();
+    Box::factory()->for($this->shelf, 'shelf')->create();
 
     $component
     ->call('destroy')

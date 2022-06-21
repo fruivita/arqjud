@@ -18,6 +18,11 @@ class Box extends Model
     use HasFactory;
     use Humanize;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'boxes';
 
     /**
@@ -95,6 +100,49 @@ class Box extends Model
     }
 
     /**
+     * Model hierarchical fields.
+     *
+     * keys:
+     * - site_id: parent site id
+     * - site_name: parent site name
+     * - building_id: parent building id
+     * - building_name: parent building name
+     * - floor_id: parent floor id
+     * - floor_number: parent floor number
+     * - room_id: parent room id
+     * - room_number: parent room number
+     * - stand_id: parent stand id
+     * - stand_number: parent stand number
+     * - shelf_id: parent shelf id
+     * - shelf_number: parent shelf number
+     * - volumes_count: child box volumes count
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function hierarchicalData()
+    {
+        $box = isset($this->site_name)
+        ? $this
+        : self::hierarchy()->find($this->id);
+
+        return collect([
+            'site_id' => $box->site_id,
+            'site_name' => $box->site_name,
+            'building_id' => $box->building_id,
+            'building_name' => $box->building_name,
+            'floor_id' => $box->floor_id,
+            'floor_number' => $box->floor_number,
+            'room_id' => $box->room_id,
+            'room_number' => $box->room_number,
+            'stand_id' => $box->stand_id,
+            'stand_number' => $box->stand_number,
+            'shelf_id' => $box->shelf_id,
+            'shelf_number' => $box->shelf_number,
+            'volumes_count' => $box->volumes_count,
+        ]);
+    }
+
+    /**
      * Get the box in human-readable format.
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
@@ -139,13 +187,15 @@ class Box extends Model
      */
     public function parentLinks(bool $root)
     {
+        $hierarchical_data = $this->hierarchicalData();
+
         return collect([
-            __('Site') => route('archiving.register.site.show', $this->site_id),
-            __('Building') => route('archiving.register.building.show', $this->building_id),
-            __('Floor') => route('archiving.register.floor.show', $this->floor_id),
-            __('Room') => route('archiving.register.room.show', $this->room_id),
-            __('Stand') => route('archiving.register.stand.show', $this->stand_id),
-            __('Shelf') => route('archiving.register.shelf.show', $this->shelf_id),
+            __('Site') => route('archiving.register.site.show', $hierarchical_data->get('site_id')),
+            __('Building') => route('archiving.register.building.show', $hierarchical_data->get('building_id')),
+            __('Floor') => route('archiving.register.floor.show', $hierarchical_data->get('floor_id')),
+            __('Room') => route('archiving.register.room.show', $hierarchical_data->get('room_id')),
+            __('Stand') => route('archiving.register.stand.show', $hierarchical_data->get('stand_id')),
+            __('Shelf') => route('archiving.register.shelf.show', $hierarchical_data->get('shelf_id')),
         ])->when($root, function ($collection) {
             return $collection->put(__('Box'), route('archiving.register.box.show', $this->id));
         });

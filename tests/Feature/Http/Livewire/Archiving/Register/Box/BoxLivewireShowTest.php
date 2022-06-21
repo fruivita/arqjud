@@ -29,17 +29,17 @@ afterEach(function () {
 test('cannot individually view a box without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.box.show', $this->box))
+    get(route('archiving.register.box.show', $this->box->id))
     ->assertRedirect(route('login'));
 });
 
 test('authenticated but without specific permission, unable to access individual box view route', function () {
-    get(route('archiving.register.box.show', $this->box))
+    get(route('archiving.register.box.show', $this->box->id))
     ->assertForbidden();
 });
 
 test('cannot render individual box view component without specific permission', function () {
-    Livewire::test(BoxLivewireShow::class, ['box' => $this->box])
+    Livewire::test(BoxLivewireShow::class, ['id' => $this->box->id])
     ->assertForbidden();
 });
 
@@ -47,20 +47,26 @@ test('cannot render individual box view component without specific permission', 
 test('does not accept pagination outside the options offered', function () {
     grantPermission(PermissionType::BoxView->value);
 
-    Livewire::test(BoxLivewireShow::class, ['box' => $this->box])
+    Livewire::test(BoxLivewireShow::class, ['id' => $this->box->id])
     ->set('per_page', 33) // possible values: 10/25/50/100
     ->assertHasErrors(['per_page' => 'in']);
 });
 
 // Happy path
+test('renders individual role view component with specific permission', function () {
+    grantPermission(PermissionType::BoxView->value);
+
+    get(route('archiving.register.box.show', $this->box->id))
+    ->assertOk()
+    ->assertSeeLivewire(BoxLivewireShow::class);
+});
+
 test('pagination returns the amount of expected box volumes records', function () {
     grantPermission(PermissionType::BoxView->value);
 
-    BoxVolume::factory(120)
-    ->for($this->box, 'box')
-    ->create();
+    BoxVolume::factory(120)->for($this->box, 'box')->create();
 
-    Livewire::test(BoxLivewireShow::class, ['box' => $this->box])
+    Livewire::test(BoxLivewireShow::class, ['id' => $this->box->id])
     ->assertCount('volumes', 10)
     ->set('per_page', 10)
     ->assertCount('volumes', 10)
@@ -75,7 +81,7 @@ test('pagination returns the amount of expected box volumes records', function (
 test('pagination creates the session variables', function () {
     grantPermission(PermissionType::BoxView->value);
 
-    Livewire::test(BoxLivewireShow::class, ['box' => $this->box])
+    Livewire::test(BoxLivewireShow::class, ['id' => $this->box->id])
     ->assertSessionMissing('per_page')
     ->set('per_page', 10)
     ->assertSessionHas('per_page', 10)
@@ -87,18 +93,17 @@ test('pagination creates the session variables', function () {
     ->assertSessionHas('per_page', 100);
 });
 
-test('renders individual role view component with specific permission', function () {
+test('individually view a box with specific permission', function () {
     grantPermission(PermissionType::BoxView->value);
 
-    get(route('archiving.register.box.show', $this->box))
+    get(route('archiving.register.box.show', $this->box->id))
     ->assertOk()
     ->assertSeeLivewire(BoxLivewireShow::class);
 });
 
-test('individually view a box with specific permission', function () {
-    grantPermission(PermissionType::BoxView->value);
-
-    get(route('archiving.register.box.show', $this->box))
-    ->assertOk()
-    ->assertSeeLivewire(BoxLivewireShow::class);
+test('BoxLivewireShow uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(BoxLivewireShow::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
 });

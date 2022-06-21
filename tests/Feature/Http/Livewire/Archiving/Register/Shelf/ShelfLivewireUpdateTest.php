@@ -37,28 +37,26 @@ afterEach(function () {
 test('cannot update a shelf record without being authenticated', function () {
     logout();
 
-    get(route('archiving.register.shelf.edit', $this->shelf))
+    get(route('archiving.register.shelf.edit', $this->shelf->id))
     ->assertRedirect(route('login'));
 });
 
 test('authenticated but without specific permission, cannot access shelf record edit route', function () {
-    get(route('archiving.register.shelf.edit', $this->shelf))
+    get(route('archiving.register.shelf.edit', $this->shelf->id))
     ->assertForbidden();
 });
 
 test('cannot render shelf record edit component without specific permission', function () {
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->assertForbidden();
 });
 
 test('cannot set the box record which will be deleted without specific permission', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    $box = Box::factory()
-    ->for($this->shelf, 'shelf')
-    ->create();
+    $box = Box::factory()->for($this->shelf, 'shelf')->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->assertOk()
     ->call('markToDelete', $box->id)
     ->assertForbidden()
@@ -70,11 +68,11 @@ test('cannot set the box record which will be deleted if it has box volumes', fu
     grantPermission(PermissionType::ShelfUpdate->value);
     grantPermission(PermissionType::BoxDelete->value);
 
-    $volume = BoxVolume::factory()
-    ->for(Box::factory()->for($this->shelf, 'shelf'), 'box')
-    ->create();
+    $box = Box::factory()->for($this->shelf, 'shelf')->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    $volume = BoxVolume::factory()->for($box, 'box')->create();
+
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->assertOk()
     ->call('markToDelete', $volume->box_id)
     ->assertForbidden()
@@ -88,11 +86,9 @@ test('cannot delete a box record without specific permission', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
     grantPermission(PermissionType::BoxDelete->value);
 
-    $box = Box::factory()
-    ->for($this->shelf, 'shelf')
-    ->create();
+    $box = Box::factory()->for($this->shelf, 'shelf')->create();
 
-    $component = Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    $component = Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->call('markToDelete', $box->id)
     ->assertOk();
 
@@ -109,17 +105,13 @@ test('cannot delete a box record if it has box volumes', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
     grantPermission(PermissionType::BoxDelete->value);
 
-    $box = Box::factory()
-    ->for($this->shelf, 'shelf')
-    ->create();
+    $box = Box::factory()->for($this->shelf, 'shelf')->create();
 
-    $component = Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    $component = Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->call('markToDelete', $box->id)
     ->assertOk();
 
-    BoxVolume::factory()
-    ->for($box, 'box')
-    ->create();
+    BoxVolume::factory()->for($box, 'box')->create();
 
     $component
     ->call('destroy')
@@ -132,7 +124,7 @@ test('cannot delete a box record if it has box volumes', function () {
 test('does not accept pagination outside the options offered', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('per_page', 33) // possible values: 10/25/50/100
     ->assertHasErrors(['per_page' => 'in']);
 });
@@ -140,7 +132,7 @@ test('does not accept pagination outside the options offered', function () {
 test('number is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.number', '')
     ->call('update')
     ->assertHasErrors(['shelf.number' => 'required']);
@@ -149,7 +141,7 @@ test('number is required', function () {
 test('number must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.number', ['foo'])
     ->call('update')
     ->assertHasErrors(['shelf.number' => 'integer']);
@@ -158,7 +150,7 @@ test('number must be an integer', function () {
 test('number must be between 1 and 100000', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.number', 0)
     ->call('update')
     ->assertHasErrors(['shelf.number' => 'between'])
@@ -173,7 +165,7 @@ test('number and stand_id must be unique', function () {
     $stand = Stand::factory()->create();
     Shelf::factory()->create(['number' => 99, 'stand_id' => $stand->id]);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.number', 99)
     ->set('shelf.stand_id', $stand->id)
     ->call('update')
@@ -183,7 +175,7 @@ test('number and stand_id must be unique', function () {
 test('description is optional', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.description', '')
     ->call('update')
     ->assertHasNoErrors(['shelf.description']);
@@ -192,7 +184,7 @@ test('description is optional', function () {
 test('description must be a string', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.description', ['foo'])
     ->call('update')
     ->assertHasErrors(['shelf.description' => 'string']);
@@ -201,7 +193,7 @@ test('description must be a string', function () {
 test('description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.description', Str::random(256))
     ->call('update')
     ->assertHasErrors(['shelf.description' => 'max']);
@@ -210,7 +202,7 @@ test('description must be a maximum of 255 characters', function () {
 test('site_id is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('site_id', '')
     ->call('update')
     ->assertHasErrors(['site_id' => 'required']);
@@ -219,7 +211,7 @@ test('site_id is required', function () {
 test('site_id must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('site_id', 'foo')
     ->call('update')
     ->assertHasErrors(['site_id' => 'integer']);
@@ -228,7 +220,7 @@ test('site_id must be an integer', function () {
 test('site_id must previously exist in the database', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('site_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['site_id' => 'exists']);
@@ -239,7 +231,7 @@ test('site_id is validated in real time', function () {
 
     $site = Site::factory()->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('site_id', $site->id)
     ->assertHasNoErrors()
     ->set('site_id', 'foo')
@@ -249,7 +241,7 @@ test('site_id is validated in real time', function () {
 test('building_id is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('building_id', '')
     ->call('update')
     ->assertHasErrors(['building_id' => 'required']);
@@ -258,7 +250,7 @@ test('building_id is required', function () {
 test('building_id must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('building_id', 'foo')
     ->call('update')
     ->assertHasErrors(['building_id' => 'integer']);
@@ -267,7 +259,7 @@ test('building_id must be an integer', function () {
 test('building_id must previously exist in the database', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('building_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['building_id' => 'exists']);
@@ -278,7 +270,7 @@ test('building_id is validated in real time', function () {
 
     $building = Building::factory()->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('building_id', $building->id)
     ->assertHasNoErrors()
     ->set('building_id', 'foo')
@@ -288,7 +280,7 @@ test('building_id is validated in real time', function () {
 test('floor_id is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('floor_id', '')
     ->call('update')
     ->assertHasErrors(['floor_id' => 'required']);
@@ -297,7 +289,7 @@ test('floor_id is required', function () {
 test('floor_id must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('floor_id', 'foo')
     ->call('update')
     ->assertHasErrors(['floor_id' => 'integer']);
@@ -306,7 +298,7 @@ test('floor_id must be an integer', function () {
 test('floor_id must previously exist in the database', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('floor_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['floor_id' => 'exists']);
@@ -317,7 +309,7 @@ test('floor_id is validated in real time', function () {
 
     $floor = Floor::factory()->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('floor_id', $floor->id)
     ->assertHasNoErrors()
     ->set('floor_id', 'foo')
@@ -327,7 +319,7 @@ test('floor_id is validated in real time', function () {
 test('room_id is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('room_id', '')
     ->call('update')
     ->assertHasErrors(['room_id' => 'required']);
@@ -336,7 +328,7 @@ test('room_id is required', function () {
 test('room_id must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('room_id', 'foo')
     ->call('update')
     ->assertHasErrors(['room_id' => 'integer']);
@@ -345,7 +337,7 @@ test('room_id must be an integer', function () {
 test('room_id must previously exist in the database', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('room_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['room_id' => 'exists']);
@@ -356,7 +348,7 @@ test('room_id is validated in real time', function () {
 
     $room = Room::factory()->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('room_id', $room->id)
     ->assertHasNoErrors()
     ->set('room_id', 'foo')
@@ -366,7 +358,7 @@ test('room_id is validated in real time', function () {
 test('stand_id is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.stand_id', '')
     ->call('update')
     ->assertHasErrors(['shelf.stand_id' => 'required']);
@@ -375,7 +367,7 @@ test('stand_id is required', function () {
 test('stand_id must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.stand_id', 'foo')
     ->call('update')
     ->assertHasErrors(['shelf.stand_id' => 'integer']);
@@ -384,7 +376,7 @@ test('stand_id must be an integer', function () {
 test('stand_id must previously exist in the database', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.stand_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['shelf.stand_id' => 'exists']);
@@ -394,11 +386,9 @@ test('stand_id must previously exist in the database', function () {
 test('pagination returns the amount of boxes expected', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Box::factory(120)
-    ->for($this->shelf, 'shelf')
-    ->create();
+    Box::factory(120)->for($this->shelf, 'shelf')->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->assertCount('boxes', 10)
     ->set('per_page', 10)
     ->assertCount('boxes', 10)
@@ -413,7 +403,7 @@ test('pagination returns the amount of boxes expected', function () {
 test('pagination creates the session variables', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->assertSessionMissing('per_page')
     ->set('per_page', 10)
     ->assertSessionHas('per_page', 10)
@@ -428,7 +418,7 @@ test('pagination creates the session variables', function () {
 test('renders edit shelf record component with specific permission', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    get(route('archiving.register.shelf.edit', $this->shelf))
+    get(route('archiving.register.shelf.edit', $this->shelf->id))
     ->assertOk()
     ->assertSeeLivewire(ShelfLivewireUpdate::class);
 });
@@ -438,7 +428,7 @@ test('emits feedback event when update a shelf record', function () {
 
     $stand = Stand::factory()->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.number', 1)
     ->set('shelf.stand_id', $stand->id)
     ->call('update')
@@ -449,11 +439,9 @@ test('emits feedback event when deleting a box record', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
     grantPermission(PermissionType::BoxDelete->value);
 
-    $box = Box::factory()
-    ->for($this->shelf, 'shelf')
-    ->create();
+    $box = Box::factory()->for($this->shelf, 'shelf')->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->call('markToDelete', $box->id)
     ->call('destroy')
     ->assertOk()
@@ -471,55 +459,57 @@ test('sites are available for selection in shelf update', function () {
 
     Site::factory(10)->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->assertCount('sites', 11);
 });
 
-test('buildings are available by selecting a site', function () {
+test('sets the selected building, floor, room and stand to null and makes new buildings available when selecting a site', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    $site = Site::factory()
-    ->has(Building::factory(10), 'buildings')
-    ->create();
+    $site = Site::factory()->has(Building::factory(10), 'buildings')->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('site_id', $site->id)
+    ->assertSet('shelf.building_id', null)
+    ->assertSet('shelf.floor_id', null)
+    ->assertSet('shelf.room_id', null)
+    ->assertSet('shelf.stand_id', null)
     ->assertCount('buildings', 10);
 });
 
-test('floors are available by selecting a building', function () {
+test('sets the selected floor, room and stand to null and makes new floors available when selecting a building', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    $building = Building::factory()
-    ->has(Floor::factory(10), 'floors')
-    ->create();
+    $building = Building::factory()->has(Floor::factory(10), 'floors')->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('building_id', $building->id)
+    ->assertSet('shelf.floor_id', null)
+    ->assertSet('shelf.room_id', null)
+    ->assertSet('shelf.stand_id', null)
     ->assertCount('floors', 10);
 });
 
-test('rooms are available by selecting a floor', function () {
+test('sets the selected room and stand to null and makes new rooms available when selecting a floor', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    $floor = Floor::factory()
-    ->has(Room::factory(10), 'rooms')
-    ->create();
+    $floor = Floor::factory()->has(Room::factory(10), 'rooms')->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('floor_id', $floor->id)
+    ->assertSet('shelf.room_id', null)
+    ->assertSet('shelf.stand_id', null)
     ->assertCount('rooms', 10);
 });
 
-test('stands are available by selecting a room', function () {
+test('sets the selected stand to null and makes new stands available when selecting a room', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
-    $room = Room::factory()
-    ->has(Stand::factory(10), 'stands')
-    ->create();
+    $room = Room::factory()->has(Stand::factory(10), 'stands')->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('room_id', $room->id)
+    ->assertSet('shelf.stand_id', null)
     ->assertCount('stands', 10);
 });
 
@@ -528,29 +518,27 @@ test('update a shelf record with specific permission', function () {
 
     $stand = Stand::factory()->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('shelf.number', 99)
     ->set('shelf.description', 'foo bar')
     ->set('shelf.stand_id', $stand->id)
     ->call('update')
     ->assertOk();
 
-    $this->shelf->refresh()->load('stand');
+    $this->shelf->refresh();
 
     expect($this->shelf->number)->toBe(99)
     ->and($this->shelf->description)->toBe('foo bar')
-    ->and($this->shelf->stand->id)->toBe($stand->id);
+    ->and($this->shelf->stand_id)->toBe($stand->id);
 });
 
 test('defines the box record that will be deleted with specific permission if it has no box volumes', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
     grantPermission(PermissionType::BoxDelete->value);
 
-    $box = Box::factory()
-    ->for($this->shelf, 'shelf')
-    ->create();
+    $box = Box::factory()->for($this->shelf, 'shelf')->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->call('markToDelete', $box->id)
     ->assertOk()
     ->assertSet('show_delete_modal', true)
@@ -561,15 +549,20 @@ test('delete a box record with specific permission if it has no box volumes', fu
     grantPermission(PermissionType::ShelfUpdate->value);
     grantPermission(PermissionType::BoxDelete->value);
 
-    $box = Box::factory()
-    ->for($this->shelf, 'shelf')
-    ->create();
+    $box = Box::factory()->for($this->shelf, 'shelf')->create();
 
-    Livewire::test(ShelfLivewireUpdate::class, ['shelf' => $this->shelf])
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->call('markToDelete', $box->id)
     ->assertOk()
     ->call('destroy', $box->id)
     ->assertOk();
 
     expect(Box::where('id', $box->id)->doesntExist())->toBeTrue();
+});
+
+test('ShelfLivewireUpdate uses the withsorting trait', function () {
+    expect(
+        collect(class_uses(ShelfLivewireUpdate::class))
+        ->contains(\App\Http\Livewire\Traits\WithSorting::class)
+    )->toBeTrue();
 });

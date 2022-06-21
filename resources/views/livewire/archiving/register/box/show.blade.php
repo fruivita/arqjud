@@ -10,9 +10,9 @@
 --}}
 
 
-<x-page :header="__('Box') . ': ' . $box->numberForHumans()">
+<x-page :header="__('Box') . ': ' . $this->box->for_humans">
 
-    <x-backtrace :model="$box"/>
+    <x-backtrace :model="$this->box"/>
 
 
     <x-container>
@@ -21,12 +21,12 @@
 
             <x-show-value
                 :key="__('Number')"
-                :value="$box->numberForHumans()"/>
+                :value="$this->box->for_humans"/>
 
 
             <x-show-value
                 :key="__('Description')"
-                :value="$box->description"/>
+                :value="$this->box->description"/>
 
 
             <div class="gap-x-3 gap-y-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
@@ -34,33 +34,33 @@
                 <x-show-value
                     class="md:col-span-2"
                     :key="__('Site')"
-                    :value="$box->shelf->stand->room->floor->building->site->name"/>
+                    :value="$this->box->site_name"/>
 
 
                 <x-show-value
                     class="md:col-span-2"
                     :key="__('Building')"
-                    :value="$box->shelf->stand->room->floor->building->name"/>
+                    :value="$this->box->building_name"/>
 
 
                 <x-show-value
                     :key="__('Floor')"
-                    :value="$box->shelf->stand->room->floor->number"/>
+                    :value="$this->box->floor_number"/>
 
 
                 <x-show-value
                     :key="__('Room')"
-                    :value="$box->shelf->stand->room->number"/>
+                    :value="$this->box->room_number"/>
 
 
                 <x-show-value
                     :key="__('Stand')"
-                    :value="$box->shelf->stand->numberForHumans()"/>
+                    :value="$this->box->stand_for_humans"/>
 
 
                 <x-show-value
                     :key="__('Shelf')"
-                    :value="$box->shelf->numberForHumans()"/>
+                    :value="$this->box->shelf_for_humans"/>
 
             </div>
 
@@ -72,7 +72,7 @@
                     <x-link-button
                         class="btn-do"
                         icon="pencil-square"
-                        :href="route('archiving.register.box.edit', $box)"
+                        :href="route('archiving.register.box.edit', $this->box->id)"
                         :text="__('Edit')"
                         :title="__('Edit the record')"/>
 
@@ -87,7 +87,10 @@
 
     <x-container>
 
-        <x-table.model.volume :volumes="$volumes"/>
+        <x-table.model.volume
+            :volumes="$this->volumes"
+            :sort_column="$this->sort_column"
+            :sort_direction="$this->sort_direction"/>
 
     </x-container>
 

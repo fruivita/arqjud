@@ -20,17 +20,17 @@ use Livewire\Component;
 class BoxLivewireCreate extends Component
 {
     use AuthorizesRequests;
-    use WithSorting;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
 
     /**
-     * Parent resource.
+     * Parent resource id.
      *
-     * @var \App\Models\Shelf
+     * @var int
      */
-    public Shelf $shelf;
+    public int $shelf_id;
 
     /**
      * Resource that will be created.
@@ -131,12 +131,25 @@ class BoxLivewireCreate extends Component
      * render() is called. This is only called once on initial page load and
      * never called again, even on component refreshes.
      *
+     * @param int $id parent resource id
+     *
      * @return void
      */
-    public function mount()
+    public function mount(int $id)
     {
-        $this->shelf->load('stand.room.floor.building.site');
+        $this->shelf_id = $id;
+
         $this->box = $this->blankModel();
+    }
+
+    /**
+     * Computed property to get parent model.
+     *
+     * @return \App\Models\Shelf
+     */
+    public function getShelfProperty()
+    {
+        return Shelf::hierarchy()->findOrFail($this->shelf_id);
     }
 
     /**
@@ -158,7 +171,7 @@ class BoxLivewireCreate extends Component
     {
         return $this->applyPagination(
             Box::hierarchy()
-            ->where('boxes.shelf_id', $this->shelf->id)
+            ->where('boxes.shelf_id', $this->shelf_id)
             ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
@@ -170,9 +183,7 @@ class BoxLivewireCreate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.box.create', [
-            'boxes' => $this->boxes,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.box.create')->layout('layouts.app');
     }
 
     /**
