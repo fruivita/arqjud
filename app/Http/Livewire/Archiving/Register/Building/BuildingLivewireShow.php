@@ -55,7 +55,7 @@ class BuildingLivewireShow extends Component
     /**
      * Computed property to get resource on display.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \App\Models\Building
      */
     public function getBuildingProperty()
     {
@@ -72,7 +72,7 @@ class BuildingLivewireShow extends Component
         return $this->applyPagination(
             Floor::hierarchy()
             ->orderByWhen($this->sort_column, $this->sort_direction)
-            ->where('building_id', $this->building->id)
+            ->where('building_id', $this->building_id)
         );
     }
 

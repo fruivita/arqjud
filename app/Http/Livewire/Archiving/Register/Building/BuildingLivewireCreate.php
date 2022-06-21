@@ -51,7 +51,7 @@ class BuildingLivewireCreate extends Component
                 'required',
                 'string',
                 'max:100',
-                "unique:buildings,name,null,id,site_id,{$this->site->id}",
+                "unique:buildings,name,null,id,site_id,{$this->site_id}",
             ],
 
             'building.description' => [
@@ -132,7 +132,7 @@ class BuildingLivewireCreate extends Component
     {
         return $this->applyPagination(
             Building::hierarchy()
-            ->where('buildings.site_id', $this->site->id)
+            ->where('buildings.site_id', $this->site_id)
             ->orderByWhen($this->sort_column, $this->sort_direction)
         );
     }
