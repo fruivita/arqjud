@@ -354,6 +354,20 @@ test('sets the selected building to null and makes new buildings available when 
     ->assertCount('buildings', 10);
 });
 
+test('sites and buildings are pre-defined according to the edit floor', function () {
+    grantPermission(PermissionType::FloorUpdate->value);
+
+    $this->floor->load('building.site');
+
+    Building::factory(2)->for($this->floor->building->site, 'site')->create();
+    Site::factory(15)->create();
+
+    Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
+    ->assertCount('sites', 16)
+    ->assertSet('site_id', $this->floor->building->site->id)
+    ->assertCount('buildings', 3);
+});
+
 test('update a floor record with specific permission', function () {
     grantPermission(PermissionType::FloorUpdate->value);
 

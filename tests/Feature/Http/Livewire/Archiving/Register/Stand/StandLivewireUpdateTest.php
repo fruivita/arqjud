@@ -459,6 +459,26 @@ test('sets the selected room to null and makes new rooms available when selectin
     ->assertCount('rooms', 10);
 });
 
+test('sites, buildings, floors and rooms are pre-defined according to the edit stand', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $this->stand->load('room.floor.building.site');
+
+    Room::factory(4)->for($this->stand->room->floor, 'floor')->create();
+    Floor::factory(8)->for($this->stand->room->floor->building, 'building')->create();
+    Building::factory(2)->for($this->stand->room->floor->building->site, 'site')->create();
+    Site::factory(15)->create();
+
+    Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
+    ->assertCount('sites', 16)
+    ->assertSet('site_id', $this->stand->room->floor->building->site->id)
+    ->assertCount('buildings', 3)
+    ->assertSet('building_id', $this->stand->room->floor->building->id)
+    ->assertCount('floors', 9)
+    ->assertSet('floor_id', $this->stand->room->floor->id)
+    ->assertCount('rooms', 5);
+});
+
 test('update a stand record with specific permission', function () {
     grantPermission(PermissionType::StandUpdate->value);
 

@@ -513,6 +513,29 @@ test('sets the selected stand to null and makes new stands available when select
     ->assertCount('stands', 10);
 });
 
+test('sites, buildings, floors, rooms, and stands are pre-defined according to the edit shelf', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+
+    $this->shelf->load('stand.room.floor.building.site');
+
+    Stand::factory(3)->for($this->shelf->stand->room, 'room')->create();
+    Room::factory(4)->for($this->shelf->stand->room->floor, 'floor')->create();
+    Floor::factory(8)->for($this->shelf->stand->room->floor->building, 'building')->create();
+    Building::factory(2)->for($this->shelf->stand->room->floor->building->site, 'site')->create();
+    Site::factory(15)->create();
+
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->assertCount('sites', 16)
+    ->assertSet('site_id', $this->shelf->stand->room->floor->building->site->id)
+    ->assertCount('buildings', 3)
+    ->assertSet('building_id', $this->shelf->stand->room->floor->building->id)
+    ->assertCount('floors', 9)
+    ->assertSet('floor_id', $this->shelf->stand->room->floor->id)
+    ->assertCount('rooms', 5)
+    ->assertSet('room_id', $this->shelf->stand->room->id)
+    ->assertCount('stands', 4);
+});
+
 test('update a shelf record with specific permission', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 

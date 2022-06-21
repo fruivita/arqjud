@@ -395,6 +395,23 @@ test('sets the selected building and floor to null and makes new buildings avail
     ->assertCount('buildings', 10);
 });
 
+test('sites, buildings and floors are pre-defined according to the edit room', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+
+    $this->room->load('floor.building.site');
+
+    Floor::factory(8)->for($this->room->floor->building, 'building')->create();
+    Building::factory(2)->for($this->room->floor->building->site, 'site')->create();
+    Site::factory(15)->create();
+
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->assertCount('sites', 16)
+    ->assertSet('site_id', $this->room->floor->building->site->id)
+    ->assertCount('buildings', 3)
+    ->assertSet('building_id', $this->room->floor->building->id)
+    ->assertCount('floors', 9);
+});
+
 test('sets the selected floor to null and makes new floors available when selecting a building', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
