@@ -28,6 +28,7 @@
                         wire:key="username"
                         wire:model.defer="username"
                         autocomplete="off"
+                        autofocus
                         :error="$errors->first('username')"
                         icon="people"
                         maxlength="20"

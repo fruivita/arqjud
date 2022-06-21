@@ -78,6 +78,7 @@
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="box.number"
                         wire:target="box.year,store"
+                        autofocus
                         :error="$errors->first('box.number')"
                         icon="tag"
                         min="1"

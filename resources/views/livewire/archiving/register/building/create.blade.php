@@ -32,6 +32,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="building.name"
                     wire:target="store"
+                    autofocus
                     :error="$errors->first('building.name')"
                     icon="building"
                     maxlength="100"

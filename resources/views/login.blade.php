@@ -29,6 +29,7 @@
 
                     <x-form.input
                         autocomplete="username"
+                        autofocus
                         :error="$errors->first('username')"
                         icon="person"
                         id="username"

@@ -30,6 +30,7 @@
                         wire:model.defer="configuration.superadmin"
                         wire:target="update"
                         autocomplete="off"
+                        autofocus
                         :error="$errors->first('configuration.superadmin')"
                         icon="person"
                         maxlength="20"

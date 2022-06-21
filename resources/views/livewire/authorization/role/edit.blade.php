@@ -21,6 +21,7 @@
                 <x-form.input
                     wire:key="role-name"
                     wire:model.defer="role.name"
+                    autofocus
                     :error="$errors->first('role.name')"
                     icon="award"
                     maxlength="50"

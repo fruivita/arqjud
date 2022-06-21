@@ -27,6 +27,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="stand.number"
                     wire:target="update"
+                    autofocus
                     :error="$errors->first('stand.number')"
                     icon="bookshelf"
                     min="1"

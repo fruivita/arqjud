@@ -27,6 +27,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="room.number"
                     wire:target="update"
+                    autofocus
                     :error="$errors->first('room.number')"
                     icon="layers"
                     min="1"

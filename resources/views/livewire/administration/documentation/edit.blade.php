@@ -24,6 +24,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="doc.app_route_name"
                     wire:target="update"
+                    autofocus
                     :error="$errors->first('doc.app_route_name')"
                     icon="signpost-2"
                     maxlength="255"

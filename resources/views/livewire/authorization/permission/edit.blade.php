@@ -21,6 +21,7 @@
                 <x-form.input
                     wire:key="permission-name"
                     wire:model.defer="permission.name"
+                    autofocus
                     :error="$errors->first('permission.name')"
                     icon="vector-pen"
                     maxlength="50"

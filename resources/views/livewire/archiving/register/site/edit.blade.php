@@ -24,6 +24,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="site.name"
                     wire:target="update"
+                    autofocus
                     :error="$errors->first('site.name')"
                     icon="pin-map"
                     maxlength="100"

@@ -41,6 +41,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="floor.number"
                     wire:target="store"
+                    autofocus
                     :error="$errors->first('floor.number')"
                     icon="layers"
                     min="-100"
