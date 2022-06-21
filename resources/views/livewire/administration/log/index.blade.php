@@ -141,7 +141,7 @@
             wire:model="show_delete_modal"
             wire:key="deleting-modal-{{ $filename }}"
             wire:submit.prevent="destroy"
-            :question="__('Delete :attribute?', ['attribute' => $filename])"/>
+            :question="__('Delete log :attribute?', ['attribute' => $filename])"/>
 
     @endcan
 

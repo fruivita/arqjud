@@ -157,6 +157,6 @@
         wire:model="show_delete_modal"
         wire:key="deleting-modal-{{ $deleting->id }}"
         wire:submit.prevent="destroy"
-        :question="__('Delete :attribute?', ['attribute' => $deleting->number])"/>
+        :question="__('Delete volume :attribute?', ['attribute' => $deleting->number])"/>
 
 @endif
