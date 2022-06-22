@@ -61,40 +61,6 @@ test('cannot create a box volume without without specific permission', function 
     expect($this->box->volumes()->doesntExist())->toBeTrue();
 });
 
-test('cannot set the box volume record which will be deleted without specific permission', function () {
-    grantPermission(PermissionType::BoxUpdate->value);
-
-    $volume = BoxVolume::factory()->for($this->box, 'box')->create();
-
-    Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->assertOk()
-    ->call('setToDelete', $volume->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot delete a box volume record without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
-    grantPermission(PermissionType::BoxUpdate->value);
-    grantPermission(PermissionType::BoxVolumeDelete->value);
-
-    $volume = BoxVolume::factory()->for($this->box, 'box')->create();
-
-    $component = Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->call('setToDelete', $volume->id)
-    ->assertOk();
-
-    revokePermission(PermissionType::BoxVolumeDelete->value);
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(BoxVolume::where('id', $volume->id)->exists())->toBeTrue();
-});
-
 // Rules
 test('site_id is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
@@ -626,21 +592,6 @@ test('create a box volume with specific permission', function () {
     ->assertOk();
 
     expect($this->box->volumes()->where('number', 11)->exists())->toBeTrue();
-});
-
-test('delete a box volume record with specific permission', function () {
-    grantPermission(PermissionType::BoxUpdate->value);
-    grantPermission(PermissionType::BoxVolumeDelete->value);
-
-    $volume = BoxVolume::factory()->for($this->box, 'box')->create();
-
-    Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->call('setToDelete', $volume->id)
-    ->assertOk()
-    ->call('destroy', $volume->id)
-    ->assertOk();
-
-    expect(BoxVolume::where('id', $volume->id)->doesntExist())->toBeTrue();
 });
 
 test('BoxLivewireUpdate uses trait', function () {

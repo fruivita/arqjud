@@ -44,67 +44,6 @@ test('cannot render listing component from building records without specific per
     Livewire::test(BuildingLivewireIndex::class)->assertForbidden();
 });
 
-test('cannot set the building record which will be deleted without specific permission', function () {
-    grantPermission(PermissionType::BuildingViewAny->value);
-
-    Livewire::test(BuildingLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $this->building->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot set the building record which will be deleted if it has floors', function () {
-    grantPermission(PermissionType::BuildingViewAny->value);
-    grantPermission(PermissionType::BuildingDelete->value);
-
-    Floor::factory()->for($this->building, 'building')->create();
-
-    Livewire::test(BuildingLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $this->building->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot delete a building record without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
-    grantPermission(PermissionType::BuildingViewAny->value);
-    grantPermission(PermissionType::BuildingDelete->value);
-
-    $component = Livewire::test(BuildingLivewireIndex::class)
-    ->call('setToDelete', $this->building->id)
-    ->assertOk();
-
-    revokePermission(PermissionType::BuildingDelete->value);
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Building::where('id', $this->building->id)->exists())->toBeTrue();
-});
-
-test('cannot delete a building record if it has floors', function () {
-    grantPermission(PermissionType::BuildingViewAny->value);
-    grantPermission(PermissionType::BuildingDelete->value);
-
-    $component = Livewire::test(BuildingLivewireIndex::class)
-    ->call('setToDelete', $this->building->id)
-    ->assertOk();
-
-    Floor::factory()->for($this->building, 'building')->create();
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Building::where('id', $this->building->id)->exists())->toBeTrue();
-});
-
 // Happy path
 test('pagination returns the amount of expected building records', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
@@ -157,32 +96,6 @@ test('emits feedback event when deleting a building record', function () {
         'message' => null,
         'timeout' => 3000,
     ]);
-});
-
-test('defines the building record that will be deleted with specific permission if it has no floors', function () {
-    grantPermission(PermissionType::BuildingViewAny->value);
-    grantPermission(PermissionType::BuildingDelete->value);
-
-    Livewire::test(BuildingLivewireIndex::class)
-    ->call('setToDelete', $this->building->id)
-    ->assertOk()
-    ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $this->building->id);
-});
-
-test('delete a building record with specific permission if it has no floors', function () {
-    grantPermission(PermissionType::BuildingViewAny->value);
-    grantPermission(PermissionType::BuildingDelete->value);
-
-    expect(Building::where('id', $this->building->id)->exists())->toBeTrue();
-
-    Livewire::test(BuildingLivewireIndex::class)
-    ->call('setToDelete', $this->building->id)
-    ->assertOk()
-    ->call('destroy', $this->building->id)
-    ->assertOk();
-
-    expect(Building::where('id', $this->building->id)->doesntExist())->toBeTrue();
 });
 
 test('BuildingLivewireIndex uses trait', function () {

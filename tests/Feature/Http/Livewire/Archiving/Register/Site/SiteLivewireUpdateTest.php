@@ -46,75 +46,6 @@ test('cannot render site record edit component without specific permission', fun
     ->assertForbidden();
 });
 
-test('cannot set the building record which will be deleted without specific permission', function () {
-    grantPermission(PermissionType::SiteUpdate->value);
-
-    $building = Building::factory()->for($this->site, 'site')->create();
-
-    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->assertOk()
-    ->call('setToDelete', $building->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot set the building record which will be deleted if it has floors', function () {
-    grantPermission(PermissionType::SiteUpdate->value);
-    grantPermission(PermissionType::BuildingDelete->value);
-
-    $building = Building::factory()->for($this->site, 'site')->create();
-
-    Floor::factory()->for($building, 'building')->create();
-
-    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->assertOk()
-    ->call('setToDelete', $building->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot delete a building record without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
-    grantPermission(PermissionType::SiteUpdate->value);
-    grantPermission(PermissionType::BuildingDelete->value);
-
-    $building = Building::factory()->for($this->site, 'site')->create();
-
-    $component = Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->call('setToDelete', $building->id)
-    ->assertOk();
-
-    revokePermission(PermissionType::BuildingDelete->value);
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Building::where('id', $building->id)->exists())->toBeTrue();
-});
-
-test('cannot delete a building record if it has floors', function () {
-    grantPermission(PermissionType::SiteUpdate->value);
-    grantPermission(PermissionType::BuildingDelete->value);
-
-    $building = Building::factory()->for($this->site, 'site')->create();
-
-    $component = Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->call('setToDelete', $building->id)
-    ->assertOk();
-
-    Floor::factory()->for($building, 'building')->create();
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Building::where('id', $building->id)->exists())->toBeTrue();
-});
-
 // Rules
 test('name is required', function () {
     grantPermission(PermissionType::SiteUpdate->value);
@@ -241,34 +172,6 @@ test('update a site record with specific permission', function () {
 
     expect($this->site->name)->toBe('foo')
     ->and($this->site->description)->toBe('foo bar');
-});
-
-test('defines the building record that will be deleted with specific permission if it has no floors', function () {
-    grantPermission(PermissionType::SiteUpdate->value);
-    grantPermission(PermissionType::BuildingDelete->value);
-
-    $building = Building::factory()->for($this->site, 'site')->create();
-
-    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->call('setToDelete', $building->id)
-    ->assertOk()
-    ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $building->id);
-});
-
-test('delete a building record with specific permission if it has no floors', function () {
-    grantPermission(PermissionType::SiteUpdate->value);
-    grantPermission(PermissionType::BuildingDelete->value);
-
-    $building = Building::factory()->for($this->site, 'site')->create();
-
-    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->call('setToDelete', $building->id)
-    ->assertOk()
-    ->call('destroy', $building->id)
-    ->assertOk();
-
-    expect(Building::where('id', $building->id)->doesntExist())->toBeTrue();
 });
 
 test('SiteLivewireUpdate uses trait', function () {

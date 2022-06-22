@@ -44,67 +44,6 @@ test('cannot render boxes listing component without specific permission', functi
     Livewire::test(BoxLivewireIndex::class)->assertForbidden();
 });
 
-test('cannot set the box record which will be deleted without specific permission', function () {
-    grantPermission(PermissionType::BoxViewAny->value);
-
-    Livewire::test(BoxLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $this->box->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot set the box record which will be deleted if it has volumes', function () {
-    grantPermission(PermissionType::BoxViewAny->value);
-    grantPermission(PermissionType::BoxDelete->value);
-
-    BoxVolume::factory()->for($this->box, 'box')->create();
-
-    Livewire::test(BoxLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $this->box->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot delete a box record without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
-    grantPermission(PermissionType::BoxViewAny->value);
-    grantPermission(PermissionType::BoxDelete->value);
-
-    $component = Livewire::test(BoxLivewireIndex::class)
-    ->call('setToDelete', $this->box->id)
-    ->assertOk();
-
-    revokePermission(PermissionType::BoxDelete->value);
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Box::where('id', $this->box->id)->exists())->toBeTrue();
-});
-
-test('cannot delete a box record if it has volumes', function () {
-    grantPermission(PermissionType::BoxViewAny->value);
-    grantPermission(PermissionType::BoxDelete->value);
-
-    $component = Livewire::test(BoxLivewireIndex::class)
-    ->call('setToDelete', $this->box->id)
-    ->assertOk();
-
-    BoxVolume::factory()->for($this->box, 'box')->create();
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Box::where('id', $this->box->id)->exists())->toBeTrue();
-});
-
 // Happy path
 test('pagination returns the amount of boxes expected', function () {
     grantPermission(PermissionType::BoxViewAny->value);
@@ -170,32 +109,6 @@ test('emits feedback event when deleting a box record', function () {
         'message' => null,
         'timeout' => 3000,
     ]);
-});
-
-test('defines the box record that will be deleted with specific permission if it has no shelves', function () {
-    grantPermission(PermissionType::BoxViewAny->value);
-    grantPermission(PermissionType::BoxDelete->value);
-
-    Livewire::test(BoxLivewireIndex::class)
-    ->call('setToDelete', $this->box->id)
-    ->assertOk()
-    ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $this->box->id);
-});
-
-test('delete a box record with specific permission if it has no shelves', function () {
-    grantPermission(PermissionType::BoxViewAny->value);
-    grantPermission(PermissionType::BoxDelete->value);
-
-    expect(Box::where('id', $this->box->id)->exists())->toBeTrue();
-
-    Livewire::test(BoxLivewireIndex::class)
-    ->call('setToDelete', $this->box->id)
-    ->assertOk()
-    ->call('destroy', $this->box->id)
-    ->assertOk();
-
-    expect(Box::where('id', $this->box->id)->doesntExist())->toBeTrue();
 });
 
 test('BoxLivewireIndex uses trait', function () {

@@ -44,67 +44,6 @@ test('cannot render listing component from shelf records without specific permis
     Livewire::test(ShelfLivewireIndex::class)->assertForbidden();
 });
 
-test('cannot set the shelf record which will be deleted without specific permission', function () {
-    grantPermission(PermissionType::ShelfViewAny->value);
-
-    Livewire::test(ShelfLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $this->shelf->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot set the shelf record which will be deleted if it has boxes', function () {
-    grantPermission(PermissionType::ShelfViewAny->value);
-    grantPermission(PermissionType::ShelfDelete->value);
-
-    Box::factory()->for($this->shelf, 'shelf')->create();
-
-    Livewire::test(ShelfLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $this->shelf->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot delete a shelf record without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
-    grantPermission(PermissionType::ShelfViewAny->value);
-    grantPermission(PermissionType::ShelfDelete->value);
-
-    $component = Livewire::test(ShelfLivewireIndex::class)
-    ->call('setToDelete', $this->shelf->id)
-    ->assertOk();
-
-    revokePermission(PermissionType::ShelfDelete->value);
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Shelf::where('id', $this->shelf->id)->exists())->toBeTrue();
-});
-
-test('cannot delete a shelf record if it has boxes', function () {
-    grantPermission(PermissionType::ShelfViewAny->value);
-    grantPermission(PermissionType::ShelfDelete->value);
-
-    $component = Livewire::test(ShelfLivewireIndex::class)
-    ->call('setToDelete', $this->shelf->id)
-    ->assertOk();
-
-    Box::factory()->for($this->shelf, 'shelf')->create();
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Shelf::where('id', $this->shelf->id)->exists())->toBeTrue();
-});
-
 // Happy path
 test('pagination returns the amount of expected shelf records', function () {
     grantPermission(PermissionType::ShelfViewAny->value);
@@ -157,32 +96,6 @@ test('emits feedback event when deleting a shelf record', function () {
         'message' => null,
         'timeout' => 3000,
     ]);
-});
-
-test('defines the shelf record that will be deleted with specific permission if it has no shelves', function () {
-    grantPermission(PermissionType::ShelfViewAny->value);
-    grantPermission(PermissionType::ShelfDelete->value);
-
-    Livewire::test(ShelfLivewireIndex::class)
-    ->call('setToDelete', $this->shelf->id)
-    ->assertOk()
-    ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $this->shelf->id);
-});
-
-test('delete a shelf record with specific permission if it has no shelves', function () {
-    grantPermission(PermissionType::ShelfViewAny->value);
-    grantPermission(PermissionType::ShelfDelete->value);
-
-    expect(Shelf::where('id', $this->shelf->id)->exists())->toBeTrue();
-
-    Livewire::test(ShelfLivewireIndex::class)
-    ->call('setToDelete', $this->shelf->id)
-    ->assertOk()
-    ->call('destroy', $this->shelf->id)
-    ->assertOk();
-
-    expect(Shelf::where('id', $this->shelf->id)->doesntExist())->toBeTrue();
 });
 
 test('ShelfLivewireIndex uses trait', function () {

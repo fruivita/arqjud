@@ -40,33 +40,6 @@ test('cannot render listing component from application documentation records wit
     Livewire::test(DocumentationLivewireIndex::class)->assertForbidden();
 });
 
-test('cannot set the application documentation record which will be deleted without specific permission', function () {
-    grantPermission(PermissionType::DocumentationViewAny->value);
-
-    $doc = Documentation::factory()->create(['app_route_name' => 'foo']);
-
-    Livewire::test(DocumentationLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $doc->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', new Documentation());
-});
-
-test('cannot delete an application documentation record without specific permission', function () {
-    grantPermission(PermissionType::DocumentationViewAny->value);
-
-    $doc = Documentation::factory()->create(['app_route_name' => 'foo']);
-
-    Livewire::test(DocumentationLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $doc->id)
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Documentation::where('app_route_name', 'foo')->exists())->toBeTrue();
-});
-
 // Happy path
 test('pagination returns the amount of expected application documentation records', function () {
     grantPermission(PermissionType::DocumentationViewAny->value);
@@ -103,34 +76,4 @@ test('emits feedback event when deleting an application documentation record', f
         'message' => null,
         'timeout' => 3000,
     ]);
-});
-
-test('defines the application documentation record that will be deleted with specific permission', function () {
-    grantPermission(PermissionType::DocumentationViewAny->value);
-    grantPermission(PermissionType::DocumentationDelete->value);
-
-    $doc = Documentation::factory()->create(['app_route_name' => 'foo']);
-
-    Livewire::test(DocumentationLivewireIndex::class)
-    ->call('setToDelete', $doc->id)
-    ->assertOk()
-    ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $doc->id);
-});
-
-test('delete an application documentation record with specific permission', function () {
-    grantPermission(PermissionType::DocumentationViewAny->value);
-    grantPermission(PermissionType::DocumentationDelete->value);
-
-    $doc = Documentation::factory()->create(['app_route_name' => 'foo']);
-
-    expect(Documentation::where('app_route_name', 'foo')->exists())->toBeTrue();
-
-    Livewire::test(DocumentationLivewireIndex::class)
-    ->call('setToDelete', $doc->id)
-    ->assertOk()
-    ->call('destroy', $doc->id)
-    ->assertOk();
-
-    expect(Documentation::where('app_route_name', 'foo')->doesntExist())->toBeTrue();
 });

@@ -44,67 +44,6 @@ test('cannot render listing component from stand records without specific permis
     Livewire::test(StandLivewireIndex::class)->assertForbidden();
 });
 
-test('cannot set the stand record which will be deleted without specific permission', function () {
-    grantPermission(PermissionType::StandViewAny->value);
-
-    Livewire::test(StandLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $this->stand->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot set the stand record which will be deleted if it has shelves', function () {
-    grantPermission(PermissionType::StandViewAny->value);
-    grantPermission(PermissionType::StandDelete->value);
-
-    Shelf::factory()->for($this->stand, 'stand')->create();
-
-    Livewire::test(StandLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $this->stand->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot delete a stand record without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
-    grantPermission(PermissionType::StandViewAny->value);
-    grantPermission(PermissionType::StandDelete->value);
-
-    $component = Livewire::test(StandLivewireIndex::class)
-    ->call('setToDelete', $this->stand->id)
-    ->assertOk();
-
-    revokePermission(PermissionType::StandDelete->value);
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Stand::where('id', $this->stand->id)->exists())->toBeTrue();
-});
-
-test('cannot delete a stand record if it has shelves', function () {
-    grantPermission(PermissionType::StandViewAny->value);
-    grantPermission(PermissionType::StandDelete->value);
-
-    $component = Livewire::test(StandLivewireIndex::class)
-    ->call('setToDelete', $this->stand->id)
-    ->assertOk();
-
-    Shelf::factory()->for($this->stand, 'stand')->create();
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Stand::where('id', $this->stand->id)->exists())->toBeTrue();
-});
-
 // Happy path
 test('pagination returns the amount of expected stand records', function () {
     grantPermission(PermissionType::StandViewAny->value);
@@ -157,32 +96,6 @@ test('emits feedback event when deleting a stand record', function () {
         'message' => null,
         'timeout' => 3000,
     ]);
-});
-
-test('defines the stand record that will be deleted with specific permission if it has no shelves', function () {
-    grantPermission(PermissionType::StandViewAny->value);
-    grantPermission(PermissionType::StandDelete->value);
-
-    Livewire::test(StandLivewireIndex::class)
-    ->call('setToDelete', $this->stand->id)
-    ->assertOk()
-    ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $this->stand->id);
-});
-
-test('delete a stand record with specific permission if it has no shelves', function () {
-    grantPermission(PermissionType::StandViewAny->value);
-    grantPermission(PermissionType::StandDelete->value);
-
-    expect(Stand::where('id', $this->stand->id)->exists())->toBeTrue();
-
-    Livewire::test(StandLivewireIndex::class)
-    ->call('setToDelete', $this->stand->id)
-    ->assertOk()
-    ->call('destroy', $this->stand->id)
-    ->assertOk();
-
-    expect(Stand::where('id', $this->stand->id)->doesntExist())->toBeTrue();
 });
 
 test('StandLivewireIndex uses trait', function () {

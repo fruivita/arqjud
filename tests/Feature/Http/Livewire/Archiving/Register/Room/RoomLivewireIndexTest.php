@@ -44,67 +44,6 @@ test('cannot render listing component from room records without specific permiss
     Livewire::test(RoomLivewireIndex::class)->assertForbidden();
 });
 
-test('cannot set the room record which will be deleted without specific permission', function () {
-    grantPermission(PermissionType::RoomViewAny->value);
-
-    Livewire::test(RoomLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $this->room->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot set the room record which will be deleted if it has stands', function () {
-    grantPermission(PermissionType::RoomViewAny->value);
-    grantPermission(PermissionType::RoomDelete->value);
-
-    Stand::factory()->for($this->room, 'room')->create();
-
-    Livewire::test(RoomLivewireIndex::class)
-    ->assertOk()
-    ->call('setToDelete', $this->room->id)
-    ->assertForbidden()
-    ->assertSet('show_delete_modal', false)
-    ->assertSet('deleting', null);
-});
-
-test('cannot delete a room record without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
-    grantPermission(PermissionType::RoomViewAny->value);
-    grantPermission(PermissionType::RoomDelete->value);
-
-    $component = Livewire::test(RoomLivewireIndex::class)
-    ->call('setToDelete', $this->room->id)
-    ->assertOk();
-
-    revokePermission(PermissionType::RoomDelete->value);
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Room::where('id', $this->room->id)->exists())->toBeTrue();
-});
-
-test('cannot delete a room record if it has stands', function () {
-    grantPermission(PermissionType::RoomViewAny->value);
-    grantPermission(PermissionType::RoomDelete->value);
-
-    $component = Livewire::test(RoomLivewireIndex::class)
-    ->call('setToDelete', $this->room->id)
-    ->assertOk();
-
-    Stand::factory()->for($this->room, 'room')->create();
-
-    $component
-    ->call('destroy')
-    ->assertForbidden();
-
-    expect(Room::where('id', $this->room->id)->exists())->toBeTrue();
-});
-
 // Happy path
 test('pagination returns the amount of expected room records', function () {
     grantPermission(PermissionType::RoomViewAny->value);
@@ -157,32 +96,6 @@ test('emits feedback event when deleting a room record', function () {
         'message' => null,
         'timeout' => 3000,
     ]);
-});
-
-test('defines the room record that will be deleted with specific permission if it has no stands', function () {
-    grantPermission(PermissionType::RoomViewAny->value);
-    grantPermission(PermissionType::RoomDelete->value);
-
-    Livewire::test(RoomLivewireIndex::class)
-    ->call('setToDelete', $this->room->id)
-    ->assertOk()
-    ->assertSet('show_delete_modal', true)
-    ->assertSet('deleting.id', $this->room->id);
-});
-
-test('delete a room record with specific permission if it has no stands', function () {
-    grantPermission(PermissionType::RoomViewAny->value);
-    grantPermission(PermissionType::RoomDelete->value);
-
-    expect(Room::where('id', $this->room->id)->exists())->toBeTrue();
-
-    Livewire::test(RoomLivewireIndex::class)
-    ->call('setToDelete', $this->room->id)
-    ->assertOk()
-    ->call('destroy', $this->room->id)
-    ->assertOk();
-
-    expect(Room::where('id', $this->room->id)->doesntExist())->toBeTrue();
 });
 
 test('RoomLivewireIndex uses trait', function () {
