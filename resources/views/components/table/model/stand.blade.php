@@ -189,7 +189,7 @@
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Stand::class)
 
                                     <x-icon-link-button
-                                        class="btn-do"
+                                        class="btn-do-alterative"
                                         icon="pencil-square"
                                         :href="route('archiving.register.stand.edit', $stand->id)"
                                         :title="__('Edit the record')"/>

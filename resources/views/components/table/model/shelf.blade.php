@@ -203,7 +203,7 @@
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Shelf::class)
 
                                     <x-icon-link-button
-                                        class="btn-do"
+                                        class="btn-do-alterative"
                                         icon="pencil-square"
                                         :href="route('archiving.register.shelf.edit', $shelf->id)"
                                         :title="__('Edit the record')"/>

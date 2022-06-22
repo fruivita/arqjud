@@ -147,7 +147,7 @@
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Building::class)
 
                                     <x-icon-link-button
-                                        class="btn-do"
+                                        class="btn-do-alterative"
                                         icon="pencil-square"
                                         :href="route('archiving.register.building.edit', $building->id)"
                                         :title="__('Edit the record')"/>

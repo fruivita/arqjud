@@ -89,7 +89,7 @@
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Permission::class)
 
                                     <x-icon-link-button
-                                        class="btn-do"
+                                        class="btn-do-alterative"
                                         icon="pencil-square"
                                         :href="route('authorization.permission.edit', $permission)"
                                         :title="__('Edit the record')"/>

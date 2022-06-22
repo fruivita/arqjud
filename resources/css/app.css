@@ -49,6 +49,17 @@
         hover:bg-blue-600;
     }
 
+    .btn-do-alterative {
+        @apply
+        bg-green-500
+        ring-green-300
+        text-green-50
+
+        active:border-green-300
+        focus:bg-green-600
+        hover:bg-green-600;
+    }
+
     .btn-warning {
         @apply
         bg-yellow-500

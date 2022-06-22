@@ -161,7 +161,7 @@
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Floor::class)
 
                                     <x-icon-link-button
-                                        class="btn-do"
+                                        class="btn-do-alterative"
                                         icon="pencil-square"
                                         :href="route('archiving.register.floor.edit', $floor->id)"
                                         :title="__('Edit the record')"/>

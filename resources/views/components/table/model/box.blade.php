@@ -231,7 +231,7 @@
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Box::class)
 
                                     <x-icon-link-button
-                                        class="btn-do"
+                                        class="btn-do-alterative"
                                         icon="pencil-square"
                                         :href="route('archiving.register.box.edit', $box->id)"
                                         :title="__('Edit the record')"/>

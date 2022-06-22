@@ -118,7 +118,7 @@
                                 @can(\App\Enums\Policy::Update->value, \App\Models\Site::class)
 
                                     <x-icon-link-button
-                                        class="btn-do"
+                                        class="btn-do-alterative"
                                         icon="pencil-square"
                                         :href="route('archiving.register.site.edit', $site)"
                                         :title="__('Edit the record')"/>
