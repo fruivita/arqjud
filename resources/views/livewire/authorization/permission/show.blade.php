@@ -61,6 +61,9 @@
 
                     <x-table.heading>{{ __('Description') }}</x-table.heading>
 
+
+                    <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
+
                 </x-slot>
 
 
@@ -75,13 +78,43 @@
 
                             <x-table.cell>{{ $role->description }}</x-table.cell>
 
+
+                            <x-table.cell>
+
+                                <x-action-button-group>
+
+                                    @can(\App\Enums\Policy::View->value, \App\Models\Role::class)
+
+                                        <x-icon-link-button
+                                            class="btn-do"
+                                            icon="eye"
+                                            :href="route('authorization.role.show', $role)"
+                                            :title="__('Show the record')"/>
+
+                                    @endcan
+
+
+                                    @can(\App\Enums\Policy::Update->value, \App\Models\Role::class)
+
+                                        <x-icon-link-button
+                                            class="btn-do-alterative"
+                                            icon="pencil-square"
+                                            :href="route('authorization.role.edit', $role)"
+                                            :title="__('Edit the record')"/>
+
+                                    @endcan
+
+                                </x-action-button-group>
+
+                            </x-table.cell>
+
                         </x-table.row>
 
                     @empty
 
                         <x-table.row>
 
-                            <x-table.cell colspan="2">{{ __('No record found') }}</x-table.cell>
+                            <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
 
                         </x-table.row>
 
