@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the room')">
 
-    <x-backtrace :model="$this->room"/>
+    <x-backtrace :model="$this->room" :root="true"/>
 
 
     <x-container>

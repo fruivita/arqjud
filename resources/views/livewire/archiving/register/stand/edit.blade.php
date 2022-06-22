@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the stand')">
 
-    <x-backtrace :model="$this->stand"/>
+    <x-backtrace :model="$this->stand" :root="true"/>
 
 
     <x-container>

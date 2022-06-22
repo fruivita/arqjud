@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the shelf')">
 
-    <x-backtrace :model="$this->shelf"/>
+    <x-backtrace :model="$this->shelf" :root="true"/>
 
 
     <x-container>

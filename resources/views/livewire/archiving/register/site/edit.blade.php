@@ -12,6 +12,9 @@
 
 <x-page :header="__('Edit the site')">
 
+    <x-backtrace :model="$this->site" :root="true"/>
+
+
     <x-container>
 
         <form wire:key="form-site" wire:submit.prevent="update" method="POST">

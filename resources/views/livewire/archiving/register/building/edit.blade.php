@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the building')">
 
-    <x-backtrace :model="$this->building"/>
+    <x-backtrace :model="$this->building" :root="true"/>
 
 
     <x-container>

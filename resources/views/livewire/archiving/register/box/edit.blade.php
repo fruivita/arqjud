@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the box')">
 
-    <x-backtrace :model="$this->box"/>
+    <x-backtrace :model="$this->box" :root="true"/>
 
 
     <x-container class="space-y-6">
