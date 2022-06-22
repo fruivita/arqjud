@@ -10,7 +10,7 @@
     - representative image icon
     - header
     - message
-    - message timeout.
+    - message timeout
 
     Note: This is an intrusive display component, as it overlays the page
     content.
@@ -23,53 +23,63 @@
     @see https://icons.getbootstrap.com/
 --}}
 
-
 <div
-    x-data="{ notify : false, type : '', icon : '', header : '', message : '', timeout : '' , timeout_id : '' }"
+    x-data="{
+        notifications : [],
+        remove(notification) {
+            this.notifications.splice(this.notifications.indexOf(notification), 1)
+        },
+    }"
     x-on:notify.window="
-        notify = true;
-        type = $event.detail.type;
-        icon = $event.detail.icon;
-        header = $event.detail.header;
-        message = $event.detail.message;
-        timeout = $event.detail.timeout ?? 2500;
-        timeout_id = setTimeout(() => {
-            notify = false;
-        }, timeout);
+        notification = $event.detail;
+        notification.timeout = $event.detail.timeout ?? 2500;
+        notification.timeout_id = setTimeout(() => {
+            remove(notification)
+        }, notification.timeout);
+        notifications.push(notification);
     "
-    x-show="notify"
-    x-on:mouseover.once="clearTimeout(timeout_id)"
     x-transition.duration.500ms
-    x-bind:class="type"
-    class="border-l-8 border-r-8 top-12 fixed ml-3 p-3 right-3 z-30"
+    class="top-12 fixed right-3 z-30 space-y-3"
 >
 
-    <div class="flex items-center space-x-3">
+    <template x-for="(notification, notificationIndex) in notifications" :key="notificationIndex">
 
-        {{-- message context icon --}}
-        <div x-html="icon"></div>
+        <div
+            x-bind:class="notification.type"
+            x-on:mouseover.once="clearTimeout(notification.timeout_id)"
+            class="border-l-8 border-r-8 p-3"
+        >
+
+            <div class="flex items-center space-x-3">
+
+                {{-- message context icon --}}
+                <div x-html="notification.icon"></div>
 
 
-        <div x-bind:class="(header && message) ? 'space-y-3' : ''">
+                <div x-bind:class="(notification.header && notification.message) ? 'space-y-3' : ''">
 
-            {{-- message header --}}
-            <h3 x-text="header" class="font-bold text-lg"></h3>
+                    {{-- message header --}}
+                    <h3 x-text="notification.header" class="font-bold text-lg"></h3>
 
 
-            {{-- message itself --}}
-            <p class="text-center" x-text="message"></p>
+                    {{-- message itself --}}
+                    <p class="text-center" x-text="notification.message"></p>
+
+                </div>
+
+                    {{-- button to close the dialog box --}}
+                    <button x-on:click="remove(notification)" class="animate-none lg:animate-ping" id="btn-flash" type="button">
+
+                        <x-icon name="x-circle"/>
+
+                    </button>
+
+                </div>
+
+            </div>
 
         </div>
 
-            {{-- button to close the dialog box --}}
-            <button x-on:click="notify = false;" class="animate-none lg:animate-ping" id="btn-flash" type="button">
-
-                <x-icon name="x-circle"/>
-
-            </button>
-
-        </div>
-
-    </div>
+    </template>
 
 </div>
