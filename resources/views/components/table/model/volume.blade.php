@@ -43,7 +43,7 @@
                 wire:target="building_id,floor_id,room_id,stand_id,site_id,storeVolume,update"
                 class="btn-do mr-3"
                 icon="plus-circle"
-                :text="__('New')"
+                :text="__('New volume')"
                 :title="__('Create a new record')"
                 type="button"/>
 

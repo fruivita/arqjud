@@ -37,7 +37,7 @@
                 class="btn-do"
                 icon="plus-circle"
                 :href="route('archiving.register.site.create')"
-                :text="__('New')"
+                :text="__('New site')"
                 :title="__('Create a new record')"/>
 
         @else

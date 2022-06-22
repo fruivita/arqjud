@@ -44,7 +44,7 @@
                 class="btn-do"
                 icon="plus-circle"
                 :href="route('archiving.register.stand.create', $parent->id)"
-                :text="__('New')"
+                :text="__('New stand')"
                 :title="__('Create a new record')"/>
 
         @else

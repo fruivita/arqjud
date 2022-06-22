@@ -44,7 +44,7 @@
                 class="btn-do"
                 icon="plus-circle"
                 :href="route('archiving.register.room.create', $parent->id)"
-                :text="__('New')"
+                :text="__('New room')"
                 :title="__('Create a new record')"/>
 
         @else

@@ -44,7 +44,7 @@
                 class="btn-do"
                 icon="plus-circle"
                 :href="route('archiving.register.box.create', $parent->id)"
-                :text="__('New')"
+                :text="__('New box')"
                 :title="__('Create a new record')"/>
 
         @else

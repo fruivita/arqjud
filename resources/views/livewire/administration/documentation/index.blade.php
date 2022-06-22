@@ -22,7 +22,7 @@
                     class="btn-do"
                     icon="plus-circle"
                     :href="route('administration.doc.create')"
-                    :text="__('New')"
+                    :text="__('New route documentation')"
                     :title="__('Create a new record')"/>
 
             @else

@@ -44,7 +44,7 @@
                 class="btn-do"
                 icon="plus-circle"
                 :href="route('archiving.register.shelf.create', $parent->id)"
-                :text="__('New')"
+                :text="__('New shelf')"
                 :title="__('Create a new record')"/>
 
         @else

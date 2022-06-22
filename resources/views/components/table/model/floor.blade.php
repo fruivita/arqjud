@@ -44,7 +44,7 @@
                 class="btn-do"
                 icon="plus-circle"
                 :href="route('archiving.register.floor.create', $parent->id)"
-                :text="__('New')"
+                :text="__('New floor')"
                 :title="__('Create a new record')"/>
 
         @else
