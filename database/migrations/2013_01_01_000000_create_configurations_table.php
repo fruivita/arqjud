@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
  * There must not be multiple records, but only a single record, that is, there
  * will be no creates, only update.
  *
- * @see https://laravel.com/docs/8.x/migrations
+ * @see https://laravel.com/docs/9.x/migrations
  * @see https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
  * @see https://docs.microsoft.com/pt-br/windows/win32/adschema/a-samaccountname?redirectedfrom=MSDN
  */

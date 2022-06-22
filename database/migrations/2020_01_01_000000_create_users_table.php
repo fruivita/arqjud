@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 /*
  * Usuários
  *
- * @see https://laravel.com/docs/8.x/migrations
+ * @see https://laravel.com/docs/9.x/migrations
  * @see https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
  * @see https://docs.microsoft.com/pt-br/windows/win32/adschema/a-samaccountname?redirectedfrom=MSDN
  * @see https://ldaprecord.com/docs/laravel/v2/auth/database

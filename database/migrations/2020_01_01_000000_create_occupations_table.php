@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /*
  * Cargos
  *
- * @see https://laravel.com/docs/8.x/migrations
+ * @see https://laravel.com/docs/9.x/migrations
  * @see https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
  */
 return new class extends Migration {
