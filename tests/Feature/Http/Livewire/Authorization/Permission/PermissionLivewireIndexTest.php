@@ -57,3 +57,12 @@ test('list permissions with specific permission', function () {
     ->assertOk()
     ->assertSeeLivewire(PermissionLivewireIndex::class);
 });
+
+test('PermissionLivewireIndex uses trait', function () {
+    expect(
+        collect(class_uses(PermissionLivewireIndex::class))
+        ->has([
+            \App\Http\Livewire\Traits\WithLimit::class,
+        ])
+    )->toBeTrue();
+});
