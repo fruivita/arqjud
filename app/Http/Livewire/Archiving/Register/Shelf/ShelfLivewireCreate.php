@@ -133,7 +133,7 @@ class ShelfLivewireCreate extends Component
         return $this->applyPagination(
             Shelf::hierarchy()
             ->where('shelves.stand_id', $this->stand_id)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

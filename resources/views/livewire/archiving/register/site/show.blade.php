@@ -10,7 +10,7 @@
 --}}
 
 
-<x-page :header="__('Site') . ': ' . $site->name">
+<x-page :header="__('Site') . ': ' . $this->site->name">
 
     <x-container>
 
@@ -18,12 +18,12 @@
 
             <x-show-value
                 :key="__('Site')"
-                :value="$site->name"/>
+                :value="$this->site->name"/>
 
 
             <x-show-value
                 :key="__('Description')"
-                :value="$site->description"/>
+                :value="$this->site->description"/>
 
 
             <x-button-group>
@@ -33,7 +33,7 @@
                     <x-link-button
                         class="btn-do"
                         icon="pencil-square"
-                        :href="route('archiving.register.site.edit', $site)"
+                        :href="route('archiving.register.site.edit', $this->site)"
                         :text="__('Edit')"
                         :title="__('Edit the record')"/>
 
@@ -49,10 +49,9 @@
     <x-container>
 
         <x-table.model.building
-            :buildings="$buildings"
-            :parent="$site"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :buildings="$this->buildings"
+            :parent="$this->site"
+            :sorts="$this->sorts"
             withnewbutton/>
 
     </x-container>

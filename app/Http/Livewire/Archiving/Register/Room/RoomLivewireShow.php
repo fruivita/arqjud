@@ -70,7 +70,7 @@ class RoomLivewireShow extends Component
     {
         return $this->applyPagination(
             Stand::hierarchy()
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
             ->where('room_id', $this->room_id)
         );
     }

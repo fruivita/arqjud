@@ -45,7 +45,7 @@ class SiteLivewireIndex extends Component
         return $this->applyPagination(
             Site::withCount('buildings')
             ->whereLike('sites.name', $this->term)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

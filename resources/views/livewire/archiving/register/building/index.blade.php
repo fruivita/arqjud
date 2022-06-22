@@ -24,8 +24,7 @@
         <x-table.model.building
             :buildings="$this->buildings"
             :deleting="$this->deleting"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"
+            :sorts="$this->sorts"
             withdeletebutton
             withparents/>
 

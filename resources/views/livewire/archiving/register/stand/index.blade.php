@@ -24,8 +24,7 @@
         <x-table.model.stand
             :deleting="$this->deleting"
             :stands="$this->stands"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"
+            :sorts="$this->sorts"
             withdeletebutton
             withparents/>
 

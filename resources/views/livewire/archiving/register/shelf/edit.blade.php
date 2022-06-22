@@ -286,8 +286,7 @@
             :boxes="$this->boxes"
             :deleting="$this->deleting"
             :parent="$this->shelf"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"
+            :sorts="$this->sorts"
             withdeletebutton
             withnewbutton/>
 

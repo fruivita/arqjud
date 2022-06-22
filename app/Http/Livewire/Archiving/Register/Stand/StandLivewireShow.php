@@ -70,7 +70,7 @@ class StandLivewireShow extends Component
     {
         return $this->applyPagination(
             Shelf::hierarchy()
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
             ->where('stand_id', $this->stand_id)
         );
     }

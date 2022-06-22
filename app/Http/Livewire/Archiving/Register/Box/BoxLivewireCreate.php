@@ -172,7 +172,7 @@ class BoxLivewireCreate extends Component
         return $this->applyPagination(
             Box::hierarchy()
             ->where('boxes.shelf_id', $this->shelf_id)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

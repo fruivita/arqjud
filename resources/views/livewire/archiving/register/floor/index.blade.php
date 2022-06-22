@@ -24,8 +24,7 @@
         <x-table.model.floor
             :deleting="$this->deleting"
             :floors="$this->floors"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"
+            :sorts="$this->sorts"
             withdeletebutton
             withparents/>
 

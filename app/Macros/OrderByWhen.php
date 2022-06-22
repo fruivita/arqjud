@@ -5,13 +5,12 @@ namespace App\Macros;
 use Illuminate\Database\Query\Builder;
 
 /**
- * Apply orderBy clause to the informed column.
+ * Apply orderBy clause to the informed set of column and direction.
  *
  * If the column is not present, it will sort by creation date from newest to
  * oldest.
  *
- * @param string $column    column name
- * @param string $direction asc|desc
+ * @param array<string, string> $sorts [column, direction]
  *
  * @return \Illuminate\Database\Query\Builder
  */
@@ -19,12 +18,14 @@ class OrderByWhen
 {
     public function __invoke()
     {
-        return function ($column, $direction) {
+        return function ($sorts) {
 
-            $this->when($column,
+            $this->when($sorts,
 
-                function(Builder $query, string $column) use ($direction) {
-                    $query->orderBy($column, $direction);
+                function(Builder $query, array $sorts) {
+                    foreach ($sorts as $column => $direction) {
+                        $query->orderBy($column, $direction);
+                    }
                 },
 
                 function(Builder $query) {

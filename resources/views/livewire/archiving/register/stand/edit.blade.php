@@ -246,8 +246,7 @@
             :deleting="$this->deleting"
             :parent="$this->stand"
             :shelves="$this->shelves"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"
+            :sorts="$this->sorts"
             withdeletebutton
             withnewbutton/>
 

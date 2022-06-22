@@ -5,8 +5,7 @@
     - deleting: item to be deleted
     - parent: parent element of the item that will eventually be created
     - stands: stands that will be displayed
-    - sort_column: column used to sort
-    - sort_direction: column sort direction
+    - sorts: columns and directions used to sort
     - withdeletebutton: whether the delete button should be displayed
     - withnewbutton: whether the new button should be displayed
     - withparents: whether the parent info should be displayed
@@ -24,8 +23,7 @@
     'deleting' => null,
     'parent' => null,
     'stands',
-    'sort_column' => null,
-    'sort_direction' => null,
+    'sorts' => [],
     'withdeletebutton' => false,
     'withnewbutton' => false,
     'withparents' => false
@@ -72,7 +70,7 @@
 
                 <x-table.heading
                     wire:click="sortBy('number')"
-                    :direction="$sort_column === 'number' ? $sort_direction : null"
+                    :direction="$sorts['number'] ?? null"
                     sortable
                 >
 
@@ -83,7 +81,7 @@
 
                 <x-table.heading
                     wire:click="sortBy('shelves_count')"
-                    :direction="$sort_column === 'shelves_count' ? $sort_direction : null"
+                    :direction="$sorts['shelves_count'] ?? null"
                     sortable
                 >
 
@@ -96,7 +94,7 @@
 
                     <x-table.heading
                         wire:click="sortBy('sites.name')"
-                        :direction="$sort_column === 'sites.name' ? $sort_direction : null"
+                        :direction="$sorts['sites.name'] ?? null"
                         sortable
                     >
 
@@ -107,7 +105,7 @@
 
                     <x-table.heading
                         wire:click="sortBy('buildings.name')"
-                        :direction="$sort_column === 'buildings.name' ? $sort_direction : null"
+                        :direction="$sorts['buildings.name'] ?? null"
                         sortable
                     >
 
@@ -118,7 +116,7 @@
 
                     <x-table.heading
                         wire:click="sortBy('floors.number')"
-                        :direction="$sort_column === 'floors.number' ? $sort_direction : null"
+                        :direction="$sorts['floors.number'] ?? null"
                         sortable
                     >
 
@@ -129,7 +127,7 @@
 
                     <x-table.heading
                         wire:click="sortBy('rooms.number')"
-                        :direction="$sort_column === 'rooms.number' ? $sort_direction : null"
+                        :direction="$sorts['rooms.number'] ?? null"
                         sortable
                     >
 

@@ -346,8 +346,7 @@
         <x-table.model.volume
             :deleting="$this->deleting"
             :volumes="$this->volumes"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"
+            :sorts="$this->sorts"
             withdeletebutton
             withnewbutton/>
 

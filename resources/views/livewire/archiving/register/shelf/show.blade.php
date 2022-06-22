@@ -87,8 +87,7 @@
         <x-table.model.box
             :boxes="$this->boxes"
             :parent="$this->shelf"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"
+            :sorts="$this->sorts"
             withnewbutton/>
 
     </x-container>

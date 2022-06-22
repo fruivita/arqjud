@@ -133,7 +133,7 @@ class BuildingLivewireCreate extends Component
         return $this->applyPagination(
             Building::hierarchy()
             ->where('buildings.site_id', $this->site_id)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

@@ -73,8 +73,7 @@
         <x-table.model.stand
             :parent="$this->room"
             :stands="$this->stands"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"
+            :sorts="$this->sorts"
             withnewbutton/>
 
     </x-container>

@@ -89,8 +89,7 @@
 
         <x-table.model.volume
             :volumes="$this->volumes"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"/>
+            :sorts="$this->sorts"/>
 
     </x-container>
 

@@ -5,8 +5,7 @@
     - buildings: buildings that will be displayed
     - deleting: item to be deleted
     - parent: parent element of the item that will eventually be created
-    - sort_column: column used to sort
-    - sort_direction: column sort direction
+    - sorts: columns and directions used to sort
     - withdeletebutton: whether the delete button should be displayed
     - withnewbutton: whether the new button should be displayed
     - withparents: whether the parent info should be displayed
@@ -24,8 +23,7 @@
     'buildings',
     'deleting' => null,
     'parent' => null,
-    'sort_column' => null,
-    'sort_direction' => null,
+    'sorts' => [],
     'withdeletebutton' => false,
     'withnewbutton' => false,
     'withparents' => false
@@ -72,7 +70,7 @@
 
                 <x-table.heading
                     wire:click="sortBy('name')"
-                    :direction="$sort_column === 'name' ? $sort_direction : null"
+                    :direction="$sorts['name'] ?? null"
                     sortable
                 >
 
@@ -83,7 +81,7 @@
 
                 <x-table.heading
                     wire:click="sortBy('floors_count')"
-                    :direction="$sort_column === 'floors_count' ? $sort_direction : null"
+                    :direction="$sorts['floors_count'] ?? null"
                     sortable
                 >
 
@@ -96,7 +94,7 @@
 
                     <x-table.heading
                         wire:click="sortBy('sites.name')"
-                        :direction="$sort_column === 'sites.name' ? $sort_direction : null"
+                        :direction="$sorts['sites.name'] ?? null"
                         sortable
                     >
 

@@ -133,7 +133,7 @@ class StandLivewireCreate extends Component
         return $this->applyPagination(
             Stand::hierarchy()
             ->where('stands.room_id', $this->room_id)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

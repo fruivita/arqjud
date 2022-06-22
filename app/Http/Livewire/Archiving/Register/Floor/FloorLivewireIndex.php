@@ -45,7 +45,7 @@ class FloorLivewireIndex extends Component
         return $this->applyPagination(
             Floor::hierarchy()
             ->whereLike('floors.number', $this->term)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

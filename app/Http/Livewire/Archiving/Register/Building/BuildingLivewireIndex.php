@@ -45,7 +45,7 @@ class BuildingLivewireIndex extends Component
         return $this->applyPagination(
             Building::hierarchy()
             ->whereLike('buildings.name', $this->term)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

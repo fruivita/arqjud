@@ -45,7 +45,7 @@ class BoxLivewireIndex extends Component
         return $this->applyPagination(
             Box::hierarchy()
             ->whereLike(['boxes.number', 'boxes.year'], $this->term)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

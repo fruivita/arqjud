@@ -133,7 +133,7 @@ class RoomLivewireCreate extends Component
         return $this->applyPagination(
             Room::hierarchy()
             ->where('rooms.floor_id', $this->floor_id)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

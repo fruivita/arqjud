@@ -113,8 +113,7 @@
         <x-table.model.shelf
             :deleting="$this->deleting"
             :shelves="$this->shelves"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"
+            :sorts="$this->sorts"
             withdeletebutton/>
 
     </x-container>

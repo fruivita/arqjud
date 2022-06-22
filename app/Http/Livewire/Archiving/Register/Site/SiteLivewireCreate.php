@@ -110,7 +110,7 @@ class SiteLivewireCreate extends Component
     {
         return $this->applyPagination(
             Site::withCount('buildings')
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

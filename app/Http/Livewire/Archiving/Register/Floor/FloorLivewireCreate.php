@@ -133,7 +133,7 @@ class FloorLivewireCreate extends Component
         return $this->applyPagination(
             Floor::hierarchy()
             ->where('floors.building_id', $this->building->id)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

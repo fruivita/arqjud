@@ -162,8 +162,7 @@
             :deleting="$this->deleting"
             :rooms="$this->rooms"
             :parent="$this->floor"
-            :sort_column="$this->sort_column"
-            :sort_direction="$this->sort_direction"
+            :sorts="$this->sorts"
             withdeletebutton
             withnewbutton/>
 

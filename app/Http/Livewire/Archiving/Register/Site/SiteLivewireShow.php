@@ -46,7 +46,7 @@ class SiteLivewireShow extends Component
     {
         return $this->applyPagination(
             Building::hierarchy()
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
             ->where('site_id', $this->site->id)
         );
     }

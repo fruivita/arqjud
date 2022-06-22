@@ -45,7 +45,7 @@ class StandLivewireIndex extends Component
         return $this->applyPagination(
             Stand::hierarchy()
             ->whereLike('stands.number', $this->term)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

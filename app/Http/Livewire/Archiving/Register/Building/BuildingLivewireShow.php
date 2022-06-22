@@ -71,7 +71,7 @@ class BuildingLivewireShow extends Component
     {
         return $this->applyPagination(
             Floor::hierarchy()
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
             ->where('building_id', $this->building_id)
         );
     }

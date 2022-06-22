@@ -10,39 +10,31 @@ namespace App\Http\Livewire\Traits;
  */
 trait WithSorting
 {
-    /**
-     * Column set for sorting.
-     *
-     * @var string
-     */
-    public $sort_column;
 
     /**
-     * Direction set for sorting
+     * Associative array with columns and directions for sorting
      *
-     * @var string
+     * @var array
      */
-    public $sort_direction;
+    public array $sorts = [];
 
     /**
      * Set the ordering direction of the informed column.
      *
      * @param string $column
      *
-     * @return void
+     * @return mixed
      */
     public function sortBy(string $column)
     {
-        if ($this->sort_column === $column) {
-
-            $this->sort_direction = $this->sort_direction === 'asc' ? 'desc' : 'asc';
-
-        } else {
-
-            $this->sort_direction = 'asc';
-
+        if (isset($this->sorts[$column])  === false) {
+            return $this->sorts[$column] = 'asc';
         }
 
-        $this->sort_column = $column;
+        if ($this->sorts[$column]  === 'asc') {
+            return $this->sorts[$column] = 'desc';
+        }
+
+        unset($this->sorts[$column]);
     }
 }

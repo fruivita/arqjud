@@ -45,7 +45,7 @@ class RoomLivewireIndex extends Component
         return $this->applyPagination(
             Room::hierarchy()
             ->whereLike('rooms.number', $this->term)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

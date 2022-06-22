@@ -45,7 +45,7 @@ class ShelfLivewireIndex extends Component
         return $this->applyPagination(
             Shelf::hierarchy()
             ->whereLike('shelves.number', $this->term)
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
         );
     }
 

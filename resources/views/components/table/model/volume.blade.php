@@ -4,8 +4,7 @@
     Props:
     - volumes: box volumes that will be displayed
     - deleting: item to be deleted
-    - sort_column: column used to sort
-    - sort_direction: column sort direction
+    - sorts: columns and directions used to sort
     - withdeletebutton: whether the delete button should be displayed
     - withnewbutton: whether the new button should be displayed
 
@@ -21,8 +20,7 @@
 @props([
     'volumes' => $volumes,
     'deleting' => null,
-    'sort_column' => null,
-    'sort_direction' => null,
+    'sorts' => [],
     'withdeletebutton' => false,
     'withnewbutton' => false,
 ])
@@ -75,7 +73,7 @@
 
                 <x-table.heading
                     wire:click="sortBy('number')"
-                    :direction="$sort_column === 'number' ? $sort_direction : null"
+                    :direction="$sorts['number'] ?? null"
                     sortable
                 >
 

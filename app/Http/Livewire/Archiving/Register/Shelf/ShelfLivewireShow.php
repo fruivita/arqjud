@@ -70,7 +70,7 @@ class ShelfLivewireShow extends Component
     {
         return $this->applyPagination(
             Box::hierarchy()
-            ->orderByWhen($this->sort_column, $this->sort_direction)
+            ->orderByWhen($this->sorts)
             ->where('shelf_id', $this->shelf_id)
         );
     }

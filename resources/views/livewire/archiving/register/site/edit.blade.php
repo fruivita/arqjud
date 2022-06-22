@@ -75,11 +75,10 @@
     <x-container>
 
         <x-table.model.building
-            :buildings="$buildings"
-            :deleting="$deleting"
-            :parent="$site"
-            :sort_column="$sort_column"
-            :sort_direction="$sort_direction"
+            :buildings="$this->buildings"
+            :deleting="$this->deleting"
+            :parent="$this->site"
+            :sorts="$this->sorts"
             withdeletebutton
             withnewbutton/>
 
