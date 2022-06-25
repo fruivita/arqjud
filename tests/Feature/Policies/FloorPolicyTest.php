@@ -38,6 +38,10 @@ test('user without permission cannot update a floor', function () {
     expect((new FloorPolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view or update a floor', function () {
+    expect((new FloorPolicy())->viewOrUpdate($this->user))->toBeFalse();
+});
+
 test('user without permission cannot delete a floor', function () {
     $floor = Floor::factory()->create();
     $floor->loadCount('rooms');
@@ -79,6 +83,18 @@ test('user with permission can individually update a floor', function () {
     grantPermission(PermissionType::FloorUpdate->value);
 
     expect((new FloorPolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually view a floor through view or update policy', function () {
+    grantPermission(PermissionType::FloorView->value);
+
+    expect((new FloorPolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can individually update a floor through view or update policy', function () {
+    grantPermission(PermissionType::FloorUpdate->value);
+
+    expect((new FloorPolicy())->viewOrUpdate($this->user))->toBeTrue();
 });
 
 test('user with permission can individually delete a floor', function () {

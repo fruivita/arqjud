@@ -27,4 +27,5 @@ enum Policy: string
     case LogDelete = 'log-delete';
     case SimulationCreate = 'simulation-create';
     case SimulationDelete = 'simulation-delete';
+    case ViewOrUpdate = 'view-or-update';
 }

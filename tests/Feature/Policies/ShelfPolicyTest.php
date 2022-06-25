@@ -38,6 +38,10 @@ test('user without permission cannot update a shelf', function () {
     expect((new ShelfPolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view or update a shelf', function () {
+    expect((new ShelfPolicy())->viewOrUpdate($this->user))->toBeFalse();
+});
+
 test('user without permission cannot delete a shelf', function () {
     $shelf = Shelf::factory()->create();
     $shelf->loadCount('boxes');
@@ -79,6 +83,18 @@ test('user with permission can individually update a shelf', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     expect((new ShelfPolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually view a shelf through view or update policy', function () {
+    grantPermission(PermissionType::ShelfView->value);
+
+    expect((new ShelfPolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can individually update a shelf through view or update policy', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+
+    expect((new ShelfPolicy())->viewOrUpdate($this->user))->toBeTrue();
 });
 
 test('user with permission can individually delete a shelf', function () {

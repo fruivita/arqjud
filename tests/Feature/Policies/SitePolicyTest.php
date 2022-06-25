@@ -38,6 +38,10 @@ test('user without permission cannot update a site', function () {
     expect((new SitePolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view or update a site', function () {
+    expect((new SitePolicy())->viewOrUpdate($this->user))->toBeFalse();
+});
+
 test('user without permission cannot delete a site', function () {
     $site = Site::factory()->create();
     $site->loadCount('buildings');
@@ -79,6 +83,18 @@ test('user with permission can individually update a site', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
     expect((new SitePolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually view a site through view or update policy', function () {
+    grantPermission(PermissionType::SiteView->value);
+
+    expect((new SitePolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can individually update a site through view or update policy', function () {
+    grantPermission(PermissionType::SiteUpdate->value);
+
+    expect((new SitePolicy())->viewOrUpdate($this->user))->toBeTrue();
 });
 
 test('user with permission can individually delete a site', function () {

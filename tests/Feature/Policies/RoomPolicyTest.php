@@ -38,6 +38,10 @@ test('user without permission cannot update a room', function () {
     expect((new RoomPolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view or update a room', function () {
+    expect((new RoomPolicy())->viewOrUpdate($this->user))->toBeFalse();
+});
+
 test('user without permission cannot delete a room', function () {
     $room = Room::factory()->create();
     $room->loadCount('stands');
@@ -79,6 +83,18 @@ test('user with permission can individually update a room', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     expect((new RoomPolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually view a room through view or update policy', function () {
+    grantPermission(PermissionType::RoomView->value);
+
+    expect((new RoomPolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can individually update a room through view or update policy', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+
+    expect((new RoomPolicy())->viewOrUpdate($this->user))->toBeTrue();
 });
 
 test('user with permission can individually delete a room', function () {

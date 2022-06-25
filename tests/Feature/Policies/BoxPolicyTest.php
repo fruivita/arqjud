@@ -42,6 +42,10 @@ test('user without permission cannot update a box', function () {
     expect((new BoxPolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view or update a box', function () {
+    expect((new BoxPolicy())->viewOrUpdate($this->user))->toBeFalse();
+});
+
 test('user without permission cannot delete a box', function () {
     $box = Box::factory()->create();
     $box->loadCount('volumes');
@@ -89,6 +93,18 @@ test('user with permission can individually update a box', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     expect((new BoxPolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually view a box through view or update policy', function () {
+    grantPermission(PermissionType::BoxView->value);
+
+    expect((new BoxPolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can individually update a box through view or update policy', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    expect((new BoxPolicy())->viewOrUpdate($this->user))->toBeTrue();
 });
 
 test('user with permission can individually delete a box', function () {

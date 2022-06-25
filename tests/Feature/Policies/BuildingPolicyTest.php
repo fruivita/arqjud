@@ -38,6 +38,10 @@ test('user without permission cannot update a building', function () {
     expect((new BuildingPolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view or update a building', function () {
+    expect((new BuildingPolicy())->viewOrUpdate($this->user))->toBeFalse();
+});
+
 test('user without permission cannot delete a building', function () {
     $building = Building::factory()->create();
     $building->loadCount('floors');
@@ -79,6 +83,18 @@ test('user with permission can individually update a building', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     expect((new BuildingPolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually view a building through view or update policy', function () {
+    grantPermission(PermissionType::BuildingView->value);
+
+    expect((new BuildingPolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can individually update a building through view or update policy', function () {
+    grantPermission(PermissionType::BuildingUpdate->value);
+
+    expect((new BuildingPolicy())->viewOrUpdate($this->user))->toBeTrue();
 });
 
 test('user with permission can individually delete a building', function () {

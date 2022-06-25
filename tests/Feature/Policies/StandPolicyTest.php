@@ -38,6 +38,22 @@ test('user without permission cannot update a stand', function () {
     expect((new StandPolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view or update a stand', function () {
+    expect((new StandPolicy())->viewOrUpdate($this->user))->toBeFalse();
+});
+
+test('user with permission can individually view a stand through view or update policy', function () {
+    grantPermission(PermissionType::StandView->value);
+
+    expect((new StandPolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can individually update a stand through view or update policy', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    expect((new StandPolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
 test('user without permission cannot delete a stand', function () {
     $stand = Stand::factory()->create();
     $stand->loadCount('shelves');
