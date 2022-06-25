@@ -49,6 +49,7 @@ class Room extends Model
      * - site_name: parent site name
      * - building_id: parent building id
      * - building_name: parent building name
+     * - floor_alias: parent floor alias
      * - floor_number: parent floor number
      * - stands_count: child stands count
      *
@@ -67,6 +68,7 @@ class Room extends Model
             'sites.name as site_name',
             'buildings.id as building_id',
             'buildings.name as building_name',
+            'floors.alias as floor_alias',
             'floors.number as floor_number',
             DB::raw('COUNT(stands.room_id) as stands_count')
         ])
@@ -83,6 +85,7 @@ class Room extends Model
      * - building_name: parent building name
      * - floor_id: parent floor id
      * - floor_number: parent floor number
+     * - floor_alias: parent floor alias
      * - stands_count: child stands count
      *
      * @return \Illuminate\Support\Collection
@@ -99,6 +102,7 @@ class Room extends Model
             'building_id' => $room->building_id,
             'building_name' => $room->building_name,
             'floor_id' => $room->floor_id,
+            'floor_alias' => $room->floor_alias,
             'floor_number' => $room->floor_number,
             'stands_count' => $room->stands_count,
         ]);

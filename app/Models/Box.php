@@ -61,6 +61,7 @@ class Box extends Model
      * - building_id: parent building id
      * - building_name: parent building name
      * - floor_id: parent floor id
+     * - floor_alias: parent floor alias
      * - floor_number: parent floor number
      * - room_id: parent room id
      * - room_number: parent room number
@@ -88,6 +89,7 @@ class Box extends Model
             'buildings.id as building_id',
             'buildings.name as building_name',
             'floors.id as floor_id',
+            'floors.alias as floor_alias',
             'floors.number as floor_number',
             'rooms.id as room_id',
             'rooms.number as room_number',
@@ -108,6 +110,7 @@ class Box extends Model
      * - building_id: parent building id
      * - building_name: parent building name
      * - floor_id: parent floor id
+     * - floor_alias: parent floor alias
      * - floor_number: parent floor number
      * - room_id: parent room id
      * - room_number: parent room number
@@ -131,6 +134,7 @@ class Box extends Model
             'building_id' => $box->building_id,
             'building_name' => $box->building_name,
             'floor_id' => $box->floor_id,
+            'floor_alias' => $box->floor_alias,
             'floor_number' => $box->floor_number,
             'room_id' => $box->room_id,
             'room_number' => $box->room_number,

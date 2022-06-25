@@ -53,6 +53,7 @@ class Stand extends Model
      * - building_name: parent building name
      * - floor_id: parent floor id
      * - floor_number: parent floor number
+     * - floor_alias: parent floor alias
      * - room_number: parent room number
      * - shelves_count: child shelves count
      *
@@ -73,6 +74,7 @@ class Stand extends Model
             'buildings.id as building_id',
             'buildings.name as building_name',
             'floors.id as floor_id',
+            'floors.alias as floor_alias',
             'floors.number as floor_number',
             'rooms.number as room_number',
             DB::raw('COUNT(shelves.stand_id) as shelves_count')
@@ -89,6 +91,7 @@ class Stand extends Model
      * - building_id: parent building id
      * - building_name: parent building name
      * - floor_id: parent floor id
+     * - floor_alias: parent floor alias
      * - floor_number: parent floor number
      * - room_id: parent room id
      * - room_number: parent room number
@@ -108,6 +111,7 @@ class Stand extends Model
             'building_id' => $stand->building_id,
             'building_name' => $stand->building_name,
             'floor_id' => $stand->floor_id,
+            'floor_alias' => $stand->floor_alias,
             'floor_number' => $stand->floor_number,
             'room_id' => $stand->room_id,
             'room_number' => $stand->room_number,

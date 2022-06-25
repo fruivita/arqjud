@@ -166,6 +166,7 @@ test('hierarchy returns all stands with the respective room, floor, building, si
     ->and(empty($stand_10->building_id))->toBeFalse()
     ->and(empty($stand_10->building_name))->toBeFalse()
     ->and(empty($stand_10->floor_id))->toBeFalse()
+    ->and(empty($stand_10->floor_alias))->toBeFalse()
     ->and(empty($stand_10->floor_number))->toBeFalse()
     ->and(empty($stand_10->room_id))->toBeFalse()
     ->and(empty($stand_10->room_number))->toBeFalse()

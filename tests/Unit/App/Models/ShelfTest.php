@@ -169,6 +169,7 @@ test('hierarchy returns all shelves with the respective stand, room, floor, buil
     ->and(empty($shelf_10->building_id))->toBeFalse()
     ->and(empty($shelf_10->building_name))->toBeFalse()
     ->and(empty($shelf_10->floor_id))->toBeFalse()
+    ->and(empty($shelf_10->floor_alias))->toBeFalse()
     ->and(empty($shelf_10->floor_number))->toBeFalse()
     ->and(empty($shelf_10->room_id))->toBeFalse()
     ->and(empty($shelf_10->room_number))->toBeFalse()

@@ -92,6 +92,7 @@ test('hierarchy returns all box volumes with the respective box, shelf, stand, r
     ->and(empty($box_volume->building_id))->toBeFalse()
     ->and(empty($box_volume->building_name))->toBeFalse()
     ->and(empty($box_volume->floor_id))->toBeFalse()
+    ->and(empty($box_volume->floor_alias))->toBeFalse()
     ->and(empty($box_volume->floor_number))->toBeFalse()
     ->and(empty($box_volume->room_id))->toBeFalse()
     ->and(empty($box_volume->room_number))->toBeFalse()

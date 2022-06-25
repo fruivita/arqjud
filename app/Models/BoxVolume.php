@@ -36,6 +36,7 @@ class BoxVolume extends Model
      * - building_id: parent building id
      * - building_name: parent building name
      * - floor_id: parent floor id
+     * - floor_alias: parent floor alias
      * - floor_number: parent floor number
      * - room_id: parent room id
      * - room_number: parent room number
@@ -65,6 +66,7 @@ class BoxVolume extends Model
             'buildings.id as building_id',
             'buildings.name as building_name',
             'floors.id as floor_id',
+            'floors.alias as floor_alias',
             'floors.number as floor_number',
             'rooms.id as room_id',
             'rooms.number as room_number',
