@@ -49,11 +49,21 @@ test('cannot render room record edit component without specific permission', fun
     ->assertForbidden();
 });
 
+test('cannot update room if edit mode is disabled', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('number is required', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.number', '')
     ->call('update')
     ->assertHasErrors(['room.number' => 'required']);
@@ -63,6 +73,7 @@ test('number must be an integer', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.number', ['foo'])
     ->call('update')
     ->assertHasErrors(['room.number' => 'integer']);
@@ -72,6 +83,7 @@ test('number must be between 1 and 100000', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.number', 0)
     ->call('update')
     ->assertHasErrors(['room.number' => 'between'])
@@ -87,6 +99,7 @@ test('number and floor_id must be unique', function () {
     Room::factory()->create(['number' => 99, 'floor_id' => $floor->id]);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.number', 99)
     ->set('room.floor_id', $floor->id)
     ->call('update')
@@ -97,6 +110,7 @@ test('description is optional', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.description', '')
     ->call('update')
     ->assertHasNoErrors(['room.description']);
@@ -106,6 +120,7 @@ test('description must be a string', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.description', ['foo'])
     ->call('update')
     ->assertHasErrors(['room.description' => 'string']);
@@ -115,6 +130,7 @@ test('description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.description', Str::random(256))
     ->call('update')
     ->assertHasErrors(['room.description' => 'max']);
@@ -124,6 +140,7 @@ test('site_id is required', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('site_id', '')
     ->call('update')
     ->assertHasErrors(['site_id' => 'required']);
@@ -133,6 +150,7 @@ test('site_id must be an integer', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('site_id', 'foo')
     ->call('update')
     ->assertHasErrors(['site_id' => 'integer']);
@@ -142,6 +160,7 @@ test('site_id must previously exist in the database', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('site_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['site_id' => 'exists']);
@@ -153,6 +172,7 @@ test('site_id is validated in real time', function () {
     $site = Site::factory()->create();
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('site_id', $site->id)
     ->assertHasNoErrors()
     ->set('site_id', 'foo')
@@ -163,6 +183,7 @@ test('building_id is required', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('building_id', '')
     ->call('update')
     ->assertHasErrors(['building_id' => 'required']);
@@ -172,6 +193,7 @@ test('building_id must be an integer', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('building_id', 'foo')
     ->call('update')
     ->assertHasErrors(['building_id' => 'integer']);
@@ -181,6 +203,7 @@ test('building_id must previously exist in the database', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('building_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['building_id' => 'exists']);
@@ -192,6 +215,7 @@ test('building_id is validated in real time', function () {
     $building = Building::factory()->create();
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('building_id', $building->id)
     ->assertHasNoErrors()
     ->set('building_id', 'foo')
@@ -202,6 +226,7 @@ test('floor_id is required', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.floor_id', '')
     ->call('update')
     ->assertHasErrors(['room.floor_id' => 'required']);
@@ -211,6 +236,7 @@ test('floor_id must be an integer', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.floor_id', 'foo')
     ->call('update')
     ->assertHasErrors(['room.floor_id' => 'integer']);
@@ -220,6 +246,7 @@ test('floor_id must previously exist in the database', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.floor_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['room.floor_id' => 'exists']);
@@ -250,6 +277,7 @@ test('emits feedback event when update a room record', function () {
     $floor = Floor::factory()->create();
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.number', 1)
     ->set('room.floor_id', $floor->id)
     ->call('update')
@@ -330,6 +358,7 @@ test('update a room record with specific permission', function () {
     $floor = Floor::factory()->create();
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', true)
     ->set('room.number', 99)
     ->set('room.description', 'foo bar')
     ->set('room.floor_id', $floor->id)

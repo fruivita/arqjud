@@ -61,11 +61,21 @@ test('cannot create a box volume without without specific permission', function 
     expect($this->box->volumes()->doesntExist())->toBeTrue();
 });
 
+test('cannot update stand if edit mode is disabled', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('site_id is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('site_id', '')
     ->call('update')
     ->assertHasErrors(['site_id' => 'required']);
@@ -75,6 +85,7 @@ test('site_id must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('site_id', 'foo')
     ->call('update')
     ->assertHasErrors(['site_id' => 'integer']);
@@ -84,6 +95,7 @@ test('site_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('site_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['site_id' => 'exists']);
@@ -95,6 +107,7 @@ test('site_id is validated in real time', function () {
     $site = Site::factory()->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('site_id', $site->id)
     ->assertHasNoErrors()
     ->set('site_id', 'foo')
@@ -105,6 +118,7 @@ test('building_id is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('building_id', '')
     ->call('update')
     ->assertHasErrors(['building_id' => 'required']);
@@ -114,6 +128,7 @@ test('building_id must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('building_id', 'foo')
     ->call('update')
     ->assertHasErrors(['building_id' => 'integer']);
@@ -123,6 +138,7 @@ test('building_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('building_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['building_id' => 'exists']);
@@ -134,6 +150,7 @@ test('building_id is validated in real time', function () {
     $building = Building::factory()->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('building_id', $building->id)
     ->assertHasNoErrors()
     ->set('building_id', 'foo')
@@ -144,6 +161,7 @@ test('floor_id is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('floor_id', '')
     ->call('update')
     ->assertHasErrors(['floor_id' => 'required']);
@@ -153,6 +171,7 @@ test('floor_id must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('floor_id', 'foo')
     ->call('update')
     ->assertHasErrors(['floor_id' => 'integer']);
@@ -162,6 +181,7 @@ test('floor_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('floor_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['floor_id' => 'exists']);
@@ -173,6 +193,7 @@ test('floor_id is validated in real time', function () {
     $floor = Floor::factory()->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('floor_id', $floor->id)
     ->assertHasNoErrors()
     ->set('floor_id', 'foo')
@@ -183,6 +204,7 @@ test('room_id is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('room_id', '')
     ->call('update')
     ->assertHasErrors(['room_id' => 'required']);
@@ -192,6 +214,7 @@ test('room_id must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('room_id', 'foo')
     ->call('update')
     ->assertHasErrors(['room_id' => 'integer']);
@@ -201,6 +224,7 @@ test('room_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('room_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['room_id' => 'exists']);
@@ -212,6 +236,7 @@ test('room_id is validated in real time', function () {
     $room = Room::factory()->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('room_id', $room->id)
     ->assertHasNoErrors()
     ->set('room_id', 'foo')
@@ -222,6 +247,7 @@ test('stand_id is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('stand_id', '')
     ->call('update')
     ->assertHasErrors(['stand_id' => 'required']);
@@ -231,6 +257,7 @@ test('stand_id must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('stand_id', 'foo')
     ->call('update')
     ->assertHasErrors(['stand_id' => 'integer']);
@@ -240,6 +267,7 @@ test('stand_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('stand_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['stand_id' => 'exists']);
@@ -251,6 +279,7 @@ test('stand_id is validated in real time', function () {
     $stand = Stand::factory()->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('stand_id', $stand->id)
     ->assertHasNoErrors()
     ->set('stand_id', 'foo')
@@ -261,6 +290,7 @@ test('shelf_id is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.shelf_id', '')
     ->call('update')
     ->assertHasErrors(['box.shelf_id' => 'required']);
@@ -270,6 +300,7 @@ test('shelf_id must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.shelf_id', 'foo')
     ->call('update')
     ->assertHasErrors(['box.shelf_id' => 'integer']);
@@ -279,6 +310,7 @@ test('shelf_id must previously exist in the database', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.shelf_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['box.shelf_id' => 'exists']);
@@ -288,6 +320,7 @@ test('year is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.year', '')
     ->call('update')
     ->assertHasErrors(['box.year' => 'required']);
@@ -297,6 +330,7 @@ test('year must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.year', 'foo')
     ->call('update')
     ->assertHasErrors(['box.year' => 'integer']);
@@ -306,6 +340,7 @@ test('year must be between 1900 and the current year', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.year', 1899)
     ->call('update')
     ->assertHasErrors(['box.year' => 'between'])
@@ -318,6 +353,7 @@ test('number is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.number', '')
     ->call('update')
     ->assertHasErrors(['box.number' => 'required']);
@@ -327,6 +363,7 @@ test('number must be an integer', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.number', 'foo')
     ->call('update')
     ->assertHasErrors(['box.number' => 'integer']);
@@ -336,6 +373,7 @@ test('number must be greater then 1', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.number', 0)
     ->call('update')
     ->assertHasErrors(['box.number' => 'min']);
@@ -347,6 +385,7 @@ test('number and year must be unique', function () {
     Box::factory()->create(['year' => 2020, 'number' => 10]);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.year', 2020)
     ->set('box.number', 10)
     ->call('update')
@@ -357,6 +396,7 @@ test('description is optional', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.description', '')
     ->call('update')
     ->assertHasNoErrors(['box.description']);
@@ -366,6 +406,7 @@ test('description must be a string', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.description', ['foo'])
     ->call('update')
     ->assertHasErrors(['box.description' => 'string']);
@@ -375,6 +416,7 @@ test('description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.description', Str::random(256))
     ->call('update')
     ->assertHasErrors(['box.description' => 'max']);
@@ -387,6 +429,7 @@ test('box volume number must be between 1 and 50000', function () {
     BoxVolume::factory()->for($this->box, 'box')->create(['number' => 50000]);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->call('storeVolume')
     ->assertHasErrors(['volume' => 'between']);
 });
@@ -416,6 +459,7 @@ test('emits feedback event when update a box record', function () {
     $shelf = Shelf::factory()->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.year', 2000)
     ->set('box.number', 10)
     ->set('box.shelf_id', $shelf->id)
@@ -566,6 +610,7 @@ test('update a box record with specific permission', function () {
     $shelf = Shelf::factory()->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', true)
     ->set('box.year', 2000)
     ->set('box.number', 55)
     ->set('box.description', 'foo bar')
@@ -591,7 +636,9 @@ test('create a box volume with specific permission', function () {
     ->call('storeVolume')
     ->assertOk();
 
-    expect($this->box->volumes()->where('number', 11)->exists())->toBeTrue();
+    $box_volume = $this->box->volumes()->firstWhere('number', 11);
+
+    expect($box_volume->alias)->toBe('Vol. 11');
 });
 
 test('BoxLivewireUpdate uses trait', function () {
@@ -602,4 +649,3 @@ test('BoxLivewireUpdate uses trait', function () {
         ])
     )->toBeTrue();
 });
-

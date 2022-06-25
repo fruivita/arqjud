@@ -33,6 +33,13 @@ class BoxLivewireUpdate extends Component
     use WithSorting;
 
     /**
+     * Se o componente deve ser renderizado no modo edição.
+     *
+     * @var bool
+     */
+    public bool $modo_edicao = false;
+
+    /**
      * Editing resource.
      *
      * @var \App\Models\Box
@@ -361,9 +368,13 @@ class BoxLivewireUpdate extends Component
      */
     public function update()
     {
+        abort_if($this->modo_edicao !== true, 403);
+
         $this->validate();
 
         $saved = $this->box->save();
+
+        $this->reset('modo_edicao');
 
         $this->flashSelf($saved);
     }
@@ -383,6 +394,7 @@ class BoxLivewireUpdate extends Component
 
         $new_volume = new BoxVolume();
         $new_volume->number = $next_number;
+        $new_volume->alias = "Vol. {$next_number}";
 
         $saved = $this->box->volumes()->save($new_volume)
         ? true

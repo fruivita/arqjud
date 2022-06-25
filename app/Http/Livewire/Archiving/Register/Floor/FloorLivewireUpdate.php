@@ -28,6 +28,13 @@ class FloorLivewireUpdate extends Component
     use WithSorting;
 
     /**
+     * Se o componente deve ser renderizado no modo edição.
+     *
+     * @var bool
+     */
+    public bool $modo_edicao = false;
+
+    /**
      * Editing resource.
      *
      * @var \App\Models\Floor
@@ -71,6 +78,14 @@ class FloorLivewireUpdate extends Component
                 "unique:floors,number,{$this->floor->id},id,building_id,{$this->floor->building_id}",
             ],
 
+            'floor.alias' => [
+                'bail',
+                'required',
+                'string',
+                'max:100',
+                "unique:floors,alias,{$this->floor->id},id,building_id,{$this->floor->building_id}",
+            ],
+
             'floor.description' => [
                 'bail',
                 'nullable',
@@ -103,6 +118,7 @@ class FloorLivewireUpdate extends Component
     {
         return [
             'floor.number' => __('Floor'),
+            'floor.alias' => __('Alias'),
             'floor.description' => __('Description'),
             'site_id' => __('Site'),
             'floor.building_id' => __('Building'),
@@ -182,9 +198,13 @@ class FloorLivewireUpdate extends Component
      */
     public function update()
     {
+        abort_if($this->modo_edicao !== true, 403);
+
         $this->validate();
 
         $saved = $this->floor->save();
+
+        $this->reset('modo_edicao');
 
         $this->flashSelf($saved);
     }

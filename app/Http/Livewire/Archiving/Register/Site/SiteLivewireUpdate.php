@@ -25,6 +25,13 @@ class SiteLivewireUpdate extends Component
     use WithSorting;
 
     /**
+     * Se o componente deve ser renderizado no modo edição.
+     *
+     * @var bool
+     */
+    public bool $modo_edicao = false;
+
+    /**
      * Editing resource.
      *
      * @var \App\Models\Site
@@ -125,9 +132,13 @@ class SiteLivewireUpdate extends Component
      */
     public function update()
     {
+        abort_if($this->modo_edicao !== true, 403);
+
         $this->validate();
 
         $saved = $this->site->save();
+
+        $this->reset('modo_edicao');
 
         $this->flashSelf($saved);
     }

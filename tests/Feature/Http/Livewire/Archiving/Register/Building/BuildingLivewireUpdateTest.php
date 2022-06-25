@@ -47,11 +47,21 @@ test('cannot render building record edit component without specific permission',
     ->assertForbidden();
 });
 
+test('cannot update building if edit mode is disabled', function () {
+    grantPermission(PermissionType::BuildingUpdate->value);
+
+    Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('name is required', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.name', '')
     ->call('update')
     ->assertHasErrors(['building.name' => 'required']);
@@ -61,6 +71,7 @@ test('name must be a string', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.name', ['foo'])
     ->call('update')
     ->assertHasErrors(['building.name' => 'string']);
@@ -70,6 +81,7 @@ test('name must be a maximum of 100 characters', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.name', Str::random(101))
     ->call('update')
     ->assertHasErrors(['building.name' => 'max']);
@@ -82,6 +94,7 @@ test('name and site_id must be unique', function () {
     Building::factory()->create(['name' => 'foo', 'site_id' => $site->id]);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.name', 'foo')
     ->set('building.site_id', $site->id)
     ->call('update')
@@ -92,6 +105,7 @@ test('description is optional', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.description', '')
     ->call('update')
     ->assertHasNoErrors(['building.description']);
@@ -101,6 +115,7 @@ test('description must be a string', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.description', ['foo'])
     ->call('update')
     ->assertHasErrors(['building.description' => 'string']);
@@ -110,6 +125,7 @@ test('description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.description', Str::random(256))
     ->call('update')
     ->assertHasErrors(['building.description' => 'max']);
@@ -119,6 +135,7 @@ test('site_id is required', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.site_id', '')
     ->call('update')
     ->assertHasErrors(['building.site_id' => 'required']);
@@ -128,6 +145,7 @@ test('site_id must be an integer', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.site_id', 'foo')
     ->call('update')
     ->assertHasErrors(['building.site_id' => 'integer']);
@@ -137,6 +155,7 @@ test('site_id must previously exist in the database', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.site_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['building.site_id' => 'exists']);
@@ -167,6 +186,7 @@ test('emits feedback event when update a building record', function () {
     $site = Site::factory()->create();
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.name', 'foo')
     ->set('building.site_id', $site->id)
     ->call('update')
@@ -207,6 +227,7 @@ test('update a building record with specific permission', function () {
     $site = Site::factory()->create();
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', true)
     ->set('building.name', 'foo')
     ->set('building.description', 'foo bar')
     ->set('building.site_id', $site->id)

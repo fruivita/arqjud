@@ -51,11 +51,21 @@ test('cannot render shelf record edit component without specific permission', fu
     ->assertForbidden();
 });
 
+test('cannot update stand if edit mode is disabled', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('number is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.number', '')
     ->call('update')
     ->assertHasErrors(['shelf.number' => 'required']);
@@ -65,6 +75,7 @@ test('number must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.number', ['foo'])
     ->call('update')
     ->assertHasErrors(['shelf.number' => 'integer']);
@@ -74,6 +85,7 @@ test('number must be between 1 and 100000', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.number', 0)
     ->call('update')
     ->assertHasErrors(['shelf.number' => 'between'])
@@ -89,6 +101,7 @@ test('number and stand_id must be unique', function () {
     Shelf::factory()->create(['number' => 99, 'stand_id' => $stand->id]);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.number', 99)
     ->set('shelf.stand_id', $stand->id)
     ->call('update')
@@ -99,6 +112,7 @@ test('description is optional', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.description', '')
     ->call('update')
     ->assertHasNoErrors(['shelf.description']);
@@ -108,6 +122,7 @@ test('description must be a string', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.description', ['foo'])
     ->call('update')
     ->assertHasErrors(['shelf.description' => 'string']);
@@ -117,6 +132,7 @@ test('description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.description', Str::random(256))
     ->call('update')
     ->assertHasErrors(['shelf.description' => 'max']);
@@ -126,6 +142,7 @@ test('site_id is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('site_id', '')
     ->call('update')
     ->assertHasErrors(['site_id' => 'required']);
@@ -135,6 +152,7 @@ test('site_id must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('site_id', 'foo')
     ->call('update')
     ->assertHasErrors(['site_id' => 'integer']);
@@ -144,6 +162,7 @@ test('site_id must previously exist in the database', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('site_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['site_id' => 'exists']);
@@ -155,6 +174,7 @@ test('site_id is validated in real time', function () {
     $site = Site::factory()->create();
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('site_id', $site->id)
     ->assertHasNoErrors()
     ->set('site_id', 'foo')
@@ -165,6 +185,7 @@ test('building_id is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('building_id', '')
     ->call('update')
     ->assertHasErrors(['building_id' => 'required']);
@@ -174,6 +195,7 @@ test('building_id must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('building_id', 'foo')
     ->call('update')
     ->assertHasErrors(['building_id' => 'integer']);
@@ -183,6 +205,7 @@ test('building_id must previously exist in the database', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('building_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['building_id' => 'exists']);
@@ -194,6 +217,7 @@ test('building_id is validated in real time', function () {
     $building = Building::factory()->create();
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('building_id', $building->id)
     ->assertHasNoErrors()
     ->set('building_id', 'foo')
@@ -204,6 +228,7 @@ test('floor_id is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('floor_id', '')
     ->call('update')
     ->assertHasErrors(['floor_id' => 'required']);
@@ -213,6 +238,7 @@ test('floor_id must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('floor_id', 'foo')
     ->call('update')
     ->assertHasErrors(['floor_id' => 'integer']);
@@ -222,6 +248,7 @@ test('floor_id must previously exist in the database', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('floor_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['floor_id' => 'exists']);
@@ -233,6 +260,7 @@ test('floor_id is validated in real time', function () {
     $floor = Floor::factory()->create();
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('floor_id', $floor->id)
     ->assertHasNoErrors()
     ->set('floor_id', 'foo')
@@ -243,6 +271,7 @@ test('room_id is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('room_id', '')
     ->call('update')
     ->assertHasErrors(['room_id' => 'required']);
@@ -252,6 +281,7 @@ test('room_id must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('room_id', 'foo')
     ->call('update')
     ->assertHasErrors(['room_id' => 'integer']);
@@ -261,6 +291,7 @@ test('room_id must previously exist in the database', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('room_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['room_id' => 'exists']);
@@ -272,6 +303,7 @@ test('room_id is validated in real time', function () {
     $room = Room::factory()->create();
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('room_id', $room->id)
     ->assertHasNoErrors()
     ->set('room_id', 'foo')
@@ -282,6 +314,7 @@ test('stand_id is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.stand_id', '')
     ->call('update')
     ->assertHasErrors(['shelf.stand_id' => 'required']);
@@ -291,6 +324,7 @@ test('stand_id must be an integer', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.stand_id', 'foo')
     ->call('update')
     ->assertHasErrors(['shelf.stand_id' => 'integer']);
@@ -300,6 +334,7 @@ test('stand_id must previously exist in the database', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.stand_id', 9090909090)
     ->call('update')
     ->assertHasErrors(['shelf.stand_id' => 'exists']);
@@ -330,6 +365,7 @@ test('emits feedback event when update a shelf record', function () {
     $stand = Stand::factory()->create();
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.number', 1)
     ->set('shelf.stand_id', $stand->id)
     ->call('update')
@@ -443,6 +479,7 @@ test('update a shelf record with specific permission', function () {
     $stand = Stand::factory()->create();
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
     ->set('shelf.number', 99)
     ->set('shelf.description', 'foo bar')
     ->set('shelf.stand_id', $stand->id)

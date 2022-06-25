@@ -29,6 +29,13 @@ class RoomLivewireUpdate extends Component
     use WithSorting;
 
     /**
+     * Se o componente deve ser renderizado no modo edição.
+     *
+     * @var bool
+     */
+    public bool $modo_edicao = false;
+
+    /**
      * Editing resource.
      *
      * @var \App\Models\Room
@@ -220,9 +227,13 @@ class RoomLivewireUpdate extends Component
      */
     public function update()
     {
+        abort_if($this->modo_edicao !== true, 403);
+
         $this->validate();
 
         $saved = $this->room->save();
+
+        $this->reset('modo_edicao');
 
         $this->flashSelf($saved);
     }

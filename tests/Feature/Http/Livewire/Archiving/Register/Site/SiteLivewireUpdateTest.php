@@ -46,11 +46,21 @@ test('cannot render site record edit component without specific permission', fun
     ->assertForbidden();
 });
 
+test('cannot update site if edit mode is disabled', function () {
+    grantPermission(PermissionType::SiteUpdate->value);
+
+    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('name is required', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', true)
     ->set('site.name', '')
     ->call('update')
     ->assertHasErrors(['site.name' => 'required']);
@@ -60,6 +70,7 @@ test('name must be a string', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', true)
     ->set('site.name', ['foo'])
     ->call('update')
     ->assertHasErrors(['site.name' => 'string']);
@@ -69,6 +80,7 @@ test('name must be a maximum of 100 characters', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', true)
     ->set('site.name', Str::random(101))
     ->call('update')
     ->assertHasErrors(['site.name' => 'max']);
@@ -80,6 +92,7 @@ test('name must be unique', function () {
     Site::factory()->create(['name' => 'foo']);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', true)
     ->set('site.name', 'foo')
     ->call('update')
     ->assertHasErrors(['site.name' => 'unique']);
@@ -89,6 +102,7 @@ test('description is optional', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', true)
     ->set('site.description', '')
     ->call('update')
     ->assertHasNoErrors(['site.description']);
@@ -98,6 +112,7 @@ test('description must be an string', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', true)
     ->set('site.description', ['foo'])
     ->call('update')
     ->assertHasErrors(['site.description' => 'string']);
@@ -107,6 +122,7 @@ test('description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', true)
     ->set('site.description', Str::random(256))
     ->call('update')
     ->assertHasErrors(['site.description' => 'max']);
@@ -135,6 +151,7 @@ test('emits feedback event when update a site record', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', true)
     ->set('site.name', 'foo')
     ->call('update')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
@@ -163,6 +180,7 @@ test('update a site record with specific permission', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', true)
     ->set('site.name', 'foo')
     ->set('site.description', 'foo bar')
     ->call('update')

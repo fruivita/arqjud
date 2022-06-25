@@ -27,6 +27,13 @@ class BuildingLivewireUpdate extends Component
     use WithSorting;
 
     /**
+     * Se o componente deve ser renderizado no modo edição.
+     *
+     * @var bool
+     */
+    public bool $modo_edicao = false;
+
+    /**
      * Editing resource.
      *
      * @var \App\Models\Building
@@ -156,9 +163,13 @@ class BuildingLivewireUpdate extends Component
      */
     public function update()
     {
+        abort_if($this->modo_edicao !== true, 403);
+
         $this->validate();
 
         $saved = $this->building->save();
+
+        $this->reset('modo_edicao');
 
         $this->flashSelf($saved);
     }
