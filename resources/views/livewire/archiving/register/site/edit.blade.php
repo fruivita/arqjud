@@ -28,6 +28,7 @@
                     wire:model.defer="site.name"
                     wire:target="update"
                     autofocus
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('site.name')"
                     icon="pin-map"
                     maxlength="100"
@@ -45,6 +46,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="site.description"
                     wire:target="update"
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('site.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -56,15 +58,7 @@
 
                 <x-button-group>
 
-                    <x-feedback.inline/>
-
-
-                    <x-button
-                        class="btn-do"
-                        icon="save"
-                        :text="__('Save')"
-                        :title="__('Save the record')"
-                        type="submit"/>
+                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
 
                 </x-button-group>
 

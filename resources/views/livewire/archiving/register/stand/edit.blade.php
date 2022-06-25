@@ -28,6 +28,7 @@
                     wire:model.defer="stand.number"
                     wire:target="update"
                     autofocus
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('stand.number')"
                     icon="bookshelf"
                     min="1"
@@ -45,6 +46,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="stand.description"
                     wire:target="update"
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('stand.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -65,6 +67,7 @@
                             wire:loading.delay.class="cursor-not-allowed"
                             wire:model="site_id"
                             wire:target="site_id,update"
+                            :editavel="$this->modo_edicao"
                             :error="$errors->first('site_id')"
                             icon="pin-map"
                             required
@@ -104,6 +107,7 @@
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model="building_id"
                                 wire:target="building_id,site_id,update"
+                                :editavel="$this->modo_edicao"
                                 :error="$errors->first('building_id')"
                                 icon="building"
                                 required
@@ -148,6 +152,7 @@
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model="floor_id"
                                 wire:target="building_id,site_id,update"
+                                :editavel="$this->modo_edicao"
                                 :error="$errors->first('floor_id')"
                                 icon="layers"
                                 required
@@ -188,6 +193,7 @@
                                 wire:loading.delay.class="cursor-not-allowed"
                                 wire:model.defer="stand.room_id"
                                 wire:target="building_id,floor_id,site_id,update"
+                                :editavel="$this->modo_edicao"
                                 :error="$errors->first('stand.room_id')"
                                 icon="door-closed"
                                 required
@@ -221,15 +227,7 @@
 
                 <x-button-group>
 
-                    <x-feedback.inline/>
-
-
-                    <x-button
-                        class="btn-do"
-                        icon="save"
-                        :text="__('Save')"
-                        :title="__('Save the record')"
-                        type="submit"/>
+                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
 
                 </x-button-group>
 

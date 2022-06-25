@@ -28,8 +28,9 @@
                     wire:model.defer="building.name"
                     wire:target="update"
                     autofocus
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('building.name')"
-                    icon="pin-map"
+                    icon="building"
                     maxlength="100"
                     :placeholder="__('Building name')"
                     required
@@ -45,6 +46,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="building.description"
                     wire:target="update"
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('building.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -60,6 +62,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="building.site_id"
                     wire:target="update"
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('building.site_id')"
                     icon="pin-map"
                     required
@@ -88,15 +91,7 @@
 
                 <x-button-group>
 
-                    <x-feedback.inline/>
-
-
-                    <x-button
-                        class="btn-do"
-                        icon="save"
-                        :text="__('Save')"
-                        :title="__('Save the record')"
-                        type="submit"/>
+                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
 
                 </x-button-group>
 
