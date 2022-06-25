@@ -2,6 +2,7 @@
     Default textarea.
 
     Props:
+    - editavel: se o elemento é editável
     - error: error message that will be displayed
     - icon: svg icon that will be displayed
     - id: item id
@@ -18,7 +19,7 @@
 --}}
 
 
-@props(['error' => null, 'icon' => 'blockquote-left', 'id', 'text', 'title', 'withcounter' => false])
+@props(['editavel' => false, 'error' => null, 'icon' => 'blockquote-left', 'id', 'text', 'title', 'withcounter' => false])
 
 
 @php $id = $id ?? md5(random_int(PHP_INT_MIN, PHP_INT_MAX)); @endphp
@@ -46,14 +47,25 @@
     </label>
 
 
-    <div class="bg-primary-100 border-2 border-primary-300 flex items-center rounded">
+    <div @class([
+        'bg-primary-100',
+        'border-2' => $editavel,
+        'border-primary-300' => $editavel,
+        'flex',
+        'items-center',
+        'rounded',
+    ])>
 
-        {{-- icon to input textbox --}}
-        <label class="text-primary-900 p-2" for="{{ $id }}">
+        @if ($editavel)
 
-            <x-icon :name="$icon"/>
+            {{-- icon to input textbox --}}
+            <label class="text-primary-900 p-2" for="{{ $id }}">
 
-        </label>
+                <x-icon :name="$icon"/>
+
+            </label>
+
+        @endif
 
 
         {{-- textbox itself --}}
@@ -66,12 +78,14 @@
 
             @endif
 
+
+            @disabled(! $editavel)
             id="{{ $id }}"
             name="{{ $id }}"
             rows="3"
             {{
                 $attributes
-                ->merge(['class' => 'p-2 text-primary-900 w-full focus:outline-primary-500'])
+                ->merge(['class' => 'p-2 text-primary-900 w-full disabled:dark:bg-secondary-800 disabled:dark:text-secondary-50 focus:outline-primary-500'])
                 ->when($error, function ($collection) {
                     return $collection->merge(['class' => 'invalid']);
                 })

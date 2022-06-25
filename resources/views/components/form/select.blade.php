@@ -2,6 +2,7 @@
     Default select.
 
     Props:
+    - editavel: se o elemento é editável
     - error: error message that will be displayed
     - icon: svg icon that will be displayed
     - id: item id
@@ -17,7 +18,7 @@
 --}}
 
 
-@props(['error' => null, 'icon', 'id', 'text', 'title'])
+@props(['editavel' => false, 'error' => null, 'icon', 'id', 'text', 'title'])
 
 
 @php $id = $id ?? md5(random_int(PHP_INT_MIN, PHP_INT_MAX)); @endphp
@@ -41,23 +42,36 @@
     </label>
 
 
-    <div class="bg-primary-100 border-2 border-primary-300 flex items-center rounded">
+    <div @class([
+        'bg-primary-100',
+        'border-2' => $editavel,
+        'border-primary-300' => $editavel,
+        'flex',
+        'items-center',
+        'rounded',
+    ])>
 
-        {{-- icon in front of select --}}
-        <label class="text-primary-900 p-2" for="{{ $id }}">
 
-            <x-icon :name="$icon"/>
+        @if ($editavel)
 
-        </label>
+            {{-- icon in front of select --}}
+            <label class="text-primary-900 p-2" for="{{ $id }}">
+
+                <x-icon :name="$icon"/>
+
+            </label>
+
+        @endif
 
 
         {{-- select itself --}}
         <select
+            @disabled(! $editavel)
             id="{{ $id }}"
             name="{{ $id }}"
             {{
                 $attributes
-                ->merge(['class' =>'border-none p-2 text-primary-900 truncate w-full focus:outline-primary-500'])
+                ->merge(['class' =>'border-none opacity-100 p-2 text-primary-900 truncate w-full disabled:bg-primary-100 disabled:dark:bg-secondary-800 disabled:dark:text-secondary-50 focus:outline-primary-500'])
                 ->when($error, function ($collection) {
                     return $collection->merge(['class' => 'invalid']);
                 })
