@@ -21,8 +21,11 @@ class BoxVolumeFactory extends Factory
      */
     public function definition()
     {
+        $number = $this->faker->unique()->numberBetween(1, 65535);
+
         return [
-            'number' => $this->faker->unique()->numberBetween(1, 65535),
+            'number' => $number,
+            'alias' => $number,
             'box_id' => Box::factory(),
         ];
     }

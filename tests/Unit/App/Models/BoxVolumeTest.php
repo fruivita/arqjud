@@ -9,14 +9,22 @@ use App\Models\BoxVolume;
 use App\Models\Shelf;
 use App\Models\Stand;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
 
 // Exceptions
-test('throws exception when trying to create box volumes in duplicate, that is, with the same number and box', function () {
+test('throws exception when trying to create box volumes in duplicate, that is, with the same number/alias and box', function () {
     $box = Box::factory()->create();
 
     expect(
         fn () => BoxVolume::factory(2)->create([
             'number' => 10,
+            'box_id' => $box->id,
+        ])
+    )->toThrow(QueryException::class, 'Duplicate entry');
+
+    expect(
+        fn () => BoxVolume::factory(2)->create([
+            'alias' => 10,
             'box_id' => $box->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
@@ -27,9 +35,11 @@ test('throws exception when trying to create box volume with invalid field', fun
         fn () => BoxVolume::factory()->create([$field => $value])
     )->toThrow(QueryException::class, $message);
 })->with([
-    ['number', 'foo', 'Incorrect integer value'],  // not convertible to integer
-    ['number', -1,    'Out of range value'],       // min 0
-    ['number', 4294967296, 'Out of range value'],  // max 4294967295
+    ['number', 'foo',           'Incorrect integer value'],  // not convertible to integer
+    ['number', -1,              'Out of range value'],       // min 0
+    ['number', 4294967296,      'Out of range value'],       // max 4294967295
+    ['alias', Str::random(101), 'Data too long for column'], // maximum 100 characters
+    ['alias', null,             'cannot be null'],           // required
 ]);
 
 test('throws exception when trying to set invalid relationship', function ($field, $value, $message) {
@@ -49,7 +59,10 @@ test('create many box volumes', function () {
 });
 
 test('fields in their maximum size are accepted', function () {
-    BoxVolume::factory()->create(['number' => 4294967295]);
+    BoxVolume::factory()->create([
+        'number' => 4294967295,
+        'alias' => Str::random(100),
+    ]);
 
     expect(BoxVolume::count())->toBe(1);
 });

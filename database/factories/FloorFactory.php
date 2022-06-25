@@ -21,8 +21,11 @@ class FloorFactory extends Factory
      */
     public function definition()
     {
+        $number = $this->faker->unique()->numberBetween(-100000, 100000);
+
         return [
-            'number' => $this->faker->unique()->numberBetween(-100000, 100000),
+            'number' => $number,
+            'alias' => "{$number}º",
             'description' => $this->faker->optional()->sentence(),
             'building_id' => Building::factory(),
         ];

@@ -11,12 +11,19 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 
 // Exceptions
-test('throws exception when trying to create floors in duplicate, that is, with the same numbers and building', function () {
+test('throws exception when trying to create floors in duplicate, that is, with the same numbers/alias and building', function () {
     $building = Building::factory()->create();
 
     expect(
         fn () => Floor::factory(2)->create([
             'number' => 100,
+            'building_id' => $building->id,
+        ])
+    )->toThrow(QueryException::class, 'Duplicate entry');
+
+    expect(
+        fn () => Floor::factory(2)->create([
+            'alias' => 100,
             'building_id' => $building->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
@@ -31,6 +38,8 @@ test('throws exception when trying to create floor with invalid field', function
     ['number',      2147483648,       'Out of range'],             // max 2147483647
     ['number',     'foo',             'Incorrect integer value'],  // not convertible to integer
     ['number',      null,             'cannot be null'],           // required
+    ['alias',       Str::random(101), 'Data too long for column'], // maximum 100 characters
+    ['alias',       null,             'cannot be null'],           // required
     ['description', Str::random(256), 'Data too long for column'], // maximum 255 characters
 ]);
 
@@ -59,6 +68,7 @@ test('fields in their minimum size are accepted', function () {
 test('fields in their maximum size are accepted', function () {
     Floor::factory()->create([
         'number' => 2147483647,
+        'alias' => Str::random(100),
         'description' => Str::random(255),
     ]);
 

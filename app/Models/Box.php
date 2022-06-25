@@ -330,6 +330,7 @@ class Box extends Model
             ->map(function ($value) use ($box_id) {
                 return [
                     'number' => $value,
+                    'alias' => "Vol. {$value}",
                     'box_id' => $box_id,
                 ];
             });
