@@ -80,6 +80,17 @@
 
 
                 <x-table.heading
+                    wire:click="sortBy('alias')"
+                    :direction="$sorts['alias'] ?? null"
+                    sortable
+                >
+
+                    {{ __('Alias') }}
+
+                </x-table.heading>
+
+
+                <x-table.heading
                     wire:click="sortBy('rooms_count')"
                     :direction="$sorts['rooms_count'] ?? null"
                     sortable
@@ -128,6 +139,9 @@
                     <x-table.row>
 
                         <x-table.cell>{{ $floor->number }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $floor->alias }}</x-table.cell>
 
 
                         <x-table.cell>{{ $floor->rooms_count }}</x-table.cell>
@@ -198,11 +212,11 @@
 
                         @if ($withparents)
 
-                            <x-table.cell colspan="5">{{ __('No record found') }}</x-table.cell>
+                            <x-table.cell colspan="6">{{ __('No record found') }}</x-table.cell>
 
                         @else
 
-                            <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
+                            <x-table.cell colspan="4">{{ __('No record found') }}</x-table.cell>
 
                         @endif
 

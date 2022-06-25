@@ -115,8 +115,8 @@
 
 
                     <x-table.heading
-                        wire:click="sortBy('floors.number')"
-                        :direction="$sorts['floors.number'] ?? null"
+                        wire:click="sortBy('floors.alias')"
+                        :direction="$sorts['floors.alias'] ?? null"
                         sortable
                     >
 
@@ -163,7 +163,7 @@
                             <x-table.cell>{{ $stand->building_name }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $stand->floor_number }}</x-table.cell>
+                            <x-table.cell>{{ $stand->floor_alias }}</x-table.cell>
 
 
                             <x-table.cell>{{ $stand->room_number }}</x-table.cell>

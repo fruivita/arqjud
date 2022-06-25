@@ -82,6 +82,17 @@
                 </x-table.heading>
 
 
+                <x-table.heading
+                    wire:click="sortBy('alias')"
+                    :direction="$sorts['alias'] ?? null"
+                    sortable
+                >
+
+                    {{ __('Alias') }}
+
+                </x-table.heading>
+
+
                 <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
 
             </x-slot>
@@ -93,7 +104,10 @@
 
                     <x-table.row>
 
-                        <x-table.cell>{{ $volume->for_humans }}</x-table.cell>
+                        <x-table.cell>{{ $volume->number }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $volume->alias }}</x-table.cell>
 
 
                         <x-table.cell>
