@@ -5,6 +5,7 @@
  */
 
 use App\Models\Box;
+use App\Models\Floor;
 use App\Models\Site;
 
 // Happy path
@@ -38,6 +39,18 @@ test('filters the records by several columns that partially contain the given te
     ->and($box_150->year)->toBe(1999)
     ->and($box_329->number)->toBe(329)
     ->and($box_329->year)->toBe(2021);
+});
+
+test('zero is a valid search term as it is a string with one or more characters', function () {
+    Floor::factory()->create(['number' => 0]);
+    Floor::factory()->create(['number' => 11]);
+
+    $result = Floor::whereLike('number', '0')->get();
+
+    $floor = $result->first();
+
+    expect($result)->toHaveCount(1)
+    ->and($floor->number)->toBe(0);
 });
 
 test('if the search term is not provided, the where clause is not applied', function () {

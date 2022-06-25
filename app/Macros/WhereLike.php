@@ -20,15 +20,16 @@ class WhereLike
     {
         return function ($columns, $value) {
 
-            $this->when($value, function(Builder $query, string $value) use ($columns) {
+            $this->when(str()->length($value) >= 1,
 
-                $query->where(function (Builder $query) use ($columns, $value) {
-                    foreach (Arr::wrap($columns) as $column) {
-                        $query->orWhere($column, 'like', "%{$value}%");
-                    }
-                });
-
-            });
+                function(Builder $query) use ($columns, $value) {
+                    $query->where(function (Builder $query) use ($columns, $value) {
+                        foreach (Arr::wrap($columns) as $column) {
+                            $query->orWhere($column, 'like', "%{$value}%");
+                        }
+                    });
+                }
+            );
 
             return $this;
         };
