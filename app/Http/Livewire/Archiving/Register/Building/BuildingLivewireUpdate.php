@@ -101,7 +101,7 @@ class BuildingLivewireUpdate extends Component
      */
     public function boot()
     {
-        $this->authorize(Policy::Update->value, Building::class);
+        $this->authorize(Policy::ViewOrUpdate->value, Building::class);
     }
 
     /**
@@ -164,6 +164,8 @@ class BuildingLivewireUpdate extends Component
     public function update()
     {
         abort_if($this->modo_edicao !== true, 403);
+
+        $this->authorize(Policy::Update->value, Building::class);
 
         $this->validate();
 

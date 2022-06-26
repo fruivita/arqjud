@@ -56,6 +56,15 @@ test('cannot update building if edit mode is disabled', function () {
     ->assertForbidden();
 });
 
+test('cannot update building without specific permission', function () {
+    grantPermission(PermissionType::BuildingView->value);
+
+    Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('name is required', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
@@ -172,13 +181,19 @@ test('pagination returns the amount of expected floors records', function () {
     ->assertCount('floors', 25);
 });
 
-test('renders edit building record component with specific permission', function () {
-    grantPermission(PermissionType::BuildingUpdate->value);
+test('renders edit building record component with view or update permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('archiving.register.building.edit', $this->building->id))
     ->assertOk()
     ->assertSeeLivewire(BuildingLivewireUpdate::class);
-});
+
+    Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->assertOk();
+})->with([
+    PermissionType::BuildingView->value,
+    PermissionType::BuildingUpdate->value
+]);
 
 test('emits feedback event when update a building record', function () {
     grantPermission(PermissionType::BuildingUpdate->value);

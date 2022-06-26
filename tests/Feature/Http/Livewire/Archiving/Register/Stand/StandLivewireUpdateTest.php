@@ -59,6 +59,15 @@ test('cannot update stand if edit mode is disabled', function () {
     ->assertForbidden();
 });
 
+test('cannot update stand without specific permission', function () {
+    grantPermission(PermissionType::StandView->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('number is required', function () {
     grantPermission(PermissionType::StandUpdate->value);
@@ -307,13 +316,19 @@ test('pagination returns the amount of shelves expected', function () {
     ->assertCount('shelves', 25);
 });
 
-test('renders edit stand record component with specific permission', function () {
-    grantPermission(PermissionType::StandUpdate->value);
+test('renders edit stand record component with view or update permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('archiving.register.stand.edit', $this->stand->id))
     ->assertOk()
     ->assertSeeLivewire(StandLivewireUpdate::class);
-});
+
+    Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
+    ->assertOk();
+})->with([
+    PermissionType::StandView->value,
+    PermissionType::StandUpdate->value
+]);
 
 test('emits feedback event when update a stand record', function () {
     grantPermission(PermissionType::StandUpdate->value);

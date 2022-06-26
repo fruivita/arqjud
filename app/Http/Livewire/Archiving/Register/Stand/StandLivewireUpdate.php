@@ -170,7 +170,7 @@ class StandLivewireUpdate extends Component
      */
     public function boot()
     {
-        $this->authorize(Policy::Update->value, Stand::class);
+        $this->authorize(Policy::ViewOrUpdate->value, Stand::class);
     }
 
     /**
@@ -266,6 +266,8 @@ class StandLivewireUpdate extends Component
     public function update()
     {
         abort_if($this->modo_edicao !== true, 403);
+
+        $this->authorize(Policy::Update->value, Stand::class);
 
         $this->validate();
 

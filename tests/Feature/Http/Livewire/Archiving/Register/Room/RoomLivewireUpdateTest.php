@@ -58,6 +58,15 @@ test('cannot update room if edit mode is disabled', function () {
     ->assertForbidden();
 });
 
+test('cannot update room without specific permission', function () {
+    grantPermission(PermissionType::RoomView->value);
+
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('number is required', function () {
     grantPermission(PermissionType::RoomUpdate->value);
@@ -263,13 +272,19 @@ test('pagination returns the amount of stands expected', function () {
     ->assertCount('stands', 25);
 });
 
-test('renders edit room record component with specific permission', function () {
-    grantPermission(PermissionType::RoomUpdate->value);
+test('renders edit room record component with view or update permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('archiving.register.room.edit', $this->room->id))
     ->assertOk()
     ->assertSeeLivewire(RoomLivewireUpdate::class);
-});
+
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->assertOk();
+})->with([
+    PermissionType::RoomView->value,
+    PermissionType::RoomUpdate->value
+]);
 
 test('emits feedback event when update a room record', function () {
     grantPermission(PermissionType::RoomUpdate->value);

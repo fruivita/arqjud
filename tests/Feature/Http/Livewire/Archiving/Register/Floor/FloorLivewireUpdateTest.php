@@ -57,6 +57,15 @@ test('cannot update floor if edit mode is disabled', function () {
     ->assertForbidden();
 });
 
+test('cannot update floor without specific permission', function () {
+    grantPermission(PermissionType::FloorView->value);
+
+    Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('number is required', function () {
     grantPermission(PermissionType::FloorUpdate->value);
@@ -263,13 +272,19 @@ test('pagination returns the amount of expected rooms records', function () {
     ->assertCount('rooms', 25);
 });
 
-test('renders edit floor record component with specific permission', function () {
-    grantPermission(PermissionType::FloorUpdate->value);
+test('renders edit floor record component with view or update permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('archiving.register.floor.edit', $this->floor->id))
     ->assertOk()
     ->assertSeeLivewire(FloorLivewireUpdate::class);
-});
+
+    Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
+    ->assertOk();
+})->with([
+    PermissionType::FloorView->value,
+    PermissionType::FloorUpdate->value
+]);
 
 test('emits feedback event when update a floor record', function () {
     grantPermission(PermissionType::FloorUpdate->value);

@@ -225,7 +225,7 @@ class BoxLivewireUpdate extends Component
      */
     public function boot()
     {
-        $this->authorize(Policy::Update->value, Box::class);
+        $this->authorize(Policy::ViewOrUpdate->value, Box::class);
     }
 
     /**
@@ -369,6 +369,8 @@ class BoxLivewireUpdate extends Component
     public function update()
     {
         abort_if($this->modo_edicao !== true, 403);
+
+        $this->authorize(Policy::Update->value, Box::class);
 
         $this->validate();
 

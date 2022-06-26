@@ -191,7 +191,7 @@ class ShelfLivewireUpdate extends Component
      */
     public function boot()
     {
-        $this->authorize(Policy::Update->value, Shelf::class);
+        $this->authorize(Policy::ViewOrUpdate->value, Shelf::class);
     }
 
     /**
@@ -302,6 +302,8 @@ class ShelfLivewireUpdate extends Component
     public function update()
     {
         abort_if($this->modo_edicao !== true, 403);
+
+        $this->authorize(Policy::Update->value, Shelf::class);
 
         $this->validate();
 

@@ -84,7 +84,7 @@ class SiteLivewireUpdate extends Component
      */
     public function boot()
     {
-        $this->authorize(Policy::Update->value, Site::class);
+        $this->authorize(Policy::ViewOrUpdate->value, Site::class);
     }
 
     /**
@@ -108,9 +108,7 @@ class SiteLivewireUpdate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.site.edit', [
-            'buildings' => $this->buildings,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.site.edit')->layout('layouts.app');
     }
 
     /**
@@ -133,6 +131,8 @@ class SiteLivewireUpdate extends Component
     public function update()
     {
         abort_if($this->modo_edicao !== true, 403);
+
+        $this->authorize(Policy::Update->value, Site::class);
 
         $this->validate();
 

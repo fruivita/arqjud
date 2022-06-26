@@ -133,7 +133,7 @@ class FloorLivewireUpdate extends Component
      */
     public function boot()
     {
-        $this->authorize(Policy::Update->value, Floor::class);
+        $this->authorize(Policy::ViewOrUpdate->value, Floor::class);
     }
 
     /**
@@ -199,6 +199,8 @@ class FloorLivewireUpdate extends Component
     public function update()
     {
         abort_if($this->modo_edicao !== true, 403);
+
+        $this->authorize(Policy::Update->value, Floor::class);
 
         $this->validate();
 

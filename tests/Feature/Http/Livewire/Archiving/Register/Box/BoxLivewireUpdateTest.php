@@ -70,6 +70,15 @@ test('cannot update stand if edit mode is disabled', function () {
     ->assertForbidden();
 });
 
+test('cannot update box without specific permission', function () {
+    grantPermission(PermissionType::BoxView->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('site_id is required', function () {
     grantPermission(PermissionType::BoxUpdate->value);
@@ -445,13 +454,19 @@ test('pagination returns the amount of expected box volumes records', function (
     ->assertCount('volumes', 25);
 });
 
-test('renders edit box record component with specific permission', function () {
-    grantPermission(PermissionType::BoxUpdate->value);
+test('renders edit box record component with view or update permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('archiving.register.box.edit', $this->box->id))
     ->assertOk()
     ->assertSeeLivewire(BoxLivewireUpdate::class);
-});
+
+    Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->assertOk();
+})->with([
+    PermissionType::BoxView->value,
+    PermissionType::BoxUpdate->value
+]);
 
 test('emits feedback event when update a box record', function () {
     grantPermission(PermissionType::BoxUpdate->value);

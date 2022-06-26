@@ -60,6 +60,15 @@ test('cannot update stand if edit mode is disabled', function () {
     ->assertForbidden();
 });
 
+test('cannot update shelf without specific permission', function () {
+    grantPermission(PermissionType::ShelfView->value);
+
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('number is required', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
@@ -351,13 +360,19 @@ test('pagination returns the amount of boxes expected', function () {
     ->assertCount('boxes', 25);
 });
 
-test('renders edit shelf record component with specific permission', function () {
-    grantPermission(PermissionType::ShelfUpdate->value);
+test('renders edit shelf record component with view or update permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('archiving.register.shelf.edit', $this->shelf->id))
     ->assertOk()
     ->assertSeeLivewire(ShelfLivewireUpdate::class);
-});
+
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->assertOk();
+})->with([
+    PermissionType::ShelfView->value,
+    PermissionType::ShelfUpdate->value
+]);
 
 test('emits feedback event when update a shelf record', function () {
     grantPermission(PermissionType::ShelfUpdate->value);

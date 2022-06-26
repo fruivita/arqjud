@@ -55,6 +55,15 @@ test('cannot update site if edit mode is disabled', function () {
     ->assertForbidden();
 });
 
+test('cannot update site without specific permission', function () {
+    grantPermission(PermissionType::SiteView->value);
+
+    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
+
 // Rules
 test('name is required', function () {
     grantPermission(PermissionType::SiteUpdate->value);
@@ -139,13 +148,19 @@ test('pagination returns the amount of expected building records', function () {
     ->assertCount('buildings', 25);
 });
 
-test('renders edit site record component with specific permission', function () {
-    grantPermission(PermissionType::SiteUpdate->value);
+test('renders edit site record component with view or update permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('archiving.register.site.edit', $this->site))
     ->assertOk()
     ->assertSeeLivewire(SiteLivewireUpdate::class);
-});
+
+    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->assertOk();
+})->with([
+    PermissionType::SiteView->value,
+    PermissionType::SiteUpdate->value
+]);
 
 test('emits feedback event when update a site record', function () {
     grantPermission(PermissionType::SiteUpdate->value);
