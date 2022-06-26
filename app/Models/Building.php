@@ -72,9 +72,9 @@ class Building extends Model
     public function parentLinks(bool $root)
     {
         return collect([
-            __('Site') => route('archiving.register.site.show', $this->site_id),
+            __('Site') => route('archiving.register.site.edit', $this->site_id),
         ])->when($root, function ($collection) {
-            return $collection->put(__('Building'), route('archiving.register.building.show', $this->id));
+            return $collection->put(__('Building'), route('archiving.register.building.edit', $this->id));
         });
     }
 }

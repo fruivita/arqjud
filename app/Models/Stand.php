@@ -144,12 +144,12 @@ class Stand extends Model
         $hierarchical_data = $this->hierarchicalData();
 
         return collect([
-            __('Site') => route('archiving.register.site.show', $hierarchical_data->get('site_id')),
-            __('Building') => route('archiving.register.building.show', $hierarchical_data->get('building_id')),
-            __('Floor') => route('archiving.register.floor.show', $hierarchical_data->get('floor_id')),
-            __('Room') => route('archiving.register.room.show', $hierarchical_data->get('room_id')),
+            __('Site') => route('archiving.register.site.edit', $hierarchical_data->get('site_id')),
+            __('Building') => route('archiving.register.building.edit', $hierarchical_data->get('building_id')),
+            __('Floor') => route('archiving.register.floor.edit', $hierarchical_data->get('floor_id')),
+            __('Room') => route('archiving.register.room.edit', $hierarchical_data->get('room_id')),
         ])->when($root, function ($collection) {
-            return $collection->put(__('Stand'), route('archiving.register.stand.show', $this->id));
+            return $collection->put(__('Stand'), route('archiving.register.stand.edit', $this->id));
         });
     }
 

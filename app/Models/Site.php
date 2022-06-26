@@ -59,7 +59,7 @@ class Site extends Model
     public function parentLinks(bool $root)
     {
         return collect()->when($root, function ($collection) {
-            return $collection->put(__('Site'), route('archiving.register.site.show', $this->id));
+            return $collection->put(__('Site'), route('archiving.register.site.edit', $this->id));
         });
     }
 }

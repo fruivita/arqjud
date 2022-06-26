@@ -85,24 +85,24 @@ test('one building has many floors', function () {
     expect($building->floors)->toHaveCount(3);
 });
 
-test('parentLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
+test('parentLinks returns only edit parents routes sorted from most distant to closest relationship if root is false', function () {
     Building::factory()->create();
 
     $building = Building::hierarchy()->first();
 
     expect($building->parentLinks(false)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $building->site_id),
+        __('Site') => route('archiving.register.site.edit', $building->site_id),
     ]);
 });
 
-test('parentLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
+test('parentLinks returns edit parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
     Building::factory()->create();
 
     $building = Building::hierarchy()->first();
 
     expect($building->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $building->site_id),
-        __('Building') => route('archiving.register.building.show', $building->id),
+        __('Site') => route('archiving.register.site.edit', $building->site_id),
+        __('Building') => route('archiving.register.building.edit', $building->id),
     ]);
 });
 

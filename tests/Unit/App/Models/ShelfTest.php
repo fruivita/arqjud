@@ -107,32 +107,32 @@ test('one shelf has many boxes', function () {
     expect($shelf->boxes)->toHaveCount(3);
 });
 
-test('parentLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
+test('parentLinks returns only edit parents routes sorted from most distant to closest relationship if root is false', function () {
     Shelf::factory()->create();
 
     $shelf = Shelf::hierarchy()->first();
 
     expect($shelf->parentLinks(false)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $shelf->site_id),
-        __('Building') => route('archiving.register.building.show', $shelf->building_id),
-        __('Floor') => route('archiving.register.floor.show', $shelf->floor_id),
-        __('Room') => route('archiving.register.room.show', $shelf->room_id),
-        __('Stand') => route('archiving.register.stand.show', $shelf->stand_id),
+        __('Site') => route('archiving.register.site.edit', $shelf->site_id),
+        __('Building') => route('archiving.register.building.edit', $shelf->building_id),
+        __('Floor') => route('archiving.register.floor.edit', $shelf->floor_id),
+        __('Room') => route('archiving.register.room.edit', $shelf->room_id),
+        __('Stand') => route('archiving.register.stand.edit', $shelf->stand_id),
     ]);
 });
 
-test('parentLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
+test('parentLinks returns edit parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
     Shelf::factory()->create();
 
     $shelf = Shelf::hierarchy()->first();
 
     expect($shelf->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $shelf->site_id),
-        __('Building') => route('archiving.register.building.show', $shelf->building_id),
-        __('Floor') => route('archiving.register.floor.show', $shelf->floor_id),
-        __('Room') => route('archiving.register.room.show', $shelf->room_id),
-        __('Stand') => route('archiving.register.stand.show', $shelf->stand_id),
-        __('Shelf') => route('archiving.register.shelf.show', $shelf->id),
+        __('Site') => route('archiving.register.site.edit', $shelf->site_id),
+        __('Building') => route('archiving.register.building.edit', $shelf->building_id),
+        __('Floor') => route('archiving.register.floor.edit', $shelf->floor_id),
+        __('Room') => route('archiving.register.room.edit', $shelf->room_id),
+        __('Stand') => route('archiving.register.stand.edit', $shelf->stand_id),
+        __('Shelf') => route('archiving.register.shelf.edit', $shelf->id),
     ]);
 });
 
@@ -143,12 +143,12 @@ test('parentLinks returns links based on hierarchical data present in the model 
     $shelf->load('stand.room.floor.building');
 
     expect($shelf->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $shelf->stand->room->floor->building->site_id),
-        __('Building') => route('archiving.register.building.show', $shelf->stand->room->floor->building_id),
-        __('Floor') => route('archiving.register.floor.show', $shelf->stand->room->floor_id),
-        __('Room') => route('archiving.register.room.show', $shelf->stand->room->id),
-        __('Stand') => route('archiving.register.stand.show', $shelf->stand_id),
-        __('Shelf') => route('archiving.register.shelf.show', $shelf->id),
+        __('Site') => route('archiving.register.site.edit', $shelf->stand->room->floor->building->site_id),
+        __('Building') => route('archiving.register.building.edit', $shelf->stand->room->floor->building_id),
+        __('Floor') => route('archiving.register.floor.edit', $shelf->stand->room->floor_id),
+        __('Room') => route('archiving.register.room.edit', $shelf->stand->room->id),
+        __('Stand') => route('archiving.register.stand.edit', $shelf->stand_id),
+        __('Shelf') => route('archiving.register.shelf.edit', $shelf->id),
     ]);
 });
 

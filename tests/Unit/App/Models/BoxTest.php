@@ -96,34 +96,34 @@ test('nextBoxNumber return the box number to be used to create the new box', fun
     ->and(Box::nextBoxNumber(2021))->toBe(1);
 });
 
-test('parentLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
+test('parentLinks returns only edit parents routes sorted from most distant to closest relationship if root is false', function () {
     Box::factory()->create();
 
     $box = Box::hierarchy()->first();
 
     expect($box->parentLinks(false)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $box->site_id),
-        __('Building') => route('archiving.register.building.show', $box->building_id),
-        __('Floor') => route('archiving.register.floor.show', $box->floor_id),
-        __('Room') => route('archiving.register.room.show', $box->room_id),
-        __('Stand') => route('archiving.register.stand.show', $box->stand_id),
-        __('Shelf') => route('archiving.register.shelf.show', $box->shelf_id),
+        __('Site') => route('archiving.register.site.edit', $box->site_id),
+        __('Building') => route('archiving.register.building.edit', $box->building_id),
+        __('Floor') => route('archiving.register.floor.edit', $box->floor_id),
+        __('Room') => route('archiving.register.room.edit', $box->room_id),
+        __('Stand') => route('archiving.register.stand.edit', $box->stand_id),
+        __('Shelf') => route('archiving.register.shelf.edit', $box->shelf_id),
     ]);
 });
 
-test('parentLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
+test('parentLinks returns edit parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
     Box::factory()->create();
 
     $box = Box::hierarchy()->first();
 
     expect($box->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $box->site_id),
-        __('Building') => route('archiving.register.building.show', $box->building_id),
-        __('Floor') => route('archiving.register.floor.show', $box->floor_id),
-        __('Room') => route('archiving.register.room.show', $box->room_id),
-        __('Stand') => route('archiving.register.stand.show', $box->stand_id),
-        __('Shelf') => route('archiving.register.shelf.show', $box->shelf_id),
-        __('Box') => route('archiving.register.box.show', $box->id),
+        __('Site') => route('archiving.register.site.edit', $box->site_id),
+        __('Building') => route('archiving.register.building.edit', $box->building_id),
+        __('Floor') => route('archiving.register.floor.edit', $box->floor_id),
+        __('Room') => route('archiving.register.room.edit', $box->room_id),
+        __('Stand') => route('archiving.register.stand.edit', $box->stand_id),
+        __('Shelf') => route('archiving.register.shelf.edit', $box->shelf_id),
+        __('Box') => route('archiving.register.box.edit', $box->id),
     ]);
 });
 
@@ -134,13 +134,13 @@ test('parentLinks returns links based on hierarchical data present in the model 
     $box->load('shelf.stand.room.floor.building');
 
     expect($box->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $box->shelf->stand->room->floor->building->site_id),
-        __('Building') => route('archiving.register.building.show', $box->shelf->stand->room->floor->building_id),
-        __('Floor') => route('archiving.register.floor.show', $box->shelf->stand->room->floor_id),
-        __('Room') => route('archiving.register.room.show', $box->shelf->stand->room->id),
-        __('Stand') => route('archiving.register.stand.show', $box->shelf->stand_id),
-        __('Shelf') => route('archiving.register.shelf.show', $box->shelf->id),
-        __('Box') => route('archiving.register.box.show', $box->id),
+        __('Site') => route('archiving.register.site.edit', $box->shelf->stand->room->floor->building->site_id),
+        __('Building') => route('archiving.register.building.edit', $box->shelf->stand->room->floor->building_id),
+        __('Floor') => route('archiving.register.floor.edit', $box->shelf->stand->room->floor_id),
+        __('Room') => route('archiving.register.room.edit', $box->shelf->stand->room->id),
+        __('Stand') => route('archiving.register.stand.edit', $box->shelf->stand_id),
+        __('Shelf') => route('archiving.register.shelf.edit', $box->shelf->id),
+        __('Box') => route('archiving.register.box.edit', $box->id),
     ]);
 });
 

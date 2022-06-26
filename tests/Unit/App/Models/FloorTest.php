@@ -139,26 +139,26 @@ test('one floor has many rooms', function () {
     expect($floor->rooms)->toHaveCount(3);
 });
 
-test('parentLinks returns only show parents routes sorted from most distant to closest relationship if root is false', function () {
+test('parentLinks returns only edit parents routes sorted from most distant to closest relationship if root is false', function () {
     Floor::factory()->create();
 
     $floor = Floor::hierarchy()->first();
 
     expect($floor->parentLinks(false)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $floor->site_id),
-        __('Building') => route('archiving.register.building.show', $floor->building_id),
+        __('Site') => route('archiving.register.site.edit', $floor->site_id),
+        __('Building') => route('archiving.register.building.edit', $floor->building_id),
     ]);
 });
 
-test('parentLinks returns show parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
+test('parentLinks returns edit parents routes, included the root element route, sorted from most distant to closest relationship if root is true', function () {
     Floor::factory()->create();
 
     $floor = Floor::hierarchy()->first();
 
     expect($floor->parentLinks(true)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $floor->site_id),
-        __('Building') => route('archiving.register.building.show', $floor->building_id),
-        __('Floor') => route('archiving.register.floor.show', $floor->id),
+        __('Site') => route('archiving.register.site.edit', $floor->site_id),
+        __('Building') => route('archiving.register.building.edit', $floor->building_id),
+        __('Floor') => route('archiving.register.floor.edit', $floor->id),
     ]);
 });
 
@@ -169,8 +169,8 @@ test('parentLinks returns links based on hierarchical data present in the model 
     $floor->load('building');
 
     expect($floor->parentLinks(false)->toArray())->toBe([
-        __('Site') => route('archiving.register.site.show', $floor->building->site_id),
-        __('Building') => route('archiving.register.building.show', $floor->building_id),
+        __('Site') => route('archiving.register.site.edit', $floor->building->site_id),
+        __('Building') => route('archiving.register.building.edit', $floor->building_id),
     ]);
 });
 
