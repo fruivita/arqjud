@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the room')">
 
-    <x-backtrace :model="$this->room" :root="true"/>
+    <x-backtrace :model="$this->room"/>
 
 
     <x-container>
@@ -180,11 +180,15 @@
                 </div>
 
 
-                <x-button-group>
+                @can(\App\Enums\Policy::Update->value, \App\Models\Room::class)
 
-                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+                    <x-button-group>
 
-                </x-button-group>
+                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+
+                    </x-button-group>
+
+                @endcan
 
             </div>
 

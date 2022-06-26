@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the building')">
 
-    <x-backtrace :model="$this->building" :root="true"/>
+    <x-backtrace :model="$this->building"/>
 
 
     <x-container>
@@ -89,11 +89,15 @@
                 </x-form.select>
 
 
-                <x-button-group>
+                @can(\App\Enums\Policy::Update->value, \App\Models\Building::class)
 
-                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+                    <x-button-group>
 
-                </x-button-group>
+                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+
+                    </x-button-group>
+
+                @endcan
 
             </div>
 

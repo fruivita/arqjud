@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the floor')">
 
-    <x-backtrace :model="$this->floor" :root="true"/>
+    <x-backtrace :model="$this->floor"/>
 
 
     <x-container>
@@ -161,11 +161,15 @@
                 </div>
 
 
-                <x-button-group>
+                @can(\App\Enums\Policy::Update->value, \App\Models\Floor::class)
 
-                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+                    <x-button-group>
 
-                </x-button-group>
+                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+
+                    </x-button-group>
+
+                @endcan
 
             </div>
 

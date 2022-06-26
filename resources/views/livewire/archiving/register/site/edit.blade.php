@@ -12,9 +12,6 @@
 
 <x-page :header="__('Edit the site')">
 
-    <x-backtrace :model="$this->site" :root="true"/>
-
-
     <x-container>
 
         <form wire:key="form-site" wire:submit.prevent="update" method="POST">
@@ -56,11 +53,15 @@
                     withcounter/>
 
 
-                <x-button-group>
+                @can(\App\Enums\Policy::Update->value, \App\Models\Site::class)
 
-                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+                    <x-button-group>
 
-                </x-button-group>
+                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+
+                    </x-button-group>
+
+                @endcan
 
             </div>
 

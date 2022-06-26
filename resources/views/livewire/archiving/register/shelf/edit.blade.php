@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the shelf')">
 
-    <x-backtrace :model="$this->shelf" :root="true"/>
+    <x-backtrace :model="$this->shelf"/>
 
 
     <x-container>
@@ -266,11 +266,15 @@
                 </div>
 
 
-                <x-button-group>
+                @can(\App\Enums\Policy::Update->value, \App\Models\Shelf::class)
 
-                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+                    <x-button-group>
 
-                </x-button-group>
+                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+
+                    </x-button-group>
+
+                @endcan
 
             </div>
 

@@ -161,24 +161,13 @@
 
                             <x-action-button-group>
 
-                                @can(\App\Enums\Policy::View->value, \App\Models\Floor::class)
+                                @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Floor::class)
 
                                     <x-icon-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        :href="route('archiving.register.floor.show', $floor->id)"
-                                        :title="__('Show the record')"/>
-
-                                @endcan
-
-
-                                @can(\App\Enums\Policy::Update->value, \App\Models\Floor::class)
-
-                                    <x-icon-link-button
-                                        class="btn-do-alterative"
-                                        icon="pencil-square"
                                         :href="route('archiving.register.floor.edit', $floor->id)"
-                                        :title="__('Edit the record')"/>
+                                        :title="__('Show the record')"/>
 
                                 @endcan
 

@@ -189,24 +189,13 @@
 
                             <x-action-button-group>
 
-                                @can(\App\Enums\Policy::View->value, \App\Models\Shelf::class)
+                                @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Shelf::class)
 
                                     <x-icon-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        :href="route('archiving.register.shelf.show', $shelf->id)"
-                                        :title="__('Show the record')"/>
-
-                                @endcan
-
-
-                                @can(\App\Enums\Policy::Update->value, \App\Models\Shelf::class)
-
-                                    <x-icon-link-button
-                                        class="btn-do-alterative"
-                                        icon="pencil-square"
                                         :href="route('archiving.register.shelf.edit', $shelf->id)"
-                                        :title="__('Edit the record')"/>
+                                        :title="__('Show the record')"/>
 
                                 @endcan
 

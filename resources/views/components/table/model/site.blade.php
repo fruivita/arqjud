@@ -104,24 +104,13 @@
 
                             <x-action-button-group>
 
-                                @can(\App\Enums\Policy::View->value, \App\Models\Site::class)
+                                @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Site::class)
 
                                     <x-icon-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        :href="route('archiving.register.site.show', $site)"
-                                        :title="__('Show the record')"/>
-
-                                @endcan
-
-
-                                @can(\App\Enums\Policy::Update->value, \App\Models\Site::class)
-
-                                    <x-icon-link-button
-                                        class="btn-do-alterative"
-                                        icon="pencil-square"
                                         :href="route('archiving.register.site.edit', $site)"
-                                        :title="__('Edit the record')"/>
+                                        :title="__('Show the record')"/>
 
                                 @endcan
 

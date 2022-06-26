@@ -12,7 +12,7 @@
 
 <x-page :header="__('Edit the box')">
 
-    <x-backtrace :model="$this->box" :root="true"/>
+    <x-backtrace :model="$this->box"/>
 
 
     <x-container class="space-y-6">
@@ -325,11 +325,15 @@
                 </div>
 
 
-                <x-button-group>
+                @can(\App\Enums\Policy::Update->value, \App\Models\Box::class)
 
-                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+                    <x-button-group>
 
-                </x-button-group>
+                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+
+                    </x-button-group>
+
+                @endcan
 
             </div>
 

@@ -175,24 +175,13 @@
 
                             <x-action-button-group>
 
-                                @can(\App\Enums\Policy::View->value, \App\Models\Stand::class)
+                                @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Stand::class)
 
                                     <x-icon-link-button
                                         class="btn-do"
                                         icon="eye"
-                                        :href="route('archiving.register.stand.show', $stand->id)"
-                                        :title="__('Show the record')"/>
-
-                                @endcan
-
-
-                                @can(\App\Enums\Policy::Update->value, \App\Models\Stand::class)
-
-                                    <x-icon-link-button
-                                        class="btn-do-alterative"
-                                        icon="pencil-square"
                                         :href="route('archiving.register.stand.edit', $stand->id)"
-                                        :title="__('Edit the record')"/>
+                                        :title="__('Show the record')"/>
 
                                 @endcan
 
