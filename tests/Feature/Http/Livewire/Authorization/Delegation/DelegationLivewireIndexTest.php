@@ -188,6 +188,7 @@ test('user can delegate role within the same department if delegated role is low
 
     Livewire::test(DelegationLivewireIndex::class)
     ->call('create', $user_bar)
+    ->assertHasNoErrors()
     ->assertOk();
 
     expect($user_bar->role_id)->toBe(Role::BUSINESSMANAGER)
@@ -220,8 +221,10 @@ test('user can remove user delegation from the same department, with the same or
 
     Livewire::test(DelegationLivewireIndex::class)
     ->call('destroy', $user_baz)
+    ->assertHasNoErrors()
     ->assertOk()
     ->call('destroy', $user_taz)
+    ->assertHasNoErrors()
     ->assertOk();
 
     expect($user_baz->role_id)->toBe(Role::OBSERVER)
@@ -243,6 +246,7 @@ test("delegation assigns authenticated user role and revocation assigns the prev
 
     $livewire = Livewire::test(DelegationLivewireIndex::class)
     ->call('create', $user_bar)
+    ->assertHasNoErrors()
     ->assertOk();
 
     expect($user_bar->role_id)->toBe(Role::BUSINESSMANAGER)
@@ -251,6 +255,7 @@ test("delegation assigns authenticated user role and revocation assigns the prev
 
     $livewire
     ->call('destroy', $user_bar)
+    ->assertHasNoErrors()
     ->assertOk();
 
     expect($user_bar->role_id)->toBe(Role::OBSERVER)

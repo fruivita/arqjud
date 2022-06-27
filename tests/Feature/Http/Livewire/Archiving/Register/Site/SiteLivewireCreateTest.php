@@ -163,6 +163,7 @@ test('creates a site record with specific permission', function () {
     ->set('site.name', 'foo')
     ->set('site.description', 'foo bar')
     ->call('store')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $site = Site::first();

@@ -219,6 +219,7 @@ test('delete log file with specific permission', function () {
     Livewire::test(LogLivewireIndex::class)
     ->set('filename', $this->log_files[0])
     ->call('destroy')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $this->fake_disk->assertMissing($this->log_files[0]);

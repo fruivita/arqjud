@@ -244,6 +244,7 @@ test('update a building record with specific permission', function () {
     ->set('building.description', 'foo bar')
     ->set('building.site_id', $site->id)
     ->call('update')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $this->building->refresh();

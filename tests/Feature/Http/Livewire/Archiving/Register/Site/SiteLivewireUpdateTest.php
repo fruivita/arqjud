@@ -196,6 +196,7 @@ test('update a site record with specific permission', function () {
     ->set('site.name', 'foo')
     ->set('site.description', 'foo bar')
     ->call('update')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $this->site->refresh();

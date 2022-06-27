@@ -265,7 +265,9 @@ test('updates a role with specific permission', function () {
     ->set('role.name', 'new foo')
     ->set('role.description', 'new bar')
     ->set('selected', [$permission->id])
-    ->call('update');
+    ->call('update')
+    ->assertHasNoErrors()
+    ->assertOk();
 
     $this->role->refresh();
 

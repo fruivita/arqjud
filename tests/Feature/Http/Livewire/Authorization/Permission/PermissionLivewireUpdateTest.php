@@ -265,7 +265,9 @@ test('updates a permission with specific permission', function () {
     ->set('permission.name', 'new foo')
     ->set('permission.description', 'new bar')
     ->set('selected', [$role->id])
-    ->call('update');
+    ->call('update')
+    ->assertHasNoErrors()
+    ->assertOk();
 
     $this->permission->refresh();
 

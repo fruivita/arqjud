@@ -183,6 +183,7 @@ test('creates an application documentation record with specific permission', fun
     ->set('doc.app_route_name', 'administration.log.index')
     ->set('doc.doc_link', 'http://valid-url.com')
     ->call('store')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $documentation = Documentation::first();

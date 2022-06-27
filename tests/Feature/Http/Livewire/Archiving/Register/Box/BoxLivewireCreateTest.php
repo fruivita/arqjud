@@ -332,6 +332,7 @@ test('creates the amount of boxes defined', function () {
     ->set('box.number', 55)
     ->set('box.description', 'foo bar')
     ->set('volumes', 1)
+    ->assertHasNoErrors()
     ->call('store')
     ->assertOk();
 

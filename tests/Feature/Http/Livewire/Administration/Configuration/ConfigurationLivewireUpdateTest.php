@@ -133,6 +133,7 @@ test('update a configuration with specific permission', function () {
     Livewire::test(ConfigurationLivewireUpdate::class)
     ->set('configuration.superadmin', 'bar')
     ->call('update')
+    ->assertHasNoErrors()
     ->assertOk();
 
     expect(Configuration::find(Configuration::MAIN)->superadmin)->toBe('bar');

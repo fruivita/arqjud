@@ -628,6 +628,7 @@ test('update a box record with specific permission', function () {
     ->set('box.description', 'foo bar')
     ->set('box.shelf_id', $shelf->id)
     ->call('update')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $this->box->refresh();

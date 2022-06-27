@@ -170,6 +170,7 @@ test('creates a room record with specific permission', function () {
     ->set('room.number', 99)
     ->set('room.description', 'foo bar')
     ->call('store')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $room = Room::with('floor')->first();

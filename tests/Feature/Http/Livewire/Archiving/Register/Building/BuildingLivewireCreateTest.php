@@ -166,6 +166,7 @@ test('creates a building record with specific permission', function () {
     ->set('building.name', 'foo')
     ->set('building.description', 'foo bar')
     ->call('store')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $building = Building::with('site')->first();

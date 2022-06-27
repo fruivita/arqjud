@@ -183,6 +183,7 @@ test('updates an application documentation record with specific permission', fun
     ->set('doc.app_route_name', 'administration.log.index')
     ->set('doc.doc_link', 'http://valid-url.com')
     ->call('update')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $this->doc->refresh();

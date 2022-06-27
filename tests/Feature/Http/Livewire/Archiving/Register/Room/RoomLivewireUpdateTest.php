@@ -375,6 +375,7 @@ test('update a room record with specific permission', function () {
     ->set('room.description', 'foo bar')
     ->set('room.floor_id', $floor->id)
     ->call('update')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $this->room->refresh();
