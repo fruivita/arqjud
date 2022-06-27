@@ -27,7 +27,7 @@
 
 {{-- input container --}}
 <div
-    @if ($withcounter) x-data="{ counter: 0 }"@endif
+    @if ($withcounter) x-data="{ counter: 0, visivel: false }"@endif
     class="text-left w-full"
     title="{{ $title }}"
 >
@@ -73,6 +73,8 @@
 
             @if ($withcounter)
 
+                x-on:blur="visivel = false"
+                x-on:focus="visivel = true"
                 x-on:keyup="counter = $el.value.length"
                 x-ref="message"
 
@@ -84,36 +86,32 @@
             name="{{ $id }}"
             {{
                 $attributes
-                ->merge(['class' => 'p-2 text-primary-900 truncate w-full disabled:dark:bg-secondary-800 disabled:dark:text-secondary-50 focus:outline-primary-500'])
+                ->merge(['class' => 'flex-1 outline-none p-2 text-primary-900 truncate disabled:dark:bg-secondary-800 disabled:dark:text-secondary-50'])
                 ->when($error, function ($collection) {
                     return $collection->merge(['class' => 'invalid']);
                 })
             }}
             {{ $attributes->except('class') }}/>
 
-    </div>
-
-
-    <div class="flex justify-between space-x-3">
-
-        {{-- display of any error message --}}
-        <x-error>{{ $error }}</x-error>
-
 
         {{-- eventual display of character counter --}}
         @if ($withcounter)
 
-            <p
-                x-show="counter"
-                class="text-right text-primary-500 text-sm whitespace-nowrap dark:text-secondary-500"
+            <span
+                x-show="counter && visivel"
+                class="px-2 text-primary-500 text-right text-sm whitespace-nowrap dark:text-secondary-500"
             >
 
                 <span x-text="counter + ' / ' + $refs.message.maxLength"></span>
 
-            </p>
+            </span>
 
         @endif
 
     </div>
+
+
+    {{-- display of any error message --}}
+    <x-error>{{ $error }}</x-error>
 
 </div>

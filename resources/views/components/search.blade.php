@@ -18,7 +18,7 @@
 
 
 <div
-    @if ($withcounter) x-data="{ counter: 0 }"@endif
+    @if ($withcounter) x-data="{ counter: 0, visivel: false }"@endif
     class="text-primary-900 dark:text-secondary-50 md:mx-auto md:w-2/4"
 >
 
@@ -35,6 +35,8 @@
 
             @if ($withcounter)
 
+                x-on:blur ="visivel = false"
+                x-on:focus="visivel = true"
                 x-on:keyup="counter = $el.value.length"
                 x-ref="message"
 
@@ -42,7 +44,7 @@
 
             autocomplete="off"
             autofocus
-            class="bg-primary-100 outline-none px-4 py-2 truncate w-full dark:bg-secondary-800"
+            class="bg-primary-100 flex-1 outline-none px-4 py-2 truncate dark:bg-secondary-800"
             id="term"
             maxlength="50"
             placeholder="{{ __('Searchable term') }}"
@@ -54,7 +56,7 @@
         @if ($withcounter)
 
             <span
-                x-show="counter"
+                x-show="counter && visivel"
                 class="text-right text-primary-500 text-sm whitespace-nowrap dark:text-secondary-500"
             >
 
@@ -68,6 +70,6 @@
 
 
     {{-- display of any error message --}}
-    <x-error class="text-right">{{ $error }}</x-error>
+    <x-error>{{ $error }}</x-error>
 
 </div>
