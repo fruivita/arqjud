@@ -71,7 +71,7 @@
             name="{{ $id }}"
             {{
                 $attributes
-                ->merge(['class' =>'border-none opacity-100 p-2 text-primary-900 truncate w-full disabled:bg-primary-100 disabled:dark:bg-secondary-800 disabled:dark:text-secondary-50 focus:outline-primary-500'])
+                ->merge(['class' =>'border-none flex-1 opacity-100 p-2 text-primary-900 truncate disabled:bg-primary-100 disabled:dark:bg-secondary-800 disabled:dark:text-secondary-50 focus:outline-primary-500'])
                 ->when($error, function ($collection) {
                     return $collection->merge(['class' => 'invalid']);
                 })
