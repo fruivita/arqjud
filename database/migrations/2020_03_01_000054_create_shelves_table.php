@@ -20,12 +20,18 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('stand_id');
             $table->unsignedInteger('number');
+            $table->string('alias', 100)->nullable();
             $table->string('description', 255)->nullable();
             $table->timestamps();
 
             $table->unique([
                 'stand_id',
                 'number',
+            ]);
+
+            $table->unique([
+                'stand_id',
+                'alias',
             ]);
 
             $table

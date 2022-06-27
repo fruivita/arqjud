@@ -21,8 +21,11 @@ class StandFactory extends Factory
      */
     public function definition()
     {
+        $number = $this->faker->unique()->numberBetween();
+
         return [
-            'number' => $this->faker->unique()->numberBetween(),
+            'number' => $number,
+            'alias' => $number,
             'description' => $this->faker->optional()->sentence(),
             'room_id' => Room::factory(),
         ];

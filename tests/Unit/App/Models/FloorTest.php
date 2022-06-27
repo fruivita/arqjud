@@ -39,7 +39,6 @@ test('throws exception when trying to create floor with invalid field', function
     ['number',     'foo',             'Incorrect integer value'],  // not convertible to integer
     ['number',      null,             'cannot be null'],           // required
     ['alias',       Str::random(101), 'Data too long for column'], // maximum 100 characters
-    ['alias',       null,             'cannot be null'],           // required
     ['description', Str::random(256), 'Data too long for column'], // maximum 255 characters
 ]);
 
@@ -57,6 +56,20 @@ test('create many floors', function () {
     Floor::factory(30)->create();
 
     expect(Floor::count())->toBe(30);
+});
+
+test('andares com alias null não são considerados duplicados', function () {
+    $building = Building::factory()->create();
+
+    Floor::factory()->for($building)->create(['alias' => null]);
+    Floor::factory()->for($building)->create(['alias' => null]);
+    Floor::factory()->for($building)->create(['alias' => '10']);
+
+    $building->load(['floors' => function ($query) {
+        $query->whereNull('alias');
+    }]);
+
+    expect($building->floors)->toHaveCount(2);
 });
 
 test('fields in their minimum size are accepted', function () {
@@ -84,7 +97,10 @@ test('zero is a valid value for the floor number', function () {
 });
 
 test('optional fields are set', function () {
-    Floor::factory()->create(['description' => null]);
+    Floor::factory()->create([
+        'alias' => null,
+        'description' => null,
+    ]);
 
     expect(Floor::count())->toBe(1);
 });
@@ -110,9 +126,11 @@ test('createRoom save the room as a child of the floor and create a default stan
     ->and($room->description)->toBe('foo')
     ->and($room->floor_id)->toBe($floor->id)
     ->and($stand->number)->toBe(0)
+    ->and($stand->alias)->toBe(__('Uninformed'))
     ->and($stand->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'))
     ->and($stand->room_id)->toBe($room->id)
     ->and($shelf->number)->toBe(0)
+    ->and($shelf->alias)->toBe(__('Uninformed'))
     ->and($shelf->stand_id)->toBe($stand->id)
     ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
 });

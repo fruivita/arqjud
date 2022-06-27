@@ -41,8 +41,10 @@ class BoxVolume extends Model
      * - room_id: parent room id
      * - room_number: parent room number
      * - stand_id: parent stand id
+     * - stand_alias: parent stand alias
      * - stand_number: parent stand number
      * - shelf_id: parent shelf id
+     * - shelf_alias: parent shelf alias
      * - shelf_number: parent shelf number
      * - box_number: parent box number
      * - box_year: parent box year
@@ -71,8 +73,10 @@ class BoxVolume extends Model
             'rooms.id as room_id',
             'rooms.number as room_number',
             'stands.id as stand_id',
+            'stands.alias as stand_alias',
             'stands.number as stand_number',
             'shelves.id as shelf_id',
+            'shelves.alias as shelf_alias',
             'shelves.number as shelf_number',
             'boxes.number as box_number',
             'boxes.year as box_year',

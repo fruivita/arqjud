@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('box_id');
             $table->unsignedInteger('number');
-            $table->string('alias', 100);
+            $table->string('alias', 100)->nullable();
             $table->timestamps();
 
             $table->unique([

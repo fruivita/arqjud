@@ -11,12 +11,19 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 
 // Exceptions
-test('throws exception when trying to create stands in duplicate, that is, with the same numbers and room', function () {
+test('throws exception when trying to create stands in duplicate, that is, with the same numbers/alias and room', function () {
     $room = Room::factory()->create();
 
     expect(
         fn () => Stand::factory(2)->create([
             'number' => 100,
+            'room_id' => $room->id,
+        ])
+    )->toThrow(QueryException::class, 'Duplicate entry');
+
+    expect(
+        fn () => Stand::factory(2)->create([
+            'alias' => '100',
             'room_id' => $room->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
@@ -30,6 +37,7 @@ test('throws exception when trying to create stand with invalid field', function
     ['number',      -1,               'Out of range'],             // min 0
     ['number',      4294967296,       'Out of range'],             // max 4294967295
     ['number',     'foo',             'Incorrect integer value'],  // not convertible to integer
+    ['alias',       Str::random(101), 'Data too long for column'], // maximum 100 characters
     ['description', Str::random(256), 'Data too long for column'], // maximum 255 characters
 ]);
 
@@ -49,6 +57,20 @@ test('create many stands', function () {
     expect(Stand::count())->toBe(30);
 });
 
+test('estantes com alias null não são considerados duplicadas', function () {
+    $room = Room::factory()->create();
+
+    Stand::factory()->for($room)->create(['alias' => null]);
+    Stand::factory()->for($room)->create(['alias' => null]);
+    Stand::factory()->for($room)->create(['alias' => '10']);
+
+    $room->load(['stands' => function ($query) {
+        $query->whereNull('alias');
+    }]);
+
+    expect($room->stands)->toHaveCount(2);
+});
+
 test('fields in their minimum size are accepted', function () {
     Stand::factory()->create(['number' => 0]);
 
@@ -58,6 +80,7 @@ test('fields in their minimum size are accepted', function () {
 test('fields in their maximum size are accepted', function () {
     Stand::factory()->create([
         'number' => 4294967295,
+        'alias' => Str::random(100),
         'description' => Str::random(255),
     ]);
 
@@ -65,7 +88,10 @@ test('fields in their maximum size are accepted', function () {
 });
 
 test('optional fields are set', function () {
-    Stand::factory()->create(['description' => null]);
+    Stand::factory()->create([
+        'alias' => null,
+        'description' => null,
+    ]);
 
     expect(Stand::count())->toBe(1);
 });
@@ -82,6 +108,7 @@ test('uninformedStand returns the model with the expected attributes', function 
     $stand = Stand::uninformedStand();
 
     expect($stand->number)->toBe(0)
+    ->and($stand->alias)->toBe(__('Uninformed'))
     ->and($stand->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
 });
 

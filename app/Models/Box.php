@@ -67,6 +67,8 @@ class Box extends Model
      * - room_number: parent room number
      * - stand_id: parent stand id
      * - stand_number: parent stand number
+     * - stand_alias: parent stand alias
+     * - shelf_alias: parent shelf alias
      * - shelf_number: parent shelf number
      * - volumes_count: child box volumes count
      *
@@ -94,8 +96,10 @@ class Box extends Model
             'rooms.id as room_id',
             'rooms.number as room_number',
             'stands.id as stand_id',
+            'stands.alias as stand_alias',
             'stands.number as stand_number',
             'shelves.number as shelf_number',
+            'shelves.alias as shelf_alias',
             DB::raw('COUNT(box_volumes.box_id) as volumes_count')
         ])
         ->groupBy('boxes.id');
@@ -115,8 +119,10 @@ class Box extends Model
      * - room_id: parent room id
      * - room_number: parent room number
      * - stand_id: parent stand id
+     * - stand_alias: parent stand alias
      * - stand_number: parent stand number
      * - shelf_id: parent shelf id
+     * - shelf_alias: parent shelf alias
      * - shelf_number: parent shelf number
      * - volumes_count: child box volumes count
      *
@@ -139,8 +145,10 @@ class Box extends Model
             'room_id' => $box->room_id,
             'room_number' => $box->room_number,
             'stand_id' => $box->stand_id,
+            'stand_alias' => $box->stand_alias,
             'stand_number' => $box->stand_number,
             'shelf_id' => $box->shelf_id,
+            'shelf_alias' => $box->shelf_alias,
             'shelf_number' => $box->shelf_number,
             'volumes_count' => $box->volumes_count,
         ]);

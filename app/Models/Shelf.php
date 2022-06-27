@@ -56,6 +56,7 @@ class Shelf extends Model
      * - floor_number: parent floor number
      * - room_id: parent room id
      * - room_number: parent room number
+     * - stand_alias: parent stand alias
      * - stand_number: parent stand number
      * - boxes_count: child boxes count
      *
@@ -81,6 +82,7 @@ class Shelf extends Model
             'floors.number as floor_number',
             'rooms.id as room_id',
             'rooms.number as room_number',
+            'stands.alias as stand_alias',
             'stands.number as stand_number',
             DB::raw('COUNT(boxes.shelf_id) as boxes_count')
         ])
@@ -101,6 +103,7 @@ class Shelf extends Model
      * - room_id: parent room id
      * - room_number: parent room number
      * - stand_id: parent stand id
+     * - stand_alias: parent stand alias
      * - stand_number: parent stand number
      * - boxes_count: child boxes count
      *
@@ -123,6 +126,7 @@ class Shelf extends Model
             'room_id' => $shelf->room_id,
             'room_number' => $shelf->room_number,
             'stand_id' => $shelf->stand_id,
+            'stand_alias' => $shelf->stand_alias,
             'stand_number' => $shelf->stand_number,
             'boxes_count' => $shelf->boxes_count,
         ]);
@@ -183,6 +187,7 @@ class Shelf extends Model
     {
         $shelf = new self();
         $shelf->number = 0;
+        $shelf->alias = __('Uninformed');
         $shelf->description = __('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored');
 
         return $shelf;

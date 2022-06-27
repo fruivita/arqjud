@@ -162,6 +162,7 @@ class Stand extends Model
     {
         $stand = new self();
         $stand->number = 0;
+        $stand->alias = __('Uninformed');
         $stand->description = __('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored');
 
         return $stand;

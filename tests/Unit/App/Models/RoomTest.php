@@ -82,6 +82,7 @@ test('createStand save the stand as a child of the room and create a default she
     ->and($stand->description)->toBe('foo')
     ->and($stand->room_id)->toBe($room->id)
     ->and($shelf->number)->toBe(0)
+    ->and($shelf->alias)->toBe(__('Uninformed'))
     ->and($shelf->stand_id)->toBe($stand->id)
     ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
 });

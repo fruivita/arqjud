@@ -11,12 +11,19 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 
 // Exceptions
-test('throws exception when trying to create shelves in duplicate, that is, with the same numbers and stand', function () {
+test('throws exception when trying to create shelves in duplicate, that is, with the same numbers/alias and stand', function () {
     $stand = Stand::factory()->create();
 
     expect(
         fn () => Shelf::factory(2)->create([
             'number' => 100,
+            'stand_id' => $stand->id,
+        ])
+    )->toThrow(QueryException::class, 'Duplicate entry');
+
+    expect(
+        fn () => Shelf::factory(2)->create([
+            'alias' => '100',
             'stand_id' => $stand->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
@@ -30,6 +37,7 @@ test('throws exception when trying to create shelf with invalid field', function
     ['number',      -1,               'Out of range'],             // min 0
     ['number',      4294967296,       'Out of range'],             // max 4294967295
     ['number',     'foo',             'Incorrect integer value'],  // not convertible to integer
+    ['alias',       Str::random(101), 'Data too long for column'], // maximum 100 characters
     ['description', Str::random(256), 'Data too long for column'], // maximum 255 characters
 ]);
 
@@ -49,6 +57,20 @@ test('create many shelves', function () {
     expect(Shelf::count())->toBe(30);
 });
 
+test('prateleiras com alias null não são considerados duplicadas', function () {
+    $stand = Shelf::factory()->create();
+
+    Shelf::factory()->for($stand)->create(['alias' => null]);
+    Shelf::factory()->for($stand)->create(['alias' => null]);
+    Shelf::factory()->for($stand)->create(['alias' => '10']);
+
+    $stand->load(['shelves' => function ($query) {
+        $query->whereNull('alias');
+    }]);
+
+    expect($stand->shelves)->toHaveCount(2);
+});
+
 test('fields in their minimum size are accepted', function () {
     Shelf::factory()->create(['number' => 0]);
 
@@ -58,6 +80,7 @@ test('fields in their minimum size are accepted', function () {
 test('fields in their maximum size are accepted', function () {
     Shelf::factory()->create([
         'number' => 4294967295,
+        'alias' => Str::random(100),
         'description' => Str::random(255),
     ]);
 
@@ -65,7 +88,10 @@ test('fields in their maximum size are accepted', function () {
 });
 
 test('optional fields are set', function () {
-    Shelf::factory()->create(['description' => null]);
+    Shelf::factory()->create([
+        'alias' => null,
+        'description' => null,
+    ]);
 
     expect(Shelf::count())->toBe(1);
 });
@@ -82,6 +108,7 @@ test('uninformedShelf returns the model with the expected attributes', function 
     $shelf = Shelf::uninformedShelf();
 
     expect($shelf->number)->toBe(0)
+    ->and($shelf->alias)->toBe(__('Uninformed'))
     ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
 });
 
@@ -174,6 +201,7 @@ test('hierarchy returns all shelves with the respective stand, room, floor, buil
     ->and(empty($shelf_10->room_id))->toBeFalse()
     ->and(empty($shelf_10->room_number))->toBeFalse()
     ->and(empty($shelf_10->stand_id))->toBeFalse()
+    ->and(empty($shelf_10->stand_alias))->toBeFalse()
     ->and(empty($shelf_10->stand_number))->toBeFalse()
     ->and($shelf_10->boxes_count)->toBe(0)
     ->and($shelf_20->boxes_count)->toBe(1)

@@ -25,7 +25,7 @@ class BoxVolumeFactory extends Factory
 
         return [
             'number' => $number,
-            'alias' => $number,
+            'alias' => "Vol. {$number}",
             'box_id' => Box::factory(),
         ];
     }
