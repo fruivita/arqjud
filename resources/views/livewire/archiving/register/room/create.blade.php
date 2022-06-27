@@ -47,6 +47,7 @@
                     wire:model.defer="room.number"
                     wire:target="store"
                     autofocus
+                    editavel
                     :error="$errors->first('room.number')"
                     icon="layers"
                     min="1"
@@ -64,6 +65,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="room.description"
                     wire:target="store"
+                    editavel
                     :error="$errors->first('room.description')"
                     icon="blockquote-left"
                     maxlength="255"

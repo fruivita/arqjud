@@ -25,6 +25,7 @@
                     wire:model.defer="site.name"
                     wire:target="store"
                     autofocus
+                    editavel
                     :error="$errors->first('site.name')"
                     icon="pin-map"
                     maxlength="100"
@@ -42,6 +43,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="site.description"
                     wire:target="store"
+                    editavel
                     :error="$errors->first('site.description')"
                     icon="blockquote-left"
                     maxlength="255"

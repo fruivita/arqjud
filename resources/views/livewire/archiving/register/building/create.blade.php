@@ -33,6 +33,7 @@
                     wire:model.defer="building.name"
                     wire:target="store"
                     autofocus
+                    editavel
                     :error="$errors->first('building.name')"
                     icon="building"
                     maxlength="100"
@@ -50,6 +51,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="building.description"
                     wire:target="store"
+                    editavel
                     :error="$errors->first('building.description')"
                     icon="blockquote-left"
                     maxlength="255"

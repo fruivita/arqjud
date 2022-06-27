@@ -61,6 +61,7 @@
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model.lazy="box.year"
                         wire:target="store"
+                        editavel
                         :error="$errors->first('box.year')"
                         icon="calendar-range"
                         min="1900"
@@ -79,6 +80,7 @@
                         wire:model.defer="box.number"
                         wire:target="box.year,store"
                         autofocus
+                        editavel
                         :error="$errors->first('box.number')"
                         icon="tag"
                         min="1"
@@ -95,6 +97,7 @@
                         wire:loading.delay.class="cursor-not-allowed"
                         wire:model.defer="volumes"
                         wire:target="store"
+                        editavel
                         :error="$errors->first('volumes')"
                         icon="collection"
                         min="1"
@@ -114,6 +117,7 @@
                             wire:loading.delay.class="cursor-not-allowed"
                             wire:model.defer="amount"
                             wire:target="store"
+                            editavel
                             :error="$errors->first('amount')"
                             icon="collection"
                             min="1"
@@ -128,16 +132,11 @@
 
                         <x-form.input
                             wire:key="box-amount-cannot"
-                            wire:loading.delay.attr="disabled"
-                            wire:loading.delay.class="cursor-not-allowed"
                             wire:model.defer="amount"
-                            wire:target="store"
-                            class="cursor-not-allowed"
-                            disabled
                             :error="$errors->first('amount')"
                             icon="collection"
                             min="1"
-                            max="1000"
+                            max="1"
                             :placeholder="__('Only numbers')"
                             required
                             :text="__('Amount')"
@@ -155,6 +154,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="box.description"
                     wire:target="store"
+                    editavel
                     :error="$errors->first('box.description')"
                     icon="blockquote-left"
                     maxlength="255"
