@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Floor;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\ConverteStringVaziaEmNull;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -22,6 +23,7 @@ use Livewire\Component;
 class FloorLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use ConverteStringVaziaEmNull;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -80,7 +82,7 @@ class FloorLivewireUpdate extends Component
 
             'floor.alias' => [
                 'bail',
-                'required',
+                'nullable',
                 'string',
                 'max:100',
                 "unique:floors,alias,{$this->floor->id},id,building_id,{$this->floor->building_id}",

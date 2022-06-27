@@ -53,7 +53,6 @@
                         icon="symmetry-vertical"
                         maxlength="100"
                         :placeholder="__('Suggestion: Garage, G1, Ground floor, 10th...')"
-                        required
                         :text="__('Alias')"
                         :title="__('Inform the floor alias')"
                         type="text"

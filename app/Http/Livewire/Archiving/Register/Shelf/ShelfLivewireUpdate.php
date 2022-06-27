@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Shelf;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\ConverteStringVaziaEmNull;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -25,6 +26,7 @@ use Livewire\Component;
 class ShelfLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use ConverteStringVaziaEmNull;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -120,6 +122,14 @@ class ShelfLivewireUpdate extends Component
                 'integer',
                 'between:1,100000',
                 "unique:shelves,number,{$this->shelf->id},id,stand_id,{$this->shelf->stand_id}",
+            ],
+
+            'shelf.alias' => [
+                'bail',
+                'nullable',
+                'string',
+                'max:100',
+                "unique:shelves,alias,{$this->shelf->id},id,stand_id,{$this->shelf->stand_id}",
             ],
 
             'shelf.description' => [

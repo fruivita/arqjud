@@ -21,7 +21,7 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->floor = Floor::factory()->create();
+    $this->floor = Floor::factory()->create(['number' => 2]);
 
     login('foo');
 });
@@ -114,14 +114,14 @@ test('number and building_id must be unique', function () {
     ->assertHasErrors(['floor.number' => 'unique']);
 });
 
-test('alias is required', function () {
+test('alias is optional', function () {
     grantPermission(PermissionType::FloorUpdate->value);
 
     Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
     ->set('modo_edicao', true)
     ->set('floor.alias', '')
     ->call('update')
-    ->assertHasErrors(['floor.alias' => 'required']);
+    ->assertHasNoErrors(['floor.alias']);
 });
 
 test('alias must be a string', function () {
@@ -365,6 +365,7 @@ test('update a floor record with specific permission', function () {
     ->set('floor.description', 'foo bar')
     ->set('floor.building_id', $building->id)
     ->call('update')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $this->floor->refresh();
@@ -380,6 +381,7 @@ test('FloorLivewireUpdate uses trait', function () {
         collect(class_uses(FloorLivewireUpdate::class))
         ->has([
             \App\Http\Livewire\Traits\WithSorting::class,
+            \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
         ])
     )->toBeTrue();
 });

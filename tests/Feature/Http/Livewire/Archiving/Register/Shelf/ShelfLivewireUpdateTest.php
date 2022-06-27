@@ -24,7 +24,7 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->shelf = Shelf::factory()->create();
+    $this->shelf = Shelf::factory()->create(['number' => 2]);
 
     login('foo');
 });
@@ -115,6 +115,50 @@ test('number and stand_id must be unique', function () {
     ->set('shelf.stand_id', $stand->id)
     ->call('update')
     ->assertHasErrors(['shelf.number' => 'unique']);
+});
+
+test('alias is optional', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
+    ->set('shelf.alias', '')
+    ->call('update')
+    ->assertHasNoErrors(['shelf.alias']);
+});
+
+test('alias must be a string', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
+    ->set('shelf.alias', ['foo'])
+    ->call('update')
+    ->assertHasErrors(['shelf.alias' => 'string']);
+});
+
+test('alias must be a maximum of 100 characters', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
+    ->set('shelf.alias', Str::random(101))
+    ->call('update')
+    ->assertHasErrors(['shelf.alias' => 'max']);
+});
+
+test('alias and stand_id must be unique', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+
+    $stand = Stand::factory()->create();
+    Shelf::factory()->create(['alias' => 99, 'stand_id' => $stand->id]);
+
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->set('modo_edicao', true)
+    ->set('shelf.alias', '99')
+    ->set('shelf.stand_id', $stand->id)
+    ->call('update')
+    ->assertHasErrors(['shelf.alias' => 'unique']);
 });
 
 test('description is optional', function () {
@@ -382,6 +426,7 @@ test('emits feedback event when update a shelf record', function () {
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('modo_edicao', true)
     ->set('shelf.number', 1)
+    ->set('shelf.alias', '1')
     ->set('shelf.stand_id', $stand->id)
     ->call('update')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
@@ -496,14 +541,17 @@ test('update a shelf record with specific permission', function () {
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
     ->set('modo_edicao', true)
     ->set('shelf.number', 99)
+    ->set('shelf.alias', '99')
     ->set('shelf.description', 'foo bar')
     ->set('shelf.stand_id', $stand->id)
     ->call('update')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $this->shelf->refresh();
 
     expect($this->shelf->number)->toBe(99)
+    ->and($this->shelf->alias)->toBe('99')
     ->and($this->shelf->description)->toBe('foo bar')
     ->and($this->shelf->stand_id)->toBe($stand->id);
 });
@@ -513,6 +561,7 @@ test('ShelfLivewireUpdate uses trait', function () {
         collect(class_uses(ShelfLivewireUpdate::class))
         ->has([
             \App\Http\Livewire\Traits\WithSorting::class,
+            \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
         ])
     )->toBeTrue();
 });

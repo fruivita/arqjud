@@ -23,7 +23,7 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->stand = Stand::factory()->create();
+    $this->stand = Stand::factory()->create(['number' => 2]);
 
     login('foo');
 });
@@ -114,6 +114,50 @@ test('number and room_id must be unique', function () {
     ->set('stand.room_id', $room->id)
     ->call('update')
     ->assertHasErrors(['stand.number' => 'unique']);
+});
+
+test('alias is optional', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
+    ->set('modo_edicao', true)
+    ->set('stand.alias', '')
+    ->call('update')
+    ->assertHasNoErrors(['stand.alias']);
+});
+
+test('alias must be a string', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
+    ->set('modo_edicao', true)
+    ->set('stand.alias', ['foo'])
+    ->call('update')
+    ->assertHasErrors(['stand.alias' => 'string']);
+});
+
+test('alias must be a maximum of 100 characters', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
+    ->set('modo_edicao', true)
+    ->set('stand.alias', Str::random(101))
+    ->call('update')
+    ->assertHasErrors(['stand.alias' => 'max']);
+});
+
+test('alias and room_id must be unique', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    $room = Room::factory()->create();
+    Stand::factory()->create(['alias' => 99, 'room_id' => $room->id]);
+
+    Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
+    ->set('modo_edicao', true)
+    ->set('stand.alias', '99')
+    ->set('stand.room_id', $room->id)
+    ->call('update')
+    ->assertHasErrors(['stand.alias' => 'unique']);
 });
 
 test('description is optional', function () {
@@ -338,6 +382,7 @@ test('emits feedback event when update a stand record', function () {
     Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
     ->set('modo_edicao', true)
     ->set('stand.number', 1)
+    ->set('stand.alias', '1')
     ->set('stand.room_id', $room->id)
     ->call('update')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
@@ -435,14 +480,17 @@ test('update a stand record with specific permission', function () {
     Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
     ->set('modo_edicao', true)
     ->set('stand.number', 99)
+    ->set('stand.alias', '99')
     ->set('stand.description', 'foo bar')
     ->set('stand.room_id', $room->id)
     ->call('update')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $this->stand->refresh();
 
     expect($this->stand->number)->toBe(99)
+    ->and($this->stand->alias)->toBe('99')
     ->and($this->stand->description)->toBe('foo bar')
     ->and($this->stand->room_id)->toBe($room->id);
 });
@@ -452,6 +500,7 @@ test('StandLivewireUpdate uses trait', function () {
         collect(class_uses(StandLivewireUpdate::class))
         ->has([
             \App\Http\Livewire\Traits\WithSorting::class,
+            \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
         ])
     )->toBeTrue();
 });

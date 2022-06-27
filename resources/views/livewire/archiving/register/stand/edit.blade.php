@@ -21,23 +21,44 @@
 
             <div class="space-y-6">
 
-                <x-form.input
-                    wire:key="stand-number"
-                    wire:loading.delay.attr="disabled"
-                    wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="stand.number"
-                    wire:target="update"
-                    autofocus
-                    :editavel="$this->modo_edicao"
-                    :error="$errors->first('stand.number')"
-                    icon="bookshelf"
-                    min="1"
-                    max="100000"
-                    :placeholder="__('Only numbers')"
-                    required
-                    :text="__('Stand')"
-                    :title="__('Inform the stand number')"
-                    type="number"/>
+                <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
+
+                    <x-form.input
+                        wire:key="stand-number"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="stand.number"
+                        wire:target="update"
+                        autofocus
+                        :editavel="$this->modo_edicao"
+                        :error="$errors->first('stand.number')"
+                        icon="bookshelf"
+                        min="1"
+                        max="100000"
+                        :placeholder="__('Only numbers')"
+                        required
+                        :text="__('Stand')"
+                        :title="__('Inform the stand number')"
+                        type="number"/>
+
+
+                    <x-form.input
+                        wire:key="stand-alias"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="stand.alias"
+                        wire:target="update"
+                        :editavel="$this->modo_edicao"
+                        :error="$errors->first('stand.alias')"
+                        icon="symmetry-vertical"
+                        maxlength="100"
+                        :placeholder="__('Stand alias')"
+                        :text="__('Alias')"
+                        :title="__('Inform the stand alias')"
+                        type="text"
+                        withcounter/>
+
+                </div>
 
 
                 <x-form.textarea

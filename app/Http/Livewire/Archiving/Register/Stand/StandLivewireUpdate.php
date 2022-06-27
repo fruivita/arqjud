@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Stand;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\ConverteStringVaziaEmNull;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -24,6 +25,7 @@ use Livewire\Component;
 class StandLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use ConverteStringVaziaEmNull;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -106,6 +108,14 @@ class StandLivewireUpdate extends Component
                 'integer',
                 'between:1,100000',
                 "unique:stands,number,{$this->stand->id},id,room_id,{$this->stand->room_id}",
+            ],
+
+            'stand.alias' => [
+                'bail',
+                'nullable',
+                'string',
+                'max:100',
+                "unique:stands,alias,{$this->stand->id},id,room_id,{$this->stand->room_id}",
             ],
 
             'stand.description' => [
