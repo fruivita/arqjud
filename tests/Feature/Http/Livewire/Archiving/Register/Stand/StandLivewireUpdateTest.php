@@ -366,9 +366,6 @@ test('renders edit stand record component with view or update permission', funct
     get(route('archiving.register.stand.edit', $this->stand->id))
     ->assertOk()
     ->assertSeeLivewire(StandLivewireUpdate::class);
-
-    Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
-    ->assertOk();
 })->with([
     PermissionType::StandView->value,
     PermissionType::StandUpdate->value

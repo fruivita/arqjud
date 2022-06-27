@@ -410,9 +410,6 @@ test('renders edit shelf record component with view or update permission', funct
     get(route('archiving.register.shelf.edit', $this->shelf->id))
     ->assertOk()
     ->assertSeeLivewire(ShelfLivewireUpdate::class);
-
-    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
-    ->assertOk();
 })->with([
     PermissionType::ShelfView->value,
     PermissionType::ShelfUpdate->value

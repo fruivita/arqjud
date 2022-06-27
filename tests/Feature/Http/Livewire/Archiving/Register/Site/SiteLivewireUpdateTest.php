@@ -154,9 +154,6 @@ test('renders edit site record component with view or update permission', functi
     get(route('archiving.register.site.edit', $this->site))
     ->assertOk()
     ->assertSeeLivewire(SiteLivewireUpdate::class);
-
-    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->assertOk();
 })->with([
     PermissionType::SiteView->value,
     PermissionType::SiteUpdate->value

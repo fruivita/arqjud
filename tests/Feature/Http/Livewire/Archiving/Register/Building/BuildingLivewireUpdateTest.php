@@ -187,9 +187,6 @@ test('renders edit building record component with view or update permission', fu
     get(route('archiving.register.building.edit', $this->building->id))
     ->assertOk()
     ->assertSeeLivewire(BuildingLivewireUpdate::class);
-
-    Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
-    ->assertOk();
 })->with([
     PermissionType::BuildingView->value,
     PermissionType::BuildingUpdate->value

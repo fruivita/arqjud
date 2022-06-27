@@ -460,9 +460,6 @@ test('renders edit box record component with view or update permission', functio
     get(route('archiving.register.box.edit', $this->box->id))
     ->assertOk()
     ->assertSeeLivewire(BoxLivewireUpdate::class);
-
-    Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->assertOk();
 })->with([
     PermissionType::BoxView->value,
     PermissionType::BoxUpdate->value

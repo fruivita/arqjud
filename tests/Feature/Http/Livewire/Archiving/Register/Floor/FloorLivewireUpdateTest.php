@@ -278,9 +278,6 @@ test('renders edit floor record component with view or update permission', funct
     get(route('archiving.register.floor.edit', $this->floor->id))
     ->assertOk()
     ->assertSeeLivewire(FloorLivewireUpdate::class);
-
-    Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
-    ->assertOk();
 })->with([
     PermissionType::FloorView->value,
     PermissionType::FloorUpdate->value

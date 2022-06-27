@@ -278,9 +278,6 @@ test('renders edit room record component with view or update permission', functi
     get(route('archiving.register.room.edit', $this->room->id))
     ->assertOk()
     ->assertSeeLivewire(RoomLivewireUpdate::class);
-
-    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
-    ->assertOk();
 })->with([
     PermissionType::RoomView->value,
     PermissionType::RoomUpdate->value
