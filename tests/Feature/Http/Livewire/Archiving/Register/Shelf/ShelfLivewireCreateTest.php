@@ -88,6 +88,44 @@ test('number and stand_id must be unique', function () {
     ->assertHasErrors(['shelf.number' => 'unique']);
 });
 
+test('alias is optional', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+
+    Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])
+    ->set('shelf.alias', '')
+    ->call('store')
+    ->assertHasNoErrors(['shelf.alias']);
+});
+
+test('alias must be a string', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+
+    Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])
+    ->set('shelf.alias', ['foo'])
+    ->call('store')
+    ->assertHasErrors(['shelf.alias' => 'string']);
+});
+
+test('alias must be a maximum of 100 characters', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+
+    Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])
+    ->set('shelf.alias', Str::random(101))
+    ->call('store')
+    ->assertHasErrors(['shelf.alias' => 'max']);
+});
+
+test('alias and stand_id must be unique', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+
+    Shelf::factory()->create(['alias' => '99', 'stand_id' => $this->stand->id]);
+
+    Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])
+    ->set('shelf.alias', '99')
+    ->call('store')
+    ->assertHasErrors(['shelf.alias' => 'unique']);
+});
+
 test('description is optional', function () {
     grantPermission(PermissionType::ShelfCreate->value);
 
@@ -139,6 +177,7 @@ test('emits feedback event when creates a shelf record', function () {
 
     Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])
     ->set('shelf.number', 1)
+    ->set('shelf.alias', '1')
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
@@ -167,13 +206,16 @@ test('creates a shelf record with specific permission', function () {
 
     Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])
     ->set('shelf.number', 99)
+    ->set('shelf.alias', '99')
     ->set('shelf.description', 'foo bar')
     ->call('store')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $shelf = Shelf::with('stand')->first();
 
     expect($shelf->number)->toBe(99)
+    ->and($shelf->alias)->toBe('99')
     ->and($shelf->description)->toBe('foo bar')
     ->and($shelf->stand->id)->toBe($this->stand->id);
 });
@@ -185,6 +227,7 @@ test('reset to a blank model after the shelf is created', function () {
 
     Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])
     ->set('shelf.number', 1)
+    ->set('shelf.alias', '1º')
     ->call('store')
     ->assertOk()
     ->assertSet('shelf', $blank);
@@ -195,6 +238,7 @@ test('ShelfLivewireCreate uses trait', function () {
         collect(class_uses(ShelfLivewireCreate::class))
         ->has([
             \App\Http\Livewire\Traits\WithSorting::class,
+            \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
         ])
     )->toBeTrue();
 });

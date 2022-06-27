@@ -54,22 +54,44 @@
                 </div>
 
 
-                <x-form.input
-                    wire:key="shelf-number"
-                    wire:loading.delay.attr="disabled"
-                    wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="shelf.number"
-                    wire:target="store"
-                    autofocus
-                    :error="$errors->first('shelf.number')"
-                    icon="list-nested"
-                    min="1"
-                    max="100000"
-                    :placeholder="__('Only numbers')"
-                    required
-                    :text="__('Shelf')"
-                    :title="__('Inform the shelf number')"
-                    type="number"/>
+                <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
+
+                    <x-form.input
+                        wire:key="shelf-number"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="shelf.number"
+                        wire:target="store"
+                        autofocus
+                        editavel
+                        :error="$errors->first('shelf.number')"
+                        icon="list-nested"
+                        min="1"
+                        max="100000"
+                        :placeholder="__('Only numbers')"
+                        required
+                        :text="__('Shelf')"
+                        :title="__('Inform the shelf number')"
+                        type="number"/>
+
+
+                    <x-form.input
+                        wire:key="shelf-alias"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="shelf.alias"
+                        wire:target="store"
+                        editavel
+                        :error="$errors->first('shelf.alias')"
+                        icon="symmetry-vertical"
+                        maxlength="100"
+                        :placeholder="__('Shelf alias')"
+                        :text="__('Alias')"
+                        :title="__('Inform the shelf alias')"
+                        type="text"
+                        withcounter/>
+
+                </div>
 
 
                 <x-form.textarea
@@ -78,6 +100,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="shelf.description"
                     wire:target="store"
+                    editavel
                     :error="$errors->first('shelf.description')"
                     icon="blockquote-left"
                     maxlength="255"

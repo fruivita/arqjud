@@ -88,6 +88,44 @@ test('number and room_id must be unique', function () {
     ->assertHasErrors(['stand.number' => 'unique']);
 });
 
+test('alias is optional', function () {
+    grantPermission(PermissionType::StandCreate->value);
+
+    Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
+    ->set('stand.alias', '')
+    ->call('store')
+    ->assertHasNoErrors(['stand.alias']);
+});
+
+test('alias must be a string', function () {
+    grantPermission(PermissionType::StandCreate->value);
+
+    Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
+    ->set('stand.alias', ['foo'])
+    ->call('store')
+    ->assertHasErrors(['stand.alias' => 'string']);
+});
+
+test('alias must be a maximum of 100 characters', function () {
+    grantPermission(PermissionType::StandCreate->value);
+
+    Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
+    ->set('stand.alias', Str::random(101))
+    ->call('store')
+    ->assertHasErrors(['stand.alias' => 'max']);
+});
+
+test('alias and room_id must be unique', function () {
+    grantPermission(PermissionType::StandCreate->value);
+
+    Stand::factory()->create(['alias' => '99', 'room_id' => $this->room->id]);
+
+    Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
+    ->set('stand.alias', '99')
+    ->call('store')
+    ->assertHasErrors(['stand.alias' => 'unique']);
+});
+
 test('description is optional', function () {
     grantPermission(PermissionType::StandCreate->value);
 
@@ -139,6 +177,7 @@ test('emits feedback event when creates a stand record', function () {
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
     ->set('stand.number', 1)
+    ->set('stand.alias', '1')
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
@@ -167,13 +206,16 @@ test('creates a stand record with specific permission', function () {
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
     ->set('stand.number', 99)
+    ->set('stand.alias', '99')
     ->set('stand.description', 'foo bar')
     ->call('store')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $stand = Stand::with('room')->first();
 
     expect($stand->number)->toBe(99)
+    ->and($stand->alias)->toBe('99')
     ->and($stand->description)->toBe('foo bar')
     ->and($stand->room->id)->toBe($this->room->id);
 });
@@ -194,6 +236,7 @@ test('when creating a stand, a default shelf is also created', function () {
     ->and($stand->description)->toBe('foo bar')
     ->and($stand->room_id)->toBe($this->room->id)
     ->and($shelf->number)->toBe(0)
+    ->and($shelf->alias)->toBe(__('Uninformed'))
     ->and($shelf->stand_id)->toBe($stand->id)
     ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
 });
@@ -205,6 +248,7 @@ test('reset to a blank model after the stand is created', function () {
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
     ->set('stand.number', 1)
+    ->set('stand.alias', '1º')
     ->call('store')
     ->assertOk()
     ->assertSet('stand', $blank);
@@ -215,6 +259,7 @@ test('StandLivewireCreate uses trait', function () {
         collect(class_uses(StandLivewireCreate::class))
         ->has([
             \App\Http\Livewire\Traits\WithSorting::class,
+            \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
         ])
     )->toBeTrue();
 });

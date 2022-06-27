@@ -32,25 +32,43 @@
                         :key="__('Building')"
                         :value="$this->building->name"/>
 
+
+                    <x-form.input
+                        wire:key="floor-number"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="floor.number"
+                        wire:target="store"
+                        autofocus
+                        editavel
+                        :error="$errors->first('floor.number')"
+                        icon="layers"
+                        min="-100"
+                        max="300"
+                        :placeholder="__('Only numbers')"
+                        required
+                        :text="__('Floor')"
+                        :title="__('Inform the floor number')"
+                        type="number"/>
+
+
+                    <x-form.input
+                        wire:key="floor-alias"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="floor.alias"
+                        wire:target="store"
+                        editavel
+                        :error="$errors->first('floor.alias')"
+                        icon="symmetry-vertical"
+                        maxlength="100"
+                        :placeholder="__('Suggestion: Garage, G1, Ground floor, 10th...')"
+                        :text="__('Alias')"
+                        :title="__('Inform the floor alias')"
+                        type="text"
+                        withcounter/>
+
                 </div>
-
-
-                <x-form.input
-                    wire:key="floor-number"
-                    wire:loading.delay.attr="disabled"
-                    wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="floor.number"
-                    wire:target="store"
-                    autofocus
-                    :error="$errors->first('floor.number')"
-                    icon="layers"
-                    min="-100"
-                    max="300"
-                    :placeholder="__('Only numbers')"
-                    required
-                    :text="__('Floor')"
-                    :title="__('Inform the floor number')"
-                    type="number"/>
 
 
                 <x-form.textarea
@@ -59,6 +77,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="floor.description"
                     wire:target="store"
+                    editavel
                     :error="$errors->first('floor.description')"
                     icon="blockquote-left"
                     maxlength="255"

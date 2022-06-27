@@ -80,6 +80,17 @@
 
 
                 <x-table.heading
+                    wire:click="sortBy('alias')"
+                    :direction="$sorts['alias'] ?? null"
+                    sortable
+                >
+
+                    {{ __('Alias') }}
+
+                </x-table.heading>
+
+
+                <x-table.heading
                     wire:click="sortBy('shelves_count')"
                     :direction="$sorts['shelves_count'] ?? null"
                     sortable
@@ -149,7 +160,10 @@
 
                     <x-table.row>
 
-                        <x-table.cell>{{ $stand->for_humans }}</x-table.cell>
+                        <x-table.cell>{{ $stand->number }}</x-table.cell>
+
+
+                        <x-table.cell>{{ $stand->alias }}</x-table.cell>
 
 
                         <x-table.cell>{{ $stand->shelves_count }}</x-table.cell>
@@ -215,11 +229,11 @@
 
                         @if ($withparents)
 
-                            <x-table.cell colspan="7">{{ __('No record found') }}</x-table.cell>
+                            <x-table.cell colspan="8">{{ __('No record found') }}</x-table.cell>
 
                         @else
 
-                            <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
+                            <x-table.cell colspan="4">{{ __('No record found') }}</x-table.cell>
 
                         @endif
 
@@ -249,6 +263,6 @@
         wire:model="show_delete_modal"
         wire:key="deleting-modal-{{ $deleting->id }}"
         wire:submit.prevent="destroy"
-        :question="__('Delete stand :attribute?', ['attribute' => $deleting->for_humans])"/>
+        :question="__('Delete stand :attribute?', ['attribute' => $deleting->number])"/>
 
 @endif

@@ -196,9 +196,11 @@ test('when creating a room, a default stand and shelf are also created', functio
     ->and($room->description)->toBe('foo bar')
     ->and($room->floor_id)->toBe($this->floor->id)
     ->and($stand->number)->toBe(0)
+    ->and($stand->alias)->toBe(__('Uninformed'))
     ->and($stand->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'))
     ->and($stand->room_id)->toBe($room->id)
     ->and($shelf->number)->toBe(0)
+    ->and($shelf->alias)->toBe(__('Uninformed'))
     ->and($shelf->stand_id)->toBe($stand->id)
     ->and($shelf->description)->toBe(__('Provisional/default item created by the system for possible future analysis. If it is not a mandatory attribute, it can be ignored'));
 });

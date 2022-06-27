@@ -88,6 +88,44 @@ test('number and building_id must be unique', function () {
     ->assertHasErrors(['floor.number' => 'unique']);
 });
 
+test('alias is optional', function () {
+    grantPermission(PermissionType::FloorCreate->value);
+
+    Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
+    ->set('floor.alias', '')
+    ->call('store')
+    ->assertHasNoErrors(['floor.alias']);
+});
+
+test('alias must be a string', function () {
+    grantPermission(PermissionType::FloorCreate->value);
+
+    Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
+    ->set('floor.alias', ['foo'])
+    ->call('store')
+    ->assertHasErrors(['floor.alias' => 'string']);
+});
+
+test('alias must be a maximum of 100 characters', function () {
+    grantPermission(PermissionType::FloorCreate->value);
+
+    Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
+    ->set('floor.alias', Str::random(101))
+    ->call('store')
+    ->assertHasErrors(['floor.alias' => 'max']);
+});
+
+test('alias and building_id must be unique', function () {
+    grantPermission(PermissionType::FloorCreate->value);
+
+    Floor::factory()->create(['alias' => '99', 'building_id' => $this->building->id]);
+
+    Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
+    ->set('floor.alias', '99')
+    ->call('store')
+    ->assertHasErrors(['floor.alias' => 'unique']);
+});
+
 test('description is optional', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
@@ -139,6 +177,7 @@ test('emits feedback event when creates a floor record', function () {
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
     ->set('floor.number', 1)
+    ->set('floor.alias', '1º')
     ->call('store')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
@@ -167,13 +206,16 @@ test('creates a floor record with specific permission', function () {
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
     ->set('floor.number', 99)
+    ->set('floor.alias', '99º')
     ->set('floor.description', 'foo bar')
     ->call('store')
+    ->assertHasNoErrors()
     ->assertOk();
 
     $floor = Floor::with('building')->first();
 
     expect($floor->number)->toBe(99)
+    ->and($floor->alias)->toBe('99º')
     ->and($floor->description)->toBe('foo bar')
     ->and($floor->building->id)->toBe($this->building->id);
 });
@@ -185,6 +227,7 @@ test('reset to a blank model after the floor is created', function () {
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
     ->set('floor.number', 1)
+    ->set('floor.alias', '1º')
     ->call('store')
     ->assertOk()
     ->assertSet('floor', $blank);
@@ -195,6 +238,7 @@ test('FloorLivewireCreate uses trait', function () {
         collect(class_uses(FloorLivewireCreate::class))
         ->has([
             \App\Http\Livewire\Traits\WithSorting::class,
+            \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
         ])
     )->toBeTrue();
 });
