@@ -68,9 +68,9 @@ test('search returns expected results', function () {
 
     $this->shelf->delete();
 
-    Shelf::factory()->create(['number' => 10]);
-    Shelf::factory()->create(['number' => 210]); // contains 10
-    Shelf::factory()->create(['number' => 20]);
+    Shelf::factory()->create(['number' => 10, 'alias' => 'foo']);
+    Shelf::factory()->create(['number' => 210, 'alias' => 'bar']);
+    Shelf::factory()->create(['number' => 20, 'alias' => 'baz']);
 
     Livewire::test(ShelfLivewireIndex::class)
     ->set('term', '210')
@@ -78,7 +78,9 @@ test('search returns expected results', function () {
     ->set('term', '10')
     ->assertCount('shelves', 2)
     ->set('term', '')
-    ->assertCount('shelves', 3);
+    ->assertCount('shelves', 3)
+    ->set('term', 'ba')
+    ->assertCount('shelves', 2);
 });
 
 test('emits feedback event when deleting a shelf record', function () {

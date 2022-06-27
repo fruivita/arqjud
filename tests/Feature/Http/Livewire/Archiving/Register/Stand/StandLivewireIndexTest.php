@@ -68,9 +68,9 @@ test('search returns expected results', function () {
 
     $this->stand->delete();
 
-    Stand::factory()->create(['number' => 10]);
-    Stand::factory()->create(['number' => 210]); // contains 10
-    Stand::factory()->create(['number' => 20]);
+    Stand::factory()->create(['number' => 10, 'alias' => 'foo']);
+    Stand::factory()->create(['number' => 210, 'alias' => 'bar']);
+    Stand::factory()->create(['number' => 20, 'alias' => 'baz']);
 
     Livewire::test(StandLivewireIndex::class)
     ->set('term', '210')
@@ -78,7 +78,9 @@ test('search returns expected results', function () {
     ->set('term', '10')
     ->assertCount('stands', 2)
     ->set('term', '')
-    ->assertCount('stands', 3);
+    ->assertCount('stands', 3)
+    ->set('term', 'ba')
+    ->assertCount('stands', 2);
 });
 
 test('emits feedback event when deleting a stand record', function () {

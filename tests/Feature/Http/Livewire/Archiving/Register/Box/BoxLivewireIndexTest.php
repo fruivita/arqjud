@@ -68,20 +68,9 @@ test('search returns expected results', function () {
 
     $this->box->delete();
 
-    Box::factory()->create([
-        'number' => '100',
-        'year' => '2015',
-    ]);
-
-    Box::factory()->create([
-        'number' => '120152', // contains 2015
-        'year' => '2020',
-    ]);
-
-    Box::factory()->create([
-        'number' => '200',
-        'year' => '2020',
-    ]);
+    Box::factory()->create(['number' => '100', 'year' => '2015']);
+    Box::factory()->create(['number' => '120152', 'year' => '2020']);
+    Box::factory()->create(['number' => '200', 'year' => '2020']);
 
     Livewire::test(BoxLivewireIndex::class)
     ->set('term', '120152')

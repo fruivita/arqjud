@@ -68,9 +68,9 @@ test('search returns expected results', function () {
 
     $this->floor->delete();
 
-    Floor::factory()->create(['number' => 10]);
-    Floor::factory()->create(['number' => 210]); // contains 10
-    Floor::factory()->create(['number' => 20]);
+    Floor::factory()->create(['number' => 10, 'alias' => 'foo']);
+    Floor::factory()->create(['number' => 210, 'alias' => 'bar']);
+    Floor::factory()->create(['number' => 20, 'alias' => 'baz']);
 
     Livewire::test(FloorLivewireIndex::class)
     ->set('term', '210')
@@ -78,7 +78,9 @@ test('search returns expected results', function () {
     ->set('term', '10')
     ->assertCount('floors', 2)
     ->set('term', '')
-    ->assertCount('floors', 3);
+    ->assertCount('floors', 3)
+    ->set('term', 'ba')
+    ->assertCount('floors', 2);
 });
 
 test('emits feedback event when deleting a floor record', function () {
