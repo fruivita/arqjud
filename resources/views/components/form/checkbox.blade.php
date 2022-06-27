@@ -21,7 +21,7 @@
 
     <input
         @checked($checked)
-        class="h-5 mr-2 w-5"
+        class="accent-primary-500 h-5 mr-2 w-5"
         type="checkbox"
         {{ $attributes->except('class') }}/>
 
