@@ -1,5 +1,9 @@
 {{--
-    Table cell.
+    Célula ocultável da tabela (table cell).
+
+    Props:
+    - exibir: se o célula deve ser exibida ou não. Útil para ocultar/exibir uma
+    determinada coluna inteira.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -10,11 +14,18 @@
 --}}
 
 
-<td
-    {{ $attributes->merge(['class' => 'p-3']) }}
-    {{ $attributes->except('class') }}
->
+@props(['exibir' => true])
 
-    {{ $slot }}
 
-</td>
+@if ($exibir === true)
+
+    <td
+        {{ $attributes->merge(['class' => 'p-3']) }}
+        {{ $attributes->except('class') }}
+    >
+
+        {{ $slot }}
+
+    </td>
+
+@endif
