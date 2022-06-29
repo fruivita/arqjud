@@ -98,10 +98,23 @@ test('emits feedback event when deleting a building record', function () {
     ]);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::BuildingViewAny->value);
+
+    Livewire::test(BuildingLivewireIndex::class)
+    ->assertSet('colunas', [
+        'predio',
+        'qtd_andares',
+        'localidade',
+        'acoes'
+    ]);
+});
+
 test('BuildingLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(BuildingLivewireIndex::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

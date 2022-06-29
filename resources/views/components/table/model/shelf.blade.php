@@ -2,6 +2,7 @@
     Livewire view for listing shelves.
 
     Props:
+    - colunas: colunas da tabela que devem ser exibidas
     - deleting: item to be deleted
     - parent: parent element of the item that will eventually be created
     - shelves: shelves that will be displayed
@@ -20,6 +21,7 @@
 
 
 @props([
+    'colunas',
     'deleting' => null,
     'parent' => null,
     'shelves',
@@ -32,7 +34,7 @@
 
 <div class="space-y-3">
 
-    <div class="flex items-center justify-between">
+    <x-table.topo-tabela>
 
         @if(
             $withnewbutton == true
@@ -41,7 +43,7 @@
         )
 
             <x-link-button
-                class="btn-do"
+                class="btn-do w-full md:w-auto"
                 icon="plus-circle"
                 :href="route('archiving.register.shelf.create', $parent->id)"
                 :text="__('New shelf')"
@@ -54,12 +56,104 @@
         @endif
 
 
-        <x-perpage
-            wire:key="per-page"
-            wire:model="per_page"
-            :error="$errors->first('per_page')"/>
+        <x-table.acoes-tabela>
 
-    </div>
+            <x-form.checkbox
+                wire:key="checkbox-prateleira"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="prateleira"
+                :text="__('Shelf')"
+                value="prateleira"/>
+
+
+            <x-form.checkbox
+                wire:key="checkbox-apelido"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="apelido"
+                :text="__('Alias')"
+                value="apelido"/>
+
+
+            <x-form.checkbox
+                wire:key="checkbox-qtd-caixas"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="qtd_caixas"
+                :text="__('Qty of boxes')"
+                value="qtd_caixas"/>
+
+
+            @if ($withparents)
+
+                <x-form.checkbox
+                    wire:key="checkbox-localidade"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="colunas"
+                    name="localidade"
+                    :text="__('Site')"
+                    value="localidade"/>
+
+
+                <x-form.checkbox
+                    wire:key="checkbox-predio"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="colunas"
+                    name="predio"
+                    :text="__('Building')"
+                    value="predio"/>
+
+
+                <x-form.checkbox
+                    wire:key="checkbox-andar"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="colunas"
+                    name="andar"
+                    :text="__('Floor')"
+                    value="andar"/>
+
+
+                <x-form.checkbox
+                    wire:key="checkbox-sala"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="colunas"
+                    name="sala"
+                    :text="__('Room')"
+                    value="sala"/>
+
+
+                <x-form.checkbox
+                    wire:key="checkbox-estante"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="colunas"
+                    name="estante"
+                    :text="__('Stand')"
+                    value="estante"/>
+
+            @endif
+
+
+            <x-form.checkbox
+                wire:key="checkbox-acoes"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="acoes"
+                :text="__('Actions')"
+                value="acoes"/>
+
+        </x-table.acoes-tabela>
+
+    </x-table.topo-tabela>
 
 
     <div class="overflow-x-auto">
@@ -71,6 +165,7 @@
                 <x-table.heading
                     wire:click="sortBy('number')"
                     :direction="$sorts['number'] ?? null"
+                    :exibir="in_array('prateleira', $colunas)"
                     sortable
                 >
 
@@ -82,6 +177,7 @@
                 <x-table.heading
                     wire:click="sortBy('alias')"
                     :direction="$sorts['alias'] ?? null"
+                    :exibir="in_array('apelido', $colunas)"
                     sortable
                 >
 
@@ -93,6 +189,7 @@
                 <x-table.heading
                     wire:click="sortBy('boxes_count')"
                     :direction="$sorts['boxes_count'] ?? null"
+                    :exibir="in_array('qtd_caixas', $colunas)"
                     sortable
                 >
 
@@ -106,6 +203,7 @@
                     <x-table.heading
                         wire:click="sortBy('sites.name')"
                         :direction="$sorts['sites.name'] ?? null"
+                        :exibir="in_array('localidade', $colunas)"
                         sortable
                     >
 
@@ -117,6 +215,7 @@
                     <x-table.heading
                         wire:click="sortBy('buildings.name')"
                         :direction="$sorts['buildings.name'] ?? null"
+                        :exibir="in_array('predio', $colunas)"
                         sortable
                     >
 
@@ -128,6 +227,7 @@
                     <x-table.heading
                         wire:click="sortBy('floors.alias')"
                         :direction="$sorts['floors.alias'] ?? null"
+                        :exibir="in_array('andar', $colunas)"
                         sortable
                     >
 
@@ -139,6 +239,7 @@
                     <x-table.heading
                         wire:click="sortBy('rooms.number')"
                         :direction="$sorts['rooms.number'] ?? null"
+                        :exibir="in_array('sala', $colunas)"
                         sortable
                     >
 
@@ -150,6 +251,7 @@
                     <x-table.heading
                         wire:click="sortBy('stands.number')"
                         :direction="$sorts['stands.number'] ?? null"
+                        :exibir="in_array('estante', $colunas)"
                         sortable
                     >
 
@@ -160,7 +262,14 @@
                 @endif
 
 
-                <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
+                <x-table.heading
+                    class="w-10"
+                    :exibir="in_array('acoes', $colunas)"
+                >
+
+                    {{ __('Actions') }}
+
+                </x-table.heading>
 
             </x-slot>
 
@@ -171,35 +280,35 @@
 
                     <x-table.row>
 
-                        <x-table.cell>{{ $shelf->number }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('prateleira', $colunas)">{{ $shelf->number }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $shelf->alias }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('apelido', $colunas)">{{ $shelf->alias }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $shelf->boxes_count }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('qtd_caixas', $colunas)">{{ $shelf->boxes_count }}</x-table.cell>
 
 
                         @if ($withparents)
 
-                            <x-table.cell>{{ $shelf->site_name }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('localidade', $colunas)">{{ $shelf->site_name }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $shelf->building_name }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('predio', $colunas)">{{ $shelf->building_name }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $shelf->floor_alias }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('andar', $colunas)">{{ $shelf->floor_alias }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $shelf->room_number }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('sala', $colunas)">{{ $shelf->room_number }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $shelf->stand_for_humans }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('estante', $colunas)">{{ $shelf->stand_for_humans }}</x-table.cell>
 
                         @endif
 
 
-                        <x-table.cell>
+                        <x-table.cell :exibir="in_array('acoes', $colunas)">
 
                             <x-action-button-group>
 
@@ -241,15 +350,7 @@
 
                     <x-table.row>
 
-                        @if ($withparents)
-
-                            <x-table.cell colspan="9">{{ __('No record found') }}</x-table.cell>
-
-                        @else
-
-                            <x-table.cell colspan="4">{{ __('No record found') }}</x-table.cell>
-
-                        @endif
+                        <x-table.cell colspan="{{ count($colunas) }}">{{ __('No record found') }}</x-table.cell>
 
                     </x-table.row>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Site;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -19,10 +20,22 @@ use Livewire\Component;
 class SiteLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use SalvaColunasDePreferencia;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
     use WithSorting;
+
+    /**
+     * Nome das colunas que podem ser ocultadas.
+     *
+     * @var string[]
+     */
+    public array $colunas = [
+        'predio',
+        'qtd_andares',
+        'acoes',
+    ];
 
     /**
      * Se o componente deve ser renderizado no modo edição.

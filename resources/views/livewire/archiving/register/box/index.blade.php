@@ -23,6 +23,7 @@
 
         <x-table.model.box
             :boxes="$this->boxes"
+            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :sorts="$this->sorts"
             withdeletebutton

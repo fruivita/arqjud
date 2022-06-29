@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Archiving\Register\Stand;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\ConverteStringVaziaEmNull;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithSorting;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
@@ -21,10 +22,23 @@ class StandLivewireCreate extends Component
 {
     use AuthorizesRequests;
     use ConverteStringVaziaEmNull;
+    use SalvaColunasDePreferencia;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
     use WithSorting;
+
+    /**
+     * Nome das colunas que podem ser ocultadas.
+     *
+     * @var string[]
+     */
+    public array $colunas = [
+        'estante',
+        'apelido',
+        'qtd_prateleiras',
+        'acoes'
+    ];
 
     /**
      * Parent resource id.

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Site;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithSorting;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
@@ -18,10 +19,22 @@ use Livewire\Component;
 class SiteLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use SalvaColunasDePreferencia;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
     use WithSorting;
+
+    /**
+     * Nome das colunas que podem ser ocultadas.
+     *
+     * @var string[]
+     */
+    public array $colunas = [
+        'localidade',
+        'qtd_predios',
+        'acoes'
+    ];
 
     /**
      * Resource that will be created.
@@ -121,9 +134,7 @@ class SiteLivewireCreate extends Component
      */
     public function render()
     {
-        return view('livewire.archiving.register.site.create', [
-            'sites' => $this->sites,
-        ])->layout('layouts.app');
+        return view('livewire.archiving.register.site.create')->layout('layouts.app');
     }
 
     /**

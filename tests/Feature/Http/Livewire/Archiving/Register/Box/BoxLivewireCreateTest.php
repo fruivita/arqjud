@@ -387,10 +387,23 @@ test('reset to a blank model after the box is created', function () {
     ->assertSet('box', $blank);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::BoxCreate->value);
+
+    Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
+    ->assertSet('colunas', [
+        'caixa',
+        'ano',
+        'qtd_volumes',
+        'acoes'
+    ]);
+});
+
 test('BoxLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(BoxLivewireCreate::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

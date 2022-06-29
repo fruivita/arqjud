@@ -266,6 +266,7 @@
     <x-container>
 
         <x-table.model.shelf
+            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :parent="$this->stand"
             :shelves="$this->shelves"

@@ -373,12 +373,24 @@ test('update a floor record with specific permission', function () {
     ->and($this->floor->building_id)->toBe($building->id);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::FloorUpdate->value);
+
+    Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
+    ->assertSet('colunas', [
+        'sala',
+        'qtd_estantes',
+        'acoes',
+    ]);
+});
+
 test('FloorLivewireUpdate uses trait', function () {
     expect(
         collect(class_uses(FloorLivewireUpdate::class))
         ->has([
-            \App\Http\Livewire\Traits\WithSorting::class,
             \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();
 });

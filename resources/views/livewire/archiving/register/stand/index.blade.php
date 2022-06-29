@@ -22,6 +22,7 @@
     <x-container>
 
         <x-table.model.stand
+            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :stands="$this->stands"
             :sorts="$this->sorts"

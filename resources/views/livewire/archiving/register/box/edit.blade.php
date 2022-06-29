@@ -345,6 +345,7 @@
     <x-container>
 
         <x-table.model.volume
+            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :volumes="$this->volumes"
             :sorts="$this->sorts"

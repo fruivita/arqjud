@@ -218,10 +218,22 @@ test('reset to a blank model after the room is created', function () {
     ->assertSet('room', $blank);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::RoomCreate->value);
+
+    Livewire::test(RoomLivewireCreate::class, ['id' => $this->floor->id])
+    ->assertSet('colunas', [
+        'sala',
+        'qtd_estantes',
+        'acoes'
+    ]);
+});
+
 test('RoomLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(RoomLivewireCreate::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

@@ -98,10 +98,25 @@ test('emits feedback event when deleting a room record', function () {
     ]);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::RoomViewAny->value);
+
+    Livewire::test(RoomLivewireIndex::class)
+    ->assertSet('colunas', [
+        'sala',
+        'qtd_estantes',
+        'localidade',
+        'predio',
+        'andar',
+        'acoes'
+    ]);
+});
+
 test('RoomLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(RoomLivewireIndex::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

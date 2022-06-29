@@ -23,6 +23,7 @@
 
         <x-table.model.building
             :buildings="$this->buildings"
+            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :sorts="$this->sorts"
             withdeletebutton

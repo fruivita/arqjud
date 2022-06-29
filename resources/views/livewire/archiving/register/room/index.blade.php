@@ -22,6 +22,7 @@
     <x-container>
 
         <x-table.model.room
+            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :rooms="$this->rooms"
             :sorts="$this->sorts"

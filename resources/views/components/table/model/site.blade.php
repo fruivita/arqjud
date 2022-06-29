@@ -2,6 +2,7 @@
     Livewire view for listing sites.
 
     Props:
+    - colunas: colunas da tabela que devem ser exibidas
     - deleting: item to be deleted
     - sites: sites that will be displayed
     - sorts: columns and directions used to sort
@@ -17,6 +18,7 @@
 
 
 @props([
+    'colunas',
     'deleting',
     'sites',
     'sorts' => [],
@@ -26,7 +28,7 @@
 
 <div class="space-y-3">
 
-    <div class="flex items-center justify-between">
+    <x-table.topo-tabela>
 
         @if(
             $withnewbutton == true
@@ -34,7 +36,7 @@
         )
 
             <x-link-button
-                class="btn-do"
+                class="btn-do w-full md:w-auto"
                 icon="plus-circle"
                 :href="route('archiving.register.site.create')"
                 :text="__('New site')"
@@ -47,12 +49,40 @@
         @endif
 
 
-        <x-perpage
-            wire:key="per-page"
-            wire:model="per_page"
-            :error="$errors->first('per_page')"/>
+        <x-table.acoes-tabela>
 
-    </div>
+            <x-form.checkbox
+                wire:key="checkbox-localidade"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="localidade"
+                :text="__('Site')"
+                value="localidade"/>
+
+
+            <x-form.checkbox
+                wire:key="checkbox-qtd-predios"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="qtd_predios"
+                :text="__('Qty of buildings')"
+                value="qtd_predios"/>
+
+
+            <x-form.checkbox
+                wire:key="checkbox-acoes"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="acoes"
+                :text="__('Actions')"
+                value="acoes"/>
+
+        </x-table.acoes-tabela>
+
+    </x-table.topo-tabela>
 
 
     <div class="overflow-x-auto">
@@ -64,6 +94,7 @@
                 <x-table.heading
                     wire:click="sortBy('name')"
                     :direction="$sorts['name'] ?? null"
+                    :exibir="in_array('localidade', $colunas)"
                     sortable
                 >
 
@@ -75,6 +106,7 @@
                 <x-table.heading
                     wire:click="sortBy('buildings_count')"
                     :direction="$sorts['buildings_count'] ?? null"
+                    :exibir="in_array('qtd_predios', $colunas)"
                     sortable
                 >
 
@@ -83,7 +115,14 @@
                 </x-table.heading>
 
 
-                <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
+                <x-table.heading
+                    class="w-10"
+                    :exibir="in_array('acoes', $colunas)"
+                >
+
+                    {{ __('Actions') }}
+
+                </x-table.heading>
 
             </x-slot>
 
@@ -94,13 +133,13 @@
 
                     <x-table.row>
 
-                        <x-table.cell>{{ $site->name }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('localidade', $colunas)">{{ $site->name }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $site->buildings_count }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('qtd_predios', $colunas)">{{ $site->buildings_count }}</x-table.cell>
 
 
-                        <x-table.cell>
+                        <x-table.cell :exibir="in_array('acoes', $colunas)">
 
                             <x-action-button-group>
 
@@ -139,7 +178,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell colspan="3">{{ __('No record found') }}</x-table.cell>
+                        <x-table.cell colspan="{{ count($colunas) }}">{{ __('No record found') }}</x-table.cell>
 
                     </x-table.row>
 

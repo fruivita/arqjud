@@ -184,10 +184,22 @@ test('reset to a blank model after the site is created', function () {
     ->assertSet('site', $blank);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::SiteCreate->value);
+
+    Livewire::test(SiteLivewireCreate::class)
+    ->assertSet('colunas', [
+        'localidade',
+        'qtd_predios',
+        'acoes'
+    ]);
+});
+
 test('SiteLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(SiteLivewireCreate::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

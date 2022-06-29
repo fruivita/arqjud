@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Archiving\Register\Stand;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\ConverteStringVaziaEmNull;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -26,6 +27,7 @@ class StandLivewireUpdate extends Component
 {
     use AuthorizesRequests;
     use ConverteStringVaziaEmNull;
+    use SalvaColunasDePreferencia;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -37,6 +39,18 @@ class StandLivewireUpdate extends Component
      * @var bool
      */
     public bool $modo_edicao = false;
+
+    /**
+     * Nome das colunas que podem ser ocultadas.
+     *
+     * @var string[]
+     */
+    public array $colunas = [
+        'prateleira',
+        'apelido',
+        'qtd_caixas',
+        'acoes',
+    ];
 
     /**
      * Editing resource.

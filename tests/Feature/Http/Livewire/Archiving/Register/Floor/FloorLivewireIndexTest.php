@@ -100,10 +100,25 @@ test('emits feedback event when deleting a floor record', function () {
     ]);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::FloorViewAny->value);
+
+    Livewire::test(FloorLivewireIndex::class)
+    ->assertSet('colunas', [
+        'andar',
+        'apelido',
+        'qtd_salas',
+        'localidade',
+        'predio',
+        'acoes'
+    ]);
+});
+
 test('FloorLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(FloorLivewireIndex::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

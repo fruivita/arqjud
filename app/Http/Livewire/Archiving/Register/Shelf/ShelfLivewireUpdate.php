@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Archiving\Register\Shelf;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\ConverteStringVaziaEmNull;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -27,6 +28,7 @@ class ShelfLivewireUpdate extends Component
 {
     use AuthorizesRequests;
     use ConverteStringVaziaEmNull;
+    use SalvaColunasDePreferencia;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -38,6 +40,18 @@ class ShelfLivewireUpdate extends Component
      * @var bool
      */
     public bool $modo_edicao = false;
+
+    /**
+     * Nome das colunas que podem ser ocultadas.
+     *
+     * @var string[]
+     */
+    public array $colunas = [
+        'caixa',
+        'ano',
+        'qtd_volumes',
+        'acoes',
+    ];
 
     /**
      * Editing resource.

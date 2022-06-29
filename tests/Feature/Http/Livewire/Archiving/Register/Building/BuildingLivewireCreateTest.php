@@ -188,10 +188,22 @@ test('reset to a blank model after the building is created', function () {
     ->assertSet('building', $blank);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::BuildingCreate->value);
+
+    Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
+    ->assertSet('colunas', [
+        'predio',
+        'qtd_andares',
+        'acoes'
+    ]);
+});
+
 test('BuildingLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(BuildingLivewireCreate::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

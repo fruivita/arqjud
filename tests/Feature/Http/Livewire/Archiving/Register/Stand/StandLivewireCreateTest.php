@@ -254,12 +254,25 @@ test('reset to a blank model after the stand is created', function () {
     ->assertSet('stand', $blank);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::StandCreate->value);
+
+    Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
+    ->assertSet('colunas', [
+        'estante',
+        'apelido',
+        'qtd_prateleiras',
+        'acoes'
+    ]);
+});
+
 test('StandLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(StandLivewireCreate::class))
         ->has([
-            \App\Http\Livewire\Traits\WithSorting::class,
             \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();
 });

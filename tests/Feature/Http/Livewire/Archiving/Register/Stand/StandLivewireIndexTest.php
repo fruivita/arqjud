@@ -100,10 +100,27 @@ test('emits feedback event when deleting a stand record', function () {
     ]);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::StandViewAny->value);
+
+    Livewire::test(StandLivewireIndex::class)
+    ->assertSet('colunas', [
+        'estante',
+        'apelido',
+        'qtd_prateleiras',
+        'localidade',
+        'predio',
+        'andar',
+        'sala',
+        'acoes'
+    ]);
+});
+
 test('StandLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(StandLivewireIndex::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Archiving\Register\Floor;
 
 use App\Enums\Policy;
 use App\Http\Livewire\Traits\ConverteStringVaziaEmNull;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -24,6 +25,7 @@ class FloorLivewireUpdate extends Component
 {
     use AuthorizesRequests;
     use ConverteStringVaziaEmNull;
+    use SalvaColunasDePreferencia;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -35,6 +37,17 @@ class FloorLivewireUpdate extends Component
      * @var bool
      */
     public bool $modo_edicao = false;
+
+    /**
+     * Nome das colunas que podem ser ocultadas.
+     *
+     * @var string[]
+     */
+    public array $colunas = [
+        'sala',
+        'qtd_estantes',
+        'acoes',
+    ];
 
     /**
      * Editing resource.

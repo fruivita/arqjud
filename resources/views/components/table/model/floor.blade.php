@@ -2,6 +2,7 @@
     Livewire view for listing floors.
 
     Props:
+    - colunas: colunas da tabela que devem ser exibidas
     - deleting: item to be deleted
     - floors: floors that will be displayed
     - parent: parent element of the item that will eventually be created
@@ -20,6 +21,7 @@
 
 
 @props([
+    'colunas',
     'deleting' => null,
     'floors',
     'parent' => null,
@@ -32,7 +34,7 @@
 
 <div class="space-y-3">
 
-    <div class="flex items-center justify-between">
+    <x-table.topo-tabela>
 
         @if(
             $withnewbutton == true
@@ -41,7 +43,7 @@
         )
 
             <x-link-button
-                class="btn-do"
+                class="btn-do w-full md:w-auto"
                 icon="plus-circle"
                 :href="route('archiving.register.floor.create', $parent->id)"
                 :text="__('New floor')"
@@ -54,12 +56,74 @@
         @endif
 
 
-        <x-perpage
-            wire:key="per-page"
-            wire:model="per_page"
-            :error="$errors->first('per_page')"/>
+        <x-table.acoes-tabela>
 
-    </div>
+            <x-form.checkbox
+                wire:key="checkbox-andar"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="andar"
+                :text="__('Floor')"
+                value="andar"/>
+
+
+            <x-form.checkbox
+                wire:key="checkbox-apelido"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="apelido"
+                :text="__('Alias')"
+                value="apelido"/>
+
+
+            <x-form.checkbox
+                wire:key="checkbox-qtd-salas"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="qtd_salas"
+                :text="__('Qty of rooms')"
+                value="qtd_salas"/>
+
+
+            @if ($withparents)
+
+                <x-form.checkbox
+                    wire:key="checkbox-localidade"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="colunas"
+                    name="localidade"
+                    :text="__('Site')"
+                    value="localidade"/>
+
+
+                <x-form.checkbox
+                    wire:key="checkbox-predio"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="colunas"
+                    name="predio"
+                    :text="__('Building')"
+                    value="predio"/>
+
+            @endif
+
+
+            <x-form.checkbox
+                wire:key="checkbox-acoes"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="colunas"
+                name="acoes"
+                :text="__('Actions')"
+                value="acoes"/>
+
+        </x-table.acoes-tabela>
+
+    </x-table.topo-tabela>
 
 
     <div class="overflow-x-auto">
@@ -71,6 +135,7 @@
                 <x-table.heading
                     wire:click="sortBy('number')"
                     :direction="$sorts['number'] ?? null"
+                    :exibir="in_array('andar', $colunas)"
                     sortable
                 >
 
@@ -82,6 +147,7 @@
                 <x-table.heading
                     wire:click="sortBy('alias')"
                     :direction="$sorts['alias'] ?? null"
+                    :exibir="in_array('apelido', $colunas)"
                     sortable
                 >
 
@@ -93,6 +159,7 @@
                 <x-table.heading
                     wire:click="sortBy('rooms_count')"
                     :direction="$sorts['rooms_count'] ?? null"
+                    :exibir="in_array('qtd_salas', $colunas)"
                     sortable
                 >
 
@@ -106,6 +173,7 @@
                     <x-table.heading
                         wire:click="sortBy('sites.name')"
                         :direction="$sorts['sites.name'] ?? null"
+                        :exibir="in_array('localidade', $colunas)"
                         sortable
                     >
 
@@ -117,6 +185,7 @@
                     <x-table.heading
                         wire:click="sortBy('buildings.name')"
                         :direction="$sorts['buildings.name'] ?? null"
+                        :exibir="in_array('predio', $colunas)"
                         sortable
                     >
 
@@ -127,7 +196,14 @@
                 @endif
 
 
-                <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
+                <x-table.heading
+                    class="w-10"
+                    :exibir="in_array('acoes', $colunas)"
+                >
+
+                    {{ __('Actions') }}
+
+                </x-table.heading>
 
             </x-slot>
 
@@ -138,26 +214,26 @@
 
                     <x-table.row>
 
-                        <x-table.cell>{{ $floor->number }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('andar', $colunas)">{{ $floor->number }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $floor->alias }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('apelido', $colunas)">{{ $floor->alias }}</x-table.cell>
 
 
-                        <x-table.cell>{{ $floor->rooms_count }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('qtd_salas', $colunas)">{{ $floor->rooms_count }}</x-table.cell>
 
 
                         @if ($withparents)
 
-                            <x-table.cell>{{ $floor->site_name }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('localidade', $colunas)">{{ $floor->site_name }}</x-table.cell>
 
 
-                            <x-table.cell>{{ $floor->building_name }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('predio', $colunas)">{{ $floor->building_name }}</x-table.cell>
 
                         @endif
 
 
-                        <x-table.cell>
+                        <x-table.cell :exibir="in_array('acoes', $colunas)">
 
                             <x-action-button-group>
 
@@ -199,15 +275,7 @@
 
                     <x-table.row>
 
-                        @if ($withparents)
-
-                            <x-table.cell colspan="6">{{ __('No record found') }}</x-table.cell>
-
-                        @else
-
-                            <x-table.cell colspan="4">{{ __('No record found') }}</x-table.cell>
-
-                        @endif
+                        <x-table.cell colspan="{{ count($colunas) }}">{{ __('No record found') }}</x-table.cell>
 
                     </x-table.row>
 

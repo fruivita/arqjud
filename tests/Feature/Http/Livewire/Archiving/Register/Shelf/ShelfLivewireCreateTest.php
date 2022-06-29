@@ -233,12 +233,25 @@ test('reset to a blank model after the shelf is created', function () {
     ->assertSet('shelf', $blank);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::ShelfCreate->value);
+
+    Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])
+    ->assertSet('colunas', [
+        'prateleira',
+        'apelido',
+        'qtd_caixas',
+        'acoes'
+    ]);
+});
+
 test('ShelfLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(ShelfLivewireCreate::class))
         ->has([
-            \App\Http\Livewire\Traits\WithSorting::class,
             \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();
 });

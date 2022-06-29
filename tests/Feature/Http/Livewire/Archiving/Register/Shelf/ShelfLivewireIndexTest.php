@@ -100,10 +100,28 @@ test('emits feedback event when deleting a shelf record', function () {
     ]);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::ShelfViewAny->value);
+
+    Livewire::test(ShelfLivewireIndex::class)
+    ->assertSet('colunas', [
+        'prateleira',
+        'apelido',
+        'qtd_caixas',
+        'localidade',
+        'predio',
+        'andar',
+        'sala',
+        'estante',
+        'acoes'
+    ]);
+});
+
 test('ShelfLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(ShelfLivewireIndex::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

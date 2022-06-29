@@ -553,12 +553,25 @@ test('update a shelf record with specific permission', function () {
     ->and($this->shelf->stand_id)->toBe($stand->id);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::ShelfUpdate->value);
+
+    Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->assertSet('colunas', [
+        'caixa',
+        'ano',
+        'qtd_volumes',
+        'acoes',
+    ]);
+});
+
 test('ShelfLivewireUpdate uses trait', function () {
     expect(
         collect(class_uses(ShelfLivewireUpdate::class))
         ->has([
-            \App\Http\Livewire\Traits\WithSorting::class,
             \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();
 });

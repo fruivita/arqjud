@@ -205,10 +205,22 @@ test('update a site record with specific permission', function () {
     ->and($this->site->description)->toBe('foo bar');
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::SiteUpdate->value);
+
+    Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
+    ->assertSet('colunas', [
+        'predio',
+        'qtd_andares',
+        'acoes',
+    ]);
+});
+
 test('SiteLivewireUpdate uses trait', function () {
     expect(
         collect(class_uses(SiteLivewireUpdate::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

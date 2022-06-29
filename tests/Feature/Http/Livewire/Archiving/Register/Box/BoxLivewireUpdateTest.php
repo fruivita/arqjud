@@ -654,10 +654,22 @@ test('create a box volume with specific permission', function () {
     expect($box_volume->alias)->toBe('Vol. 11');
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::BoxUpdate->value);
+
+    Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->assertSet('colunas', [
+        'volume',
+        'apelido',
+        'acoes',
+    ]);
+});
+
 test('BoxLivewireUpdate uses trait', function () {
     expect(
         collect(class_uses(BoxLivewireUpdate::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

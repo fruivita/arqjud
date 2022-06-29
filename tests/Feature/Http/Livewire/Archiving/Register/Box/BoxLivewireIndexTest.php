@@ -100,10 +100,29 @@ test('emits feedback event when deleting a box record', function () {
     ]);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::BoxViewAny->value);
+
+    Livewire::test(BoxLivewireIndex::class)
+    ->assertSet('colunas', [
+        'caixa',
+        'ano',
+        'qtd_volumes',
+        'localidade',
+        'predio',
+        'andar',
+        'sala',
+        'estante',
+        'prateleira',
+        'acoes'
+    ]);
+});
+
 test('BoxLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(BoxLivewireIndex::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

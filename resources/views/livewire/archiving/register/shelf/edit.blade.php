@@ -308,6 +308,7 @@
 
         <x-table.model.box
             :boxes="$this->boxes"
+            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :parent="$this->shelf"
             :sorts="$this->sorts"

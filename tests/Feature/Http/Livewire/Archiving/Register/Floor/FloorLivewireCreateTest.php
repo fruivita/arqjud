@@ -233,12 +233,25 @@ test('reset to a blank model after the floor is created', function () {
     ->assertSet('floor', $blank);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::FloorCreate->value);
+
+    Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
+    ->assertSet('colunas', [
+        'andar',
+        'apelido',
+        'qtd_salas',
+        'acoes'
+    ]);
+});
+
 test('FloorLivewireCreate uses trait', function () {
     expect(
         collect(class_uses(FloorLivewireCreate::class))
         ->has([
-            \App\Http\Livewire\Traits\WithSorting::class,
             \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();
 });

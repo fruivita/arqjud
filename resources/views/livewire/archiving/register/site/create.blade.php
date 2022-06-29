@@ -77,6 +77,7 @@
     <x-container>
 
         <x-table.model.site
+            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :sites="$this->sites"
             :sorts="$this->sorts"/>

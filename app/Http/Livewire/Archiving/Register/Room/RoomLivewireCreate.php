@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Room;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithSorting;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
@@ -19,10 +20,22 @@ use Livewire\Component;
 class RoomLivewireCreate extends Component
 {
     use AuthorizesRequests;
+    use SalvaColunasDePreferencia;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
     use WithSorting;
+
+    /**
+     * Nome das colunas que podem ser ocultadas.
+     *
+     * @var string[]
+     */
+    public array $colunas = [
+        'sala',
+        'qtd_estantes',
+        'acoes'
+    ];
 
     /**
      * Parent resource id.

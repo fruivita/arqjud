@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Archiving\Register\Box;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithDeleteModel;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
@@ -27,6 +28,7 @@ use Livewire\Component;
 class BoxLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use SalvaColunasDePreferencia;
     use WithDeleteModel;
     use WithFeedbackEvents;
     use WithPerPagePagination;
@@ -38,6 +40,17 @@ class BoxLivewireUpdate extends Component
      * @var bool
      */
     public bool $modo_edicao = false;
+
+    /**
+     * Nome das colunas que podem ser ocultadas.
+     *
+     * @var string[]
+     */
+    public array $colunas = [
+        'volume',
+        'apelido',
+        'acoes',
+    ];
 
     /**
      * Editing resource.

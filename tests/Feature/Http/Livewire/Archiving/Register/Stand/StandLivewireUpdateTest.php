@@ -492,12 +492,25 @@ test('update a stand record with specific permission', function () {
     ->and($this->stand->room_id)->toBe($room->id);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::StandUpdate->value);
+
+    Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
+    ->assertSet('colunas', [
+        'prateleira',
+        'apelido',
+        'qtd_caixas',
+        'acoes',
+    ]);
+});
+
 test('StandLivewireUpdate uses trait', function () {
     expect(
         collect(class_uses(StandLivewireUpdate::class))
         ->has([
-            \App\Http\Livewire\Traits\WithSorting::class,
             \App\Http\Livewire\Traits\ConverteStringVaziaEmNull::class,
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();
 });

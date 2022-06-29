@@ -134,6 +134,7 @@
     <x-container>
 
         <x-table.model.shelf
+            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :shelves="$this->shelves"
             :sorts="$this->sorts"

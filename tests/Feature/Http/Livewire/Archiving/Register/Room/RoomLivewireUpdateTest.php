@@ -385,10 +385,23 @@ test('update a room record with specific permission', function () {
     ->and($this->room->floor_id)->toBe($floor->id);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::RoomUpdate->value);
+
+    Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->assertSet('colunas', [
+        'estante',
+        'apelido',
+        'qtd_prateleiras',
+        'acoes',
+    ]);
+});
+
 test('RoomLivewireUpdate uses trait', function () {
     expect(
         collect(class_uses(RoomLivewireUpdate::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

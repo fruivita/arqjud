@@ -254,10 +254,22 @@ test('update a building record with specific permission', function () {
     ->and($this->building->site_id)->toBe($site->id);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::BuildingUpdate->value);
+
+    Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->assertSet('colunas', [
+        'andar',
+        'qtd_salas',
+        'acoes',
+    ]);
+});
+
 test('BuildingLivewireUpdate uses trait', function () {
     expect(
         collect(class_uses(BuildingLivewireUpdate::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();

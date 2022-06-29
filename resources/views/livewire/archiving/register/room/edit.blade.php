@@ -200,6 +200,7 @@
     <x-container>
 
         <x-table.model.stand
+            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :parent="$this->room"
             :stands="$this->stands"

@@ -98,10 +98,22 @@ test('emits feedback event when deleting a site record', function () {
     ]);
 });
 
+test('colunas ocultáveis estão pré-definidas', function () {
+    grantPermission(PermissionType::SiteViewAny->value);
+
+    Livewire::test(SiteLivewireIndex::class)
+    ->assertSet('colunas', [
+        'localidade',
+        'qtd_predios',
+        'acoes'
+    ]);
+});
+
 test('SiteLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(SiteLivewireIndex::class))
         ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
             \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();
