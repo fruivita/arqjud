@@ -233,7 +233,7 @@ test('reset to a blank model after the floor is created', function () {
     ->assertSet('floor', $blank);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])

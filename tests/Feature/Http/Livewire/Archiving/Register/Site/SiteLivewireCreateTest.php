@@ -184,7 +184,7 @@ test('reset to a blank model after the site is created', function () {
     ->assertSet('site', $blank);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::SiteCreate->value);
 
     Livewire::test(SiteLivewireCreate::class)

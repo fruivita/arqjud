@@ -64,7 +64,7 @@ test('cannot update shelf without specific permission', function () {
     grantPermission(PermissionType::ShelfView->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
-    ->set('modo_edicao', false)
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertForbidden();
 });
@@ -553,10 +553,11 @@ test('update a shelf record with specific permission', function () {
     ->and($this->shelf->stand_id)->toBe($stand->id);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::ShelfUpdate->value);
 
     Livewire::test(ShelfLivewireUpdate::class, ['id' => $this->shelf->id])
+    ->assertSet('modo_edicao', false)
     ->assertSet('preferencias', [
         'colunas' => [
             'caixa',

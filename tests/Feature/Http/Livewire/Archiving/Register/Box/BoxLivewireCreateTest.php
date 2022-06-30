@@ -387,7 +387,7 @@ test('reset to a blank model after the box is created', function () {
     ->assertSet('box', $blank);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
     Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])

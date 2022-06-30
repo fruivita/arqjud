@@ -74,7 +74,7 @@ test('search returns expected results', function () {
     ->assertCount('roles', Role::count());
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::RoleViewAny->value);
 
     Livewire::test(RoleLivewireIndex::class)

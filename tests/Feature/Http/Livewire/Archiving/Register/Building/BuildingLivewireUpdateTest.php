@@ -60,7 +60,7 @@ test('cannot update building without specific permission', function () {
     grantPermission(PermissionType::BuildingView->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
-    ->set('modo_edicao', false)
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertForbidden();
 });
@@ -254,10 +254,11 @@ test('update a building record with specific permission', function () {
     ->and($this->building->site_id)->toBe($site->id);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::BuildingUpdate->value);
 
     Livewire::test(BuildingLivewireUpdate::class, ['id' => $this->building->id])
+    ->assertSet('modo_edicao', false)
     ->assertSet('preferencias', [
         'colunas' => [
             'andar',

@@ -63,7 +63,7 @@ test('cannot update stand without specific permission', function () {
     grantPermission(PermissionType::StandView->value);
 
     Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
-    ->set('modo_edicao', false)
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertForbidden();
 });
@@ -492,10 +492,11 @@ test('update a stand record with specific permission', function () {
     ->and($this->stand->room_id)->toBe($room->id);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::StandUpdate->value);
 
     Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
+    ->assertSet('modo_edicao', false)
     ->assertSet('preferencias', [
         'colunas' => [
             'prateleira',

@@ -96,7 +96,7 @@ test('emits feedback event when deleting a room record', function () {
     ]);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::RoomViewAny->value);
 
     Livewire::test(RoomLivewireIndex::class)

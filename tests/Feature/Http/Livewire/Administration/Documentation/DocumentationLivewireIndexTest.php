@@ -97,7 +97,7 @@ test('emits feedback event when deleting an application documentation record', f
 });
 
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::DocumentationViewAny->value);
 
     Livewire::test(DocumentationLivewireIndex::class)

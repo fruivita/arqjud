@@ -203,7 +203,7 @@ test('reset to a blank model after the application documentation is created', fu
     ->assertSet('doc', $blank);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::DocumentationCreate->value);
 
     Livewire::test(DocumentationLivewireCreate::class)

@@ -188,7 +188,7 @@ test('reset to a blank model after the building is created', function () {
     ->assertSet('building', $blank);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
     Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])

@@ -96,7 +96,7 @@ test('emits feedback event when deleting a building record', function () {
     ]);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
 
     Livewire::test(BuildingLivewireIndex::class)

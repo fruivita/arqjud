@@ -74,7 +74,7 @@ test('search returns expected results', function () {
     ->assertCount('permissions', Permission::count());
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::PermissionViewAny->value);
 
     Livewire::test(PermissionLivewireIndex::class)

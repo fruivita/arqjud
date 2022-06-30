@@ -98,7 +98,7 @@ test('emits feedback event when deleting a floor record', function () {
     ]);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::FloorViewAny->value);
 
     Livewire::test(FloorLivewireIndex::class)

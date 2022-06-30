@@ -233,7 +233,7 @@ test('reset to a blank model after the shelf is created', function () {
     ->assertSet('shelf', $blank);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::ShelfCreate->value);
 
     Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])

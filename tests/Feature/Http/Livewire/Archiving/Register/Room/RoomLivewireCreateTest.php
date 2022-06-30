@@ -218,7 +218,7 @@ test('reset to a blank model after the room is created', function () {
     ->assertSet('room', $blank);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
     Livewire::test(RoomLivewireCreate::class, ['id' => $this->floor->id])

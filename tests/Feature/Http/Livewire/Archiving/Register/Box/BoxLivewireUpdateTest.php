@@ -74,7 +74,7 @@ test('cannot update box without specific permission', function () {
     grantPermission(PermissionType::BoxView->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->set('modo_edicao', false)
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertForbidden();
 });
@@ -654,10 +654,11 @@ test('create a box volume with specific permission', function () {
     expect($box_volume->alias)->toBe('Vol. 11');
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
+    ->assertSet('modo_edicao', false)
     ->assertSet('preferencias', [
         'colunas' => [
             'volume',

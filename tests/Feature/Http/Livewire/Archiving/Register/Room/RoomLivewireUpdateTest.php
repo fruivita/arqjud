@@ -62,7 +62,7 @@ test('cannot update room without specific permission', function () {
     grantPermission(PermissionType::RoomView->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
-    ->set('modo_edicao', false)
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertForbidden();
 });
@@ -385,10 +385,11 @@ test('update a room record with specific permission', function () {
     ->and($this->room->floor_id)->toBe($floor->id);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
+    ->assertSet('modo_edicao', false)
     ->assertSet('preferencias', [
         'colunas' => [
             'estante',

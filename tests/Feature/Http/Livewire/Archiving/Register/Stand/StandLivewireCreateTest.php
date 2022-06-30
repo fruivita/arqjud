@@ -254,7 +254,7 @@ test('reset to a blank model after the stand is created', function () {
     ->assertSet('stand', $blank);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::StandCreate->value);
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])

@@ -61,7 +61,7 @@ test('cannot update floor without specific permission', function () {
     grantPermission(PermissionType::FloorView->value);
 
     Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
-    ->set('modo_edicao', false)
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertForbidden();
 });
@@ -373,10 +373,11 @@ test('update a floor record with specific permission', function () {
     ->and($this->floor->building_id)->toBe($building->id);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::FloorUpdate->value);
 
     Livewire::test(FloorLivewireUpdate::class, ['id' => $this->floor->id])
+    ->assertSet('modo_edicao', false)
     ->assertSet('preferencias', [
         'colunas' => [
             'sala',

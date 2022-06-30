@@ -98,7 +98,7 @@ test('emits feedback event when deleting a shelf record', function () {
     ]);
 });
 
-test('preferencias estão definidas', function () {
+test('valores iniciais do componente estão definidos', function () {
     grantPermission(PermissionType::ShelfViewAny->value);
 
     Livewire::test(ShelfLivewireIndex::class)
