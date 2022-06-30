@@ -195,6 +195,11 @@ class PermissionSeeder extends Seeder
                 'description' => __('Permission to view all registered application documentation.'),
             ],
             [
+                'id' => PermissionType::DocumentationView->value,
+                'name' => __('Documentation: View one'),
+                'description' => __('Permission to individually view registered application documentation.'),
+            ],
+            [
                 'id' => PermissionType::DocumentationCreate->value,
                 'name' => __('Documentation: Create one'),
                 'description' => __('Permission to individually create application documentation.'),

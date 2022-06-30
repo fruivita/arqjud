@@ -184,6 +184,7 @@ test('admin role has all permissions', function ($permission) {
     PermissionType::DelegationViewAny,
     PermissionType::DelegationCreate,
     PermissionType::DocumentationViewAny,
+    PermissionType::DocumentationView,
     PermissionType::DocumentationCreate,
     PermissionType::DocumentationUpdate,
     PermissionType::DocumentationDelete,

@@ -37,6 +37,7 @@ enum PermissionType: int
     case DelegationCreate = 140003;
     // Documentation
     case DocumentationViewAny = 150001;
+    case DocumentationView = 150002;
     case DocumentationCreate = 150003;
     case DocumentationUpdate = 150004;
     case DocumentationDelete = 150005;

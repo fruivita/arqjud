@@ -77,6 +77,7 @@ class PermissionRoleSeeder extends Seeder
             PermissionType::DelegationViewAny->value,
             PermissionType::DelegationCreate->value,
             PermissionType::DocumentationViewAny->value,
+            PermissionType::DocumentationView->value,
             PermissionType::DocumentationCreate->value,
             PermissionType::DocumentationUpdate->value,
             PermissionType::DocumentationDelete->value,

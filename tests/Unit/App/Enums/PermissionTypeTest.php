@@ -44,6 +44,7 @@ test('permissions ids for delegation are set', function () {
 
 test('permissions ids for application documentation administration are set', function () {
     expect(PermissionType::DocumentationViewAny->value)->toBe(150001)
+    ->and(PermissionType::DocumentationView->value)->toBe(150002)
     ->and(PermissionType::DocumentationCreate->value)->toBe(150003)
     ->and(PermissionType::DocumentationUpdate->value)->toBe(150004)
     ->and(PermissionType::DocumentationDelete->value)->toBe(150005);
