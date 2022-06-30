@@ -18,8 +18,6 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->room = Room::factory()->create();
-
     login('foo');
 });
 
@@ -66,10 +64,8 @@ test('lists room records with specific permission', function () {
 test('search returns expected results', function () {
     grantPermission(PermissionType::RoomViewAny->value);
 
-    $this->room->delete();
-
     Room::factory()->create(['number' => 10]);
-    Room::factory()->create(['number' => 210]); // contains 10
+    Room::factory()->create(['number' => 210]);
     Room::factory()->create(['number' => 20]);
 
     Livewire::test(RoomLivewireIndex::class)
@@ -85,8 +81,10 @@ test('emits feedback event when deleting a room record', function () {
     grantPermission(PermissionType::RoomViewAny->value);
     grantPermission(PermissionType::RoomDelete->value);
 
+    $room = Room::factory()->create();
+
     Livewire::test(RoomLivewireIndex::class)
-    ->call('setToDelete', $this->room->id)
+    ->call('setToDelete', $room->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [

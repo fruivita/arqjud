@@ -16,8 +16,6 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->doc = Documentation::factory()->create();
-
     login('foo');
 });
 
@@ -63,8 +61,6 @@ test('lists application documentation records with specific permission', functio
 
 test('search returns expected results', function () {
     grantPermission(PermissionType::DocumentationViewAny->value);
-
-    $this->doc->delete();
 
     Documentation::factory()->create(['app_route_name' => 'foo', 'doc_link' => 'loren']);
     Documentation::factory()->create(['app_route_name' => 'bar', 'doc_link' => 'ipsun']);

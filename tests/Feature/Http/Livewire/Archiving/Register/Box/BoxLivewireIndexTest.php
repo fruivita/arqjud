@@ -18,8 +18,6 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->box = Box::factory()->create();
-
     login('foo');
 });
 
@@ -66,8 +64,6 @@ test('list boxes with specific permission', function () {
 test('search returns expected results', function () {
     grantPermission(PermissionType::BoxViewAny->value);
 
-    $this->box->delete();
-
     Box::factory()->create(['number' => '100', 'year' => '2015']);
     Box::factory()->create(['number' => '120152', 'year' => '2020']);
     Box::factory()->create(['number' => '200', 'year' => '2020']);
@@ -87,8 +83,10 @@ test('emits feedback event when deleting a box record', function () {
     grantPermission(PermissionType::BoxViewAny->value);
     grantPermission(PermissionType::BoxDelete->value);
 
+    $box = Box::factory()->create();
+
     Livewire::test(BoxLivewireIndex::class)
-    ->call('setToDelete', $this->box->id)
+    ->call('setToDelete', $box->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [

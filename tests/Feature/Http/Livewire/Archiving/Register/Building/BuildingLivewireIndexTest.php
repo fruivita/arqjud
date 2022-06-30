@@ -18,8 +18,6 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->building = Building::factory()->create();
-
     login('foo');
 });
 
@@ -66,16 +64,14 @@ test('lists building records with specific permission', function () {
 test('search returns expected results', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
 
-    $this->building->delete();
-
     Building::factory()->create(['name' => 'foo']);
-    Building::factory()->create(['name' => 'bar baz']); // contains bar
+    Building::factory()->create(['name' => 'baz']);
     Building::factory()->create(['name' => 'bar']);
 
     Livewire::test(BuildingLivewireIndex::class)
     ->set('term', 'foo')
     ->assertCount('buildings', 1)
-    ->set('term', 'bar')
+    ->set('term', 'ba')
     ->assertCount('buildings', 2)
     ->set('term', '')
     ->assertCount('buildings', 3);
@@ -85,8 +81,10 @@ test('emits feedback event when deleting a building record', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
     grantPermission(PermissionType::BuildingDelete->value);
 
+    $building = Building::factory()->create();
+
     Livewire::test(BuildingLivewireIndex::class)
-    ->call('setToDelete', $this->building->id)
+    ->call('setToDelete', $building->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [

@@ -18,8 +18,6 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->shelf = Shelf::factory()->create();
-
     login('foo');
 });
 
@@ -66,8 +64,6 @@ test('lists shelf records with specific permission', function () {
 test('search returns expected results', function () {
     grantPermission(PermissionType::ShelfViewAny->value);
 
-    $this->shelf->delete();
-
     Shelf::factory()->create(['number' => 10, 'alias' => 'foo']);
     Shelf::factory()->create(['number' => 210, 'alias' => 'bar']);
     Shelf::factory()->create(['number' => 20, 'alias' => 'baz']);
@@ -87,8 +83,10 @@ test('emits feedback event when deleting a shelf record', function () {
     grantPermission(PermissionType::ShelfViewAny->value);
     grantPermission(PermissionType::ShelfDelete->value);
 
+    $shelf = Shelf::factory()->create();
+
     Livewire::test(ShelfLivewireIndex::class)
-    ->call('setToDelete', $this->shelf->id)
+    ->call('setToDelete', $shelf->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [

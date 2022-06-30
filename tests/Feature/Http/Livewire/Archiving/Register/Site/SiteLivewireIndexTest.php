@@ -18,8 +18,6 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->site = Site::factory()->create();
-
     login('foo');
 });
 
@@ -66,16 +64,14 @@ test('lists site records with specific permission', function () {
 test('search returns expected results', function () {
     grantPermission(PermissionType::SiteViewAny->value);
 
-    $this->site->delete();
-
     Site::factory()->create(['name' => 'foo']);
-    Site::factory()->create(['name' => 'bar baz']); // contains bar
     Site::factory()->create(['name' => 'bar']);
+    Site::factory()->create(['name' => 'baz']);
 
     Livewire::test(SiteLivewireIndex::class)
     ->set('term', 'foo')
     ->assertCount('sites', 1)
-    ->set('term', 'bar')
+    ->set('term', 'ba')
     ->assertCount('sites', 2)
     ->set('term', '')
     ->assertCount('sites', 3);
@@ -85,8 +81,10 @@ test('emits feedback event when deleting a site record', function () {
     grantPermission(PermissionType::SiteViewAny->value);
     grantPermission(PermissionType::SiteDelete->value);
 
+    $site = Site::factory()->create();
+
     Livewire::test(SiteLivewireIndex::class)
-    ->call('setToDelete', $this->site->id)
+    ->call('setToDelete', $site->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [

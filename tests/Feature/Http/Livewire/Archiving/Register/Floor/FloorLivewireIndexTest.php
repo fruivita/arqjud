@@ -18,8 +18,6 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->floor = Floor::factory()->create();
-
     login('foo');
 });
 
@@ -66,8 +64,6 @@ test('lists floor records with specific permission', function () {
 test('search returns expected results', function () {
     grantPermission(PermissionType::FloorViewAny->value);
 
-    $this->floor->delete();
-
     Floor::factory()->create(['number' => 10, 'alias' => 'foo']);
     Floor::factory()->create(['number' => 210, 'alias' => 'bar']);
     Floor::factory()->create(['number' => 20, 'alias' => 'baz']);
@@ -87,8 +83,10 @@ test('emits feedback event when deleting a floor record', function () {
     grantPermission(PermissionType::FloorViewAny->value);
     grantPermission(PermissionType::FloorDelete->value);
 
+    $floor = Floor::factory()->create();
+
     Livewire::test(FloorLivewireIndex::class)
-    ->call('setToDelete', $this->floor->id)
+    ->call('setToDelete', $floor->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [

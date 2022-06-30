@@ -18,8 +18,6 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->stand = Stand::factory()->create();
-
     login('foo');
 });
 
@@ -66,8 +64,6 @@ test('lists stand records with specific permission', function () {
 test('search returns expected results', function () {
     grantPermission(PermissionType::StandViewAny->value);
 
-    $this->stand->delete();
-
     Stand::factory()->create(['number' => 10, 'alias' => 'foo']);
     Stand::factory()->create(['number' => 210, 'alias' => 'bar']);
     Stand::factory()->create(['number' => 20, 'alias' => 'baz']);
@@ -87,8 +83,10 @@ test('emits feedback event when deleting a stand record', function () {
     grantPermission(PermissionType::StandViewAny->value);
     grantPermission(PermissionType::StandDelete->value);
 
+    $stand = Stand::factory()->create();
+
     Livewire::test(StandLivewireIndex::class)
-    ->call('setToDelete', $this->stand->id)
+    ->call('setToDelete', $stand->id)
     ->call('destroy')
     ->assertOk()
     ->assertDispatchedBrowserEvent('notify', [
