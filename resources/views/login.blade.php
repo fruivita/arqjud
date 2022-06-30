@@ -30,6 +30,7 @@
                     <x-form.input
                         autocomplete="username"
                         autofocus
+                        editavel
                         :error="$errors->first('username')"
                         icon="person"
                         id="username"
@@ -43,6 +44,7 @@
 
                     <x-form.input
                         autocomplete="current-password"
+                        editavel
                         :error="$errors->first('password')"
                         icon="key"
                         id="password"
