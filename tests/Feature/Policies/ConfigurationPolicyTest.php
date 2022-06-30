@@ -28,6 +28,10 @@ test('user without permission cannot update a configuration', function () {
     expect((new ConfigurationPolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view or update a configuration', function () {
+    expect((new ConfigurationPolicy())->viewOrUpdate($this->user))->toBeFalse();
+});
+
 // Happy path
 test('user with permission can individually view a configuration', function () {
     grantPermission(PermissionType::ConfigurationView->value);
@@ -39,4 +43,16 @@ test('user with permission can individually update a configuration', function ()
     grantPermission(PermissionType::ConfigurationUpdate->value);
 
     expect((new ConfigurationPolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually view a configuration through view or update policy', function () {
+    grantPermission(PermissionType::ConfigurationView->value);
+
+    expect((new ConfigurationPolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can individually update a configuration through view or update policy', function () {
+    grantPermission(PermissionType::ConfigurationUpdate->value);
+
+    expect((new ConfigurationPolicy())->viewOrUpdate($this->user))->toBeTrue();
 });

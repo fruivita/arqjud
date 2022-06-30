@@ -32,6 +32,10 @@ test('user without permission cannot update a role', function () {
     expect((new RolePolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view or update a role', function () {
+    expect((new RolePolicy())->viewOrUpdate($this->user))->toBeFalse();
+});
+
 // Happy path
 test('user with permission can list roles', function () {
     grantPermission(PermissionType::RoleViewAny->value);
@@ -49,4 +53,16 @@ test('user with permission can individually update a role', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
     expect((new RolePolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually view a role through view or update policy', function () {
+    grantPermission(PermissionType::RoleView->value);
+
+    expect((new RolePolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can individually update a role through view or update policy', function () {
+    grantPermission(PermissionType::RoleUpdate->value);
+
+    expect((new RolePolicy())->viewOrUpdate($this->user))->toBeTrue();
 });

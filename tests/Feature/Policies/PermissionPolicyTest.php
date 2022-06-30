@@ -32,6 +32,10 @@ test('user without permission cannot update a permission', function () {
     expect((new PermissionPolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view or update a permission', function () {
+    expect((new PermissionPolicy())->viewOrUpdate($this->user))->toBeFalse();
+});
+
 // Happy path
 test('user with permission can list permissions', function () {
     grantPermission(PermissionType::PermissionViewAny->value);
@@ -49,4 +53,16 @@ test('user with permission can individually update a permission', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
     expect((new PermissionPolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can individually view a permission through view or update policy', function () {
+    grantPermission(PermissionType::PermissionView->value);
+
+    expect((new PermissionPolicy())->viewOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can individually update a permission through view or update policy', function () {
+    grantPermission(PermissionType::PermissionUpdate->value);
+
+    expect((new PermissionPolicy())->viewOrUpdate($this->user))->toBeTrue();
 });

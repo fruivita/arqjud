@@ -36,4 +36,18 @@ class ConfigurationPolicy
     {
         return $user->hasPermission(PermissionType::ConfigurationUpdate);
     }
+
+    /**
+     * Determine whether the user can view or update a model.
+     *
+     * @param \App\Models\User $user
+     *
+     * @return bool|\Illuminate\Auth\Access\Response
+     */
+    public function viewOrUpdate(User $user)
+    {
+        return
+        $this->view($user)
+        || $this->update($user);
+    }
 }
