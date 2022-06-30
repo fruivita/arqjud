@@ -66,6 +66,26 @@ test('if the sorting array is not provided, use the default sorting, that is, so
     ->and($third->name)->toBe('foo');
 });
 
+test('na ordenação default, se a data de criação dos registros for a mesma, ordena pelo ID desc', function () {
+    testTime()->freeze();
+    Building::factory()->create(['id' => 2 , 'name' => 'bar']);
+    Building::factory()->create(['id' => 3, 'name' => 'foo']);
+
+    testTime()->addMinute();
+    Building::factory()->create(['id' => 5, 'name' => 'baz']);
+
+    $ordered = Building::orderByWhen([])->get();
+
+    $first = $ordered->get(0);
+    $second = $ordered->get(1);
+    $third = $ordered->get(2);
+
+    expect($ordered)->toHaveCount(3)
+    ->and($first->name)->toBe('baz')
+    ->and($second->name)->toBe('foo')
+    ->and($third->name)->toBe('bar');
+})->only();
+
 test('if the hierarchy is present, order by multiple multiple columns', function () {
     $site_foo = Site::factory()->create(['name' => 'foo']);
     $site_bar = Site::factory()->create(['name' => 'bar']);

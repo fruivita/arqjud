@@ -29,7 +29,7 @@ class OrderByWhen
                 },
 
                 function(Builder $query) {
-                    $query->latest();
+                    $query->latest()->orderBy('id', 'desc');
                 }
             );
 
