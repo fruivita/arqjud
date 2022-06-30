@@ -25,6 +25,7 @@
                     wire:model.defer="doc.app_route_name"
                     wire:target="store"
                     autofocus
+                    editavel
                     :error="$errors->first('doc.app_route_name')"
                     icon="signpost-2"
                     maxlength="255"
@@ -42,6 +43,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="doc.doc_link"
                     wire:target="store"
+                    editavel
                     :error="$errors->first('doc.doc_link')"
                     icon="link"
                     maxlength="255"
@@ -69,6 +71,18 @@
             </div>
 
         </form>
+
+    </x-container>
+
+
+    <x-container>
+
+        <x-table.model.documentation
+            :deleting="$this->deleting"
+            :documentacao="$this->documentacao"
+            :preferencias="$this->preferencias"
+            :sorts="$this->sorts"
+            withdeletebutton/>
 
     </x-container>
 

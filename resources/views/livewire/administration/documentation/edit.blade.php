@@ -25,6 +25,7 @@
                     wire:model.defer="doc.app_route_name"
                     wire:target="update"
                     autofocus
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('doc.app_route_name')"
                     icon="signpost-2"
                     maxlength="255"
@@ -42,6 +43,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="doc.doc_link"
                     wire:target="update"
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('doc.doc_link')"
                     icon="link"
                     maxlength="255"
@@ -52,19 +54,15 @@
                     withcounter/>
 
 
-                <x-button-group>
+                    @can(\App\Enums\Policy::Update->value, \App\Models\Documentation::class)
 
-                    <x-feedback.inline/>
+                        <x-button-group>
 
+                            <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
 
-                    <x-button
-                        class="btn-do"
-                        icon="save"
-                        :text="__('Save')"
-                        :title="__('Save the record')"
-                        type="submit"/>
+                        </x-button-group>
 
-                </x-button-group>
+                    @endcan
 
             </div>
 

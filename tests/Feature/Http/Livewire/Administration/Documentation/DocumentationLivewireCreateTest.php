@@ -43,22 +43,6 @@ test('cannot render application documentation record creation component without 
     ->assertForbidden();
 });
 
-test('cannot create an application documentation record without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
-    grantPermission(PermissionType::DocumentationCreate->value);
-
-    $livewire = Livewire::test(DocumentationLivewireCreate::class)
-    ->set('doc.app_route_name', 'new foo');
-
-    // remove permission
-    revokePermission(PermissionType::DocumentationCreate->value);
-
-    $livewire
-    ->call('store')
-    ->assertForbidden();
-});
-
 // Rules
 test('route name is required', function () {
     grantPermission(PermissionType::DocumentationCreate->value);
@@ -144,6 +128,16 @@ test('link must be a valid url', function () {
 });
 
 // Happy path
+test('pagination returns the amount of expected application documentation records', function () {
+    grantPermission(PermissionType::DocumentationCreate->value);
+
+    Documentation::factory(30)->create();
+
+    Livewire::test(DocumentationLivewireCreate::class)
+    ->set('preferencias.por_pagina', 25)
+    ->assertCount('documentacao', 25);
+});
+
 test('renders application documentation record creation component with specific permission', function () {
     grantPermission(PermissionType::DocumentationCreate->value);
 
@@ -161,19 +155,23 @@ test('emits feedback event when creates an application documentation record', fu
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
 
-test('link is optional when creating application documentation record', function () {
+test('emits feedback event when deleting an application documentation record', function () {
     grantPermission(PermissionType::DocumentationCreate->value);
+    grantPermission(PermissionType::DocumentationDelete->value);
+
+    $doc = Documentation::factory()->create();
 
     Livewire::test(DocumentationLivewireCreate::class)
-    ->set('doc.app_route_name', 'administration.log.index')
-    ->set('doc.doc_link', null)
-    ->call('store')
-    ->assertOk();
-
-    $documentation = Documentation::first();
-
-    expect($documentation->app_route_name)->toBe('administration.log.index')
-    ->and($documentation->doc_link)->toBeEmpty();
+    ->call('setToDelete', $doc->id)
+    ->call('destroy')
+    ->assertOk()
+    ->assertDispatchedBrowserEvent('notify', [
+        'type' => FeedbackType::Success->value,
+        'icon' => FeedbackType::Success->icon(),
+        'header' => FeedbackType::Success->label(),
+        'message' => null,
+        'timeout' => 3000,
+    ]);
 });
 
 test('creates an application documentation record with specific permission', function () {
@@ -203,4 +201,28 @@ test('reset to a blank model after the application documentation is created', fu
     ->call('store')
     ->assertOk()
     ->assertSet('doc', $blank);
+});
+
+test('preferencias estão definidas', function () {
+    grantPermission(PermissionType::DocumentationCreate->value);
+
+    Livewire::test(DocumentationLivewireCreate::class)
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'nome_rota',
+            'link_documentacao',
+            'acoes'
+        ],
+        'por_pagina' => 10
+    ]);
+});
+
+test('DocumentationLivewireCreate uses trait', function () {
+    expect(
+        collect(class_uses(DocumentationLivewireCreate::class))
+        ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
+    )->toBeTrue();
 });

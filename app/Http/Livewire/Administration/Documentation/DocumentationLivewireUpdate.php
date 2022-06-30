@@ -18,6 +18,13 @@ class DocumentationLivewireUpdate extends Component
     use WithFeedbackEvents;
 
     /**
+     * Se o componente deve ser renderizado no modo edição.
+     *
+     * @var bool
+     */
+    public bool $modo_edicao = false;
+
+    /**
      * Editing resource.
      *
      * @var \App\Models\Documentation
@@ -72,7 +79,7 @@ class DocumentationLivewireUpdate extends Component
      */
     public function boot()
     {
-        $this->authorize(Policy::Update->value, Documentation::class);
+        $this->authorize(Policy::ViewOrUpdate->value, Documentation::class);
     }
 
     /**
@@ -92,9 +99,15 @@ class DocumentationLivewireUpdate extends Component
      */
     public function update()
     {
+        abort_if($this->modo_edicao !== true, 403);
+
+        $this->authorize(Policy::Update->value, Documentation::class);
+
         $this->validate();
 
         $saved = $this->doc->save();
+
+        $this->reset('modo_edicao');
 
         $this->flashSelf($saved);
     }

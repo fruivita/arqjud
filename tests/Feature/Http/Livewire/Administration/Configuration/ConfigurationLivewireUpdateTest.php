@@ -44,18 +44,20 @@ test('cannot render config editing component without specific permission', funct
     ->assertForbidden();
 });
 
-test('cannot update configuration without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
+test('cannot update configuration if edit mode is disabled', function () {
     grantPermission(PermissionType::ConfigurationUpdate->value);
 
-    $livewire = Livewire::test(ConfigurationLivewireUpdate::class)
-    ->set('configuration.superadmin', 'bar');
+    Livewire::test(ConfigurationLivewireUpdate::class)
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
 
-    // remove permission
-    revokePermission(PermissionType::ConfigurationUpdate->value);
+test('cannot update configuration without specific permission', function () {
+    grantPermission(PermissionType::ConfigurationView->value);
 
-    $livewire
+    Livewire::test(ConfigurationLivewireUpdate::class)
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertForbidden();
 });
@@ -65,6 +67,7 @@ test('superadmin is required', function () {
     grantPermission(PermissionType::ConfigurationUpdate->value);
 
     Livewire::test(ConfigurationLivewireUpdate::class)
+    ->set('modo_edicao', true)
     ->set('configuration.superadmin', '')
     ->call('update')
     ->assertHasErrors(['configuration.superadmin' => 'required']);
@@ -74,6 +77,7 @@ test('superadmin must be a string', function () {
     grantPermission(PermissionType::ConfigurationUpdate->value);
 
     Livewire::test(ConfigurationLivewireUpdate::class)
+    ->set('modo_edicao', true)
     ->set('configuration.superadmin', ['bar'])
     ->call('update')
     ->assertHasErrors(['configuration.superadmin' => 'string']);
@@ -83,6 +87,7 @@ test('superadmin must be a maximum of 20 characters', function () {
     grantPermission(PermissionType::ConfigurationUpdate->value);
 
     Livewire::test(ConfigurationLivewireUpdate::class)
+    ->set('modo_edicao', true)
     ->set('configuration.superadmin', Str::random(21))
     ->call('update')
     ->assertHasErrors(['configuration.superadmin' => 'max']);
@@ -92,19 +97,23 @@ test('superadmin must exist on the ldap server', function () {
     grantPermission(PermissionType::ConfigurationUpdate->value);
 
     Livewire::test(ConfigurationLivewireUpdate::class)
+    ->set('modo_edicao', true)
     ->set('configuration.superadmin', 'bar')
     ->call('update')
     ->assertHasErrors(['configuration.superadmin' => LdapUser::class]);
 });
 
 // Happy path
-test('renders configuration editing component with specific permission', function () {
-    grantPermission(PermissionType::ConfigurationUpdate->value);
+test('renders configuration editing component with view or update specific permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('administration.configuration.edit'))
     ->assertOk()
     ->assertSeeLivewire(ConfigurationLivewireUpdate::class);
-});
+})->with([
+    PermissionType::ConfigurationView->value,
+    PermissionType::ConfigurationUpdate->value
+]);
 
 test('the configuration loaded for update is as expected as it is unique and predefined', function () {
     grantPermission(PermissionType::ConfigurationUpdate->value);
@@ -119,8 +128,16 @@ test('emits feedback event when updating a configuration', function () {
     grantPermission(PermissionType::ConfigurationUpdate->value);
 
     Livewire::test(ConfigurationLivewireUpdate::class)
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
+});
+
+test('valores iniciais do componente estão definidos', function () {
+    grantPermission(PermissionType::ConfigurationUpdate->value);
+
+    Livewire::test(ConfigurationLivewireUpdate::class)
+    ->assertSet('modo_edicao', false);
 });
 
 test('update a configuration with specific permission', function () {
@@ -131,6 +148,7 @@ test('update a configuration with specific permission', function () {
     expect(Configuration::find(Configuration::MAIN)->superadmin)->toBe('dumb user');
 
     Livewire::test(ConfigurationLivewireUpdate::class)
+    ->set('modo_edicao', true)
     ->set('configuration.superadmin', 'bar')
     ->call('update')
     ->assertHasNoErrors()
@@ -138,3 +156,14 @@ test('update a configuration with specific permission', function () {
 
     expect(Configuration::find(Configuration::MAIN)->superadmin)->toBe('bar');
 });
+
+test('ConfigurationLivewireUpdate uses custom trait', function () {
+    expect(
+        collect(class_uses(ConfigurationLivewireUpdate::class))
+        ->has([
+            \App\Traits\ImportableLdapUser::class,
+            \App\Http\Livewire\Traits\WithFeedbackEvents::class,
+        ])
+    )->toBeTrue();
+});
+

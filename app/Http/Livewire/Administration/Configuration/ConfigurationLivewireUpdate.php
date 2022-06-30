@@ -20,6 +20,13 @@ class ConfigurationLivewireUpdate extends Component
     use WithFeedbackEvents;
 
     /**
+     * Se o componente deve ser renderizado no modo edição.
+     *
+     * @var bool
+     */
+    public bool $modo_edicao = false;
+
+    /**
      * Editing resource.
      *
      * @var \App\Models\Configuration
@@ -64,7 +71,7 @@ class ConfigurationLivewireUpdate extends Component
      */
     public function boot()
     {
-        $this->authorize(Policy::Update->value, Configuration::class);
+        $this->authorize(Policy::ViewOrUpdate->value, Configuration::class);
     }
 
     /**
@@ -97,11 +104,17 @@ class ConfigurationLivewireUpdate extends Component
      */
     public function update()
     {
+        abort_if($this->modo_edicao !== true, 403);
+
+        $this->authorize(Policy::Update->value, Configuration::class);
+
         $this->validate();
 
         $this->importLdapUser($this->configuration->superadmin);
 
         $saved = $this->configuration->save();
+
+        $this->reset('modo_edicao');
 
         $this->flashSelf($saved);
     }

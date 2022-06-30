@@ -31,6 +31,7 @@
                         wire:target="update"
                         autocomplete="off"
                         autofocus
+                        :editavel="$this->modo_edicao"
                         :error="$errors->first('configuration.superadmin')"
                         icon="person"
                         maxlength="20"
@@ -44,19 +45,15 @@
                 </div>
 
 
-                <div class="flex flex-col space-x-0 space-y-3 lg:flex-row lg:items-center lg:space-x-3 lg:space-y-0">
+                @can(\App\Enums\Policy::Update->value, \App\Models\Site::class)
 
-                    <x-button
-                        class="btn-do"
-                        icon="save"
-                        :text="__('Save')"
-                        :title="__('Save the record')"
-                        type="submit"/>
+                    <x-button-group>
 
+                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
 
-                    <x-feedback.inline/>
+                    </x-button-group>
 
-                </div>
+                @endcan
 
             </div>
 

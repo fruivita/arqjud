@@ -16,6 +16,8 @@ use function Pest\Laravel\get;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
+    $this->doc = Documentation::factory()->create();
+
     login('foo');
 });
 
@@ -47,8 +49,8 @@ test('pagination returns the amount of expected application documentation record
     Documentation::factory(30)->create();
 
     Livewire::test(DocumentationLivewireIndex::class)
-    ->set('per_page', 25)
-    ->assertCount('docs', 25);
+    ->set('preferencias.por_pagina', 25)
+    ->assertCount('documentacao', 25);
 });
 
 test('lists application documentation records with specific permission', function () {
@@ -57,6 +59,26 @@ test('lists application documentation records with specific permission', functio
     get(route('administration.doc.index'))
     ->assertOk()
     ->assertSeeLivewire(DocumentationLivewireIndex::class);
+});
+
+test('search returns expected results', function () {
+    grantPermission(PermissionType::DocumentationViewAny->value);
+
+    $this->doc->delete();
+
+    Documentation::factory()->create(['app_route_name' => 'foo', 'doc_link' => 'loren']);
+    Documentation::factory()->create(['app_route_name' => 'bar', 'doc_link' => 'ipsun']);
+    Documentation::factory()->create(['app_route_name' => 'baz', 'doc_link' => 'dolor']);
+
+    Livewire::test(DocumentationLivewireIndex::class)
+    ->set('term', 'foo')
+    ->assertCount('documentacao', 1)
+    ->set('term', 'ba')
+    ->assertCount('documentacao', 2)
+    ->set('term', '')
+    ->assertCount('documentacao', 3)
+    ->set('term', 'lo')
+    ->assertCount('documentacao', 2);
 });
 
 test('emits feedback event when deleting an application documentation record', function () {
@@ -76,4 +98,29 @@ test('emits feedback event when deleting an application documentation record', f
         'message' => null,
         'timeout' => 3000,
     ]);
+});
+
+
+test('preferencias estão definidas', function () {
+    grantPermission(PermissionType::DocumentationViewAny->value);
+
+    Livewire::test(DocumentationLivewireIndex::class)
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'nome_rota',
+            'link_documentacao',
+            'acoes'
+        ],
+        'por_pagina' => 10
+    ]);
+});
+
+test('DocumentationLivewireIndex uses trait', function () {
+    expect(
+        collect(class_uses(DocumentationLivewireIndex::class))
+        ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
+    )->toBeTrue();
 });

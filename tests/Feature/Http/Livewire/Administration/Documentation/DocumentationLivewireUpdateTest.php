@@ -45,18 +45,20 @@ test('cannot render application documentation record editing component without s
     ->assertForbidden();
 });
 
-test('cannot update application documentation record without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
+test('cannot update application documentation if edit mode is disabled', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
-    $livewire = Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
-    ->set('doc.app_route_name', 'administration.log.index');
+    Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
 
-    // remove permission
-    revokePermission(PermissionType::DocumentationUpdate->value);
+test('cannot update application documentation record without specific permission', function () {
+    grantPermission(PermissionType::DocumentationView->value);
 
-    $livewire
+    Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertForbidden();
 });
@@ -66,6 +68,7 @@ test('route name is required', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->set('doc.app_route_name', '')
     ->call('update')
     ->assertHasErrors(['doc.app_route_name' => 'required']);
@@ -75,6 +78,7 @@ test('route name must be a string', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->set('doc.app_route_name', ['bar'])
     ->call('update')
     ->assertHasErrors(['doc.app_route_name' => 'string']);
@@ -84,6 +88,7 @@ test('route name must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->set('doc.app_route_name', Str::random(256))
     ->call('update')
     ->assertHasErrors(['doc.app_route_name' => 'max']);
@@ -93,6 +98,7 @@ test('route name must exist in the application', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->set('doc.app_route_name', 'foo')
     ->call('update')
     ->assertHasErrors(['doc.app_route_name' => RouteExists::class]);
@@ -104,6 +110,7 @@ test('route name must be unique', function () {
     $doc = Documentation::factory()->create(['app_route_name' => 'authorization.user.index']);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $doc])
+    ->set('modo_edicao', true)
     ->set('doc.app_route_name', 'administration.log.index')
     ->call('update')
     ->assertHasErrors(['doc.app_route_name' => 'unique']);
@@ -113,6 +120,7 @@ test('link is optional', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->set('doc.doc_link', '')
     ->call('update')
     ->assertHasNoErrors(['doc.doc_link']);
@@ -122,6 +130,7 @@ test('link must be a string', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->set('doc.doc_link', ['foo'])
     ->call('update')
     ->assertHasErrors(['doc.doc_link' => 'string']);
@@ -131,6 +140,7 @@ test('link must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->set('doc.doc_link', Str::random(256))
     ->call('update')
     ->assertHasErrors(['doc.doc_link' => 'max']);
@@ -140,46 +150,38 @@ test('link must be a valid url', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->set('doc.doc_link', 'foo')
     ->call('update')
     ->assertHasErrors(['doc.doc_link' => 'url']);
 });
 
 // Happy path
-test('renders application documentation record editing component with specific permission', function () {
-    grantPermission(PermissionType::DocumentationUpdate->value);
+test('renders application documentation record editing component with view or update permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('administration.doc.edit', $this->doc))
     ->assertOk()
     ->assertSeeLivewire(DocumentationLivewireUpdate::class);
-});
+})->with([
+    PermissionType::DocumentationView->value,
+    PermissionType::DocumentationUpdate->value
+]);
 
 test('emits feedback event when updating an application documentation record', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
-});
-
-test('link is optional in application documentation record update', function () {
-    grantPermission(PermissionType::DocumentationUpdate->value);
-
-    Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
-    ->set('doc.doc_link', null)
-    ->call('update')
-    ->assertOk();
-
-    $documentation = Documentation::first();
-
-    expect($documentation->app_route_name)->toBe($this->doc->app_route_name)
-    ->and($documentation->doc_link)->toBeEmpty();
 });
 
 test('updates an application documentation record with specific permission', function () {
     grantPermission(PermissionType::DocumentationUpdate->value);
 
     Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->set('modo_edicao', true)
     ->set('doc.app_route_name', 'administration.log.index')
     ->set('doc.doc_link', 'http://valid-url.com')
     ->call('update')
@@ -190,4 +192,11 @@ test('updates an application documentation record with specific permission', fun
 
     expect($this->doc->app_route_name)->toBe('administration.log.index')
     ->and($this->doc->doc_link)->toBe('http://valid-url.com');
+});
+
+test('valores iniciais do componente estão definidos', function () {
+    grantPermission(PermissionType::DocumentationUpdate->value);
+
+    Livewire::test(DocumentationLivewireUpdate::class, ['doc' => $this->doc])
+    ->assertSet('modo_edicao', false);
 });
