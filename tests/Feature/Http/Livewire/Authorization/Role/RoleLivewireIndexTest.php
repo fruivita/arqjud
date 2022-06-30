@@ -46,7 +46,7 @@ test('pagination returns the expected number of roles', function () {
     Role::factory(30)->create();
 
     Livewire::test(RoleLivewireIndex::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('roles', 25);
 });
 
@@ -58,11 +58,43 @@ test('lists roles with specific permission', function () {
     ->assertSeeLivewire(RoleLivewireIndex::class);
 });
 
+test('search returns expected results', function () {
+    grantPermission(PermissionType::RoleViewAny->value);
+
+    Role::factory()->create(['name' => 'role_foo']);
+    Role::factory()->create(['name' => 'role_bar']);
+    Role::factory()->create(['name' => 'role_baz']);
+
+    Livewire::test(RoleLivewireIndex::class)
+    ->set('term', 'foo')
+    ->assertCount('roles', 1)
+    ->set('term', 'ba')
+    ->assertCount('roles', 2)
+    ->set('term', '')
+    ->assertCount('roles', Role::count());
+});
+
+test('preferencias estão definidas', function () {
+    grantPermission(PermissionType::RoleViewAny->value);
+
+    Livewire::test(RoleLivewireIndex::class)
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'perfil',
+            'permissoes',
+            'acoes',
+        ],
+        'por_pagina' => 10
+    ]);
+});
+
 test('RoleLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(RoleLivewireIndex::class))
         ->has([
             \App\Http\Livewire\Traits\WithLimit::class,
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();
 });

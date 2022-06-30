@@ -3,8 +3,11 @@
 namespace App\Http\Livewire\Authorization\Role;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithLimit;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSearching;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Role;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -15,8 +18,28 @@ use Livewire\Component;
 class RoleLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use SalvaColunasDePreferencia;
     use WithLimit;
     use WithPerPagePagination;
+    use WithSearching;
+    use WithSorting;
+
+    /**
+     * Preferências do usuário.
+     *
+     * @var array<string, mixed>
+     */
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'perfil',
+            'permissoes',
+            'acoes',
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
+    ];
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -36,11 +59,13 @@ class RoleLivewireIndex extends Component
      */
     public function getRolesProperty()
     {
-        return $this->applyPagination(
-            Role::with(['permissions' => function ($query) {
-                $query->defaultOrder()->limit($this->limit);
-            }])->defaultOrder()
-        );
+        return
+        Role::with(['permissions' => function ($query) {
+            $query->defaultOrder()->limit($this->limit);
+        }])
+        ->whereLike(['name'], $this->term)
+        ->orderByWhen($this->sorts)
+        ->paginate($this->preferencias['por_pagina']);
     }
 
     /**
@@ -50,8 +75,6 @@ class RoleLivewireIndex extends Component
      */
     public function render()
     {
-        return view('livewire.authorization.role.index', [
-            'roles' => $this->roles,
-        ])->layout('layouts.app');
+        return view('livewire.authorization.role.index')->layout('layouts.app');
     }
 }

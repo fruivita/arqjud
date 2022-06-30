@@ -93,11 +93,11 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::View->value, \App\Models\Configuration::class)
+            @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuration::class)
 
                 <x-link-card
                     icon="gear"
-                    :href="route('administration.configuration.show')"
+                    :href="route('administration.configuration.edit')"
                     :text="__('Application settings')"
                     :title="__('Application working settings management')"/>
 

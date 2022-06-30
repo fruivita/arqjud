@@ -22,6 +22,7 @@
                     wire:key="permission-name"
                     wire:model.defer="permission.name"
                     autofocus
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('permission.name')"
                     icon="vector-pen"
                     maxlength="50"
@@ -36,6 +37,7 @@
                 <x-form.textarea
                     wire:key="permission-description"
                     wire:model.defer="permission.description"
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('permission.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -67,12 +69,17 @@
 
                             <x-table.heading class="text-left">
 
-                                <x-table.checkbox-action
-                                    wire:key="checkbox-action"
-                                    wire:loading.delay.attr="disabled"
-                                    wire:loading.delay.class="cursor-not-allowed"
-                                    wire:target="per_page,update"
-                                    wire:model="checkbox_action"/>
+                                @if ($this->modo_edicao)
+
+                                    <x-table.checkbox-action
+                                        wire:key="checkbox-action"
+                                        wire:loading.delay.attr="disabled"
+                                        wire:loading.delay.class="cursor-not-allowed"
+                                        wire:target="per_page,update"
+                                        wire:model="checkbox_action"/>
+
+
+                                @endif
 
                             </x-table.heading>
 
@@ -95,7 +102,7 @@
 
                                         <span class="font-bold">
 
-                                            {{ __(':attribute records selected from :total', ['attribute' => is_array($selected) ? count($selected) : 0, 'total' => $roles->total()]) }}
+                                            {{ __(':attribute records selected from :total', ['attribute' => is_array($this->selected) ? count($this->selected) : 0, 'total' => $this->roles->total()]) }}
 
                                         </span>
 
@@ -106,7 +113,7 @@
                             </x-table.row>
 
 
-                            @forelse ( $roles ?? [] as $role )
+                            @forelse ( $this->roles ?? [] as $role )
 
                                 <x-table.row wire:key="row-{{ $role->id }}">
 
@@ -117,7 +124,8 @@
                                             wire:loading.delay.attr="disabled"
                                             wire:loading.delay.class="cursor-not-allowed"
                                             wire:model="selected"
-                                            :checked="$permission->roles->contains($role->id)"
+                                            :checked="$this->permission->roles->contains($role->id)"
+                                            :editavel="$this->modo_edicao"
                                             :value="$role->id"/>
 
                                     </x-table.cell>
@@ -154,19 +162,15 @@
                 </div>
 
 
-                <x-button-group>
+                @can(\App\Enums\Policy::Update->value, \App\Models\Permission::class)
 
-                    <x-feedback.inline/>
+                    <x-button-group>
 
+                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
 
-                    <x-button
-                        class="btn-do"
-                        icon="save"
-                        :text="__('Save')"
-                        :title="__('Save the record')"
-                        type="submit"/>
+                    </x-button-group>
 
-                </x-button-group>
+                @endcan
 
             </div>
 
@@ -175,6 +179,6 @@
     </x-container>
 
 
-    {{ $roles->links() }}
+    {{ $this->roles->links() }}
 
 </x-page>

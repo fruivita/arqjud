@@ -3,9 +3,11 @@
 namespace App\Http\Livewire\Authorization\Permission;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithCheckboxActions;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -17,9 +19,35 @@ use Livewire\Component;
 class PermissionLivewireUpdate extends Component
 {
     use AuthorizesRequests;
+    use SalvaColunasDePreferencia;
     use WithCheckboxActions;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+    use WithSorting;
+
+    /**
+     * Preferências do usuário.
+     *
+     * @var array<string, mixed>
+     */
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'nome',
+            'descricao',
+            'selecao',
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
+    ];
+
+    /**
+     * Se o componente deve ser renderizado no modo edição.
+     *
+     * @var bool
+     */
+    public bool $modo_edicao = false;
 
     /**
      * Editing resource.
@@ -82,7 +110,7 @@ class PermissionLivewireUpdate extends Component
      */
     public function boot()
     {
-        $this->authorize(Policy::Update->value, Permission::class);
+        $this->authorize(Policy::ViewOrUpdate->value, Permission::class);
     }
 
     /**
@@ -95,7 +123,7 @@ class PermissionLivewireUpdate extends Component
     public function mount()
     {
         $this->permission->load(['roles' => function ($query) {
-            $query->select('id')->defaultOrder();
+            $query->select('id');
         }]);
     }
 
@@ -106,7 +134,9 @@ class PermissionLivewireUpdate extends Component
      */
     public function getRolesProperty()
     {
-        return $this->applyPagination(Role::defaultOrder());
+        return
+        Role::orderByWhen($this->sorts)
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**
@@ -116,9 +146,7 @@ class PermissionLivewireUpdate extends Component
      */
     public function render()
     {
-        return view('livewire.authorization.permission.edit', [
-            'roles' => $this->roles,
-        ])->layout('layouts.app');
+        return view('livewire.authorization.permission.edit')->layout('layouts.app');
     }
 
     /**
@@ -128,9 +156,15 @@ class PermissionLivewireUpdate extends Component
      */
     public function update()
     {
+        abort_if($this->modo_edicao !== true, 403);
+
+        $this->authorize(Policy::Update->value, Permission::class);
+
         $this->validate();
 
         $saved = $this->permission->atomicSaveWithRoles($this->selected);
+
+        $this->reset('modo_edicao');
 
         $this->flashSelf($saved);
     }

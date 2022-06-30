@@ -149,12 +149,12 @@
 
         <x-menu.group :name="__('Administration')">
 
-            @can(\App\Enums\Policy::View->value, \App\Models\Configuration::class)
+            @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuration::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('administration.configuration.*') ? 'active': '' }}"
                     icon="gear"
-                    :href="route('administration.configuration.show')"
+                    :href="route('administration.configuration.edit')"
                     :text="__('Configuration')"
                     :title="__('Application working settings management')"/>
 

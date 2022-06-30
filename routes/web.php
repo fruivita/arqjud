@@ -2,7 +2,6 @@
 
 use App\Enums\Policy;
 use App\Http\Controllers\HomeController;
-use App\Http\Livewire\Administration\Configuration\ConfigurationLivewireShow;
 use App\Http\Livewire\Administration\Configuration\ConfigurationLivewireUpdate;
 use App\Http\Livewire\Administration\Documentation\DocumentationLivewireCreate;
 use App\Http\Livewire\Administration\Documentation\DocumentationLivewireIndex;
@@ -32,10 +31,8 @@ use App\Http\Livewire\Archiving\Register\Stand\StandLivewireIndex;
 use App\Http\Livewire\Archiving\Register\Stand\StandLivewireUpdate;
 use App\Http\Livewire\Authorization\Delegation\DelegationLivewireIndex;
 use App\Http\Livewire\Authorization\Permission\PermissionLivewireIndex;
-use App\Http\Livewire\Authorization\Permission\PermissionLivewireShow;
 use App\Http\Livewire\Authorization\Permission\PermissionLivewireUpdate;
 use App\Http\Livewire\Authorization\Role\RoleLivewireIndex;
-use App\Http\Livewire\Authorization\Role\RoleLivewireShow;
 use App\Http\Livewire\Authorization\Role\RoleLivewireUpdate;
 use App\Http\Livewire\Authorization\User\UserLivewireIndex;
 use App\Http\Livewire\Test\Simulation\SimulationLivewireCreate;
@@ -86,14 +83,12 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('perfil')->name('role.')->group(function () {
             Route::get('/', RoleLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Role::class);
-            Route::get('show/{role}', RoleLivewireShow::class)->name('show')->can(Policy::View->value, Role::class);
-            Route::get('edit/{role}', RoleLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Role::class);
+            Route::get('edit/{role}', RoleLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Role::class);
         });
 
         Route::prefix('permissao')->name('permission.')->group(function () {
             Route::get('/', PermissionLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Permission::class);
-            Route::get('show/{permission}', PermissionLivewireShow::class)->name('show')->can(Policy::View->value, Permission::class);
-            Route::get('edit/{permission}', PermissionLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Permission::class);
+            Route::get('edit/{permission}', PermissionLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Permission::class);
         });
 
         Route::prefix('usuario')->name('user.')->group(function () {
@@ -103,14 +98,13 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('administracao')->name('administration.')->group(function () {
         Route::prefix('configuracao')->name('configuration.')->group(function () {
-            Route::get('show', ConfigurationLivewireShow::class)->name('show')->can(Policy::View->value, Configuration::class);
-            Route::get('edit', ConfigurationLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Configuration::class);
+            Route::get('edit', ConfigurationLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Configuration::class);
         });
 
         Route::prefix('doc')->name('doc.')->group(function () {
             Route::get('/', DocumentationLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Documentation::class);
             Route::get('create', DocumentationLivewireCreate::class)->name('create')->can(Policy::Create->value, Documentation::class);
-            Route::get('edit/{doc}', DocumentationLivewireUpdate::class)->name('edit')->can(Policy::Update->value, Documentation::class);
+            Route::get('edit/{doc}', DocumentationLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Documentation::class);
         });
 
         Route::prefix('importacao')->name('importation.')->group(function () {

@@ -22,6 +22,7 @@
                     wire:key="role-name"
                     wire:model.defer="role.name"
                     autofocus
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('role.name')"
                     icon="award"
                     maxlength="50"
@@ -36,6 +37,7 @@
                 <x-form.textarea
                     wire:key="role-description"
                     wire:model.defer="role.description"
+                    :editavel="$this->modo_edicao"
                     :error="$errors->first('role.description')"
                     icon="blockquote-left"
                     maxlength="255"
@@ -65,14 +67,19 @@
 
                         <x-slot name="head">
 
+
                             <x-table.heading class="text-left">
 
-                                <x-table.checkbox-action
-                                    wire:key="checkbox-action"
-                                    wire:loading.delay.attr="disabled"
-                                    wire:loading.delay.class="cursor-not-allowed"
-                                    wire:target="per_page,update"
-                                    wire:model="checkbox_action"/>
+                                @if ($this->modo_edicao)
+
+                                    <x-table.checkbox-action
+                                        wire:key="checkbox-action"
+                                        wire:loading.delay.attr="disabled"
+                                        wire:loading.delay.class="cursor-not-allowed"
+                                        wire:target="per_page,update"
+                                        wire:model="checkbox_action"/>
+
+                                @endif
 
                             </x-table.heading>
 
@@ -95,7 +102,7 @@
 
                                         <span class="font-bold">
 
-                                            {{ __(':attribute records selected from :total', ['attribute' => is_array($selected) ? count($selected) : 0, 'total' => $permissions->total()]) }}
+                                            {{ __(':attribute records selected from :total', ['attribute' => is_array($this->selected) ? count($this->selected) : 0, 'total' => $this->permissions->total()]) }}
 
                                         </span>
 
@@ -106,7 +113,7 @@
                             </x-table.row>
 
 
-                            @forelse ( $permissions ?? [] as $permission )
+                            @forelse ( $this->permissions ?? [] as $permission )
 
                                 <x-table.row wire:key="row-{{ $permission->id }}">
 
@@ -117,7 +124,8 @@
                                             wire:loading.delay.attr="disabled"
                                             wire:loading.delay.class="cursor-not-allowed"
                                             wire:model="selected"
-                                            :checked="$role->permissions->contains($permission->id)"
+                                            :checked="$this->role->permissions->contains($permission->id)"
+                                            :editavel="$this->modo_edicao"
                                             :value="$permission->id"/>
 
                                     </x-table.cell>
@@ -154,19 +162,15 @@
                 </div>
 
 
-                <x-button-group>
+                @can(\App\Enums\Policy::Update->value, \App\Models\Role::class)
 
-                    <x-feedback.inline/>
+                    <x-button-group>
 
+                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
 
-                    <x-button
-                        class="btn-do"
-                        icon="save"
-                        :text="__('Save')"
-                        :title="__('Save the record')"
-                        type="submit"/>
+                    </x-button-group>
 
-                </x-button-group>
+                @endcan
 
             </div>
 
@@ -175,6 +179,6 @@
     </x-container>
 
 
-    {{ $permissions->links() }}
+    {{ $this->permissions->links() }}
 
 </x-page>

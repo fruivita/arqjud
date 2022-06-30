@@ -46,7 +46,7 @@ test('pagination returns the amount of permissions expected', function () {
     Permission::factory(30)->create();
 
     Livewire::test(PermissionLivewireIndex::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('permissions', 25);
 });
 
@@ -58,11 +58,43 @@ test('list permissions with specific permission', function () {
     ->assertSeeLivewire(PermissionLivewireIndex::class);
 });
 
+test('search returns expected results', function () {
+    grantPermission(PermissionType::PermissionViewAny->value);
+
+    Permission::factory()->create(['name' => 'permission_foo']);
+    Permission::factory()->create(['name' => 'permission_bar']);
+    Permission::factory()->create(['name' => 'permission_baz']);
+
+    Livewire::test(PermissionLivewireIndex::class)
+    ->set('term', 'foo')
+    ->assertCount('permissions', 1)
+    ->set('term', 'ba')
+    ->assertCount('permissions', 2)
+    ->set('term', '')
+    ->assertCount('permissions', Permission::count());
+});
+
+test('preferencias estão definidas', function () {
+    grantPermission(PermissionType::PermissionViewAny->value);
+
+    Livewire::test(PermissionLivewireIndex::class)
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'permissao',
+            'perfis',
+            'acoes',
+        ],
+        'por_pagina' => 10
+    ]);
+});
+
 test('PermissionLivewireIndex uses trait', function () {
     expect(
         collect(class_uses(PermissionLivewireIndex::class))
         ->has([
             \App\Http\Livewire\Traits\WithLimit::class,
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
         ])
     )->toBeTrue();
 });

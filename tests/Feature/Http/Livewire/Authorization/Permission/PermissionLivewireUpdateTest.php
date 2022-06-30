@@ -46,19 +46,20 @@ test('cannot render permission edit component without specific permission', func
     ->assertForbidden();
 });
 
-test('cannot update permission without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
+test('cannot update permission if edit mode is disabled', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
-    $livewire = Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
-    ->set('permission.name', 'new foo')
-    ->set('permission.description', 'new bar');
+    Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
 
-    // remove permission
-    revokePermission(PermissionType::PermissionUpdate->value);
+test('cannot update permission without specific permission', function () {
+    grantPermission(PermissionType::PermissionView->value);
 
-    $livewire
+    Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertForbidden();
 });
@@ -68,6 +69,7 @@ test('permission name is required', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->set('permission.name', '')
     ->call('update')
     ->assertHasErrors(['permission.name' => 'required']);
@@ -77,6 +79,7 @@ test('permission name must be a string', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->set('permission.name', ['bar'])
     ->call('update')
     ->assertHasErrors(['permission.name' => 'string']);
@@ -86,6 +89,7 @@ test('permission name must be a maximum of 50 characters', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->set('permission.name', Str::random(51))
     ->call('update')
     ->assertHasErrors(['permission.name' => 'max']);
@@ -97,6 +101,7 @@ test('permission name must be unique', function () {
     $permission = Permission::factory()->create(['name' => 'another foo']);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $permission])
+    ->set('modo_edicao', true)
     ->set('permission.name', 'foo')
     ->call('update')
     ->assertHasErrors(['permission.name' => 'unique']);
@@ -106,6 +111,7 @@ test('permission description is optional', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->set('permission.description', '')
     ->call('update')
     ->assertHasNoErrors(['permission.description']);
@@ -115,6 +121,7 @@ test('permission description must be a string', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->set('permission.description', ['baz'])
     ->call('update')
     ->assertHasErrors(['permission.description' => 'string']);
@@ -124,6 +131,7 @@ test('permission description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->set('permission.description', Str::random(256))
     ->call('update')
     ->assertHasErrors(['permission.description' => 'max']);
@@ -133,6 +141,7 @@ test('ids of the roles that will be associated with the permission is optional',
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->set('selected', '')
     ->call('update')
     ->assertHasNoErrors(['selected']);
@@ -142,6 +151,7 @@ test('ids of the roles that will be associated with the permission must be an ar
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->set('selected', 1)
     ->call('update')
     ->assertHasErrors(['selected' => 'array']);
@@ -151,27 +161,29 @@ test('ids of the roles that will be associated with the permission must previous
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->set('selected', [9090909090])
     ->call('update')
     ->assertHasErrors(['selected' => 'exists']);
 });
 
 // Happy path
-test('renders permission edit component with specific permission', function () {
-    grantPermission(PermissionType::PermissionUpdate->value);
+test('renders permission edit component with view or update permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('authorization.permission.edit', $this->permission))
     ->assertOk()
     ->assertSeeLivewire(PermissionLivewireUpdate::class);
-});
+})->with([
+    PermissionType::PermissionView->value,
+    PermissionType::PermissionUpdate->value
+]);
 
 test('define the roles that should be pre-selected according to the permission relationships', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Role::factory(30)->create();
-    $permission = Permission::factory()
-            ->has(Role::factory(20), 'roles')
-            ->create();
+    $permission = Permission::factory()->has(Role::factory(20), 'roles')->create();
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $permission])
     ->assertCount('selected', 20);
@@ -202,7 +214,7 @@ test('pagination returns the expected number of roles', function () {
     Role::factory(30)->create();
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('roles', 25);
 });
 
@@ -224,30 +236,27 @@ test('emits feedback event when updating a permission', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
 
-test('description and associated roles are optional in the permission update', function () {
+test('associated roles are optional in the permission update', function () {
     grantPermission(PermissionType::PermissionUpdate->value);
 
-    $permission = Permission::factory()
-    ->has(Role::factory(1), 'roles')
-    ->create(['description' => 'foo']);
+    $permission = Permission::factory()->has(Role::factory(1), 'roles')->create();
 
-    expect($permission->roles)->toHaveCount(1)
-    ->and($permission->description)->toBe('foo');
+    expect($permission->roles)->toHaveCount(1);
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $permission])
-    ->set('permission.description', null)
+    ->set('modo_edicao', true)
     ->set('selected', null)
     ->call('update')
     ->assertOk();
 
     $permission->refresh()->load('roles');
 
-    expect($permission->roles)->toBeEmpty()
-    ->and($permission->description)->toBeNull();
+    expect($permission->roles)->toBeEmpty();
 });
 
 test('updates a permission with specific permission', function () {
@@ -262,6 +271,7 @@ test('updates a permission with specific permission', function () {
     $role = Role::first();
 
     Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->set('modo_edicao', true)
     ->set('permission.name', 'new foo')
     ->set('permission.description', 'new bar')
     ->set('selected', [$role->id])
@@ -274,4 +284,29 @@ test('updates a permission with specific permission', function () {
     expect($this->permission->name)->toBe('new foo')
     ->and($this->permission->description)->toBe('new bar')
     ->and($this->permission->roles->first()->id)->toBe($role->id);
+});
+
+test('valores iniciais do componente estão definidos', function () {
+    grantPermission(PermissionType::PermissionUpdate->value);
+
+    Livewire::test(PermissionLivewireUpdate::class, ['permission' => $this->permission])
+    ->assertSet('modo_edicao', false)
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'nome',
+            'descricao',
+            'selecao',
+        ],
+        'por_pagina' => 10
+    ]);
+});
+
+test('PermissionLivewireUpdate uses trait', function () {
+    expect(
+        collect(class_uses(PermissionLivewireUpdate::class))
+        ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
+    )->toBeTrue();
 });

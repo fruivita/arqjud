@@ -46,19 +46,20 @@ test('cannot render role editing component without specific permission', functio
     ->assertForbidden();
 });
 
-test('unable to update role without specific permission', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
+test('cannot update permission if edit mode is disabled', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
-    $livewire = Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
-    ->set('role.name', 'new foo')
-    ->set('role.description', 'new bar');
+    Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', false)
+    ->call('update')
+    ->assertForbidden();
+});
 
-    // remove permission
-    revokePermission(PermissionType::RoleUpdate->value);
+test('unable to update role without specific permission', function () {
+    grantPermission(PermissionType::RoleView->value);
 
-    $livewire
+    Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertForbidden();
 });
@@ -68,6 +69,7 @@ test('role name is required', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->set('role.name', '')
     ->call('update')
     ->assertHasErrors(['role.name' => 'required']);
@@ -77,6 +79,7 @@ test('role name must be a string', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->set('role.name', ['bar'])
     ->call('update')
     ->assertHasErrors(['role.name' => 'string']);
@@ -86,6 +89,7 @@ test('role name must be a maximum of 50 characters', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->set('role.name', Str::random(51))
     ->call('update')
     ->assertHasErrors(['role.name' => 'max']);
@@ -97,6 +101,7 @@ test('role name must be unique', function () {
     $role = Role::factory()->create(['name' => 'another foo']);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $role])
+    ->set('modo_edicao', true)
     ->set('role.name', 'foo')
     ->call('update')
     ->assertHasErrors(['role.name' => 'unique']);
@@ -106,6 +111,7 @@ test('role description is optional', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->set('role.description', '')
     ->call('update')
     ->assertHasNoErrors(['role.description']);
@@ -115,6 +121,7 @@ test('role description must be a string', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->set('role.description', ['baz'])
     ->call('update')
     ->assertHasErrors(['role.description' => 'string']);
@@ -124,6 +131,7 @@ test('role description must be a maximum of 255 characters', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->set('role.description', Str::random(256))
     ->call('update')
     ->assertHasErrors(['role.description' => 'max']);
@@ -133,6 +141,7 @@ test('ids of the permissions that will be associated with the role is optional',
     grantPermission(PermissionType::RoleUpdate->value);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->set('selected', '')
     ->call('update')
     ->assertHasNoErrors(['selected']);
@@ -142,6 +151,7 @@ test('ids of the permissions that will be associated with the role must be an ar
     grantPermission(PermissionType::RoleUpdate->value);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->set('selected', 1)
     ->call('update')
     ->assertHasErrors(['selected' => 'array']);
@@ -151,27 +161,29 @@ test('ids of the permissions that will be associated with the role must previous
     grantPermission(PermissionType::RoleUpdate->value);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->set('selected', [9090909090])
     ->call('update')
     ->assertHasErrors(['selected' => 'exists']);
 });
 
 // Happy path
-test('render role edit component with specific permission', function () {
-    grantPermission(PermissionType::RoleUpdate->value);
+test('render role edit component with view or update specific permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('authorization.role.edit', $this->role))
     ->assertOk()
     ->assertSeeLivewire(RoleLivewireUpdate::class);
-});
+})->with([
+    PermissionType::RoleView->value,
+    PermissionType::RoleUpdate->value
+]);
 
 test('defines the permissions that must be pre-selected according to entity relationships', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
     Permission::factory(30)->create();
-    $role = Role::factory()
-            ->has(Permission::factory(20), 'permissions')
-            ->create();
+    $role = Role::factory()->has(Permission::factory(20), 'permissions')->create();
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $role])
     ->assertCount('selected', 20);
@@ -202,7 +214,7 @@ test('pagination returns the amount of permissions expected', function () {
     Permission::factory(30)->create();
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('permissions', 25);
 });
 
@@ -224,30 +236,27 @@ test('emits feedback event when updating a role', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->call('update')
     ->assertEmitted('feedback', FeedbackType::Success, __('Success!'));
 });
 
-test('description and associated permissions are optional in role update', function () {
+test('associated permissions are optional in role update', function () {
     grantPermission(PermissionType::RoleUpdate->value);
 
-    $role = Role::factory()
-    ->has(Permission::factory(1), 'permissions')
-    ->create(['description' => 'foo']);
+    $role = Role::factory()->has(Permission::factory(1), 'permissions')->create();
 
-    expect($role->permissions)->toHaveCount(1)
-    ->and($role->description)->toBe('foo');
+    expect($role->permissions)->toHaveCount(1);
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $role])
-    ->set('role.description', null)
+    ->set('modo_edicao', true)
     ->set('selected', null)
     ->call('update')
     ->assertOk();
 
     $role->refresh()->load('permissions');
 
-    expect($role->permissions)->toBeEmpty()
-    ->and($role->description)->toBeNull();
+    expect($role->permissions)->toBeEmpty();
 });
 
 test('updates a role with specific permission', function () {
@@ -262,6 +271,7 @@ test('updates a role with specific permission', function () {
     $permission = Permission::first();
 
     Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->set('modo_edicao', true)
     ->set('role.name', 'new foo')
     ->set('role.description', 'new bar')
     ->set('selected', [$permission->id])
@@ -274,4 +284,29 @@ test('updates a role with specific permission', function () {
     expect($this->role->name)->toBe('new foo')
     ->and($this->role->description)->toBe('new bar')
     ->and($this->role->permissions->first()->id)->toBe($permission->id);
+});
+
+test('valores iniciais do componente estão definidos', function () {
+    grantPermission(PermissionType::RoleUpdate->value);
+
+    Livewire::test(RoleLivewireUpdate::class, ['role' => $this->role])
+    ->assertSet('modo_edicao', false)
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'nome',
+            'descricao',
+            'selecao',
+        ],
+        'por_pagina' => 10
+    ]);
+});
+
+test('RoleLivewireUpdate uses trait', function () {
+    expect(
+        collect(class_uses(RoleLivewireUpdate::class))
+        ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
+    )->toBeTrue();
 });
