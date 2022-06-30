@@ -63,6 +63,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="predio"
                 :text="__('Building')"
                 value="predio"/>
@@ -73,6 +74,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="qtd_andares"
                 :text="__('Qty of floors')"
                 value="qtd_andares"/>
@@ -85,6 +87,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="preferencias.colunas"
+                    editavel
                     name="localidade"
                     :text="__('Site')"
                     value="localidade"/>
@@ -97,6 +100,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="acoes"
                 :text="__('Actions')"
                 value="acoes"/>

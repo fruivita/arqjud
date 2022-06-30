@@ -63,6 +63,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="caixa"
                 :text="__('Box')"
                 value="caixa"/>
@@ -73,6 +74,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="ano"
                 :text="__('Year')"
                 value="ano"/>
@@ -83,6 +85,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="qtd_volumes"
                 :text="__('Qty of volumes')"
                 value="qtd_volumes"/>
@@ -95,6 +98,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="preferencias.colunas"
+                    editavel
                     name="localidade"
                     :text="__('Site')"
                     value="localidade"/>
@@ -105,6 +109,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="preferencias.colunas"
+                    editavel
                     name="predio"
                     :text="__('Building')"
                     value="predio"/>
@@ -115,6 +120,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="preferencias.colunas"
+                    editavel
                     name="andar"
                     :text="__('Floor')"
                     value="andar"/>
@@ -125,6 +131,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="preferencias.colunas"
+                    editavel
                     name="sala"
                     :text="__('Room')"
                     value="sala"/>
@@ -135,6 +142,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="preferencias.colunas"
+                    editavel
                     name="estante"
                     :text="__('Stand')"
                     value="estante"/>
@@ -145,6 +153,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="preferencias.colunas"
+                    editavel
                     name="prateleira"
                     :text="__('Shelf')"
                     value="prateleira"/>
@@ -157,6 +166,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="acoes"
                 :text="__('Actions')"
                 value="acoes"/>

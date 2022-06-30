@@ -3,6 +3,7 @@
 
     Props:
     - checked: whether the checkbox should be selected
+    - editavel: se o elemento é editável
     - text: item description/meaning text
 
     @see https://laravel.com/docs/blade
@@ -14,14 +15,21 @@
 --}}
 
 
-@props(['checked' => false, 'text' => null])
+@props(['checked' => false, 'editavel' => false, 'text' => null])
 
 
 <label class="flex items-center">
 
     <input
         @checked($checked)
-        class="accent-primary-500 h-5 mr-2 w-5"
+        @class([
+            'accent-primary-500',
+            'cursor-not-allowed' => ! $editavel,
+            'h-5',
+            'mr-2',
+            'w-5'
+        ])
+        @disabled(! $editavel)
         type="checkbox"
         {{ $attributes->except('class') }}/>
 

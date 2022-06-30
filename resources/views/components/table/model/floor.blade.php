@@ -63,6 +63,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="andar"
                 :text="__('Floor')"
                 value="andar"/>
@@ -73,6 +74,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="apelido"
                 :text="__('Alias')"
                 value="apelido"/>
@@ -83,6 +85,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="qtd_salas"
                 :text="__('Qty of rooms')"
                 value="qtd_salas"/>
@@ -95,6 +98,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="preferencias.colunas"
+                    editavel
                     name="localidade"
                     :text="__('Site')"
                     value="localidade"/>
@@ -105,6 +109,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="preferencias.colunas"
+                    editavel
                     name="predio"
                     :text="__('Building')"
                     value="predio"/>
@@ -117,6 +122,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="acoes"
                 :text="__('Actions')"
                 value="acoes"/>

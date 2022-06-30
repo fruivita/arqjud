@@ -56,6 +56,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="localidade"
                 :text="__('Site')"
                 value="localidade"/>
@@ -66,6 +67,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="qtd_predios"
                 :text="__('Qty of buildings')"
                 value="qtd_predios"/>
@@ -76,6 +78,7 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="acoes"
                 :text="__('Actions')"
                 value="acoes"/>
