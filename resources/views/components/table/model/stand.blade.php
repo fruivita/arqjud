@@ -2,9 +2,9 @@
     Livewire view for listing stands.
 
     Props:
-    - colunas: colunas da tabela que devem ser exibidas
     - deleting: item to be deleted
     - parent: parent element of the item that will eventually be created
+    - preferencias: array de preferencias do usuário
     - stands: stands that will be displayed
     - sorts: columns and directions used to sort
     - withdeletebutton: whether the delete button should be displayed
@@ -21,9 +21,9 @@
 
 
 @props([
-    'colunas',
     'deleting' => null,
     'parent' => null,
+    'preferencias',
     'stands',
     'sorts' => [],
     'withdeletebutton' => false,
@@ -62,7 +62,7 @@
                 wire:key="checkbox-estante"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="estante"
                 :text="__('Stand')"
                 value="estante"/>
@@ -72,7 +72,7 @@
                 wire:key="checkbox-apelido"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="apelido"
                 :text="__('Alias')"
                 value="apelido"/>
@@ -82,7 +82,7 @@
                 wire:key="checkbox-qtd-prateleiras"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="qtd_prateleiras"
                 :text="__('Qty of shelves')"
                 value="qtd_prateleiras"/>
@@ -94,7 +94,7 @@
                     wire:key="checkbox-localidade"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="colunas"
+                    wire:model.defer="preferencias.colunas"
                     name="localidade"
                     :text="__('Site')"
                     value="localidade"/>
@@ -104,7 +104,7 @@
                     wire:key="checkbox-predio"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="colunas"
+                    wire:model.defer="preferencias.colunas"
                     name="predio"
                     :text="__('Building')"
                     value="predio"/>
@@ -114,7 +114,7 @@
                     wire:key="checkbox-andar"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="colunas"
+                    wire:model.defer="preferencias.colunas"
                     name="andar"
                     :text="__('Floor')"
                     value="andar"/>
@@ -124,7 +124,7 @@
                     wire:key="checkbox-sala"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="colunas"
+                    wire:model.defer="preferencias.colunas"
                     name="sala"
                     :text="__('Room')"
                     value="sala"/>
@@ -136,7 +136,7 @@
                 wire:key="checkbox-acoes"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="acoes"
                 :text="__('Actions')"
                 value="acoes"/>
@@ -155,7 +155,7 @@
                 <x-table.heading
                     wire:click="sortBy('number')"
                     :direction="$sorts['number'] ?? null"
-                    :exibir="in_array('estante', $colunas)"
+                    :exibir="in_array('estante', $preferencias['colunas'])"
                     sortable
                 >
 
@@ -167,7 +167,7 @@
                 <x-table.heading
                     wire:click="sortBy('alias')"
                     :direction="$sorts['alias'] ?? null"
-                    :exibir="in_array('apelido', $colunas)"
+                    :exibir="in_array('apelido', $preferencias['colunas'])"
                     sortable
                 >
 
@@ -179,7 +179,7 @@
                 <x-table.heading
                     wire:click="sortBy('shelves_count')"
                     :direction="$sorts['shelves_count'] ?? null"
-                    :exibir="in_array('qtd_prateleiras', $colunas)"
+                    :exibir="in_array('qtd_prateleiras', $preferencias['colunas'])"
                     sortable
                 >
 
@@ -193,7 +193,7 @@
                     <x-table.heading
                         wire:click="sortBy('sites.name')"
                         :direction="$sorts['sites.name'] ?? null"
-                        :exibir="in_array('localidade', $colunas)"
+                        :exibir="in_array('localidade', $preferencias['colunas'])"
                         sortable
                     >
 
@@ -205,7 +205,7 @@
                     <x-table.heading
                         wire:click="sortBy('buildings.name')"
                         :direction="$sorts['buildings.name'] ?? null"
-                        :exibir="in_array('predio', $colunas)"
+                        :exibir="in_array('predio', $preferencias['colunas'])"
                         sortable
                     >
 
@@ -217,7 +217,7 @@
                     <x-table.heading
                         wire:click="sortBy('floors.alias')"
                         :direction="$sorts['floors.alias'] ?? null"
-                        :exibir="in_array('andar', $colunas)"
+                        :exibir="in_array('andar', $preferencias['colunas'])"
                         sortable
                     >
 
@@ -229,7 +229,7 @@
                     <x-table.heading
                         wire:click="sortBy('rooms.number')"
                         :direction="$sorts['rooms.number'] ?? null"
-                        :exibir="in_array('sala', $colunas)"
+                        :exibir="in_array('sala', $preferencias['colunas'])"
                         sortable
                     >
 
@@ -242,7 +242,7 @@
 
                 <x-table.heading
                     class="w-10"
-                    :exibir="in_array('acoes', $colunas)"
+                    :exibir="in_array('acoes', $preferencias['colunas'])"
                 >
 
                     {{ __('Actions') }}
@@ -258,32 +258,32 @@
 
                     <x-table.row>
 
-                        <x-table.cell :exibir="in_array('estante', $colunas)">{{ $stand->number }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('estante', $preferencias['colunas'])">{{ $stand->number }}</x-table.cell>
 
 
-                        <x-table.cell :exibir="in_array('apelido', $colunas)">{{ $stand->alias }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('apelido', $preferencias['colunas'])">{{ $stand->alias }}</x-table.cell>
 
 
-                        <x-table.cell :exibir="in_array('qtd_prateleiras', $colunas)">{{ $stand->shelves_count }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('qtd_prateleiras', $preferencias['colunas'])">{{ $stand->shelves_count }}</x-table.cell>
 
 
                         @if ($withparents)
 
-                            <x-table.cell :exibir="in_array('localidade', $colunas)">{{ $stand->site_name }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('localidade', $preferencias['colunas'])">{{ $stand->site_name }}</x-table.cell>
 
 
-                            <x-table.cell :exibir="in_array('predio', $colunas)">{{ $stand->building_name }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('predio', $preferencias['colunas'])">{{ $stand->building_name }}</x-table.cell>
 
 
-                            <x-table.cell :exibir="in_array('andar', $colunas)">{{ $stand->floor_alias }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('andar', $preferencias['colunas'])">{{ $stand->floor_alias }}</x-table.cell>
 
 
-                            <x-table.cell :exibir="in_array('sala', $colunas)">{{ $stand->room_number }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('sala', $preferencias['colunas'])">{{ $stand->room_number }}</x-table.cell>
 
                         @endif
 
 
-                        <x-table.cell :exibir="in_array('acoes', $colunas)">
+                        <x-table.cell :exibir="in_array('acoes', $preferencias['colunas'])">
 
                             <x-action-button-group>
 
@@ -325,7 +325,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell colspan="{{ count($colunas) }}">{{ __('No record found') }}</x-table.cell>
+                        <x-table.cell colspan="{{ count($preferencias['colunas']) }}">{{ __('No record found') }}</x-table.cell>
 
                     </x-table.row>
 

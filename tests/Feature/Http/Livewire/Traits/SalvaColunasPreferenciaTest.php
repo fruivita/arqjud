@@ -29,23 +29,34 @@ afterEach(function () {
     logout();
 });
 
-// Caminho feliz
-test('armazena em cache todas as colunas disponíveis para exibição', function () {
-    $colunas = ['predio', 'qtd_andares', 'localidade', 'acoes'];
-
+// Validação
+test('não aceita paginação fora das opções oferecidas', function () {
     Livewire::test(BuildingLivewireIndex::class)
+    ->set('preferencias.por_pagina', 33)
     ->call('salvarPreferencia')
-    ->assertHasNoErrors()
-    ->assertOk();
-
-    expect(cache()->get($this->chave))->toBe($colunas);
+    ->assertHasErrors(['preferencias.por_pagina' => 'in']);
 });
 
-test('armazena em cache as colunas que o usuário definiu para serem exibidas', function () {
-    $definidas_pelo_usuario = ['predio', 'qtd_andares', 'acoes'];
+test('não salva os valores em cache, caso a validação falhe', function () {
+    expect(cache()->missing($this->chave))->toBeTrue();
 
     Livewire::test(BuildingLivewireIndex::class)
-    ->set('colunas', $definidas_pelo_usuario)
+    ->set('preferencias.por_pagina', 33) // valores possíveis: 10/25/50/100
+    ->call('salvarPreferencia')
+    ->assertHasErrors(['preferencias.por_pagina' => 'in']);
+
+    expect(cache()->missing($this->chave))->toBeTrue();
+});
+
+// Caminho feliz
+test('armazena em cache as preferências que o usuário definiu', function () {
+    $definidas_pelo_usuario = [
+        'colunas' => ['predio', 'qtd_andares'],
+        'por_pagina' => 50
+    ];
+
+    Livewire::test(BuildingLivewireIndex::class)
+    ->set('preferencias', $definidas_pelo_usuario)
     ->call('salvarPreferencia')
     ->assertHasNoErrors()
     ->assertOk();
@@ -53,27 +64,33 @@ test('armazena em cache as colunas que o usuário definiu para serem exibidas', 
     expect(cache()->get($this->chave))->toBe($definidas_pelo_usuario);
 });
 
-test('ao carregar o componente, se houver não cache, as colunas padrão estarão disponíveis para visualização', function () {
-    $colunas_padrao = ['predio', 'qtd_andares', 'localidade', 'acoes'];
+test('ao carregar o componente, se houver não cache, as preferências padrão serão utilizadas', function () {
+    $preferencias_padrao = [
+        'colunas' => ['predio', 'qtd_andares', 'localidade', 'acoes'],
+        'por_pagina' => 10
+    ];
 
     Livewire::test(BuildingLivewireIndex::class)
-    ->assertSet('colunas', $colunas_padrao)
+    ->assertSet('preferencias', $preferencias_padrao)
     ->assertHasNoErrors()
     ->assertOk();
 });
 
-test('ao carregar o componente, se houver cache, ele será utilizado para definir as colunas visíveis', function () {
+test('ao carregar o componente, se houver cache, ele será utilizado para definir as preferências', function () {
     testTime()->freeze();
 
-    $colunas_em_cache = ['predio', 'qtd_andares'];
-    cache()->put($this->chave, $colunas_em_cache, now()->addYear());
+    $preferencias_em_cache = [
+        'colunas' => ['localidade', 'acoes'],
+        'por_pagina' => 50
+    ];
+    cache()->put($this->chave, $preferencias_em_cache, now()->addYear());
 
     Livewire::test(BuildingLivewireIndex::class)
-    ->assertSet('colunas', $colunas_em_cache)
+    ->assertSet('preferencias', $preferencias_em_cache)
     ->assertHasNoErrors()
     ->assertOk();
 
-    expect(cache()->get($this->chave))->toBe($colunas_em_cache);
+    expect(cache()->get($this->chave))->toBe($preferencias_em_cache);
 });
 
 test('o cache é armazenado por um ano', function () {

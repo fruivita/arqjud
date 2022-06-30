@@ -27,21 +27,27 @@ class BoxLivewireIndex extends Component
     use WithSorting;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'caixa',
-        'ano',
-        'qtd_volumes',
-        'localidade',
-        'predio',
-        'andar',
-        'sala',
-        'estante',
-        'prateleira',
-        'acoes'
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'caixa',
+            'ano',
+            'qtd_volumes',
+            'localidade',
+            'predio',
+            'andar',
+            'sala',
+            'estante',
+            'prateleira',
+            'acoes'
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -62,11 +68,11 @@ class BoxLivewireIndex extends Component
      */
     public function getBoxesProperty()
     {
-        return $this->applyPagination(
-            Box::hierarchy()
+        return
+        Box::hierarchy()
             ->whereLike(['boxes.number', 'boxes.year'], $this->term)
             ->orderByWhen($this->sorts)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

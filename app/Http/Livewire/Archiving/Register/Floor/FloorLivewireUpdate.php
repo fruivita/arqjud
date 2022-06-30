@@ -39,14 +39,20 @@ class FloorLivewireUpdate extends Component
     public bool $modo_edicao = false;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'sala',
-        'qtd_estantes',
-        'acoes',
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'sala',
+            'qtd_estantes',
+            'acoes',
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -174,11 +180,11 @@ class FloorLivewireUpdate extends Component
      */
     public function getRoomsProperty()
     {
-        return $this->applyPagination(
-            Room::hierarchy()
+        return
+        Room::hierarchy()
             ->orderByWhen($this->sorts)
             ->where('floor_id', $this->floor->id)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

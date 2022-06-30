@@ -3,9 +3,9 @@
 
     Props:
     - buildings: buildings that will be displayed
-    - colunas: colunas da tabela que devem ser exibidas
     - deleting: item to be deleted
     - parent: parent element of the item that will eventually be created
+    - preferencias: array de preferencias do usuário
     - sorts: columns and directions used to sort
     - withdeletebutton: whether the delete button should be displayed
     - withnewbutton: whether the new button should be displayed
@@ -22,9 +22,9 @@
 
 @props([
     'buildings',
-    'colunas',
     'deleting' => null,
     'parent' => null,
+    'preferencias',
     'sorts' => [],
     'withdeletebutton' => false,
     'withnewbutton' => false,
@@ -62,7 +62,7 @@
                 wire:key="checkbox-predio"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="predio"
                 :text="__('Building')"
                 value="predio"/>
@@ -72,7 +72,7 @@
                 wire:key="checkbox-qtd-andares"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="qtd_andares"
                 :text="__('Qty of floors')"
                 value="qtd_andares"/>
@@ -84,7 +84,7 @@
                     wire:key="checkbox-localidade"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="colunas"
+                    wire:model.defer="preferencias.colunas"
                     name="localidade"
                     :text="__('Site')"
                     value="localidade"/>
@@ -96,7 +96,7 @@
                 wire:key="checkbox-acoes"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="acoes"
                 :text="__('Actions')"
                 value="acoes"/>
@@ -115,7 +115,7 @@
                 <x-table.heading
                     wire:click="sortBy('name')"
                     :direction="$sorts['name'] ?? null"
-                    :exibir="in_array('predio', $colunas)"
+                    :exibir="in_array('predio', $preferencias['colunas'])"
                     sortable
                 >
 
@@ -127,7 +127,7 @@
                 <x-table.heading
                     wire:click="sortBy('floors_count')"
                     :direction="$sorts['floors_count'] ?? null"
-                    :exibir="in_array('qtd_andares', $colunas)"
+                    :exibir="in_array('qtd_andares', $preferencias['colunas'])"
                     sortable
                 >
 
@@ -141,7 +141,7 @@
                     <x-table.heading
                         wire:click="sortBy('sites.name')"
                         :direction="$sorts['sites.name'] ?? null"
-                        :exibir="in_array('localidade', $colunas)"
+                        :exibir="in_array('localidade', $preferencias['colunas'])"
                         sortable
                     >
 
@@ -154,7 +154,7 @@
 
                 <x-table.heading
                     class="w-10"
-                    :exibir="in_array('acoes', $colunas)"
+                    :exibir="in_array('acoes', $preferencias['colunas'])"
                 >
 
                     {{ __('Actions') }}
@@ -170,20 +170,20 @@
 
                     <x-table.row>
 
-                        <x-table.cell :exibir="in_array('predio', $colunas)">{{ $building->name }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('predio', $preferencias['colunas'])">{{ $building->name }}</x-table.cell>
 
 
-                        <x-table.cell :exibir="in_array('qtd_andares', $colunas)">{{ $building->floors_count }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('qtd_andares', $preferencias['colunas'])">{{ $building->floors_count }}</x-table.cell>
 
 
                         @if ($withparents)
 
-                            <x-table.cell :exibir="in_array('localidade', $colunas)">{{ $building->site_name }}</x-table.cell>
+                            <x-table.cell :exibir="in_array('localidade', $preferencias['colunas'])">{{ $building->site_name }}</x-table.cell>
 
                         @endif
 
 
-                        <x-table.cell :exibir="in_array('acoes', $colunas)">
+                        <x-table.cell :exibir="in_array('acoes', $preferencias['colunas'])">
 
                             <x-action-button-group>
 
@@ -225,7 +225,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell colspan="{{ count($colunas) }}">{{ __('No record found') }}</x-table.cell>
+                        <x-table.cell colspan="{{ count($preferencias['colunas']) }}">{{ __('No record found') }}</x-table.cell>
 
                     </x-table.row>
 

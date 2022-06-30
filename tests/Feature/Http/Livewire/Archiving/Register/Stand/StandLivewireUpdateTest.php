@@ -356,7 +356,7 @@ test('pagination returns the amount of shelves expected', function () {
     Shelf::factory(30)->for($this->stand, 'stand')->create();
 
     Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('shelves', 25);
 });
 
@@ -492,15 +492,18 @@ test('update a stand record with specific permission', function () {
     ->and($this->stand->room_id)->toBe($room->id);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::StandUpdate->value);
 
     Livewire::test(StandLivewireUpdate::class, ['id' => $this->stand->id])
-    ->assertSet('colunas', [
-        'prateleira',
-        'apelido',
-        'qtd_caixas',
-        'acoes',
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'prateleira',
+            'apelido',
+            'qtd_caixas',
+            'acoes',
+        ],
+        'por_pagina' => 10
     ]);
 });
 

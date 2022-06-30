@@ -2,8 +2,8 @@
     Livewire view for listing box volumes.
 
     Props:
-    - colunas: colunas da tabela que devem ser exibidas
     - deleting: item to be deleted
+    - preferencias: array de preferencias do usuário
     - sorts: columns and directions used to sort
     - volumes: box volumes that will be displayed
     - withdeletebutton: whether the delete button should be displayed
@@ -19,8 +19,8 @@
 
 
 @props([
-    'colunas',
     'deleting' => null,
+    'preferencias',
     'sorts' => [],
     'volumes',
     'withdeletebutton' => false,
@@ -65,7 +65,7 @@
                 wire:key="checkbox-volume"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="volume"
                 :text="__('Volume')"
                 value="volume"/>
@@ -75,7 +75,7 @@
                 wire:key="checkbox-apelido"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="apelido"
                 :text="__('Alias')"
                 value="apelido"/>
@@ -85,7 +85,7 @@
                 wire:key="checkbox-acoes"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="acoes"
                 :text="__('Actions')"
                 value="acoes"/>
@@ -104,7 +104,7 @@
                 <x-table.heading
                     wire:click="sortBy('number')"
                     :direction="$sorts['number'] ?? null"
-                    :exibir="in_array('volume', $colunas)"
+                    :exibir="in_array('volume', $preferencias['colunas'])"
                     sortable
                 >
 
@@ -116,7 +116,7 @@
                 <x-table.heading
                     wire:click="sortBy('alias')"
                     :direction="$sorts['alias'] ?? null"
-                    :exibir="in_array('apelido', $colunas)"
+                    :exibir="in_array('apelido', $preferencias['colunas'])"
                     sortable
                 >
 
@@ -127,7 +127,7 @@
 
                 <x-table.heading
                     class="w-10"
-                    :exibir="in_array('acoes', $colunas)"
+                    :exibir="in_array('acoes', $preferencias['colunas'])"
                 >
 
                     {{ __('Actions') }}
@@ -143,13 +143,13 @@
 
                     <x-table.row>
 
-                        <x-table.cell :exibir="in_array('volume', $colunas)">{{ $volume->number }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('volume', $preferencias['colunas'])">{{ $volume->number }}</x-table.cell>
 
 
-                        <x-table.cell :exibir="in_array('apelido', $colunas)">{{ $volume->alias }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('apelido', $preferencias['colunas'])">{{ $volume->alias }}</x-table.cell>
 
 
-                        <x-table.cell :exibir="in_array('acoes', $colunas)">
+                        <x-table.cell :exibir="in_array('acoes', $preferencias['colunas'])">
 
                             <x-action-button-group>
 
@@ -180,7 +180,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell colspan="{{ count($colunas) }}">{{ __('No record found') }}</x-table.cell>
+                        <x-table.cell colspan="{{ count($preferencias['colunas']) }}">{{ __('No record found') }}</x-table.cell>
 
                     </x-table.row>
 

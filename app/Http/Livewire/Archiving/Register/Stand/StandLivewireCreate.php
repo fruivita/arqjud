@@ -29,15 +29,21 @@ class StandLivewireCreate extends Component
     use WithSorting;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'estante',
-        'apelido',
-        'qtd_prateleiras',
-        'acoes'
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'estante',
+            'apelido',
+            'qtd_prateleiras',
+            'acoes'
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -155,11 +161,11 @@ class StandLivewireCreate extends Component
      */
     public function getStandsProperty()
     {
-        return $this->applyPagination(
-            Stand::hierarchy()
+        return
+        Stand::hierarchy()
             ->where('stands.room_id', $this->room_id)
             ->orderByWhen($this->sorts)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire\Traits;
 
-use Illuminate\Support\Facades\Validator;
-
 /**
  * Trait idealizada para agrupar a lógica de armazenamento das preferências do
- * usuário relativas à exibição das tabelas.
+ * usuário.
  *
- * Mais especificamente, armazena as colunas da tabela que devem ser exibidas
- * ou ocultadas. O armazenamento é feito em cache.
+ * A classe que a utiliza deve definir o array que conterá as preferências que
+ * devem ser armazenadas. O armazenamento é feito em cache.
+ *
+ * Propriedade que deve ser definida: `public array $preferencias` com o índice
+ * `por_pagina` obrigatório definidor da quantidade de registros por página.
  *
  * @see https://www.php.net/manual/en/language.oop5.traits.php
  * @see https://laravel-livewire.com/docs/2.x/traits
@@ -18,11 +19,9 @@ use Illuminate\Support\Facades\Validator;
 trait SalvaColunasDePreferencia
 {
     /**
-     * Inicializa o valor da propriedade `$colunas` com o valor que está em
-     * cache ou, se não existir, com o próprio valor da propriedade.
-     *
-     * Presume a criação da propriedade `$colunas` do tipo array de strings no
-     * componente.
+     * Define o valor da propriedade `$preferencias` como o valor que está em
+     * cache ou, se não existir, como o próprio valor de inicialização da
+     * propriedade.
      *
      * Runs once, immediately after the component is instantiated, but before
      * render() is called. This is only called once on initial page load and
@@ -32,7 +31,7 @@ trait SalvaColunasDePreferencia
      */
     public function mountSalvaColunasDePreferencia()
     {
-        $this->colunas = cache()->get($this->getChave(), $this->colunas);
+        $this->preferencias = cache()->get($this->getChave(), $this->preferencias);
     }
 
     /**
@@ -42,9 +41,11 @@ trait SalvaColunasDePreferencia
      */
     public function salvarPreferencia()
     {
+        $this->validar();
+
         cache()->put(
             $this->getChave(),
-            $this->colunas,
+            $this->preferencias,
             now()->addYear()
         );
     }
@@ -60,5 +61,19 @@ trait SalvaColunasDePreferencia
     private function getChave()
     {
         return auth()->user()->username . class_basename($this);
+    }
+
+    /**
+     * Valida a paginação escolhida pelo usuário
+     *
+     * @return void
+     */
+    private function validar()
+    {
+        $this->validateOnly(
+            field: 'preferencias.por_pagina',
+            rules: ['preferencias.por_pagina' => ['in:10,25,50,100']],
+            attributes: ['preferencias.por_pagina' => __('Pagination')]
+        );
     }
 }

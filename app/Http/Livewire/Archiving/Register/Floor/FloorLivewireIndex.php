@@ -27,17 +27,23 @@ class FloorLivewireIndex extends Component
     use WithSorting;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'andar',
-        'apelido',
-        'qtd_salas',
-        'localidade',
-        'predio',
-        'acoes'
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'andar',
+            'apelido',
+            'qtd_salas',
+            'localidade',
+            'predio',
+            'acoes'
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
 
@@ -59,11 +65,11 @@ class FloorLivewireIndex extends Component
      */
     public function getFloorsProperty()
     {
-        return $this->applyPagination(
-            Floor::hierarchy()
+        return
+        Floor::hierarchy()
             ->whereLike(['floors.number', 'floors.alias'], $this->term)
             ->orderByWhen($this->sorts)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

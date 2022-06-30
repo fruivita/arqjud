@@ -450,7 +450,7 @@ test('pagination returns the amount of expected box volumes records', function (
     BoxVolume::factory(30)->for($this->box, 'box')->create();
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('volumes', 25);
 });
 
@@ -654,14 +654,17 @@ test('create a box volume with specific permission', function () {
     expect($box_volume->alias)->toBe('Vol. 11');
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::BoxUpdate->value);
 
     Livewire::test(BoxLivewireUpdate::class, ['id' => $this->box->id])
-    ->assertSet('colunas', [
-        'volume',
-        'apelido',
-        'acoes',
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'volume',
+            'apelido',
+            'acoes',
+        ],
+        'por_pagina' => 10
     ]);
 });
 

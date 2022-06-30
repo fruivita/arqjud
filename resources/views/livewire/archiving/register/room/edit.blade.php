@@ -200,9 +200,9 @@
     <x-container>
 
         <x-table.model.stand
-            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :parent="$this->room"
+            :preferencias="$this->preferencias"
             :stands="$this->stands"
             :sorts="$this->sorts"
             withdeletebutton

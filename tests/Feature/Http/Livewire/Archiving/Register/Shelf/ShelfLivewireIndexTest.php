@@ -51,7 +51,7 @@ test('pagination returns the amount of expected shelf records', function () {
     Shelf::factory(30)->create();
 
     Livewire::test(ShelfLivewireIndex::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('shelves', 25);
 });
 
@@ -100,20 +100,23 @@ test('emits feedback event when deleting a shelf record', function () {
     ]);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::ShelfViewAny->value);
 
     Livewire::test(ShelfLivewireIndex::class)
-    ->assertSet('colunas', [
-        'prateleira',
-        'apelido',
-        'qtd_caixas',
-        'localidade',
-        'predio',
-        'andar',
-        'sala',
-        'estante',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'prateleira',
+            'apelido',
+            'qtd_caixas',
+            'localidade',
+            'predio',
+            'andar',
+            'sala',
+            'estante',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

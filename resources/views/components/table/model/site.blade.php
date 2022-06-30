@@ -2,8 +2,8 @@
     Livewire view for listing sites.
 
     Props:
-    - colunas: colunas da tabela que devem ser exibidas
     - deleting: item to be deleted
+    - preferencias: array de preferencias do usuário
     - sites: sites that will be displayed
     - sorts: columns and directions used to sort
     - withnewbutton: whether the new button should be displayed
@@ -18,8 +18,8 @@
 
 
 @props([
-    'colunas',
     'deleting',
+    'preferencias',
     'sites',
     'sorts' => [],
     'withnewbutton' => false,
@@ -55,7 +55,7 @@
                 wire:key="checkbox-localidade"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="localidade"
                 :text="__('Site')"
                 value="localidade"/>
@@ -65,7 +65,7 @@
                 wire:key="checkbox-qtd-predios"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="qtd_predios"
                 :text="__('Qty of buildings')"
                 value="qtd_predios"/>
@@ -75,7 +75,7 @@
                 wire:key="checkbox-acoes"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:model.defer="colunas"
+                wire:model.defer="preferencias.colunas"
                 name="acoes"
                 :text="__('Actions')"
                 value="acoes"/>
@@ -94,7 +94,7 @@
                 <x-table.heading
                     wire:click="sortBy('name')"
                     :direction="$sorts['name'] ?? null"
-                    :exibir="in_array('localidade', $colunas)"
+                    :exibir="in_array('localidade', $preferencias['colunas'])"
                     sortable
                 >
 
@@ -106,7 +106,7 @@
                 <x-table.heading
                     wire:click="sortBy('buildings_count')"
                     :direction="$sorts['buildings_count'] ?? null"
-                    :exibir="in_array('qtd_predios', $colunas)"
+                    :exibir="in_array('qtd_predios', $preferencias['colunas'])"
                     sortable
                 >
 
@@ -117,7 +117,7 @@
 
                 <x-table.heading
                     class="w-10"
-                    :exibir="in_array('acoes', $colunas)"
+                    :exibir="in_array('acoes', $preferencias['colunas'])"
                 >
 
                     {{ __('Actions') }}
@@ -133,13 +133,13 @@
 
                     <x-table.row>
 
-                        <x-table.cell :exibir="in_array('localidade', $colunas)">{{ $site->name }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('localidade', $preferencias['colunas'])">{{ $site->name }}</x-table.cell>
 
 
-                        <x-table.cell :exibir="in_array('qtd_predios', $colunas)">{{ $site->buildings_count }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('qtd_predios', $preferencias['colunas'])">{{ $site->buildings_count }}</x-table.cell>
 
 
-                        <x-table.cell :exibir="in_array('acoes', $colunas)">
+                        <x-table.cell :exibir="in_array('acoes', $preferencias['colunas'])">
 
                             <x-action-button-group>
 
@@ -178,7 +178,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell colspan="{{ count($colunas) }}">{{ __('No record found') }}</x-table.cell>
+                        <x-table.cell colspan="{{ count($preferencias['colunas']) }}">{{ __('No record found') }}</x-table.cell>
 
                     </x-table.row>
 

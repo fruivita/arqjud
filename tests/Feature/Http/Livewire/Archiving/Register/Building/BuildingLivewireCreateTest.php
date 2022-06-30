@@ -119,7 +119,7 @@ test('pagination returns the amount of expected building records', function () {
     Building::factory(30)->for($this->site, 'site')->create();
 
     Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('buildings', 25);
 });
 
@@ -188,14 +188,17 @@ test('reset to a blank model after the building is created', function () {
     ->assertSet('building', $blank);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::BuildingCreate->value);
 
     Livewire::test(BuildingLivewireCreate::class, ['id' => $this->site->id])
-    ->assertSet('colunas', [
-        'predio',
-        'qtd_andares',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'predio',
+            'qtd_andares',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

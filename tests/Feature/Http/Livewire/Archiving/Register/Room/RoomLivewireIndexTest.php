@@ -51,7 +51,7 @@ test('pagination returns the amount of expected room records', function () {
     Room::factory(30)->create();
 
     Livewire::test(RoomLivewireIndex::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('rooms', 25);
 });
 
@@ -98,17 +98,20 @@ test('emits feedback event when deleting a room record', function () {
     ]);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::RoomViewAny->value);
 
     Livewire::test(RoomLivewireIndex::class)
-    ->assertSet('colunas', [
-        'sala',
-        'qtd_estantes',
-        'localidade',
-        'predio',
-        'andar',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'sala',
+            'qtd_estantes',
+            'localidade',
+            'predio',
+            'andar',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

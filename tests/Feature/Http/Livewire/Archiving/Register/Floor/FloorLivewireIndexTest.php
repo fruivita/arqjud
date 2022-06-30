@@ -51,7 +51,7 @@ test('pagination returns the amount of expected floor records', function () {
     Floor::factory(30)->create();
 
     Livewire::test(FloorLivewireIndex::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('floors', 25);
 });
 
@@ -100,17 +100,20 @@ test('emits feedback event when deleting a floor record', function () {
     ]);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::FloorViewAny->value);
 
     Livewire::test(FloorLivewireIndex::class)
-    ->assertSet('colunas', [
-        'andar',
-        'apelido',
-        'qtd_salas',
-        'localidade',
-        'predio',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'andar',
+            'apelido',
+            'qtd_salas',
+            'localidade',
+            'predio',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

@@ -51,7 +51,7 @@ test('pagination returns the amount of boxes expected', function () {
     Box::factory(30)->create();
 
     Livewire::test(BoxLivewireIndex::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('boxes', 25);
 });
 
@@ -100,21 +100,24 @@ test('emits feedback event when deleting a box record', function () {
     ]);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::BoxViewAny->value);
 
     Livewire::test(BoxLivewireIndex::class)
-    ->assertSet('colunas', [
-        'caixa',
-        'ano',
-        'qtd_volumes',
-        'localidade',
-        'predio',
-        'andar',
-        'sala',
-        'estante',
-        'prateleira',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'caixa',
+            'ano',
+            'qtd_volumes',
+            'localidade',
+            'predio',
+            'andar',
+            'sala',
+            'estante',
+            'prateleira',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

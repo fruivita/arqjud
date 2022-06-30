@@ -116,7 +116,7 @@ test('pagination returns the amount of expected site records', function () {
     Site::factory(30)->create();
 
     Livewire::test(SiteLivewireCreate::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('sites', 25);
 });
 
@@ -184,14 +184,17 @@ test('reset to a blank model after the site is created', function () {
     ->assertSet('site', $blank);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::SiteCreate->value);
 
     Livewire::test(SiteLivewireCreate::class)
-    ->assertSet('colunas', [
-        'localidade',
-        'qtd_predios',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'localidade',
+            'qtd_predios',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

@@ -189,7 +189,7 @@
 
         <x-table.model.box
             :boxes="$this->boxes"
-            :colunas="$this->colunas"
+            :preferencias="$this->preferencias"
             :deleting="$this->deleting"
             :sorts="$this->sorts"
             withdeletebutton/>

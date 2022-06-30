@@ -45,9 +45,9 @@
 
 
             <x-perpage
-                wire:key="per-page"
-                wire:model="per_page"
-                :error="$errors->first('per_page')"/>
+                wire:key="por-pagina"
+                wire:model.defer="preferencias.por_pagina"
+                :error="$errors->first('preferencias.por_pagina')"/>
 
 
             <x-button-group>

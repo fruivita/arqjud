@@ -22,9 +22,9 @@
     <x-container>
 
         <x-table.model.floor
-            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :floors="$this->floors"
+            :preferencias="$this->preferencias"
             :sorts="$this->sorts"
             withdeletebutton
             withparents/>

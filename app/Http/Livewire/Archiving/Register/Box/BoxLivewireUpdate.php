@@ -42,14 +42,20 @@ class BoxLivewireUpdate extends Component
     public bool $modo_edicao = false;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'volume',
-        'apelido',
-        'acoes',
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'volume',
+            'apelido',
+            'acoes',
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -264,11 +270,11 @@ class BoxLivewireUpdate extends Component
      */
     public function getVolumesProperty()
     {
-        return $this->applyPagination(
-            BoxVolume::hierarchy()
+        return
+        BoxVolume::hierarchy()
             ->orderByWhen($this->sorts)
             ->where('box_id', $this->box->id)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

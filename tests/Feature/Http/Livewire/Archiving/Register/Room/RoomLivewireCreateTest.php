@@ -123,7 +123,7 @@ test('pagination returns the amount of expected room records', function () {
     Room::factory(30)->for($this->floor, 'floor')->create();
 
     Livewire::test(RoomLivewireCreate::class, ['id' => $this->floor->id])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('rooms', 25);
 });
 
@@ -218,14 +218,17 @@ test('reset to a blank model after the room is created', function () {
     ->assertSet('room', $blank);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::RoomCreate->value);
 
     Livewire::test(RoomLivewireCreate::class, ['id' => $this->floor->id])
-    ->assertSet('colunas', [
-        'sala',
-        'qtd_estantes',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'sala',
+            'qtd_estantes',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

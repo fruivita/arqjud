@@ -51,7 +51,7 @@ test('pagination returns the amount of expected building records', function () {
     Building::factory(30)->create();
 
     Livewire::test(BuildingLivewireIndex::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('buildings', 25);
 });
 
@@ -98,15 +98,18 @@ test('emits feedback event when deleting a building record', function () {
     ]);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::BuildingViewAny->value);
 
     Livewire::test(BuildingLivewireIndex::class)
-    ->assertSet('colunas', [
-        'predio',
-        'qtd_andares',
-        'localidade',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'predio',
+            'qtd_andares',
+            'localidade',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

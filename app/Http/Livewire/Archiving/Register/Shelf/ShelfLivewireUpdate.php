@@ -42,15 +42,21 @@ class ShelfLivewireUpdate extends Component
     public bool $modo_edicao = false;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'caixa',
-        'ano',
-        'qtd_volumes',
-        'acoes',
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'caixa',
+            'ano',
+            'qtd_volumes',
+            'acoes',
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -241,11 +247,11 @@ class ShelfLivewireUpdate extends Component
      */
     public function getBoxesProperty()
     {
-        return $this->applyPagination(
-            Box::hierarchy()
+        return
+        Box::hierarchy()
             ->orderByWhen($this->sorts)
             ->where('shelf_id', $this->shelf->id)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

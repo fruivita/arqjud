@@ -26,14 +26,20 @@ class SiteLivewireCreate extends Component
     use WithSorting;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'localidade',
-        'qtd_predios',
-        'acoes'
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'localidade',
+            'qtd_predios',
+            'acoes'
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -121,10 +127,10 @@ class SiteLivewireCreate extends Component
      */
     public function getSitesProperty()
     {
-        return $this->applyPagination(
-            Site::withCount('buildings')
+        return
+        Site::withCount('buildings')
             ->orderByWhen($this->sorts)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

@@ -180,10 +180,10 @@
     <x-container>
 
         <x-table.model.room
-            :colunas="$this->colunas"
             :deleting="$this->deleting"
-            :rooms="$this->rooms"
             :parent="$this->floor"
+            :preferencias="$this->preferencias"
+            :rooms="$this->rooms"
             :sorts="$this->sorts"
             withdeletebutton
             withnewbutton/>

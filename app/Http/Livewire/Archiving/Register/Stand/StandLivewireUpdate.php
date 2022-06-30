@@ -41,15 +41,21 @@ class StandLivewireUpdate extends Component
     public bool $modo_edicao = false;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'prateleira',
-        'apelido',
-        'qtd_caixas',
-        'acoes',
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'prateleira',
+            'apelido',
+            'qtd_caixas',
+            'acoes',
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -220,11 +226,11 @@ class StandLivewireUpdate extends Component
      */
     public function getShelvesProperty()
     {
-        return $this->applyPagination(
-            Shelf::hierarchy()
+        return
+        Shelf::hierarchy()
             ->orderByWhen($this->sorts)
             ->where('stand_id', $this->stand->id)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

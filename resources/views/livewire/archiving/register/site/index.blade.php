@@ -22,8 +22,8 @@
     <x-container>
 
         <x-table.model.site
-            :colunas="$this->colunas"
             :deleting="$this->deleting"
+            :preferencias="$this->preferencias"
             :sites="$this->sites"
             :sorts="$this->sorts"
             withnewbutton/>

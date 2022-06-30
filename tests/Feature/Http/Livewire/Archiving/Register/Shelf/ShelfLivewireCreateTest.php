@@ -160,7 +160,7 @@ test('pagination returns the amount of expected shelf records', function () {
     Shelf::factory(30)->for($this->stand, 'stand')->create();
 
     Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('shelves', 25);
 });
 
@@ -233,15 +233,18 @@ test('reset to a blank model after the shelf is created', function () {
     ->assertSet('shelf', $blank);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::ShelfCreate->value);
 
     Livewire::test(ShelfLivewireCreate::class, ['id' => $this->stand->id])
-    ->assertSet('colunas', [
-        'prateleira',
-        'apelido',
-        'qtd_caixas',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'prateleira',
+            'apelido',
+            'qtd_caixas',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

@@ -308,9 +308,9 @@
 
         <x-table.model.box
             :boxes="$this->boxes"
-            :colunas="$this->colunas"
             :deleting="$this->deleting"
             :parent="$this->shelf"
+            :preferencias="$this->preferencias"
             :sorts="$this->sorts"
             withdeletebutton
             withnewbutton/>

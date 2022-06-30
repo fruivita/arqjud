@@ -27,14 +27,20 @@ class SiteLivewireUpdate extends Component
     use WithSorting;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'predio',
-        'qtd_andares',
-        'acoes',
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'predio',
+            'qtd_andares',
+            'acoes',
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -107,11 +113,11 @@ class SiteLivewireUpdate extends Component
      */
     public function getBuildingsProperty()
     {
-        return $this->applyPagination(
-            Building::hierarchy()
+        return
+        Building::hierarchy()
             ->orderByWhen($this->sorts)
             ->where('site_id', $this->site->id)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

@@ -22,8 +22,8 @@
     <x-container>
 
         <x-table.model.shelf
-            :colunas="$this->colunas"
             :deleting="$this->deleting"
+            :preferencias="$this->preferencias"
             :shelves="$this->shelves"
             :sorts="$this->sorts"
             withdeletebutton

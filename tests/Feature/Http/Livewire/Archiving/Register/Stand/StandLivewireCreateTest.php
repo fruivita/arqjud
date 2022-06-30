@@ -160,7 +160,7 @@ test('pagination returns the amount of expected stand records', function () {
     Stand::factory(30)->for($this->room, 'room')->create();
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('stands', 25);
 });
 
@@ -254,15 +254,18 @@ test('reset to a blank model after the stand is created', function () {
     ->assertSet('stand', $blank);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::StandCreate->value);
 
     Livewire::test(StandLivewireCreate::class, ['id' => $this->room->id])
-    ->assertSet('colunas', [
-        'estante',
-        'apelido',
-        'qtd_prateleiras',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'estante',
+            'apelido',
+            'qtd_prateleiras',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

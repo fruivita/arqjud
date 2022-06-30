@@ -160,7 +160,7 @@ test('pagination returns the amount of expected floor records', function () {
     Floor::factory(30)->for($this->building, 'building')->create();
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('floors', 25);
 });
 
@@ -233,15 +233,18 @@ test('reset to a blank model after the floor is created', function () {
     ->assertSet('floor', $blank);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::FloorCreate->value);
 
     Livewire::test(FloorLivewireCreate::class, ['id' => $this->building->id])
-    ->assertSet('colunas', [
-        'andar',
-        'apelido',
-        'qtd_salas',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'andar',
+            'apelido',
+            'qtd_salas',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

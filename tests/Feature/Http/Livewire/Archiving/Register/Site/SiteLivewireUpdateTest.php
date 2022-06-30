@@ -144,7 +144,7 @@ test('pagination returns the amount of expected building records', function () {
     Building::factory(30)->for($this->site, 'site')->create();
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('buildings', 25);
 });
 
@@ -205,14 +205,17 @@ test('update a site record with specific permission', function () {
     ->and($this->site->description)->toBe('foo bar');
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::SiteUpdate->value);
 
     Livewire::test(SiteLivewireUpdate::class, ['site' => $this->site])
-    ->assertSet('colunas', [
-        'predio',
-        'qtd_andares',
-        'acoes',
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'predio',
+            'qtd_andares',
+            'acoes',
+        ],
+        'por_pagina' => 10
     ]);
 });
 

@@ -268,7 +268,7 @@ test('pagination returns the amount of stands expected', function () {
     Stand::factory(30)->for($this->room, 'room')->create();
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('stands', 25);
 });
 
@@ -385,15 +385,18 @@ test('update a room record with specific permission', function () {
     ->and($this->room->floor_id)->toBe($floor->id);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::RoomUpdate->value);
 
     Livewire::test(RoomLivewireUpdate::class, ['id' => $this->room->id])
-    ->assertSet('colunas', [
-        'estante',
-        'apelido',
-        'qtd_prateleiras',
-        'acoes',
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'estante',
+            'apelido',
+            'qtd_prateleiras',
+            'acoes',
+        ],
+        'por_pagina' => 10
     ]);
 });
 

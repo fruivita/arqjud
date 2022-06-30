@@ -220,7 +220,7 @@ test('pagination returns the amount of expected boxes records', function () {
     Box::factory(30)->for($this->shelf, 'shelf')->create();
 
     Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('boxes', 25);
 });
 
@@ -387,15 +387,18 @@ test('reset to a blank model after the box is created', function () {
     ->assertSet('box', $blank);
 });
 
-test('colunas ocultáveis estão pré-definidas', function () {
+test('preferencias estão definidas', function () {
     grantPermission(PermissionType::BoxCreate->value);
 
     Livewire::test(BoxLivewireCreate::class, ['id' => $this->shelf->id])
-    ->assertSet('colunas', [
-        'caixa',
-        'ano',
-        'qtd_volumes',
-        'acoes'
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'caixa',
+            'ano',
+            'qtd_volumes',
+            'acoes'
+        ],
+        'por_pagina' => 10
     ]);
 });
 

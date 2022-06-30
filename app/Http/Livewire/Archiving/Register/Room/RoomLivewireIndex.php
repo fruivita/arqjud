@@ -27,17 +27,23 @@ class RoomLivewireIndex extends Component
     use WithSorting;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'sala',
-        'qtd_estantes',
-        'localidade',
-        'predio',
-        'andar',
-        'acoes'
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'sala',
+            'qtd_estantes',
+            'localidade',
+            'predio',
+            'andar',
+            'acoes'
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -58,11 +64,11 @@ class RoomLivewireIndex extends Component
      */
     public function getRoomsProperty()
     {
-        return $this->applyPagination(
-            Room::hierarchy()
+        return
+        Room::hierarchy()
             ->whereLike('rooms.number', $this->term)
             ->orderByWhen($this->sorts)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

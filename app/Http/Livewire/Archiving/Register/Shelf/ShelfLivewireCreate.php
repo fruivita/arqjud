@@ -29,15 +29,21 @@ class ShelfLivewireCreate extends Component
     use WithSorting;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'prateleira',
-        'apelido',
-        'qtd_caixas',
-        'acoes'
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'prateleira',
+            'apelido',
+            'qtd_caixas',
+            'acoes'
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -155,11 +161,11 @@ class ShelfLivewireCreate extends Component
      */
     public function getShelvesProperty()
     {
-        return $this->applyPagination(
-            Shelf::hierarchy()
+        return
+        Shelf::hierarchy()
             ->where('shelves.stand_id', $this->stand_id)
             ->orderByWhen($this->sorts)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

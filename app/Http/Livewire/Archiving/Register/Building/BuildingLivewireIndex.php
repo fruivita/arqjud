@@ -27,15 +27,21 @@ class BuildingLivewireIndex extends Component
     use WithSorting;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'predio',
-        'qtd_andares',
-        'localidade',
-        'acoes'
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'predio',
+            'qtd_andares',
+            'localidade',
+            'acoes'
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -56,11 +62,11 @@ class BuildingLivewireIndex extends Component
      */
     public function getBuildingsProperty()
     {
-        return $this->applyPagination(
-            Building::hierarchy()
+        return
+        Building::hierarchy()
             ->whereLike('buildings.name', $this->term)
             ->orderByWhen($this->sorts)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**

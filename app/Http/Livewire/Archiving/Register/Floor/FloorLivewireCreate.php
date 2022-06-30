@@ -29,15 +29,21 @@ class FloorLivewireCreate extends Component
     use WithSorting;
 
     /**
-     * Nome das colunas que podem ser ocultadas.
+     * Preferências do usuário.
      *
-     * @var string[]
+     * @var array<string, mixed>
      */
-    public array $colunas = [
-        'andar',
-        'apelido',
-        'qtd_salas',
-        'acoes'
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'andar',
+            'apelido',
+            'qtd_salas',
+            'acoes'
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
     ];
 
     /**
@@ -155,11 +161,11 @@ class FloorLivewireCreate extends Component
      */
     public function getFloorsProperty()
     {
-        return $this->applyPagination(
-            Floor::hierarchy()
+        return
+        Floor::hierarchy()
             ->where('floors.building_id', $this->building->id)
             ->orderByWhen($this->sorts)
-        );
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**
