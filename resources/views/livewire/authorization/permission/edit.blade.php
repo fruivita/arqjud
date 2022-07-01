@@ -116,7 +116,7 @@
                                         wire:key="checkbox-action"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"
-                                        wire:target="per_page,update"
+                                        wire:target="update"
                                         wire:model="checkbox_action"/>
 
 

@@ -138,7 +138,7 @@ test('pagination returns the number of lines of the expected application log fil
     grantPermission(PermissionType::LogViewAny->value);
 
     Livewire::test(LogLivewireIndex::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('file_content', 25);
 });
 
@@ -234,4 +234,22 @@ test('downloads log file with specific permission', function () {
     ->set('filename', $this->log_files[0])
     ->call('download')
     ->assertFileDownloaded($this->log_files[0]);
+});
+
+test('valores iniciais do componente estão definidos', function () {
+    grantPermission(PermissionType::LogViewAny->value);
+
+    Livewire::test(LogLivewireIndex::class)
+    ->assertSet('preferencias', [
+        'por_pagina' => 10
+    ]);
+});
+
+test('LogLivewireIndex uses trait', function () {
+    expect(
+        collect(class_uses(LogLivewireIndex::class))
+        ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+        ])
+    )->toBeTrue();
 });

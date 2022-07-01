@@ -163,7 +163,7 @@ test('pagination returns the expected amount of users', function () {
     User::factory(30)->for($this->department, 'department')->create();
 
     Livewire::test(DelegationLivewireIndex::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('users', 25);
 });
 
@@ -279,6 +279,12 @@ test('search returns expected results', function () {
         'department_id' => $this->department->id,
     ]);
 
+    User::factory()->create([
+        'name' => 'loren ipsun',
+        'username' => 'situr dolor',
+        'department_id' => $this->department->id,
+    ]);
+
     // will not be displayed, because its from another department
     User::factory()
     ->for(Department::factory(), 'department')
@@ -291,5 +297,34 @@ test('search returns expected results', function () {
     ->set('term', 'taz')
     ->assertCount('users', 1)
     ->set('term', 'fulano')
-    ->assertCount('users', 2);
+    ->assertCount('users', 2)
+    ->set('term', '')
+    ->assertCount('users', User::where('department_id', $this->department->id)->count());
+});
+
+test('valores iniciais do componente estão definidos', function () {
+    grantPermission(PermissionType::DelegationViewAny->value);
+
+    Livewire::test(DelegationLivewireIndex::class)
+    ->assertSet('show_edit_modal', false)
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'nome',
+            'usuario',
+            'perfil',
+            'delegante',
+            'acoes',
+        ],
+        'por_pagina' => 10
+    ]);
+});
+
+test('DelegationLivewireIndex uses trait', function () {
+    expect(
+        collect(class_uses(DelegationLivewireIndex::class))
+        ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
+    )->toBeTrue();
 });

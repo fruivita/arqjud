@@ -3,11 +3,12 @@
 namespace App\Http\Livewire\Authorization\Delegation;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithSearching;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 /**
@@ -16,8 +17,29 @@ use Livewire\Component;
 class DelegationLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use SalvaColunasDePreferencia;
     use WithPerPagePagination;
     use WithSearching;
+    use WithSorting;
+
+    /**
+     * Preferências do usuário.
+     *
+     * @var array<string, mixed>
+     */
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'nome',
+            'usuario',
+            'perfil',
+            'delegante',
+            'acoes',
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
+    ];
 
     /**
      * Runs on every request, immediately after the component is instantiated,
@@ -37,12 +59,12 @@ class DelegationLivewireIndex extends Component
      */
     public function getUsersProperty()
     {
-        return $this->applyPagination(
-            User::with('delegator')
+        return
+        User::with('delegator')
             ->whereLike(['name', 'username'], $this->term)
             ->where('department_id', auth()->user()->department_id)
-            ->defaultOrder()
-        );
+            ->orderByWhen($this->sorts)
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**
@@ -52,9 +74,7 @@ class DelegationLivewireIndex extends Component
      */
     public function render()
     {
-        return view('livewire.authorization.delegation.index', [
-            'users' => $this->users,
-        ])->layout('layouts.app');
+        return view('livewire.authorization.delegation.index')->layout('layouts.app');
     }
 
     /**

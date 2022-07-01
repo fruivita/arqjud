@@ -23,6 +23,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.lazy="filename"
+                    editavel
                     :error="$errors->first('filename')"
                     icon="file-earmark-text"
                     required
@@ -30,7 +31,7 @@
                     :title="__('Choose log file')"
                 >
 
-                    @forelse ($log_files ?? [] as $file)
+                    @forelse ($this->log_files ?? [] as $file)
 
                         <option value="{{ $file->getFilename() }}">
 
@@ -103,14 +104,17 @@
 
     <x-container>
 
-        <x-perpage
-            wire:key="per-page"
-            wire:model="per_page"
-            class="mb-3"
-            :error="$errors->first('per_page')"/>
+        <x-table.topo-tabela>
+
+            <div></div>
 
 
-        @forelse ($file_content ?? [] as $row_number => $row)
+            <x-table.acoes-tabela/>
+
+        </x-table.topo-tabela>
+
+
+        @forelse ($this->file_content ?? [] as $row_number => $row)
 
             @if (preg_match('/^\[\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\]/', $row))
 
@@ -131,7 +135,7 @@
     </x-container>
 
 
-    {{ optional($file_content)->links() }}
+    {{ optional($this->file_content)->links() }}
 
 
     @can(\App\Enums\Policy::LogDelete->value)
@@ -139,9 +143,9 @@
         {{-- Modal to confirm the deletion --}}
         <x-confirmation-modal
             wire:model="show_delete_modal"
-            wire:key="deleting-modal-{{ $filename }}"
+            wire:key="deleting-modal-{{ $this->filename }}"
             wire:submit.prevent="destroy"
-            :question="__('Delete log :attribute?', ['attribute' => $filename])"/>
+            :question="__('Delete log :attribute?', ['attribute' => $this->filename])"/>
 
     @endcan
 

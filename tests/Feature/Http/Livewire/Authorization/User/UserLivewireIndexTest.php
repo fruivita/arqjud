@@ -43,6 +43,14 @@ test('cannot render users listing component without specific permission', functi
     Livewire::test(UserLivewireIndex::class)->assertForbidden();
 });
 
+test('cannot update user if show_edit_modal is disabled', function () {
+    grantPermission(PermissionType::UserUpdate->value);
+
+    Livewire::test(UserLivewireIndex::class)
+    ->call('update')
+    ->assertForbidden();
+});
+
 test('cannot display user edit modal without specific permission', function () {
     grantPermission(PermissionType::UserViewAny->value);
 
@@ -106,24 +114,13 @@ test("cannot update user's role of higher level", function () {
 });
 
 // Rules
-test('id of the role that will be associated with the user must be an integer', function () {
-    grantPermission(PermissionType::UserViewAny->value);
-    grantPermission(PermissionType::UserUpdate->value);
-
-    Livewire::test(UserLivewireIndex::class)
-    ->call('edit', $this->user->id)
-    ->set('editing.role_id', 'foo')
-    ->call('update')
-    ->assertHasErrors(['editing.role_id' => 'integer']);
-});
-
 test('id of the role that will be associated with the user must previously exist in the database', function () {
     grantPermission(PermissionType::UserViewAny->value);
     grantPermission(PermissionType::UserUpdate->value);
 
     Livewire::test(UserLivewireIndex::class)
     ->call('edit', $this->user->id)
-    ->set('editing.role_id', 9090909090)
+    ->set('editing.role_id', 2)
     ->call('update')
     ->assertHasErrors(['editing.role_id' => 'exists']);
 });
@@ -140,13 +137,16 @@ test('id of the role that will be associated with the user is mandatory', functi
 });
 
 // Happy path
-test('renders listing component of users with specific permission', function () {
-    grantPermission(PermissionType::UserViewAny->value);
+test('renders listing component of users with view any or update permission', function ($permission) {
+    grantPermission($permission);
 
     get(route('authorization.user.index'))
     ->assertOk()
     ->assertSeeLivewire(UserLivewireIndex::class);
-});
+})->with([
+    PermissionType::UserViewAny->value,
+    PermissionType::UserUpdate->value
+]);
 
 test('pagination returns the expected amount of users', function () {
     grantPermission(PermissionType::UserViewAny->value);
@@ -154,7 +154,7 @@ test('pagination returns the expected amount of users', function () {
     User::factory(30)->create();
 
     Livewire::test(UserLivewireIndex::class)
-    ->set('per_page', 25)
+    ->set('preferencias.por_pagina', 25)
     ->assertCount('users', 25);
 });
 
@@ -257,20 +257,27 @@ test('search returns expected results', function () {
     grantPermission(PermissionType::UserViewAny->value);
 
     User::factory()->create([
-        'name' => 'fulano bar',
-        'username' => 'bar baz',
+        'name' => 'namefoo',
+        'username' => 'userbar',
     ]);
 
     User::factory()->create([
-        'name' => 'fulano foo bazz',
-        'username' => 'taz',
+        'name' => 'namebaz',
+        'username' => 'userloren',
+    ]);
+
+    User::factory()->create([
+        'name' => 'nameloren',
+        'username' => 'userdolor',
     ]);
 
     Livewire::test(UserLivewireIndex::class)
-    ->set('term', 'taz')
+    ->set('term', 'mefoo')
     ->assertCount('users', 1)
-    ->set('term', 'fulano')
-    ->assertCount('users', 2);
+    ->set('term', 'lore')
+    ->assertCount('users', 2)
+    ->set('term', '')
+    ->assertCount('users', User::count());
 });
 
 test("can update user's role of the same level", function () {
@@ -319,4 +326,31 @@ test("can update user's role of the lower level", function () {
     $this->user->refresh();
 
     expect($this->user->role_id)->toBe(Role::ORDINARY);
+});
+
+test('valores iniciais do componente estão definidos', function () {
+    grantPermission(PermissionType::UserViewAny->value);
+
+    Livewire::test(UserLivewireIndex::class)
+    ->assertSet('show_edit_modal', false)
+    ->assertSet('preferencias', [
+        'colunas' => [
+            'nome',
+            'usuario',
+            'perfil',
+            'delegante',
+            'acoes',
+        ],
+        'por_pagina' => 10
+    ]);
+});
+
+test('UserLivewireIndex uses trait', function () {
+    expect(
+        collect(class_uses(UserLivewireIndex::class))
+        ->has([
+            \App\Http\Livewire\Traits\SalvaColunasDePreferencia::class,
+            \App\Http\Livewire\Traits\WithSorting::class,
+        ])
+    )->toBeTrue();
 });

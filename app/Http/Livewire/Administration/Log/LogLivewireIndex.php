@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Administration\Log;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
 use App\Rules\FileExists;
@@ -21,8 +22,19 @@ use Livewire\Component;
 class LogLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use SalvaColunasDePreferencia;
     use WithFeedbackEvents;
     use WithPerPagePagination;
+
+    /**
+     * Preferências do usuário.
+     *
+     * @var array<string, mixed>
+     */
+    public array $preferencias = [
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
+    ];
 
     /**
      * Should the modal for deleting the resource be displayed?
@@ -128,11 +140,13 @@ class LogLivewireIndex extends Component
      */
     public function getFileContentProperty()
     {
-        return LineReader::readPaginatedLines(
+        return $this->validator()->fails()
+        ? null
+        : LineReader::readPaginatedLines(
             file_path: $this->fileFullPath(),
-            per_page: $this->per_page,
+            per_page: $this->preferencias['por_pagina'],
             page: $this->page
-        )->onEachSide($this->on_each_side);
+        );
     }
 
     /**
@@ -142,10 +156,7 @@ class LogLivewireIndex extends Component
      */
     public function render()
     {
-        return view('livewire.administration.log.index', [
-            'log_files' => $this->log_files,
-            'file_content' => $this->validator()->fails() ? null : $this->file_content,
-        ])->layout('layouts.app');
+        return view('livewire.administration.log.index')->layout('layouts.app');
     }
 
     /**

@@ -293,9 +293,10 @@ test('valores iniciais do componente estão definidos', function () {
     ->assertSet('modo_edicao', false)
     ->assertSet('preferencias', [
         'colunas' => [
-            'nome',
+            'seletores',
+            'permissao',
             'descricao',
-            'selecao',
+            'acoes',
         ],
         'por_pagina' => 10
     ]);

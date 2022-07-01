@@ -92,7 +92,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::prefix('usuario')->name('user.')->group(function () {
-            Route::get('/', UserLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, User::class);
+            Route::get('/', UserLivewireIndex::class)->name('index')->can(Policy::ViewAnyOrUpdate->value, User::class);
         });
     });
 

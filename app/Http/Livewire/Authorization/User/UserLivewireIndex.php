@@ -3,9 +3,11 @@
 namespace App\Http\Livewire\Authorization\User;
 
 use App\Enums\Policy;
+use App\Http\Livewire\Traits\SalvaColunasDePreferencia;
 use App\Http\Livewire\Traits\WithSearching;
 use App\Http\Livewire\Traits\WithFeedbackEvents;
 use App\Http\Livewire\Traits\WithPerPagePagination;
+use App\Http\Livewire\Traits\WithSorting;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -18,9 +20,30 @@ use Livewire\Component;
 class UserLivewireIndex extends Component
 {
     use AuthorizesRequests;
+    use SalvaColunasDePreferencia;
     use WithFeedbackEvents;
     use WithPerPagePagination;
     use WithSearching;
+    use WithSorting;
+
+    /**
+     * Preferências do usuário.
+     *
+     * @var array<string, mixed>
+     */
+    public array $preferencias = [
+        // Nome das colunas da tabela que podem ser ocultadas
+        'colunas' => [
+            'nome',
+            'usuario',
+            'perfil',
+            'delegante',
+            'acoes',
+        ],
+
+        // Quantidade de registros exibidos por página da tabela
+        'por_pagina' => 10,
+    ];
 
     /**
      * Editing resource.
@@ -54,7 +77,6 @@ class UserLivewireIndex extends Component
             'editing.role_id' => [
                 'bail',
                 'required',
-                'integer',
                 'exists:roles,id',
             ],
         ];
@@ -80,7 +102,7 @@ class UserLivewireIndex extends Component
      */
     public function boot()
     {
-        $this->authorize(Policy::ViewAny->value, User::class);
+        $this->authorize(Policy::ViewAnyOrUpdate->value, User::class);
     }
 
     /**
@@ -102,11 +124,11 @@ class UserLivewireIndex extends Component
      */
     public function getUsersProperty()
     {
-        return $this->applyPagination(
-            User::with('delegator')
+        return
+        User::with('delegator')
             ->whereLike(['name', 'username'], $this->term)
-            ->defaultOrder()
-        );
+            ->orderByWhen($this->sorts)
+            ->paginate($this->preferencias['por_pagina']);
     }
 
     /**
@@ -116,9 +138,7 @@ class UserLivewireIndex extends Component
      */
     public function render()
     {
-        return view('livewire.authorization.user.index', [
-            'users' => $this->users,
-        ])->layout('layouts.app');
+        return view('livewire.authorization.user.index')->layout('layouts.app');
     }
 
     /**
@@ -136,7 +156,7 @@ class UserLivewireIndex extends Component
 
         $this->roles = Role::select('id', 'name')
                         ->avaiableToAssign()
-                        ->defaultOrder()
+                        ->orderBy('name', 'asc')
                         ->get();
 
         $this->show_edit_modal = true;
@@ -149,9 +169,11 @@ class UserLivewireIndex extends Component
      */
     public function update()
     {
-        $this->validate();
+        abort_if($this->show_edit_modal !== true, 403);
 
         $this->authorize(Policy::Update->value, $this->editing);
+
+        $this->validate();
 
         $saved = $this->editing->updateAndRevokeDelegatedUsers();
 

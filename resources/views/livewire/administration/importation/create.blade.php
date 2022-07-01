@@ -32,6 +32,7 @@
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:target="store"
                     wire:model.defer="import"
+                    editavel
                     name="import"
                     :text="\App\Enums\ImportationType::Corporate->label()"
                     :value="\App\Enums\ImportationType::Corporate->value"/>

@@ -25,110 +25,202 @@
 
     <x-container>
 
-        <x-perpage
-            wire:key="per-page"
-            wire:model="per_page"
-            class="mb-3"
-            :error="$errors->first('per_page')"/>
+        <div class="space-y-3">
+
+            <x-table.topo-tabela>
+
+                <div></div>
 
 
-        <x-table wire:key="table-delegations" wire:loading.delay.class="opacity-25">
+                <x-table.acoes-tabela>
 
-            <x-slot name="head">
-
-                <x-table.heading>{{ __('Name') }}</x-table.heading>
-
-
-                <x-table.heading>{{ __('Username') }}</x-table.heading>
-
-
-                <x-table.heading>{{ __('Role') }}</x-table.heading>
-
-
-                <x-table.heading>{{ __('Delegator') }}</x-table.heading>
+                    <x-form.checkbox
+                        wire:key="checkbox-nome"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="preferencias.colunas"
+                        editavel
+                        name="nome"
+                        :text="__('Name')"
+                        value="nome"/>
 
 
-                <x-table.heading class="w-10">{{ __('Actions') }}</x-table.heading>
-
-            </x-slot>
-
-
-            <x-slot name="body">
-
-                @forelse ($users ?? [] as $user)
-
-                    <x-table.row>
-
-                        <x-table.cell>{{ $user->name }}</x-table.cell>
+                    <x-form.checkbox
+                        wire:key="checkbox-usuario"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="preferencias.colunas"
+                        editavel
+                        name="usuario"
+                        :text="__('Username')"
+                        value="usuario"/>
 
 
-                        <x-table.cell>{{ $user->username }}</x-table.cell>
+                    <x-form.checkbox
+                        wire:key="checkbox-perfil"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="preferencias.colunas"
+                        editavel
+                        name="perfil"
+                        :text="__('Role')"
+                        value="perfil"/>
 
 
-                        <x-table.cell>{{ $user->role->name }}</x-table.cell>
+                    <x-form.checkbox
+                        wire:key="checkbox-delegante"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="preferencias.colunas"
+                        editavel
+                        name="delegante"
+                        :text="__('Delegator')"
+                        value="delegante"/>
 
 
-                        <x-table.cell>{{ optional($user->delegator)->username }}</x-table.cell>
+                    <x-form.checkbox
+                        wire:key="checkbox-acoes"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="preferencias.colunas"
+                        editavel
+                        name="acoes"
+                        :text="__('Actions')"
+                        value="acoes"/>
+
+                </x-table.acoes-tabela>
+
+            </x-table.topo-tabela>
 
 
-                        <x-table.cell>
+            <div class="overflow-x-auto">
 
-                            <x-action-button-group>
+                <x-table wire:key="table-delegations" wire:loading.delay.class="opacity-25">
 
-                                @can(\App\Enums\Policy::DelegationDelete->value, [$user])
+                    <x-slot name="head">
 
-                                    <form wire:key="form-delegation-destroy-{{ $user->id }}" wire:submit.prevent="destroy({{ $user->id }})" method="POST">
+                        <x-table.heading
+                            wire:click="sortBy('name')"
+                            :direction="$sorts['name'] ?? null"
+                            :exibir="in_array('nome', $preferencias['colunas'])"
+                            sortable
+                        >
 
-                                        <x-button
-                                            class="btn-danger"
-                                            wire:key="delegation-destroy-{{ $user->id }}"
-                                            class="btn-danger w-full"
-                                            icon="x-circle"
-                                            :text="__('Revoke')"
-                                            :title="__('Revoke user permissions')"
-                                            type="submit"/>
+                            {{ __('Name') }}
 
-                                    </form>
+                        </x-table.heading>
 
-                                @elsecan(\App\Enums\Policy::DelegationCreate->value, [$user])
 
-                                    <form wire:key="form-delegation-create-{{ $user->id }}" wire:submit.prevent="create({{ $user->id }})" method="POST">
+                        <x-table.heading
+                            wire:click="sortBy('username')"
+                            :direction="$sorts['username'] ?? null"
+                            :exibir="in_array('usuario', $preferencias['colunas'])"
+                            sortable
+                        >
 
-                                        <x-button
-                                            wire:key="delegation-create-{{ $user->id }}"
-                                            class="btn-do w-full"
-                                            icon="check-circle"
-                                            :text="__('Grant')"
-                                            :title="__('Grant my permissions to the user')"
-                                            type="submit"/>
+                            {{ __('Username') }}
 
-                                    </form>
+                        </x-table.heading>
 
-                                @endcan
 
-                            </x-action-button-group>
+                        <x-table.heading :exibir="in_array('perfil', $preferencias['colunas'])">{{ __('Role') }}</x-table.heading>
 
-                        </x-table.cell>
 
-                    </x-table.row>
+                        <x-table.heading :exibir="in_array('delegante', $preferencias['colunas'])">{{ __('Delegator') }}</x-table.heading>
 
-                @empty
 
-                    <x-table.row>
+                        <x-table.heading
+                            class="w-10"
+                            :exibir="in_array('acoes', $preferencias['colunas'])"
+                        >
 
-                        <x-table.cell colspan="5">{{ __('No record found') }}</x-table.cell>
+                            {{ __('Actions') }}
 
-                    </x-table.row>
+                        </x-table.heading>
 
-                @endforelse
+                    </x-slot>
 
-            </x-slot>
 
-        </x-table>
+                    <x-slot name="body">
+
+                        @forelse ($this->users ?? [] as $user)
+
+                            <x-table.row>
+
+                                <x-table.cell :exibir="in_array('nome', $preferencias['colunas'])">{{ $user->name }}</x-table.cell>
+
+
+                                <x-table.cell :exibir="in_array('usuario', $preferencias['colunas'])">{{ $user->username }}</x-table.cell>
+
+
+                                <x-table.cell :exibir="in_array('perfil', $preferencias['colunas'])">{{ $user->role->name }}</x-table.cell>
+
+
+                                <x-table.cell :exibir="in_array('delegante', $preferencias['colunas'])">{{ optional($user->delegator)->username }}</x-table.cell>
+
+
+                                <x-table.cell :exibir="in_array('acoes', $preferencias['colunas'])">
+
+                                    <x-action-button-group>
+
+                                        @can(\App\Enums\Policy::DelegationDelete->value, [$user])
+
+                                            <form wire:key="form-delegation-destroy-{{ $user->id }}" wire:submit.prevent="destroy({{ $user->id }})" method="POST">
+
+                                                <x-button
+                                                    class="btn-danger"
+                                                    wire:key="delegation-destroy-{{ $user->id }}"
+                                                    class="btn-danger w-full"
+                                                    icon="x-circle"
+                                                    :text="__('Revoke')"
+                                                    :title="__('Revoke user permissions')"
+                                                    type="submit"/>
+
+                                            </form>
+
+                                        @elsecan(\App\Enums\Policy::DelegationCreate->value, [$user])
+
+                                            <form wire:key="form-delegation-create-{{ $user->id }}" wire:submit.prevent="create({{ $user->id }})" method="POST">
+
+                                                <x-button
+                                                    wire:key="delegation-create-{{ $user->id }}"
+                                                    class="btn-do w-full"
+                                                    icon="check-circle"
+                                                    :text="__('Grant')"
+                                                    :title="__('Grant my permissions to the user')"
+                                                    type="submit"/>
+
+                                            </form>
+
+                                        @endcan
+
+                                    </x-action-button-group>
+
+                                </x-table.cell>
+
+                            </x-table.row>
+
+                        @empty
+
+                            <x-table.row>
+
+                                <x-table.cell colspan="{{ count($preferencias['colunas']) }}">{{ __('No record found') }}</x-table.cell>
+
+                            </x-table.row>
+
+                        @endforelse
+
+                    </x-slot>
+
+                </x-table>
+
+            </div>
+
+
+            {{ $this->users->links() }}
+
+        </div>
 
     </x-container>
-
-
-    {{ $users->links() }}
 
 </x-page>
