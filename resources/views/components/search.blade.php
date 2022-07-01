@@ -22,7 +22,7 @@
     class="text-primary-900 dark:text-secondary-50 md:mx-auto md:w-2/4"
 >
 
-    <form class="bg-primary-100 border-2 border-primary-300 flex items-center pl-2 py-2 pr-6 rounded dark:bg-secondary-800 dark:border-secondary-600">
+    <div class="bg-primary-100 border-2 border-primary-300 flex items-center pl-2 py-2 pr-6 rounded dark:bg-secondary-800 dark:border-secondary-600">
 
         <label class="p-2" for="term">
 
@@ -35,7 +35,7 @@
 
             @if ($withcounter)
 
-                x-on:blur ="visivel = false"
+                x-on:blur="visivel = false"
                 x-on:focus="visivel = true"
                 x-on:keyup="counter = $el.value.length"
                 x-ref="message"
@@ -66,7 +66,7 @@
 
         @endif
 
-    </form>
+    </div>
 
 
     {{-- display of any error message --}}
