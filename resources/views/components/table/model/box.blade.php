@@ -410,9 +410,9 @@
 
     {{-- Modal to confirm the deletion --}}
     <x-confirmation-modal
-        wire:model="show_delete_modal"
+        wire:click="destroy"
         wire:key="deleting-modal-{{ $deleting->id }}"
-        wire:submit.prevent="destroy"
+        wire:model="show_delete_modal"
         :question="__('Delete box :attribute?', ['attribute' => $deleting->for_humans])"/>
 
 @endif

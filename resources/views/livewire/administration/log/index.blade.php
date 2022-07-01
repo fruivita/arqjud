@@ -142,9 +142,9 @@
 
         {{-- Modal to confirm the deletion --}}
         <x-confirmation-modal
-            wire:model="show_delete_modal"
+            wire:click="destroy"
             wire:key="deleting-modal-{{ $this->filename }}"
-            wire:submit.prevent="destroy"
+            wire:model="show_delete_modal"
             :question="__('Delete log :attribute?', ['attribute' => $this->filename])"/>
 
     @endcan

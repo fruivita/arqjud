@@ -16,7 +16,7 @@
 @props(['question'])
 
 
-<x-modal {{ $attributes->whereDoesntStartWith('wire:submit') }}>
+<x-modal {{ $attributes->whereDoesntStartWith('wire:click') }}>
 
     <x-slot name="title">{{ $question }}</x-slot>
 
@@ -26,16 +26,17 @@
 
     <x-slot name="footer">
 
-        <form {{ $attributes->whereStartsWith('wire:submit') }}>
+        <div>
 
             <x-button
+                {{ $attributes->whereStartsWith('wire:click') }}
                 class="btn-danger w-full"
                 icon="check-circle"
                 :text="__('Confirm')"
                 :title="__('Confirm the operation')"
-                type="submit"/>
+                type="button"/>
 
-        </form>
+        </div>
 
     </x-slot>
 
