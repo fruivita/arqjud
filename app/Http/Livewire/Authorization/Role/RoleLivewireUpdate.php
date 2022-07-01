@@ -33,9 +33,10 @@ class RoleLivewireUpdate extends Component
     public array $preferencias = [
         // Nome das colunas da tabela que podem ser ocultadas
         'colunas' => [
-            'nome',
+            'seletores',
+            'permissao',
             'descricao',
-            'selecao',
+            'acoes',
         ],
 
         // Quantidade de registros exibidos por página da tabela
