@@ -372,7 +372,7 @@
     </div>
 
 
-    {{ $shelves->links() }}
+    <x-links-paginacao :itens="$shelves"/>
 
 </div>
 

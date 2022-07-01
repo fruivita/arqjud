@@ -193,7 +193,7 @@
     </div>
 
 
-    {{ $volumes->links() }}
+    <x-links-paginacao :itens="$volumes"/>
 
 </div>
 

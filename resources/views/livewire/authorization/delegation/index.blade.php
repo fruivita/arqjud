@@ -210,7 +210,7 @@
             </div>
 
 
-            {{ $this->users->links() }}
+            <x-links-paginacao :itens="$this->users"/>
 
         </div>
 

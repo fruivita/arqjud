@@ -398,7 +398,7 @@
     </div>
 
 
-    {{ $boxes->links() }}
+    <x-links-paginacao :itens="$boxes"/>
 
 </div>
 

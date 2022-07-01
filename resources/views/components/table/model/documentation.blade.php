@@ -194,7 +194,7 @@
     </div>
 
 
-    {{ $documentacao->links() }}
+    <x-links-paginacao :itens="$documentacao"/>
 
 </div>
 

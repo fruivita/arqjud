@@ -294,7 +294,7 @@
     </div>
 
 
-    {{ $rooms->links() }}
+    <x-links-paginacao :itens="$rooms"/>
 
 </div>
 

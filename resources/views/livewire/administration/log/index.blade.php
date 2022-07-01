@@ -131,7 +131,7 @@
     </x-container>
 
 
-    {{ optional($this->file_content)->links() }}
+    <x-links-paginacao :itens="$this->file_content"/>
 
 
     @can(\App\Enums\Policy::LogDelete->value)

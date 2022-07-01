@@ -267,6 +267,6 @@
     </x-container>
 
 
-    {{ $this->roles->links() }}
+    <x-links-paginacao :itens="$this->roles"/>
 
 </x-page>

@@ -242,7 +242,7 @@
     </div>
 
 
-    {{ $buildings->links() }}
+    <x-links-paginacao :itens="$buildings"/>
 
 </div>
 

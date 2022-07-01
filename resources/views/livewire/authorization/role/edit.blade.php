@@ -267,6 +267,6 @@
     </x-container>
 
 
-    {{ $this->permissions->links() }}
+    <x-links-paginacao :itens="$this->permissions"/>
 
 </x-page>

@@ -194,7 +194,7 @@
     </div>
 
 
-    {{ $sites->links() }}
+    <x-links-paginacao :itens="$sites"/>
 
 </div>
 

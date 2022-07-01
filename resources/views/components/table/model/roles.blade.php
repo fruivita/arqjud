@@ -179,6 +179,6 @@
     </div>
 
 
-    {{ $roles->links() }}
+    <x-links-paginacao :itens="$roles"/>
 
 </div>

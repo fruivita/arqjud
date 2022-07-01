@@ -346,7 +346,7 @@
     </div>
 
 
-    {{ $stands->links() }}
+    <x-links-paginacao :itens="$stands"/>
 
 </div>
 

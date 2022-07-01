@@ -179,6 +179,6 @@
     </div>
 
 
-    {{ $permissions->links() }}
+    <x-links-paginacao :itens="$permissions"/>
 
 </div>
