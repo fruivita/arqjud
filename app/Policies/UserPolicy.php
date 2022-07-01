@@ -41,4 +41,18 @@ class UserPolicy
             )
             && $user->hasPermission(PermissionType::UserUpdate);
     }
+
+    /**
+     * Determine whether the user can view any models or update a model.
+     *
+     * @param \App\Models\User $user
+     *
+     * @return bool|\Illuminate\Auth\Access\Response
+     */
+    public function viewAnyOrUpdate(User $user)
+    {
+        return
+        $this->viewAny($user)
+        || $this->update($user);
+    }
 }

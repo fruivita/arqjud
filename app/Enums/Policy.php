@@ -28,4 +28,5 @@ enum Policy: string
     case SimulationCreate = 'simulation-create';
     case SimulationDelete = 'simulation-delete';
     case ViewOrUpdate = 'view-or-update';
+    case ViewAnyOrUpdate = 'view-any-or-update';
 }

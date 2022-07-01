@@ -141,7 +141,7 @@
 
 
     @if (
-            auth()->user()->can(\App\Enums\Policy::View->value, \App\Models\Configuration::class)
+            auth()->user()->can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuration::class)
             || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Documentation::class)
             || auth()->user()->can(\App\Enums\Policy::ImportationCreate->value)
             || auth()->user()->can(\App\Enums\Policy::LogViewAny->value)
@@ -205,7 +205,7 @@
         auth()->user()->can(\App\Enums\Policy::DelegationViewAny->value)
         || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Role::class)
         || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Permission::class)
-        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\User::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\User::class)
     )
 
         <x-menu.group :name="__('Authorizations')">
@@ -246,7 +246,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\User::class)
+            @can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\User::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('authorization.user.*') ? 'active': '' }}"

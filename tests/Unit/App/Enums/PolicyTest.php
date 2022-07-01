@@ -25,5 +25,6 @@ test('Policy enum correctly defined', function () {
     ->and(Policy::LogDownload->value)->toBe('log-download')
     ->and(Policy::SimulationCreate->value)->toBe('simulation-create')
     ->and(Policy::SimulationDelete->value)->toBe('simulation-delete')
+    ->and(Policy::ViewAnyOrUpdate->value)->toBe('view-any-or-update')
     ->and(Policy::ViewOrUpdate->value)->toBe('view-or-update');
 });

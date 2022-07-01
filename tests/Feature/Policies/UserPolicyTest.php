@@ -30,6 +30,10 @@ test('user without permission cannot update a user', function () {
     expect((new UserPolicy())->update($this->user))->toBeFalse();
 });
 
+test('user without permission cannot view any or update a user', function () {
+    expect((new UserPolicy())->viewAnyOrUpdate($this->user))->toBeFalse();
+});
+
 test("user cannot update user's role of higher level", function () {
     $this->user->role_id = Role::BUSINESSMANAGER;
     $this->user->save();
@@ -54,6 +58,18 @@ test('user with permission can individually update a user', function () {
     grantPermission(PermissionType::UserUpdate->value);
 
     expect((new UserPolicy())->update($this->user))->toBeTrue();
+});
+
+test('user with permission can view any room through view any or update policy', function () {
+    grantPermission(PermissionType::UserViewAny->value);
+
+    expect((new UserPolicy())->viewAnyOrUpdate($this->user))->toBeTrue();
+});
+
+test('user with permission can update a room through view any or update policy', function () {
+    grantPermission(PermissionType::UserViewAny->value);
+
+    expect((new UserPolicy())->viewAnyOrUpdate($this->user))->toBeTrue();
 });
 
 test("user can update user's role of the same level", function () {

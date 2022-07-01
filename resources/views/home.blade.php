@@ -169,7 +169,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\User::class)
+            @can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\User::class)
 
                 <x-link-card
                     icon="person-check"
