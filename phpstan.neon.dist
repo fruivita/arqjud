@@ -20,10 +20,8 @@ parameters:
   universalObjectCratesClasses:
     - App\Http\Livewire\Authorization\Delegation\DelegationLivewireIndex
     - App\Http\Livewire\Authorization\Permission\PermissionLivewireIndex
-    - App\Http\Livewire\Authorization\Permission\PermissionLivewireShow
     - App\Http\Livewire\Authorization\Permission\PermissionLivewireUpdate
     - App\Http\Livewire\Authorization\Role\RoleLivewireIndex
-    - App\Http\Livewire\Authorization\Role\RoleLivewireShow
     - App\Http\Livewire\Authorization\Role\RoleLivewireUpdate
     - App\Http\Livewire\Authorization\User\UserLivewireIndex
     - App\Http\Livewire\Administration\Documentation\DocumentationLivewireIndex
