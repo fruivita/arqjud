@@ -58,11 +58,11 @@ test('create many shelves', function () {
 });
 
 test('prateleiras com alias null não são considerados duplicadas', function () {
-    $stand = Shelf::factory()->create();
+    $stand = Stand::factory()->create();
 
-    Shelf::factory()->for($stand)->create(['alias' => null]);
-    Shelf::factory()->for($stand)->create(['alias' => null]);
-    Shelf::factory()->for($stand)->create(['alias' => '10']);
+    Shelf::factory()->for($stand, 'stand')->create(['alias' => null]);
+    Shelf::factory()->for($stand, 'stand')->create(['alias' => null]);
+    Shelf::factory()->for($stand, 'stand')->create(['alias' => '10']);
 
     $stand->load(['shelves' => function ($query) {
         $query->whereNull('alias');
