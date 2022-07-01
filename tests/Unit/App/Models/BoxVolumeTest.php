@@ -39,7 +39,6 @@ test('throws exception when trying to create box volume with invalid field', fun
     ['number', -1,              'Out of range value'],       // min 0
     ['number', 4294967296,      'Out of range value'],       // max 4294967295
     ['alias', Str::random(101), 'Data too long for column'], // maximum 100 characters
-    ['alias', null,             'cannot be null'],           // required
 ]);
 
 test('throws exception when trying to set invalid relationship', function ($field, $value, $message) {
@@ -63,6 +62,12 @@ test('fields in their maximum size are accepted', function () {
         'number' => 4294967295,
         'alias' => Str::random(100),
     ]);
+
+    expect(BoxVolume::count())->toBe(1);
+});
+
+test('optional fields are set', function () {
+    BoxVolume::factory()->create(['alias' => null]);
 
     expect(BoxVolume::count())->toBe(1);
 });
