@@ -84,7 +84,7 @@ test('na ordenação default, se a data de criação dos registros for a mesma, 
     ->and($first->name)->toBe('baz')
     ->and($second->name)->toBe('foo')
     ->and($third->name)->toBe('bar');
-})->only();
+});
 
 test('if the hierarchy is present, order by multiple multiple columns', function () {
     $site_foo = Site::factory()->create(['name' => 'foo']);
