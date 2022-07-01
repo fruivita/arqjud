@@ -14,7 +14,7 @@ use Livewire\Livewire;
 beforeEach(function () {
     $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
 
-    $this->floor = Floor::factory()->create();
+    $this->floor = Floor::factory()->create(['number' => 20]);
 
     login('foo');
 });
