@@ -205,70 +205,66 @@
 
     @can(\App\Enums\Policy::Update->value, \App\Models\User::class)
 
-        <form
-            wire:key="editing-user-form-{{ $this->editing->id }}"
-            wire:submit.prevent="update"
-            method="POST"
+        <x-modal
+            wire:key="editing-user-modal-{{ $this->editing->id }}"
+            wire:model="show_edit_modal"
         >
 
-            <x-modal
-                wire:key="editing-user-modal-{{ $this->editing->id }}"
-                wire:model="show_edit_modal"
-            >
-
-                <x-slot name="title">{{ $this->editing->username . ' ' . $this->editing->name }}</x-slot>
+            <x-slot name="title">{{ $this->editing->username . ' ' . $this->editing->name }}</x-slot>
 
 
-                <x-slot name="content">
+            <x-slot name="content">
 
-                    <div wire:key="wrapper-edit-user-{{ $this->editing->id }}" wire:loading.delay.class="opacity-25">
+                <div wire:key="wrapper-edit-user-{{ $this->editing->id }}" wire:loading.delay.class="opacity-25">
 
-                        <x-form.select
-                            wire:key="editing-user-{{ $this->editing->id }}"
-                            wire:loading.delay.attr="disabled"
-                            wire:loading.delay.class="cursor-not-allowed"
-                            wire:model.defer="editing.role_id"
-                            editavel
-                            :error="$errors->first('editing.role_id')"
-                            icon="award"
-                            required
-                            :text="__('Role')"
-                            :title="__('Choose role')">
+                    <x-form.select
+                        wire:key="editing-user-{{ $this->editing->id }}"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="editing.role_id"
+                        editavel
+                        :error="$errors->first('editing.role_id')"
+                        icon="award"
+                        required
+                        :text="__('Role')"
+                        :title="__('Choose role')">
 
-                            @foreach ($this->roles ?? [] as $role)
+                        @foreach ($this->roles ?? [] as $role)
 
-                                <option value="{{ $role->id }}">
+                            <option value="{{ $role->id }}">
 
-                                    {{ $role->name }}
+                                {{ $role->name }}
 
-                                </option>
+                            </option>
 
-                            @endforeach
+                        @endforeach
 
-                        </x-form.select>
+                    </x-form.select>
 
-                    </div>
+                </div>
 
-                </x-slot>
-
-
-                <x-slot name="footer">
-
-                    <x-feedback.inline/>
+            </x-slot>
 
 
-                    <x-button
-                        class="btn-do"
-                        icon="save"
-                        :text="__('Save')"
-                        :title="__('Save the record')"
-                        type="submit"/>
+            <x-slot name="footer">
 
-                </x-slot>
+                <x-feedback.inline/>
 
-            </x-modal>
 
-        </form>
+                <x-button
+                    wire:click="update"
+                    wire:key="btn-update"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    class="btn-do"
+                    icon="save"
+                    :text="__('Save')"
+                    :title="__('Save the record')"
+                    type="button"/>
+
+            </x-slot>
+
+        </x-modal>
 
     @endcan
 

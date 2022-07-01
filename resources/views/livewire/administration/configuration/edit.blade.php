@@ -17,47 +17,43 @@
 
     <x-container>
 
-        <form wire:key="form-configuration" wire:submit.prevent="update" method="POST">
+        <div class="space-y-6">
 
-            <div class="space-y-6">
+            <div class="lg:inline-flex">
 
-                <div class="lg:inline-flex">
-
-                    <x-form.input
-                        wire:key="configuration-superadmin"
-                        wire:loading.delay.attr="disabled"
-                        wire:loading.delay.class="cursor-not-allowed"
-                        wire:model.defer="configuration.superadmin"
-                        wire:target="update"
-                        autocomplete="off"
-                        autofocus
-                        :editavel="$this->modo_edicao"
-                        :error="$errors->first('configuration.superadmin')"
-                        icon="person"
-                        maxlength="20"
-                        :placeholder="__('Ldap user')"
-                        required
-                        :text="__('New super adminitrator')"
-                        :title="__('Inform a network user')"
-                        type="text"
-                        withcounter/>
-
-                </div>
-
-
-                @can(\App\Enums\Policy::Update->value, \App\Models\Site::class)
-
-                    <x-button-group>
-
-                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
-
-                    </x-button-group>
-
-                @endcan
+                <x-form.input
+                    wire:key="configuration-superadmin"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="configuration.superadmin"
+                    wire:target="update"
+                    autocomplete="off"
+                    autofocus
+                    :editavel="$this->modo_edicao"
+                    :error="$errors->first('configuration.superadmin')"
+                    icon="person"
+                    maxlength="20"
+                    :placeholder="__('Ldap user')"
+                    required
+                    :text="__('New super adminitrator')"
+                    :title="__('Inform a network user')"
+                    type="text"
+                    withcounter/>
 
             </div>
 
-        </form>
+
+            @can(\App\Enums\Policy::Update->value, \App\Models\Site::class)
+
+                <x-button-group>
+
+                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+
+                </x-button-group>
+
+            @endcan
+
+        </div>
 
     </x-container>
 

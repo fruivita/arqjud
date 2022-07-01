@@ -17,92 +17,129 @@
 
     <x-container>
 
-        <form wire:key="form-floor" wire:submit.prevent="update" method="POST">
+        <div class="space-y-6">
 
-            <div class="space-y-6">
+            <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
 
-                <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
+                <x-form.input
+                    wire:key="floor-number"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="floor.number"
+                    wire:target="update"
+                    autofocus
+                    :editavel="$this->modo_edicao"
+                    :error="$errors->first('floor.number')"
+                    icon="layers"
+                    min="-100"
+                    max="300"
+                    :placeholder="__('Only numbers')"
+                    required
+                    :text="__('Floor')"
+                    :title="__('Inform the floor number')"
+                    type="number"/>
 
-                    <x-form.input
-                        wire:key="floor-number"
+
+                <x-form.input
+                    wire:key="floor-alias"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="floor.alias"
+                    wire:target="update"
+                    :editavel="$this->modo_edicao"
+                    :error="$errors->first('floor.alias')"
+                    icon="symmetry-vertical"
+                    maxlength="100"
+                    :placeholder="__('Suggestion: Garage, G1, Ground floor, 10th...')"
+                    :text="__('Alias')"
+                    :title="__('Inform the floor alias')"
+                    type="text"
+                    withcounter/>
+
+            </div>
+
+
+            <x-form.textarea
+                wire:key="floor-description"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="floor.description"
+                wire:target="update"
+                :editavel="$this->modo_edicao"
+                :error="$errors->first('floor.description')"
+                icon="blockquote-left"
+                maxlength="255"
+                :placeholder="__('About the floor')"
+                :text="__('Description')"
+                :title="__('Describes the floor')"
+                withcounter/>
+
+
+            <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
+
+                <div>
+
+                    {{-- Site --}}
+                    <x-form.select
+                        wire:key="site"
                         wire:loading.delay.attr="disabled"
                         wire:loading.delay.class="cursor-not-allowed"
-                        wire:model.defer="floor.number"
-                        wire:target="update"
-                        autofocus
+                        wire:model="site_id"
+                        wire:target="site_id,update"
                         :editavel="$this->modo_edicao"
-                        :error="$errors->first('floor.number')"
-                        icon="layers"
-                        min="-100"
-                        max="300"
-                        :placeholder="__('Only numbers')"
+                        :error="$errors->first('site_id')"
+                        icon="pin-map"
                         required
-                        :text="__('Floor')"
-                        :title="__('Inform the floor number')"
-                        type="number"/>
+                        :text="__('Site')"
+                        :title="__('Choose site')">
+
+                        <option value="">{{ __('Select...') }}</option>
 
 
-                    <x-form.input
-                        wire:key="floor-alias"
-                        wire:loading.delay.attr="disabled"
-                        wire:loading.delay.class="cursor-not-allowed"
-                        wire:model.defer="floor.alias"
-                        wire:target="update"
-                        :editavel="$this->modo_edicao"
-                        :error="$errors->first('floor.alias')"
-                        icon="symmetry-vertical"
-                        maxlength="100"
-                        :placeholder="__('Suggestion: Garage, G1, Ground floor, 10th...')"
-                        :text="__('Alias')"
-                        :title="__('Inform the floor alias')"
-                        type="text"
-                        withcounter/>
+                        @forelse ($this->sites ?? [] as $site)
+
+                            <option value="{{ $site->id }}">
+
+                                {{ $site->name }}
+
+                            </option>
+
+                        @empty
+
+                            <option value="-1">{{ __('No record found') }}</option>
+
+                        @endforelse
+
+                    </x-form.select>
 
                 </div>
 
 
-                <x-form.textarea
-                    wire:key="floor-description"
-                    wire:loading.delay.attr="disabled"
-                    wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="floor.description"
-                    wire:target="update"
-                    :editavel="$this->modo_edicao"
-                    :error="$errors->first('floor.description')"
-                    icon="blockquote-left"
-                    maxlength="255"
-                    :placeholder="__('About the floor')"
-                    :text="__('Description')"
-                    :title="__('Describes the floor')"
-                    withcounter/>
+                {{-- Building --}}
+                <div>
 
+                    @if($this->site_id >= 1)
 
-                <div class="gap-x-3 gap-y-6 grid grid-cols-1 xl:grid-cols-2">
-
-                    <div>
-
-                        {{-- Site --}}
                         <x-form.select
-                            wire:key="site"
+                            wire:key="buildings-{{ $this->site_id }}"
                             wire:loading.delay.attr="disabled"
                             wire:loading.delay.class="cursor-not-allowed"
-                            wire:model="site_id"
+                            wire:model.defer="floor.building_id"
                             wire:target="site_id,update"
                             :editavel="$this->modo_edicao"
-                            :error="$errors->first('site_id')"
-                            icon="pin-map"
+                            :error="$errors->first('floor.building_id')"
+                            icon="building"
                             required
-                            :text="__('Site')"
-                            :title="__('Choose site')">
+                            :text="__('Building')"
+                            :title="__('Choose building')">
 
                             <option value="">{{ __('Select...') }}</option>
 
+                            @forelse ($this->buildings ?? [] as $building)
 
-                            @forelse ($this->sites ?? [] as $site)
+                                <option value="{{ $building->id }}">
 
-                                <option value="{{ $site->id }}">
-
-                                    {{ $site->name }}
+                                    {{ $building->name }}
 
                                 </option>
 
@@ -114,65 +151,24 @@
 
                         </x-form.select>
 
-                    </div>
-
-
-                    {{-- Building --}}
-                    <div>
-
-                        @if($this->site_id >= 1)
-
-                            <x-form.select
-                                wire:key="buildings-{{ $this->site_id }}"
-                                wire:loading.delay.attr="disabled"
-                                wire:loading.delay.class="cursor-not-allowed"
-                                wire:model.defer="floor.building_id"
-                                wire:target="site_id,update"
-                                :editavel="$this->modo_edicao"
-                                :error="$errors->first('floor.building_id')"
-                                icon="building"
-                                required
-                                :text="__('Building')"
-                                :title="__('Choose building')">
-
-                                <option value="">{{ __('Select...') }}</option>
-
-                                @forelse ($this->buildings ?? [] as $building)
-
-                                    <option value="{{ $building->id }}">
-
-                                        {{ $building->name }}
-
-                                    </option>
-
-                                @empty
-
-                                    <option value="-1">{{ __('No record found') }}</option>
-
-                                @endforelse
-
-                            </x-form.select>
-
-                        @endif
-
-                    </div>
+                    @endif
 
                 </div>
 
-
-                @can(\App\Enums\Policy::Update->value, \App\Models\Floor::class)
-
-                    <x-button-group>
-
-                        <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
-
-                    </x-button-group>
-
-                @endcan
-
             </div>
 
-        </form>
+
+            @can(\App\Enums\Policy::Update->value, \App\Models\Floor::class)
+
+                <x-button-group>
+
+                    <x-form.edit-save-cancel :modo_edicao="$this->modo_edicao"/>
+
+                </x-button-group>
+
+            @endcan
+
+        </div>
 
     </x-container>
 

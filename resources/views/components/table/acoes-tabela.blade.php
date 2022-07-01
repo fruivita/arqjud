@@ -33,18 +33,12 @@
         x-transition:leave-end="opacity-0 scale-90"
     >
 
-        <form
-            wire:key="form-preferencia"
-            wire:submit.prevent="salvarPreferencia()"
-            class="space-y-3"
-            method="POST"
-        >
-
+        <div class="space-y-3">
 
             <div class="gap-3 grid grid-cols-1 md:grid-cols-2">{{ $slot }}</div>
 
 
-            <x-perpage
+            <x-por-pagina
                 wire:key="por-pagina"
                 wire:model.defer="preferencias.por_pagina"
                 :error="$errors->first('preferencias.por_pagina')"/>
@@ -53,11 +47,15 @@
             <x-button-group>
 
                 <x-button
+                    wire:click="salvarPreferencia()"
+                    wire:key="btn-salvar-preferencia"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
                     class="btn-do"
                     icon="save"
                     :text="__('Save')"
                     :title="__('Save the record')"
-                    type="submit"/>
+                    type="button"/>
 
 
                 <x-button
@@ -70,7 +68,7 @@
 
             </x-button-group>
 
-        </form>
+        </div>
 
     </x-container>
 

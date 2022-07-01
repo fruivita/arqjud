@@ -25,12 +25,15 @@
 @if ($modo_edicao)
 
     <x-button
-        wire:key="btn-group-save"
+        wire:click="update"
+        wire:key="btn-group-update"
+        wire:loading.delay.attr="disabled"
+        wire:loading.delay.class="cursor-not-allowed"
         class="btn-do"
         icon="save"
         :text="__('Save')"
         :title="__('Save the record')"
-        type="submit"/>
+        type="button"/>
 
 
     <x-button

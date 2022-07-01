@@ -19,42 +19,42 @@
 
     <x-container>
 
-        <form wire:key="form-import-data" wire:submit.prevent="store" method="POST">
+        <div class="space-y-6">
 
-            <div class="space-y-6">
-
-                <h6 class="font-bold">{{ __('Import') }}</h6>
+            <h6 class="font-bold">{{ __('Import') }}</h6>
 
 
-                <x-form.checkbox
-                    wire:key="checkbox-corporate"
-                    wire:loading.delay.attr="disabled"
-                    wire:loading.delay.class="cursor-not-allowed"
-                    wire:target="store"
-                    wire:model.defer="import"
-                    editavel
-                    name="import"
-                    :text="\App\Enums\ImportationType::Corporate->label()"
-                    :value="\App\Enums\ImportationType::Corporate->value"/>
+            <x-form.checkbox
+                wire:key="checkbox-corporate"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:target="store"
+                wire:model.defer="import"
+                editavel
+                name="import"
+                :text="\App\Enums\ImportationType::Corporate->label()"
+                :value="\App\Enums\ImportationType::Corporate->value"/>
 
 
-                @error('import')
+            @error('import')
 
-                    <x-error>{{ $message }}</x-error>
+                <x-error>{{ $message }}</x-error>
 
-                @enderror
+            @enderror
 
 
-                <x-button
-                    class="btn-do"
-                    icon="play-circle"
-                    :text="__('Execute')"
-                    :title="__('Performs forced import of data')"
-                    type="submit"/>
+            <x-button
+                wire:click="store"
+                wire:key="btn-store"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                class="btn-do"
+                icon="play-circle"
+                :text="__('Execute')"
+                :title="__('Performs forced import of data')"
+                type="button"/>
 
-            </div>
-
-        </form>
+        </div>
 
     </x-container>
 

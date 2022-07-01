@@ -17,67 +17,67 @@
 
     <x-container>
 
-        <form wire:key="form-building" wire:submit.prevent="store" method="POST">
+        <div class="space-y-6">
 
-            <div class="space-y-6">
-
-                <x-show-value
-                    :key="__('Site')"
-                    :value="$this->site->name"/>
+            <x-show-value
+                :key="__('Site')"
+                :value="$this->site->name"/>
 
 
-                <x-form.input
-                    wire:key="building-name"
+            <x-form.input
+                wire:key="building-name"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="building.name"
+                wire:target="store"
+                autofocus
+                editavel
+                :error="$errors->first('building.name')"
+                icon="building"
+                maxlength="100"
+                :placeholder="__('Building name')"
+                required
+                :text="__('Building')"
+                :title="__('Inform the building name')"
+                type="text"
+                withcounter/>
+
+
+            <x-form.textarea
+                wire:key="building-description"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="building.description"
+                wire:target="store"
+                editavel
+                :error="$errors->first('building.description')"
+                icon="blockquote-left"
+                maxlength="255"
+                :placeholder="__('About the building')"
+                :text="__('Description')"
+                :title="__('Describes the building')"
+                withcounter/>
+
+
+            <x-button-group>
+
+                <x-feedback.inline/>
+
+
+                <x-button
+                    wire:click="store"
+                    wire:key="btn-store"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="building.name"
-                    wire:target="store"
-                    autofocus
-                    editavel
-                    :error="$errors->first('building.name')"
-                    icon="building"
-                    maxlength="100"
-                    :placeholder="__('Building name')"
-                    required
-                    :text="__('Building')"
-                    :title="__('Inform the building name')"
-                    type="text"
-                    withcounter/>
+                    class="btn-do"
+                    icon="save"
+                    :text="__('Save')"
+                    :title="__('Save the record')"
+                    type="button"/>
 
+            </x-button-group>
 
-                <x-form.textarea
-                    wire:key="building-description"
-                    wire:loading.delay.attr="disabled"
-                    wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="building.description"
-                    wire:target="store"
-                    editavel
-                    :error="$errors->first('building.description')"
-                    icon="blockquote-left"
-                    maxlength="255"
-                    :placeholder="__('About the building')"
-                    :text="__('Description')"
-                    :title="__('Describes the building')"
-                    withcounter/>
-
-
-                <x-button-group>
-
-                    <x-feedback.inline/>
-
-
-                    <x-button
-                        class="btn-do"
-                        icon="save"
-                        :text="__('Save')"
-                        :title="__('Save the record')"
-                        type="submit"/>
-
-                </x-button-group>
-
-            </div>
-
-        </form>
+        </div>
 
     </x-container>
 

@@ -165,32 +165,25 @@
 
                                         @can(\App\Enums\Policy::DelegationDelete->value, [$user])
 
-                                            <form wire:key="form-delegation-destroy-{{ $user->id }}" wire:submit.prevent="destroy({{ $user->id }})" method="POST">
-
-                                                <x-button
-                                                    class="btn-danger"
-                                                    wire:key="delegation-destroy-{{ $user->id }}"
-                                                    class="btn-danger w-full"
-                                                    icon="x-circle"
-                                                    :text="__('Revoke')"
-                                                    :title="__('Revoke user permissions')"
-                                                    type="submit"/>
-
-                                            </form>
+                                            <x-button
+                                                wire:click="destroy({{ $user->id }})"
+                                                wire:key="delegation-destroy-{{ $user->id }}"
+                                                class="btn-danger w-full"
+                                                icon="x-circle"
+                                                :text="__('Revoke')"
+                                                :title="__('Revoke user permissions')"
+                                                type="button"/>
 
                                         @elsecan(\App\Enums\Policy::DelegationCreate->value, [$user])
 
-                                            <form wire:key="form-delegation-create-{{ $user->id }}" wire:submit.prevent="create({{ $user->id }})" method="POST">
-
-                                                <x-button
-                                                    wire:key="delegation-create-{{ $user->id }}"
-                                                    class="btn-do w-full"
-                                                    icon="check-circle"
-                                                    :text="__('Grant')"
-                                                    :title="__('Grant my permissions to the user')"
-                                                    type="submit"/>
-
-                                            </form>
+                                            <x-button
+                                                wire:click="create({{ $user->id }})"
+                                                wire:key="delegation-create-{{ $user->id }}"
+                                                class="btn-do w-full"
+                                                icon="check-circle"
+                                                :text="__('Grant')"
+                                                :title="__('Grant my permissions to the user')"
+                                                type="button"/>
 
                                         @endcan
 

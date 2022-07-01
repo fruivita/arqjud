@@ -18,40 +18,41 @@
 
     <x-container>
 
-        <form wire:key="form-simulation" wire:submit.prevent="store" method="POST">
+        <div class="space-y-6">
 
-            <div class="space-y-6">
+            <div class="lg:inline-flex">
 
-                <div class="lg:inline-flex">
-
-                    <x-form.input
-                        wire:key="username"
-                        wire:model.defer="username"
-                        autocomplete="off"
-                        autofocus
-                        :error="$errors->first('username')"
-                        icon="people"
-                        maxlength="20"
-                        :placeholder="__('Ldap user')"
-                        required
-                        :text="__('User to be simulated')"
-                        :title="__('Inform a network user')"
-                        type="text"
-                        withcounter/>
-
-                </div>
-
-
-                <x-button
-                    class="btn-do"
-                    icon="play-circle"
-                    :text="__('Simulate')"
-                    :title="__('Simulate the informed user')"
-                    type="submit"/>
+                <x-form.input
+                    wire:key="username"
+                    wire:model.defer="username"
+                    autocomplete="off"
+                    autofocus
+                    editavel
+                    :error="$errors->first('username')"
+                    icon="people"
+                    maxlength="20"
+                    :placeholder="__('Ldap user')"
+                    required
+                    :text="__('User to be simulated')"
+                    :title="__('Inform a network user')"
+                    type="text"
+                    withcounter/>
 
             </div>
 
-        </form>
+
+            <x-button
+                wire:click="store"
+                wire:key="btn-store"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                class="btn-do"
+                icon="play-circle"
+                :text="__('Simulate')"
+                :title="__('Simulate the informed user')"
+                type="button"/>
+
+        </div>
 
     </x-container>
 

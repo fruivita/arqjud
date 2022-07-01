@@ -14,90 +14,86 @@
 
     <x-container>
 
-        <form>
+        <div class="flex flex-col space-x-0 space-y-6 lg:flex-row lg:space-x-3 lg:space-y-0">
 
-            <div class="flex flex-col space-x-0 space-y-6 lg:flex-row lg:space-x-3 lg:space-y-0">
+            <x-form.select
+                wire:key="log-filename"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.lazy="filename"
+                editavel
+                :error="$errors->first('filename')"
+                icon="file-earmark-text"
+                required
+                :text="__('Log file')"
+                :title="__('Choose log file')"
+            >
 
-                <x-form.select
-                    wire:key="log-filename"
-                    wire:loading.delay.attr="disabled"
-                    wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.lazy="filename"
-                    editavel
-                    :error="$errors->first('filename')"
-                    icon="file-earmark-text"
-                    required
-                    :text="__('Log file')"
-                    :title="__('Choose log file')"
-                >
+                @forelse ($this->log_files ?? [] as $file)
 
-                    @forelse ($this->log_files ?? [] as $file)
+                    <option value="{{ $file->getFilename() }}">
 
-                        <option value="{{ $file->getFilename() }}">
+                        {{ $file->getFilename() }}
 
-                            {{ $file->getFilename() }}
+                    </option>
 
-                        </option>
+                @empty
 
-                    @empty
+                    <option>{{ __('No record found') }}</option>
 
-                        <option>{{ __('No record found') }}</option>
+                @endforelse
 
-                    @endforelse
+            </x-form.select>
 
-                </x-form.select>
+        </div>
+
+
+        @if (
+            auth()->user()->can(\App\Enums\Policy::LogDelete->value)
+            || auth()->user()->can(\App\Enums\Policy::LogDownload->value)
+        )
+
+            <div class="flex flex-col mt-3 space-x-0 space-y-3 lg:flex-row lg:items-center lg:justify-end lg:space-x-3 lg:space-y-0">
+
+                <x-feedback.inline/>
+
+
+                @can(\App\Enums\Policy::LogDownload->value)
+
+                    <x-button
+                        wire:click="download"
+                        wire:key="btn-download"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:target="delete,download,filename"
+                        class="btn-do"
+                        icon="download"
+                        :text="__('Download')"
+                        :title="__('Download the log file')"
+                        type="button"/>
+
+                @endcan
+
+
+                @can(\App\Enums\Policy::LogDelete->value)
+
+                    <x-button
+                        wire:click="$toggle('show_delete_modal')"
+                        wire:key="btn-delete"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:target="delete,download,filename"
+                        class="btn-danger"
+                        icon="trash"
+                        :text="__('Delete')"
+                        :title="__('Delete the log file')"
+                        type="button"/>
+
+                @endcan
 
             </div>
 
-
-            @if (
-                auth()->user()->can(\App\Enums\Policy::LogDelete->value)
-                || auth()->user()->can(\App\Enums\Policy::LogDownload->value)
-            )
-
-                <div class="flex flex-col mt-3 space-x-0 space-y-3 lg:flex-row lg:justify-end lg:space-x-3 lg:space-y-0">
-
-                    <x-feedback.inline/>
-
-
-                    @can(\App\Enums\Policy::LogDownload->value)
-
-                        <x-button
-                            wire:click="download"
-                            wire:key="btn-download"
-                            wire:loading.delay.attr="disabled"
-                            wire:loading.delay.class="cursor-not-allowed"
-                            wire:target="delete,download,filename"
-                            class="btn-do"
-                            icon="download"
-                            :text="__('Download')"
-                            :title="__('Download the log file')"
-                            type="button"/>
-
-                    @endcan
-
-
-                    @can(\App\Enums\Policy::LogDelete->value)
-
-                        <x-button
-                            wire:click="$toggle('show_delete_modal')"
-                            wire:key="btn-delete"
-                            wire:loading.delay.attr="disabled"
-                            wire:loading.delay.class="cursor-not-allowed"
-                            wire:target="delete,download,filename"
-                            class="btn-danger"
-                            icon="trash"
-                            :text="__('Delete')"
-                            :title="__('Delete the log file')"
-                            type="button"/>
-
-                    @endcan
-
-                </div>
-
-            @endif
-
-        </form>
+        @endif
 
     </x-container>
 
