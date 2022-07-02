@@ -5,9 +5,9 @@
 
 blank_issues_enabled: false
 contact_links:
-  - name: Ask a question
+  - name: Faça uma pergunta
     url: https://github.com/orgs/fruivita/discussions/new?category=q-a&title=[ArqJud]
-    about: Ask the community for help
-  - name: Request a feature
+    about: Peça ajuda a comunidade
+  - name: Requisite uma feature
     url: https://github.com/orgs/fruivita/discussions/new?category=ideas&title=[ArqJud]
-    about: Share ideas for new features
+    about: Compartilhe ideias para novas funcionalidades

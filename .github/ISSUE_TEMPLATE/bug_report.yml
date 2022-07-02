@@ -1,12 +1,12 @@
 ###############################################################################
-# About issue forms                                                           #
+# Sobre o issue forms                                                         #
 # https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms
 # https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
 ###############################################################################
 
-name: Bug Report
-description: Create a report to help us improve
-title: "[A concise title for the bug]"
+name: Reporte de Bugs
+description: Reporte um bug para nos ajudar a melhorar
+title: "[Título conciso do bug]"
 labels: [bug, triage]
 assignees: fcno
 
@@ -14,17 +14,17 @@ body:
   - type: markdown
     attributes:
       value: |
-        Before opening a bug report, please search for the behaviour in the existing issues.
+        Antes de reportar um bug, por favor verifique se existe algum caso aberto para o comportamento que você irá reportar.
 
         ---
 
-        Thanks for taking the time to fill out this bug report!
+        De qualquer maneira, obrigado por encontrar tempo para reportar esse bug!
 
   - type: input
     id: version
     attributes:
-      label: Version
-      description: "What version of this application are you running?"
+      label: Versão
+      description: "Qual versão dessa aplicação você está usando?"
       placeholder: "1.0"
     validations:
       required: true
@@ -32,8 +32,8 @@ body:
   - type: input
     id: os
     attributes:
-      label: Operating system
-      description: "Which operating system this application is running on? Please provide the version as well."
+      label: Sistema Operacional
+      description: "Em qual SO essa aplicação está rodando? Por favor, informe também a versão do SO."
       placeholder: "Ubuntu 7.10"
     validations:
       required: true
@@ -41,8 +41,8 @@ body:
   - type: input
     id: php
     attributes:
-      label: PHP Version
-      description: "Please provide the full PHP version that is powering this application."
+      label: Versão PHP
+      description: "Por favor, informe a versão completa do PHP utilizado para rodar a aplicação."
       placeholder: "PHP 8.0.7, built: Jun 4 2021 01:50:04"
     validations:
       required: true
@@ -50,63 +50,63 @@ body:
   - type: dropdown
     id: browsers
     attributes:
-      label: What browsers are you seeing the problem on?
+      label: Em quais navegadores o problema está ocorrendo?
       multiple: true
       options:
         - Firefox
         - Chrome
         - Safari
         - Microsoft Edge
-        - Other or None (please specify in the description!)
+        - Outros ou nenhum (por favor, especifique na descrição.)
 
   - type: input
     id: contact
     attributes:
-      label: Contact Details
-      description: "If you don't mind, How can we get in touch with you if we need more info?"
-      placeholder: "ex. email@example.com"
+      label: Contato
+      description: "Caso não seja inconveniente, como poderemos entrar em contato para obter mais informações?"
+      placeholder: "ex. email@examplo.com"
     validations:
       required: false
 
   - type: textarea
     id: bug-description
     attributes:
-      label: Bug description?
-      description: "What happened?"
-      placeholder: "Tell us everything about the bug and why is this a bug!"
-      value: "A bug happened!"
+      label: Descrição do bug
+      description: "O que aconteceu?"
+      placeholder: "Conte-nos tudo sobre e/ou por que o comportamento é um bug."
+      value: "Um bug aconteceu!"
     validations:
       required: true
 
   - type: textarea
     id: steps
     attributes:
-      label: How can we reproduce?
-      description: Which steps do we need to take to reproduce this error?
-      placeholder: Steps to reproduce the behavior.
+      label: Como podemos reproduzi-lo?
+      description: Que passos devemos seguir para reproduzir o bug?
+      placeholder: Passos para reproduzir o comportamento.
       value: |
-        Steps to reproduce the behavior:
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
+        Passos para reproduzir o comportamento:
+        1. Vá para '...'
+        2. Clique em '....'
+        3. Role a página até '....'
+        4. Veja o erro
     validations:
       required: true
 
   - type: textarea
     id: expected-behavior
     attributes:
-      label: What would be the expected behavior?
-      description: "Tell us what did you expect to happen!"
-      placeholder: "Concisely tell us what did you expect to happen!"
+      label: Qual seria o comportamento esperado?
+      description: "Diga-nos o que você esperava que acontecesse."
+      placeholder: "De maneira concisa, diga o que espera que aconteça"
     validations:
       required: true
 
   - type: textarea
     id: logs
     attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      label: Logs relevantes
+      description: Por favor, copie e cole os logs relevantes. Ele será automaticamente formatado em código.
       render: shell
     validations:
       required: false

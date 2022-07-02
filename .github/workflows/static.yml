@@ -1,20 +1,21 @@
 ###############################################################################
-# About GitHub Actions                                                        #
+# Sobre o GitHub Actions                                                      #
 # https://docs.github.com/en/actions/learn-github-actions                     #
 # https://www.youtube.com/watch?v=TLB5MY9BBa4                                 #
 ###############################################################################
 #
-# Perform static analysis of php code and force style standardization.
+# Executa a análise estática do código php, bem como força o padrão de
+# codificação.
 #
-# PHPStan: static analysis https://phpstan.org/
-# PHP CS Fixer: php code pattern https://github.com/FriendsOfPHP/PHP-CS-Fixer
+# PHPStan: análise estática https://phpstan.org/
+# PHP CS Fixer: padrão de codificação php https://github.com/FriendsOfPHP/PHP-CS-Fixer
 
-name: Static Analysis
+name: Qualidade de código
 
 on: ['workflow_dispatch', 'push', 'pull_request']
 
 concurrency:
-  group: static-${{ github.event.pull_request.number || github.ref }}
+  group: qualidade-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -22,7 +23,7 @@ jobs:
   phpstan:
     runs-on: ubuntu-latest
 
-    name: PHPStan - PHP Static Analysis Tool
+    name: PHPStan - Análise estática de código
 
     steps:
       - name: Checkout
@@ -35,7 +36,7 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Install Dependencies
+      - name: Instala Dependências
         run: composer update --prefer-stable --no-interaction --no-progress
 
       - name: Run PHPStan
@@ -44,7 +45,7 @@ jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
 
-    name: PHP Coding Standards Fixer
+    name: PHP CS Fixer
 
     steps:
       - name: Checkout
