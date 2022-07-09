@@ -36,7 +36,8 @@ jobs:
 
       - name: Run
         run: |
-          composer global require ergebnis/composer-normalize
+          composer require --dev ergebnis/composer-normalize
+          composer config allow-plugins.ergebnis/composer-normalize true
           composer normalize
 
       - name: Auto Commit
