@@ -25,7 +25,8 @@
             :limite="$this->limite"
             :preferencias="$this->preferencias"
             :perfis="$this->perfis"
-            :ordenacoes="$this->ordenacoes"/>
+            :ordenacoes="$this->ordenacoes"
+            :pesquisa_ativa="$this->termo ? true : false"/>
 
     </x-container>
 

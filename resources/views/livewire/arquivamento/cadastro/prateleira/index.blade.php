@@ -26,6 +26,7 @@
             :preferencias="$this->preferencias"
             :prateleiras="$this->prateleiras"
             :ordenacoes="$this->ordenacoes"
+            :pesquisa_ativa="$this->termo ? true : false"
             com_botao_excluir
             com_pais/>
 

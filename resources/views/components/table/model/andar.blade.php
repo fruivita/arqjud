@@ -10,6 +10,8 @@
     - com_botao_excluir: boolean se o botão excluir deve ser exibido
     - com_botao_novo: boolean se o botão novo deve ser exibido
     - com_pais: boolean se as informações sobre os pais devem ser exibidos
+    - pesquisa_ativa: boolean se o resultado está filtrado devido à pesquisa do
+    usuário.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -28,7 +30,8 @@
     'ordenacoes' => [],
     'com_botao_excluir' => false,
     'com_botao_novo' => false,
-    'com_pais' => false
+    'com_pais' => false,
+    'pesquisa_ativa' => false,
 ])
 
 
@@ -143,6 +146,7 @@
                     wire:key="ordenar-numero"
                     :direcao="$ordenacoes['numero'] ?? null"
                     :exibir="in_array('andar', $preferencias['colunas'])"
+                    :pesquisa_ativa="$pesquisa_ativa"
                     ordenavel
                 >
 
@@ -156,6 +160,7 @@
                     wire:key="ordenar-apelido"
                     :direcao="$ordenacoes['apelido'] ?? null"
                     :exibir="in_array('apelido', $preferencias['colunas'])"
+                    :pesquisa_ativa="$pesquisa_ativa"
                     ordenavel
                 >
 

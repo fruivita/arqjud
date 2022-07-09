@@ -7,6 +7,8 @@
     - localidades: coleção de localidades para exibição
     - ordenacoes: array associativo de colunas e direções usadas para ordenação
     - com_botao_novo: boolean se o botão novo deve ser exibido
+    - pesquisa_ativa: boolean se o resultado está filtrado devido à pesquisa do
+    usuário.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -23,6 +25,7 @@
     'localidades',
     'ordenacoes' => [],
     'com_botao_novo' => false,
+    'pesquisa_ativa' => false,
 ])
 
 
@@ -99,6 +102,7 @@
                     wire:key="ordenar-nome"
                     :direcao="$ordenacoes['nome'] ?? null"
                     :exibir="in_array('localidade', $preferencias['colunas'])"
+                    :pesquisa_ativa="$pesquisa_ativa"
                     ordenavel
                 >
 

@@ -104,6 +104,7 @@
                             wire:key="ordenar-nome"
                             :direcao="$ordenacoes['nome'] ?? null"
                             :exibir="in_array('nome', $preferencias['colunas'])"
+                            :pesquisa_ativa="$this->termo ? true : false"
                             ordenavel
                         >
 
@@ -117,6 +118,7 @@
                             wire:key="ordenar-username"
                             :direcao="$ordenacoes['username'] ?? null"
                             :exibir="in_array('usuario', $preferencias['colunas'])"
+                            :pesquisa_ativa="$this->termo ? true : false"
                             ordenavel
                         >
 

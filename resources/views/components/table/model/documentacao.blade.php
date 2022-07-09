@@ -7,6 +7,8 @@
     - preferencias: array de preferencias do usuário
     - ordenacoes: array associativo de colunas e direções usadas para ordenação
     - com_botao_novo: boolean se o botão novo deve ser exibido
+    - pesquisa_ativa: boolean se o resultado está filtrado devido à pesquisa do
+    usuário.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -23,6 +25,7 @@
     'preferencias',
     'ordenacoes' => [],
     'com_botao_novo' => false,
+    'pesquisa_ativa' => false,
 ])
 
 
@@ -99,6 +102,7 @@
                     wire:key="checkbox-app-url"
                     :direcao="$ordenacoes['app_link'] ?? null"
                     :exibir="in_array('app_url', $preferencias['colunas'])"
+                    :pesquisa_ativa="$pesquisa_ativa"
                     ordenavel
                 >
 
@@ -112,6 +116,7 @@
                     wire:key="checkbox-doc-url"
                     :direcao="$ordenacoes['doc_link'] ?? null"
                     :exibir="in_array('doc_url', $preferencias['colunas'])"
+                    :pesquisa_ativa="$pesquisa_ativa"
                     ordenavel
                 >
 

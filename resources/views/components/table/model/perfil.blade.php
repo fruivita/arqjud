@@ -6,6 +6,8 @@
     - preferencias: array de preferencias do usuário
     - perfis: coleção de perfis da aplicação que serão exibidos
     - ordenacoes: array associativo de colunas e direções usadas para ordenação
+    - pesquisa_ativa: boolean se o resultado está filtrado devido à pesquisa do
+    usuário.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -21,6 +23,7 @@
     'preferencias',
     'perfis',
     'ordenacoes' => [],
+    'pesquisa_ativa' => false,
 ])
 
 
@@ -81,6 +84,7 @@
                     wire:key="ordenar-nome"
                     :direcao="$ordenacoes['nome'] ?? null"
                     :exibir="in_array('perfil', $preferencias['colunas'])"
+                    :pesquisa_ativa="$pesquisa_ativa"
                     ordenavel
                 >
 

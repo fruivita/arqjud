@@ -6,6 +6,8 @@
     - permissoes: coleção de perfis da aplicação que serão exibidos
     - preferencias: array de preferencias do usuário
     - ordenacoes: array associativo de colunas e direções usadas para ordenação
+    - pesquisa_ativa: boolean se o resultado está filtrado devido à pesquisa do
+    usuário.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -21,6 +23,7 @@
     'permissoes',
     'preferencias',
     'ordenacoes' => [],
+    'pesquisa_ativa' => false,
 ])
 
 
@@ -81,6 +84,7 @@
                     wire:key="ordenar-nome"
                     :direcao="$ordenacoes['nome'] ?? null"
                     :exibir="in_array('permissao', $preferencias['colunas'])"
+                    :pesquisa_ativa="$pesquisa_ativa"
                     ordenavel
                 >
 
