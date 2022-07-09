@@ -47,6 +47,24 @@ test('não salva os valores em cache, caso a validação falhe', function () {
     expect(cache()->missing($this->chave))->toBeTrue();
 });
 
+// Falhas
+test('salva as preferências em cache pelo prazo padrão se a quantidade de meses de armazenamento informada for menor ou igual a zero', function () {
+    $componente = Livewire::test(PredioLivewireIndex::class);
+
+    expect(cache()->missing($this->chave))->toBeTrue();
+
+    testTime()->freeze();
+    $componente->call('salvarPreferencia', 0);
+    testTime()->addMonths(12);
+
+    // cache ainda exite após 12 meses
+    expect(cache()->has($this->chave))->toBeTrue();
+
+    // expira cache
+    testTime()->addSeconds(1);
+    expect(cache()->missing($this->chave))->toBeTrue();
+});
+
 // Caminho feliz
 test('armazena em cache as preferências que o usuário definiu', function () {
     $definidas_pelo_usuario = [
@@ -82,7 +100,7 @@ test('ao carregar o componente, se houver cache, ele será utilizado para defini
         'colunas' => ['localidade', 'acoes'],
         'por_pagina' => 50,
     ];
-    cache()->put($this->chave, $preferencias_em_cache, now()->addYear());
+    cache()->put($this->chave, $preferencias_em_cache, now()->addMonths(12));
 
     Livewire::test(PredioLivewireIndex::class)
     ->assertSet('preferencias', $preferencias_em_cache)
@@ -92,16 +110,33 @@ test('ao carregar o componente, se houver cache, ele será utilizado para defini
     expect(cache()->get($this->chave))->toBe($preferencias_em_cache);
 });
 
-test('o cache é armazenado por um ano', function () {
+test('o cache é válido, por padrão, por 12 meses', function () {
     $componente = Livewire::test(PredioLivewireIndex::class);
 
     expect(cache()->missing($this->chave))->toBeTrue();
 
     testTime()->freeze();
     $componente->call('salvarPreferencia');
-    testTime()->addYears(1);
+    testTime()->addMonths(12);
 
-    // cache ainda exite após um ano
+    // cache ainda exite após 12 meses
+    expect(cache()->has($this->chave))->toBeTrue();
+
+    // expira cache
+    testTime()->addSeconds(1);
+    expect(cache()->missing($this->chave))->toBeTrue();
+});
+
+test('salva as preferências em cache pelo prazo informado', function () {
+    $componente = Livewire::test(PredioLivewireIndex::class);
+
+    expect(cache()->missing($this->chave))->toBeTrue();
+
+    testTime()->freeze();
+    $componente->call('salvarPreferencia', 6);
+    testTime()->addMonths(6);
+
+    // cache ainda exite após 6 meses
     expect(cache()->has($this->chave))->toBeTrue();
 
     // expira cache

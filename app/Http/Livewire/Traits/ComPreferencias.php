@@ -37,18 +37,25 @@ trait ComPreferencias
     }
 
     /**
-     * Salva em cache, por um ano, as preferências do usuário.
+     * Salva em cache, pela quantidade de meses informada, as preferências do
+     * usuário.
+     *
+     * @param int $meses
      *
      * @return void
      */
-    public function salvarPreferencia()
+    public function salvarPreferencia(int $meses = 12)
     {
         $this->validar();
+
+        if ($meses <= 0) {
+            $meses = 12;
+        }
 
         cache()->put(
             $this->getChave(),
             $this->preferencias,
-            now()->addYear()
+            now()->addMonths($meses)
         );
     }
 
