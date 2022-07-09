@@ -279,8 +279,9 @@ test('sem configuração definida, o método eSuperAdmin retornará falso para q
 });
 
 test('método permissoes retorna o id de todas as permissões do usuário', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
     $usuario = login('bar');
-    $usuario->refresh();
 
     expect($usuario->permissoes())->toBeEmpty();
 
