@@ -3,7 +3,7 @@
 namespace App\Enums;
 
 /*
- * Types of actions/methods handled by a policy.
+ * Tipos de ações/métodos tratados pelas policies.
  *
  * @see https://www.php.net/manual/en/language.enumerations.php
  * @see https://laravel.com/docs/authorization
@@ -18,15 +18,15 @@ enum Policy: string
     case Restore = 'restore';
     case ForceDelete = 'force-delete';
     case CreateMany = 'create-many';
-    case DelegationViewAny = 'delegation-view-any';
-    case DelegationCreate = 'delegation-create';
-    case DelegationDelete = 'delegation-delete';
-    case ImportationCreate = 'importation-create';
+    case DelegacaoViewAny = 'delegacao-view-any';
+    case DelegacaoCreate = 'delegacao-create';
+    case DelegacaoDelete = 'delegacao-delete';
+    case ImportacaoCreate = 'importacao-create';
     case LogViewAny = 'log-view-any';
     case LogDownload = 'log-download';
     case LogDelete = 'log-delete';
-    case SimulationCreate = 'simulation-create';
-    case SimulationDelete = 'simulation-delete';
+    case SimulacaoCreate = 'simulacao-create';
+    case SimulacaoDelete = 'simulacao-delete';
     case ViewOrUpdate = 'view-or-update';
     case ViewAnyOrUpdate = 'view-any-or-update';
 }

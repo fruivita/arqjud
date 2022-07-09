@@ -8,6 +8,8 @@ use Illuminate\Support\ServiceProvider;
 
 /**
  * @see https://laravel.com/docs/9.x/providers
+ * @see https://dzone.com/articles/how-to-use-laravel-macro-with-example
+ * @see https://qirolab.com/posts/what-are-laravel-macros-and-how-to-extending-laravels-core-classes-using-macros
  */
 class MacroServiceProvider extends ServiceProvider
 {
@@ -32,7 +34,7 @@ class MacroServiceProvider extends ServiceProvider
     {
         return [
             'orderByWhen' => \App\Macros\OrderByWhen::class,
-            'whereLike' => \App\Macros\WhereLike::class,
+            'orWhereLike' => \App\Macros\OrWhereLike::class,
         ];
     }
 }

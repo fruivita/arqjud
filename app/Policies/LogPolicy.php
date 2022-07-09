@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Enums\PermissionType;
-use App\Models\User;
+use App\Enums\Permissao;
+use App\Models\Usuario;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -14,38 +14,38 @@ class LogPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any log files.
+     * Determina se o usuário pode visualizar quaisquer arquivos de log.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\Usuario $usuario
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function viewAny(User $user)
+    public function viewAny(Usuario $usuario)
     {
-        return $user->hasPermission(PermissionType::LogViewAny);
+        return $usuario->possuiPermissao(Permissao::LogViewAny);
     }
 
     /**
-     * Determine whether the user can delete any log files.
+     * Determinada se o usuário pode excluir arquivos de log.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\Usuario $usuario
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function delete(User $user)
+    public function delete(Usuario $usuario)
     {
-        return $user->hasPermission(PermissionType::LogDelete);
+        return $usuario->possuiPermissao(Permissao::LogDelete);
     }
 
     /**
-     * Determine whether the user can download any log file.
+     * Determina se o usuário pode fazer o download de arquivos de log.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\Usuario $usuario
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function download(User $user)
+    public function download(Usuario $usuario)
     {
-        return $user->hasPermission(PermissionType::LogDownload);
+        return $usuario->possuiPermissao(Permissao::LogDownload);
     }
 }

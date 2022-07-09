@@ -16,4 +16,8 @@
 @props(['itens'])
 
 
-{{ $itens->onEachSide(1)->links() }}
+@if ($itens)
+
+    {{ $itens->onEachSide(1)->links() }}
+
+@endif

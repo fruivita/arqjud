@@ -1,10 +1,10 @@
 {{--
-    Default checkbox.
+    Checkbox padrão.
 
     Props:
-    - checked: whether the checkbox should be selected
-    - editavel: se o elemento é editável
-    - text: item description/meaning text
+    - selecionado: boolean se o checkbox deve ser selecionado
+    - editavel: boolean se o elemento é editável
+    - texto: string para exibição no componente
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -15,15 +15,15 @@
 --}}
 
 
-@props(['checked' => false, 'editavel' => false, 'text' => null])
+@props(['selecionado' => false, 'editavel' => false, 'texto' => null])
 
 
 <label class="flex items-center">
 
     <input
-        @checked($checked)
+        @checked($selecionado)
         @class([
-            'accent-primary-500',
+            'accent-primaria-500',
             'cursor-not-allowed' => ! $editavel,
             'h-5',
             'mr-2',
@@ -34,9 +34,9 @@
         {{ $attributes->except('class') }}/>
 
 
-    @isset($text)
+    @isset($texto)
 
-        <span {{ $attributes->merge(['class' => 'select-none']) }}>{{ $text }}</span>
+        <span {{ $attributes->merge(['class' => 'select-none']) }}>{{ $texto }}</span>
 
     @endisset
 

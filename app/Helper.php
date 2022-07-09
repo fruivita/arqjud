@@ -1,52 +1,49 @@
 <?php
 
-if (! function_exists('maxSafeInteger')) {
+if (! function_exists('maxIntegerSeguro')) {
     /**
-     * The maximum integer acceptable by JavaScript. Especially useful for
-     * applications that use Livewire.
+     * Integer máximo aceito pelo JavaScript. Útil para aplicações Livewire.
      *
      * @return int
      *
      * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER
      * @see https://github.com/livewire/livewire/discussions/4788
      */
-    function maxSafeInteger()
+    function maxIntegerSeguro()
     {
         return pow(2, 53) - 1;
     }
 }
 
-if (! function_exists('stringToArrayAssoc')) {
+if (! function_exists('stringParaArrayAssoc')) {
     /**
-     * Splits a string based on the given delimiter and returns it as an
-     * associative array using the braces for each value extracted from the
-     * string.
+     * Divida uma string com base no delimitador e a retorna como um array
+     * associativo.
      *
-     * The extracted values must be numerically compatible with the number of
-     * keys informed, otherwise it will return null.
-     * It will also return null if any of the parameters is a false value to
-     * php.
+     * Os valores extraídos devem ser numericamente compatívis com o número de
+     * chaves informada, caso contrário irá retornar null.
+     * Irá retornar null também se algum parametro for falso para o php.
      *
-     * @param string[] $keys      keys that will be used to index the return
-     *                            array
-     * @param string   $str       string to be exploded
-     * @param string   $delimiter delimiter to explode the string
+     * @param string[] $chaves      chaves que serão utilizadas como índice do
+     *                              array
+     * @param string   $string      string que será quebrada
+     * @param string   $delimitador delimitador para a quebra da string
      *
      * @return array<string, string>|null
      *
      * @see https://www.php.net/manual/en/language.types.boolean.php
      */
-    function stringToArrayAssoc(array $keys, string $delimiter, string $str)
+    function stringParaArrayAssoc(array $chaves, string $delimitador, string $string)
     {
-        if (! $keys || ! $delimiter || ! $str) {
+        if (! $chaves || ! $delimitador || ! $string) {
             return null;
         }
 
         try {
             return
                 array_combine(
-                    $keys,
-                    explode($delimiter, $str)
+                    $chaves,
+                    explode($delimitador, $string)
                 );
         } catch (\Throwable $exception) {
             return null;

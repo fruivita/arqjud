@@ -1,5 +1,6 @@
 {{--
-    Default application container.
+    Topo das tabelas para agrupamento de links em forma de botão e das
+    preferências de exibição das tabelas.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/

@@ -1,5 +1,5 @@
 {{--
-    Main navigation menu.
+    Menu principal.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -10,16 +10,16 @@
 --}}
 
 
-<x-menu.group :name="__('Functionalities')">
+<x-menu.grupo :nome="__('Funcionalidades')">
 
-    <x-menu.theme-toggler/>
+    <x-menu.alternador-tema/>
 
 
     @auth
 
         <x-menu.fake-link
-            icon="person"
-            :text="auth()->user()->forHumans()"/>
+            icone="person"
+            :texto="auth()->user()->paraHumano()"/>
 
 
         <x-menu.logout/>
@@ -27,160 +27,160 @@
     @else
 
         <x-menu.link
-            class="{{ request()->routeIs('login') ? 'active': '' }}"
-            icon="person"
+            class="{{ request()->routeIs('login') ? 'ativo': '' }}"
+            icone="person"
             :href="route('login')"
-            :text="__('Login')"
-            :title="__('Go to login page')"/>
+            :texto="__('Login')"
+            :title="__('Ir para a página de login')"/>
 
     @endauth
 
-</x-menu.group>
+</x-menu.grupo>
 
 
 @auth
 
     @if (
-        auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
-        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Site::class)
-        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Building::class)
-        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Floor::class)
-        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Room::class)
-        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Stand::class)
-        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Shelf::class)
+        auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Caixa::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Localidade::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Predio::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Andar::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Sala::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Estante::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Prateleira::class)
     )
 
-        <x-menu.group :name="__('Register')">
+        <x-menu.grupo :nome="__('Cadastro')">
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Site::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Localidade::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('archiving.register.site.*') ? 'active': '' }}"
-                    icon="pin-map"
-                    :href="route('archiving.register.site.index')"
-                    :text="__('Sites')"
-                    :title="__('Sites management')"/>
+                    class="{{ request()->routeIs('arquivamento.cadastro.localidade.*') ? 'ativo': '' }}"
+                    icone="pin-map"
+                    :href="route('arquivamento.cadastro.localidade.index')"
+                    :texto="__('Localidades')"
+                    :title="__('Gerenciamento de localidades')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Building::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Predio::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('archiving.register.building.*') ? 'active': '' }}"
-                    icon="building"
-                    :href="route('archiving.register.building.index')"
-                    :text="__('Buildings')"
-                    :title="__('Buildings management')"/>
+                    class="{{ request()->routeIs('arquivamento.cadastro.predio.*') ? 'ativo': '' }}"
+                    icone="building"
+                    :href="route('arquivamento.cadastro.predio.index')"
+                    :texto="__('Prédios')"
+                    :title="__('Gerenciamento de prédios')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Floor::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Andar::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('archiving.register.floor.*') ? 'active': '' }}"
-                    icon="layers"
-                    :href="route('archiving.register.floor.index')"
-                    :text="__('Floors')"
-                    :title="__('Floors management')"/>
+                    class="{{ request()->routeIs('arquivamento.cadastro.andar.*') ? 'ativo': '' }}"
+                    icone="layers"
+                    :href="route('arquivamento.cadastro.andar.index')"
+                    :texto="__('Andares')"
+                    :title="__('Gerenciamento de andares')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Room::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Sala::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('archiving.register.room.*') ? 'active': '' }}"
-                    icon="door-closed"
-                    :href="route('archiving.register.room.index')"
-                    :text="__('Rooms')"
-                    :title="__('Rooms management')"/>
+                    class="{{ request()->routeIs('arquivamento.cadastro.sala.*') ? 'ativo': '' }}"
+                    icone="door-closed"
+                    :href="route('arquivamento.cadastro.sala.index')"
+                    :texto="__('Salas')"
+                    :title="__('Gerenciamento de salas')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Stand::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Estante::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('archiving.register.stand.*') ? 'active': '' }}"
-                    icon="bookshelf"
-                    :href="route('archiving.register.stand.index')"
-                    :text="__('Stands')"
-                    :title="__('Stands management')"/>
+                    class="{{ request()->routeIs('arquivamento.cadastro.estante.*') ? 'ativo': '' }}"
+                    icone="bookshelf"
+                    :href="route('arquivamento.cadastro.estante.index')"
+                    :texto="__('Estantes')"
+                    :title="__('Gerenciamento de estantes')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Shelf::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Prateleira::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('archiving.register.shelf.*') ? 'active': '' }}"
-                    icon="list-nested"
-                    :href="route('archiving.register.shelf.index')"
-                    :text="__('Shelves')"
-                    :title="__('Shelves management')"/>
+                    class="{{ request()->routeIs('arquivamento.cadastro.prateleira.*') ? 'ativo': '' }}"
+                    icone="list-nested"
+                    :href="route('arquivamento.cadastro.prateleira.index')"
+                    :texto="__('Prateleiras')"
+                    :title="__('Gerenciamento de prateleiras')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Caixa::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('archiving.register.box.*') ? 'active': '' }}"
-                    icon="box2"
-                    :href="route('archiving.register.box.index')"
-                    :text="__('Boxes')"
-                    :title="__('Boxes management')"/>
+                    class="{{ request()->routeIs('arquivamento.cadastro.caixa.*') ? 'ativo': '' }}"
+                    icone="box2"
+                    :href="route('arquivamento.cadastro.caixa.index')"
+                    :texto="__('Caixas')"
+                    :title="__('Gerenciamento das caixas')"/>
 
             @endcan
 
-        </x-menu.group>
+        </x-menu.grupo>
 
     @endif
 
 
     @if (
-            auth()->user()->can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuration::class)
-            || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Documentation::class)
-            || auth()->user()->can(\App\Enums\Policy::ImportationCreate->value)
+            auth()->user()->can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuracao::class)
+            || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Documentacao::class)
+            || auth()->user()->can(\App\Enums\Policy::ImportacaoCreate->value)
             || auth()->user()->can(\App\Enums\Policy::LogViewAny->value)
         )
 
-        <x-menu.group :name="__('Administration')">
+        <x-menu.grupo :nome="__('Administração')">
 
-            @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuration::class)
+            @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuracao::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('administration.configuration.*') ? 'active': '' }}"
-                    icon="gear"
-                    :href="route('administration.configuration.edit')"
-                    :text="__('Configuration')"
-                    :title="__('Application working settings management')"/>
+                    class="{{ request()->routeIs('administracao.configuracao.*') ? 'ativo': '' }}"
+                    icone="gear"
+                    :href="route('administracao.configuracao.edit')"
+                    :texto="__('Configuração')"
+                    :title="__('Gerenciamento das configurações de funcionamento da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Documentation::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Documentacao::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('administration.doc.*') ? 'active': '' }}"
-                    icon="book"
-                    :href="route('administration.doc.index')"
-                    :text="__('Documentation')"
-                    :title="__('Application routes documentation management')"/>
+                    class="{{ request()->routeIs('administracao.documentacao.*') ? 'ativo': '' }}"
+                    icone="book"
+                    :href="route('administracao.documentacao.index')"
+                    :texto="__('Documentação')"
+                    :title="__('Gerenciamento da documentação das rotas da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ImportationCreate->value)
+            @can(\App\Enums\Policy::ImportacaoCreate->value)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('administration.importation.*') ? 'active': '' }}"
-                    icon="usb-drive"
-                    :href="route('administration.importation.create')"
-                    :text="__('Importation')"
-                    :title="__('Execution of forced data import')"/>
+                    class="{{ request()->routeIs('administracao.importacao.*') ? 'ativo': '' }}"
+                    icone="usb-drive"
+                    :href="route('administracao.importacao.create')"
+                    :texto="__('Importação')"
+                    :title="__('Execução de importação forçada de dados')"/>
 
             @endcan
 
@@ -188,98 +188,98 @@
             @can(\App\Enums\Policy::LogViewAny->value)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('administration.log.*') ? 'active': '' }}"
-                    icon="file-earmark-text"
-                    :href="route('administration.log.index')"
-                    :text="__('Logs')"
-                    :title="__('Application operation logs management')"/>
+                    class="{{ request()->routeIs('administracao.log.*') ? 'ativo': '' }}"
+                    icone="file-earmark-text"
+                    :href="route('administracao.log.index')"
+                    :texto="__('Logs')"
+                    :title="__('Gerenciamento dos logs de funcionamento da aplicação')"/>
 
             @endcan
 
-        </x-menu.group>
+        </x-menu.grupo>
 
     @endif
 
 
     @if (
-        auth()->user()->can(\App\Enums\Policy::DelegationViewAny->value)
-        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Role::class)
-        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Permission::class)
-        || auth()->user()->can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\User::class)
+        auth()->user()->can(\App\Enums\Policy::DelegacaoViewAny->value)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Perfil::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAny->value, \App\Models\Permissao::class)
+        || auth()->user()->can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\Usuario::class)
     )
 
-        <x-menu.group :name="__('Authorizations')">
+        <x-menu.grupo :nome="__('Autorizações')">
 
-            @can(\App\Enums\Policy::DelegationViewAny->value)
+            @can(\App\Enums\Policy::DelegacaoViewAny->value)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('authorization.delegations.*') ? 'active': '' }}"
-                    icon="person-lines-fill"
-                    :href="route('authorization.delegations.index')"
-                    :text="__('Delegation')"
-                    :title="__('Roles delegation management')"/>
+                    class="{{ request()->routeIs('autorizacao.delegacao.*') ? 'ativo': '' }}"
+                    icone="person-lines-fill"
+                    :href="route('autorizacao.delegacao.index')"
+                    :texto="__('Delegação')"
+                    :title="__('Gerenciamento das delegações de perfis')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Role::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Perfil::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('authorization.role.*') ? 'active': '' }}"
-                    icon="award"
-                    :href="route('authorization.role.index')"
-                    :text="__('Roles')"
-                    :title="__('Application roles management')"/>
+                    class="{{ request()->routeIs('autorizacao.perfil.*') ? 'ativo': '' }}"
+                    icone="award"
+                    :href="route('autorizacao.perfil.index')"
+                    :texto="__('Perfis')"
+                    :title="__('Gerenciamento dos perfis da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Permission::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Permissao::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('authorization.permission.*') ? 'active': '' }}"
-                    icon="vector-pen"
-                    :href="route('authorization.permission.index')"
-                    :text="__('Permissions')"
-                    :title="__('Application permissions management')"/>
+                    class="{{ request()->routeIs('autorizacao.permissao.*') ? 'ativo': '' }}"
+                    icone="vector-pen"
+                    :href="route('autorizacao.permissao.index')"
+                    :texto="__('Permissões')"
+                    :title="__('Gerenciamento das permissões da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\User::class)
+            @can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\Usuario::class)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('authorization.user.*') ? 'active': '' }}"
-                    icon="person-check"
-                    :href="route('authorization.user.index')"
-                    :text="__('Users')"
-                    :title="__('Users management')"/>
+                    class="{{ request()->routeIs('autorizacao.usuario.*') ? 'ativo': '' }}"
+                    icone="person-check"
+                    :href="route('autorizacao.usuario.index')"
+                    :texto="__('Usuários')"
+                    :title="__('Gerenciamento de usuários')"/>
 
             @endcan
 
-        </x-menu.group>
+        </x-menu.grupo>
 
     @endif
 
 
     @if (
-        auth()->user()->can(\App\Enums\Policy::SimulationCreate->value)
+        auth()->user()->can(\App\Enums\Policy::SimulacaoCreate->value)
     )
 
-        <x-menu.group :name="__('Tests')">
+        <x-menu.grupo :nome="__('Testes')">
 
-            @can(\App\Enums\Policy::SimulationCreate->value)
+            @can(\App\Enums\Policy::SimulacaoCreate->value)
 
                 <x-menu.link
-                    class="{{ request()->routeIs('test.simulation.*') ? 'active': '' }}"
-                    icon="people"
-                    :href="route('test.simulation.create')"
-                    :text="__('Simulation')"
-                    :title="__('Application usage simulation')"/>
+                    class="{{ request()->routeIs('teste.simulacao.*') ? 'ativo': '' }}"
+                    icone="people"
+                    :href="route('teste.simulacao.create')"
+                    :texto="__('Simulação')"
+                    :title="__('Simulação de uso da aplicação')"/>
 
             @endcan
 
-        </x-menu.group>
+        </x-menu.grupo>
 
     @endif
 

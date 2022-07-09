@@ -1,5 +1,5 @@
 {{--
-    Application footer.
+    Rodapé da aplicação.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -11,11 +11,11 @@
 --}}
 
 
-<footer class="bg-primary-100 px-3 py-6 text-center text-sm dark:bg-secondary-800">
+<footer class="bg-primaria-100 px-3 py-6 text-center text-sm dark:bg-secundaria-800">
 
     <div class="space-y-3">
 
-        <p class="font-bold">{{ config('app.name') . ' - ' . config('app.full_name')}}</p>
+        <p class="font-bold">{{ config('app.name') . ' - ' . config('app.nome_completo')}}</p>
 
 
         <div class="flex itens-center justify-center space-x-3">
@@ -25,7 +25,7 @@
                 <x-icon name="book" class="inline"/>
 
 
-                <span class="hover:underline">{{ __('Documentation') }}</span>
+                <span class="hover:underline">{{ __('Documentação') }}</span>
 
             </a>
 
@@ -35,7 +35,7 @@
                 <x-icon name="git" class="inline"/>
 
 
-                <span class="hover:underline">{{ __('Version :attribute', ['attribute' => config('app.version')]) }}</span>
+                <span class="hover:underline">{{ __('Versão :attribute', ['attribute' => config('app.versao')]) }}</span>
 
             </a>
 

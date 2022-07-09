@@ -1,8 +1,9 @@
 {{--
-    Pagination of records.
+    Destinado à escolha da quantidade de registros por página que o usuário
+    deseja visualizar na tabela.
 
     Props:
-    - error: error message that will be displayed
+    - erro: string com a mensagem de erro para exibição
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -13,19 +14,19 @@
 --}}
 
 
-@props(['error' => null])
+@props(['erro' => null])
 
 
 <div
-    title="{{ __('Paginations available') }}"
+    title="{{ __('Paginações disponíveis') }}"
     {{ $attributes->merge(['class' => "space-x-3 text-right"]) }}
 >
 
-    <label for="por_pagina">{{ __('Pagination') }}</label>
+    <label for="por_pagina">{{ __('Paginação') }}</label>
 
 
     <select
-        class="bg-primary-300 p-1 rounded text-right dark:bg-secondary-500"
+        class="bg-primaria-300 p-1 rounded text-right dark:bg-secundaria-500"
         id="por_pagina"
         {{ $attributes->except('class') }}
     >
@@ -44,7 +45,7 @@
     </select>
 
 
-    {{-- display of any error message --}}
-    <x-error>{{ $error }}</x-error>
+    {{-- exibição de eventual mensagem de erro --}}
+    @if ($erro) <x-erro>{{ $erro }}</x-erro> @endif
 
 </div>

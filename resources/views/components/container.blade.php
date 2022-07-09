@@ -1,5 +1,5 @@
 {{--
-    Default application container.
+    Container padrão da aplicação.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -10,7 +10,7 @@
 --}}
 
 
-<div {{ $attributes->merge(['class' =>'overflow-x-auto p-3 shadow-lg shadow-secondary-500 dark:shadow-primary-500']) }}>
+<div {{ $attributes->merge(['class' =>'overflow-x-auto p-3 shadow-lg shadow-secundaria-500 dark:shadow-primaria-500']) }}>
 
     {{ $slot }}
 

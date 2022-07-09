@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 @layer components {
-    .active {
+    .ativo {
         @apply border-l-4;
     }
 
@@ -27,18 +27,18 @@
         disabled:opacity-25
     }
 
-    .btn-default {
+    .btn-padrao {
         @apply
-        bg-primary-500
-        ring-primary-300
-        text-primary-50
+        bg-primaria-500
+        ring-primaria-300
+        text-primaria-50
 
-        active:border-primary-300
-        focus:bg-primary-600
-        hover:bg-primary-600;
+        active:border-primaria-300
+        focus:bg-primaria-600
+        hover:bg-primaria-600;
     }
 
-    .btn-do {
+    .btn-acao {
         @apply
         bg-blue-500
         ring-blue-300
@@ -49,7 +49,7 @@
         hover:bg-blue-600;
     }
 
-    .btn-do-alterative {
+    .btn-acao-alternativo {
         @apply
         bg-green-500
         ring-green-300
@@ -60,7 +60,7 @@
         hover:bg-green-600;
     }
 
-    .btn-warning {
+    .btn-alerta {
         @apply
         bg-yellow-500
         ring-yellow-300
@@ -71,7 +71,7 @@
         hover:bg-yellow-600;
     }
 
-    .btn-cancel {
+    .btn-cancelar {
         @apply
         bg-gray-500
         ring-gray-300
@@ -82,7 +82,7 @@
         hover:bg-gray-600;
     }
 
-    .btn-danger {
+    .btn-perigo {
         @apply
         bg-red-500
         ring-red-300
@@ -93,7 +93,7 @@
         hover:bg-red-600;
     }
 
-    .error {
+    .erro {
         @apply
         bg-red-100
         border-red-900
@@ -104,11 +104,11 @@
         dark:text-red-100;
     }
 
-    .icon {
+    .icone {
         @apply w-6 h-6;
     }
 
-    .success {
+    .sucesso {
         @apply
         bg-green-100
         border-green-900
@@ -119,7 +119,7 @@
         dark:text-green-100;
     }
 
-    .invalid {
+    .invalido {
         @apply bg-red-200 text-red-900;
     }
 
@@ -128,13 +128,13 @@
         font-bold
         underline
 
-        focus:text-primary-600
-        hover:text-primary-600
-        dark:focus:text-secondary-300
-        dark:hover:text-secondary-300
+        focus:text-primaria-600
+        hover:text-primaria-600
+        dark:focus:text-secundaria-300
+        dark:hover:text-secundaria-300
     }
 
-    .warning {
+    .alerta {
         @apply
         bg-yellow-100
         border-yellow-900

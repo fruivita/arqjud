@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * @see https://laravel.com/docs/9.x/providers
+ * @see https://laravel.com/docs/9.x/routing
+ */
 class RouteServiceProvider extends ServiceProvider
 {
     /**

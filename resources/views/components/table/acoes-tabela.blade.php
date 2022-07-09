@@ -1,5 +1,6 @@
 {{--
-    Toggler to show/hide the main menu.
+    Idealizado para agrupar os elementos de preferência da tabela, tais como
+    colunas que devem ser exibidas, paginação, etc.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -41,32 +42,32 @@
             <x-por-pagina
                 wire:key="por-pagina"
                 wire:model.defer="preferencias.por_pagina"
-                :error="$errors->first('preferencias.por_pagina')"/>
+                :erro="$errors->first('preferencias.por_pagina')"/>
 
 
-            <x-button-group>
+            <x-grupo-button>
 
                 <x-button
                     wire:click="salvarPreferencia()"
                     wire:key="btn-salvar-preferencia"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    class="btn-do"
-                    icon="save"
-                    :text="__('Save')"
-                    :title="__('Save the record')"
+                    class="btn-acao"
+                    icone="save"
+                    :texto="__('Salvar')"
+                    :title="__('Salvar o registro')"
                     type="button"/>
 
 
                 <x-button
                     x-on:click="exibir_acoes = false"
-                    class="btn-cancel"
-                    icon="x-circle"
-                    :text="__('Cancel')"
-                    :title="__('Cancel the operation')"
+                    class="btn-cancelar"
+                    icone="x-circle"
+                    :texto="__('Cancelar')"
+                    :title="__('Cancelar a operação')"
                     type="button"/>
 
-            </x-button-group>
+            </x-grupo-button>
 
         </div>
 

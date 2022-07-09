@@ -36,11 +36,11 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Instala Dependências
+      - name: Install dependencies
         run: composer update --prefer-stable --no-interaction --no-progress
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyse --ansi --memory-limit 1G --debug
+        run: vendor/bin/phpstan analyse --ansi --memory-limit 1G --error-format=github --debug
 
   php-cs-fixer:
     runs-on: ubuntu-latest
@@ -61,5 +61,5 @@ jobs:
       - name: Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: 'style: code pattern with php-cs-fixer'
+          commit_message: 'style: padronização de código com php-cs-fixer'
           branch: ${{ github.head_ref }}

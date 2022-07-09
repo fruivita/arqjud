@@ -8,6 +8,10 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
+/**
+ * @see https://laravel.com/docs/9.x/providers
+ * @see https://laravel.com/docs/9.x/events
+ */
 class EventServiceProvider extends ServiceProvider
 {
     /**

@@ -2,15 +2,18 @@
 
 namespace App\Console;
 
-use App\Enums\QueueType;
-use App\Jobs\ImportCorporateStructure;
+use App\Enums\Queue;
+use App\Jobs\ImportarEstruturaCorporativa;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+/**
+ * @see https://laravel.com/docs/9.x/scheduling
+ */
 class Kernel extends ConsoleKernel
 {
     /**
-     * Define the application's command schedule.
+     * Define o cronograma de comandos da aplicação.
      *
      * @param \Illuminate\Console\Scheduling\Schedule $schedule
      *
@@ -19,12 +22,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule
-            ->job(new ImportCorporateStructure(), QueueType::Corporate->value)
+            ->job(new ImportarEstruturaCorporativa(), Queue::Corporativo->value)
             ->dailyAt('1:00');
     }
 
     /**
-     * Register the commands for the application.
+     * Registra os comandos para a aplicação.
      *
      * @return void
      */

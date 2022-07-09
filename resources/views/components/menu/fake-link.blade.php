@@ -1,10 +1,10 @@
 {{--
-    Non-clickable element that visually mimics the menu links, ie to be
-    displayed in the menu for aesthetic reasons.
+    Elemento não clicável que imita um link do menu. Estilizado dessa maneira
+    por questões puramente estéticas.
 
     Props:
-    - icon: svg icon that will be displayed
-    - text: item description/meaning text do menu
+    - icone: string com o nome do ícone para ser utilizado
+    - texto: string para exibição no componente
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -15,17 +15,17 @@
 --}}
 
 
-@props(['icon', 'text'])
+@props(['icone', 'texto'])
 
 
 <li>
 
     <div class="flex items-center pl-3 space-x-3">
 
-        <x-icon :name="$icon"/>
+        <x-icon :name="$icone"/>
 
 
-        <span>{{ $text }}</span>
+        <span>{{ $texto }}</span>
 
     </div>
 

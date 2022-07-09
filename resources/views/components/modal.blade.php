@@ -1,8 +1,8 @@
 {{--
-    Default modal.
+    Modal padrão.
 
     Props:
-    - id: the modal's id
+    - id: string/int id do modal
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -20,18 +20,18 @@
 
 
 <div
-    x-data="{ show: @entangle($attributes->wire('model')).defer }"
-    x-show="show"
-    x-on:keydown.escape.window="show = false"
+    x-data="{ exibir_modal: @entangle($attributes->wire('model')).defer }"
+    x-show="exibir_modal"
+    x-on:keydown.escape.window="exibir_modal = false"
     id="{{ $id }}"
-    class="fixed flex inset-0 items-center justify-center text-primary-900 z-30 dark:text-secondary-50"
+    class="fixed flex inset-0 items-center justify-center text-primaria-900 z-30 dark:text-secundaria-50"
     style="display: none;"
 >
 
-    {{-- modal background --}}
+    {{-- background do modal --}}
     <div
-        x-show="show"
-        x-on:click="show = false"
+        x-show="exibir_modal"
+        x-on:click="exibir_modal = false"
         x-transition:enter="ease-out duration-300"
         x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100"
@@ -41,15 +41,15 @@
         class="fixed inset-0 transform transition-all"
     >
 
-        <div class="absolute inset-0 bg-primary-100 opacity-90 dark:bg-secondary-900"></div>
+        <div class="absolute inset-0 bg-primaria-100 opacity-90 dark:bg-secundaria-900"></div>
 
     </div>
 
 
-    {{-- modal itself --}}
+    {{-- modal propriamente dito --}}
     <article
-        x-show="show"
-        x-on:click.away="show = false"
+        x-show="exibir_modal"
+        x-on:click.away="exibir_modal = false"
         x-transition:enter="ease-out duration-300"
         x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
@@ -59,35 +59,35 @@
         class="divide-y transform transition-all w-full z-40 lg:w-10/12"
     >
 
-        <header class="bg-primary-300 rounded-t-lg p-3 dark:bg-secondary-700">
+        <header class="bg-primaria-300 rounded-t-lg p-3 dark:bg-secundaria-700">
 
             <h2 class="font-bold text-2xl">
 
-                {{ $title }}
+                {{ $titulo }}
 
             </h2>
 
         </header>
 
 
-        <div class="px-3 py-6 bg-primary-50 dark:bg-secondary-900 lg:px-24">
+        <div class="px-3 py-6 bg-primaria-50 dark:bg-secundaria-900 lg:px-24">
 
-            {{ $content }}
+            {{ $conteudo }}
 
         </div>
 
 
-        <footer class="bg-primary-300 flex flex-col justify-end p-3 rounded-b-lg space-x-0 space-y-3 dark:bg-secondary-700 lg:flex-row lg:items-center lg:space-x-3 lg:space-y-0">
+        <footer class="bg-primaria-300 flex flex-col justify-end p-3 rounded-b-lg space-x-0 space-y-3 dark:bg-secundaria-700 lg:flex-row lg:items-center lg:space-x-3 lg:space-y-0">
 
-            {{ $footer }}
+            {{ $rodape }}
 
 
             <x-button
-                x-on:click="show = false"
-                class="btn-cancel"
-                icon="x-circle"
-                :text="__('Cancel')"
-                :title="__('Cancel the operation')"
+                x-on:click="exibir_modal = false"
+                class="btn-cancelar"
+                icone="x-circle"
+                :texto="__('Cancelar')"
+                :title="__('Cancelar a operação')"
                 type="button"/>
 
         </footer>

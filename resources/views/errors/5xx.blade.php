@@ -1,8 +1,8 @@
 {{--
-    View for HTTP 5xx error.
+    View para erro HTTP 5xx.
 
-    Note: This view is used as the default view for errors in the range 500 ~
-    599, that is, when there is no specific view to display the error.
+    Nota: Essa view é usada como view padrão para erros no range 500 ~ 599,
+    isto é, para a hipótese de não haver view específica para exibir o erro.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -14,6 +14,6 @@
 @extends('layouts.error')
 
 
-@section('title', __('error.5xx.title'))
-@section('code', $exception->getStatusCode())
-@section('message', $exception->getMessage() ?: __('error.5xx.message'))
+@section('titulo', __('error.5xx.titulo'))
+@section('codigo', $exception->getStatusCode())
+@section('mensagem', $exception->getMessage() ?: __('error.5xx.mensagem'))

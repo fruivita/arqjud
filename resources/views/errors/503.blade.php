@@ -1,5 +1,5 @@
 {{--
-    View for HTTP 503 error.
+    View para erro HTTP 503.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -11,6 +11,6 @@
 @extends('layouts.error')
 
 
-@section('title', __('error.503.title'))
-@section('code', '503')
-@section('message', __('error.503.message'))
+@section('titulo', __('error.503.titulo'))
+@section('codigo', '503')
+@section('mensagem', __('error.503.mensagem'))

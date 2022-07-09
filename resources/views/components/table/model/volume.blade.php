@@ -1,13 +1,13 @@
 {{--
-    Livewire view for listing box volumes.
+    View Livewire para listagem dos volumes da caixa.
 
     Props:
-    - deleting: item to be deleted
+    - excluir: objeto para ser excluído
     - preferencias: array de preferencias do usuário
-    - sorts: columns and directions used to sort
-    - volumes: box volumes that will be displayed
-    - withdeletebutton: whether the delete button should be displayed
-    - withnewbutton: whether the new button should be displayed
+    - ordenacoes: array associativo de colunas e direções usadas para ordenação
+    - volumes: coleção de volumes de caixa para exibição
+    - com_botao_excluir: boolean se o botão excluir deve ser exibido
+    - com_botao_novo: boolean se o botão novo deve ser exibido
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -19,12 +19,12 @@
 
 
 @props([
-    'deleting' => null,
+    'excluir' => null,
     'preferencias',
-    'sorts' => [],
+    'ordenacoes' => [],
     'volumes',
-    'withdeletebutton' => false,
-    'withnewbutton' => false,
+    'com_botao_excluir' => false,
+    'com_botao_novo' => false,
 ])
 
 
@@ -33,8 +33,8 @@
     <x-table.topo-tabela>
 
         @if(
-            $withnewbutton == true
-            && auth()->user()->can(\App\Enums\Policy::Create->value, \App\Models\BoxVolume::class)
+            $com_botao_novo == true
+            && auth()->user()->can(\App\Enums\Policy::Create->value, \App\Models\VolumeCaixa::class)
         )
 
             <x-button
@@ -42,15 +42,16 @@
                 wire:key="btn-store-volume"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
-                wire:target="building_id,floor_id,room_id,stand_id,site_id,storeVolume,update"
-                class="btn-do w-full md:w-auto"
-                icon="plus-circle"
-                :text="__('New volume')"
-                :title="__('Create a new record')"
+                wire:target="predio_id,andar_id,sala_id,estante_id,localidade_id,storeVolume,update"
+                class="btn-acao w-full md:w-auto"
+                icone="plus-circle"
+                :texto="__('Novas volume')"
+                :title="__('Criar um novo registro')"
                 type="button"/>
 
 
-            <x-error>{{ $errors->first('volume') }}</x-error>
+            {{-- exibição de eventual mensagem de erro --}}
+            @error('volume') <x-erro>{{ $message }}</x-erro> @enderror
 
         @else
 
@@ -66,8 +67,9 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="volume"
-                :text="__('Volume')"
+                :texto="__('Volume')"
                 value="volume"/>
 
 
@@ -76,8 +78,9 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="apelido"
-                :text="__('Alias')"
+                :texto="__('Apelido')"
                 value="apelido"/>
 
 
@@ -86,8 +89,9 @@
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
                 wire:model.defer="preferencias.colunas"
+                editavel
                 name="acoes"
-                :text="__('Actions')"
+                :texto="__('Ações')"
                 value="acoes"/>
 
         </x-table.acoes-tabela>
@@ -97,15 +101,16 @@
 
     <div class="overflow-x-auto">
 
-        <x-table wire:key="table-volumes" wire:loading.delay.class="opacity-25">
+        <x-table wire:key="tabela-volumes-caixa" wire:loading.delay.class="opacity-25">
 
             <x-slot name="head">
 
                 <x-table.heading
-                    wire:click="sortBy('number')"
-                    :direction="$sorts['number'] ?? null"
+                    wire:click="ordenarPor('numero')"
+                    wire:key="ordenar-numero"
+                    :direcao="$ordenacoes['numero'] ?? null"
                     :exibir="in_array('volume', $preferencias['colunas'])"
-                    sortable
+                    ordenavel
                 >
 
                     {{ __('Volume') }}
@@ -114,13 +119,14 @@
 
 
                 <x-table.heading
-                    wire:click="sortBy('alias')"
-                    :direction="$sorts['alias'] ?? null"
+                    wire:click="ordenarPor('apelido')"
+                    wire:key="ordenar-apelido"
+                    :direcao="$ordenacoes['apelido'] ?? null"
                     :exibir="in_array('apelido', $preferencias['colunas'])"
-                    sortable
+                    ordenavel
                 >
 
-                    {{ __('Alias') }}
+                    {{ __('Apelido') }}
 
                 </x-table.heading>
 
@@ -130,7 +136,7 @@
                     :exibir="in_array('acoes', $preferencias['colunas'])"
                 >
 
-                    {{ __('Actions') }}
+                    {{ __('Ações') }}
 
                 </x-table.heading>
 
@@ -143,34 +149,34 @@
 
                     <x-table.row>
 
-                        <x-table.cell :exibir="in_array('volume', $preferencias['colunas'])">{{ $volume->number }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('volume', $preferencias['colunas'])">{{ $volume->numero }}</x-table.cell>
 
 
-                        <x-table.cell :exibir="in_array('apelido', $preferencias['colunas'])">{{ $volume->alias }}</x-table.cell>
+                        <x-table.cell :exibir="in_array('apelido', $preferencias['colunas'])">{{ $volume->apelido }}</x-table.cell>
 
 
                         <x-table.cell :exibir="in_array('acoes', $preferencias['colunas'])">
 
-                            <x-action-button-group>
+                            <x-grupo-button-acao>
 
                                 @if(
-                                    $withdeletebutton == true
-                                    && auth()->user()->can(\App\Enums\Policy::Delete->value, \App\Models\BoxVolume::class)
+                                    $com_botao_excluir == true
+                                    && auth()->user()->can(\App\Enums\Policy::Delete->value, \App\Models\VolumeCaixa::class)
                                 )
 
-                                    <x-icon-button
-                                        wire:click="setToDelete({{ $volume->id }})"
+                                    <x-button-icone
+                                        wire:click="marcarParaExcluir({{ $volume->id }})"
                                         wire:key="btn-delete-{{ $volume->id }}"
                                         wire:loading.delay.attr="disabled"
                                         wire:loading.delay.class="cursor-not-allowed"
-                                        class="btn-danger w-full"
-                                        icon="trash"
-                                        :title="__('Delete the record')"
+                                        class="btn-perigo w-full"
+                                        icone="trash"
+                                        :title="__('Excluir o registro')"
                                         type="button"/>
 
                                 @endif
 
-                            </x-action-button-group>
+                            </x-grupo-button-acao>
 
                         </x-table.cell>
 
@@ -180,7 +186,7 @@
 
                     <x-table.row>
 
-                        <x-table.cell colspan="{{ count($preferencias['colunas']) }}">{{ __('No record found') }}</x-table.cell>
+                        <x-table.cell colspan="{{ count($preferencias['colunas']) }}">{{ __('Nenhum registro encontrado') }}</x-table.cell>
 
                     </x-table.row>
 
@@ -199,15 +205,15 @@
 
 
 @if(
-    isset($deleting->id)
-    && auth()->user()->can(\App\Enums\Policy::Delete->value, \App\Models\BoxVolume::class)
+    isset($excluir->id)
+    && auth()->user()->can(\App\Enums\Policy::Delete->value, \App\Models\VolumeCaixa::class)
 )
 
-    {{-- Modal to confirm the deletion --}}
-    <x-confirmation-modal
+    {{-- Modal  para confirmar a excluisão do item --}}
+    <x-modal-confirmacao
         wire:click="destroy"
-        wire:key="deleting-modal-{{ $deleting->id }}"
-        wire:model="show_delete_modal"
-        :question="__('Delete volume :attribute?', ['attribute' => $deleting->number])"/>
+        wire:key="modal-exclusao-{{ $excluir->id }}"
+        wire:model="exibir_modal_exclusao"
+        :pergunta="__('Excluir o volume :attribute?', ['attribute' => $excluir->numero])"/>
 
 @endif

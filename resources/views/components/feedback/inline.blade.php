@@ -1,9 +1,14 @@
 {{--
-    User feedback to preferably be added next to the action button to display
-    feedback to the user.
+    Feedback ao usuário para ser adicionado próximo ao elemento acionador da
+    ação.
 
-    The component waits for the 'feedback' event to be issued, accompanied by
-    the type (error or success) and the message that should be displayed.
+    Não é elemento intrusivo como o feedback 'notificação', visto que é exibido
+    de modo inline e próximo ao elemento por alguns segundos apenas para depois
+    desaparecer sem se sobrepor ao conteúdo da página.
+
+    Aguarda um evento do tipo 'flash' acompanhado de:
+    - tipo de feedback (erro ou sucesso)
+    - mensagem
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -15,20 +20,20 @@
 
 
 <span
-    x-data="{ showInlineFeedback : false , type : '', message : '' }"
+    x-data="{ exibir_feedback_flash : false , tipo : '', mensagem : '' }"
     x-init="
-        @this.on('feedback', ( t, m ) => {
+        @this.on('flash', ( t, m ) => {
             setTimeout(() => {
-                showInlineFeedback = false;
+                exibir_feedback_flash = false;
             }, 2500);
-            showInlineFeedback = true;
-            type = t;
-            message = m;
+            exibir_feedback_flash = true;
+            tipo = t;
+            mensagem = m;
         })
     "
-    x-show="showInlineFeedback"
-    x-text="message"
+    x-show="exibir_feedback_flash"
+    x-text="mensagem"
     x-transition.duration.500ms
-    x-bind:class="(type == 'success') ? 'text-green-500' : 'text-red-500'"
+    x-bind:class="(tipo == 'sucesso') ? 'text-green-500' : 'text-red-500'"
     class="cursor-default font-bold text-center"
 ></span>

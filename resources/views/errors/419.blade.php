@@ -1,5 +1,5 @@
 {{--
-    View for HTTP 419 error.
+    View para erro HTTP 419.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -11,6 +11,6 @@
 @extends('layouts.error')
 
 
-@section('title', __('error.419.title'))
-@section('code', '419')
-@section('message', __('error.419.message'))
+@section('titulo', __('error.419.titulo'))
+@section('codigo', '419')
+@section('mensagem', __('error.419.mensagem'))

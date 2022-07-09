@@ -1,5 +1,5 @@
 {{--
-    Default table.
+    Tabela padrão.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -15,7 +15,7 @@
     {{ $attributes->except('class') }}
 >
 
-    <thead class="bg-primary-200 dark:bg-secondary-700">
+    <thead class="bg-primaria-200 dark:bg-secundaria-700">
 
         <tr>
 

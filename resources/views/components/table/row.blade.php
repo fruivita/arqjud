@@ -1,5 +1,5 @@
 {{--
-    Table row.
+    Linha da tabela.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -11,7 +11,7 @@
 
 
 <tr
-    {{ $attributes->merge(['class' => 'even:bg-primary-100 dark:even:bg-secondary-800']) }}
+    {{ $attributes->merge(['class' => 'even:bg-primaria-100 dark:even:bg-secundaria-800']) }}
     {{ $attributes->except('class') }}
 >
 

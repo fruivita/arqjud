@@ -1,9 +1,12 @@
 {{--
     Célula ocultável da tabela (table cell).
 
+    A ocultação se dá por escolha do usuário que pode escolher quais colunas
+    deseja ocultar.
+
     Props:
-    - exibir: se o célula deve ser exibida ou não. Útil para ocultar/exibir uma
-    determinada coluna inteira.
+    - exibir: boolean se o célula deve ser exibida ou não. Útil para ocultar ou
+    exibir uma determinada coluna inteira.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/

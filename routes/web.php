@@ -2,52 +2,52 @@
 
 use App\Enums\Policy;
 use App\Http\Controllers\HomeController;
-use App\Http\Livewire\Administration\Configuration\ConfigurationLivewireUpdate;
-use App\Http\Livewire\Administration\Documentation\DocumentationLivewireCreate;
-use App\Http\Livewire\Administration\Documentation\DocumentationLivewireIndex;
-use App\Http\Livewire\Administration\Documentation\DocumentationLivewireUpdate;
-use App\Http\Livewire\Administration\Importation\ImportationLivewireCreate;
-use App\Http\Livewire\Administration\Log\LogLivewireIndex;
-use App\Http\Livewire\Archiving\Register\Box\BoxLivewireCreate;
-use App\Http\Livewire\Archiving\Register\Box\BoxLivewireIndex;
-use App\Http\Livewire\Archiving\Register\Box\BoxLivewireUpdate;
-use App\Http\Livewire\Archiving\Register\Building\BuildingLivewireCreate;
-use App\Http\Livewire\Archiving\Register\Building\BuildingLivewireIndex;
-use App\Http\Livewire\Archiving\Register\Building\BuildingLivewireUpdate;
-use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireCreate;
-use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireIndex;
-use App\Http\Livewire\Archiving\Register\Floor\FloorLivewireUpdate;
-use App\Http\Livewire\Archiving\Register\Room\RoomLivewireCreate;
-use App\Http\Livewire\Archiving\Register\Room\RoomLivewireIndex;
-use App\Http\Livewire\Archiving\Register\Room\RoomLivewireUpdate;
-use App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireCreate;
-use App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireIndex;
-use App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireUpdate;
-use App\Http\Livewire\Archiving\Register\Site\SiteLivewireCreate;
-use App\Http\Livewire\Archiving\Register\Site\SiteLivewireIndex;
-use App\Http\Livewire\Archiving\Register\Site\SiteLivewireUpdate;
-use App\Http\Livewire\Archiving\Register\Stand\StandLivewireCreate;
-use App\Http\Livewire\Archiving\Register\Stand\StandLivewireIndex;
-use App\Http\Livewire\Archiving\Register\Stand\StandLivewireUpdate;
-use App\Http\Livewire\Authorization\Delegation\DelegationLivewireIndex;
-use App\Http\Livewire\Authorization\Permission\PermissionLivewireIndex;
-use App\Http\Livewire\Authorization\Permission\PermissionLivewireUpdate;
-use App\Http\Livewire\Authorization\Role\RoleLivewireIndex;
-use App\Http\Livewire\Authorization\Role\RoleLivewireUpdate;
-use App\Http\Livewire\Authorization\User\UserLivewireIndex;
-use App\Http\Livewire\Test\Simulation\SimulationLivewireCreate;
-use App\Models\Box;
-use App\Models\Building;
-use App\Models\Configuration;
-use App\Models\Documentation;
-use App\Models\Floor;
-use App\Models\Permission;
-use App\Models\Role;
-use App\Models\Room;
-use App\Models\Shelf;
-use App\Models\Site;
-use App\Models\Stand;
-use App\Models\User;
+use App\Http\Livewire\Administracao\Configuracao\ConfiguracaoLivewireUpdate;
+use App\Http\Livewire\Administracao\Documentacao\DocumentacaoLivewireCreate;
+use App\Http\Livewire\Administracao\Documentacao\DocumentacaoLivewireIndex;
+use App\Http\Livewire\Administracao\Documentacao\DocumentacaoLivewireUpdate;
+use App\Http\Livewire\Administracao\Importacao\ImportacaoLivewireCreate;
+use App\Http\Livewire\Administracao\Log\LogLivewireIndex;
+use App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireCreate;
+use App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireIndex;
+use App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireUpdate;
+use App\Http\Livewire\Arquivamento\Cadastro\Predio\PredioLivewireCreate;
+use App\Http\Livewire\Arquivamento\Cadastro\Predio\PredioLivewireIndex;
+use App\Http\Livewire\Arquivamento\Cadastro\Predio\PredioLivewireUpdate;
+use App\Http\Livewire\Arquivamento\Cadastro\Andar\AndarLivewireCreate;
+use App\Http\Livewire\Arquivamento\Cadastro\Andar\AndarLivewireIndex;
+use App\Http\Livewire\Arquivamento\Cadastro\Andar\AndarLivewireUpdate;
+use App\Http\Livewire\Arquivamento\Cadastro\Sala\SalaLivewireCreate;
+use App\Http\Livewire\Arquivamento\Cadastro\Sala\SalaLivewireIndex;
+use App\Http\Livewire\Arquivamento\Cadastro\Sala\SalaLivewireUpdate;
+use App\Http\Livewire\Arquivamento\Cadastro\Prateleira\PrateleiraLivewireCreate;
+use App\Http\Livewire\Arquivamento\Cadastro\Prateleira\PrateleiraLivewireIndex;
+use App\Http\Livewire\Arquivamento\Cadastro\Prateleira\PrateleiraLivewireUpdate;
+use App\Http\Livewire\Arquivamento\Cadastro\Localidade\LocalidadeLivewireCreate;
+use App\Http\Livewire\Arquivamento\Cadastro\Localidade\LocalidadeLivewireIndex;
+use App\Http\Livewire\Arquivamento\Cadastro\Localidade\LocalidadeLivewireUpdate;
+use App\Http\Livewire\Arquivamento\Cadastro\Estante\EstanteLivewireCreate;
+use App\Http\Livewire\Arquivamento\Cadastro\Estante\EstanteLivewireIndex;
+use App\Http\Livewire\Arquivamento\Cadastro\Estante\EstanteLivewireUpdate;
+use App\Http\Livewire\Autorizacao\Delegacao\DelegacaoLivewireIndex;
+use App\Http\Livewire\Autorizacao\Permissao\PermissaoLivewireIndex;
+use App\Http\Livewire\Autorizacao\Permissao\PermissaoLivewireUpdate;
+use App\Http\Livewire\Autorizacao\Perfil\PerfilLivewireIndex;
+use App\Http\Livewire\Autorizacao\Perfil\PerfilLivewireUpdate;
+use App\Http\Livewire\Autorizacao\Usuario\UsuarioLivewireIndex;
+use App\Http\Livewire\Teste\Simulacao\SimulacaoLivewireCreate;
+use App\Models\Caixa;
+use App\Models\Predio;
+use App\Models\Configuracao;
+use App\Models\Documentacao;
+use App\Models\Andar;
+use App\Models\Permissao;
+use App\Models\Perfil;
+use App\Models\Sala;
+use App\Models\Prateleira;
+use App\Models\Localidade;
+use App\Models\Estante;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -76,39 +76,39 @@ Route::middleware('auth')->group(function () {
 
     Route::get('home', [HomeController::class, 'index'])->name('home');
 
-    Route::prefix('autorizacao')->name('authorization.')->group(function () {
-        Route::prefix('delegacao')->name('delegations.')->group(function () {
-            Route::get('/', DelegationLivewireIndex::class)->name('index')->can(Policy::DelegationViewAny->value);
+    Route::prefix('autorizacao')->name('autorizacao.')->group(function () {
+        Route::prefix('delegacao')->name('delegacao.')->group(function () {
+            Route::get('/', DelegacaoLivewireIndex::class)->name('index')->can(Policy::DelegacaoViewAny->value);
         });
 
-        Route::prefix('perfil')->name('role.')->group(function () {
-            Route::get('/', RoleLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Role::class);
-            Route::get('edit/{role}', RoleLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Role::class);
+        Route::prefix('perfil')->name('perfil.')->group(function () {
+            Route::get('/', PerfilLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Perfil::class);
+            Route::get('edit/{perfil}', PerfilLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Perfil::class);
         });
 
-        Route::prefix('permissao')->name('permission.')->group(function () {
-            Route::get('/', PermissionLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Permission::class);
-            Route::get('edit/{permission}', PermissionLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Permission::class);
+        Route::prefix('permissao')->name('permissao.')->group(function () {
+            Route::get('/', PermissaoLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Permissao::class);
+            Route::get('edit/{permissao}', PermissaoLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Permissao::class);
         });
 
-        Route::prefix('usuario')->name('user.')->group(function () {
-            Route::get('/', UserLivewireIndex::class)->name('index')->can(Policy::ViewAnyOrUpdate->value, User::class);
+        Route::prefix('usuario')->name('usuario.')->group(function () {
+            Route::get('/', UsuarioLivewireIndex::class)->name('index')->can(Policy::ViewAnyOrUpdate->value, Usuario::class);
         });
     });
 
-    Route::prefix('administracao')->name('administration.')->group(function () {
-        Route::prefix('configuracao')->name('configuration.')->group(function () {
-            Route::get('edit', ConfigurationLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Configuration::class);
+    Route::prefix('administracao')->name('administracao.')->group(function () {
+        Route::prefix('configuracao')->name('configuracao.')->group(function () {
+            Route::get('edit', ConfiguracaoLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Configuracao::class);
         });
 
-        Route::prefix('doc')->name('doc.')->group(function () {
-            Route::get('/', DocumentationLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Documentation::class);
-            Route::get('create', DocumentationLivewireCreate::class)->name('create')->can(Policy::Create->value, Documentation::class);
-            Route::get('edit/{doc}', DocumentationLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Documentation::class);
+        Route::prefix('documentacao')->name('documentacao.')->group(function () {
+            Route::get('/', DocumentacaoLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Documentacao::class);
+            Route::get('create', DocumentacaoLivewireCreate::class)->name('create')->can(Policy::Create->value, Documentacao::class);
+            Route::get('edit/{documentacao}', DocumentacaoLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Documentacao::class);
         });
 
-        Route::prefix('importacao')->name('importation.')->group(function () {
-            Route::get('create', ImportationLivewireCreate::class)->name('create')->can(Policy::ImportationCreate->value);
+        Route::prefix('importacao')->name('importacao.')->group(function () {
+            Route::get('create', ImportacaoLivewireCreate::class)->name('create')->can(Policy::ImportacaoCreate->value);
         });
 
         Route::prefix('log')->name('log.')->group(function () {
@@ -116,56 +116,56 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::prefix('arquivamento')->name('archiving.')->group(function () {
-        Route::prefix('cadastro')->name('register.')->group(function () {
-            Route::prefix('caixa')->name('box.')->group(function () {
-                Route::get('/', BoxLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Box::class);
-                Route::get('prateleira/{id}/create', BoxLivewireCreate::class)->name('create')->can(Policy::Create->value, Box::class);
-                Route::get('edit/{id}', BoxLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Box::class);
+    Route::prefix('arquivamento')->name('arquivamento.')->group(function () {
+        Route::prefix('cadastro')->name('cadastro.')->group(function () {
+            Route::prefix('caixa')->name('caixa.')->group(function () {
+                Route::get('/', CaixaLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Caixa::class);
+                Route::get('prateleira/{id}/create', CaixaLivewireCreate::class)->name('create')->can(Policy::Create->value, Caixa::class);
+                Route::get('edit/{id}', CaixaLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Caixa::class);
             });
 
-            Route::prefix('localidade')->name('site.')->group(function () {
-                Route::get('/', SiteLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Site::class);
-                Route::get('create', SiteLivewireCreate::class)->name('create')->can(Policy::Create->value, Site::class);
-                Route::get('edit/{site}', SiteLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Site::class);
+            Route::prefix('localidade')->name('localidade.')->group(function () {
+                Route::get('/', LocalidadeLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Localidade::class);
+                Route::get('create', LocalidadeLivewireCreate::class)->name('create')->can(Policy::Create->value, Localidade::class);
+                Route::get('edit/{localidade}', LocalidadeLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Localidade::class);
             });
 
-            Route::prefix('predio')->name('building.')->group(function () {
-                Route::get('/', BuildingLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Building::class);
-                Route::get('localidade/{id}/create', BuildingLivewireCreate::class)->name('create')->can(Policy::Create->value, Building::class);
-                Route::get('edit/{id}', BuildingLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Building::class);
+            Route::prefix('predio')->name('predio.')->group(function () {
+                Route::get('/', PredioLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Predio::class);
+                Route::get('localidade/{id}/create', PredioLivewireCreate::class)->name('create')->can(Policy::Create->value, Predio::class);
+                Route::get('edit/{id}', PredioLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Predio::class);
             });
 
-            Route::prefix('andar')->name('floor.')->group(function () {
-                Route::get('/', FloorLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Floor::class);
-                Route::get('predio/{id}/create', FloorLivewireCreate::class)->name('create')->can(Policy::Create->value, Floor::class);
-                Route::get('edit/{id}', FloorLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Floor::class);
+            Route::prefix('andar')->name('andar.')->group(function () {
+                Route::get('/', AndarLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Andar::class);
+                Route::get('predio/{id}/create', AndarLivewireCreate::class)->name('create')->can(Policy::Create->value, Andar::class);
+                Route::get('edit/{id}', AndarLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Andar::class);
             });
 
-            Route::prefix('sala')->name('room.')->group(function () {
-                Route::get('/', RoomLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Room::class);
-                Route::get('andar/{id}/create', RoomLivewireCreate::class)->name('create')->can(Policy::Create->value, Room::class);
-                Route::get('edit/{id}', RoomLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Room::class);
+            Route::prefix('sala')->name('sala.')->group(function () {
+                Route::get('/', SalaLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Sala::class);
+                Route::get('andar/{id}/create', SalaLivewireCreate::class)->name('create')->can(Policy::Create->value, Sala::class);
+                Route::get('edit/{id}', SalaLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Sala::class);
             });
 
-            Route::prefix('estante')->name('stand.')->group(function () {
-                Route::get('/', StandLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Stand::class);
-                Route::get('sala/{id}/create', StandLivewireCreate::class)->name('create')->can(Policy::Create->value, Stand::class);
-                Route::get('edit/{id}', StandLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Stand::class);
+            Route::prefix('estante')->name('estante.')->group(function () {
+                Route::get('/', EstanteLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Estante::class);
+                Route::get('sala/{id}/create', EstanteLivewireCreate::class)->name('create')->can(Policy::Create->value, Estante::class);
+                Route::get('edit/{id}', EstanteLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Estante::class);
             });
 
-            Route::prefix('prateleira')->name('shelf.')->group(function () {
-                Route::get('/', ShelfLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Shelf::class);
-                Route::get('estante/{id}/create', ShelfLivewireCreate::class)->name('create')->can(Policy::Create->value, Shelf::class);
-                Route::get('edit/{id}', ShelfLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Shelf::class);
+            Route::prefix('prateleira')->name('prateleira.')->group(function () {
+                Route::get('/', PrateleiraLivewireIndex::class)->name('index')->can(Policy::ViewAny->value, Prateleira::class);
+                Route::get('estante/{id}/create', PrateleiraLivewireCreate::class)->name('create')->can(Policy::Create->value, Prateleira::class);
+                Route::get('edit/{id}', PrateleiraLivewireUpdate::class)->name('edit')->can(Policy::ViewOrUpdate->value, Prateleira::class);
             });
         });
     });
 
-    Route::prefix('teste')->name('test.')->group(function () {
-        Route::prefix('simulacao')->name('simulation.')->group(function () {
-            Route::get('create', SimulationLivewireCreate::class)->name('create')->can(Policy::SimulationCreate->value);
-            Route::delete('/', [SimulationLivewireCreate::class, 'destroy'])->name('destroy')->can(Policy::SimulationDelete->value);
+    Route::prefix('teste')->name('teste.')->group(function () {
+        Route::prefix('simulacao')->name('simulacao.')->group(function () {
+            Route::get('create', SimulacaoLivewireCreate::class)->name('create')->can(Policy::SimulacaoCreate->value);
+            Route::delete('/', [SimulacaoLivewireCreate::class, 'destroy'])->name('destroy')->can(Policy::SimulacaoDelete->value);
         });
     });
 });

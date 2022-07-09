@@ -1,5 +1,5 @@
 {{--
-    View for HTTP 500 error.
+    View para erro HTTP 500.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -11,6 +11,6 @@
 @extends('layouts.error')
 
 
-@section('title', __('error.500.title'))
-@section('code', '500')
-@section('message', __('error.500.message'))
+@section('titulo', __('error.500.titulo'))
+@section('codigo', '500')
+@section('mensagem', __('error.500.mensagem'))

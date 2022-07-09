@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 use function Spatie\PestPluginTestTime\testTime;
 
-// Happy path
-test('logs the start and end of the task dispatched by the schedule', function () {
+// Caminho feliz
+test('registra em log o início e o fim da tarefa dispachada pelo schedule', function () {
     Bus::fake();
     Log::spy();
 

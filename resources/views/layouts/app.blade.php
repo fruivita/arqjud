@@ -13,11 +13,11 @@
 
 <!DOCTYPE html>
 <html
-    x-data="{ darkMode : false }"
-    x-bind:class="darkMode ? 'dark' : ''"
+    x-data="{ modoEscuro : false }"
+    x-bind:class="modoEscuro ? 'dark' : ''"
     x-init="
-        darkMode = JSON.parse(localStorage.getItem('darkMode'));
-        $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)));"
+        modoEscuro = JSON.parse(localStorage.getItem('modoEscuro'));
+        $watch('modoEscuro', value => localStorage.setItem('modoEscuro', JSON.stringify(value)));"
     lang="{{ str_replace('_', '-', App::currentLocale()) }}"
 >
 
@@ -44,33 +44,33 @@
     </head>
 
 
-    <body x-cloak class="bg-primary-50 duration-500 text-primary-900 text-xl transition dark:bg-secondary-900 dark:text-secondary-50">
+    <body x-cloak class="bg-primaria-50 duration-500 text-primaria-900 text-xl transition dark:bg-secundaria-900 dark:text-secundaria-50">
 
-        <div x-data="{ menuVisible : false }">
+        <div x-data="{ menuVisivel : false }">
 
-            {{-- show/hide navigation menu --}}
-            <x-menu.toggler class="z-20"/>
+            {{-- exibe / esconde o menu de navegação --}}
+            <x-menu.alternador class="z-20"/>
 
 
-            {{-- navigation / side menu --}}
-            <nav x-bind:class="menuVisible ? '' : 'hidden'" class="bg-primary-200 border-r-4 border-primary-900 fixed inset-0 overflow-y-auto pt-16 px-3 w-72 z-10 dark:bg-secondary-700 dark:border-secondary-50 lg:block">
+            {{-- navegação / menu side menu --}}
+            <nav x-bind:class="menuVisivel ? '' : 'hidden'" class="bg-primaria-200 border-r-4 border-primaria-900 fixed inset-0 overflow-y-auto pt-16 px-3 w-72 z-10 dark:bg-secundaria-700 dark:border-secundaria-50 lg:block">
 
-                {{-- Logo/Home --}}
+                {{-- Logo / Home --}}
                 <header class="flex items-center justify-center">
 
                     <a
 
                         @auth
 
-                            href="{{ route('home') }}" title="{{ __('Go to home page') }}"
+                            href="{{ route('home') }}" title="{{ __('Ir para a página inicial') }}"
 
                         @else
 
-                            href="{{ route('login') }}" title="{{ __('Go to login page') }}"
+                            href="{{ route('login') }}" title="{{ __('Ir para a página de login') }}"
 
                         @endauth
 
-                        class="bg-primary-500 flex font-extrabold items-center h-24 justify-center outline-none rounded-full text-primary-50 transition w-24 hover:bg-primary-700 focus:ring focus:ring-primary-300"
+                        class="bg-primaria-500 flex font-extrabold items-center h-24 justify-center outline-none rounded-full text-primaria-50 transition w-24 hover:bg-primaria-700 focus:ring focus:ring-primaria-300"
                     >
 
                         {{ config('app.name') }}
@@ -80,7 +80,7 @@
                 </header>
 
 
-                {{-- menu links --}}
+                {{-- menu (links) propriamente dito --}}
                 <x-menu/>
 
             </nav>
@@ -90,24 +90,24 @@
 
         <div class="flex flex-col min-h-screen lg:ml-72">
 
-                {{-- application execution environment --}}
+                {{-- ambiente de execução da aplicação --}}
                 @production
                 @else
 
-                    <x-environment />
+                    <x-feedback.ambiente />
 
                 @endproduction
 
 
-                {{-- will be added when there is simulation --}}
-                @if(session()->has('simulator'))
+                {{-- será exibido quando houver simulação de uso em execução --}}
+                @if(session()->has('simulador'))
 
-                    <x-feedback.simulation />
+                    <x-feedback.simulacao />
 
                 @endif
 
 
-                {{-- main content --}}
+                {{-- conteúdo principal --}}
                 <main class="flex-grow flex flex-col lg:px-6">
 
                     {{ $slot }}
@@ -120,8 +120,8 @@
         </div>
 
 
-        {{-- user return message box --}}
-        <x-feedback.notification />
+        {{-- caixa de mensagem para retorno ao usuário --}}
+        <x-feedback.notificacao />
 
 
         {{-- javascript --}}

@@ -1,5 +1,5 @@
 {{--
-    Login view.
+    View de login.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -17,7 +17,7 @@
 
         <x-container class="flex flex-col items-center justify-center rounded space-y-12">
 
-            <h1 class="bg-primary-500 flex font-extrabold items-center h-24 justify-center rounded-full text-primary-50 w-24">{{ config('company.acronym') }}</h1>
+            <h1 class="bg-primaria-500 flex font-extrabold items-center h-24 justify-center rounded-full text-primaria-50 w-24">{{ config('orgao.sigla') }}</h1>
 
 
             <form>
@@ -31,13 +31,13 @@
                         autocomplete="username"
                         autofocus
                         editavel
-                        :error="$errors->first('username')"
-                        icon="person"
+                        :erro="$errors->first('username')"
+                        icone="person"
                         id="username"
-                        :placeholder="__('Ldap user')"
+                        :placeholder="__('Usuário de rede')"
                         required
-                        :text="__('Username')"
-                        :title="__('Inform your network user')"
+                        :texto="__('Usuário')"
+                        :title="__('Informe seu usuário de rede')"
                         type="text"
                         :value="old('username')"/>
 
@@ -45,24 +45,24 @@
                     <x-form.input
                         autocomplete="current-password"
                         editavel
-                        :error="$errors->first('password')"
-                        icon="key"
+                        :erro="$errors->first('password')"
+                        icone="key"
                         id="password"
-                        :placeholder="__('Ldap password')"
+                        :placeholder="__('Senha de rede')"
                         required
-                        :text="__('Password')"
-                        :title="__('Inform your network password')"
+                        :texto="__('Senha')"
+                        :title="__('Informe sua senha de rede')"
                         type="password"
                         value=""/>
 
 
                     <x-button
-                        class="btn-default"
+                        class="btn-padrao"
                         formaction="{{ route('login') }}"
                         formmethod="POST"
-                        icon="box-arrow-in-right"
-                        :text="__('Login')"
-                        :title="__('Login in application')"
+                        icone="box-arrow-in-right"
+                        :texto="__('Login')"
+                        :title="__('Entra na aplicação')"
                         type="submit"/>
 
                 </div>

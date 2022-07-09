@@ -18,37 +18,31 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Full Name
+    | Nome Completo
     |--------------------------------------------------------------------------
     |
-    | This value is the full name of your application. This value is used when
-    | the framework needs to place the application's full name in a
-    | notification or any other location as required by the application or its
-    | packages.
+    | Nome completo da aplicação.
     */
 
-    'full_name' => env('APP_FULL_NAME', 'Arquivo Judicial'),
+    'nome_completo' => env('APP_NOME_COMPLETO', 'Arquivo Judicial'),
 
     /*
     |--------------------------------------------------------------------------
-    | Version
+    | versao
     |--------------------------------------------------------------------------
     |
-    | This value is the version of your application. This value is used when the
-    | framework needs to place the application's version in a notification or
-    | any other location as required by the application or its packages.
+    | Versão da aplicação.
     */
-    'version' => '0.0.1-dev',
+    'versao' => '0.0.1-dev',
 
     /*
     |--------------------------------------------------------------------------
-    | Documentation link default
+    | Link padrão da documentação
     |--------------------------------------------------------------------------
     |
-    | This value is the default link to the application documentation. This
-    | value is used when the framework needs to place the application's
-    | documentation in a notification or any other location as required by the
-    | application or its packages.
+    | Este é o link padrão para adocumentação da aplicação. Este valor é usado
+    | para a hipótese de a documentação da rota não estar disponível, sendo,
+    | portanto, utilizada como rota alternativa.
     */
 
     'doc_link_default' => 'https://github.com/fruivita/arqjud/wiki',

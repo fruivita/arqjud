@@ -1,14 +1,13 @@
 {{--
-    Default input.
+    Input padrão.
 
     Props:
-    - editavel: se o elemento é editável
-    - error: error message that will be displayed
-    - icon: svg icon that will be displayed
-    - id: item id
-    - text: item description/meaning text
-    - title: item title
-    - withcounter: whether to display the counter of typed characters
+    - editavel: boolean se o elemento é editável
+    - erro: string com a mensagem de erro para exibição
+    - icone: string com o nome do ícone para ser utilizado
+    - id: string/int id do componente
+    - texto: string para exibição no componente
+    - com_contador: boolean se o contador de caracteres deve ser exibido
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -19,23 +18,22 @@
 --}}
 
 
-@props(['editavel' => false, 'error' => null, 'icon', 'id', 'text', 'title', 'withcounter' => false])
+@props(['editavel' => false, 'erro' => null, 'icone', 'id', 'texto', 'com_contador' => false])
 
 
 @php $id = $id ?? md5(random_int(PHP_INT_MIN, PHP_INT_MAX)); @endphp
 
 
-{{-- input container --}}
 <div
-    @if ($withcounter) x-data="{ counter: 0, visivel: false }"@endif
+    @if ($com_contador) x-data="{ contador: 0, visivel: false }"@endif
     class="text-left w-full"
-    title="{{ $title }}"
+    {{ $attributes->get('title') }}
 >
 
-    {{-- text above input --}}
+    {{-- texto acima do input --}}
     <label class="font-bold text-lg" for="{{ $id }}">
 
-        {{ $text }}
+        {{ $texto }}
 
 
         @if ($attributes->has('required'))
@@ -48,9 +46,9 @@
 
 
     <div @class([
-        'bg-primary-100',
+        'bg-primaria-100',
         'border-2' => $editavel,
-        'border-primary-300' => $editavel,
+        'border-primaria-300' => $editavel,
         'flex',
         'items-center',
         'rounded'
@@ -58,25 +56,25 @@
 
         @if ($editavel)
 
-            {{-- icon in front of input --}}
-            <label class="text-primary-900 p-2" for="{{ $id }}">
+            {{-- ícone em frente ao input --}}
+            <label class="text-primaria-900 p-2" for="{{ $id }}">
 
-                <x-icon :name="$icon"/>
+                <x-icon :name="$icone"/>
 
             </label>
 
         @endif
 
 
-        {{-- input itself --}}
+        {{-- input propriamente dito --}}
         <input
 
-            @if ($withcounter)
+            @if ($com_contador)
 
                 x-on:blur="visivel = false"
                 x-on:focus="visivel = true"
-                x-on:keyup="counter = $el.value.length"
-                x-ref="message"
+                x-on:keyup="contador = $el.value.length"
+                x-ref="mensagem"
 
             @endif
 
@@ -86,23 +84,23 @@
             name="{{ $id }}"
             {{
                 $attributes
-                ->merge(['class' => 'flex-1 outline-none p-2 text-primary-900 truncate disabled:dark:bg-secondary-800 disabled:dark:text-secondary-50'])
-                ->when($error, function ($collection) {
-                    return $collection->merge(['class' => 'invalid']);
+                ->merge(['class' => 'flex-1 outline-none p-2 text-primaria-900 truncate disabled:dark:bg-secundaria-800 disabled:dark:text-secundaria-50'])
+                ->when($erro, function ($collection) {
+                    return $collection->merge(['class' => 'invalido']);
                 })
             }}
-            {{ $attributes->except('class') }}/>
+            {{ $attributes->except(['class', 'title']) }}/>
 
 
-        {{-- eventual display of character counter --}}
-        @if ($withcounter)
+        {{-- eventual exibição do contador de caracteres --}}
+        @if ($com_contador)
 
             <span
-                x-show="counter && visivel"
-                class="px-2 text-primary-500 text-right text-sm whitespace-nowrap dark:text-secondary-500"
+                x-show="contador && visivel"
+                class="px-2 text-primaria-500 text-right text-sm whitespace-nowrap dark:text-secundaria-500"
             >
 
-                <span x-text="counter + ' / ' + $refs.message.maxLength"></span>
+                <span x-text="contador + ' / ' + $refs.mensagem.maxLength"></span>
 
             </span>
 
@@ -111,7 +109,7 @@
     </div>
 
 
-    {{-- display of any error message --}}
-    <x-error>{{ $error }}</x-error>
+    {{-- exibição de eventual mensagem de erro --}}
+    @if ($erro) <x-erro>{{ $erro }}</x-erro> @endif
 
 </div>

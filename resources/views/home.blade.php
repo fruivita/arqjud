@@ -1,5 +1,5 @@
 {{--
-    View default for authenticated users.
+    View padrão para usuários autenticados.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -12,181 +12,181 @@
 
 <x-layouts.app>
 
-    <x-page :header="__('Home')">
+    <x-page :cabecalho="__('Home')">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Site::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Localidade::class)
 
                 <x-link-card
-                    icon="pin-map"
-                    :href="route('archiving.register.site.index')"
-                    :text="__('Manage sites')"
-                    :title="__('Application sites management')"/>
+                    icone="pin-map"
+                    :href="route('arquivamento.cadastro.localidade.index')"
+                    :texto="__('Gerenciar localidades')"
+                    :title="__('Gerenciamento das localidades da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Building::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Predio::class)
 
                 <x-link-card
-                    icon="building"
-                    :href="route('archiving.register.building.index')"
-                    :text="__('Manage buildings')"
-                    :title="__('Application buildings management')"/>
+                    icone="building"
+                    :href="route('arquivamento.cadastro.predio.index')"
+                    :texto="__('Gerenciar prédios')"
+                    :title="__('Gerenciamento dos prédios da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Floor::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Andar::class)
 
                 <x-link-card
-                    icon="layers"
-                    :href="route('archiving.register.floor.index')"
-                    :text="__('Manage floors')"
-                    :title="__('Application floors management')"/>
+                    icone="layers"
+                    :href="route('arquivamento.cadastro.andar.index')"
+                    :texto="__('Gerenciar andares')"
+                    :title="__('Gerenciamento dos andares da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Room::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Sala::class)
 
                 <x-link-card
-                    icon="door-closed"
-                    :href="route('archiving.register.room.index')"
-                    :text="__('Manage rooms')"
-                    :title="__('Application rooms management')"/>
+                    icone="door-closed"
+                    :href="route('arquivamento.cadastro.sala.index')"
+                    :texto="__('Gerenciar salas')"
+                    :title="__('Gerenciamento das salas da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Stand::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Estante::class)
 
                 <x-link-card
-                    icon="bookshelf"
-                    :href="route('archiving.register.stand.index')"
-                    :text="__('Stands')"
-                    :title="__('Application stands management')"/>
+                    icone="bookshelf"
+                    :href="route('arquivamento.cadastro.estante.index')"
+                    :texto="__('Estantes')"
+                    :title="__('Gerenciamento das estantes da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Shelf::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Prateleira::class)
 
                 <x-link-card
-                    icon="list-nested"
-                    :href="route('archiving.register.shelf.index')"
-                    :text="__('Shelves')"
-                    :title="__('Application shelves management')"/>
+                    icone="list-nested"
+                    :href="route('arquivamento.cadastro.prateleira.index')"
+                    :texto="__('Prateleiras')"
+                    :title="__('Gerenciamento das prateleiras da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Box::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Caixa::class)
 
                 <x-link-card
-                    icon="box2"
-                    :href="route('archiving.register.box.index')"
-                    :text="__('Manage boxes')"
-                    :title="__('Application boxes management')"/>
+                    icone="box2"
+                    :href="route('arquivamento.cadastro.caixa.index')"
+                    :texto="__('Gerenciar caixas')"
+                    :title="__('Gerenciamento das caixas da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuration::class)
+            @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuracao::class)
 
                 <x-link-card
-                    icon="gear"
-                    :href="route('administration.configuration.edit')"
-                    :text="__('Application settings')"
-                    :title="__('Application working settings management')"/>
+                    icone="gear"
+                    :href="route('administracao.configuracao.edit')"
+                    :texto="__('Configurações da aplicação')"
+                    :title="__('Gerenciamento das configurações de funcionamento da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Documentation::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Documentacao::class)
 
                 <x-link-card
-                    icon="book"
-                    :href="route('administration.doc.index')"
-                    :text="__('Documentation')"
-                    :title="__('Application routes documentation management')"/>
+                    icone="book"
+                    :href="route('administracao.documentacao.index')"
+                    :texto="__('Documentação')"
+                    :title="__('Gerenciamento da documentação das rotas da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ImportationCreate->value)
+            @can(\App\Enums\Policy::ImportacaoCreate->value)
 
                 <x-link-card
-                    icon="usb-drive"
-                    :href="route('administration.importation.create')"
-                    :text="__('Forced data import')"
-                    :title="__('Execution of forced data import')"/>
+                    icone="usb-drive"
+                    :href="route('administracao.importacao.create')"
+                    :texto="__('Importação forçada de dados')"
+                    :title="__('Execução de importação forçada de dados')"/>
 
             @endcan
 
             @can(\App\Enums\Policy::LogViewAny->value)
 
                 <x-link-card
-                    icon="file-earmark-text"
-                    :href="route('administration.log.index')"
-                    :text="__('Manage logs')"
-                    :title="__('Application operation logs management')"/>
+                    icone="file-earmark-text"
+                    :href="route('administracao.log.index')"
+                    :texto="__('Gerenciar logs')"
+                    :title="__('Gerenciamento dos logs de funcionamento da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::DelegationViewAny->value)
+            @can(\App\Enums\Policy::DelegacaoViewAny->value)
 
                 <x-link-card
-                    icon="person-lines-fill"
-                    :href="route('authorization.delegations.index')"
-                    :text="__('Role delegation')"
-                    :title="__('Roles delegation management')"/>
+                    icone="person-lines-fill"
+                    :href="route('autorizacao.delegacao.index')"
+                    :texto="__('Delegação de perfil')"
+                    :title="__('Gerenciamento das delegações de perfis')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Role::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Perfil::class)
 
                 <x-link-card
-                    icon="award"
-                    :href="route('authorization.role.index')"
-                    :text="__('Manage roles')"
-                    :title="__('Application roles management')"/>
+                    icone="award"
+                    :href="route('autorizacao.perfil.index')"
+                    :texto="__('Gerenciar perfis')"
+                    :title="__('Gerenciamento dos perfis da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Permission::class)
+            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Permissao::class)
 
                 <x-link-card
-                    icon="vector-pen"
-                    :href="route('authorization.permission.index')"
-                    :text="__('Manage permissions')"
-                    :title="__('Application permissions management')"/>
+                    icone="vector-pen"
+                    :href="route('autorizacao.permissao.index')"
+                    :texto="__('Gerenciar permissões')"
+                    :title="__('Gerenciamento das permissões da aplicação')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\User::class)
+            @can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\Usuario::class)
 
                 <x-link-card
-                    icon="person-check"
-                    :href="route('authorization.user.index')"
-                    :text="__('Manage users')"
-                    :title="__('Users management')"/>
+                    icone="person-check"
+                    :href="route('autorizacao.usuario.index')"
+                    :texto="__('Gerenciar usuários')"
+                    :title="__('Gerenciamento de usuários')"/>
 
             @endcan
 
 
-            @can(\App\Enums\Policy::SimulationCreate->value)
+            @can(\App\Enums\Policy::SimulacaoCreate->value)
 
                 <x-link-card
-                    icon="people"
-                    :href="route('test.simulation.create')"
-                    :text="__('Usage simulation')"
-                    :title="__('Application usage simulation')"/>
+                    icone="people"
+                    :href="route('teste.simulacao.create')"
+                    :texto="__('Simulação de uso')"
+                    :title="__('Simulação de uso da aplicação')"/>
 
             @endcan
 

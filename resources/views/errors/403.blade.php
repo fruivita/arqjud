@@ -1,5 +1,5 @@
 {{--
-    View for HTTP 403 error.
+    View para erro HTTP 403.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -11,6 +11,6 @@
 @extends('layouts.error')
 
 
-@section('title', __('error.403.title'))
-@section('code', '403')
-@section('message', __('error.403.message'))
+@section('titulo', __('error.403.titulo'))
+@section('codigo', '403')
+@section('mensagem', __('error.403.mensagem'))

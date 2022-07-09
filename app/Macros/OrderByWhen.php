@@ -5,26 +5,30 @@ namespace App\Macros;
 use Illuminate\Database\Query\Builder;
 
 /**
- * Apply orderBy clause to the informed set of column and direction.
+ * Aplica cláusula orderBy para cada item do array de colunas/direções
+ * informadas.
  *
- * If the column is not present, it will sort by creation date from newest to
- * oldest.
+ * Se nada for informado, ordenará pela data de criação do mais recente para o
+ * mais antigo e, subsidiariamente, do maior para o menor id.
  *
- * @param array<string, string> $sorts [column, direction]
+ * @param array<string, string> $colunas [coluna, direção]
  *
  * @return \Illuminate\Database\Query\Builder
+ *
+ * @see https://dzone.com/articles/how-to-use-laravel-macro-with-example
+ * @see https://qirolab.com/posts/what-are-laravel-macros-and-how-to-extending-laravels-core-classes-using-macros
  */
 class OrderByWhen
 {
     public function __invoke()
     {
-        return function ($sorts) {
+        return function ($colunas) {
 
-            $this->when($sorts,
+            $this->when($colunas,
 
-                function(Builder $query, array $sorts) {
-                    foreach ($sorts as $column => $direction) {
-                        $query->orderBy($column, $direction);
+                function(Builder $query, array $colunas) {
+                    foreach ($colunas as $coluna => $direcao) {
+                        $query->orderBy($coluna, $direcao);
                     }
                 },
 

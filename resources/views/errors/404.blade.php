@@ -1,5 +1,5 @@
 {{--
-    View for HTTP 404 error.
+    View para erro HTTP 404.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -11,7 +11,7 @@
 @extends('layouts.error')
 
 
-@section('title', __('error.404.title'))
-@section('code', '404')
-@section('message', __('error.404.message'))
+@section('titulo', __('error.404.titulo'))
+@section('codigo', '404')
+@section('mensagem', __('error.404.mensagem'))
 

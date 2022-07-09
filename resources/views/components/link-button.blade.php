@@ -1,10 +1,10 @@
 {{--
-    Links styled like button.
+    Link estilizado como um botão.
 
     Props:
-    - icon: svg icon that will be displayed
-    - prepend: if the text of the button must come before or after the icon
-    - text: item description/meaning text
+    - icone: string com o nome do ícone para ser utilizado
+    - icone_primeiro: booleano se o ícone do elemento deve vir antes do texto.
+    - texto: string para exibição no componente
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -15,7 +15,7 @@
 --}}
 
 
-@props(['icon' => false, 'prepend' => false, 'text'])
+@props(['icone' => false, 'icone_primeiro' => false, 'texto'])
 
 
 <a
@@ -24,29 +24,29 @@
 >
 
 
-    @if($icon)
+    @if($icone)
 
-        {{-- inserts icon before button text --}}
-        @if ($prepend)
+        {{-- insere o ícone antes do texto --}}
+        @if ($icone_primeiro)
 
-            <x-icon :name="$icon"/>
+            <x-icon :name="$icone"/>
 
 
-            <span>{{ $text }}</span>
+            <span>{{ $texto }}</span>
 
-        {{-- inserts icon after button text --}}
+        {{-- insere o ícone após o texto --}}
         @else
 
-            <span>{{ $text }}</span>
+            <span>{{ $texto }}</span>
 
 
-            <x-icon :name="$icon"/>
+            <x-icon :name="$icone"/>
 
         @endif
 
     @else
 
-        <span>{{ $text }}</span>
+        <span>{{ $texto }}</span>
 
     @endif
 

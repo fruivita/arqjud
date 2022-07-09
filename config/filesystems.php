@@ -34,7 +34,7 @@ return [
             'throw' => false,
         ],
 
-        'application-log' => [
+        'log-aplicacao' => [
             'driver' => 'local',
             'root' => storage_path('logs'),
         ],

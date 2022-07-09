@@ -1,5 +1,5 @@
 {{--
-    View for HTTP 401 error.
+    View para erro HTTP 401.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -11,6 +11,6 @@
 @extends('layouts.error')
 
 
-@section('title', __('error.401.title'))
-@section('code', '401')
-@section('message', __('error.401.message'))
+@section('titulo', __('error.401.titulo'))
+@section('codigo', '401')
+@section('mensagem', __('error.401.mensagem'))

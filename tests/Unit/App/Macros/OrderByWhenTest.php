@@ -4,110 +4,110 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Building;
-use App\Models\Site;
+use App\Models\Predio;
+use App\Models\Localidade;
 
 use function Spatie\PestPluginTestTime\testTime;
 
-// Happy path
-test('sort ascending', function () {
-    Building::factory()->create(['name' => 'foo']);
-    Building::factory()->create(['name' => 'bar']);
-    Building::factory()->create(['name' => 'baz']);
+// Caminho feliz
+test('ordenação ascendente', function () {
+    Predio::factory()->create(['nome' => 'foo']);
+    Predio::factory()->create(['nome' => 'bar']);
+    Predio::factory()->create(['nome' => 'baz']);
 
-    $ordered = Building::orderByWhen(['name' => 'asc'])->get();
+    $ordenados = Predio::orderByWhen(['nome' => 'asc'])->get();
 
-    $first = $ordered->get(0);
-    $second = $ordered->get(1);
-    $third = $ordered->get(2);
+    $primeiro = $ordenados->get(0);
+    $segundo = $ordenados->get(1);
+    $terceiro = $ordenados->get(2);
 
-    expect($ordered)->toHaveCount(3)
-    ->and($first->name)->toBe('bar')
-    ->and($second->name)->toBe('baz')
-    ->and($third->name)->toBe('foo');
+    expect($ordenados)->toHaveCount(3)
+    ->and($primeiro->nome)->toBe('bar')
+    ->and($segundo->nome)->toBe('baz')
+    ->and($terceiro->nome)->toBe('foo');
 });
 
-test('sort descending', function () {
-    Building::factory()->create(['name' => 'foo']);
-    Building::factory()->create(['name' => 'baz']);
-    Building::factory()->create(['name' => 'bar']);
+test('ordenação descendente', function () {
+    Predio::factory()->create(['nome' => 'foo']);
+    Predio::factory()->create(['nome' => 'baz']);
+    Predio::factory()->create(['nome' => 'bar']);
 
-    $ordered = Building::orderByWhen(['name' => 'desc'])->get();
+    $ordenados = Predio::orderByWhen(['nome' => 'desc'])->get();
 
-    $first = $ordered->get(0);
-    $second = $ordered->get(1);
-    $third = $ordered->get(2);
+    $primeiro = $ordenados->get(0);
+    $segundo = $ordenados->get(1);
+    $terceiro = $ordenados->get(2);
 
-    expect($ordered)->toHaveCount(3)
-    ->and($first->name)->toBe('foo')
-    ->and($second->name)->toBe('baz')
-    ->and($third->name)->toBe('bar');
+    expect($ordenados)->toHaveCount(3)
+    ->and($primeiro->nome)->toBe('foo')
+    ->and($segundo->nome)->toBe('baz')
+    ->and($terceiro->nome)->toBe('bar');
 });
 
-test('if the sorting array is not provided, use the default sorting, that is, sort by creation date from the most recent to the oldest', function () {
+test('se o array de ordenação não for informado, usa a ordenação padrão, isto é, ordena pela data de criação do registro mais recente para o mais antigo', function () {
     testTime()->freeze();
-    Building::factory()->create(['name' => 'foo']);
+    Predio::factory()->create(['nome' => 'foo']);
 
     testTime()->addMinute();
-    Building::factory()->create(['name' => 'bar']);
+    Predio::factory()->create(['nome' => 'bar']);
 
     testTime()->addMinute();
-    Building::factory()->create(['name' => 'baz']);
+    Predio::factory()->create(['nome' => 'baz']);
 
-    $ordered = Building::orderByWhen([])->get();
+    $ordenados = Predio::orderByWhen([])->get();
 
-    $first = $ordered->get(0);
-    $second = $ordered->get(1);
-    $third = $ordered->get(2);
+    $primeiro = $ordenados->get(0);
+    $segundo = $ordenados->get(1);
+    $terceiro = $ordenados->get(2);
 
-    expect($ordered)->toHaveCount(3)
-    ->and($first->name)->toBe('baz')
-    ->and($second->name)->toBe('bar')
-    ->and($third->name)->toBe('foo');
+    expect($ordenados)->toHaveCount(3)
+    ->and($primeiro->nome)->toBe('baz')
+    ->and($segundo->nome)->toBe('bar')
+    ->and($terceiro->nome)->toBe('foo');
 });
 
 test('na ordenação default, se a data de criação dos registros for a mesma, ordena pelo ID desc', function () {
     testTime()->freeze();
-    Building::factory()->create(['id' => 2 , 'name' => 'bar']);
-    Building::factory()->create(['id' => 3, 'name' => 'foo']);
+    Predio::factory()->create(['id' => 2 , 'nome' => 'bar']);
+    Predio::factory()->create(['id' => 3, 'nome' => 'foo']);
 
     testTime()->addMinute();
-    Building::factory()->create(['id' => 5, 'name' => 'baz']);
+    Predio::factory()->create(['id' => 5, 'nome' => 'baz']);
 
-    $ordered = Building::orderByWhen([])->get();
+    $ordenados = Predio::orderByWhen([])->get();
 
-    $first = $ordered->get(0);
-    $second = $ordered->get(1);
-    $third = $ordered->get(2);
+    $primeiro = $ordenados->get(0);
+    $segundo = $ordenados->get(1);
+    $terceiro = $ordenados->get(2);
 
-    expect($ordered)->toHaveCount(3)
-    ->and($first->name)->toBe('baz')
-    ->and($second->name)->toBe('foo')
-    ->and($third->name)->toBe('bar');
+    expect($ordenados)->toHaveCount(3)
+    ->and($primeiro->nome)->toBe('baz')
+    ->and($segundo->nome)->toBe('foo')
+    ->and($terceiro->nome)->toBe('bar');
 });
 
-test('if the hierarchy is present, order by multiple multiple columns', function () {
-    $site_foo = Site::factory()->create(['name' => 'foo']);
-    $site_bar = Site::factory()->create(['name' => 'bar']);
+test('se os modelos forem obtidos pela query hierárquica, é possível ordenar por múltiplas colunas', function () {
+    $localidade_foo = Localidade::factory()->create(['nome' => 'foo']);
+    $localidade_bar = Localidade::factory()->create(['nome' => 'bar']);
 
-    Building::factory()->for($site_foo, 'site')->create(['name' => 'loren']);
-    Building::factory()->for($site_foo, 'site')->create(['name' => 'ipsun']);
-    Building::factory()->for($site_foo, 'site')->create(['name' => 'dolor']);
-    Building::factory()->for($site_bar, 'site')->create(['name' => 'tempor']);
-    Building::factory()->for($site_bar, 'site')->create(['name' => 'labore']);
+    Predio::factory()->for($localidade_foo, 'localidade')->create(['nome' => 'loren']);
+    Predio::factory()->for($localidade_foo, 'localidade')->create(['nome' => 'ipsun']);
+    Predio::factory()->for($localidade_foo, 'localidade')->create(['nome' => 'dolor']);
+    Predio::factory()->for($localidade_bar, 'localidade')->create(['nome' => 'tempor']);
+    Predio::factory()->for($localidade_bar, 'localidade')->create(['nome' => 'labore']);
 
-    $ordered = Building::hierarchy()->orderByWhen(['sites.name' => 'asc', 'buildings.name' => 'asc'])->get();
+    $ordenados = Predio::hierarquia()->orderByWhen(['localidades.nome' => 'asc', 'predios.nome' => 'asc'])->get();
 
-    $first = $ordered->get(0);
-    $second = $ordered->get(1);
-    $third = $ordered->get(2);
-    $fourth = $ordered->get(3);
-    $fifth = $ordered->get(4);
+    $primeiro = $ordenados->get(0);
+    $segundo = $ordenados->get(1);
+    $terceiro = $ordenados->get(2);
+    $quarto = $ordenados->get(3);
+    $quinto = $ordenados->get(4);
 
-    expect($ordered)->toHaveCount(5)
-    ->and($first->name)->toBe('labore')
-    ->and($second->name)->toBe('tempor')
-    ->and($third->name)->toBe('dolor')
-    ->and($fourth->name)->toBe('ipsun')
-    ->and($fifth->name)->toBe('loren');
+    expect($ordenados)->toHaveCount(5)
+    ->and($primeiro->nome)->toBe('labore')
+    ->and($segundo->nome)->toBe('tempor')
+    ->and($terceiro->nome)->toBe('dolor')
+    ->and($quarto->nome)->toBe('ipsun')
+    ->and($quinto->nome)->toBe('loren');
 });

@@ -10,12 +10,12 @@
          require('./tailwind-preset')
      ],
 
-     // This configuration will be merged
+     // Essa configuração sofrerá merge
      theme: {
          extend: {
              colors: {
-                 primary: colors.teal,
-                 secondary: colors.slate
+                 primaria: colors.teal,
+                 secundaria: colors.slate
              }
          }
      }

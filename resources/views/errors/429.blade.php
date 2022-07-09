@@ -1,5 +1,5 @@
 {{--
-    View for HTTP 429 error.
+    View para erro HTTP 429.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -11,6 +11,6 @@
 @extends('layouts.error')
 
 
-@section('title', __('error.429.title'))
-@section('code', '429')
-@section('message', __('error.429.message'))
+@section('titulo', __('error.429.titulo'))
+@section('codigo', '429')
+@section('mensagem', __('error.429.mensagem'))

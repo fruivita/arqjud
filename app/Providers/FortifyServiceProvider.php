@@ -9,7 +9,9 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 
 /**
+ * @see https://laravel.com/docs/9.x/providers
  * @see https://laravel.com/docs/9.x/fortify
+ * @see https://laravel.com/docs/9.x/routing#rate-limiting
  */
 class FortifyServiceProvider extends ServiceProvider
 {

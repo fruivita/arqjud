@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Permission;
+use App\Models\Permissao;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Support\Facades\Auth;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
-use LdapRecord\Models\ActiveDirectory\User as LdapUser;
+use LdapRecord\Models\ActiveDirectory\User as UsuarioLdap;
 use function Pest\Faker\faker;
 use function Pest\Laravel\post;
 use Tests\CreatesApplication;
@@ -54,39 +54,39 @@ uses(
 */
 
 /**
- * Log in to the application with the **samaccountname** provided.
+ * Faz login na aplicação utilizando o **samaccountname** informado.
  *
- * Note that the user is first created in the 'active directory', and then
- * authenticated.
+ * Notar que o usuário é primeiro criado no 'active directory' para então ser
+ * autenticado.
  *
  * @param string $samaccountname
  *
- * @return \App\Models\User|null
+ * @return \App\Models\Usuario|null
  */
 function login(string $samaccountname)
 {
-    $fake = DirectoryEmulator::setup('ldap');
+    $fake_ldap = DirectoryEmulator::setup('ldap');
 
-    $ldap_user = LdapUser::create([
+    $usuario_ldap = UsuarioLdap::create([
         'cn' => $samaccountname . ' bar baz',
         'samaccountname' => $samaccountname,
         'objectguid' => faker()->uuid(),
     ]);
 
-    $fake->actingAs($ldap_user);
+    $fake_ldap->actingAs($usuario_ldap);
 
     post(route('login'), [
-        'username' => $ldap_user->samaccountname[0], // @phpstan-ignore-line
+        'username' => $usuario_ldap->samaccountname[0], // @phpstan-ignore-line
         'password' => 'secret',
     ]);
 
-    return authenticatedUser();
+    return usuarioAutenticado();
 }
 
 /**
- * @return \App\Models\User|null
+ * @return \App\Models\Usuario|null
  */
-function authenticatedUser()// @phpstan-ignore-line
+function usuarioAutenticado()// @phpstan-ignore-line
 {
     return Auth::user(); // @phpstan-ignore-line
 }
@@ -100,36 +100,36 @@ function logout()
 }
 
 /**
- * Assigns the given permission to the authenticated user.
+ * Concede a permissão informada ao usuário autenticado.
  *
- * @param int $permission_id
+ * @param int $id_permissao
  *
  * @return void
  */
-function grantPermission(int $permission_id)
+function concederPermissao(int $id_permissao)
 {
-    $permission = Permission::where('id', $permission_id)->firstOr(function () use ($permission_id) {
-        return Permission::factory()->create(['id' => $permission_id]);
+    $permissao = Permissao::where('id', $id_permissao)->firstOr(function () use ($id_permissao) {
+        return Permissao::factory()->create(['id' => $id_permissao]);
     });
 
-    authenticatedUser()
+    usuarioAutenticado()
         ->refresh()
-        ->role
-        ->permissions()
-        ->attach($permission);
+        ->perfil
+        ->permissoes()
+        ->attach($permissao);
 }
 
 /**
- * Removes the authenticated user's permission.
+ * Remove a permissão do usuário autenticado.
  *
- * @param int $permission_id
+ * @param int $id_permissao
  *
  * @return void
  */
-function revokePermission(int $permission_id)
+function revogaPermissao(int $id_permissao)
 {
-    authenticatedUser()
-    ->role
-    ->permissions()
-    ->detach($permission_id);
+    usuarioAutenticado()
+    ->perfil
+    ->permissoes()
+    ->detach($id_permissao);
 }

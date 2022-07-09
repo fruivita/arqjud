@@ -1,5 +1,5 @@
 {{--
-    Default Master Page for HTTP errors.
+    Master page para exibição dos erros HTTP.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -24,12 +24,12 @@
         <link href="{{ mix('/css/error.css') }}" rel="stylesheet">
 
 
-        <title>@yield('title')</title>
+        <title>@yield('titulo')</title>
 
     </head>
 
 
-    <body class="bg-primary-50 text-primary-900">
+    <body class="bg-primaria-50 text-primaria-900">
 
         <div class="flex mx-auto w-1/3 sm:w-1/4 md:w-1/6 lg:w-1/12">
 
@@ -48,14 +48,14 @@
 
                 <header>
 
-                    <h1 class="font-bold text-6xl text-center">@yield('code')</h1>
+                    <h1 class="font-bold text-6xl text-center">@yield('codigo')</h1>
 
                 </header>
 
 
                 <p class="text-center text-xl">
 
-                    @yield('message')
+                    @yield('mensagem')
 
                 </p>
 
@@ -63,10 +63,10 @@
                 <footer class="flex justify-center">
 
                     <x-link-button
-                        class="btn-do"
+                        class="btn-acao"
                         href="{{ auth()->check() ? route('home') : route('login') }}"
-                        text="{{ config('app.name') }}"
-                        title="{{ __('Go to home page') }}"/>
+                        texto="{{ config('app.name') }}"
+                        title="{{ __('Ir para a página inicial') }}"/>
 
                 </footer>
 

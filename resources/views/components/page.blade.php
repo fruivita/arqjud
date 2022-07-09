@@ -1,8 +1,8 @@
 {{--
-    Default page.
+    Página propriamente dita.
 
     Props:
-    - header: page header
+    - cabeçalho: string com o cabeçalho da página.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -13,7 +13,7 @@
 --}}
 
 
-@props(['header'])
+@props(['cabecalho'])
 
 
 <article
@@ -21,7 +21,7 @@
     {{ $attributes }}
 >
 
-    <h1 class="font-bold text-2xl text-center">{{ $header }}</h1>
+    <h1 class="font-bold text-2xl text-center">{{ $cabecalho }}</h1>
 
 
     {{ $slot }}

@@ -64,10 +64,10 @@ return [
             'model' => LdapRecord\Models\ActiveDirectory\User::class,
             'rules' => [],
             'database' => [
-                'model' => App\Models\User::class,
+                'model' => App\Models\Usuario::class,
                 'sync_passwords' => true,
                 'sync_attributes' => [
-                    'name' => 'cn',
+                    'nome' => 'cn',
                     'username' => 'samaccountname',
                 ],
             ],

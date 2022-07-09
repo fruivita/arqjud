@@ -6,8 +6,8 @@
 
 use App\Enums\Policy;
 
-// Happy path
-test('Policy enum correctly defined', function () {
+// Caminho feliz
+test('Policy enum corretamente definidos', function () {
     expect(Policy::ViewAny->value)->toBe('view-any')
     ->and(Policy::View->value)->toBe('view')
     ->and(Policy::Create->value)->toBe('create')
@@ -16,15 +16,15 @@ test('Policy enum correctly defined', function () {
     ->and(Policy::Delete->value)->toBe('delete')
     ->and(Policy::Restore->value)->toBe('restore')
     ->and(Policy::ForceDelete->value)->toBe('force-delete')
-    ->and(Policy::DelegationViewAny->value)->toBe('delegation-view-any')
-    ->and(Policy::DelegationCreate->value)->toBe('delegation-create')
-    ->and(Policy::DelegationDelete->value)->toBe('delegation-delete')
-    ->and(Policy::ImportationCreate->value)->toBe('importation-create')
+    ->and(Policy::DelegacaoViewAny->value)->toBe('delegacao-view-any')
+    ->and(Policy::DelegacaoCreate->value)->toBe('delegacao-create')
+    ->and(Policy::DelegacaoDelete->value)->toBe('delegacao-delete')
+    ->and(Policy::ImportacaoCreate->value)->toBe('importacao-create')
     ->and(Policy::LogViewAny->value)->toBe('log-view-any')
     ->and(Policy::LogDelete->value)->toBe('log-delete')
     ->and(Policy::LogDownload->value)->toBe('log-download')
-    ->and(Policy::SimulationCreate->value)->toBe('simulation-create')
-    ->and(Policy::SimulationDelete->value)->toBe('simulation-delete')
+    ->and(Policy::SimulacaoCreate->value)->toBe('simulacao-create')
+    ->and(Policy::SimulacaoDelete->value)->toBe('simulacao-delete')
     ->and(Policy::ViewAnyOrUpdate->value)->toBe('view-any-or-update')
     ->and(Policy::ViewOrUpdate->value)->toBe('view-or-update');
 });

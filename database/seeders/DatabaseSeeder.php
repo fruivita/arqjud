@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+/**
+ * @see https://laravel.com/docs/9.x/seeding
+ */
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
@@ -17,11 +20,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            ConfigurationSeeder::class,
-            DepartmentSeeder::class,
-            PermissionSeeder::class,
-            RoleSeeder::class,
-            PermissionRoleSeeder::class,
+            ConfiguracaoSeeder::class,
+            LotacaoSeeder::class,
+            PermissaoSeeder::class,
+            PerfilSeeder::class,
+            PerfilPermissaoSeeder::class,
         ]);
     }
 }

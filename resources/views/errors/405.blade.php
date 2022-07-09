@@ -1,5 +1,5 @@
 {{--
-    View for HTTP 405 error.
+    View para erro HTTP 405.
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -11,7 +11,7 @@
 @extends('layouts.error')
 
 
-@section('title', __('error.405.title'))
-@section('code', '405')
-@section('message', __('error.405.message'))
+@section('titulo', __('error.405.titulo'))
+@section('codigo', '405')
+@section('mensagem', __('error.405.mensagem'))
 

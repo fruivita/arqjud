@@ -4,46 +4,46 @@
  * @see https://pestphp.com/docs/
  */
 
-// Invalid
-test('stringToArrayAssoc returns null if invalid values are given', function ($keys, $delimiter, $string) {
-    expect(stringToArrayAssoc($keys, $delimiter, $string))->toBeNull();
+// Inválido
+test('stringParaArrayAssoc retorna nulo se os valores informados forem inválidos', function ($chaves, $delimitador, $string) {
+    expect(stringParaArrayAssoc($chaves, $delimitador, $string))->toBeNull();
 })->with([
     [
-        ['name', 'age', 'nationality', 'excess_key'], // qty of keys incompatible with string
+        ['nome', 'idade', 'nacionalidade', 'chave_excesso'], // qtd de chaves incompatível com a string
         ',',
         'foo,18,bar',
     ],
     [
-        [], // unspecified keys (empty array)
+        [], // chaves não informadas
         ',',
         'foo,18,bar',
     ],
     [
-        ['name', 'age', 'nationality'],
+        ['nome', 'idade', 'nacionalidade'],
         ',',
-        '', // unreported string (false boolean)
+        '', // string não informada (falso boleano)
     ],
     [
-        ['name', 'age', 'nationality'],
-        '', // delimiter not informed (false boolean)
+        ['nome', 'idade', 'nacionalidade'],
+        '', // delimitador não informado (falso boleano)
         'foo,18,bar',
     ],
 ]);
 
-// Happy path
-test('maxSafeInteger returns the value of the largest safe integer, i.e. not subject to truncation, for javascript work', function () {
-    expect(maxSafeInteger())->toBe(9007199254740991);
+// Caminho feliz
+test('maxIntegerSeguro retorna o maior integer seguro, isto é, não sujeito à truncagem, para trabalho em javascript', function () {
+    expect(maxIntegerSeguro())->toBe(9007199254740991);
 });
 
-test('stringToArrayAssoc explodes the string based on the delimiter and returns an associative array', function () {
-    $keys = ['name', 'age', 'nationality'];
+test('stringParaArrayAssoc quebra a string baseada no delimitador e retorna um array associativo', function () {
+    $chaves = ['nome', 'idade', 'nacionalidade'];
     $string = 'foo,18,bar';
-    $delimiter = ',';
-    $expected = [
-        'name' => 'foo',
-        'age' => '18',
-        'nationality' => 'bar',
+    $delimitador = ',';
+    $esperado = [
+        'nome' => 'foo',
+        'idade' => '18',
+        'nacionalidade' => 'bar',
     ];
 
-    expect(stringToArrayAssoc($keys, $delimiter, $string))->toMatchArray($expected);
+    expect(stringParaArrayAssoc($chaves, $delimitador, $string))->toMatchArray($esperado);
 });

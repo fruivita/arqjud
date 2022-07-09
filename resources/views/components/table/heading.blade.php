@@ -1,9 +1,12 @@
 {{--
     Cabeçalho ocultável da tabela (table header).
 
+    A ocultação se dá por escolha do usuário que pode escolher quais colunas
+    deseja ocultar.
+
     Props:
-    - direction: column sort direction
-    - sortable: whether the column can be sorted
+    - direção: string com a direção de ordenação da coluna
+    - ordenável: boolean se a coluna é ordenável
     - exibir: se o cabeçalho deve ser exibido ou não. Útil para ocultar/exibir
     uma determinada coluna inteira.
 
@@ -16,27 +19,27 @@
 --}}
 
 
-@props(['direction' => null, 'exibir' => true, 'sortable' => null])
+@props(['direcao' => null, 'exibir' => true, 'ordenavel' => false])
 
 
 @if ($exibir === true)
 
     <th {{ $attributes->merge(['class' => 'p-3'])->only('class') }}>
 
-        @if ($sortable)
+        @if ($ordenavel)
 
-            <button class="px-3 rounded transition whitespace-nowrap hover:bg-primary-300 hover:dark:bg-secondary-500" {{ $attributes->except('class') }}>
+            <button class="px-3 rounded transition whitespace-nowrap hover:bg-primaria-300 hover:dark:bg-secundaria-500" {{ $attributes->except('class') }}>
 
                 <span>{{ $slot }}</span>
 
 
                 <span>
 
-                    @if ($direction === 'asc')
+                    @if ($direcao === 'asc')
 
                         <x-icon class="inline" name="arrow-up-short"/>
 
-                    @elseif($direction === 'desc')
+                    @elseif($direcao === 'desc')
 
                         <x-icon class="inline" name="arrow-down-short"/>
 

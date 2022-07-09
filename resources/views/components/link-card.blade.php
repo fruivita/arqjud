@@ -1,9 +1,9 @@
 {{--
-    Links styled as a card for display on the home page.
+    Link estilizado como um card para exibição na página home.
 
     Props:
-    - icon: svg icon that will be displayed
-    - text: item description/meaning text
+    - icone: string com o nome do ícone para ser utilizado
+    - texto: string para exibição no componente
 
     @see https://laravel.com/docs/blade
     @see https://tailwindcss.com/
@@ -14,19 +14,19 @@
 --}}
 
 
-@props(['icon', 'text'])
+@props(['icone', 'texto'])
 
 
-<div class="bg-primary-300 rounded shadow-lg shadow-secondary-500 dark:bg-secondary-600 dark:shadow-primary-500 hover:bg-primary-200 hover:dark:bg-secondary-500">
+<div class="bg-primaria-300 rounded shadow-lg shadow-secundaria-500 dark:bg-secundaria-600 dark:shadow-primaria-500 hover:bg-primaria-200 hover:dark:bg-secundaria-500">
 
     <a
         class="flex flex-col items-center p-3 space-y-6"
         {{ $attributes }}
     >
 
-        <x-icon :name="$icon" class="h-16 w-16"/>
+        <x-icon :name="$icone" class="h-16 w-16"/>
 
-        <span class="break-words text-center">{{ $text }}</span>
+        <span class="break-words text-center">{{ $texto }}</span>
 
     </a>
 

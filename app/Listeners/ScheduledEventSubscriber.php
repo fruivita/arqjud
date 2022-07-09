@@ -80,20 +80,22 @@ class ScheduledEventSubscriber
     }
 
     /**
-     * Logs with an arbitrary level.
+     * Loga com um nível arbitrário.
      *
-     * The message MUST be a string or object implementing __toString().
+     * A mensagem PRECISA ser uma string ou um objeto que implemente
+     * __toString().
      *
-     * The message MAY contain placeholders in the form: {foo} where foo
-     * will be replaced by the context data in key "foo".
+     * A mensagem PODE conter placeholders no formato: {foo} em que 'foo' será
+     * substituído pelo dado de contexto da chave 'foo'.
      *
-     * The context array can contain arbitrary data, the only assumption that
-     * can be made by implementors is that if an Exception instance is given
-     * to produce a stack trace, it MUST be in a key named "exception".
+     * O array com os dados de contexto pode ter dados arbitrários. A única
+     * presunção que deve ser levada em consideração é que se uma instância de
+     * Exception for informada para se produzir o stack trace, ela DEVERÁ estar
+     * na chave de nome 'exception'.
      *
-     * @param string               $level   log level
-     * @param string|\Stringable   $message about what happened
-     * @param array<string, mixed> $context context data
+     * @param string               $level   nível do log
+     * @param string|\Stringable   $message sobre o ocorrido
+     * @param array<string, mixed> $context dados de contexto
      *
      * @return void
      *

@@ -18,34 +18,34 @@ parameters:
 
   # https://phpstan.org/config-reference#universal-object-crates
   universalObjectCratesClasses:
-    - App\Http\Livewire\Authorization\Delegation\DelegationLivewireIndex
-    - App\Http\Livewire\Authorization\Permission\PermissionLivewireIndex
-    - App\Http\Livewire\Authorization\Permission\PermissionLivewireUpdate
-    - App\Http\Livewire\Authorization\Role\RoleLivewireIndex
-    - App\Http\Livewire\Authorization\Role\RoleLivewireUpdate
-    - App\Http\Livewire\Authorization\User\UserLivewireIndex
+    - App\Http\Livewire\Autorizacao\Delegacao\DelegacaoLivewireIndex
+    - App\Http\Livewire\Autorizacao\Permissao\PermissaoLivewireIndex
+    - App\Http\Livewire\Autorizacao\Permissao\PermissaoLivewireUpdate
+    - App\Http\Livewire\Autorizacao\Perfil\PerfilLivewireIndex
+    - App\Http\Livewire\Autorizacao\Perfil\PerfilLivewireUpdate
+    - App\Http\Livewire\Autorizacao\Usuario\UsuarioLivewireIndex
     - App\Http\Livewire\Administration\Documentation\DocumentationLivewireIndex
     - App\Http\Livewire\Administration\Log\LogLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Box\BoxLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Box\BoxLivewireUpdate
-    - App\Http\Livewire\Archiving\Register\Site\SiteLivewireCreate
-    - App\Http\Livewire\Archiving\Register\Site\SiteLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Site\SiteLivewireUpdate
-    - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireCreate
-    - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Building\BuildingLivewireUpdate
-    - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireCreate
-    - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Floor\FloorLivewireUpdate
-    - App\Http\Livewire\Archiving\Register\Room\RoomLivewireCreate
-    - App\Http\Livewire\Archiving\Register\Room\RoomLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Room\RoomLivewireUpdate
-    - App\Http\Livewire\Archiving\Register\Stand\StandLivewireCreate
-    - App\Http\Livewire\Archiving\Register\Stand\StandLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Stand\StandLivewireUpdate
-    - App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireCreate
-    - App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireIndex
-    - App\Http\Livewire\Archiving\Register\Shelf\ShelfLivewireUpdate
+    - App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireIndex
+    - App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireUpdate
+    - App\Http\Livewire\Arquivamento\Cadastro\Localidade\LocalidadeLivewireCreate
+    - App\Http\Livewire\Arquivamento\Cadastro\Localidade\LocalidadeLivewireIndex
+    - App\Http\Livewire\Arquivamento\Cadastro\Localidade\LocalidadeLivewireUpdate
+    - App\Http\Livewire\Arquivamento\Cadastro\Predio\PredioLivewireCreate
+    - App\Http\Livewire\Arquivamento\Cadastro\Predio\PredioLivewireIndex
+    - App\Http\Livewire\Arquivamento\Cadastro\Predio\PredioLivewireUpdate
+    - App\Http\Livewire\Arquivamento\Cadastro\Andar\AndarLivewireCreate
+    - App\Http\Livewire\Arquivamento\Cadastro\Andar\AndarLivewireIndex
+    - App\Http\Livewire\Arquivamento\Cadastro\Andar\AndarLivewireUpdate
+    - App\Http\Livewire\Arquivamento\Cadastro\Sala\SalaLivewireCreate
+    - App\Http\Livewire\Arquivamento\Cadastro\Sala\SalaLivewireIndex
+    - App\Http\Livewire\Arquivamento\Cadastro\Sala\SalaLivewireUpdate
+    - App\Http\Livewire\Arquivamento\Cadastro\Estante\EstanteLivewireCreate
+    - App\Http\Livewire\Arquivamento\Cadastro\Estante\EstanteLivewireIndex
+    - App\Http\Livewire\Arquivamento\Cadastro\Estante\EstanteLivewireUpdate
+    - App\Http\Livewire\Arquivamento\Cadastro\Prateleira\PrateleiraLivewireCreate
+    - App\Http\Livewire\Arquivamento\Cadastro\Prateleira\PrateleiraLivewireIndex
+    - App\Http\Livewire\Arquivamento\Cadastro\Prateleira\PrateleiraLivewireUpdate
     - Illuminate\Database\Eloquent\Model
     - LdapRecord\Models\ActiveDirectory\User
 

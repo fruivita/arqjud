@@ -4,49 +4,49 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Enums\PermissionType;
+use App\Enums\Permissao;
 use App\Policies\LogPolicy;
-use Database\Seeders\DepartmentSeeder;
-use Database\Seeders\RoleSeeder;
+use Database\Seeders\LotacaoSeeder;
+use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
-    $this->seed([DepartmentSeeder::class, RoleSeeder::class]);
+    $this->seed([LotacaoSeeder::class, PerfilSeeder::class]);
 
-    $this->user = login('foo');
+    $this->usuario = login('foo');
 });
 
 afterEach(function () {
     logout();
 });
 
-// Forbidden
-test('user without permission cannot list application logs', function () {
-    expect((new LogPolicy())->viewAny($this->user))->toBeFalse();
+// Proibido
+test('usuário sem permissão não pode listar os logs da aplicação', function () {
+    expect((new LogPolicy())->viewAny($this->usuario))->toBeFalse();
 });
 
-test('user without permission cannot delete application logs', function () {
-    expect((new LogPolicy())->delete($this->user))->toBeFalse();
+test('usuário sem permissão não pode excluir um log da aplicação', function () {
+    expect((new LogPolicy())->delete($this->usuario))->toBeFalse();
 });
 
-test('user without permission cannot download application logs', function () {
-    expect((new LogPolicy())->download($this->user))->toBeFalse();
+test('usuário sem permissão não pode fazer o donwload de um log da aplicação', function () {
+    expect((new LogPolicy())->download($this->usuario))->toBeFalse();
 });
 
-// Happy path
-test('user with permission can list application logs', function () {
-    grantPermission(PermissionType::LogViewAny->value);
+// Caminho feliz
+test('usuário com permissão pode listar os logs da aplicação', function () {
+    concederPermissao(Permissao::LogViewAny->value);
 
-    expect((new LogPolicy())->viewAny($this->user))->toBeTrue();
+    expect((new LogPolicy())->viewAny($this->usuario))->toBeTrue();
 });
 
-test('user with permission can individually delete an application log', function () {
-    grantPermission(PermissionType::LogDelete->value);
+test('usuário com permissão pode individualmente excluir um log da aplicação', function () {
+    concederPermissao(Permissao::LogDelete->value);
 
-    expect((new LogPolicy())->delete($this->user))->toBeTrue();
+    expect((new LogPolicy())->delete($this->usuario))->toBeTrue();
 });
 
-test('user with permission can download individual application log', function () {
-    grantPermission(PermissionType::LogDownload->value);
+test('usuário com permissão pode realizar o download individual dos logs da aplicação', function () {
+    concederPermissao(Permissao::LogDownload->value);
 
-    expect((new LogPolicy())->download($this->user))->toBeTrue();
+    expect((new LogPolicy())->download($this->usuario))->toBeTrue();
 });
