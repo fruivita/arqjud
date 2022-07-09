@@ -23,7 +23,7 @@ class SimulacaoLivewireCreate extends Component
      *
      * @var string
      */
-    public $username;
+    public $username = null;
 
     /**
      * Rules para validação dos inputs.

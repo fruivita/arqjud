@@ -220,3 +220,19 @@ test('simulação altera o usuário autenticado e, ao terminar, volta ao usuári
 
     expect(auth()->user()->username)->toBe('bar');
 });
+
+test('valores iniciais do componente estão definidos', function () {
+    concederPermissao(Permissao::SimulacaoCreate->value);
+
+    Livewire::test(SimulacaoLivewireCreate::class)
+    ->assertSet('username', null);
+});
+
+test('SimulacaoLivewireCreate usa trait', function () {
+    expect(
+        collect(class_uses(SimulacaoLivewireCreate::class))
+        ->has([
+            \App\Traits\ComUsuarioLdapImportavel::class,
+        ])
+    )->toBeTrue();
+});

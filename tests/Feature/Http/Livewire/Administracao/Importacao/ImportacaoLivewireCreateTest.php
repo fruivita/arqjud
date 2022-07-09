@@ -100,6 +100,13 @@ test('dispara todos os jobs', function () {
     Bus::assertDispatched(ImportarEstruturaCorporativa::class);
 });
 
+test('valores iniciais do componente estão definidos', function () {
+    concederPermissao(Permissao::ImportacaoCreate->value);
+
+    Livewire::test(ImportacaoLivewireCreate::class)
+    ->assertSet('importacoes', []);
+});
+
 test('emite evento de feedback ao requisitar a importação com sucesso', function () {
     concederPermissao(Permissao::ImportacaoCreate->value);
 
