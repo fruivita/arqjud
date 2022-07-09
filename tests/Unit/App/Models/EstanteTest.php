@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 
 // Exceptions
-test('lança exception ao tentar criar estantes duplicadas, isto é, com mesmo número/alias', function () {
+test('lança exception ao tentar criar estantes duplicadas, isto é, com mesmo número/apelido', function () {
     $sala = Sala::factory()->create();
 
     expect(
@@ -29,7 +29,7 @@ test('lança exception ao tentar criar estantes duplicadas, isto é, com mesmo n
     )->toThrow(QueryException::class, 'Duplicate entry');
 });
 
-test('lança exception ao tentar criar stand com campo inválido', function ($campo, $valor, $mensagem) {
+test('lança exception ao tentar criar estante com campo inválido', function ($campo, $valor, $mensagem) {
     expect(
         fn () => Estante::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);

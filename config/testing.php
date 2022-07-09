@@ -6,8 +6,9 @@ return [
     | Username
     |--------------------------------------------------------------------------
     |
-    | User with domain login permission for unit testing purposes. The user
-    | must be functional, that is, it cannot be a user limited to reading.
+    | Usuário com permissão de login no domínio para propósito de testes
+    | unitários. O usuário precisa ser funcional, isto é, não pode ser um.
+    | usuário apenas de leitura.
     |
     */
 
@@ -18,7 +19,7 @@ return [
     | Password
     |--------------------------------------------------------------------------
     |
-    | Test user password.
+    | Senha do usúario funcional para teste.
     */
     'password' => env('PASSWORD', false),
 ];
