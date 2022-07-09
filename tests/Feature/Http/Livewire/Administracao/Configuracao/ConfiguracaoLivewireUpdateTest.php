@@ -133,13 +133,6 @@ test('emite evento de feedback ao atualizar um registro', function () {
     ->assertEmitted('flash', Feedback::Sucesso, __('Sucesso!'));
 });
 
-test('valores iniciais do componente estão definidos', function () {
-    concederPermissao(Permissao::ConfiguracaoUpdate->value);
-
-    Livewire::test(ConfiguracaoLivewireUpdate::class)
-    ->assertSet('modo_edicao', false);
-});
-
 test('atualiza um registro com permissão', function () {
     logout();
     login('bar');
@@ -155,6 +148,13 @@ test('atualiza um registro com permissão', function () {
     ->assertOk();
 
     expect(Configuracao::find(Configuracao::ID)->superadmin)->toBe('bar');
+});
+
+test('valores iniciais do componente estão definidos', function () {
+    concederPermissao(Permissao::ConfiguracaoUpdate->value);
+
+    Livewire::test(ConfiguracaoLivewireUpdate::class)
+    ->assertSet('modo_edicao', false);
 });
 
 test('ConfiguracaoLivewireUpdate usa trait', function () {
