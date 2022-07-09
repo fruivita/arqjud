@@ -54,7 +54,7 @@ class VolumeCaixa extends Model
      * - caixa_numero: número da caixa pai
      * - caixa_ano: ano da caixa pai
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function hierarquia()
     {

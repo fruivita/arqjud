@@ -38,7 +38,7 @@ class Localidade extends Model
      * Acompanhadas das seguintes colunas extras:
      * - predios_count: quantidade de prédios da localidade
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function hierarquia()
     {

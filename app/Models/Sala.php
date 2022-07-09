@@ -57,7 +57,7 @@ class Sala extends Model
      * - andar_numero: número do andar pai
      * - estantes_count: quantidade de estantes da sala
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function hierarquia()
     {

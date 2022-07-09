@@ -57,7 +57,7 @@ class Estante extends Model
      * - sala_numero: número da sala pai
      * - prateleiras_count: quantidade de prateleiras da estante
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function hierarquia()
     {

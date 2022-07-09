@@ -72,7 +72,7 @@ class Caixa extends Model
      * - prateleira_numero: número da prateleira pai
      * - volumes_count: quantidade de volumes da caixa
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function hierarquia()
     {

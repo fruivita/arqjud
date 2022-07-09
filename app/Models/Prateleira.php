@@ -60,7 +60,7 @@ class Prateleira extends Model
      * - estante_numero: número da estante pai
      * - caixas_count: quantidade de caixas da prateleira
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function hierarquia()
     {

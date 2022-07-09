@@ -11,6 +11,8 @@ use Illuminate\Database\Query\Builder;
  * Se nada for informado, ordenará pela data de criação do mais recente para o
  * mais antigo e, subsidiariamente, do maior para o menor id.
  *
+ * @method static \Illuminate\Contracts\Database\Query\Builder when($colunas, callable $callback = null, callable $default = null)
+ *
  * @param array<string, string> $colunas [coluna, direção]
  *
  * @return \Illuminate\Database\Query\Builder

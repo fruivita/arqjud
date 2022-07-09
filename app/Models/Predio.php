@@ -51,7 +51,7 @@ class Predio extends Model
      * - localidade_nome: nome da localidade pai
      * - andares_count: quantidade de andares do prédio
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function hierarquia()
     {

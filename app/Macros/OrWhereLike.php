@@ -9,6 +9,8 @@ use Illuminate\Support\Arr;
  * Aplica cláusula orWhere para o array de colunas informado utilizando o
  * operador 'like' se o `$termo` para pesquisa for informado.
  *
+ * @method static \Illuminate\Contracts\Database\Query\Builder when($valor, callable $callback = null, callable $default = null)
+ *
  * @param string[]|string $colunas
  * @param string          $termo
  *

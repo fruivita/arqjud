@@ -54,7 +54,7 @@ class Andar extends Model
      * - predio_nome: nome do prédio pai
      * - salas_count: quantidade de salas do andar
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function hierarquia()
     {
