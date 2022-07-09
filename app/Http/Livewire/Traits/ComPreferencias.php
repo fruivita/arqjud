@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Traits;
 
+use Illuminate\Support\Arr;
+
 /**
  * Trait idealizada para agrupar a lógica de armazenamento das preferências do
  * usuário.
@@ -54,13 +56,21 @@ trait ComPreferencias
      * Chave usada para armazenar e recuperar o cache das preferências do
      * usuário.
      *
-     * A chave é formada pela concatenação do username e do nome da classe.
+     * A chave é formada pela concatenação do termo 'preferencias', do username
+     * e do nome da classe.
      *
      * @return string
      */
     private function getChave()
     {
-        return auth()->user()->username . class_basename($this);
+        return Arr::join(
+            [
+                'preferencias',
+                auth()->user()->username,
+                class_basename($this)
+            ],
+            '-'
+        );
     }
 
     /**

@@ -21,7 +21,7 @@ beforeEach(function () {
 
     concederPermissao(Permissao::PredioViewAny->value);
 
-    $this->chave = usuarioAutenticado()->username . 'PredioLivewireIndex';
+    $this->chave = 'preferencias' . '-' . usuarioAutenticado()->username . '-' . 'PredioLivewireIndex';
 });
 
 afterEach(function () {
