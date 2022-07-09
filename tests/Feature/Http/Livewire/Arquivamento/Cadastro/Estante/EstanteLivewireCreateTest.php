@@ -7,9 +7,8 @@
 use App\Enums\Feedback;
 use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Estante\EstanteLivewireCreate;
-use App\Models\Sala;
-use App\Models\Prateleira;
 use App\Models\Estante;
+use App\Models\Sala;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Str;
@@ -263,9 +262,9 @@ test('valores iniciais do componente estão definidos', function () {
             'estante',
             'apelido',
             'qtd_prateleiras',
-            'acoes'
+            'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

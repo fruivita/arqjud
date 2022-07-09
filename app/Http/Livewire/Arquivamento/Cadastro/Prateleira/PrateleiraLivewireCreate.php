@@ -3,13 +3,13 @@
 namespace App\Http\Livewire\Arquivamento\Cadastro\Prateleira;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
-use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComExclusao;
 use App\Http\Livewire\Traits\ComFeedback;
+use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComPaginacao;
-use App\Models\Prateleira;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Estante;
+use App\Models\Prateleira;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -20,11 +20,11 @@ use Livewire\Component;
 class PrateleiraLivewireCreate extends Component
 {
     use AuthorizesRequests;
-    use ComPreferencias;
     use ComExclusao;
     use ComFeedback;
-    use ComPaginacao;
     use ComOrdenacao;
+    use ComPaginacao;
+    use ComPreferencias;
 
     /**
      * Preferências do usuário.
@@ -37,7 +37,7 @@ class PrateleiraLivewireCreate extends Component
             'prateleira',
             'apelido',
             'qtd_caixas',
-            'acoes'
+            'acoes',
         ],
 
         // Quantidade de registros exibidos por página da tabela

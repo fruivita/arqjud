@@ -8,10 +8,8 @@ use App\Enums\Feedback;
 use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Andar\AndarLivewireIndex;
 use App\Models\Andar;
-use App\Models\Sala;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
-use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -109,9 +107,9 @@ test('valores iniciais do componente estão definidos', function () {
             'qtd_salas',
             'localidade',
             'predio',
-            'acoes'
+            'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

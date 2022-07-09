@@ -25,16 +25,14 @@ class OrderByWhen
     public function __invoke()
     {
         return function ($colunas) {
-
-            $this->when($colunas,
-
-                function(Builder $query, array $colunas) {
+            $this->when(
+                $colunas,
+                function (Builder $query, array $colunas) {
                     foreach ($colunas as $coluna => $direcao) {
                         $query->orderBy($coluna, $direcao);
                     }
                 },
-
-                function(Builder $query) {
+                function (Builder $query) {
                     $query->latest()->orderBy('id', 'desc');
                 }
             );

@@ -241,7 +241,7 @@ test('valores iniciais do componente estão definidos', function () {
 
     Livewire::test(LogLivewireIndex::class)
     ->assertSet('preferencias', [
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

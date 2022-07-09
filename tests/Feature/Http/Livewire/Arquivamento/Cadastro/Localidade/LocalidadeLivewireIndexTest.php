@@ -7,11 +7,9 @@
 use App\Enums\Feedback;
 use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Localidade\LocalidadeLivewireIndex;
-use App\Models\Predio;
 use App\Models\Localidade;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
-use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -104,9 +102,9 @@ test('valores iniciais do componente estão definidos', function () {
         'colunas' => [
             'localidade',
             'qtd_predios',
-            'acoes'
+            'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

@@ -3,12 +3,12 @@
 namespace App\Http\Livewire\Administracao\Documentacao;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
 use App\Http\Livewire\Traits\ComExclusao;
 use App\Http\Livewire\Traits\ComFeedback;
+use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComPaginacao;
 use App\Http\Livewire\Traits\ComPesquisa;
-use App\Http\Livewire\Traits\ComOrdenacao;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Documentacao;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -19,12 +19,12 @@ use Livewire\Component;
 class DocumentacaoLivewireIndex extends Component
 {
     use AuthorizesRequests;
-    use ComPreferencias;
     use ComExclusao;
     use ComFeedback;
+    use ComOrdenacao;
     use ComPaginacao;
     use ComPesquisa;
-    use ComOrdenacao;
+    use ComPreferencias;
 
     /**
      * Preferências do usuário.

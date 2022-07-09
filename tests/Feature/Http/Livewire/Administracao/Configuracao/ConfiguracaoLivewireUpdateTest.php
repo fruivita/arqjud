@@ -112,7 +112,7 @@ test('renderiza o componente com permissão view ou update', function ($permissa
     ->assertSeeLivewire(ConfiguracaoLivewireUpdate::class);
 })->with([
     Permissao::ConfiguracaoView->value,
-    Permissao::ConfiguracaoUpdate->value
+    Permissao::ConfiguracaoUpdate->value,
 ]);
 
 test('configuração carregada para atuação é a esperada, visto que ela é única e predefinida', function () {

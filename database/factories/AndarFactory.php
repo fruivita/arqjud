@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Predio;
 use App\Models\Andar;
+use App\Models\Predio;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

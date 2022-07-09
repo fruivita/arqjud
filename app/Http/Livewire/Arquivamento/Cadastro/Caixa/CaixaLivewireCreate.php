@@ -3,14 +3,14 @@
 namespace App\Http\Livewire\Arquivamento\Cadastro\Caixa;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
-use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComExclusao;
 use App\Http\Livewire\Traits\ComFeedback;
+use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComPaginacao;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Caixa;
-use App\Models\VolumeCaixa;
 use App\Models\Prateleira;
+use App\Models\VolumeCaixa;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -21,11 +21,11 @@ use Livewire\Component;
 class CaixaLivewireCreate extends Component
 {
     use AuthorizesRequests;
-    use ComPreferencias;
     use ComExclusao;
     use ComFeedback;
-    use ComPaginacao;
     use ComOrdenacao;
+    use ComPaginacao;
+    use ComPreferencias;
 
     /**
      * Preferências do usuário.
@@ -38,7 +38,7 @@ class CaixaLivewireCreate extends Component
             'caixa',
             'ano',
             'qtd_volumes',
-            'acoes'
+            'acoes',
         ],
 
         // Quantidade de registros exibidos por página da tabela
@@ -187,7 +187,6 @@ class CaixaLivewireCreate extends Component
     /**
      * Computed property para listar de modo paginado as caixas baseado no id
      * da prateleira.
-     *
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */

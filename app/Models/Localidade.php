@@ -46,7 +46,7 @@ class Localidade extends Model
         self::leftJoin('predios', 'predios.localidade_id', '=', 'localidades.id')
         ->select([
             'localidades.*',
-            DB::raw('COUNT(predios.localidade_id) as predios_count')
+            DB::raw('COUNT(predios.localidade_id) as predios_count'),
         ])
         ->groupBy('localidades.id');
     }

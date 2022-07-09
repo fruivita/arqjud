@@ -26,7 +26,7 @@ trait ComHumanizacao
      *
      * @param int $numero número da prateleira
      *
-     * @return string|int
+     * @return int|string
      */
     private function humanizarPrateleira(int $numero)
     {

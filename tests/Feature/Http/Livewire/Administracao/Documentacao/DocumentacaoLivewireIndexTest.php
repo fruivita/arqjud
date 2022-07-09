@@ -104,9 +104,9 @@ test('valores iniciais do componente estão definidos', function () {
         'colunas' => [
             'app_url',
             'doc_url',
-            'acoes'
+            'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

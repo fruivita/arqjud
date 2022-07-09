@@ -3,11 +3,11 @@
 namespace App\Http\Livewire\Autorizacao\Perfil;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
 use App\Http\Livewire\Traits\ComLimite;
+use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComPaginacao;
 use App\Http\Livewire\Traits\ComPesquisa;
-use App\Http\Livewire\Traits\ComOrdenacao;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Perfil;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -18,11 +18,11 @@ use Livewire\Component;
 class PerfilLivewireIndex extends Component
 {
     use AuthorizesRequests;
-    use ComPreferencias;
     use ComLimite;
+    use ComOrdenacao;
     use ComPaginacao;
     use ComPesquisa;
-    use ComOrdenacao;
+    use ComPreferencias;
 
     /**
      * Preferências do usuário.

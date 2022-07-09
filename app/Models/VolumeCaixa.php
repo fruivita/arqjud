@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class VolumeCaixa extends Model
 {
-    use HasFactory;
     use ComHumanizacao;
+    use HasFactory;
 
     /**
      * A tabela associada ao modelo.

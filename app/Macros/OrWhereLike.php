@@ -11,7 +11,7 @@ use Illuminate\Support\Arr;
  *
  * @method static \Illuminate\Contracts\Database\Query\Builder when($valor, callable $callback = null, callable $default = null)
  *
- * @param string[]|string $colunas
+ * @param string|string[] $colunas
  * @param string          $termo
  *
  * @return \Illuminate\Database\Query\Builder
@@ -24,10 +24,9 @@ class OrWhereLike
     public function __invoke()
     {
         return function ($colunas, $termo) {
-
-            $this->when(str()->length($termo) >= 1,
-
-                function(Builder $query) use ($colunas, $termo) {
+            $this->when(
+                str()->length($termo) >= 1,
+                function (Builder $query) use ($colunas, $termo) {
                     $query->where(function (Builder $query) use ($colunas, $termo) {
                         foreach (Arr::wrap($colunas) as $coluna) {
                             $query->orWhere($coluna, 'like', "%{$termo}%");

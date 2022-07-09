@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Sala;
 use App\Models\Estante;
+use App\Models\Sala;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

@@ -5,8 +5,8 @@
  */
 
 use App\Enums\Permissao;
-use App\Models\Sala;
 use App\Models\Estante;
+use App\Models\Sala;
 use App\Policies\SalaPolicy;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;

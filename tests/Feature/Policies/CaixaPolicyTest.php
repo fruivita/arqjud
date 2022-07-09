@@ -118,4 +118,3 @@ test('caixa sem volumes pode ser excluída', function () {
 
     expect((new CaixaPolicy())->delete($this->usuario, $caixa))->toBeTrue();
 });
-

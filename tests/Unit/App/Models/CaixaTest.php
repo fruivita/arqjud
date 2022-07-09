@@ -5,8 +5,8 @@
  */
 
 use App\Models\Caixa;
-use App\Models\Prateleira;
 use App\Models\Estante;
+use App\Models\Prateleira;
 use App\Models\VolumeCaixa;
 use Illuminate\Database\QueryException;
 

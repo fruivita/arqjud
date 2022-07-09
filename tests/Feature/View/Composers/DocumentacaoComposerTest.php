@@ -24,7 +24,7 @@ use Illuminate\View\View;
  });
 
  test('retorna o link padrão se a rota for encontrada no banco de dados, mas sem o link para a documentção definido', function () {
-    Documentacao::factory()->create([
+     Documentacao::factory()->create([
         'app_link' => 'administracao.log.index',
         'doc_link' => null,
     ]);
@@ -47,7 +47,7 @@ use Illuminate\View\View;
 
 // Caminho feliz
  test('retorna o link para a documentação da rota se essa estiver cadastrada no banco de dados e possuir o link para a documentação também registrado', function () {
-    Documentacao::factory()->create([
+     Documentacao::factory()->create([
         'app_link' => 'administracao.log.index',
         'doc_link' => 'http://foo.com',
     ]);

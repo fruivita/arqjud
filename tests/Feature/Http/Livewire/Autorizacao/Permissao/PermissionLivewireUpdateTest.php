@@ -8,8 +8,8 @@ use App\Enums\AcaoCheckbox;
 use App\Enums\Feedback;
 use App\Enums\Permissao as EnumPermissao;
 use App\Http\Livewire\Autorizacao\Permissao\PermissaoLivewireUpdate;
-use App\Models\Permissao;
 use App\Models\Perfil;
+use App\Models\Permissao;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Str;
@@ -186,7 +186,7 @@ test('renderiza o componente com permissão', function ($permissao) {
     ->assertSeeLivewire(PermissaoLivewireUpdate::class);
 })->with([
     EnumPermissao::PermissaoView->value,
-    EnumPermissao::PermissaoUpdate->value
+    EnumPermissao::PermissaoUpdate->value,
 ]);
 
 test('define os perfis que devem ser pre-selecionados de acordo com a permissão', function () {
@@ -284,7 +284,7 @@ test('valores iniciais do componente estão definidos', function () {
             'descricao',
             'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

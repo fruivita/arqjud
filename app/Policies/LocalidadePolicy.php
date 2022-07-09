@@ -79,7 +79,7 @@ class LocalidadePolicy
     /**
      * Determina se o usuário pode excluir o modelo.
      *
-     * @param \App\Models\Usuario $usuario
+     * @param \App\Models\Usuario    $usuario
      * @param \App\Models\Localidade $localidade
      *
      * @return bool|\Illuminate\Auth\Access\Response

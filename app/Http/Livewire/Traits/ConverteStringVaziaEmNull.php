@@ -27,8 +27,8 @@ trait ConverteStringVaziaEmNull
      * A trait é acionada, automaticamente, no updated 'hook' de cada
      * propriedade.
      *
-     * @param string $nome nome da propriedade
-     * @param mixed $conteudo conteúdo/valor armazenado na propriedade
+     * @param string $nome     nome da propriedade
+     * @param mixed  $conteudo conteúdo/valor armazenado na propriedade
      *
      * @return void
      */

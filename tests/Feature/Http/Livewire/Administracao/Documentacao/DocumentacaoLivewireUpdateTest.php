@@ -165,7 +165,7 @@ test('renderiza o componente com permissão', function ($permissao) {
     ->assertSeeLivewire(DocumentacaoLivewireUpdate::class);
 })->with([
     Permissao::DocumentacaoView->value,
-    Permissao::DocumentacaoUpdate->value
+    Permissao::DocumentacaoUpdate->value,
 ]);
 
 test('emite evento de feedback ao atualizar um registro', function () {

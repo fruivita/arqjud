@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\DB;
  */
 class Prateleira extends Model
 {
-    use HasFactory;
     use ComHumanizacao;
+    use HasFactory;
 
     /**
      * A tabela associada ao modelo.
@@ -84,7 +84,7 @@ class Prateleira extends Model
             'salas.numero as sala_numero',
             'estantes.apelido as estante_apelido',
             'estantes.numero as estante_numero',
-            DB::raw('COUNT(caixas.prateleira_id) as caixas_count')
+            DB::raw('COUNT(caixas.prateleira_id) as caixas_count'),
         ])
         ->groupBy('prateleiras.id');
     }

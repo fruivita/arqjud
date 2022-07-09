@@ -3,8 +3,8 @@
 namespace App\Http\Livewire\Teste\Simulacao;
 
 use App\Enums\Policy;
-use App\Rules\UsuarioLdap;
 use App\Rules\NaoUsuarioAutenticado;
+use App\Rules\UsuarioLdap;
 use App\Traits\ComUsuarioLdapImportavel;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;

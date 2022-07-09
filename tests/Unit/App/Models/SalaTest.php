@@ -5,8 +5,8 @@
  */
 
 use App\Models\Andar;
-use App\Models\Sala;
 use App\Models\Estante;
+use App\Models\Sala;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 

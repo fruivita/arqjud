@@ -3,19 +3,19 @@
 namespace App\Http\Livewire\Arquivamento\Cadastro\Caixa;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
 use App\Http\Livewire\Traits\ComExclusao;
 use App\Http\Livewire\Traits\ComFeedback;
-use App\Http\Livewire\Traits\ComPaginacao;
 use App\Http\Livewire\Traits\ComOrdenacao;
-use App\Models\Caixa;
-use App\Models\VolumeCaixa;
-use App\Models\Predio;
+use App\Http\Livewire\Traits\ComPaginacao;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Andar;
-use App\Models\Sala;
-use App\Models\Prateleira;
-use App\Models\Localidade;
+use App\Models\Caixa;
 use App\Models\Estante;
+use App\Models\Localidade;
+use App\Models\Prateleira;
+use App\Models\Predio;
+use App\Models\Sala;
+use App\Models\VolumeCaixa;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
@@ -28,11 +28,11 @@ use Livewire\Component;
 class CaixaLivewireUpdate extends Component
 {
     use AuthorizesRequests;
-    use ComPreferencias;
     use ComExclusao;
     use ComFeedback;
-    use ComPaginacao;
     use ComOrdenacao;
+    use ComPaginacao;
+    use ComPreferencias;
 
     /**
      * Se o componente deve ser renderizado no modo edição.
@@ -70,7 +70,7 @@ class CaixaLivewireUpdate extends Component
      *
      * @var \Illuminate\Support\Collection|null
      */
-    public ?Collection $localidades= null;
+    public ?Collection $localidades = null;
 
     /**
      * Id da localidade selecionada.

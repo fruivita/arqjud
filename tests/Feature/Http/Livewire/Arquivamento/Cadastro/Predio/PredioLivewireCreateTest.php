@@ -7,9 +7,8 @@
 use App\Enums\Feedback;
 use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Predio\PredioLivewireCreate;
-use App\Models\Predio;
-use App\Models\Andar;
 use App\Models\Localidade;
+use App\Models\Predio;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Str;
@@ -196,9 +195,9 @@ test('valores iniciais do componente estão definidos', function () {
         'colunas' => [
             'predio',
             'qtd_andares',
-            'acoes'
+            'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

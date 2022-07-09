@@ -5,8 +5,8 @@
  */
 
 use App\Enums\Permissao;
-use App\Models\Predio;
 use App\Models\Localidade;
+use App\Models\Predio;
 use App\Policies\LocalidadePolicy;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;

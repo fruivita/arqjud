@@ -7,14 +7,14 @@
 use App\Enums\Feedback;
 use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireUpdate;
-use App\Models\Caixa;
-use App\Models\VolumeCaixa;
-use App\Models\Predio;
 use App\Models\Andar;
-use App\Models\Sala;
-use App\Models\Prateleira;
-use App\Models\Localidade;
+use App\Models\Caixa;
 use App\Models\Estante;
+use App\Models\Localidade;
+use App\Models\Prateleira;
+use App\Models\Predio;
+use App\Models\Sala;
+use App\Models\VolumeCaixa;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Str;
@@ -462,7 +462,7 @@ test('renderiza o componente com permissão', function ($permissao) {
     ->assertSeeLivewire(CaixaLivewireUpdate::class);
 })->with([
     Permissao::CaixaView->value,
-    Permissao::CaixaUpdate->value
+    Permissao::CaixaUpdate->value,
 ]);
 
 test('emite evento de feedback ao atualizar um registro', function () {
@@ -679,7 +679,7 @@ test('valores iniciais do componente estão definidos', function () {
             'apelido',
             'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

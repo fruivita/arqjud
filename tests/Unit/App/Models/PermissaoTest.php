@@ -4,8 +4,8 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Permissao;
 use App\Models\Perfil;
+use App\Models\Permissao;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;

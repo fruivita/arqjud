@@ -84,7 +84,7 @@ test('valores iniciais do componente estão definidos', function () {
             'perfis',
             'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ])
     ->assertSet('limite', 10);
 });

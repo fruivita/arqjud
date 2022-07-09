@@ -3,12 +3,12 @@
 namespace App\Http\Livewire\Arquivamento\Cadastro\Andar;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
-use App\Http\Livewire\Traits\ComPesquisa;
-use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComExclusao;
 use App\Http\Livewire\Traits\ComFeedback;
+use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComPaginacao;
+use App\Http\Livewire\Traits\ComPesquisa;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Andar;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -19,12 +19,12 @@ use Livewire\Component;
 class AndarLivewireIndex extends Component
 {
     use AuthorizesRequests;
-    use ComPreferencias;
     use ComExclusao;
     use ComFeedback;
+    use ComOrdenacao;
     use ComPaginacao;
     use ComPesquisa;
-    use ComOrdenacao;
+    use ComPreferencias;
 
     /**
      * Preferências do usuário.
@@ -39,7 +39,7 @@ class AndarLivewireIndex extends Component
             'qtd_salas',
             'localidade',
             'predio',
-            'acoes'
+            'acoes',
         ],
 
         // Quantidade de registros exibidos por página da tabela

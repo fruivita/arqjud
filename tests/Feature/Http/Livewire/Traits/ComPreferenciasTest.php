@@ -10,7 +10,6 @@ use App\Models\Predio;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Livewire\Livewire;
-
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
@@ -22,7 +21,7 @@ beforeEach(function () {
 
     concederPermissao(Permissao::PredioViewAny->value);
 
-    $this->chave = usuarioAutenticado()->username . "PredioLivewireIndex";
+    $this->chave = usuarioAutenticado()->username . 'PredioLivewireIndex';
 });
 
 afterEach(function () {
@@ -52,7 +51,7 @@ test('não salva os valores em cache, caso a validação falhe', function () {
 test('armazena em cache as preferências que o usuário definiu', function () {
     $definidas_pelo_usuario = [
         'colunas' => ['predio', 'qtd_andares'],
-        'por_pagina' => 50
+        'por_pagina' => 50,
     ];
 
     Livewire::test(PredioLivewireIndex::class)
@@ -67,7 +66,7 @@ test('armazena em cache as preferências que o usuário definiu', function () {
 test('ao carregar o componente, se houver não cache, as preferências padrão serão utilizadas', function () {
     $preferencias_padrao = [
         'colunas' => ['predio', 'qtd_andares', 'localidade', 'acoes'],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ];
 
     Livewire::test(PredioLivewireIndex::class)
@@ -81,7 +80,7 @@ test('ao carregar o componente, se houver cache, ele será utilizado para defini
 
     $preferencias_em_cache = [
         'colunas' => ['localidade', 'acoes'],
-        'por_pagina' => 50
+        'por_pagina' => 50,
     ];
     cache()->put($this->chave, $preferencias_em_cache, now()->addYear());
 

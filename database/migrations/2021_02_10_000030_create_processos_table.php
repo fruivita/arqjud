@@ -21,7 +21,7 @@ return new class extends Migration {
         Schema::create('processos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('tipo_processo_id');
-            $table->string('numero', 24)->unique();// NNNNNNN-DD.AAAA.JTR.OOOO
+            $table->string('numero', 24)->unique(); // NNNNNNN-DD.AAAA.JTR.OOOO
             $table->dateTime('arquivado_em');
             $table->boolean('guarda_permanente')->default(false);
             $table->timestamps();
@@ -31,7 +31,6 @@ return new class extends Migration {
                 ->references('id')
                 ->on('tipos_processo')
                 ->onUpdate('cascade');
-
         });
     }
 

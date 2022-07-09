@@ -11,7 +11,7 @@ namespace App\Http\Livewire\Traits;
 trait ComLimite
 {
     /**
-     * Limite padrão
+     * Limite padrão.
      *
      * @var int
      */

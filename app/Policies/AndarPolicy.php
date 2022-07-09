@@ -79,8 +79,8 @@ class AndarPolicy
     /**
      * Determina se o usuário pode excluir o modelo.
      *
-     * @param \App\Models\Usuario  $usuario
-     * @param \App\Models\Andar $andar
+     * @param \App\Models\Usuario $usuario
+     * @param \App\Models\Andar   $andar
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */

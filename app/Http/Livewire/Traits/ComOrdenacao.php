@@ -10,7 +10,6 @@ namespace App\Http\Livewire\Traits;
  */
 trait ComOrdenacao
 {
-
     /**
      * Array associativo com colunas e direções para ordenação.
      *
@@ -27,11 +26,11 @@ trait ComOrdenacao
      */
     public function ordenarPor(string $coluna)
     {
-        if (isset($this->ordenacoes[$coluna])  === false) {
+        if (isset($this->ordenacoes[$coluna]) === false) {
             return $this->ordenacoes[$coluna] = 'asc';
         }
 
-        if ($this->ordenacoes[$coluna]  === 'asc') {
+        if ($this->ordenacoes[$coluna] === 'asc') {
             return $this->ordenacoes[$coluna] = 'desc';
         }
 

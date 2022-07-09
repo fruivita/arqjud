@@ -5,9 +5,9 @@
  */
 
 use App\Jobs\ImportarEstruturaCorporativa;
-use App\Models\Lotacao;
-use App\Models\FuncaoConfianca;
 use App\Models\Cargo;
+use App\Models\FuncaoConfianca;
+use App\Models\Lotacao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 

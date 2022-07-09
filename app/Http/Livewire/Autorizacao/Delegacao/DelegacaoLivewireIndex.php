@@ -3,10 +3,10 @@
 namespace App\Http\Livewire\Autorizacao\Delegacao;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
-use App\Http\Livewire\Traits\ComPesquisa;
-use App\Http\Livewire\Traits\ComPaginacao;
 use App\Http\Livewire\Traits\ComOrdenacao;
+use App\Http\Livewire\Traits\ComPaginacao;
+use App\Http\Livewire\Traits\ComPesquisa;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Usuario;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -17,10 +17,10 @@ use Livewire\Component;
 class DelegacaoLivewireIndex extends Component
 {
     use AuthorizesRequests;
-    use ComPreferencias;
+    use ComOrdenacao;
     use ComPaginacao;
     use ComPesquisa;
-    use ComOrdenacao;
+    use ComPreferencias;
 
     /**
      * Preferências do usuário.

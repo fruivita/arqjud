@@ -79,7 +79,7 @@ class EstantePolicy
     /**
      * Determina se o usuário pode excluir o modelo.
      *
-     * @param \App\Models\Usuario  $usuario
+     * @param \App\Models\Usuario $usuario
      * @param \App\Models\Estante $estante
      *
      * @return bool|\Illuminate\Auth\Access\Response

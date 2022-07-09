@@ -7,10 +7,9 @@
 use App\Enums\Feedback;
 use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Predio\PredioLivewireUpdate;
-use App\Models\Predio;
 use App\Models\Andar;
-use App\Models\Sala;
 use App\Models\Localidade;
+use App\Models\Predio;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Str;
@@ -189,7 +188,7 @@ test('renderiza o componente com permissão', function ($permissao) {
     ->assertSeeLivewire(PredioLivewireUpdate::class);
 })->with([
     Permissao::PredioView->value,
-    Permissao::PredioUpdate->value
+    Permissao::PredioUpdate->value,
 ]);
 
 test('emite evento de feedback ao atualizar um registro', function () {
@@ -265,7 +264,7 @@ test('valores iniciais do componente estão definidos', function () {
             'qtd_salas',
             'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

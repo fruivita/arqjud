@@ -74,7 +74,7 @@ class Sala extends Model
             'predios.nome as predio_nome',
             'andares.apelido as andar_apelido',
             'andares.numero as andar_numero',
-            DB::raw('COUNT(estantes.sala_id) as estantes_count')
+            DB::raw('COUNT(estantes.sala_id) as estantes_count'),
         ])
         ->groupBy('salas.id');
     }

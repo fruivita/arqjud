@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Prateleira;
 use App\Models\Estante;
+use App\Models\Prateleira;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

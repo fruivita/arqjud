@@ -23,7 +23,7 @@ class ImportarEstruturaCorporativa extends Command
      *
      * @var string
      */
-    protected $description = "Importa a estrutura corporativa do orgao.";
+    protected $description = 'Importa a estrutura corporativa do orgao.';
 
     /**
      * Executa o comando de console.

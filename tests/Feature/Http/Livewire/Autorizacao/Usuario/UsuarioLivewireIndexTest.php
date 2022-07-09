@@ -12,7 +12,6 @@ use App\Models\Perfil;
 use App\Models\Usuario;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
-use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -147,7 +146,7 @@ test('renderiza o componente com permissão', function ($permissao) {
     ->assertSeeLivewire(UsuarioLivewireIndex::class);
 })->with([
     Permissao::UsuarioViewAny->value,
-    Permissao::UsuarioUpdate->value
+    Permissao::UsuarioUpdate->value,
 ]);
 
 test('exibe o modal de edição com permissão', function () {
@@ -323,7 +322,7 @@ test('valores iniciais do componente estão definidos', function () {
             'acoes',
         ],
 
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

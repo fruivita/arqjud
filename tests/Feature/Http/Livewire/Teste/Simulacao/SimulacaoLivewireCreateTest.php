@@ -7,8 +7,8 @@
 use App\Enums\Permissao;
 use App\Http\Livewire\Teste\Simulacao\SimulacaoLivewireCreate;
 use App\Models\Usuario;
-use App\Rules\UsuarioLdap;
 use App\Rules\NaoUsuarioAutenticado;
+use App\Rules\UsuarioLdap;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Str;

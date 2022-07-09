@@ -27,7 +27,7 @@ trait ComPesquisa
     protected function queryString()
     {
         return [
-            'termo' => ['except' => '',],
+            'termo' => ['except' => ''],
         ];
     }
 

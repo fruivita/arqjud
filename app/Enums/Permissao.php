@@ -41,7 +41,6 @@ enum Permissao: int
     // Usuário
     case UsuarioViewAny = 180001;
     case UsuarioUpdate = 180004;
-
     // Localidade
     case LocalidadeViewAny = 600001;
     case LocalidadeView = 600002;

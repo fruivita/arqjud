@@ -3,9 +3,9 @@
 namespace App\Http\Livewire\Administracao\Log;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
 use App\Http\Livewire\Traits\ComFeedback;
 use App\Http\Livewire\Traits\ComPaginacao;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Rules\ArquivoExiste;
 use FruiVita\LineReader\Facades\LineReader;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

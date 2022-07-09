@@ -5,8 +5,8 @@
  */
 
 use App\Enums\Permissao;
-use App\Models\Prateleira;
 use App\Models\Estante;
+use App\Models\Prateleira;
 use App\Policies\EstantePolicy;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;

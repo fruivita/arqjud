@@ -212,7 +212,7 @@ test('método revogaDelegacao revoga o perfil do usuário, retornando-o ao seu p
     ->and($delegado->perfil_concedido_por)->toBeNull();
 });
 
-test("método updateERevogaDelegacoes atualiza o perfil do usuário e remove as delegações feitas por ele", function () {
+test('método updateERevogaDelegacoes atualiza o perfil do usuário e remove as delegações feitas por ele', function () {
     $delegante = Usuario::factory()->create([
         'perfil_id' => Perfil::GERENTE_NEGOCIO,
     ]);

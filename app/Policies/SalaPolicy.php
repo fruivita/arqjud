@@ -80,7 +80,7 @@ class SalaPolicy
      * Determina se o usuário pode excluir o modelo.
      *
      * @param \App\Models\Usuario $usuario
-     * @param \App\Models\Sala $sala
+     * @param \App\Models\Sala    $sala
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */

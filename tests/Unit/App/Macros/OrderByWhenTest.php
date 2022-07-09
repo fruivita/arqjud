@@ -4,9 +4,8 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Predio;
 use App\Models\Localidade;
-
+use App\Models\Predio;
 use function Spatie\PestPluginTestTime\testTime;
 
 // Caminho feliz
@@ -68,7 +67,7 @@ test('se o array de ordenação não for informado, usa a ordenação padrão, i
 
 test('na ordenação default, se a data de criação dos registros for a mesma, ordena pelo ID desc', function () {
     testTime()->freeze();
-    Predio::factory()->create(['id' => 2 , 'nome' => 'bar']);
+    Predio::factory()->create(['id' => 2, 'nome' => 'bar']);
     Predio::factory()->create(['id' => 3, 'nome' => 'foo']);
 
     testTime()->addMinute();

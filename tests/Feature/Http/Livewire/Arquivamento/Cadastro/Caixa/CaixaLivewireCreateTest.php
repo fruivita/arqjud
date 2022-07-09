@@ -8,7 +8,6 @@ use App\Enums\Feedback;
 use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireCreate;
 use App\Models\Caixa;
-use App\Models\VolumeCaixa;
 use App\Models\Prateleira;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
@@ -380,9 +379,9 @@ test('valores iniciais do componente estão definidos', function () {
             'caixa',
             'ano',
             'qtd_volumes',
-            'acoes'
+            'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ])
     ->assertSet('quantidade', 1)
     ->assertSet('volumes', 1);

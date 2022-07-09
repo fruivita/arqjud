@@ -4,9 +4,9 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Sala;
-use App\Models\Prateleira;
 use App\Models\Estante;
+use App\Models\Prateleira;
+use App\Models\Sala;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 

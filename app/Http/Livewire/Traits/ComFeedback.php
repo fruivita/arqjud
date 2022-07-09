@@ -20,7 +20,7 @@ trait ComFeedback
      * A mensagem informada será enviada ou, se não informada, a mensagem
      * padrão será utilizada.
      *
-     * @param bool        $sucesso se o comando foi executado com sucesso
+     * @param bool        $sucesso  se o comando foi executado com sucesso
      * @param string|null $mensagem
      *
      * @return void

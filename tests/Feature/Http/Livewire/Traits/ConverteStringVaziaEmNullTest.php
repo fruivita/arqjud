@@ -38,7 +38,7 @@ test('converte para null strings vazias, inclusive com diversos espaços em bran
 
     expect($this->andar->apelido)->toBe($esperado);
 })->with([
-    [''     , null],  // vazio
+    ['', null],  // vazio
     ['     ', null],  // vazio pois haverá trim
-    ['20º'  , '20º'], // não conversível, pois um valor válido
+    ['20º', '20º'], // não conversível, pois um valor válido
 ])->skip();

@@ -61,7 +61,7 @@ class Predio extends Model
         ->select([
             'predios.*',
             'localidades.nome as localidade_nome',
-            DB::raw('COUNT(andares.predio_id) as andares_count')
+            DB::raw('COUNT(andares.predio_id) as andares_count'),
         ])
         ->groupBy('predios.id');
     }

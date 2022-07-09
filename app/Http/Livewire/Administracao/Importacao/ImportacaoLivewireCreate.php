@@ -18,7 +18,7 @@ class ImportacaoLivewireCreate extends Component
     use ComFeedback;
 
     /**
-     * Importações que serão executadas
+     * Importações que serão executadas.
      *
      * @var string[]
      */

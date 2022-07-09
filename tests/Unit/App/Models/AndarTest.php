@@ -4,8 +4,8 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Predio;
 use App\Models\Andar;
+use App\Models\Predio;
 use App\Models\Sala;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;

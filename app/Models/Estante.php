@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\DB;
  */
 class Estante extends Model
 {
-    use HasFactory;
     use ComHumanizacao;
+    use HasFactory;
 
     /**
      * A tabela associada ao modelo.
@@ -77,7 +77,7 @@ class Estante extends Model
             'andares.apelido as andar_apelido',
             'andares.numero as andar_numero',
             'salas.numero as sala_numero',
-            DB::raw('COUNT(prateleiras.estante_id) as prateleiras_count')
+            DB::raw('COUNT(prateleiras.estante_id) as prateleiras_count'),
         ])
         ->groupBy('estantes.id');
     }
@@ -130,7 +130,6 @@ class Estante extends Model
             get: fn () => $this->humanizarEstante($this->numero)
         );
     }
-
 
     /**
      * Links para as entidades pai.

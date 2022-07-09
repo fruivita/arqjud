@@ -3,12 +3,12 @@
 namespace App\Http\Livewire\Arquivamento\Cadastro\Predio;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
-use App\Http\Livewire\Traits\ComPesquisa;
-use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComExclusao;
 use App\Http\Livewire\Traits\ComFeedback;
+use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComPaginacao;
+use App\Http\Livewire\Traits\ComPesquisa;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Predio;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -19,12 +19,12 @@ use Livewire\Component;
 class PredioLivewireIndex extends Component
 {
     use AuthorizesRequests;
-    use ComPreferencias;
     use ComExclusao;
     use ComFeedback;
+    use ComOrdenacao;
     use ComPaginacao;
     use ComPesquisa;
-    use ComOrdenacao;
+    use ComPreferencias;
 
     /**
      * Preferências do usuário.
@@ -37,7 +37,7 @@ class PredioLivewireIndex extends Component
             'predio',
             'qtd_andares',
             'localidade',
-            'acoes'
+            'acoes',
         ],
 
         // Quantidade de registros exibidos por página da tabela

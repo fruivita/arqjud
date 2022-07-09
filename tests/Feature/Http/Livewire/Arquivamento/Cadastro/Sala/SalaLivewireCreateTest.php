@@ -9,8 +9,6 @@ use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Sala\SalaLivewireCreate;
 use App\Models\Andar;
 use App\Models\Sala;
-use App\Models\Prateleira;
-use App\Models\Estante;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Str;
@@ -226,9 +224,9 @@ test('valores iniciais do componente estão definidos', function () {
         'colunas' => [
             'sala',
             'qtd_estantes',
-            'acoes'
+            'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

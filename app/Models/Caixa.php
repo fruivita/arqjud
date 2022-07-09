@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Log;
  */
 class Caixa extends Model
 {
-    use HasFactory;
     use ComHumanizacao;
+    use HasFactory;
 
     /**
      * A tabela associada ao modelo.
@@ -100,7 +100,7 @@ class Caixa extends Model
             'estantes.numero as estante_numero',
             'prateleiras.apelido as prateleira_apelido',
             'prateleiras.numero as prateleira_numero',
-            DB::raw('COUNT(volumes_caixa.caixa_id) as volumes_count')
+            DB::raw('COUNT(volumes_caixa.caixa_id) as volumes_count'),
         ])
         ->groupBy('caixas.id');
     }
@@ -238,7 +238,7 @@ class Caixa extends Model
      * no banco de dados.
      *
      * @param \App\Models\Caixa      $template   template para a criação das
-     *                               caixas
+     *                                           caixas
      * @param int                    $quantidade número de caixas para criação
      * @param int                    $volumes    número de volumes das caixas
      * @param \App\Models\Prateleira $prateleira prateleira pai
@@ -312,7 +312,7 @@ class Caixa extends Model
      * A busca é feita com base nas caixas antes de serem efetivamente
      * cadastrasdas.
      *
-     * @param \Illuminate\Support\Collection $caixas antes da persistência.
+     * @param \Illuminate\Support\Collection $caixas antes da persistência
      *
      * @return \Illuminate\Support\Collection
      */

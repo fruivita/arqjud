@@ -92,7 +92,7 @@ class CaixaPolicy
      * Determina se o usuário pode excluir o modelo.
      *
      * @param \App\Models\Usuario $usuario
-     * @param \App\Models\Caixa $caixa
+     * @param \App\Models\Caixa   $caixa
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */

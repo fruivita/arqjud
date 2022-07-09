@@ -80,7 +80,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
      * Verifica se o perfil foi obtido por delegação ou se é um perfil
      * original.
      *
-     * @return bool true se por delegação ou false caso contrário.
+     * @return bool true se por delegação ou false caso contrário
      */
     public function perfilPorDelegacao()
     {

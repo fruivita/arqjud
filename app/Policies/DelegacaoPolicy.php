@@ -33,7 +33,7 @@ class DelegacaoPolicy
      * específica para delegação.
      *
      * @param \App\Models\Usuario $delegante
-     * @param \App\Models\Usuario $delegado usuário que receberá a delegação.
+     * @param \App\Models\Usuario $delegado  usuário que receberá a delegação
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */

@@ -5,13 +5,13 @@
  */
 
 use App\Enums\Permissao as EnumPermissao;
-use App\Models\Permissao;
 use App\Models\Perfil;
+use App\Models\Permissao;
 use App\Models\Usuario;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilPermissaoSeeder;
-use Database\Seeders\PermissaoSeeder;
 use Database\Seeders\PerfilSeeder;
+use Database\Seeders\PermissaoSeeder;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;

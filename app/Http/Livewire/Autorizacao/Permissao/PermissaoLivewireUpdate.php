@@ -3,13 +3,13 @@
 namespace App\Http\Livewire\Autorizacao\Permissao;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
 use App\Http\Livewire\Traits\ComAcoesDeCheckbox;
 use App\Http\Livewire\Traits\ComFeedback;
-use App\Http\Livewire\Traits\ComPaginacao;
 use App\Http\Livewire\Traits\ComOrdenacao;
-use App\Models\Permissao;
+use App\Http\Livewire\Traits\ComPaginacao;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Perfil;
+use App\Models\Permissao;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -19,11 +19,11 @@ use Livewire\Component;
 class PermissaoLivewireUpdate extends Component
 {
     use AuthorizesRequests;
-    use ComPreferencias;
     use ComAcoesDeCheckbox;
     use ComFeedback;
-    use ComPaginacao;
     use ComOrdenacao;
+    use ComPaginacao;
+    use ComPreferencias;
 
     /**
      * Preferências do usuário.

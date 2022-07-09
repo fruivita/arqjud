@@ -39,7 +39,6 @@ return new class extends Migration {
                 ->on('permissoes')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-
         });
     }
 

@@ -7,11 +7,9 @@
 use App\Enums\Feedback;
 use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Prateleira\PrateleiraLivewireIndex;
-use App\Models\Caixa;
 use App\Models\Prateleira;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
-use Illuminate\Support\Str;
 use Livewire\Livewire;
 use function Pest\Laravel\get;
 
@@ -112,9 +110,9 @@ test('valores iniciais do componente estão definidos', function () {
             'andar',
             'sala',
             'estante',
-            'acoes'
+            'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

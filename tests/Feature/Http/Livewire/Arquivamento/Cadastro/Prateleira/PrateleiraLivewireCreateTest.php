@@ -7,9 +7,8 @@
 use App\Enums\Feedback;
 use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Prateleira\PrateleiraLivewireCreate;
-use App\Models\Caixa;
-use App\Models\Prateleira;
 use App\Models\Estante;
+use App\Models\Prateleira;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Str;
@@ -242,9 +241,9 @@ test('valores iniciais do componente estão definidos', function () {
             'prateleira',
             'apelido',
             'qtd_caixas',
-            'acoes'
+            'acoes',
         ],
-        'por_pagina' => 10
+        'por_pagina' => 10,
     ]);
 });
 

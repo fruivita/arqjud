@@ -67,7 +67,7 @@ class Andar extends Model
             'localidades.id as localidade_id',
             'localidades.nome as localidade_nome',
             'predios.nome as predio_nome',
-            DB::raw('COUNT(salas.andar_id) as salas_count')
+            DB::raw('COUNT(salas.andar_id) as salas_count'),
         ])
         ->groupBy('andares.id');
     }

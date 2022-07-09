@@ -3,14 +3,14 @@
 namespace App\Http\Livewire\Arquivamento\Cadastro\Predio;
 
 use App\Enums\Policy;
-use App\Http\Livewire\Traits\ComPreferencias;
 use App\Http\Livewire\Traits\ComExclusao;
 use App\Http\Livewire\Traits\ComFeedback;
-use App\Http\Livewire\Traits\ComPaginacao;
 use App\Http\Livewire\Traits\ComOrdenacao;
-use App\Models\Predio;
+use App\Http\Livewire\Traits\ComPaginacao;
+use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Andar;
 use App\Models\Localidade;
+use App\Models\Predio;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -22,11 +22,11 @@ use Livewire\Component;
 class PredioLivewireUpdate extends Component
 {
     use AuthorizesRequests;
-    use ComPreferencias;
     use ComExclusao;
     use ComFeedback;
-    use ComPaginacao;
     use ComOrdenacao;
+    use ComPaginacao;
+    use ComPreferencias;
 
     /**
      * Se o componente deve ser renderizado no modo edição.
@@ -64,7 +64,7 @@ class PredioLivewireUpdate extends Component
      *
      * @var \Illuminate\Support\Collection|null
      */
-    public ?Collection $localidades= null;
+    public ?Collection $localidades = null;
 
     /**
      * Rules para validação dos inputs.
