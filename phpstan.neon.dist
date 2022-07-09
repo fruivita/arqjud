@@ -24,8 +24,8 @@ parameters:
     - App\Http\Livewire\Autorizacao\Perfil\PerfilLivewireIndex
     - App\Http\Livewire\Autorizacao\Perfil\PerfilLivewireUpdate
     - App\Http\Livewire\Autorizacao\Usuario\UsuarioLivewireIndex
-    - App\Http\Livewire\Administration\Documentation\DocumentationLivewireIndex
-    - App\Http\Livewire\Administration\Log\LogLivewireIndex
+    - App\Http\Livewire\Administracao\Log\LogLivewireIndex
+    - App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireCreate
     - App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireIndex
     - App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireUpdate
     - App\Http\Livewire\Arquivamento\Cadastro\Localidade\LocalidadeLivewireCreate
@@ -57,8 +57,18 @@ parameters:
     -
       message: '#Call to an undefined static method Illuminate\\Support\\Facades\\[a-zA-Z]+\:\:should[Not]*HaveReceived\(\)#'
       path: tests/*
+    -
+      message: '#Call to an undefined static method App\\Models\\[a-zA-Z]+\:\:[orderByWhen|orWhereLike]+\(\)#'
+      paths:
+        - app/Http/Livewire/*
+        - tests/*
+    -
+      message: '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\[a-zA-Z]+\>\:\:[orderByWhen|orWhereLike]+\(\)#'
+      paths:
+        - app/Http/Livewire/*
+        - tests/*
     - '#Call to an undefined method LdapRecord\\Models\\ActiveDirectory\\User\:\:can\(\)#'
-    - '#Call to an undefined method LdapRecord\\Models\\ActiveDirectory\\User\:\:delegate\(\)#'
+    - '#Call to an undefined method LdapRecord\\Models\\ActiveDirectory\\User\:\:delegar\(\)#'
 
   tmpDir: build/phpstan
 
