@@ -31,12 +31,12 @@
         ])
         @disabled(! $editavel)
         type="checkbox"
-        {{ $attributes->except('class') }}/>
+        {{ $attributes->except(['class']) }}/>
 
 
     @isset($texto)
 
-        <span {{ $attributes->merge(['class' => 'select-none']) }}>{{ $texto }}</span>
+        <span {{ $attributes->merge(['class' => 'select-none'])->only(['class']) }}>{{ $texto }}</span>
 
     @endisset
 

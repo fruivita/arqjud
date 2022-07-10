@@ -19,7 +19,7 @@
 
 <div
     title="{{ __('Paginações disponíveis') }}"
-    {{ $attributes->merge(['class' => "space-x-3 text-right"]) }}
+    {{ $attributes->merge(['class' => "space-x-3 text-right"])->only(['class']) }}
 >
 
     <label for="por_pagina">{{ __('Paginação') }}</label>
@@ -28,7 +28,7 @@
     <select
         class="bg-primaria-300 p-1 rounded text-right dark:bg-secundaria-500"
         id="por_pagina"
-        {{ $attributes->except('class') }}
+        {{ $attributes->except(['class']) }}
     >
 
         <option value="10">10</option>

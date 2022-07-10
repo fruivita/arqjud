@@ -27,7 +27,7 @@
 <div
     @if ($com_contador) x-data="{ contador: 0, visivel: false }" @endif
     class="text-left w-full"
-    {{ $attributes->get('title') }}
+    {{ $attributes->only(['title']) }}
 >
 
     {{-- texto acima do textarea --}}
@@ -88,9 +88,8 @@
                 ->merge(['class' => 'flex-1 outline-none p-2 text-primaria-900 disabled:dark:bg-secundaria-800 disabled:dark:text-secundaria-50'])
                 ->when($erro, function ($collection) {
                     return $collection->merge(['class' => 'invalido']);
-                })
-            }}
-            {{ $attributes->except(['class', 'title']) }}>
+                })->except(['title'])
+            }}>
         </textarea>
 
 

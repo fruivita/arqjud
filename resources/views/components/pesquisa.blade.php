@@ -49,7 +49,7 @@
             maxlength="50"
             placeholder="{{ __('Termo pesquisável') }}"
             type="text"
-            {{ $attributes }} />
+            {{ $attributes }}/>
 
 
         {{-- eventual exibição do contador de caracteres --}}

@@ -10,10 +10,7 @@
 --}}
 
 
-<tr
-    {{ $attributes->merge(['class' => 'even:bg-primaria-100 dark:even:bg-secundaria-800']) }}
-    {{ $attributes->except('class') }}
->
+<tr {{ $attributes->merge(['class' => 'even:bg-primaria-100 dark:even:bg-secundaria-800']) }}>
 
     {{ $slot }}
 

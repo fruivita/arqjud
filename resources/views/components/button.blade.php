@@ -18,10 +18,7 @@
 @props(['icone', 'icone_primeiro' => false, 'texto'])
 
 
-<button
-    {{ $attributes->merge(['class' => 'btn']) }}
-    {{ $attributes->except('class') }}
->
+<button {{ $attributes->merge(['class' => 'btn']) }}>
 
     {{-- insere o ícone antes do texto --}}
     @if ($icone_primeiro)

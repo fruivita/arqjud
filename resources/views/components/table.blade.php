@@ -10,10 +10,7 @@
 --}}
 
 
-<table
-    {{ $attributes->merge(['class' => 'text-center w-full']) }}
-    {{ $attributes->except('class') }}
->
+<table {{ $attributes->merge(['class' => 'text-center w-full']) }}>
 
     <thead class="bg-primaria-200 dark:bg-secundaria-700">
 

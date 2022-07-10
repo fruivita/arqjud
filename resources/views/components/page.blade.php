@@ -16,10 +16,7 @@
 @props(['cabecalho'])
 
 
-<article
-    {{ $attributes->merge(['class' =>'py-3 space-y-6']) }}
-    {{ $attributes }}
->
+<article {{ $attributes->merge(['class' =>'py-3 space-y-6']) }}>
 
     <h1 class="font-bold text-2xl text-center">{{ $cabecalho }}</h1>
 

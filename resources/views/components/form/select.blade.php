@@ -23,7 +23,7 @@
 @php $id = $id ?? md5(random_int(PHP_INT_MIN, PHP_INT_MAX)); @endphp
 
 
-<div class="text-left w-full" {{ $attributes->get('title') }}">
+<div class="text-left w-full" {{ $attributes->only(['title']) }}>
 
     {{-- texto acima do select --}}
     <label class="font-bold text-lg" for="{{ $id }}">
@@ -72,9 +72,8 @@
                 ->merge(['class' =>'border-none flex-1 opacity-100 p-2 text-primaria-900 truncate disabled:bg-primaria-100 disabled:dark:bg-secundaria-800 disabled:dark:text-secundaria-50 focus:outline-primaria-500'])
                 ->when($erro, function ($collection) {
                     return $collection->merge(['class' => 'invalido']);
-                })
+                })->except(['title'])
             }}
-            {{ $attributes->except(['class', 'title']) }}
         >
 
             {{ $slot }}

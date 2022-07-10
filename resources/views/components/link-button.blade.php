@@ -18,10 +18,7 @@
 @props(['icone' => false, 'icone_primeiro' => false, 'texto'])
 
 
-<a
-    {{ $attributes->merge(['class' => 'btn']) }}
-    {{ $attributes->except('class') }}
->
+<a {{ $attributes->merge(['class' => 'btn']) }}>
 
 
     @if($icone)

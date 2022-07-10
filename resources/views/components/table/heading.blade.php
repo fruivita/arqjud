@@ -33,13 +33,16 @@
             ->when($pesquisa_ativa, function ($collection) {
                 return $collection->merge(['class' => 'shadow shadow-secundaria-500 dark:shadow-primaria-500']);
             })
-            ->only('class')
+            ->only(['class'])
 
     }}>
 
         @if ($ordenavel)
 
-            <button class="px-3 rounded transition whitespace-nowrap hover:bg-primaria-300 hover:dark:bg-secundaria-500" {{ $attributes->except('class') }}>
+            <button
+                {{ $attributes->except(['class']) }}
+                class="px-3 rounded transition whitespace-nowrap hover:bg-primaria-300 hover:dark:bg-secundaria-500"
+            >
 
                 <span class="font-bold">{{ $slot }}</span>
 

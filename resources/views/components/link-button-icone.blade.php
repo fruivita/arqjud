@@ -16,10 +16,7 @@
 @props(['icone'])
 
 
-<a
-    {{ $attributes->merge(['class' => 'btn']) }}
-    {{ $attributes->except('class') }}
->
+<a {{ $attributes->merge(['class' => 'btn']) }}>
 
     <x-icon :name="$icone"/>
 

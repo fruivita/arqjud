@@ -15,7 +15,6 @@
 <select
     title="{{ __('Ações de checkbox') }}"
     {{ $attributes->merge(['class' => "bg-primaria-300 rounded w-14 dark:bg-secundaria-500"]) }}
-    {{ $attributes->except('class') }}
 >
 
     <option value=""></option>
