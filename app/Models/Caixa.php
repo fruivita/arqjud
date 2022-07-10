@@ -240,24 +240,26 @@ class Caixa extends Model
      * @param \App\Models\Caixa      $template   template para a criação das
      *                                           caixas
      * @param int                    $quantidade número de caixas para criação
-     * @param int                    $volumes    número de volumes das caixas
+     * @param int                    $qtd_volumes    número de volumes das caixas
      * @param \App\Models\Prateleira $prateleira prateleira pai
      *
      * @return bool
      */
-    public static function criarMuitas(Caixa $template, int $quantidade, int $volumes, Prateleira $prateleira)
+    public static function criarMuitas(Caixa $template, int $quantidade, int $qtd_volumes, Prateleira $prateleira)
     {
         try {
-            DB::transaction(function () use ($template, $quantidade, $volumes, $prateleira) {
-                $caixas = self::gerarMuitas($template, $quantidade, $prateleira);
+            DB::transaction(function () use ($template, $quantidade, $qtd_volumes, $prateleira) {
+                $caixas = self::gerarMuitas($template, $quantidade);
 
-                self::insert($caixas->toArray());
+                $prateleira->caixas()->saveMany($caixas);
 
-                $caixas_id = self::ultimosIdsCadastrados($caixas);
+                $caixas->each(function ($caixa) use ($qtd_volumes) {
+                    $volumes = self::gerarVolumes($qtd_volumes);
 
-                VolumeCaixa::insert(
-                    self::gerarVolumes($volumes, $caixas_id)->toArray()
-                );
+                    $caixa->volumes()->saveMany($volumes);
+
+                    unset($volumes);
+                });
             });
 
             return true;
@@ -267,7 +269,7 @@ class Caixa extends Model
                 [
                     'template' => $template,
                     'quantidade' => $quantidade,
-                    'volumes' => $volumes,
+                    'qtd_volumes' => $qtd_volumes,
                     'prateleira' => $prateleira,
                     'exception' => $exception,
                 ]
@@ -279,7 +281,7 @@ class Caixa extends Model
 
     /**
      * Gera uma coleção com todos os atributos das caixas clonados da caixa
-     * template e como filhas da prateleira informada.
+     * template.
      *
      * O número da primeira caixa será o definido no template enquanto as
      * demais serão incrementadas em um.
@@ -287,70 +289,43 @@ class Caixa extends Model
      * @param \App\Models\Caixa      $template   template para criação das
      *                                           caixas
      * @param int                    $quantidade número de caixas para criar
-     * @param \App\Models\Prateleira $prateleira prateleira pai
      *
      * @return \Illuminate\Support\Collection
      */
-    private static function gerarMuitas(Caixa $template, int $quantidade, Prateleira $prateleira)
+    private static function gerarMuitas(Caixa $template, int $quantidade)
     {
         return
         collect()
         ->range($template->numero, $template->numero + $quantidade - 1)
-        ->map(function ($sequencial) use ($template, $prateleira) {
-            return [
-                'ano' => $template->ano,
-                'numero' => $sequencial,
-                'descricao' => $template->descricao,
-                'prateleira_id' => $prateleira->id,
-            ];
+        ->map(function ($sequencial) use ($template) {
+            $caixa = new Caixa();
+
+            $caixa->ano = $template->ano;
+            $caixa->numero = $sequencial;
+            $caixa->descricao = $template->descricao;
+
+            return $caixa;
         });
     }
 
     /**
-     * Id de todas as caixas criadas.
+     * Gera uma certa quantidade de volumes incrementados de 1 em 1.
      *
-     * A busca é feita com base nas caixas antes de serem efetivamente
-     * cadastrasdas.
-     *
-     * @param \Illuminate\Support\Collection $caixas antes da persistência
+     * @param int $quantidade número de volumes
      *
      * @return \Illuminate\Support\Collection
      */
-    private static function ultimosIdsCadastrados(Collection $caixas)
+    private static function gerarVolumes(int $quantidade)
     {
-        return self::select('id')
-        ->where('ano', $caixas->first()['ano'])
-        ->whereBetween('numero', [$caixas->first()['numero'], $caixas->last()['numero']])
-        ->get();
-    }
+        return collect()
+        ->range(1, $quantidade)
+        ->map(function ($sequencial) {
+            $volume = new VolumeCaixa();
 
-    /**
-     * Gera uma certa quantidade de volumes de caixa como filhas das caixas
-     * informadas.
-     *
-     * O número de volumes em cada caixa é o mesmo e, em cada caixa, o número
-     * de identificação do volume é incrementado de 1 em 1.
-     *
-     * @param int                            $quantidade número de volumes
-     * @param \Illuminate\Support\Collection $caixas
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    private static function gerarVolumes(int $quantidade, Collection $caixas)
-    {
-        return
-        $caixas
-        ->pluck('id')
-        ->map(function ($caixa_id) use ($quantidade) {
-            return collect()
-            ->range(1, $quantidade)
-            ->map(function ($sequencial) use ($caixa_id) {
-                return [
-                    'numero' => $sequencial,
-                    'apelido' => "Vol. {$sequencial}",
-                    'caixa_id' => $caixa_id,
-                ];
-            });
-        })->flatten(1);
+            $volume->numero = $sequencial;
+            $volume->apelido = "Vol. {$sequencial}";
+
+            return $volume;
+        });
     }
 }
