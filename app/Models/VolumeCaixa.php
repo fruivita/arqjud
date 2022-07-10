@@ -144,7 +144,7 @@ class VolumeCaixa extends Model
      * Notar que o número informado será o número do primeiro volume.
      *
      * @param int $quantidade número de volumes
-     * @param int $primeiro número do primeiro volume
+     * @param int $primeiro   número do primeiro volume
      *
      * @return \Illuminate\Support\Collection
      */

@@ -119,7 +119,7 @@ class Andar extends Model
     }
 
     /**
-     * Salva a sala informado como filho do andar. Tmabém cria a estante e a
+     * Salva a sala informado como filho do andar. Também cria a estante e a
      * prateleira padrão.
      *
      * A estente e a prateleira padrão são as que não foram revisadas ou
