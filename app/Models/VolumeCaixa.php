@@ -156,7 +156,7 @@ class VolumeCaixa extends Model
             $volume = new self();
 
             $volume->numero = $sequencial;
-            $volume->apelido = "Vol. {$sequencial}";
+            $volume->apelido = $volume->humanizarVolumeCaixa($sequencial);
 
             return $volume;
         });
