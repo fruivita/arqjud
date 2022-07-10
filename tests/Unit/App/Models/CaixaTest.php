@@ -90,6 +90,15 @@ test('método proximoNumeroVolume retorna o número do próximo volume da caixa 
     expect($caixa->proximoNumeroVolume())->toBe(11);
 });
 
+test('método criarVolume cria um volume para a caixa', function () {
+    $caixa = Caixa::factory()->create();
+
+    $volume = $caixa->criarVolume(11);
+
+    expect($volume->numero)->toBe(11)
+    ->and($volume->apelido)->toBe('Vol. 11');
+});
+
 test('método linksPais retorna as rotas de edição ordenadas do pai mais distante para o mais próximo se root for false', function () {
     Caixa::factory()->create();
 

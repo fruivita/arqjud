@@ -492,7 +492,7 @@ test('emite evento de feedback ao criar um volume de caixa', function () {
         'tipo' => Feedback::Sucesso->value,
         'icone' => Feedback::Sucesso->icone(),
         'cabecalho' => Feedback::Sucesso->nome(),
-        'mensagem' => '11', // 10 + 1 (número de volumes de caixa criadas)
+        'mensagem' => null,
         'duracao' => 3000,
     ]);
 });

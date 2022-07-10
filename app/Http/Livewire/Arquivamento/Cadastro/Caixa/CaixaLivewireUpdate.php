@@ -416,15 +416,11 @@ class CaixaLivewireUpdate extends Component
 
         $this->validarVolume($proximo_volume);
 
-        $novo_volume = new VolumeCaixa();
-        $novo_volume->numero = $proximo_volume;
-        $novo_volume->apelido = "Vol. {$proximo_volume}";
-
-        $salvo = $this->caixa->volumes()->save($novo_volume)
+        $salvo = $this->caixa->criarVolume($proximo_volume)
         ? true
         : false;
 
-        $this->notificar($salvo, (string) $novo_volume->numero);
+        $this->notificar($salvo);
     }
 
     /**

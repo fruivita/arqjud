@@ -307,4 +307,19 @@ class Caixa extends Model
             return $caixa;
         });
     }
+
+    /**
+     * Cria o volume de número informado para a caixa.
+     *
+     * @param int $numero_volume
+     *
+     * @return \Illuminate\Database\Eloquent\Model|false
+     */
+    public function criarVolume(int $numero_volume)
+    {
+        /** @var \App\Models\VolumeCaixa */
+        $volume = VolumeCaixa::gerar(1, $numero_volume)->first();
+
+        return $this->volumes()->save($volume);
+    }
 }
