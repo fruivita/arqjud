@@ -249,12 +249,12 @@ class Caixa extends Model
     {
         try {
             DB::transaction(function () use ($template, $quantidade, $qtd_volumes, $prateleira) {
-                $caixas = self::gerarMuitas($template, $quantidade);
+                $caixas = self::gerar($template, $quantidade);
 
                 $prateleira->caixas()->saveMany($caixas);
 
                 $caixas->each(function ($caixa) use ($qtd_volumes) {
-                    $volumes = self::gerarVolumes($qtd_volumes);
+                    $volumes = VolumeCaixa::gerar($qtd_volumes);
 
                     $caixa->volumes()->saveMany($volumes);
 
@@ -281,7 +281,7 @@ class Caixa extends Model
 
     /**
      * Gera uma coleção com todos os atributos das caixas clonados da caixa
-     * template.
+     * template. Os objetos não estão persistidos.
      *
      * O número da primeira caixa será o definido no template enquanto as
      * demais serão incrementadas em um.
@@ -292,7 +292,7 @@ class Caixa extends Model
      *
      * @return \Illuminate\Support\Collection
      */
-    private static function gerarMuitas(Caixa $template, int $quantidade)
+    private static function gerar(Caixa $template, int $quantidade)
     {
         return
         collect()
@@ -305,27 +305,6 @@ class Caixa extends Model
             $caixa->descricao = $template->descricao;
 
             return $caixa;
-        });
-    }
-
-    /**
-     * Gera uma certa quantidade de volumes incrementados de 1 em 1.
-     *
-     * @param int $quantidade número de volumes
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    private static function gerarVolumes(int $quantidade)
-    {
-        return collect()
-        ->range(1, $quantidade)
-        ->map(function ($sequencial) {
-            $volume = new VolumeCaixa();
-
-            $volume->numero = $sequencial;
-            $volume->apelido = "Vol. {$sequencial}";
-
-            return $volume;
         });
     }
 }

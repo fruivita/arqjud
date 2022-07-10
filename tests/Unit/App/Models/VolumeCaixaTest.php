@@ -131,3 +131,29 @@ test('método paraHumano retorna "Não informada" se o número da estante ou da 
     expect($volume_caixa->estante_para_humano)->toBe(__('Não informada'))
     ->and($volume_caixa->prateleira_para_humano)->toBe(__('Não informada'));
 });
+
+test('método gerar gera a quantidade de volumes informados', function () {
+    $volumes = VolumeCaixa::gerar(5);
+
+    $primeiro = $volumes->first();
+    $ultimo = $volumes->last();
+
+    expect($volumes)->toHaveCount(5)
+    ->and($primeiro->numero)->toBe(1)
+    ->and($primeiro->apelido)->toBe('Vol. 1')
+    ->and($ultimo->numero)->toBe(5)
+    ->and($ultimo->apelido)->toBe('Vol. 5');
+});
+
+test('método gerar aceita, opcionalmente, o número do primeiro volume', function () {
+    $volumes = VolumeCaixa::gerar(5, 10);
+
+    $primeiro = $volumes->first();
+    $ultimo = $volumes->last();
+
+    expect($volumes)->toHaveCount(5)
+    ->and($primeiro->numero)->toBe(10)
+    ->and($primeiro->apelido)->toBe('Vol. 10')
+    ->and($ultimo->numero)->toBe(14)
+    ->and($ultimo->apelido)->toBe('Vol. 14');
+});

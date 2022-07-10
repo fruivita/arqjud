@@ -136,4 +136,29 @@ class VolumeCaixa extends Model
             get: fn () => $this->humanizarCaixa($this->caixa_numero, $this->caixa_ano)
         );
     }
+
+    /**
+     * Gera uma certa quantidade de volumes incrementados de 1 em 1 a partir do
+     * número informado. Os objetos não estão persistidos.
+     *
+     * Notar que o número informado será o número do primeiro volume.
+     *
+     * @param int $quantidade número de volumes
+     * @param int $primeiro número do primeiro volume
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function gerar(int $quantidade, int $primeiro = 1)
+    {
+        return collect()
+        ->range($primeiro, $primeiro + $quantidade - 1)
+        ->map(function ($sequencial) {
+            $volume = new self();
+
+            $volume->numero = $sequencial;
+            $volume->apelido = "Vol. {$sequencial}";
+
+            return $volume;
+        });
+    }
 }
