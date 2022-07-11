@@ -266,6 +266,6 @@ class AndarLivewireUpdate extends Component
      */
     private function predios()
     {
-        return Predio::where('localidade_id', $this->localidade_id)->ordenacaoPadrao()->get();
+        return Predio::daLocalidade($this->localidade_id)->ordenacaoPadrao()->get();
     }
 }

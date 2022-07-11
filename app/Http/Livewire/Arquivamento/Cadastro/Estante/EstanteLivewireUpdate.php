@@ -348,7 +348,7 @@ class EstanteLivewireUpdate extends Component
      */
     private function predios()
     {
-        return Predio::where('localidade_id', $this->localidade_id)->ordenacaoPadrao()->get();
+        return Predio::daLocalidade($this->localidade_id)->ordenacaoPadrao()->get();
     }
 
     /**
@@ -358,7 +358,7 @@ class EstanteLivewireUpdate extends Component
      */
     private function andares()
     {
-        return Andar::where('predio_id', $this->predio_id)->ordenacaoPadrao()->get();
+        return Andar::doPredio($this->predio_id)->ordenacaoPadrao()->get();
     }
 
     /**
@@ -368,6 +368,6 @@ class EstanteLivewireUpdate extends Component
      */
     private function salas()
     {
-        return Sala::where('andar_id', $this->andar_id)->ordenacaoPadrao()->get();
+        return Sala::doAndar($this->andar_id)->ordenacaoPadrao()->get();
     }
 }

@@ -176,3 +176,17 @@ test('retorna as salas ordenadas pelo escopo de ordenação padrão', function (
     ->and($salas->get(1)->numero)->toBe('baz')
     ->and($salas->get(2)->numero)->toBe('foo');
 });
+
+test('retorna as salas de determinado andar pelo escopo', function () {
+    $andar = Andar::factory()->create();
+    $sala_1 = Sala::factory()->for($andar, 'andar')->create();
+    $sala_2 = Sala::factory()->for($andar, 'andar')->create();
+    $sala_3 = Sala::factory()->create();
+
+    $salas = Sala::doAndar($andar->id)->pluck('id');
+
+    expect($salas)->toHaveCount(2)
+    ->and($salas)->toContain($sala_1->id)
+    ->and($salas)->toContain($sala_2->id)
+    ->and($salas)->not->toContain($sala_3->id);
+});

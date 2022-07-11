@@ -223,3 +223,17 @@ test('retorna as estantes ordenados pelo escopo de ordenação padrão', functio
     ->and($estantes->get(1)->numero)->toBe(10)
     ->and($estantes->get(2)->numero)->toBe(100);
 });
+
+test('retorna as estantes de determinada sala pelo escopo', function () {
+    $sala = Sala::factory()->create();
+    $estante_1 = Estante::factory()->for($sala, 'sala')->create();
+    $estante_2 = Estante::factory()->for($sala, 'sala')->create();
+    $estante_3 = Estante::factory()->create();
+
+    $estantes = Estante::daSala($sala->id)->pluck('id');
+
+    expect($estantes)->toHaveCount(2)
+    ->and($estantes)->toContain($estante_1->id)
+    ->and($estantes)->toContain($estante_2->id)
+    ->and($estantes)->not->toContain($estante_3->id);
+});

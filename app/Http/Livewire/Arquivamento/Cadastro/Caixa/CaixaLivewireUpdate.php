@@ -484,7 +484,7 @@ class CaixaLivewireUpdate extends Component
      */
     private function predios()
     {
-        return Predio::where('localidade_id', $this->localidade_id)->ordenacaoPadrao()->get();
+        return Predio::daLocalidade($this->localidade_id)->ordenacaoPadrao()->get();
     }
 
     /**
@@ -494,7 +494,7 @@ class CaixaLivewireUpdate extends Component
      */
     private function andares()
     {
-        return Andar::where('predio_id', $this->predio_id)->ordenacaoPadrao()->get();
+        return Andar::doPredio($this->predio_id)->ordenacaoPadrao()->get();
     }
 
     /**
@@ -504,7 +504,7 @@ class CaixaLivewireUpdate extends Component
      */
     private function salas()
     {
-        return Sala::where('andar_id', $this->andar_id)->ordenacaoPadrao()->get();
+        return Sala::doAndar($this->andar_id)->ordenacaoPadrao()->get();
     }
 
     /**
@@ -514,7 +514,7 @@ class CaixaLivewireUpdate extends Component
      */
     private function estantes()
     {
-        return Estante::where('sala_id', $this->sala_id)->ordenacaoPadrao()->get();
+        return Estante::daSala($this->sala_id)->ordenacaoPadrao()->get();
     }
 
     /**
@@ -524,6 +524,6 @@ class CaixaLivewireUpdate extends Component
      */
     private function prateleiras()
     {
-        return Prateleira::where('estante_id', $this->estante_id)->ordenacaoPadrao()->get();
+        return Prateleira::daEstante($this->estante_id)->ordenacaoPadrao()->get();
     }
 }

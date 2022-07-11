@@ -322,4 +322,17 @@ class Caixa extends Model
 
         return $this->volumes()->save($volume);
     }
+
+    /**
+     * Caixas da prateleira informada.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id_prateleira
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDaPrateleira($query, int $id_prateleira)
+    {
+        return $query->where('prateleira_id', $id_prateleira);
+    }
 }

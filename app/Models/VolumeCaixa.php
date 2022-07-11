@@ -161,4 +161,17 @@ class VolumeCaixa extends Model
             return $volume;
         });
     }
+
+    /**
+     * Volumes da caixa informada.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id_caixa
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDaCaixa($query, int $id_caixa)
+    {
+        return $query->where('caixa_id', $id_caixa);
+    }
 }

@@ -184,4 +184,17 @@ class Estante extends Model
     {
         return $query->orderBy('numero', 'asc');
     }
+
+    /**
+     * Estantes da sala informada.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id_sala
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDaSala($query, int $id_sala)
+    {
+        return $query->where('sala_id', $id_sala);
+    }
 }

@@ -219,3 +219,17 @@ test('método paraHumano retorna "Não informada" se o número da estante ou da 
     expect($caixa->estante_para_humano)->toBe(__('Não informada'))
     ->and($caixa->prateleira_para_humano)->toBe(__('Não informada'));
 });
+
+test('retorna as caixas de determinada prateleira pelo escopo', function () {
+    $prateleira = Prateleira::factory()->create();
+    $caixa_1 = Caixa::factory()->for($prateleira, 'prateleira')->create();
+    $caixa_2 = Caixa::factory()->for($prateleira, 'prateleira')->create();
+    $caixa_3 = Caixa::factory()->create();
+
+    $caixas = Caixa::daPrateleira($prateleira->id)->pluck('id');
+
+    expect($caixas)->toHaveCount(2)
+    ->and($caixas)->toContain($caixa_1->id)
+    ->and($caixas)->toContain($caixa_2->id)
+    ->and($caixas)->not->toContain($caixa_3->id);
+});

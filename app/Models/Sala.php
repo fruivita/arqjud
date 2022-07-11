@@ -184,4 +184,17 @@ class Sala extends Model
     {
         return $query->orderBy('numero', 'asc');
     }
+
+    /**
+     * Salas do andar informado.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id_andar
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDoAndar($query, int $id_andar)
+    {
+        return $query->where('andar_id', $id_andar);
+    }
 }

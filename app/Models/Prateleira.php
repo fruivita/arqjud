@@ -210,4 +210,17 @@ class Prateleira extends Model
     {
         return $query->orderBy('numero', 'asc');
     }
+
+    /**
+     * Prateleiras da estante informada.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id_estante
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDaEstante($query, int $id_estante)
+    {
+        return $query->where('estante_id', $id_estante);
+    }
 }

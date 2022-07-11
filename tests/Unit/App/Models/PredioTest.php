@@ -130,3 +130,17 @@ test('retorna os prédios ordenados pelo escopo de ordenação padrão', functio
     ->and($predios->get(1)->nome)->toBe('baz')
     ->and($predios->get(2)->nome)->toBe('foo');
 });
+
+test('retorna os prédios de determinada localidade pelo escopo', function () {
+    $localidade = Localidade::factory()->create();
+    $predio_1 = Predio::factory()->for($localidade, 'localidade')->create();
+    $predio_2 = Predio::factory()->for($localidade, 'localidade')->create();
+    $predio_3 = Predio::factory()->create();
+
+    $predios = Predio::daLocalidade($localidade->id)->pluck('id');
+
+    expect($predios)->toHaveCount(2)
+    ->and($predios)->toContain($predio_1->id)
+    ->and($predios)->toContain($predio_2->id)
+    ->and($predios)->not->toContain($predio_3->id);
+});

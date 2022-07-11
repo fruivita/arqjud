@@ -175,4 +175,17 @@ class Andar extends Model
     {
         return $query->orderBy('numero', 'asc');
     }
+
+    /**
+     * Andares do prédio informado.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id_predio
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDoPredio($query, int $id_predio)
+    {
+        return $query->where('predio_id', $id_predio);
+    }
 }

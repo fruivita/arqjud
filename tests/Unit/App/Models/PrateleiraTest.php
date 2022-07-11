@@ -233,3 +233,17 @@ test('retorna as prateleiras ordenados pelo escopo de ordenação padrão', func
     ->and($prateleiras->get(1)->numero)->toBe(10)
     ->and($prateleiras->get(2)->numero)->toBe(100);
 });
+
+test('retorna as prateleiras de determinada estante pelo escopo', function () {
+    $estante = Estante::factory()->create();
+    $prateleira_1 = Prateleira::factory()->for($estante, 'estante')->create();
+    $prateleira_2 = Prateleira::factory()->for($estante, 'estante')->create();
+    $prateleira_3 = Prateleira::factory()->create();
+
+    $prateleiras = Prateleira::daEstante($estante->id)->pluck('id');
+
+    expect($prateleiras)->toHaveCount(2)
+    ->and($prateleiras)->toContain($prateleira_1->id)
+    ->and($prateleiras)->toContain($prateleira_2->id)
+    ->and($prateleiras)->not->toContain($prateleira_3->id);
+});

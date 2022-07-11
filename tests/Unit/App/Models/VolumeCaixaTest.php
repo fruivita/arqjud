@@ -157,3 +157,17 @@ test('método gerar aceita, opcionalmente, o número do primeiro volume', functi
     ->and($ultimo->numero)->toBe(14)
     ->and($ultimo->apelido)->toBe('Vol. 14');
 });
+
+test('retorna os volumes de determinada caixa pelo escopo', function () {
+    $caixa = Caixa::factory()->create();
+    $volume_1 = VolumeCaixa::factory()->for($caixa, 'caixa')->create();
+    $volume_2 = VolumeCaixa::factory()->for($caixa, 'caixa')->create();
+    $volume_3 = VolumeCaixa::factory()->create();
+
+    $volumes = VolumeCaixa::daCaixa($caixa->id)->pluck('id');
+
+    expect($volumes)->toHaveCount(2)
+    ->and($volumes)->toContain($volume_1->id)
+    ->and($volumes)->toContain($volume_2->id)
+    ->and($volumes)->not->toContain($volume_3->id);
+});

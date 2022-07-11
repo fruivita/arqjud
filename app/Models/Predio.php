@@ -99,4 +99,17 @@ class Predio extends Model
     {
         return $query->orderBy('nome', 'asc');
     }
+
+    /**
+     * Prédios da localidade informada.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id_localidade
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDaLocalidade($query, int $id_localidade)
+    {
+        return $query->where('localidade_id', $id_localidade);
+    }
 }

@@ -216,3 +216,17 @@ test('retorna os andares ordenados pelo escopo de ordenação padrão', function
     ->and($andares->get(1)->numero)->toBe(10)
     ->and($andares->get(2)->numero)->toBe(100);
 });
+
+test('retorna os andares de determinado prédio pelo escopo', function () {
+    $predio = Predio::factory()->create();
+    $andar_1 = Andar::factory()->for($predio, 'predio')->create();
+    $andar_2 = Andar::factory()->for($predio, 'predio')->create();
+    $andar_3 = Andar::factory()->create();
+
+    $andares = Andar::doPredio($predio->id)->pluck('id');
+
+    expect($andares)->toHaveCount(2)
+    ->and($andares)->toContain($andar_1->id)
+    ->and($andares)->toContain($andar_2->id)
+    ->and($andares)->not->toContain($andar_3->id);
+});
