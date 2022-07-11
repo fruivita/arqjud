@@ -94,7 +94,7 @@
                 @production
                 @else
 
-                    <x-feedback.ambiente />
+                    <x-feedback.ambiente/>
 
                 @endproduction
 
@@ -102,7 +102,7 @@
                 {{-- será exibido quando houver simulação de uso em execução --}}
                 @if(session()->has('simulador'))
 
-                    <x-feedback.simulacao />
+                    <x-feedback.simulacao/>
 
                 @endif
 
@@ -121,7 +121,7 @@
 
 
         {{-- caixa de mensagem para retorno ao usuário --}}
-        <x-feedback.notificacao />
+        <x-feedback.notificacao/>
 
 
         {{-- javascript --}}
