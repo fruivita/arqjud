@@ -62,8 +62,8 @@ class DelegacaoLivewireIndex extends Component
     {
         return
         Usuario::with('delegante')
+            ->delegaveis()
             ->orWhereLike(['nome', 'username'], $this->termo)
-            ->where('lotacao_id', auth()->user()->lotacao_id)
             ->orderByWhen($this->ordenacoes)
             ->paginate($this->preferencias['por_pagina']);
     }

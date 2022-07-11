@@ -231,6 +231,25 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     }
 
     /**
+     * Usuários passíveis de delegação.
+     *
+     * Notar que pode a delegação não ser possível por outro motivo. Ex.:
+     * perfil superior, etc. Contudo, usuários de uma mesma lotação poderiam,
+     * em tese, delegar seu perfil para outro. Esse escopo, não se preocupa com
+     * esses filigramas, retornando tão somente os usuários da mesma lotação.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @see https://learnsql.com/blog/how-to-order-rows-with-nulls/
+     */
+    public function scopeDelegaveis(Builder $query)
+    {
+        return $query->where('lotacao_id', auth()->user()->lotacao_id);
+    }
+
+    /**
      * Verifica se o usuário autenticado é um super administrador.
      *
      * @return bool

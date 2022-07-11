@@ -167,14 +167,14 @@ test('renderiza o componente com permissão', function () {
     ->assertSeeLivewire(DelegacaoLivewireIndex::class);
 });
 
-test('exibe apenas os usuários da memsa lotação', function () {
+test('exibe apenas os usuários da memsa lotação, pois são os delegáveis', function () {
     concederPermissao(Permissao::DelegacaoViewAny->value);
 
     Usuario::factory(30)->create();
     Usuario::factory(5)->for($this->lotacao, 'lotacao')->create();
 
     Livewire::test(DelegacaoLivewireIndex::class)
-    ->assertCount('delegaveis', 6);
+    ->assertCount('delegaveis', 6); // próprio usuário também é exibido
 });
 
 test('delega perfil para usuário da mesma lotação se o perfil for inferior', function () {

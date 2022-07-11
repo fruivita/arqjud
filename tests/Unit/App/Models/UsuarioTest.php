@@ -176,6 +176,24 @@ test('retorna os usuários ordenados pelo escopo de ordenação padrão', functi
     ->and($usuarios->get(3)->username)->toBe($quarto['username']);
 });
 
+test('retorna os usuários delegáveis definidos no escopo', function () {
+    $outra_lotacao = Lotacao::factory()->create();
+    $usuario = login('foo');
+    $usuario->refresh();
+
+    $delegavel_1 = Usuario::factory()->create(['lotacao_id' => $usuario->lotacao_id]);
+    $delegavel_2 = Usuario::factory()->create(['lotacao_id' => $usuario->lotacao_id]);
+    $nao_delegavel = Usuario::factory()->create(['lotacao_id' => $outra_lotacao->id]);
+
+    $delegaveis = Usuario::delegaveis()->pluck('id');
+
+    expect($delegaveis)->toHaveCount(3) // próprio usuário também é exibido
+    ->and($delegaveis)->toContain($delegavel_1->id)
+    ->and($delegaveis)->toContain($delegavel_2->id)
+    ->and($delegaveis)->toContain($usuario->id)
+    ->and($delegaveis)->not->toContain($nao_delegavel->id);
+});
+
 test('método delegar concede ao usuário informado o mesmo perfil do usuário autenticado e salva seu antigo perfil', function () {
     $delegante = Usuario::factory()->create(['perfil_id' => Perfil::GERENTE_NEGOCIO]);
 
