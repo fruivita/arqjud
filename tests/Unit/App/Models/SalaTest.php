@@ -164,3 +164,15 @@ test('método hierarquia retorna todos as salas com o id e nome/número do respe
     ->and($sala_20->estantes_count)->toBe(1)
     ->and($sala_30->estantes_count)->toBe(2);
 });
+
+test('retorna as salas ordenadas pelo escopo de ordenação padrão', function () {
+    Sala::factory()->create(['numero' => 'foo']);
+    Sala::factory()->create(['numero' => 'bar']);
+    Sala::factory()->create(['numero' => 'baz']);
+
+    $salas = Sala::ordenacaoPadrao()->get();
+
+    expect($salas->get(0)->numero)->toBe('bar')
+    ->and($salas->get(1)->numero)->toBe('baz')
+    ->and($salas->get(2)->numero)->toBe('foo');
+});

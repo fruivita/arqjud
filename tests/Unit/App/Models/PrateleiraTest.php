@@ -221,3 +221,15 @@ test('método paraHumano retorna "Não informada" se o número da prateleira for
     expect($prateleira->para_humano)->toBe(__('Não informada'))
     ->and($prateleira->estante_para_humano)->toBe(__('Não informada'));
 });
+
+test('retorna as prateleiras ordenados pelo escopo de ordenação padrão', function () {
+    Prateleira::factory()->create(['numero' => 100]);
+    Prateleira::factory()->create(['numero' => 1]);
+    Prateleira::factory()->create(['numero' => 10]);
+
+    $prateleiras = Prateleira::ordenacaoPadrao()->get();
+
+    expect($prateleiras->get(0)->numero)->toBe(1)
+    ->and($prateleiras->get(1)->numero)->toBe(10)
+    ->and($prateleiras->get(2)->numero)->toBe(100);
+});

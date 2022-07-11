@@ -192,4 +192,22 @@ class Prateleira extends Model
 
         return $prateleira;
     }
+
+    /**
+     * Ordenação padrão do modelo.
+     *
+     * Ordenação:
+     * - 1º numero em ordem crescente
+     *
+     * Especialmente útil para a popular combos, pois traz a ordenação mais
+     * humanamente natural.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrdenacaoPadrao($query)
+    {
+        return $query->orderBy('numero', 'asc');
+    }
 }

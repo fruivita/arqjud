@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\Permissao as EnumPermissao;
 use FruiVita\Corporativo\Models\Usuario as UsuarioCorporativo;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -212,7 +211,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
      * Ordenação padrão do modelo.
      *
      * Ordenação:
-     * - 1º name em ordem alfabética asc
+     * - 1º nome em ordem alfabética asc
      * - 2º nome com valor null
      * - 3º username asc
      *
@@ -222,7 +221,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
      *
      * @see https://learnsql.com/blog/how-to-order-rows-with-nulls/
      */
-    public function scopeOrdenacaoPadrao(Builder $query)
+    public function scopeOrdenacaoPadrao($query)
     {
         return $query
                 ->orderByRaw('nome IS NULL')
@@ -241,10 +240,8 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
      * @return \Illuminate\Database\Eloquent\Builder
-     *
-     * @see https://learnsql.com/blog/how-to-order-rows-with-nulls/
      */
-    public function scopeDelegaveis(Builder $query)
+    public function scopeDelegaveis($query)
     {
         return $query->where('lotacao_id', auth()->user()->lotacao_id);
     }

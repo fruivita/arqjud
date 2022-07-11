@@ -86,3 +86,15 @@ test('método hierarquia retorna todas as localidades com seu respectivo número
     ->and($localidade_bar->predios_count)->toBe(1)
     ->and($localidade_baz->predios_count)->toBe(2);
 });
+
+test('retorna as localidades ordenadas pelo escopo de ordenação padrão', function () {
+    Localidade::factory()->create(['nome' => 'foo']);
+    Localidade::factory()->create(['nome' => 'bar']);
+    Localidade::factory()->create(['nome' => 'baz']);
+
+    $localidades = Localidade::ordenacaoPadrao()->get();
+
+    expect($localidades->get(0)->nome)->toBe('bar')
+    ->and($localidades->get(1)->nome)->toBe('baz')
+    ->and($localidades->get(2)->nome)->toBe('foo');
+});

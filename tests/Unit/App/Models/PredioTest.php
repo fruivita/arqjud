@@ -118,3 +118,15 @@ test('método hierarquia retorna todos os prédios com o id e nome da respectiva
     ->and($predio_bar->andares_count)->toBe(1)
     ->and($predio_baz->andares_count)->toBe(2);
 });
+
+test('retorna os prédios ordenados pelo escopo de ordenação padrão', function () {
+    Predio::factory()->create(['nome' => 'foo']);
+    Predio::factory()->create(['nome' => 'bar']);
+    Predio::factory()->create(['nome' => 'baz']);
+
+    $predios = Predio::ordenacaoPadrao()->get();
+
+    expect($predios->get(0)->nome)->toBe('bar')
+    ->and($predios->get(1)->nome)->toBe('baz')
+    ->and($predios->get(2)->nome)->toBe('foo');
+});

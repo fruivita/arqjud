@@ -158,7 +158,7 @@ class UsuarioLivewireIndex extends Component
 
         $this->perfis = Perfil::select('id', 'nome')
                         ->disponiveisParaAtribuicao()
-                        ->orderBy('nome', 'asc')
+                        ->ordenacaoPadrao()
                         ->get();
 
         $this->exibir_modal_edicao = true;

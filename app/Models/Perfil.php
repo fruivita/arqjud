@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -66,7 +65,7 @@ class Perfil extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeOrdenacaoPadrao(Builder $query)
+    public function scopeOrdenacaoPadrao($query)
     {
         return $query->orderBy('id', 'desc');
     }
@@ -81,7 +80,7 @@ class Perfil extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeDisponiveisParaAtribuicao(Builder $query)
+    public function scopeDisponiveisParaAtribuicao($query)
     {
         return $query->where('id', '<=', auth()->user()->perfil_id);
     }

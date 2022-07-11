@@ -158,22 +158,17 @@ test('método paraHumano retorna o usuário em formato para leitura humana', fun
 });
 
 test('retorna os usuários ordenados pelo escopo de ordenação padrão', function () {
-    $primeiro = ['nome' => 'foo', 'username' => 'bar'];
-    $segundo = ['nome' => 'foo', 'username' => 'baz'];
-    $terceiro = ['nome' => null, 'username' => 'barr'];
-    $quarto = ['nome' => null, 'username' => 'barz'];
-
-    Usuario::factory()->create($segundo);
-    Usuario::factory()->create($primeiro);
-    Usuario::factory()->create($quarto);
-    Usuario::factory()->create($terceiro);
+    Usuario::factory()->create(['nome' => 'foo', 'username' => 'baz']);
+    Usuario::factory()->create(['nome' => 'foo', 'username' => 'bar']);
+    Usuario::factory()->create(['nome' => null, 'username' => 'barz']);
+    Usuario::factory()->create(['nome' => null, 'username' => 'barr']);
 
     $usuarios = Usuario::ordenacaoPadrao()->get();
 
-    expect($usuarios->get(0)->username)->toBe($primeiro['username'])
-    ->and($usuarios->get(1)->username)->toBe($segundo['username'])
-    ->and($usuarios->get(2)->username)->toBe($terceiro['username'])
-    ->and($usuarios->get(3)->username)->toBe($quarto['username']);
+    expect($usuarios->get(0)->username)->toBe('bar')
+    ->and($usuarios->get(1)->username)->toBe('baz')
+    ->and($usuarios->get(2)->username)->toBe('barr')
+    ->and($usuarios->get(3)->username)->toBe('barz');
 });
 
 test('retorna os usuários delegáveis definidos no escopo', function () {

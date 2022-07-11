@@ -81,4 +81,22 @@ class Predio extends Model
             return $collection->put(__('Prédio'), route('arquivamento.cadastro.predio.edit', $this->id));
         });
     }
+
+    /**
+     * Ordenação padrão do modelo.
+     *
+     * Ordenação:
+     * - 1º nome em ordem alfabética asc
+     *
+     * Especialmente útil para a popular combos, pois traz a ordenação mais
+     * humanamente natural.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrdenacaoPadrao($query)
+    {
+        return $query->orderBy('nome', 'asc');
+    }
 }

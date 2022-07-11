@@ -138,7 +138,7 @@ class PredioLivewireUpdate extends Component
     {
         $this->predio = Predio::hierarquia()->findOrFail($id);
 
-        $this->localidades = Localidade::orderBy('nome', 'asc')->get();
+        $this->localidades = Localidade::ordenacaoPadrao()->get();
     }
 
     /**

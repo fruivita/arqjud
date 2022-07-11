@@ -211,3 +211,15 @@ test('método paraHumano retorna "Não informada" se o número da estante for ze
 
     expect($estante->para_humano)->toBe(__('Não informada'));
 });
+
+test('retorna as estantes ordenados pelo escopo de ordenação padrão', function () {
+    Estante::factory()->create(['numero' => 100]);
+    Estante::factory()->create(['numero' => 1]);
+    Estante::factory()->create(['numero' => 10]);
+
+    $estantes = Estante::ordenacaoPadrao()->get();
+
+    expect($estantes->get(0)->numero)->toBe(1)
+    ->and($estantes->get(1)->numero)->toBe(10)
+    ->and($estantes->get(2)->numero)->toBe(100);
+});

@@ -443,7 +443,7 @@ class CaixaLivewireUpdate extends Component
      */
     private function inicializarPropriedadesPais()
     {
-        $this->localidades = Localidade::orderBy('nome', 'asc')->get();
+        $this->localidades = Localidade::ordenacaoPadrao()->get();
         $this->localidade_id = $this->caixa->localidade_id;
 
         $this->predios = $this->predios();
@@ -484,7 +484,7 @@ class CaixaLivewireUpdate extends Component
      */
     private function predios()
     {
-        return Predio::where('localidade_id', $this->localidade_id)->orderBy('nome', 'asc')->get();
+        return Predio::where('localidade_id', $this->localidade_id)->ordenacaoPadrao()->get();
     }
 
     /**
@@ -494,7 +494,7 @@ class CaixaLivewireUpdate extends Component
      */
     private function andares()
     {
-        return Andar::where('predio_id', $this->predio_id)->orderBy('numero', 'asc')->get();
+        return Andar::where('predio_id', $this->predio_id)->ordenacaoPadrao()->get();
     }
 
     /**
@@ -504,7 +504,7 @@ class CaixaLivewireUpdate extends Component
      */
     private function salas()
     {
-        return Sala::where('andar_id', $this->andar_id)->orderBy('numero', 'asc')->get();
+        return Sala::where('andar_id', $this->andar_id)->ordenacaoPadrao()->get();
     }
 
     /**
@@ -514,7 +514,7 @@ class CaixaLivewireUpdate extends Component
      */
     private function estantes()
     {
-        return Estante::where('sala_id', $this->sala_id)->orderBy('numero', 'asc')->get();
+        return Estante::where('sala_id', $this->sala_id)->ordenacaoPadrao()->get();
     }
 
     /**
@@ -524,6 +524,6 @@ class CaixaLivewireUpdate extends Component
      */
     private function prateleiras()
     {
-        return Prateleira::where('estante_id', $this->estante_id)->orderBy('numero', 'asc')->get();
+        return Prateleira::where('estante_id', $this->estante_id)->ordenacaoPadrao()->get();
     }
 }

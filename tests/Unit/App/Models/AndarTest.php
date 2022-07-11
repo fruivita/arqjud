@@ -204,3 +204,15 @@ test('método hierarquia retorna todos os andares com o id e nome do respectivo 
     ->and($andar_20->salas_count)->toBe(1)
     ->and($andar_30->salas_count)->toBe(2);
 });
+
+test('retorna os andares ordenados pelo escopo de ordenação padrão', function () {
+    Andar::factory()->create(['numero' => 100]);
+    Andar::factory()->create(['numero' => 1]);
+    Andar::factory()->create(['numero' => 10]);
+
+    $andares = Andar::ordenacaoPadrao()->get();
+
+    expect($andares->get(0)->numero)->toBe(1)
+    ->and($andares->get(1)->numero)->toBe(10)
+    ->and($andares->get(2)->numero)->toBe(100);
+});
