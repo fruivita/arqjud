@@ -33,6 +33,18 @@ class Localidade extends Model
     }
 
     /**
+     * Relacionamento localidade (1:N) caixas.
+     *
+     * Caixas criadas pela localidade.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function caixasCriadas()
+    {
+        return $this->hasMany(Caixa::class, 'localidade_criadora_id', 'id');
+    }
+
+    /**
      * Todas as localidades.
      *
      * Acompanhadas das seguintes colunas extras:

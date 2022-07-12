@@ -32,6 +32,13 @@ class Caixa extends Model
     protected $fillable = ['ano', 'numero', 'descricao'];
 
     /**
+     * Os atributos sujeitos ao cast.
+     *
+     * @var array
+     */
+    protected $casts = ['guarda_permanente' => 'boolean'];
+
+    /**
      * Relacionamento caixa (N:1) prateleira.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -49,6 +56,19 @@ class Caixa extends Model
     public function volumes()
     {
         return $this->hasMany(VolumeCaixa::class, 'caixa_id', 'id');
+    }
+
+
+    /**
+     * Relacionamento caixa (N:1) localidade.
+     *
+     * Localidade em que a caixa foi criada.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function localidadeCriadora()
+    {
+        return $this->belongsTo(Localidade::class, 'localidade_criadora_id', 'id');
     }
 
     /**
@@ -215,11 +235,33 @@ class Caixa extends Model
     /**
      * Gera o próximo número da caixa disponível.
      *
+     * @param int    $ano                    ano para criação da caixa
+     * @param bool   $guarda_permanente      se é para guarda permanente
+     * @param int    $localidade_criadora_id onde a caixa foi criada
+     * @param string $complemento            complementação
+     *
      * @return int
      */
-    public static function proximoNumeroCaixa(int $ano)
+    public static function proximoNumeroCaixa(
+        int $ano,
+        bool $guarda_permanente,
+        int $localidade_criadora_id,
+        string $complemento = null
+    )
     {
-        return self::where('ano', $ano)->max('numero') + 1;
+        return self::where('ano', $ano)
+                    ->where('guarda_permanente', $guarda_permanente)
+                    ->where('localidade_criadora_id', $localidade_criadora_id)
+                    ->when(
+                        $complemento,
+                        function ($query, $complemento) {
+                            $query->where('complemento', $complemento);
+                        },
+                        function ($query) {
+                            $query->whereNull('complemento');
+                        }
+                    )
+                    ->max('numero') + 1;
     }
 
     /**
@@ -296,11 +338,8 @@ class Caixa extends Model
         collect()
         ->range($template->numero, $template->numero + $quantidade - 1)
         ->map(function ($sequencial) use ($template) {
-            $caixa = new Caixa();
-
-            $caixa->ano = $template->ano;
+            $caixa = clone $template;
             $caixa->numero = $sequencial;
-            $caixa->descricao = $template->descricao;
 
             return $caixa;
         });

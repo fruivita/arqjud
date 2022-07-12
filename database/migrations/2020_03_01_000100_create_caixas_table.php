@@ -19,20 +19,37 @@ return new class extends Migration {
         Schema::create('caixas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('prateleira_id');
+            $table->unsignedBigInteger('localidade_criadora_id');
             $table->unsignedInteger('numero');
             $table->unsignedSmallInteger('ano');
+            // Destinada a guarda de processos de guarda permanente?
+            $table->boolean('guarda_permanente');
+            // Trata-se de complemento da numeração
+            $table->string('complemento', 50)->nullable();
             $table->string('descricao', 255)->nullable();
             $table->timestamps();
 
-            $table->unique([
-                'numero',
-                'ano',
-            ]);
+            $table->unique(
+                [
+                    'numero',
+                    'ano',
+                    'guarda_permanente',
+                    'complemento',
+                    'localidade_criadora_id',
+                ],
+                'caixas_unicas'
+            );
 
             $table
                 ->foreign('prateleira_id')
                 ->references('id')
                 ->on('prateleiras')
+                ->onUpdate('cascade');
+
+            $table
+                ->foreign('localidade_criadora_id')
+                ->references('id')
+                ->on('localidades')
                 ->onUpdate('cascade');
         });
     }

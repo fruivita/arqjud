@@ -6,16 +6,23 @@
 
 use App\Models\Caixa;
 use App\Models\Estante;
+use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\VolumeCaixa;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
 
 // Exceptions
-test('lança exception ao tentar criar caixas duplicados, isto é, com mesmo ano e número', function () {
+test('lança exception ao tentar criar caixas duplicados, isto é, com mesmo ano, número, se é guarda permanente, local de criação e complemento', function () {
+    $localidade = Localidade::factory()->create();
+
     expect(
         fn () => Caixa::factory(2)->create([
             'numero' => 100,
             'ano' => 2020,
+            'guarda_permanente' => true,
+            'complemento' => 'foo',
+            'localidade_criadora_id' => $localidade->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
 });
@@ -25,12 +32,14 @@ test('lança exception ao tentar criar caixa com campo inválido', function ($ca
         fn () => Caixa::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);
 })->with([
-    ['numero', -1,         'Out of range'],             // min 0
-    ['numero', 4294967296, 'Out of range'],             // max 4294967295
-    ['numero', 'foo',      'Incorrect integer value'],  // não conversível em inteiro
-    ['ano',    -1,         'Out of range value'],       // min 0
-    ['ano',    65536,      'Out of range value'],       // max 65536
-    ['ano',    'foo',      'Incorrect integer value'],  // não conversível em inteiro
+    ['numero',      -1,         'Out of range'],                   // min 0
+    ['numero',      4294967296, 'Out of range'],                   // max 4294967295
+    ['numero',      'foo',      'Incorrect integer value'],        // não conversível em inteiro
+    ['ano',         -1,         'Out of range value'],             // min 0
+    ['ano',         65536,      'Out of range value'],             // max 65536
+    ['ano',         'foo',      'Incorrect integer value'],        // não conversível em inteiro
+    ['complemento', Str::random(51), 'Data too long for column'],  // máximo 50 caracteres
+    ['descricao',   Str::random(256), 'Data too long for column'], // máximo 255 caracteres
 ]);
 
 test('lança exception ao tentar definir relacionamento inválido', function ($campo, $valor, $mensagem) {
@@ -38,8 +47,10 @@ test('lança exception ao tentar definir relacionamento inválido', function ($c
         fn () => Caixa::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);
 })->with([
-    ['prateleira_id', 10,   'Cannot add or update a child row'], // não existente
-    ['prateleira_id', null, 'cannot be null'],                   // obrigatório
+    ['prateleira_id',          10,   'Cannot add or update a child row'], // não existente
+    ['prateleira_id',          null, 'cannot be null'],                   // obrigatório
+    ['localidade_criadora_id', 10,   'Cannot add or update a child row'], // não existente
+    ['localidade_criadora_id', null, 'cannot be null'],                   // obrigatório
 ]);
 
 // Caminho feliz
@@ -53,9 +64,19 @@ test('aceita campos em seus tamanhos máximos', function () {
     Caixa::factory()->create([
         'numero' => 4294967295,
         'ano' => 65535,
+        'complemento' => Str::random(50),
+        'descricao' => Str::random(255),
     ]);
 
     expect(Caixa::count())->toBe(1);
+});
+
+test('uma caixa só pode ser criada por uma localidade', function () {
+    $caixa = Caixa::factory()->for(Localidade::factory(), 'localidadeCriadora')->create();
+
+    $caixa->load(['localidadeCriadora']);
+
+    expect($caixa->localidadeCriadora)->toBeInstanceOf(Localidade::class);
 });
 
 test('uma caixa pertente a uma prateleira', function () {
@@ -75,11 +96,35 @@ test('uma caixa possui muitos volumes de caixa', function () {
 });
 
 test('método proximoNumeroCaixa retorna o número da próxima caixa a ser criada', function () {
-    Caixa::factory()->create(['ano' => 2020, 'numero' => 30]);
-    Caixa::factory()->create(['ano' => 2020, 'numero' => 20]);
+    $localidade_a = Localidade::factory()->create();
+    $localidade_b = Localidade::factory()->create();
 
-    expect(Caixa::proximoNumeroCaixa(2020))->toBe(31)
-    ->and(Caixa::proximoNumeroCaixa(2021))->toBe(1);
+    Caixa::factory()->for($localidade_a, 'localidadeCriadora')->create([
+        'ano' => 2020,
+        'numero' => 20,
+        'guarda_permanente' => true,
+        'complemento' => 'foo',
+        'localidade_criadora_id' => $localidade_a->id,
+    ]);
+
+    Caixa::factory()->for($localidade_b, 'localidadeCriadora')->create([
+        'ano' => 2020,
+        'numero' => 30,
+        'guarda_permanente' => true,
+        'complemento' => null,
+        'localidade_criadora_id' => $localidade_b->id,
+    ]);
+
+    expect(Caixa::proximoNumeroCaixa(2020, true, $localidade_a->id, 'foo'))->toBe(21) // criada na localidade b
+    ->and(Caixa::proximoNumeroCaixa(2020, true, $localidade_a->id))->toBe(1)          // sem complemento
+    ->and(Caixa::proximoNumeroCaixa(2020, true, $localidade_a->id, 'bar'))->toBe(1)   // outro complemento
+    ->and(Caixa::proximoNumeroCaixa(2020, false, $localidade_a->id, 'foo'))->toBe(1)  // não é guarda permanente
+    ->and(Caixa::proximoNumeroCaixa(2021, true, $localidade_a->id, 'foo'))->toBe(1)   // outro ano
+    ->and(Caixa::proximoNumeroCaixa(2020, true, $localidade_b->id))->toBe(31)         // criada na localidade b
+    ->and(Caixa::proximoNumeroCaixa(2020, true, $localidade_b->id, ''))->toBe(31)     // criada na localidade b
+    ->and(Caixa::proximoNumeroCaixa(2020, true, $localidade_b->id, 'bar'))->toBe(1)   // outro complemento
+    ->and(Caixa::proximoNumeroCaixa(2020, false, $localidade_b->id, 'foo'))->toBe(1)  // não é guarda permanente
+    ->and(Caixa::proximoNumeroCaixa(2021, true, $localidade_b->id, 'foo'))->toBe(1);  // outro ano
 });
 
 test('método proximoNumeroVolume retorna o número do próximo volume da caixa a ser criado', function () {
@@ -162,6 +207,10 @@ test('método criarMuitas cria e salva caixas com números sequenciais e com os 
     ->and($caixas->first()->numero)->toBe(10)
     ->and($caixas->last()->numero)->toBe(39)
     ->and($caixa->ano)->toBe($template->ano)
+    ->and($caixa->guarda_permanente)->toBe($template->guarda_permanente)
+    ->and($caixa->complemento)->toBe($template->complemento)
+    ->and($caixa->descricao)->toBe($template->descricao)
+    ->and($caixa->localidade_criadora_id)->toBe($template->localidade_criadora_id)
     ->and($caixa->volumes)->toHaveCount(5)
     ->and($caixa->volumes->first()->numero)->toBe(1)
     ->and($caixa->volumes->last()->numero)->toBe(5);
