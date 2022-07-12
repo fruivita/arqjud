@@ -108,8 +108,8 @@ class SalaLivewireUpdate extends Component
             'sala.numero' => [
                 'bail',
                 'required',
-                'integer',
-                'between:1,100000',
+                'string',
+                'max:50',
                 "unique:salas,numero,{$this->sala->id},id,andar_id,{$this->sala->andar_id}",
             ],
 

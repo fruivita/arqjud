@@ -77,38 +77,35 @@ test('número é obrigatório', function () {
     ->assertHasErrors(['sala.numero' => 'required']);
 });
 
-test('número precisa ser um inteiro', function () {
+test('número precisa ser uma string', function () {
     concederPermissao(Permissao::SalaUpdate->value);
 
     Livewire::test(SalaLivewireUpdate::class, ['id' => $this->sala->id])
     ->set('modo_edicao', true)
     ->set('sala.numero', ['foo'])
     ->call('update')
-    ->assertHasErrors(['sala.numero' => 'integer']);
+    ->assertHasErrors(['sala.numero' => 'string']);
 });
 
-test('número precisa estar entre 1 e 100000', function () {
+test('número precisa ter no máximo 50 caracteres', function () {
     concederPermissao(Permissao::SalaUpdate->value);
 
     Livewire::test(SalaLivewireUpdate::class, ['id' => $this->sala->id])
     ->set('modo_edicao', true)
-    ->set('sala.numero', 0)
+    ->set('sala.numero', Str::random(51))
     ->call('update')
-    ->assertHasErrors(['sala.numero' => 'between'])
-    ->set('sala.numero', 100001)
-    ->call('update')
-    ->assertHasErrors(['sala.numero' => 'between']);
+    ->assertHasErrors(['sala.numero' => 'max']);
 });
 
 test('número e andar_id precisam ser únicos', function () {
     concederPermissao(Permissao::SalaUpdate->value);
 
     $andar = Andar::factory()->create();
-    Sala::factory()->create(['numero' => 99, 'andar_id' => $andar->id]);
+    Sala::factory()->create(['numero' => '99', 'andar_id' => $andar->id]);
 
     Livewire::test(SalaLivewireUpdate::class, ['id' => $this->sala->id])
     ->set('modo_edicao', true)
-    ->set('sala.numero', 99)
+    ->set('sala.numero', '99')
     ->set('sala.andar_id', $andar->id)
     ->call('update')
     ->assertHasErrors(['sala.numero' => 'unique']);
@@ -289,7 +286,7 @@ test('emite evento de feedback ao atualizar um registro', function () {
 
     Livewire::test(SalaLivewireUpdate::class, ['id' => $this->sala->id])
     ->set('modo_edicao', true)
-    ->set('sala.numero', 1)
+    ->set('sala.numero', '1')
     ->set('sala.andar_id', $andar->id)
     ->call('update')
     ->assertEmitted('flash', Feedback::Sucesso, __('Sucesso!'));
@@ -370,7 +367,7 @@ test('atualiza um registro com permissão', function () {
 
     Livewire::test(SalaLivewireUpdate::class, ['id' => $this->sala->id])
     ->set('modo_edicao', true)
-    ->set('sala.numero', 99)
+    ->set('sala.numero', '99')
     ->set('sala.descricao', 'foo bar')
     ->set('sala.andar_id', $andar->id)
     ->call('update')

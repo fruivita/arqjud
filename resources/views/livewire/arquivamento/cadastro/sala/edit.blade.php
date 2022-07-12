@@ -29,13 +29,13 @@
                 :editavel="$this->modo_edicao"
                 :erro="$errors->first('sala.numero')"
                 icone="door-closed"
-                min="1"
-                max="100000"
-                :placeholder="__('Apenas números')"
+                maxlength="50"
+                :placeholder="__('Número da sala')"
                 required
                 :texto="__('Sala')"
                 :title="__('Informe o número da sala')"
-                type="number"/>
+                type="text"
+                com_contador/>
 
 
             <x-form.textarea

@@ -68,8 +68,8 @@ class SalaLivewireCreate extends Component
             'sala.numero' => [
                 'bail',
                 'required',
-                'integer',
-                'between:1,100000',
+                'string',
+                'max:50',
                 "unique:salas,numero,null,id,andar_id,{$this->andar_id}",
             ],
 

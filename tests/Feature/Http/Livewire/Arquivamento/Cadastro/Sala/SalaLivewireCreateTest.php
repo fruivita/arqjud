@@ -55,34 +55,31 @@ test('número é obrigatório', function () {
     ->assertHasErrors(['sala.numero' => 'required']);
 });
 
-test('número precisa ser um inteiro', function () {
+test('número precisa ser uma string', function () {
     concederPermissao(Permissao::SalaCreate->value);
 
     Livewire::test(SalaLivewireCreate::class, ['id' => $this->andar->id])
     ->set('sala.numero', ['foo'])
     ->call('store')
-    ->assertHasErrors(['sala.numero' => 'integer']);
+    ->assertHasErrors(['sala.numero' => 'string']);
 });
 
-test('número precisa estar entre 1 e 100000', function () {
+test('número precisa ter no máximo 50 caracteres', function () {
     concederPermissao(Permissao::SalaCreate->value);
 
     Livewire::test(SalaLivewireCreate::class, ['id' => $this->andar->id])
-    ->set('sala.numero', 0)
+    ->set('sala.numero', Str::random(51))
     ->call('store')
-    ->assertHasErrors(['sala.numero' => 'between'])
-    ->set('sala.numero', 100001)
-    ->call('store')
-    ->assertHasErrors(['sala.numero' => 'between']);
+    ->assertHasErrors(['sala.numero' => 'max']);
 });
 
 test('número e andar_id precisam ser únicos', function () {
     concederPermissao(Permissao::SalaCreate->value);
 
-    Sala::factory()->create(['numero' => 99, 'andar_id' => $this->andar->id]);
+    Sala::factory()->create(['numero' => '99', 'andar_id' => $this->andar->id]);
 
     Livewire::test(SalaLivewireCreate::class, ['id' => $this->andar->id])
-    ->set('sala.numero', 99)
+    ->set('sala.numero', '99')
     ->call('store')
     ->assertHasErrors(['sala.numero' => 'unique']);
 });
@@ -137,7 +134,7 @@ test('emite evento de feedback ao criar um registro', function () {
     concederPermissao(Permissao::SalaCreate->value);
 
     Livewire::test(SalaLivewireCreate::class, ['id' => $this->andar->id])
-    ->set('sala.numero', 1)
+    ->set('sala.numero', '1')
     ->call('store')
     ->assertEmitted('flash', Feedback::Sucesso, __('Sucesso!'));
 });
@@ -165,7 +162,7 @@ test('cria um registro com permissão', function () {
     concederPermissao(Permissao::SalaCreate->value);
 
     Livewire::test(SalaLivewireCreate::class, ['id' => $this->andar->id])
-    ->set('sala.numero', 99)
+    ->set('sala.numero', '99')
     ->set('sala.descricao', 'foo bar')
     ->call('store')
     ->assertHasNoErrors()
@@ -182,7 +179,7 @@ test('ao criar uma sala, cria também a estante e a prateleira padrão', functio
     concederPermissao(Permissao::SalaCreate->value);
 
     Livewire::test(SalaLivewireCreate::class, ['id' => $this->andar->id])
-    ->set('sala.numero', 99)
+    ->set('sala.numero', '99')
     ->set('sala.descricao', 'foo bar')
     ->call('store')
     ->assertOk();
@@ -210,7 +207,7 @@ test('reseta para um modelo em branco após criar um registro', function () {
     $branco = new Sala();
 
     Livewire::test(SalaLivewireCreate::class, ['id' => $this->andar->id])
-    ->set('sala.numero', 1)
+    ->set('sala.numero', '1')
     ->call('store')
     ->assertOk()
     ->assertSet('sala', $branco);

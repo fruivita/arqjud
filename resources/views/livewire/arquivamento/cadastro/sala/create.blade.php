@@ -47,14 +47,14 @@
                 autofocus
                 editavel
                 :erro="$errors->first('sala.numero')"
-                icone="layers"
-                min="1"
-                max="100000"
-                :placeholder="__('Apenas números')"
+                icone="door-closed"
+                maxlength="50"
+                :placeholder="__('Número da sala')"
                 required
                 :texto="__('Sala')"
                 :title="__('Informe o número da sala')"
-                type="number"/>
+                type="text"
+                com_contador/>
 
 
             <x-form.textarea
