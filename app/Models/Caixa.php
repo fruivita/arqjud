@@ -285,8 +285,7 @@ class Caixa extends Model
      * O número da primeira caixa será o definido no template enquanto as
      * demais serão incrementadas em um.
      *
-     * @param \App\Models\Caixa $template   template para criação das
-     *                                      caixas
+     * @param \App\Models\Caixa $template   template para criação das caixas
      * @param int               $quantidade número de caixas para criar
      *
      * @return \Illuminate\Support\Collection
