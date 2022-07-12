@@ -14,7 +14,7 @@
 --}}
 
 
-@props(['icone', 'texto'])
+@props (['icone', 'texto'])
 
 
 <div class="bg-primaria-300 rounded shadow-lg shadow-secundaria-500 dark:bg-secundaria-600 dark:shadow-primaria-500 hover:bg-primaria-200 hover:dark:bg-secundaria-500">

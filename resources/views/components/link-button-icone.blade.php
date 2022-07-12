@@ -13,7 +13,7 @@
 --}}
 
 
-@props(['icone'])
+@props (['icone'])
 
 
 <a {{ $attributes->merge(['class' => 'btn']) }}>

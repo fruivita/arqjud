@@ -16,7 +16,7 @@
 --}}
 
 
-@props(['modo_edicao'])
+@props (['modo_edicao'])
 
 
 {{-- Mensagem de retorno a respeito da ação executada --}}

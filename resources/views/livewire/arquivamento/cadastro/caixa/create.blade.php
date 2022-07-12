@@ -107,7 +107,7 @@
                     type="number"/>
 
 
-                @can(\App\Enums\Policy::CreateMany->value, \App\Models\Caixa::class)
+                @can (\App\Enums\Policy::CreateMany->value, \App\Models\Caixa::class)
 
                     <x-form.input
                         wire:key="caixa-quantidade-can"

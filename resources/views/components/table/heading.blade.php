@@ -21,7 +21,7 @@
 --}}
 
 
-@props(['direcao' => null, 'exibir' => true, 'ordenavel' => false, 'pesquisa_ativa' => false])
+@props (['direcao' => null, 'exibir' => true, 'ordenavel' => false, 'pesquisa_ativa' => false])
 
 
 @if ($exibir === true)
@@ -53,7 +53,7 @@
 
                         <x-icon class="inline" name="arrow-up-short"/>
 
-                    @elseif($direcao === 'desc')
+                    @elseif ($direcao === 'desc')
 
                         <x-icon class="inline" name="arrow-down-short"/>
 

@@ -58,7 +58,7 @@
                 <x-feedback.inline/>
 
 
-                @can(\App\Enums\Policy::LogDownload->value)
+                @can (\App\Enums\Policy::LogDownload->value)
 
                     <x-button
                         wire:click="download"
@@ -75,7 +75,7 @@
                 @endcan
 
 
-                @can(\App\Enums\Policy::LogDelete->value)
+                @can (\App\Enums\Policy::LogDelete->value)
 
                     <x-button
                         wire:click="$toggle('exibir_modal_exclusao')"
@@ -134,7 +134,7 @@
     <x-links-paginacao :itens="$this->conteudo_arquivo"/>
 
 
-    @can(\App\Enums\Policy::LogDelete->value)
+    @can (\App\Enums\Policy::LogDelete->value)
 
         {{-- Modal  para confirmar a excluisão do item --}}
         <x-modal-confirmacao

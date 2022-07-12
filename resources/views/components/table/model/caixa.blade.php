@@ -22,7 +22,7 @@
 --}}
 
 
-@props([
+@props ([
     'caixas',
     'excluir' => null,
     'pai' => null,
@@ -39,7 +39,7 @@
 
     <x-table.topo-tabela>
 
-        @if(
+        @if (
             $com_botao_novo == true
             && isset($pai)
             && auth()->user()->can(\App\Enums\Policy::Create->value, \App\Models\Caixa::class)
@@ -361,7 +361,7 @@
 
                             <x-grupo-button-acao>
 
-                                @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Caixa::class)
+                                @can (\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Caixa::class)
 
                                     <x-link-button-icone
                                         class="btn-acao"
@@ -372,7 +372,7 @@
                                 @endcan
 
 
-                                @if(
+                                @if (
                                     $com_botao_excluir == true
                                     && auth()->user()->can(\App\Enums\Policy::Delete->value, $caixa)
                                 )
@@ -417,7 +417,7 @@
 </div>
 
 
-@if(
+@if (
     isset($excluir->id)
     && auth()->user()->can(\App\Enums\Policy::Delete->value, $excluir)
 )

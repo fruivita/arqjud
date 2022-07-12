@@ -15,26 +15,26 @@
 --}}
 
 
-@props(['selecionado' => false, 'editavel' => false, 'texto' => null])
+@props (['selecionado' => false, 'editavel' => false, 'texto' => null])
 
 
 <label class="flex items-center">
 
     <input
-        @checked($selecionado)
-        @class([
+        @checked ($selecionado)
+        @class ([
             'accent-primaria-500',
             'cursor-not-allowed' => ! $editavel,
             'h-5',
             'mr-2',
             'w-5'
         ])
-        @disabled(! $editavel)
+        @disabled (! $editavel)
         type="checkbox"
         {{ $attributes->except(['class']) }}/>
 
 
-    @isset($texto)
+    @isset ($texto)
 
         <span {{ $attributes->merge(['class' => 'select-none'])->only(['class']) }}>{{ $texto }}</span>
 

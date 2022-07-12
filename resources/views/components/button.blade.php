@@ -15,7 +15,7 @@
 --}}
 
 
-@props(['icone', 'icone_primeiro' => false, 'texto'])
+@props (['icone', 'icone_primeiro' => false, 'texto'])
 
 
 <button {{ $attributes->merge(['class' => 'btn']) }}>

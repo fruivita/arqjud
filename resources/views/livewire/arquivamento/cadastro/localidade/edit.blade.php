@@ -51,7 +51,7 @@
                 com_contador/>
 
 
-            @can(\App\Enums\Policy::Update->value, \App\Models\Localidade::class)
+            @can (\App\Enums\Policy::Update->value, \App\Models\Localidade::class)
 
                 <x-grupo-button>
 

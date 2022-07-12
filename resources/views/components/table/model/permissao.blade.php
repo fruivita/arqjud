@@ -18,7 +18,7 @@
 --}}
 
 
-@props([
+@props ([
     'limite',
     'permissoes',
     'preferencias',
@@ -151,7 +151,7 @@
 
                             <x-grupo-button-acao>
 
-                                @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Permissao::class)
+                                @can (\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Permissao::class)
 
                                     <x-link-button-icone
                                         class="btn-acao"

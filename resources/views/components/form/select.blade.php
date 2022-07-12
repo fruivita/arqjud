@@ -17,7 +17,7 @@
 --}}
 
 
-@props(['editavel' => false, 'erro' => null, 'icone', 'id', 'texto'])
+@props (['editavel' => false, 'erro' => null, 'icone', 'id', 'texto'])
 
 
 @php $id = $id ?? md5(random_int(PHP_INT_MIN, PHP_INT_MAX)); @endphp
@@ -40,7 +40,7 @@
     </label>
 
 
-    <div @class([
+    <div @class ([
         'bg-primaria-100',
         'border-2' => $editavel,
         'border-primaria-300' => $editavel,
@@ -64,7 +64,7 @@
 
         {{-- select propriamente dito --}}
         <select
-            @disabled(! $editavel)
+            @disabled (! $editavel)
             id="{{ $id }}"
             name="{{ $id }}"
             {{

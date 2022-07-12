@@ -14,7 +14,7 @@
 --}}
 
 
-@props(['pergunta'])
+@props (['pergunta'])
 
 
 <x-modal {{ $attributes->whereDoesntStartWith('wire:click') }}>

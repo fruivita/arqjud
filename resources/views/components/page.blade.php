@@ -13,7 +13,7 @@
 --}}
 
 
-@props(['cabecalho'])
+@props (['cabecalho'])
 
 
 <article {{ $attributes->merge(['class' =>'py-3 space-y-6']) }}>

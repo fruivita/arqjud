@@ -44,7 +44,7 @@
             </div>
 
 
-            @can(\App\Enums\Policy::Update->value, \App\Models\Configuracao::class)
+            @can (\App\Enums\Policy::Update->value, \App\Models\Configuracao::class)
 
                 <x-grupo-button>
 

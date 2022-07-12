@@ -24,7 +24,7 @@
         <link href="{{ mix('/css/error.css') }}" rel="stylesheet">
 
 
-        <title>@yield('titulo')</title>
+        <title>@yield ('titulo')</title>
 
     </head>
 
@@ -48,14 +48,14 @@
 
                 <header>
 
-                    <h1 class="font-bold text-6xl text-center">@yield('codigo')</h1>
+                    <h1 class="font-bold text-6xl text-center">@yield ('codigo')</h1>
 
                 </header>
 
 
                 <p class="text-center text-xl">
 
-                    @yield('mensagem')
+                    @yield ('mensagem')
 
                 </p>
 

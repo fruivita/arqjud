@@ -53,7 +53,7 @@
                 com_contador/>
 
 
-                @can(\App\Enums\Policy::Update->value, \App\Models\Documentacao::class)
+                @can (\App\Enums\Policy::Update->value, \App\Models\Documentacao::class)
 
                     <x-grupo-button>
 

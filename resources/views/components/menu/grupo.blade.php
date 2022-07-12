@@ -13,7 +13,7 @@
 --}}
 
 
-@props(['nome'])
+@props (['nome'])
 
 
 <section>

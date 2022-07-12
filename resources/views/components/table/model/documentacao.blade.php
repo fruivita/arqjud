@@ -19,7 +19,7 @@
 --}}
 
 
-@props([
+@props ([
     'excluir',
     'documentacoes',
     'preferencias',
@@ -33,7 +33,7 @@
 
     <x-table.topo-tabela>
 
-        @if(
+        @if (
             $com_botao_novo == true
             && auth()->user()->can(\App\Enums\Policy::Create->value, \App\Models\Documentacao::class)
         )
@@ -153,7 +153,7 @@
 
                             <x-grupo-button-acao>
 
-                                @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Documentacao::class)
+                                @can (\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Documentacao::class)
 
                                     <x-link-button-icone
                                         class="btn-acao"
@@ -164,7 +164,7 @@
                                 @endcan
 
 
-                                @can(\App\Enums\Policy::Delete->value, \App\Models\Documentacao::class)
+                                @can (\App\Enums\Policy::Delete->value, \App\Models\Documentacao::class)
 
                                     <x-button-icone
                                         wire:click="marcarParaExcluir({{ $documentacao->id }})"
@@ -206,7 +206,7 @@
 </div>
 
 
-@if(
+@if (
     isset($excluir->id)
     && auth()->user()->can(\App\Enums\Policy::Delete->value, \App\Models\Documentacao::class)
 )

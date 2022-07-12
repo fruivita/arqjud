@@ -14,7 +14,7 @@
 --}}
 
 
-@props(['model', 'root' => false])
+@props (['model', 'root' => false])
 
 
 <div class="font-bold mx-3 text-right text-sm lg:mx-0">

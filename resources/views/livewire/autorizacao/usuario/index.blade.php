@@ -163,7 +163,7 @@
 
                                     <x-grupo-button-acao>
 
-                                        @can(\App\Enums\Policy::Update->value, \App\Models\Usuario::class)
+                                        @can (\App\Enums\Policy::Update->value, \App\Models\Usuario::class)
 
                                             <x-button-icone
                                                 wire:click="edit({{ $usuario->id }})"
@@ -207,7 +207,7 @@
     </x-container>
 
 
-    @can(\App\Enums\Policy::Update->value, \App\Models\Usuario::class)
+    @can (\App\Enums\Policy::Update->value, \App\Models\Usuario::class)
 
         <x-modal
             wire:key="modal-edicao-usuario-{{ $this->em_edicao->id }}"

@@ -38,7 +38,7 @@
 
 
             {{-- exibição de eventual mensagem de erro --}}
-            @error('importacoes') <x-erro>{{ $message }}</x-erro> @enderror
+            @error ('importacoes') <x-erro>{{ $message }}</x-erro> @enderror
 
 
             <x-button

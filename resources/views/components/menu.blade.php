@@ -52,7 +52,7 @@
 
         <x-menu.grupo :nome="__('Cadastro')">
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Localidade::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Localidade::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('arquivamento.cadastro.localidade.*') ? 'ativo': '' }}"
@@ -64,7 +64,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Predio::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Predio::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('arquivamento.cadastro.predio.*') ? 'ativo': '' }}"
@@ -76,7 +76,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Andar::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Andar::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('arquivamento.cadastro.andar.*') ? 'ativo': '' }}"
@@ -88,7 +88,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Sala::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Sala::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('arquivamento.cadastro.sala.*') ? 'ativo': '' }}"
@@ -100,7 +100,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Estante::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Estante::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('arquivamento.cadastro.estante.*') ? 'ativo': '' }}"
@@ -112,7 +112,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Prateleira::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Prateleira::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('arquivamento.cadastro.prateleira.*') ? 'ativo': '' }}"
@@ -124,7 +124,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Caixa::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Caixa::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('arquivamento.cadastro.caixa.*') ? 'ativo': '' }}"
@@ -149,7 +149,7 @@
 
         <x-menu.grupo :nome="__('Administração')">
 
-            @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuracao::class)
+            @can (\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuracao::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('administracao.configuracao.*') ? 'ativo': '' }}"
@@ -161,7 +161,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Documentacao::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Documentacao::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('administracao.documentacao.*') ? 'ativo': '' }}"
@@ -173,7 +173,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ImportacaoCreate->value)
+            @can (\App\Enums\Policy::ImportacaoCreate->value)
 
                 <x-menu.link
                     class="{{ request()->routeIs('administracao.importacao.*') ? 'ativo': '' }}"
@@ -185,7 +185,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::LogViewAny->value)
+            @can (\App\Enums\Policy::LogViewAny->value)
 
                 <x-menu.link
                     class="{{ request()->routeIs('administracao.log.*') ? 'ativo': '' }}"
@@ -210,7 +210,7 @@
 
         <x-menu.grupo :nome="__('Autorizações')">
 
-            @can(\App\Enums\Policy::DelegacaoViewAny->value)
+            @can (\App\Enums\Policy::DelegacaoViewAny->value)
 
                 <x-menu.link
                     class="{{ request()->routeIs('autorizacao.delegacao.*') ? 'ativo': '' }}"
@@ -222,7 +222,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Perfil::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Perfil::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('autorizacao.perfil.*') ? 'ativo': '' }}"
@@ -234,7 +234,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Permissao::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Permissao::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('autorizacao.permissao.*') ? 'ativo': '' }}"
@@ -246,7 +246,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\Usuario::class)
+            @can (\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\Usuario::class)
 
                 <x-menu.link
                     class="{{ request()->routeIs('autorizacao.usuario.*') ? 'ativo': '' }}"
@@ -268,7 +268,7 @@
 
         <x-menu.grupo :nome="__('Testes')">
 
-            @can(\App\Enums\Policy::SimulacaoCreate->value)
+            @can (\App\Enums\Policy::SimulacaoCreate->value)
 
                 <x-menu.link
                     class="{{ request()->routeIs('teste.simulacao.*') ? 'ativo': '' }}"

@@ -13,7 +13,7 @@
 --}}
 
 
-@props(['id'])
+@props (['id'])
 
 
 @php $id = $id ?? md5($attributes->wire('model')) @endphp

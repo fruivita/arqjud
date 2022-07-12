@@ -14,7 +14,7 @@
 --}}
 
 
-@props(['icone', 'texto'])
+@props (['icone', 'texto'])
 
 
 <li>

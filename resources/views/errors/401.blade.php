@@ -8,9 +8,9 @@
 --}}
 
 
-@extends('layouts.error')
+@extends ('layouts.error')
 
 
-@section('titulo', __('error.401.titulo'))
-@section('codigo', '401')
-@section('mensagem', __('error.401.mensagem'))
+@section ('titulo', __('error.401.titulo'))
+@section ('codigo', '401')
+@section ('mensagem', __('error.401.mensagem'))

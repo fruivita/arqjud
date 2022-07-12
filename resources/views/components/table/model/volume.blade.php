@@ -18,7 +18,7 @@
 --}}
 
 
-@props([
+@props ([
     'excluir' => null,
     'preferencias',
     'ordenacoes' => [],
@@ -32,7 +32,7 @@
 
     <x-table.topo-tabela>
 
-        @if(
+        @if (
             $com_botao_novo == true
             && auth()->user()->can(\App\Enums\Policy::Create->value, \App\Models\VolumeCaixa::class)
         )
@@ -51,7 +51,7 @@
 
 
             {{-- exibição de eventual mensagem de erro --}}
-            @error('volume') <x-erro>{{ $message }}</x-erro> @enderror
+            @error ('volume') <x-erro>{{ $message }}</x-erro> @enderror
 
         @else
 
@@ -159,7 +159,7 @@
 
                             <x-grupo-button-acao>
 
-                                @if(
+                                @if (
                                     $com_botao_excluir == true
                                     && auth()->user()->can(\App\Enums\Policy::Delete->value, \App\Models\VolumeCaixa::class)
                                 )
@@ -204,7 +204,7 @@
 </div>
 
 
-@if(
+@if (
     isset($excluir->id)
     && auth()->user()->can(\App\Enums\Policy::Delete->value, \App\Models\VolumeCaixa::class)
 )

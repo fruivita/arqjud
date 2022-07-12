@@ -19,7 +19,7 @@
 --}}
 
 
-@props([
+@props ([
     'excluir',
     'preferencias',
     'localidades',
@@ -33,7 +33,7 @@
 
     <x-table.topo-tabela>
 
-        @if(
+        @if (
             $com_botao_novo == true
             && auth()->user()->can(\App\Enums\Policy::Create->value, \App\Models\Localidade::class)
         )
@@ -152,7 +152,7 @@
 
                             <x-grupo-button-acao>
 
-                                @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Localidade::class)
+                                @can (\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Localidade::class)
 
                                     <x-link-button-icone
                                         class="btn-acao"
@@ -163,7 +163,7 @@
                                 @endcan
 
 
-                                @can(\App\Enums\Policy::Delete->value, $localidade)
+                                @can (\App\Enums\Policy::Delete->value, $localidade)
 
                                     <x-button-icone
                                         wire:click="marcarParaExcluir({{ $localidade->id }})"
@@ -205,7 +205,7 @@
 </div>
 
 
-@if(
+@if (
     isset($excluir->id)
     && auth()->user()->can(\App\Enums\Policy::Delete->value, $excluir)
 )

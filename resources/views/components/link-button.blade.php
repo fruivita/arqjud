@@ -15,13 +15,13 @@
 --}}
 
 
-@props(['icone' => false, 'icone_primeiro' => false, 'texto'])
+@props (['icone' => false, 'icone_primeiro' => false, 'texto'])
 
 
 <a {{ $attributes->merge(['class' => 'btn']) }}>
 
 
-    @if($icone)
+    @if ($icone)
 
         {{-- insere o ícone antes do texto --}}
         @if ($icone_primeiro)

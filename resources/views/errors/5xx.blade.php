@@ -11,9 +11,9 @@
 --}}
 
 
-@extends('layouts.error')
+@extends ('layouts.error')
 
 
-@section('titulo', __('error.5xx.titulo'))
-@section('codigo', $exception->getStatusCode())
-@section('mensagem', $exception->getMessage() ?: __('error.5xx.mensagem'))
+@section ('titulo', __('error.5xx.titulo'))
+@section ('codigo', $exception->getStatusCode())
+@section ('mensagem', $exception->getMessage() ?: __('error.5xx.mensagem'))

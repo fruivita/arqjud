@@ -212,7 +212,7 @@
 
                                         <x-grupo-button-acao>
 
-                                            @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Perfil::class)
+                                            @can (\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Perfil::class)
 
                                                 <x-link-button-icone
                                                     class="btn-acao"
@@ -244,12 +244,12 @@
 
 
                     {{-- exibição de eventual mensagem de erro --}}
-                    @error('selecionados') <x-erro>{{ $message }}</x-erro> @enderror
+                    @error ('selecionados') <x-erro>{{ $message }}</x-erro> @enderror
 
                 </div>
 
 
-                @can(\App\Enums\Policy::Update->value, \App\Models\Permissao::class)
+                @can (\App\Enums\Policy::Update->value, \App\Models\Permissao::class)
 
                     <x-grupo-button>
 

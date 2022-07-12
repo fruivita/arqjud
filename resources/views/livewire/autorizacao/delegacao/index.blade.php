@@ -167,7 +167,7 @@
 
                                     <x-grupo-button-acao>
 
-                                        @can(\App\Enums\Policy::DelegacaoDelete->value, [$usuario])
+                                        @can (\App\Enums\Policy::DelegacaoDelete->value, [$usuario])
 
                                             <x-button
                                                 wire:click="destroy({{ $usuario->id }})"
@@ -178,7 +178,7 @@
                                                 :title="__('Revogar as permissões do usuário')"
                                                 type="button"/>
 
-                                        @elsecan(\App\Enums\Policy::DelegacaoCreate->value, [$usuario])
+                                        @elsecan (\App\Enums\Policy::DelegacaoCreate->value, [$usuario])
 
                                             <x-button
                                                 wire:click="create({{ $usuario->id }})"

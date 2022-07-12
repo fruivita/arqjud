@@ -13,7 +13,7 @@
 --}}
 
 
-@props(['itens'])
+@props (['itens'])
 
 
 @if ($itens)

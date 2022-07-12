@@ -87,7 +87,7 @@
             </x-form.select>
 
 
-            @can(\App\Enums\Policy::Update->value, \App\Models\Predio::class)
+            @can (\App\Enums\Policy::Update->value, \App\Models\Predio::class)
 
                 <x-grupo-button>
 

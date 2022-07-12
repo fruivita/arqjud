@@ -24,13 +24,13 @@
     </h2>
 
 
-    @can(\App\Enums\Policy::SimulacaoDelete->value)
+    @can (\App\Enums\Policy::SimulacaoDelete->value)
 
       <form>
 
         @csrf
 
-        @method('DELETE')
+        @method ('DELETE')
 
 
         <x-button

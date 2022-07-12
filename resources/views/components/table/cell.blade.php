@@ -17,7 +17,7 @@
 --}}
 
 
-@props(['exibir' => true])
+@props (['exibir' => true])
 
 
 @if ($exibir === true)

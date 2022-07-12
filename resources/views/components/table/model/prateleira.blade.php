@@ -22,7 +22,7 @@
 --}}
 
 
-@props([
+@props ([
     'excluir' => null,
     'pai' => null,
     'preferencias',
@@ -39,7 +39,7 @@
 
     <x-table.topo-tabela>
 
-        @if(
+        @if (
             $com_botao_novo == true
             && isset($pai)
             && auth()->user()->can(\App\Enums\Policy::Create->value, \App\Models\Prateleira::class)
@@ -334,7 +334,7 @@
 
                             <x-grupo-button-acao>
 
-                                @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Prateleira::class)
+                                @can (\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Prateleira::class)
 
                                     <x-link-button-icone
                                         class="btn-acao"
@@ -345,7 +345,7 @@
                                 @endcan
 
 
-                                @if(
+                                @if (
                                     $com_botao_excluir == true
                                     && auth()->user()->can(\App\Enums\Policy::Delete->value, $prateleira)
                                 )
@@ -390,7 +390,7 @@
 </div>
 
 
-@if(
+@if (
     isset($excluir->id)
     && auth()->user()->can(\App\Enums\Policy::Delete->value, $excluir)
 )

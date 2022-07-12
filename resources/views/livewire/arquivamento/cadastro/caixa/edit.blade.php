@@ -116,7 +116,7 @@
 
                 <div class="md:col-span-2">
 
-                    @if($this->localidade_id >= 1)
+                    @if ($this->localidade_id >= 1)
 
                         <x-form.select
                             wire:key="predios-{{ $this->localidade_id }}"
@@ -156,7 +156,7 @@
 
                 <div>
 
-                    @if($this->predio_id >= 1)
+                    @if ($this->predio_id >= 1)
 
                         <x-form.select
                             wire:key="andares-{{ $this->predio_id }}"
@@ -197,7 +197,7 @@
 
                 <div>
 
-                    @if($this->andar_id >= 1)
+                    @if ($this->andar_id >= 1)
 
                         <x-form.select
                             wire:key="salas-{{ $this->andar_id }}"
@@ -237,7 +237,7 @@
 
                 <div>
 
-                    @if($this->sala_id >= 1)
+                    @if ($this->sala_id >= 1)
 
                         <x-form.select
                             wire:key="estantes-{{ $this->sala_id }}"
@@ -277,7 +277,7 @@
 
                 <div>
 
-                    @if($this->estante_id >= 1)
+                    @if ($this->estante_id >= 1)
 
                         <x-form.select
                             wire:key="prateleiras-{{ $this->estante_id }}"
@@ -317,7 +317,7 @@
             </div>
 
 
-            @can(\App\Enums\Policy::Update->value, \App\Models\Caixa::class)
+            @can (\App\Enums\Policy::Update->value, \App\Models\Caixa::class)
 
                 <x-grupo-button>
 

@@ -15,7 +15,7 @@
 --}}
 
 
-@props(['chave', 'valor'])
+@props (['chave', 'valor'])
 
 
 <div {{ $attributes->merge(['class' => "bg-primaria-100 p-3 rounded dark:bg-secundaria-800"]) }}>

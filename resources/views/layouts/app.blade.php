@@ -100,7 +100,7 @@
 
 
                 {{-- será exibido quando houver simulação de uso em execução --}}
-                @if(session()->has('simulador'))
+                @if (session()->has('simulador'))
 
                     <x-feedback.simulacao/>
 
@@ -127,7 +127,7 @@
         {{-- javascript --}}
         @livewireScripts
         <script src="{{ mix('/js/app.js') }}"></script>
-        @stack('scripts')
+        @stack ('scripts')
 
     </body>
 

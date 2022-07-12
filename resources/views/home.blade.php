@@ -16,7 +16,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Localidade::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Localidade::class)
 
                 <x-link-card
                     icone="pin-map"
@@ -27,7 +27,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Predio::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Predio::class)
 
                 <x-link-card
                     icone="building"
@@ -38,7 +38,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Andar::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Andar::class)
 
                 <x-link-card
                     icone="layers"
@@ -49,7 +49,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Sala::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Sala::class)
 
                 <x-link-card
                     icone="door-closed"
@@ -60,7 +60,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Estante::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Estante::class)
 
                 <x-link-card
                     icone="bookshelf"
@@ -71,7 +71,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Prateleira::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Prateleira::class)
 
                 <x-link-card
                     icone="list-nested"
@@ -82,7 +82,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Caixa::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Caixa::class)
 
                 <x-link-card
                     icone="box2"
@@ -93,7 +93,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuracao::class)
+            @can (\App\Enums\Policy::ViewOrUpdate->value, \App\Models\Configuracao::class)
 
                 <x-link-card
                     icone="gear"
@@ -104,7 +104,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Documentacao::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Documentacao::class)
 
                 <x-link-card
                     icone="book"
@@ -115,7 +115,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ImportacaoCreate->value)
+            @can (\App\Enums\Policy::ImportacaoCreate->value)
 
                 <x-link-card
                     icone="usb-drive"
@@ -125,7 +125,7 @@
 
             @endcan
 
-            @can(\App\Enums\Policy::LogViewAny->value)
+            @can (\App\Enums\Policy::LogViewAny->value)
 
                 <x-link-card
                     icone="file-earmark-text"
@@ -136,7 +136,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::DelegacaoViewAny->value)
+            @can (\App\Enums\Policy::DelegacaoViewAny->value)
 
                 <x-link-card
                     icone="person-lines-fill"
@@ -147,7 +147,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Perfil::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Perfil::class)
 
                 <x-link-card
                     icone="award"
@@ -158,7 +158,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAny->value, \App\Models\Permissao::class)
+            @can (\App\Enums\Policy::ViewAny->value, \App\Models\Permissao::class)
 
                 <x-link-card
                     icone="vector-pen"
@@ -169,7 +169,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\Usuario::class)
+            @can (\App\Enums\Policy::ViewAnyOrUpdate->value, \App\Models\Usuario::class)
 
                 <x-link-card
                     icone="person-check"
@@ -180,7 +180,7 @@
             @endcan
 
 
-            @can(\App\Enums\Policy::SimulacaoCreate->value)
+            @can (\App\Enums\Policy::SimulacaoCreate->value)
 
                 <x-link-card
                     icone="people"

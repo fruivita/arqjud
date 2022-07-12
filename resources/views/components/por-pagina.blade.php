@@ -14,7 +14,7 @@
 --}}
 
 
-@props(['erro' => null])
+@props (['erro' => null])
 
 
 <div
