@@ -131,7 +131,7 @@
                     icone="box2"
                     :href="route('arquivamento.cadastro.caixa.index')"
                     :texto="__('Caixas')"
-                    :title="__('Gerenciamento das caixas')"/>
+                    :title="__('Gerenciamento de caixas')"/>
 
             @endcan
 

@@ -173,7 +173,7 @@
                             icone="layers"
                             required
                             :texto="__('Andar')"
-                            :title="__('Escolha a andar')">
+                            :title="__('Escolha o andar')">
 
                             <option value="">{{ __('Selecione...') }}</option>
 
