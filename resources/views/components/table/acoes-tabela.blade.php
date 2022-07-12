@@ -19,7 +19,7 @@
         title="{{ __('Define exibição das colunas') }}"
     >
 
-        <x-icon name="layout-three-columns"/>
+        <x-icon name="three-dots-vertical"/>
 
     </button>
 
