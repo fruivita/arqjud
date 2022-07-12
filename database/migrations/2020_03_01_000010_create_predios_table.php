@@ -23,10 +23,13 @@ return new class extends Migration {
             $table->string('descricao', 255)->nullable();
             $table->timestamps();
 
-            $table->unique([
-                'localidade_id',
-                'nome',
-            ]);
+            $table->unique(
+                [
+                    'localidade_id',
+                    'nome',
+                ],
+                'predios_unicos'
+            );
 
             $table
                 ->foreign('localidade_id')

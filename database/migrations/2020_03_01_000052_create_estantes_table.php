@@ -24,10 +24,13 @@ return new class extends Migration {
             $table->string('descricao', 255)->nullable();
             $table->timestamps();
 
-            $table->unique([
-                'sala_id',
-                'numero',
-            ]);
+            $table->unique(
+                [
+                    'sala_id',
+                    'numero',
+                ],
+                'estantes_unicas'
+            );
 
             $table->unique([
                 'sala_id',

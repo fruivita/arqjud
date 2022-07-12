@@ -29,10 +29,13 @@ return new class extends Migration {
                 'numero',
             ]);
 
-            $table->unique([
-                'estante_id',
-                'apelido',
-            ]);
+            $table->unique(
+                [
+                    'estante_id',
+                    'apelido',
+                ],
+                'prateleiras_unicas'
+            );
 
             $table
                 ->foreign('estante_id')
