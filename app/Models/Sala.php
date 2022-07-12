@@ -189,7 +189,7 @@ class Sala extends Model
      * Salas do andar informado.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $id_andar
+     * @param int                                   $id_andar
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

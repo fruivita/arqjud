@@ -166,7 +166,7 @@ class VolumeCaixa extends Model
      * Volumes da caixa informada.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $id_caixa
+     * @param int                                   $id_caixa
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

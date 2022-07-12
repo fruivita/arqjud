@@ -6,7 +6,6 @@ use App\Models\Traits\ComHumanizacao;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -237,11 +236,11 @@ class Caixa extends Model
      * Cria diversas caixas como filhas da prateleira informada e as persiste
      * no banco de dados.
      *
-     * @param \App\Models\Caixa      $template   template para a criação das
-     *                                           caixas
-     * @param int                    $quantidade número de caixas para criação
-     * @param int                    $qtd_volumes    número de volumes das caixas
-     * @param \App\Models\Prateleira $prateleira prateleira pai
+     * @param \App\Models\Caixa      $template    template para a criação das
+     *                                            caixas
+     * @param int                    $quantidade  número de caixas para criação
+     * @param int                    $qtd_volumes número de volumes das caixas
+     * @param \App\Models\Prateleira $prateleira  prateleira pai
      *
      * @return bool
      */
@@ -286,9 +285,9 @@ class Caixa extends Model
      * O número da primeira caixa será o definido no template enquanto as
      * demais serão incrementadas em um.
      *
-     * @param \App\Models\Caixa      $template   template para criação das
-     *                                           caixas
-     * @param int                    $quantidade número de caixas para criar
+     * @param \App\Models\Caixa $template   template para criação das
+     *                                      caixas
+     * @param int               $quantidade número de caixas para criar
      *
      * @return \Illuminate\Support\Collection
      */
@@ -313,7 +312,7 @@ class Caixa extends Model
      *
      * @param int $numero_volume
      *
-     * @return \Illuminate\Database\Eloquent\Model|false
+     * @return false|\Illuminate\Database\Eloquent\Model
      */
     public function criarVolume(int $numero_volume)
     {
@@ -327,7 +326,7 @@ class Caixa extends Model
      * Caixas da prateleira informada.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $id_prateleira
+     * @param int                                   $id_prateleira
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

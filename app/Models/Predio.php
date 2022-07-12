@@ -104,7 +104,7 @@ class Predio extends Model
      * Prédios da localidade informada.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $id_localidade
+     * @param int                                   $id_localidade
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

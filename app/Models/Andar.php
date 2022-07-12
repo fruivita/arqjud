@@ -180,7 +180,7 @@ class Andar extends Model
      * Andares do prédio informado.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $id_predio
+     * @param int                                   $id_predio
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

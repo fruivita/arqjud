@@ -215,7 +215,7 @@ class Prateleira extends Model
      * Prateleiras da estante informada.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $id_estante
+     * @param int                                   $id_estante
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

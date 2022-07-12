@@ -189,7 +189,7 @@ class Estante extends Model
      * Estantes da sala informada.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $id_sala
+     * @param int                                   $id_sala
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

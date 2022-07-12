@@ -74,7 +74,7 @@ trait ComPreferencias
             [
                 'preferencias',
                 auth()->user()->username,
-                class_basename($this)
+                class_basename($this),
             ],
             '-'
         );
