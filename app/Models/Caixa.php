@@ -34,7 +34,7 @@ class Caixa extends Model
     /**
      * Os atributos sujeitos ao cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = ['guarda_permanente' => 'boolean'];
 
