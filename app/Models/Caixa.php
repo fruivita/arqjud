@@ -58,7 +58,6 @@ class Caixa extends Model
         return $this->hasMany(VolumeCaixa::class, 'caixa_id', 'id');
     }
 
-
     /**
      * Relacionamento caixa (N:1) localidade.
      *
@@ -254,8 +253,7 @@ class Caixa extends Model
         bool $guarda_permanente,
         int $localidade_criadora_id,
         string $complemento = null
-    )
-    {
+    ) {
         return self::where('ano', $ano)
                     ->where('guarda_permanente', $guarda_permanente)
                     ->where('localidade_criadora_id', $localidade_criadora_id)
