@@ -77,6 +77,7 @@ class Caixa extends Model
      * Acompanhadas das seguintes colunas extras:
      * - localidade_id: id da localidade pai
      * - localidade_nome: nome da localidade pai
+     * - localidade_criadora_nome: nome da localidade criadora da caixa
      * - predio_id: id do prédio pai
      * - predio_nome: nome do prédio pai
      * - andar_id: id do andar pai
@@ -102,11 +103,13 @@ class Caixa extends Model
         ->join('andares', 'salas.andar_id', '=', 'andares.id')
         ->join('predios', 'andares.predio_id', '=', 'predios.id')
         ->join('localidades', 'predios.localidade_id', '=', 'localidades.id')
+        ->join('localidades AS criadoras', 'caixas.localidade_criadora_id', '=', 'criadoras.id')
         ->leftJoin('volumes_caixa', 'volumes_caixa.caixa_id', '=', 'caixas.id')
         ->select([
             'caixas.*',
             'localidades.id as localidade_id',
             'localidades.nome as localidade_nome',
+            'criadoras.nome as localidade_criadora_nome',
             'predios.id as predio_id',
             'predios.nome as predio_nome',
             'andares.id as andar_id',
@@ -130,6 +133,8 @@ class Caixa extends Model
      * Chaves:
      * - localidade_id: id da localidade pai
      * - localidade_nome: nome da localidade pai
+     * - localidade_criadora_id: id da localidade criadora da caixa
+     * - localidade_criadora_nome: nome da localidade criadora da caixa
      * - predio_id: id do prédio pai
      * - predio_nome: nome do prédio pai
      * - andar_id: id do andar pai
@@ -156,6 +161,8 @@ class Caixa extends Model
         return collect([
             'localidade_id' => $caixa->localidade_id,
             'localidade_nome' => $caixa->localidade_nome,
+            'localidade_criadora_id' => $caixa->localidade_criadora_id,
+            'localidade_criadora_nome' => $caixa->localidade_criadora_nome,
             'predio_id' => $caixa->predio_id,
             'predio_nome' => $caixa->predio_nome,
             'andar_id' => $caixa->andar_id,

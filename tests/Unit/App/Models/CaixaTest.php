@@ -216,7 +216,7 @@ test('método criarMuitas cria e salva caixas com números sequenciais e com os 
     ->and($caixa->volumes->last()->numero)->toBe(5);
 });
 
-test('método hierarquia retorna todos as caixas com o id e nome/número da respectiva prateleira, estante, sala, andar, prédio e localidade e o respectivo número de volumes', function () {
+test('método hierarquia retorna todos as caixas com o id e nome/número da respectiva localidade criadora, prateleira, estante, sala, andar, prédio e localidade e o respectivo número de volumes', function () {
     Caixa::factory()->create(['numero' => 10]);
     Caixa::factory()->has(VolumeCaixa::factory(1), 'volumes')->create(['numero' => 20]);
     Caixa::factory()->has(VolumeCaixa::factory(2), 'volumes')->create(['numero' => 30]);
@@ -241,6 +241,8 @@ test('método hierarquia retorna todos as caixas com o id e nome/número da resp
     ->and(empty($caixa_10->estante_numero))->toBeFalse()
     ->and(empty($caixa_10->prateleira_id))->toBeFalse()
     ->and(empty($caixa_10->prateleira_numero))->toBeFalse()
+    ->and(empty($caixa_10->localidade_criadora_id))->toBeFalse()
+    ->and(empty($caixa_10->localidade_criadora_nome))->toBeFalse()
     ->and($caixa_10->volumes_count)->toBe(0)
     ->and($caixa_20->volumes_count)->toBe(1)
     ->and($caixa_30->volumes_count)->toBe(2);
