@@ -34,6 +34,9 @@ class CaixaLivewireIndex extends Component
     public array $preferencias = [
         // Nome das colunas da tabela que podem ser ocultadas
         'colunas' => [
+            'criadora',
+            'gp',
+            'complemento',
             'caixa',
             'ano',
             'qtd_volumes',
@@ -71,7 +74,7 @@ class CaixaLivewireIndex extends Component
     {
         return
         Caixa::hierarquia()
-            ->orWhereLike(['caixas.numero', 'caixas.ano'], $this->termo)
+            ->orWhereLike(['caixas.complemento', 'caixas.numero', 'caixas.ano'], $this->termo)
             ->orderByWhen($this->ordenacoes)
             ->paginate($this->preferencias['por_pagina']);
     }

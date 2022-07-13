@@ -62,6 +62,39 @@
         <x-table.acoes-tabela>
 
             <x-form.checkbox
+                wire:key="checkbox-localidade-criadora"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="preferencias.colunas"
+                editavel
+                name="criadora"
+                :texto="__('Localidade criadora')"
+                value="criadora"/>
+
+
+            <x-form.checkbox
+                wire:key="checkbox-gp"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="preferencias.colunas"
+                editavel
+                name="gp"
+                :texto="__('Guarda permanente')"
+                value="gp"/>
+
+
+            <x-form.checkbox
+                wire:key="checkbox-complemento"
+                wire:loading.delay.attr="disabled"
+                wire:loading.delay.class="cursor-not-allowed"
+                wire:model.defer="preferencias.colunas"
+                editavel
+                name="complemento"
+                :texto="__('Complemento')"
+                value="complemento"/>
+
+
+            <x-form.checkbox
                 wire:key="checkbox-caixa"
                 wire:loading.delay.attr="disabled"
                 wire:loading.delay.class="cursor-not-allowed"
@@ -184,6 +217,44 @@
         <x-table wire:key="tabela-caixas" wire:loading.delay.class="opacity-25">
 
             <x-slot name="head">
+
+                <x-table.heading
+                    wire:click="ordenarPor('criadoras.nome')"
+                    wire:key="ordenar-localidades-criadoras"
+                    :direcao="$ordenacoes['criadoras.nome'] ?? null"
+                    :exibir="in_array('criadora', $preferencias['colunas'])"
+                    ordenavel
+                >
+
+                    {{ __('Localidade criadora') }}
+
+                </x-table.heading>
+
+                <x-table.heading
+                    wire:click="ordenarPor('guarda_permanente')"
+                    wire:key="ordenar-guarda-permanente"
+                    :direcao="$ordenacoes['guarda_permanente'] ?? null"
+                    :exibir="in_array('gp', $preferencias['colunas'])"
+                    ordenavel
+                >
+
+                    {{ __('GP') }}
+
+                </x-table.heading>
+
+                <x-table.heading
+                    wire:click="ordenarPor('complemento')"
+                    wire:key="ordenar-complemento"
+                    :direcao="$ordenacoes['complemento'] ?? null"
+                    :exibir="in_array('complemento', $preferencias['colunas'])"
+                    :pesquisa_ativa="$pesquisa_ativa"
+                    ordenavel
+                >
+
+                    {{ __('Complemento') }}
+
+                </x-table.heading>
+
 
                 <x-table.heading
                     wire:click="ordenarPor('numero')"
@@ -325,6 +396,15 @@
                 @forelse ($caixas ?? [] as $caixa)
 
                     <x-table.row>
+
+                        <x-table.cell :exibir="in_array('criadora', $preferencias['colunas'])">{{ $caixa->localidade_criadora_nome }}</x-table.cell>
+
+
+                        <x-table.cell :exibir="in_array('gp', $preferencias['colunas'])">{{ $caixa->guarda_permanente ? __('Sim') : __('Não') }}</x-table.cell>
+
+
+                        <x-table.cell :exibir="in_array('complemento', $preferencias['colunas'])">{{ $caixa->complemento }}</x-table.cell>
+
 
                         <x-table.cell :exibir="in_array('caixa', $preferencias['colunas'])">{{ $caixa->numero }}</x-table.cell>
 

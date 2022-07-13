@@ -47,6 +47,9 @@ class PrateleiraLivewireUpdate extends Component
     public array $preferencias = [
         // Nome das colunas da tabela que podem ser ocultadas
         'colunas' => [
+            'criadora',
+            'gp',
+            'complemento',
             'caixa',
             'ano',
             'qtd_volumes',

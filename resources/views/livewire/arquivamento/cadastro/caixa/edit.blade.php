@@ -19,42 +19,115 @@
 
         <div class="space-y-6">
 
-            <div class="gap-x-3 gap-y-6 grid grid-cols-1 sm:grid-cols-2">
+            <div class="gap-x-3 gap-y-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
 
-                <x-form.input
-                    wire:key="caixa-ano"
+                <div class="md:col-span-2">
+
+                    <x-form.select
+                        wire:key="localidades-criadoras"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="caixa.localidade_criadora_id"
+                        wire:target="storeVolume,update"
+                        :editavel="$this->modo_edicao"
+                        :erro="$errors->first('caixa.localidade_criadora_id')"
+                        icone="pin-map"
+                        required
+                        :texto="__('Localidade criadora')"
+                        :title="__('Escolha a localidade')">
+
+                        <option value="">{{ __('Selecione...') }}</option>
+
+
+                        @forelse ($this->localidades ?? [] as $localidade)
+
+                            <option value="{{ $localidade->id }}">
+
+                                {{ $localidade->nome }}
+
+                            </option>
+
+                        @empty
+
+                            <option value="-1">{{ __('Nenhum registro encontrado') }}</option>
+
+                        @endforelse
+
+                    </x-form.select>
+
+                </div>
+
+
+                <x-form.checkbox-com-titulo
+                    wire:key="caixa-guarda-permanente"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="caixa.ano"
+                    wire:model.defer="caixa.guarda_permanente"
                     wire:target="storeVolume,update"
-                    autofocus
                     :editavel="$this->modo_edicao"
-                    :erro="$errors->first('caixa.ano')"
-                    icone="calendar-range"
-                    min="1900"
-                    :max="now()->format('Y')"
-                    placeholder="aaaa"
-                    required
-                    :texto="__('Ano')"
-                    :title="__('Informe o ano no padrão aaaa')"
-                    type="number"/>
+                    :erro="$errors->first('caixa.guarda_permanente')"
+                    name="guarda_permanente"
+                    :texto="__('Guarda permanente')"/>
 
 
                 <x-form.input
-                    wire:key="caixa-numero"
+                    wire:key="caixa-complemento"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.defer="caixa.numero"
-                    wire:target="caixa.ano,storeVolume,update"
+                    wire:model.defer="caixa.complemento"
+                    wire:target="storeVolume,update"
                     :editavel="$this->modo_edicao"
-                    :erro="$errors->first('caixa.numero')"
-                    icone="tag"
-                    min="1"
-                    :placeholder="__('Apenas números')"
-                    required
-                    :texto="__('Número')"
-                    :title="__('Informe o número da caixa')"
-                    type="number"/>
+                    :erro="$errors->first('caixa.complemento')"
+                    icone="quote"
+                    maxlength="50"
+                    :placeholder="__('Complemento do número da caixa')"
+                    :texto="__('Complemento')"
+                    :title="__('Informe um complemento para a numeração da caixa')"
+                    type="text"
+                    com_contador/>
+
+
+                <div class="md:col-span-2">
+
+                    <x-form.input
+                        wire:key="caixa-ano"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="caixa.ano"
+                        wire:target="storeVolume,update"
+                        :editavel="$this->modo_edicao"
+                        :erro="$errors->first('caixa.ano')"
+                        icone="calendar-range"
+                        min="1900"
+                        :max="now()->format('Y')"
+                        placeholder="aaaa"
+                        required
+                        :texto="__('Ano')"
+                        :title="__('Informe o ano no padrão aaaa')"
+                        type="number"/>
+
+                </div>
+
+
+                <div class="md:col-span-2">
+
+                    <x-form.input
+                        wire:key="caixa-numero"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="caixa.numero"
+                        wire:target="caixa.ano,storeVolume,update"
+                        :editavel="$this->modo_edicao"
+                        :erro="$errors->first('caixa.numero')"
+                        icone="tag"
+                        min="1"
+                        :placeholder="__('Apenas números')"
+                        required
+                        :texto="__('Número')"
+                        :title="__('Informe o número da caixa')"
+                        type="number"/>
+
+                </div>
 
             </div>
 
@@ -133,6 +206,7 @@
 
                             <option value="">{{ __('Selecione...') }}</option>
 
+
                             @forelse ($this->predios ?? [] as $predio)
 
                                 <option value="{{ $predio->id }}">
@@ -174,6 +248,7 @@
 
                             <option value="">{{ __('Selecione...') }}</option>
 
+
                             @forelse ($this->andares ?? [] as $andar)
 
                                 <option value="{{ $andar->id }}">
@@ -213,6 +288,7 @@
                             :title="__('Escolha a sala')">
 
                             <option value="">{{ __('Selecione...') }}</option>
+
 
                             @forelse ($this->salas ?? [] as $sala)
 
@@ -254,6 +330,7 @@
 
                             <option value="">{{ __('Selecione...') }}</option>
 
+
                             @forelse ($this->estantes ?? [] as $estante)
 
                                 <option value="{{ $estante->id }}">
@@ -293,6 +370,7 @@
                             :title="__('Escolha a prateleira')">
 
                             <option value="">{{ __('Selecione...') }}</option>
+
 
                             @forelse ($this->prateleiras ?? [] as $prateleira)
 

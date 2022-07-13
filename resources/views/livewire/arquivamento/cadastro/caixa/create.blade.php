@@ -53,23 +53,106 @@
                     :valor="$this->prateleira->para_humano"/>
 
 
-                <x-form.input
-                    wire:key="caixa-ano"
+                <div class="md:col-span-2">
+
+                    <x-form.select
+                        wire:key="localidades-criadoras"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="caixa.localidade_criadora_id"
+                        wire:target="sugerirNumeroCaixa,store"
+                        editavel
+                        :erro="$errors->first('caixa.localidade_criadora_id')"
+                        icone="pin-map"
+                        required
+                        :texto="__('Localidade criadora')"
+                        :title="__('Escolha a localidade')">
+
+                        <option value="">{{ __('Selecione...') }}</option>
+
+                        @forelse ($this->localidades_criadoras ?? [] as $localidade)
+
+                            <option value="{{ $localidade->id }}">
+
+                                {{ $localidade->nome }}
+
+                            </option>
+
+                        @empty
+
+                            <option value="-1">{{ __('Nenhum registro encontrado') }}</option>
+
+                        @endforelse
+
+                    </x-form.select>
+
+                </div>
+
+
+                <x-form.checkbox-com-titulo
+                    wire:key="caixa-guarda-permanente"
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
-                    wire:model.lazy="caixa.ano"
-                    wire:target="store"
-                    autofocus
+                    wire:model.defer="caixa.guarda_permanente"
+                    wire:target="sugerirNumeroCaixa,store"
                     editavel
-                    :erro="$errors->first('caixa.ano')"
-                    icone="calendar-range"
-                    min="1900"
-                    :max="now()->format('Y')"
-                    placeholder="aaaa"
-                    required
-                    :texto="__('Ano')"
-                    :title="__('Informe o ano no padrão aaaa')"
-                    type="number"/>
+                    :erro="$errors->first('caixa.guarda_permanente')"
+                    name="guarda_permanente"
+                    :texto="__('Guarda permanente')"/>
+
+
+                <x-form.input
+                    wire:key="caixa-complemento"
+                    wire:loading.delay.attr="disabled"
+                    wire:loading.delay.class="cursor-not-allowed"
+                    wire:model.defer="caixa.complemento"
+                    wire:target="sugerirNumeroCaixa,store"
+                    editavel
+                    :erro="$errors->first('caixa.complemento')"
+                    icone="quote"
+                    maxlength="50"
+                    :placeholder="__('Complemento do número da caixa')"
+                    :texto="__('Complemento')"
+                    :title="__('Informe um complemento para a numeração da caixa')"
+                    type="text"
+                    com_contador/>
+
+
+                <div class="flex items-end space-x-2">
+
+                    <x-form.input
+                        wire:key="caixa-ano"
+                        wire:loading.delay.attr="disabled"
+                        wire:loading.delay.class="cursor-not-allowed"
+                        wire:model.defer="caixa.ano"
+                        wire:target="sugerirNumeroCaixa,store"
+                        editavel
+                        :erro="$errors->first('caixa.ano')"
+                        icone="calendar-range"
+                        min="1900"
+                        :max="now()->format('Y')"
+                        placeholder="aaaa"
+                        required
+                        :texto="__('Ano')"
+                        :title="__('Informe o ano no padrão aaaa')"
+                        type="number"/>
+
+
+                    <div>
+
+                        <x-button-icone
+                            wire:click="sugerirNumeroCaixa"
+                            wire:key="btn-sugerir-numero-caixa"
+                            wire:loading.delay.attr="disabled"
+                            wire:loading.delay.class="cursor-not-allowed"
+                            class="btn-acao-alternativo"
+                            icone="magic"
+                            :title="__('Sugere o número da próxima caixa')"
+                            type="button"/>
+
+                    </div>
+
+                </div>
 
 
                 <x-form.input
@@ -77,7 +160,7 @@
                     wire:loading.delay.attr="disabled"
                     wire:loading.delay.class="cursor-not-allowed"
                     wire:model.defer="caixa.numero"
-                    wire:target="caixa.ano,store"
+                    wire:target="sugerirNumeroCaixa,store"
                     editavel
                     :erro="$errors->first('caixa.numero')"
                     icone="tag"

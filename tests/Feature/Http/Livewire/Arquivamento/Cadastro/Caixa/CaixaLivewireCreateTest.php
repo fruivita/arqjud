@@ -8,6 +8,7 @@ use App\Enums\Feedback;
 use App\Enums\Permissao;
 use App\Http\Livewire\Arquivamento\Cadastro\Caixa\CaixaLivewireCreate;
 use App\Models\Caixa;
+use App\Models\Localidade;
 use App\Models\Prateleira;
 use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
@@ -76,6 +77,33 @@ test('quantidade precisa ser entre 1 e 1000', function () {
     ->assertHasErrors(['quantidade' => 'between']);
 });
 
+test('localidade_criadora_id é obrigatório', function () {
+    concederPermissao(Permissao::CaixaCreate->value);
+
+    Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
+    ->set('caixa.localidade_criadora_id', '')
+    ->call('store')
+    ->assertHasErrors(['caixa.localidade_criadora_id' => 'required']);
+});
+
+test('localidade_criadora_id precisa ser um inteiro', function () {
+    concederPermissao(Permissao::CaixaCreate->value);
+
+    Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
+    ->set('caixa.localidade_criadora_id', 'foo')
+    ->call('store')
+    ->assertHasErrors(['caixa.localidade_criadora_id' => 'integer']);
+});
+
+test('localidade_criadora_id precisa existir previamente no banco de dados', function () {
+    concederPermissao(Permissao::CaixaCreate->value);
+
+    Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
+    ->set('caixa.localidade_criadora_id', 9090909090)
+    ->call('store')
+    ->assertHasErrors(['caixa.localidade_criadora_id' => 'exists']);
+});
+
 test('ano é obrigatório', function () {
     concederPermissao(Permissao::CaixaCreate->value);
 
@@ -106,16 +134,6 @@ test('ano precisa ser entre 1900 e o ano atual', function () {
     ->assertHasErrors(['caixa.ano' => 'between']);
 });
 
-test('ano é validado em tempo real', function () {
-    concederPermissao(Permissao::CaixaCreate->value);
-
-    Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
-    ->set('caixa.ano', 1900)
-    ->assertHasNoErrors()
-    ->set('caixa.ano', 1889)
-    ->assertHasErrors(['caixa.ano' => 'between']);
-});
-
 test('número é obrigatório', function () {
     concederPermissao(Permissao::CaixaCreate->value);
 
@@ -143,16 +161,45 @@ test('número maior ou igual a 1', function () {
     ->assertHasErrors(['caixa.numero' => 'min']);
 });
 
-test('número e ano precisam ser únicos', function () {
+test('número, ano, guarda permanente, complemento e localidade criadora precisam ser únicos', function () {
     concederPermissao(Permissao::CaixaCreate->value);
 
-    Caixa::factory()->create(['ano' => 2020, 'numero' => 10]);
+    $localidade = Localidade::factory()->create();
+
+    Caixa::factory()->create([
+        'ano' => 2020,
+        'numero' => 10,
+        'guarda_permanente' => true,
+        'complemento' => 'foo',
+        'localidade_criadora_id' => $localidade->id,
+    ]);
 
     Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
     ->set('caixa.ano', 2020)
     ->set('caixa.numero', 10)
+    ->set('caixa.guarda_permanente', true)
+    ->set('caixa.complemento', 'foo')
+    ->set('caixa.localidade_criadora_id', $localidade->id)
     ->call('store')
     ->assertHasErrors(['caixa.numero' => 'unique']);
+});
+
+test('complemento é opcional', function () {
+    concederPermissao(Permissao::CaixaCreate->value);
+
+    Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
+    ->set('caixa.complemento', '')
+    ->call('store')
+    ->assertHasNoErrors(['caixa.complemento']);
+});
+
+test('complemento precisa ter no máximo 50 caracteres', function () {
+    concederPermissao(Permissao::CaixaCreate->value);
+
+    Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
+    ->set('caixa.complemento', Str::random(51))
+    ->call('store')
+    ->assertHasErrors(['caixa.complemento' => 'max']);
 });
 
 test('descrição é opcional', function () {
@@ -212,6 +259,38 @@ test('volumes precisa ser entre 1 e 1000', function () {
     ->assertHasErrors(['volumes' => 'between']);
 });
 
+test('valida localidade criadora, complemento e ano ao sugerir próximo número da caixa', function () {
+    concederPermissao(Permissao::CaixaCreate->value);
+
+    $localidade = Localidade::factory()->create();
+
+    Caixa::factory()->for($localidade, 'localidadeCriadora')->create([
+        'ano' => 2020,
+        'numero' => 20,
+        'guarda_permanente' => true,
+        'complemento' => 'foo',
+        'localidade_criadora_id' => $localidade->id,
+    ]);
+
+    Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
+    ->set('caixa.localidade_criadora_id', 'foo')
+    ->call('sugerirNumeroCaixa')
+    ->assertHasErrors(['caixa.localidade_criadora_id' => 'integer'])
+    ->set('caixa.localidade_criadora_id', $localidade->id)
+    ->set('caixa.guarda_permanente', true)
+    ->set('caixa.complemento', Str::random(51))
+    ->call('sugerirNumeroCaixa')
+    ->assertHasErrors(['caixa.complemento' => 'max'])
+    ->set('caixa.complemento', 'foo')
+    ->set('caixa.ano', 'bar')
+    ->call('sugerirNumeroCaixa')
+    ->assertHasErrors(['caixa.ano' => 'integer'])
+    ->set('caixa.ano', 2020)
+    ->call('sugerirNumeroCaixa')
+    ->assertHasNoErrors()
+    ->assertSet('caixa.numero', 21);
+});
+
 // Caminho feliz
 test('paginação retorna a quantidade de registros esperada', function () {
     concederPermissao(Permissao::CaixaCreate->value);
@@ -234,9 +313,13 @@ test('renderiza o componente com permissão', function () {
 test('emite evento de feedback ao criar um registro', function () {
     concederPermissao(Permissao::CaixaCreate->value);
 
+    $localidade = Localidade::factory()->create();
+
     Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
     ->set('quantidade', 1)
+    ->set('caixa.localidade_criadora_id', $localidade->id)
     ->set('caixa.ano', 2000)
+    ->set('caixa.guarda_permanente', false)
     ->set('caixa.numero', 10)
     ->set('volumes', 2)
     ->call('store')
@@ -262,26 +345,60 @@ test('emite evento de feedback ao excluir um registro', function () {
     ]);
 });
 
-test('sugere o próximo número da caixa (max número + 1) de acordo com o ano informado', function () {
+test('localidades criadoras estão disponíveis para seleção', function () {
     concederPermissao(Permissao::CaixaCreate->value);
 
-    Caixa::factory()->create(['ano' => 2020, 'numero' => 21]);
-    Caixa::factory()->create(['ano' => 2020, 'numero' => 111]);
-    Caixa::factory()->create(['ano' => 2020, 'numero' => 20]);
+    Localidade::factory(10)->create();
+
+    Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
+    ->assertCount('localidades_criadoras', 11);
+});
+
+test('sugere o próximo número da caixa (max número + 1)', function () {
+    concederPermissao(Permissao::CaixaCreate->value);
+
+    $localidade_a = Localidade::factory()->create();
+    $localidade_b = Localidade::factory()->create();
+
+    Caixa::factory()->for($localidade_a, 'localidadeCriadora')->create([
+        'ano' => 2020,
+        'numero' => 20,
+        'guarda_permanente' => true,
+        'complemento' => 'foo',
+        'localidade_criadora_id' => $localidade_a->id,
+    ]);
 
     Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
     ->set('caixa.ano', 2020)
-    ->assertSet('caixa.numero', 112)
+    ->set('caixa.guarda_permanente', true)
+    ->set('caixa.complemento', 'foo')
+    ->set('caixa.localidade_criadora_id', $localidade_a->id)
+    ->call('sugerirNumeroCaixa')
+    ->assertSet('caixa.numero', 21)
     ->set('caixa.ano', 2021)
+    ->call('sugerirNumeroCaixa')
+    ->assertSet('caixa.numero', 1)
+    ->set('caixa.guarda_permanente', false)
+    ->call('sugerirNumeroCaixa')
+    ->assertSet('caixa.numero', 1)
+    ->set('caixa.complemento', '')
+    ->call('sugerirNumeroCaixa')
+    ->assertSet('caixa.numero', 1)
+    ->set('caixa.localidade_criadora_id', $localidade_b->id)
+    ->call('sugerirNumeroCaixa')
     ->assertSet('caixa.numero', 1);
 });
 
 test('sem permissão para criar múltiplas caixas, a quantidade é ignorada é apenas uma caixa é criada', function () {
     concederPermissao(Permissao::CaixaCreate->value);
 
+    $localidade = Localidade::factory()->create();
+
     Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
     ->set('quantidade', 10)
     ->set('caixa.ano', 2000)
+    ->set('caixa.guarda_permanente', true)
+    ->set('caixa.localidade_criadora_id', $localidade->id)
     ->set('caixa.numero', 55)
     ->set('volumes', 1)
     ->call('store')
@@ -293,9 +410,13 @@ test('sem permissão para criar múltiplas caixas, a quantidade é ignorada é a
 test('sem permissão para criar múltiplos volumes, os volumes são ignorados e apenas um é criado para a caixa', function () {
     concederPermissao(Permissao::CaixaCreate->value);
 
+    $localidade = Localidade::factory()->create();
+
     Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
     ->set('quantidade', 1)
     ->set('caixa.ano', 2000)
+    ->set('caixa.guarda_permanente', true)
+    ->set('caixa.localidade_criadora_id', $localidade->id)
     ->set('caixa.numero', 55)
     ->set('volumes', 20)
     ->call('store')
@@ -311,9 +432,14 @@ test('cria a quantidade de caixas definida com permissão', function () {
     concederPermissao(Permissao::CaixaCreate->value);
     concederPermissao(Permissao::CaixaCreateMany->value);
 
+    $localidade = Localidade::factory()->create();
+
     Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
     ->set('quantidade', 10)
     ->set('caixa.ano', 2000)
+    ->set('caixa.guarda_permanente', true)
+    ->set('caixa.complemento', 'foo')
+    ->set('caixa.localidade_criadora_id', $localidade->id)
     ->set('caixa.numero', 55)
     ->set('caixa.descricao', 'foo bar')
     ->set('volumes', 1)
@@ -333,6 +459,9 @@ test('cria a quantidade de caixas definida com permissão', function () {
     ->and($randomica->ano)->toBe(2000)
     ->and($primeira->numero)->toBe(55)
     ->and($ultima->numero)->toBe(64)
+    ->and($randomica->guarda_permanente)->toBeTrue()
+    ->and($randomica->complemento)->toBe('foo')
+    ->and($randomica->localidade_criadora_id)->toBe($localidade->id)
     ->and($randomica->descricao)->toBe('foo bar')
     ->and($randomica->volumes_count)->toBe(1)
     ->and($randomica->prateleira->id)->toBe($this->prateleira->id);
@@ -342,9 +471,13 @@ test('cria a quantidade de volumes da caixa definida com permissão', function (
     concederPermissao(Permissao::CaixaCreate->value);
     concederPermissao(Permissao::VolumeCaixaCreate->value);
 
+    $localidade = Localidade::factory()->create();
+
     Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
     ->set('quantidade', 1)
     ->set('caixa.ano', 2000)
+    ->set('caixa.guarda_permanente', false)
+    ->set('caixa.localidade_criadora_id', $localidade->id)
     ->set('caixa.numero', 55)
     ->set('volumes', 20)
     ->call('store')
@@ -360,10 +493,15 @@ test('cria a quantidade de volumes da caixa definida com permissão', function (
 test('reseta para um modelo em branco após criar um registro', function () {
     concederPermissao(Permissao::CaixaCreate->value);
 
+    $localidade = Localidade::factory()->create();
+
     $branco = new Caixa();
+    $branco->guarda_permanente = false;
 
     Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
     ->set('caixa.ano', 2000)
+    ->set('caixa.guarda_permanente', false)
+    ->set('caixa.localidade_criadora_id', $localidade->id)
     ->set('caixa.numero', 55)
     ->call('store')
     ->assertOk()
@@ -376,6 +514,9 @@ test('valores iniciais do componente estão definidos', function () {
     Livewire::test(CaixaLivewireCreate::class, ['id' => $this->prateleira->id])
     ->assertSet('preferencias', [
         'colunas' => [
+            'criadora',
+            'gp',
+            'complemento',
             'caixa',
             'ano',
             'qtd_volumes',

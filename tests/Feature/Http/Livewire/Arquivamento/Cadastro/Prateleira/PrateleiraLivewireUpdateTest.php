@@ -559,6 +559,9 @@ test('valores iniciais do componente estão definidos', function () {
     ->assertSet('modo_edicao', false)
     ->assertSet('preferencias', [
         'colunas' => [
+            'criadora',
+            'gp',
+            'complemento',
             'caixa',
             'ano',
             'qtd_volumes',

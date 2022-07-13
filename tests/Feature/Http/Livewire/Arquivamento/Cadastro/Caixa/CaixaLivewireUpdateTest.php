@@ -325,6 +325,36 @@ test('prateleira_id precisa existir previamente no banco de dados', function () 
     ->assertHasErrors(['caixa.prateleira_id' => 'exists']);
 });
 
+test('localidade_criadora_id é obrigatório', function () {
+    concederPermissao(Permissao::CaixaUpdate->value);
+
+    Livewire::test(CaixaLivewireUpdate::class, ['id' => $this->caixa->id])
+    ->set('modo_edicao', true)
+    ->set('caixa.localidade_criadora_id', '')
+    ->call('update')
+    ->assertHasErrors(['caixa.localidade_criadora_id' => 'required']);
+});
+
+test('localidade_criadora_id precisa ser um inteiro', function () {
+    concederPermissao(Permissao::CaixaUpdate->value);
+
+    Livewire::test(CaixaLivewireUpdate::class, ['id' => $this->caixa->id])
+    ->set('modo_edicao', true)
+    ->set('caixa.localidade_criadora_id', 'foo')
+    ->call('update')
+    ->assertHasErrors(['caixa.localidade_criadora_id' => 'integer']);
+});
+
+test('localidade_criadora_id precisa existir previamente no banco de dados', function () {
+    concederPermissao(Permissao::CaixaUpdate->value);
+
+    Livewire::test(CaixaLivewireUpdate::class, ['id' => $this->caixa->id])
+    ->set('modo_edicao', true)
+    ->set('caixa.localidade_criadora_id', 9090909090)
+    ->call('update')
+    ->assertHasErrors(['caixa.localidade_criadora_id' => 'exists']);
+});
+
 test('ano é obrigatório', function () {
     concederPermissao(Permissao::CaixaUpdate->value);
 
@@ -388,17 +418,48 @@ test('número precisa ser maior ou igual a 1', function () {
     ->assertHasErrors(['caixa.numero' => 'min']);
 });
 
-test('número e ano precisam ser únicos', function () {
+test('número, ano, guarda permanente, complemento e localidade criadora precisam ser únicos', function () {
     concederPermissao(Permissao::CaixaUpdate->value);
 
-    Caixa::factory()->create(['ano' => 2020, 'numero' => 10]);
+    $localidade = Localidade::factory()->create();
+
+    Caixa::factory()->create([
+        'ano' => 2020,
+        'numero' => 10,
+        'guarda_permanente' => true,
+        'complemento' => 'foo',
+        'localidade_criadora_id' => $localidade->id,
+    ]);
 
     Livewire::test(CaixaLivewireUpdate::class, ['id' => $this->caixa->id])
     ->set('modo_edicao', true)
     ->set('caixa.ano', 2020)
     ->set('caixa.numero', 10)
+    ->set('caixa.guarda_permanente', true)
+    ->set('caixa.complemento', 'foo')
+    ->set('caixa.localidade_criadora_id', $localidade->id)
     ->call('update')
     ->assertHasErrors(['caixa.numero' => 'unique']);
+});
+
+test('complemento é opcional', function () {
+    concederPermissao(Permissao::CaixaUpdate->value);
+
+    Livewire::test(CaixaLivewireUpdate::class, ['id' => $this->caixa->id])
+    ->set('modo_edicao', true)
+    ->set('caixa.complemento', '')
+    ->call('update')
+    ->assertHasNoErrors(['caixa.complemento']);
+});
+
+test('complemento precisa ter no máximo 50 caracteres', function () {
+    concederPermissao(Permissao::CaixaUpdate->value);
+
+    Livewire::test(CaixaLivewireUpdate::class, ['id' => $this->caixa->id])
+    ->set('modo_edicao', true)
+    ->set('caixa.complemento', Str::random(51))
+    ->call('update')
+    ->assertHasErrors(['caixa.complemento' => 'max']);
 });
 
 test('descrição é opcional', function () {
@@ -522,7 +583,7 @@ test('localidades estão disponíveis para seleção', function () {
     Localidade::factory(10)->create();
 
     Livewire::test(CaixaLivewireUpdate::class, ['id' => $this->caixa->id])
-    ->assertCount('localidades', 11);
+    ->assertCount('localidades', 12); // extras para localidade e localidade criadora
 });
 
 test('atribui null ao prédio, ao andar, à sala, à estante, à prateleira e disponibiliza novos prédios ao selecionar uma localidade', function () {
@@ -603,7 +664,7 @@ test('pais são pré-selecionados', function () {
     Localidade::factory(15)->create();
 
     Livewire::test(CaixaLivewireUpdate::class, ['id' => $this->caixa->id])
-    ->assertCount('localidades', 16)
+    ->assertCount('localidades', 17)
     ->assertSet('localidade_id', $this->caixa->prateleira->estante->sala->andar->predio->localidade->id)
     ->assertCount('predios', 3)
     ->assertSet('predio_id', $this->caixa->prateleira->estante->sala->andar->predio->id)
@@ -619,14 +680,19 @@ test('pais são pré-selecionados', function () {
 test('atualiza um registro com permissão', function () {
     concederPermissao(Permissao::CaixaUpdate->value);
 
+    $localidade = Localidade::factory()->create();
+
     $prateleira = Prateleira::factory()->create();
 
     Livewire::test(CaixaLivewireUpdate::class, ['id' => $this->caixa->id])
     ->set('modo_edicao', true)
     ->set('caixa.ano', 2000)
     ->set('caixa.numero', 55)
+    ->set('caixa.guarda_permanente', true)
+    ->set('caixa.complemento', 'foo')
     ->set('caixa.descricao', 'foo bar')
     ->set('caixa.prateleira_id', $prateleira->id)
+    ->set('caixa.localidade_criadora_id', $localidade->id)
     ->call('update')
     ->assertHasNoErrors()
     ->assertOk();
@@ -635,8 +701,11 @@ test('atualiza um registro com permissão', function () {
 
     expect($this->caixa->ano)->toBe(2000)
     ->and($this->caixa->numero)->toBe(55)
+    ->and($this->caixa->guarda_permanente)->toBeTrue()
+    ->and($this->caixa->complemento)->toBe('foo')
     ->and($this->caixa->descricao)->toBe('foo bar')
-    ->and($this->caixa->prateleira_id)->toBe($prateleira->id);
+    ->and($this->caixa->prateleira_id)->toBe($prateleira->id)
+    ->and($this->caixa->localidade_criadora_id)->toBe($localidade->id);
 });
 
 test('cria um volume de caixa com permissão', function () {

@@ -192,6 +192,13 @@ class CaixaLivewireUpdate extends Component
                 'exists:prateleiras,id',
             ],
 
+            'caixa.localidade_criadora_id' => [
+                'bail',
+                'required',
+                'integer',
+                'exists:localidades,id',
+            ],
+
             'caixa.ano' => [
                 'bail',
                 'required',
@@ -199,12 +206,23 @@ class CaixaLivewireUpdate extends Component
                 'between:1900,' . now()->format('Y'),
             ],
 
+            'caixa.guarda_permanente' => [
+                'boolean',
+            ],
+
+            'caixa.complemento' => [
+                'bail',
+                'nullable',
+                'string',
+                'max:50',
+            ],
+
             'caixa.numero' => [
                 'bail',
                 'required',
                 'integer',
                 'min:1',
-                "unique:caixas,numero,{$this->caixa->id},id,ano,{$this->caixa->ano}",
+                "unique:caixas,numero,{$this->caixa->id},id,ano,{$this->caixa->ano},guarda_permanente,{$this->caixa->guarda_permanente},complemento,{$this->caixa->complemento},localidade_criadora_id,{$this->caixa->localidade_criadora_id}",
             ],
 
             'caixa.descricao' => [
@@ -230,7 +248,10 @@ class CaixaLivewireUpdate extends Component
             'sala_id' => __('Sala'),
             'estante_id' => __('Estante'),
             'caixa.prateleira_id' => __('Prateleira'),
+            'caixa.localidade_criadora_id' => __('Localidade criadora'),
             'caixa.ano' => __('Ano'),
+            'caixa.guarda_permanente' => __('Guarda permanente'),
+            'caixa.complemento' => __('Complemento'),
             'caixa.numero' => __('Número'),
             'caixa.descricao' => __('Descrição'),
         ];

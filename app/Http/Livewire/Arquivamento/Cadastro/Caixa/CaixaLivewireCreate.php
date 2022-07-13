@@ -9,6 +9,7 @@ use App\Http\Livewire\Traits\ComOrdenacao;
 use App\Http\Livewire\Traits\ComPaginacao;
 use App\Http\Livewire\Traits\ComPreferencias;
 use App\Models\Caixa;
+use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\VolumeCaixa;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -35,6 +36,9 @@ class CaixaLivewireCreate extends Component
     public array $preferencias = [
         // Nome das colunas da tabela que podem ser ocultadas
         'colunas' => [
+            'criadora',
+            'gp',
+            'complemento',
             'caixa',
             'ano',
             'qtd_volumes',
@@ -88,6 +92,13 @@ class CaixaLivewireCreate extends Component
                 'between:1,1000',
             ],
 
+            'caixa.localidade_criadora_id' => [
+                'bail',
+                'required',
+                'integer',
+                'exists:localidades,id',
+            ],
+
             'caixa.ano' => [
                 'bail',
                 'required',
@@ -95,12 +106,23 @@ class CaixaLivewireCreate extends Component
                 'between:1900,' . now()->format('Y'),
             ],
 
+            'caixa.guarda_permanente' => [
+                'boolean',
+            ],
+
+            'caixa.complemento' => [
+                'bail',
+                'nullable',
+                'string',
+                'max:50',
+            ],
+
             'caixa.numero' => [
                 'bail',
                 'required',
                 'integer',
                 'min:1',
-                "unique:caixas,numero,null,id,ano,{$this->caixa->ano}",
+                "unique:caixas,numero,null,id,ano,{$this->caixa->ano},guarda_permanente,{$this->caixa->guarda_permanente},complemento,{$this->caixa->complemento},localidade_criadora_id,{$this->caixa->localidade_criadora_id}",
             ],
 
             'caixa.descricao' => [
@@ -128,7 +150,10 @@ class CaixaLivewireCreate extends Component
     {
         return [
             'quantidade' => __('Quantidade'),
+            'caixa.localidade_criadora_id' => __('Localidade criadora'),
             'caixa.ano' => __('Ano'),
+            'caixa.guarda_permanente' => __('Guarda permanente'),
+            'caixa.complemento' => __('Complemento'),
             'caixa.numero' => __('Número'),
             'caixa.descricao' => __('Descrição'),
             'volumes' => __('Volumes'),
@@ -175,13 +200,26 @@ class CaixaLivewireCreate extends Component
     }
 
     /**
+     * Computed property das localidades criadoras.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getLocalidadesCriadorasProperty()
+    {
+        return Localidade::ordenacaoPadrao()->get();
+    }
+
+    /**
      * Objeto em branco.
      *
      * @return \App\Models\Caixa
      */
     private function objetoPadrao()
     {
-        return new Caixa();
+        $caixa = new Caixa();
+        $caixa->guarda_permanente = false;
+
+        return $caixa;
     }
 
     /**
@@ -210,15 +248,23 @@ class CaixaLivewireCreate extends Component
     }
 
     /**
-     * Executado após a propriedade $caixa.ano ser atualizada.
+     * Sugere ao usuário o número da próxima caixa para cadastro.
      *
      * @return void
      */
-    public function updatedCaixaAno()
+    public function sugerirNumeroCaixa()
     {
+        $this->validateOnly('caixa.localidade_criadora_id');
+        $this->validateOnly('caixa.guarda_permanente');
+        $this->validateOnly('caixa.complemento');
         $this->validateOnly('caixa.ano');
 
-        $this->caixa->numero = Caixa::proximoNumeroCaixa($this->caixa->ano);
+        $this->caixa->numero = Caixa::proximoNumeroCaixa(
+            $this->caixa->ano,
+            $this->caixa->guarda_permanente,
+            $this->caixa->localidade_criadora_id,
+            $this->caixa->complemento
+        );
     }
 
     /**

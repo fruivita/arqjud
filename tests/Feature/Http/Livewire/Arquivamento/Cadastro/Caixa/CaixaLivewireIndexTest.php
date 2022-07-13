@@ -62,9 +62,9 @@ test('renderiza o componente com permissão', function () {
 test('pesquisa retorna a quantidade de registros esperada', function () {
     concederPermissao(Permissao::CaixaViewAny->value);
 
-    Caixa::factory()->create(['numero' => '100', 'ano' => '2015']);
-    Caixa::factory()->create(['numero' => '120152', 'ano' => '2020']);
-    Caixa::factory()->create(['numero' => '200', 'ano' => '2020']);
+    Caixa::factory()->create(['numero' => '100', 'ano' => '2015', 'complemento' => 'foo']);
+    Caixa::factory()->create(['numero' => '120152', 'ano' => '2020', 'complemento' => 'bar']);
+    Caixa::factory()->create(['numero' => '200', 'ano' => '2020', 'complemento' => 'baz']);
 
     Livewire::test(CaixaLivewireIndex::class)
     ->set('termo', '120152')
@@ -72,6 +72,8 @@ test('pesquisa retorna a quantidade de registros esperada', function () {
     ->set('termo', '2015')
     ->assertCount('caixas', 2)
     ->set('termo', '2020')
+    ->assertCount('caixas', 2)
+    ->set('termo', 'ba')
     ->assertCount('caixas', 2)
     ->set('termo', '')
     ->assertCount('caixas', 3);
@@ -102,6 +104,9 @@ test('valores iniciais do componente estão definidos', function () {
     Livewire::test(CaixaLivewireIndex::class)
     ->assertSet('preferencias', [
         'colunas' => [
+            'criadora',
+            'gp',
+            'complemento',
             'caixa',
             'ano',
             'qtd_volumes',
