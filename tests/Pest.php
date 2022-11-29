@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Permissao;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -110,4 +111,38 @@ function usuarioAutenticado()
 function logout()
 {
     post(route('logout'));
+}
+
+
+/**
+ * Concede a permissão informada ao usuário autenticado.
+ *
+ * @param  string  $slug
+ * @return void
+ */
+function concederPermissao(string $slug)
+{
+    $permissao = Permissao::where('slug', $slug)->firstOr(
+        fn () => Permissao::factory()->create(['slug' => $slug])
+    );
+
+    usuarioAutenticado()
+        ->refresh()
+        ->perfil
+        ->permissoes()
+        ->attach($permissao->id);
+}
+
+/**
+ * Remove a permissão do usuário autenticado.
+ *
+ * @param  string  $slug
+ * @return void
+ */
+function revogaPermissao(string $slug)
+{
+    usuarioAutenticado()
+        ->perfil
+        ->permissoes()
+        ->detach(Permissao::firstWhere('slug', $slug)->id);
 }
