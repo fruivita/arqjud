@@ -1,0 +1,22 @@
+# Ignore artifacts:
+app
+bootstrap
+build
+config
+coverage
+database
+lang
+node_modules
+public
+routes
+storage
+tests
+vendor
+
+# Ignore files:
+composer.json
+composer.lock
+package-lock.json
+package.json
+pint.json
+*.md
