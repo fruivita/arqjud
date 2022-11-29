@@ -1,12 +1,29 @@
 {
-    "name": "laravel/laravel",
+    "name": "fruivita/arqjud",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Aplicação para controle de processos judiciais arquivados.",
     "keywords": [
         "framework",
-        "laravel"
+        "laravel",
+        "arquivo",
+        "processos",
+        "judicial"
     ],
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Fábio Cassiano",
+            "email": "fcno.dev@gmail.com",
+            "homepage": "https://github.com/fcno",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/fruivita/arqjud",
+    "support": {
+        "email": "fruivita.code@gmail.com",
+        "issues": "https://github.com/fruivita/arqjud/issues",
+        "source": "https://github.com/fruivita/arqjud"
+    },
     "require": {
         "php": "^8.1",
         "barryvdh/laravel-dompdf": "^2.0",
