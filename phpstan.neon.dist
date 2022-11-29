@@ -1,0 +1,25 @@
+includes:
+  - ./vendor/nunomaduro/larastan/extension.neon
+  - ./vendor/phpstan/phpstan-deprecation-rules/rules.neon
+
+parameters:
+  paths:
+    - app
+    - config
+    - database
+    - lang
+    - resources
+    - routes
+    - tests
+
+  # The level 9 is the highest level
+  # https://phpstan.org/user-guide/rule-levels
+  level: 5
+
+  tmpDir: build/phpstan
+
+  checkOctaneCompatibility: true
+
+  checkModelProperties: true
+
+  checkMissingIterableValueType: false
