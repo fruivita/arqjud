@@ -4,7 +4,14 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Fortify\Fortify;
 
+/**
+ * @see https://laravel.com/docs/9.x/providers
+ * @see https://laravel.com/docs/9.x/authorization
+ * @see https://laravel.com/docs/9.x/fortify
+ */
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -24,7 +31,23 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+        $this->registrarAutenticacao();
+    }
 
-        //
+    /**
+     * Registra o método de autenticação.
+     *
+     * @return void
+     */
+    private function registrarAutenticacao()
+    {
+        Fortify::authenticateUsing(function ($request) {
+            $validado = Auth::validate([
+                'samaccountname' => $request->input('username'),
+                'password' => $request->input('password'),
+            ]);
+
+            return $validado ? Auth::getLastAttempted() : null;
+        });
     }
 }

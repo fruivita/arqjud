@@ -3,7 +3,12 @@
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase;
 use JMac\Testing\Traits\AdditionalAssertions;
+use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use Tests\CreatesApplication;
+use LdapRecord\Models\ActiveDirectory\User;
+
+use function Pest\Faker\faker;
+use function Pest\Laravel\post;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +54,60 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+/**
+ * Configura o servidor LDAP fake para ser autenticado utilizando o
+ * **samaccountname** informado.
+ *
+ * @param  string  $samaccountname
+ * @return void
+ */
+function actingAs(string $samaccountname)
 {
-    // ..
+    $fake_ldap = DirectoryEmulator::setup('ldap');
+
+    $usuario_ldap = User::create([
+        'cn' => $samaccountname,
+        'samaccountname' => $samaccountname,
+        'objectguid' => faker()->uuid(),
+    ]);
+
+    $fake_ldap->actingAs($usuario_ldap);
+}
+
+/**
+ * Faz login na aplicação utilizando o **samaccountname** informado.
+ *
+ * Note que o usuário é primeiro criado no 'active directory' fake para então
+ * ser autenticado. Ou seja, é necessário garantir que o usuário primeiro exita
+ * no LDAP server para então ser autenticado.
+ *
+ * @param  string  $samaccountname
+ * @return \App\Models\Usuario|null
+ */
+function login(string $samaccountname = 'foo')
+{
+    actingAs($samaccountname);
+
+    post(route('login'), [
+        'username' => $samaccountname,
+        'password' => 'secret',
+    ]);
+
+    return usuarioAutenticado();
+}
+
+/**
+ * @return \App\Models\Usuario|null
+ */
+function usuarioAutenticado()
+{
+    return auth()->user();
+}
+
+/**
+ * @return void
+ */
+function logout()
+{
+    post(route('logout'));
 }

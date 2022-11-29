@@ -61,8 +61,16 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'driver' => 'ldap',
+            'model' => \LdapRecord\Models\ActiveDirectory\User::class,
+            'rules' => [], 'database' => [
+                'model' => \App\Models\Usuario::class,
+                'sync_attributes' => [
+                    'nome' => 'cn',
+                    'username' => 'samaccountname',
+                    \App\Ldap\PerfilAttributeHandler::class,
+                ],
+            ],
         ],
 
         // 'users' => [

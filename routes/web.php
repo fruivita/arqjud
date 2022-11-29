@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('guest')->group(function () {
+    Route::get('/', function () {
+        return inertia('Autenticacao/Login');
+    })->name('login');
+
+    Route::post('/', [AuthenticatedSessionController::class, 'store'])->middleware(['throttle:login']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+    Route::prefix('home')->name('home.')->group(function () {
+        Route::get('/', [HomeController::class, 'show'])->name('show');
+        Route::post('/', [HomeController::class, 'show']);
+    });
 });
