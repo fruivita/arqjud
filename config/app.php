@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'ArqJud'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,6 +29,26 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Nome Completo
+    |--------------------------------------------------------------------------
+    |
+    | Nome completo da aplicação.
+    */
+
+    'nome_completo' => env('APP_NOME_COMPLETO', 'Arquivo Judicial'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | versao
+    |--------------------------------------------------------------------------
+    |
+    | Versão da aplicação.
+    */
+
+    'versao' => '0.0.1-dev',
 
     /*
     |--------------------------------------------------------------------------
@@ -73,6 +93,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Timezone de exibição
+    |--------------------------------------------------------------------------
+    |
+    | Definição do timezone de exibição dos dados. Eventualmente, esse valor
+    | pode ser substituído por uma preferência do usuário.
+    |
+    */
+
+    'tz' => env('VIEW_TZ', 'UTC'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
     |
@@ -82,7 +114,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pt-br',
 
     /*
     |--------------------------------------------------------------------------
@@ -95,7 +127,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'pt-br',
 
     /*
     |--------------------------------------------------------------------------
@@ -194,7 +226,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\FortifyServiceProvider::class,
     ],
 
     /*
