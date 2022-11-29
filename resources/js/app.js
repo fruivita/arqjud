@@ -1,5 +1,5 @@
 /**
- * @link https://laravel.com/docs/9.x/vite
+ * @see https://laravel.com/docs/9.x/vite
  */
 
 import Layout from '@/Shared/Layout.vue';

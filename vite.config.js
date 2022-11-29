@@ -1,6 +1,6 @@
 /**
- * @link https://laravel.com/docs/9.x/vite
- * @link https://vuejs.org/guide/scaling-up/testing.html
+ * @see https://laravel.com/docs/9.x/vite
+ * @see https://vuejs.org/guide/scaling-up/testing.html
  */
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';

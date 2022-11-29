@@ -1,5 +1,5 @@
 /**
- * @link https://laravel.com/docs/9.x/vite#working-with-stylesheets
+ * @see https://laravel.com/docs/9.x/vite#working-with-stylesheets
  */
 
 module.exports = {

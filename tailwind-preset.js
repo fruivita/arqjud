@@ -1,7 +1,7 @@
 /**
- * @link https://tailwindcss.com/docs/content-configuration
- * @link https://tailwindcss.com/docs/dark-mode
- * @link https://tailwindcss.com/docs/presets
+ * @see https://tailwindcss.com/docs/content-configuration
+ * @see https://tailwindcss.com/docs/dark-mode
+ * @see https://tailwindcss.com/docs/presets
  */
 
 module.exports = {
