@@ -1,0 +1,120 @@
+// Vitest Snapshot v1
+
+exports[`DropDown > atributos do componente e extras renderizados corretamente respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\">
+  <!--v-if-->
+  <div class=\\"dark:text-primaria-900 relative\\">
+    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" extra=\\"loren\\">
+      <option value=\\"1\\">bar</option>
+      <option value=\\"2\\">foo</option>
+    </select>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`DropDown > renderiza a mensagem de erro respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\">
+  <!--v-if-->
+  <div class=\\"dark:text-primaria-900 relative\\">
+    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-red-500 bg-red-100 ring-red-500 w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\">
+      <option value=\\"1\\">bar</option>
+      <option value=\\"2\\">foo</option>
+    </select>
+  </div>
+  <p class=\\"text-sm font-bold text-red-500\\" dusk=\\"erro\\">loren</p>
+</div>"
+`;
+
+exports[`DropDown > renderiza a propriedade escolhida do objeto respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\">
+  <!--v-if-->
+  <div class=\\"dark:text-primaria-900 relative\\">
+    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\">
+      <option value=\\"1\\">loren</option>
+      <option value=\\"2\\">ipsun</option>
+    </select>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`DropDown > renderiza múltiplas propriedades do objeto respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\">
+  <!--v-if-->
+  <div class=\\"dark:text-primaria-900 relative\\">
+    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\">
+      <option value=\\"1\\">bar/loren</option>
+      <option value=\\"2\\">foo/ipsun</option>
+    </select>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`DropDown > renderiza o label respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\"><label for=\\"foo-id\\" class=\\"font-bold\\" dusk=\\"label\\">loren
+    <!--v-if-->
+  </label>
+  <div class=\\"dark:text-primaria-900 relative\\">
+    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\">
+      <option value=\\"1\\">bar</option>
+      <option value=\\"2\\">foo</option>
+    </select>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`DropDown > renderiza o símbolo de campo obrigatório respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\"><label for=\\"foo-id\\" class=\\"font-bold\\" dusk=\\"label\\">loren <span class=\\"text-red-500\\" dusk=\\"required\\">*</span></label>
+  <div class=\\"dark:text-primaria-900 relative\\">
+    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" required=\\"\\">
+      <option value=\\"1\\">bar</option>
+      <option value=\\"2\\">foo</option>
+    </select>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`DropDown > renderiza o ícone respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\">
+  <!--v-if-->
+  <div class=\\"dark:text-primaria-900 relative\\">
+    <div class=\\"pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pl-3\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+        <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
+        <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
+      </svg></div><select id=\\"foo-id\\" class=\\"pl-12 border-primaria-500 bg-primaria-100 ring-primaria-500 w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\">
+      <option value=\\"1\\">bar</option>
+      <option value=\\"2\\">foo</option>
+    </select>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`DropDown > rendiza o componente de maneira diversa quando desabilitado respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\">
+  <!--v-if-->
+  <div class=\\"dark:text-primaria-50 relative\\">
+    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 border-dashed w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" disabled=\\"\\">
+      <option value=\\"1\\">bar</option>
+      <option value=\\"2\\">foo</option>
+    </select>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`DropDown > rendiza o componente quando não há opções para o select respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\">
+  <!--v-if-->
+  <div class=\\"dark:text-primaria-50 relative\\">
+    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 border-dashed w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" disabled=\\"\\">
+      <option value=\\"-1\\">Nenhum registro encontrado</option>
+    </select>
+  </div>
+  <!--v-if-->
+</div>"
+`;

@@ -1,0 +1,5 @@
+// Vitest Snapshot v1
+
+exports[`Container > renderiza o componente com o slot respeitando o snapshot 1`] = `"<div class=\\"overflow-x-auto rounded-lg p-3 shadow-lg shadow-secundaria-500 dark:shadow-primaria-500\\" dusk=\\"slot\\">foo</div>"`;
+
+exports[`Container > renderiza o componente respeitando o snapshot 1`] = `"<div class=\\"overflow-x-auto rounded-lg p-3 shadow-lg shadow-secundaria-500 dark:shadow-primaria-500\\" dusk=\\"slot\\"></div>"`;

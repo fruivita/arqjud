@@ -1,0 +1,51 @@
+// Vitest Snapshot v1
+
+exports[`LinkButtonText > renderiza o componente com ícone respeitando o snapshot 1`] = `
+"<a class=\\"bg-primaria-500 text-primaria-50 ring-primaria-600 hover:bg-primaria-600 focus:bg-primaria-600 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" href=\\"http://foo.bar\\" disabled=\\"false\\"><span dusk=\\"texto\\">foo</span><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+    <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
+    <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
+  </svg></a>"
+`;
+
+exports[`LinkButtonText > renderiza o componente das espécies específicas respeitando o snapshot 1`] = `
+"<a class=\\"bg-primaria-500 text-primaria-50 ring-primaria-600 hover:bg-primaria-600 focus:bg-primaria-600 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" href=\\"http://foo.bar\\" disabled=\\"false\\"><span dusk=\\"texto\\">foo</span>
+  <!--v-if-->
+</a>"
+`;
+
+exports[`LinkButtonText > renderiza o componente das espécies específicas respeitando o snapshot 2`] = `
+"<a class=\\"bg-blue-500 text-blue-50 ring-blue-600 hover:bg-blue-600  focus:bg-blue-600 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" href=\\"http://foo.bar\\" disabled=\\"false\\"><span dusk=\\"texto\\">foo</span>
+  <!--v-if-->
+</a>"
+`;
+
+exports[`LinkButtonText > renderiza o componente das espécies específicas respeitando o snapshot 3`] = `
+"<a class=\\"bg-gray-500 text-gray-50 ring-gray-600 hover:bg-gray-600 focus:bg-gray-600 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" href=\\"http://foo.bar\\" disabled=\\"false\\"><span dusk=\\"texto\\">foo</span>
+  <!--v-if-->
+</a>"
+`;
+
+exports[`LinkButtonText > renderiza o componente das espécies específicas respeitando o snapshot 4`] = `
+"<a class=\\"bg-yellow-600 text-yellow-50 ring-yellow-700 hover:bg-yellow-700 focus:bg-yellow-700 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" href=\\"http://foo.bar\\" disabled=\\"false\\"><span dusk=\\"texto\\">foo</span>
+  <!--v-if-->
+</a>"
+`;
+
+exports[`LinkButtonText > renderiza o componente das espécies específicas respeitando o snapshot 5`] = `
+"<a class=\\"bg-red-500 text-red-50 ring-red-600 hover:bg-red-600 focus:bg-red-600 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" href=\\"http://foo.bar\\" disabled=\\"false\\"><span dusk=\\"texto\\">foo</span>
+  <!--v-if-->
+</a>"
+`;
+
+exports[`LinkButtonText > renderiza o componente sem ícone respeitando o snapshot 1`] = `
+"<a class=\\"bg-primaria-500 text-primaria-50 ring-primaria-600 hover:bg-primaria-600 focus:bg-primaria-600 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" href=\\"http://foo.bar\\" disabled=\\"false\\"><span dusk=\\"texto\\">foo</span>
+  <!--v-if-->
+</a>"
+`;
+
+exports[`LinkButtonText > rendiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot 1`] = `
+"<a class=\\"bg-primaria-500 text-primaria-50 ring-primaria-600 hover:bg-primaria-600 focus:bg-primaria-600 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" href=\\"http://foo.bar\\" disabled=\\"true\\"><span dusk=\\"texto\\">foo</span><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+    <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
+    <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
+  </svg></a>"
+`;

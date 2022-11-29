@@ -1,0 +1,23 @@
+// Vitest Snapshot v1
+
+exports[`Tabela > renderiza o componente respeitando o snapshot 1`] = `
+"<div class=\\"overflow-x-auto\\">
+  <table class=\\"w-full text-center\\">
+    <thead class=\\"bg-primaria-200 dark:bg-secundaria-700\\">
+      <tr dusk=\\"header\\">foo</tr>
+    </thead>
+    <tbody dusk=\\"body\\">bar</tbody>
+  </table>
+</div>"
+`;
+
+exports[`Tabela > rendiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot 1`] = `
+"<div class=\\"overflow-x-auto\\">
+  <table class=\\"opacity-50 w-full text-center\\">
+    <thead class=\\"bg-primaria-200 dark:bg-secundaria-700\\">
+      <tr dusk=\\"header\\">foo</tr>
+    </thead>
+    <tbody dusk=\\"body\\">bar</tbody>
+  </table>
+</div>"
+`;

@@ -1,0 +1,9 @@
+// Vitest Snapshot v1
+
+exports[`Heading > não renderiza o texto do componente respeitando o snapshot 1`] = `
+"<th class=\\"p-3\\">
+  <!--v-if-->foo
+</th>"
+`;
+
+exports[`Heading > renderiza o componente respeitando o snapshot 1`] = `"<th class=\\"p-3\\"><span class=\\"font-bold\\">foo</span></th>"`;

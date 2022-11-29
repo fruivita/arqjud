@@ -1,0 +1,7 @@
+// Vitest Snapshot v1
+
+exports[`CheckBox > atributos do componente e extras renderizados corretamente respeitando o snapshot 1`] = `"<label for=\\"123\\" class=\\"inline-flex select-none items-center space-x-2\\" dusk=\\"label\\"><input id=\\"123\\" extra=\\"loren\\" class=\\"h-5 w-5 accent-primaria-500\\" type=\\"checkbox\\"><span>foo</span></label>"`;
+
+exports[`CheckBox > renderiza o componente desabilitado respeitando o snapshot 1`] = `"<label for=\\"foo-id\\" class=\\"inline-flex select-none items-center space-x-2\\" dusk=\\"label\\"><input id=\\"foo-id\\" disabled=\\"\\" class=\\"h-5 w-5 accent-primaria-500\\" type=\\"checkbox\\"><span>foo</span></label>"`;
+
+exports[`CheckBox > renderiza o componente respeitando o snapshot 1`] = `"<label for=\\"foo-id\\" class=\\"inline-flex select-none items-center space-x-2\\" dusk=\\"label\\"><input id=\\"foo-id\\" class=\\"h-5 w-5 accent-primaria-500\\" type=\\"checkbox\\"><span>foo</span></label>"`;

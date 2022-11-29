@@ -1,0 +1,5 @@
+// Vitest Snapshot v1
+
+exports[`Alerta > renderiza o componente com o slot respeitando o snapshot 1`] = `"<div class=\\"rounded bg-red-300 p-3 font-mono text-red-900\\">foo</div>"`;
+
+exports[`Alerta > renderiza o componente respeitando o snapshot 1`] = `"<div class=\\"rounded bg-red-300 p-3 font-mono text-red-900\\"></div>"`;

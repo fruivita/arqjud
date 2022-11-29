@@ -1,0 +1,34 @@
+// Vitest Snapshot v1
+
+exports[`TheMenu > renderiza o componente respeitando o snapshot 1`] = `
+"<transition-stub enterfromclass=\\"opacity-0 scale-90\\" entertoclass=\\"opacity-100 scale-100\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-200 transform-gpu\\" leavefromclass=\\"opacity-100 scale-100\\" leavetoclass=\\"opacity-0 scale-90\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\">
+  <nav class=\\"fixed inset-0 w-72 space-y-1 overflow-y-auto border-r-4 border-primaria-900 bg-primaria-200 px-3 pt-16 dark:border-secundaria-50 dark:bg-secundaria-700\\">
+    <div class=\\"space-y-1\\"><button class=\\"flex w-full items-center justify-between rounded border-primaria-700 bg-primaria-100 p-2 text-left font-extrabold outline-none transition hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600\\" type=\\"button\\" dusk=\\"btn-menu-grupo\\"><span>foo</span><svg class=\\"h-6 w-6 transition duration-300\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+          <path d=\\"M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z\\"></path>
+        </svg></button>
+      <transition-stub enterfromclass=\\"opacity-0\\" entertoclass=\\"opacity-100\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-200 transform-gpu\\" leavefromclass=\\"opacity-100\\" leavetoclass=\\"opacity-0\\" appear=\\"false\\" persisted=\\"true\\" css=\\"true\\">
+        <div class=\\"flex flex-col space-y-1 border-l-2 border-primaria-500 pl-3 dark:border-secundaria-500\\" dusk=\\"slot\\" style=\\"display: none;\\">
+          <inertialink class=\\"border-l-4 bg-primaria-400 text-primaria-50 dark:bg-secundaria-800 flex items-center space-x-3 rounded border-primaria-700 py-1 pl-3 font-bold outline-none\\" href=\\"http://exemplo-1.com\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+              <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
+              <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
+            </svg><span dusk=\\"texto\\">texto-1</span></inertialink>
+        </div>
+      </transition-stub>
+    </div>
+    <div class=\\"space-y-1\\"><button class=\\"flex w-full items-center justify-between rounded border-primaria-700 bg-primaria-100 p-2 text-left font-extrabold outline-none transition hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600\\" type=\\"button\\" dusk=\\"btn-menu-grupo\\"><span>bar</span><svg class=\\"h-6 w-6 transition duration-300\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+          <path d=\\"M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z\\"></path>
+        </svg></button>
+      <transition-stub enterfromclass=\\"opacity-0\\" entertoclass=\\"opacity-100\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-200 transform-gpu\\" leavefromclass=\\"opacity-100\\" leavetoclass=\\"opacity-0\\" appear=\\"false\\" persisted=\\"true\\" css=\\"true\\">
+        <div class=\\"flex flex-col space-y-1 border-l-2 border-primaria-500 pl-3 dark:border-secundaria-500\\" dusk=\\"slot\\" style=\\"display: none;\\">
+          <inertialink class=\\"hover:border-l-4 focus:border-l-4 flex items-center space-x-3 rounded border-primaria-700 py-1 pl-3 font-bold outline-none\\" href=\\"http://exemplo-2.com\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+              <path d=\\"M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z\\"></path>
+            </svg><span dusk=\\"texto\\">texto-2</span></inertialink>
+          <inertialink class=\\"hover:border-l-4 focus:border-l-4 flex items-center space-x-3 rounded border-primaria-700 py-1 pl-3 font-bold outline-none\\" href=\\"http://exemplo-3.com\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+              <path d=\\"M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z\\"></path>
+            </svg><span dusk=\\"texto\\">texto-3</span></inertialink>
+        </div>
+      </transition-stub>
+    </div>
+  </nav>
+</transition-stub>"
+`;

@@ -1,0 +1,22 @@
+// Vitest Snapshot v1
+
+exports[`Pagina > renderiza o componente com o título respeitando o snapshot 1`] = `
+"<article class=\\"space-y-12 py-3\\">
+  <h1 class=\\"text-center text-2xl font-bold\\" dusk=\\"titulo\\">foo</h1>
+  <div class=\\"space-y-12\\" dusk=\\"slot\\"></div>
+</article>"
+`;
+
+exports[`Pagina > renderiza o componente com slot respeitando o snapshot 1`] = `
+"<article class=\\"space-y-12 py-3\\">
+  <!--v-if-->
+  <div class=\\"space-y-12\\" dusk=\\"slot\\">foo</div>
+</article>"
+`;
+
+exports[`Pagina > renderiza o componente sem o título respeitando o snapshot 1`] = `
+"<article class=\\"space-y-12 py-3\\">
+  <!--v-if-->
+  <div class=\\"space-y-12\\" dusk=\\"slot\\"></div>
+</article>"
+`;

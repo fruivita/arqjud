@@ -1,0 +1,9 @@
+// Vitest Snapshot v1
+
+exports[`HeadingOrdenavel > renderiza o componente respeitando o snapshot 1`] = `
+"<div class=\\"space-x-3 text-right\\"><label for=\\"por_pagina\\">Paginação</label><select id=\\"por_pagina\\" class=\\"rounded bg-primaria-300 text-right dark:bg-secundaria-500\\">
+    <option value=\\"10\\">10</option>
+    <option value=\\"20\\">20</option>
+    <option value=\\"30\\">30</option>
+  </select></div>"
+`;

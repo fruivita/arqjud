@@ -1,0 +1,49 @@
+// Vitest Snapshot v1
+
+exports[`HeadingOrdenavel > renderiza o componente com o ícone respectivo respeitando o snapshot 1`] = `
+"<th class=\\"p-3\\"><button class=\\"transform-gpu whitespace-nowrap rounded px-3 outline-none transition duration-300 hover:bg-primaria-300 focus:bg-primaria-300 disabled:cursor-not-allowed hover:dark:bg-secundaria-500 focus:dark:bg-secundaria-500\\" dusk=\\"ordenacao\\"><span class=\\"font-bold\\">foo</span>
+    <transition-stub enterfromclass=\\"rotate-180\\" entertoclass=\\"rotate-0\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-300 transform-gpu\\" leavefromclass=\\"rotate-0\\" leavetoclass=\\"rotate-180\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\"><svg class=\\"inline h-6 w-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+        <path d=\\"M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z\\"></path>
+      </svg></transition-stub>
+  </button></th>"
+`;
+
+exports[`HeadingOrdenavel > renderiza o componente com o ícone respectivo respeitando o snapshot 2`] = `
+"<th class=\\"p-3\\"><button class=\\"transform-gpu whitespace-nowrap rounded px-3 outline-none transition duration-300 hover:bg-primaria-300 focus:bg-primaria-300 disabled:cursor-not-allowed hover:dark:bg-secundaria-500 focus:dark:bg-secundaria-500\\" dusk=\\"ordenacao\\"><span class=\\"font-bold\\">foo</span>
+    <transition-stub enterfromclass=\\"rotate-180\\" entertoclass=\\"rotate-0\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-300 transform-gpu\\" leavefromclass=\\"rotate-0\\" leavetoclass=\\"rotate-180\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\"><svg class=\\"inline h-6 w-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+        <path fill-rule=\\"evenodd\\" d=\\"M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z\\"></path>
+      </svg></transition-stub>
+  </button></th>"
+`;
+
+exports[`HeadingOrdenavel > renderiza o componente com o ícone respectivo respeitando o snapshot 3`] = `
+"<th class=\\"p-3\\"><button class=\\"transform-gpu whitespace-nowrap rounded px-3 outline-none transition duration-300 hover:bg-primaria-300 focus:bg-primaria-300 disabled:cursor-not-allowed hover:dark:bg-secundaria-500 focus:dark:bg-secundaria-500\\" dusk=\\"ordenacao\\"><span class=\\"font-bold\\">foo</span>
+    <transition-stub enterfromclass=\\"rotate-180\\" entertoclass=\\"rotate-0\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-300 transform-gpu\\" leavefromclass=\\"rotate-0\\" leavetoclass=\\"rotate-180\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\"><svg class=\\"inline h-6 w-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+        <path fill-rule=\\"evenodd\\" d=\\"M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z\\"></path>
+      </svg></transition-stub>
+  </button></th>"
+`;
+
+exports[`HeadingOrdenavel > rendiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot 1`] = `
+"<th class=\\"p-3\\"><button disabled=\\"\\" class=\\"transform-gpu whitespace-nowrap rounded px-3 outline-none transition duration-300 hover:bg-primaria-300 focus:bg-primaria-300 disabled:cursor-not-allowed hover:dark:bg-secundaria-500 focus:dark:bg-secundaria-500\\" dusk=\\"ordenacao\\"><span class=\\"font-bold\\">foo</span>
+    <transition-stub enterfromclass=\\"rotate-180\\" entertoclass=\\"rotate-0\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-300 transform-gpu\\" leavefromclass=\\"rotate-0\\" leavetoclass=\\"rotate-180\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\"><svg class=\\"inline h-6 w-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+        <path d=\\"M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z\\"></path>
+      </svg></transition-stub>
+  </button></th>"
+`;
+
+exports[`HeadingOrdenavel > rendiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot 2`] = `
+"<th class=\\"p-3\\"><button disabled=\\"\\" class=\\"transform-gpu whitespace-nowrap rounded px-3 outline-none transition duration-300 hover:bg-primaria-300 focus:bg-primaria-300 disabled:cursor-not-allowed hover:dark:bg-secundaria-500 focus:dark:bg-secundaria-500\\" dusk=\\"ordenacao\\"><span class=\\"font-bold\\">foo</span>
+    <transition-stub enterfromclass=\\"rotate-180\\" entertoclass=\\"rotate-0\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-300 transform-gpu\\" leavefromclass=\\"rotate-0\\" leavetoclass=\\"rotate-180\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\"><svg class=\\"inline h-6 w-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+        <path fill-rule=\\"evenodd\\" d=\\"M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z\\"></path>
+      </svg></transition-stub>
+  </button></th>"
+`;
+
+exports[`HeadingOrdenavel > rendiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot 3`] = `
+"<th class=\\"p-3\\"><button disabled=\\"\\" class=\\"transform-gpu whitespace-nowrap rounded px-3 outline-none transition duration-300 hover:bg-primaria-300 focus:bg-primaria-300 disabled:cursor-not-allowed hover:dark:bg-secundaria-500 focus:dark:bg-secundaria-500\\" dusk=\\"ordenacao\\"><span class=\\"font-bold\\">foo</span>
+    <transition-stub enterfromclass=\\"rotate-180\\" entertoclass=\\"rotate-0\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-300 transform-gpu\\" leavefromclass=\\"rotate-0\\" leavetoclass=\\"rotate-180\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\"><svg class=\\"inline h-6 w-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+        <path fill-rule=\\"evenodd\\" d=\\"M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z\\"></path>
+      </svg></transition-stub>
+  </button></th>"
+`;

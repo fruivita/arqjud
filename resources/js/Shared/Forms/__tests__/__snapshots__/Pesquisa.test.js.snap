@@ -1,0 +1,25 @@
+// Vitest Snapshot v1
+
+exports[`Pesquisa > atributos extras renderizados corretamente respeitando o snapshot 1`] = `
+"<div class=\\"space-y-1 md:mx-auto md:w-2/4\\">
+  <div class=\\"text-primaria-900 dark:text-secundaria-50 relative text-primaria-900\\">
+    <div class=\\"pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+        <path d=\\"M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z\\"></path>
+      </svg></div><input class=\\"border-primaria-500 bg-primaria-100 ring-primaria-500 dark:border-secundaria-600 dark:bg-secundaria-800 dark:ring-secundaria-500 w-full rounded-lg border py-2 pl-12 pr-20 outline-none focus:ring\\" maxlength=\\"30\\" extra=\\"loren\\" autocomplete=\\"off\\" type=\\"text\\">
+    <div class=\\"absolute inset-y-0 right-0 flex items-center pr-3 text-sm\\" style=\\"display: none;\\"><span dusk=\\"contador\\">3</span>/<span dusk=\\"maxlength\\">30</span></div>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`Pesquisa > renderiza o componente respeitando o snapshot 1`] = `
+"<div class=\\"space-y-1 md:mx-auto md:w-2/4\\">
+  <div class=\\"text-primaria-900 dark:text-secundaria-50 relative text-primaria-900\\">
+    <div class=\\"pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+        <path d=\\"M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z\\"></path>
+      </svg></div><input class=\\"border-primaria-500 bg-primaria-100 ring-primaria-500 dark:border-secundaria-600 dark:bg-secundaria-800 dark:ring-secundaria-500 w-full rounded-lg border py-2 pl-12 pr-20 outline-none focus:ring\\" maxlength=\\"30\\" autocomplete=\\"off\\" type=\\"text\\">
+    <div class=\\"absolute inset-y-0 right-0 flex items-center pr-3 text-sm\\" style=\\"display: none;\\"><span dusk=\\"contador\\">3</span>/<span dusk=\\"maxlength\\">30</span></div>
+  </div>
+  <!--v-if-->
+</div>"
+`;

@@ -1,0 +1,3 @@
+// Vitest Snapshot v1
+
+exports[`Row > renderiza o componente respeitando o snapshot 1`] = `"<tr class=\\"even:bg-primaria-100 dark:even:bg-secundaria-800\\" dusk=\\"slot\\">foo</tr>"`;
