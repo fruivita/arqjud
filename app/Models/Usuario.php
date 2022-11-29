@@ -70,4 +70,35 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     {
         return $this->hasMany(Usuario::class, 'perfil_concedido_por', 'id');
     }
+
+    /**
+     * Slug de todas as permissões do usuário.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function permissoes()
+    {
+        return once(function () {
+            $this->load(['perfil.permissoes' => function ($query) {
+                $query->select(['slug']);
+            }]);
+
+            return empty($this->perfil)
+                ? collect([])
+                : $this->perfil->permissoes->pluck('slug');
+        });
+    }
+
+    /**
+     * Verifica se o usuário possui a permissão informada.
+     *
+     * @param  string  $slug
+     * @return bool
+     */
+    public function possuiPermissao(string $slug)
+    {
+        return $this
+            ->permissoes()
+            ->contains($slug);
+    }
 }

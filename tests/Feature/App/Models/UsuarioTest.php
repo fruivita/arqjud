@@ -5,6 +5,7 @@
  */
 
 use App\Models\Perfil;
+use App\Models\Permissao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Database\QueryException;
@@ -129,4 +130,22 @@ test('usuário delegante só há um', function () {
     $delegado->load('delegante');
 
     expect($delegado->delegante)->toBeInstanceOf(Usuario::class);
+});
+
+test('método possuiPermissao() informa se o usuário possui determinada permissão', function () {
+    \Spatie\Once\Cache::getInstance()->disable();
+
+    login();
+
+    expect(usuarioAutenticado()->possuiPermissao(Permissao::ANDAR_CREATE))->toBeFalse();
+
+    concederPermissao(Permissao::ANDAR_CREATE);
+
+    expect(usuarioAutenticado()->possuiPermissao(Permissao::ANDAR_CREATE))->toBeTrue();
+
+    revogaPermissao(Permissao::ANDAR_CREATE);
+
+    expect(usuarioAutenticado()->possuiPermissao(Permissao::ANDAR_CREATE))->toBeFalse();
+
+    logout();
 });
