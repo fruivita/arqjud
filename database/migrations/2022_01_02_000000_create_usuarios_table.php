@@ -21,10 +21,10 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('lotacao_id');
+            $table->unsignedBigInteger('lotacao_id')->nullable();
             $table->unsignedBigInteger('cargo_id')->nullable();
             $table->unsignedBigInteger('funcao_confianca_id')->nullable();
-            $table->unsignedBigInteger('perfil_id');
+            $table->unsignedBigInteger('perfil_id')->nullable();
             $table->unsignedBigInteger('perfil_concedido_por')->nullable();
             $table->unsignedBigInteger('antigo_perfil_id')->nullable();
             $table->string('matricula', 20)->unique()->nullable();
