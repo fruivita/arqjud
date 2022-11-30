@@ -4,7 +4,6 @@
  * As translations são produzidas pelo backend laravel.
  *
  * @see https://vuejs.org/guide/introduction.html
- * @see https://github.com/VitorLuizC/vue-uuid
  * @see https://jsdoc.app/index.html
  * @see https://lodash.com/
  * @see https://www.youtube.com/watch?v=IZIzcjDdPIw

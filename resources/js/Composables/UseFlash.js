@@ -2,7 +2,6 @@
  * Exibe mensagem de notificação no padrão toast.
  *
  * @see https://vuejs.org/guide/introduction.html
- * @see https://github.com/VitorLuizC/vue-uuid
  * @see https://jsdoc.app/index.html
  * @see https://vue-toastification.maronato.dev/
  */
