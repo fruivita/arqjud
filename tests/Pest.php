@@ -2,10 +2,8 @@
 
 use App\Models\Permissao;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\TestCase;
 use JMac\Testing\Traits\AdditionalAssertions;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
-use Tests\CreatesApplication;
 use LdapRecord\Models\ActiveDirectory\User;
 
 use function Pest\Faker\faker;
@@ -23,8 +21,7 @@ use function Pest\Laravel\post;
 */
 
 uses(
-    TestCase::class,
-    CreatesApplication::class,
+    \Tests\TestCase::class,
     RefreshDatabase::class,
     AdditionalAssertions::class,
 )->in('Feature');
