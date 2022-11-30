@@ -10,24 +10,24 @@ namespace App\Enums;
  */
 enum Policy: string
 {
-    case ViewAny = 'view_any';
+    case ViewAny = 'viewAny';
     case View = 'view';
     case Create = 'create';
     case Update = 'update';
     case Delete = 'delete';
     case Restore = 'restore';
-    case ForceDelete = 'force_delete';
-    case ViewAnyOrUpdate = 'view_any_or_update';
-    case ViewOrUpdate = 'view_or_update';
-    case ExternoViewAny = 'externo_view_any';
-    case ExternoCreate = 'externo_create';
-    case ExternoDelete = 'externo_delete';
-    case DelegacaoViewAny = 'delegacao_view_any';
-    case DelegacaoCreate = 'delegacao_create';
-    case DelegacaoDelete = 'delegacao_delete';
-    case ImportacaoCreate = 'importacao_create';
-    case LogViewAny = 'log_view_any';
-    case LogView = 'log_view';
-    case LogDelete = 'log_delete';
-    case MoverProcessoCreate = 'mover_processo_create';
+    case ForceDelete = 'forceDelete';
+    case ViewAnyOrUpdate = 'viewAnyOrUpdate';
+    case ViewOrUpdate = 'viewOrUpdate';
+    case ExternoViewAny = 'externoViewAny';
+    case ExternoCreate = 'externoCreate';
+    case ExternoDelete = 'externoDelete';
+    case DelegacaoViewAny = 'delegacaoViewAny';
+    case DelegacaoCreate = 'delegacaoCreate';
+    case DelegacaoDelete = 'delegacaoDelete';
+    case ImportacaoCreate = 'importacaoCreate';
+    case LogViewAny = 'logViewAny';
+    case LogView = 'logView';
+    case LogDelete = 'logDelete';
+    case MoverProcessoCreate = 'moverProcessoCreate';
 }
