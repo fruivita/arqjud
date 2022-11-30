@@ -22,7 +22,7 @@ describe('Paginacao', () => {
     // Caminho feliz
     test('propriedades do componente estão definidas', () => {
         expect(Paginacao.props).toMatchObject({
-            elementos: { type: Object },
+            meta: { type: Object },
         });
     });
 
@@ -30,7 +30,7 @@ describe('Paginacao', () => {
         expect(
             mountFunction({
                 props: {
-                    elementos: {
+                    meta: {
                         from: 1,
                         to: 3,
                         total: 3,

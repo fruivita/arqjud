@@ -4,30 +4,30 @@
     Notar que os dados são paginados pelo backend Laravel, portanto, os dados
     estão no padrão definido pelo próprio framework.
 
-    @link https://vuejs.org/guide/introduction.html
-    @link https://tailwindcss.com/docs
-    @link https://inertiajs.com/
+    @see https://vuejs.org/guide/introduction.html
+    @see https://tailwindcss.com/docs
+    @see https://inertiajs.com/
  -->
 
 <script setup>
 import { computed } from '@vue/reactivity';
 
 const props = defineProps({
-    elementos: { type: Object },
+    meta: { type: Object },
 });
 
-const ultimo = computed(() => props.elementos.links.length - 1);
+const ultimo = computed(() => props.meta.links.length - 1);
 </script>
 
 <template>
     <div class="flex items-end justify-between space-x-3 p-3">
         <div>
             <p class="text-sm font-bold">
-                <span dusk="from">{{ elementos.from }}</span>
+                <span dusk="from">{{ meta.from }}</span>
                 -
-                <span dusk="to">{{ elementos.to }}</span>
+                <span dusk="to">{{ meta.to }}</span>
                 de
-                <span dusk="total">{{ elementos.total }}</span>
+                <span dusk="total">{{ meta.total }}</span>
             </p>
         </div>
 
@@ -35,7 +35,7 @@ const ultimo = computed(() => props.elementos.links.length - 1);
             class="flex divide-x-2 divide-primaria-300 rounded border-4 border-primaria-300 dark:divide-secundaria-400 dark:border-secundaria-400"
         >
             <Component
-                v-for="(link, index) in elementos.links"
+                v-for="(link, index) in meta.links"
                 :key="`page-link-${index}`"
                 :class="{
                     'hidden lg:block': !(index === 0 || index === ultimo || link.active),
