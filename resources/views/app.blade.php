@@ -12,6 +12,7 @@
 <body>
     @inertia
 
+    <x-translations />
     <x-dados-estaticos />
 </body>
 
