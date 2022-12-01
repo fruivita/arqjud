@@ -114,20 +114,24 @@ function logout()
 /**
  * Concede a permissão informada ao usuário autenticado.
  *
- * @param  string  $slug
+ * @param  array|string  $slug
  * @return void
  */
-function concederPermissao(string $slug)
+function concederPermissao(mixed $slugs)
 {
-    $permissao = Permissao::where('slug', $slug)->firstOr(
-        fn () => Permissao::factory()->create(['slug' => $slug])
-    );
+    $permissoes = collect()->wrap($slugs)->map(function ($slug) {
+        $permissao = Permissao::where('slug', $slug)->firstOr(
+            fn () => Permissao::factory()->create(['slug' => $slug])
+        );
+
+        return $permissao->id;
+    });
 
     usuarioAutenticado()
         ->refresh()
         ->perfil
         ->permissoes()
-        ->attach($permissao->id);
+        ->attach($permissoes);
 }
 
 /**
