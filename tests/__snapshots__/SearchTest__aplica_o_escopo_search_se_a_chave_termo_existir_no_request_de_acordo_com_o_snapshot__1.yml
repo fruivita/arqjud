@@ -1,0 +1,3 @@
+- 'select * from `localidades` where `nome` like ?'
+-
+    - foo%
