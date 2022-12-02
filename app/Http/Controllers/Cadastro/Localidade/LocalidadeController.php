@@ -7,12 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Localidade\EditLocalidadeRequest;
 use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
 use App\Http\Resources\Localidade\LocalidadeCollection;
+use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Models\Localidade;
 use App\Models\Predio;
 use App\Services\Localidade\PesquisarLocalidade;
 use App\Services\Predio\PesquisarPredio;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 /**
@@ -46,37 +48,38 @@ class LocalidadeController extends Controller
         ]);
     }
 
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Inertia\Response
-    //  */
-    // public function create()
-    // {
-    //     $this->authorize(Policy::Create->value, Localidade::class);
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Inertia\Response
+     */
+    public function create()
+    {
+        $this->authorize(Policy::Create->value, Localidade::class);
 
-    //     return Inertia::render('Cadastro/Localidade/Create', [
-    //         'ultima_insercao' => fn () => Localidade::select(['nome'])->latest()->first(),
-    //     ]);
-    // }
+        return Inertia::render('Cadastro/Localidade/Create', [
+            'ultima_insercao' => fn () => Localidade::select(['nome'])->latest()->first(),
+            'links' => fn () => ['create' => route('cadastro.localidade.store')],
+        ]);
+    }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest  $request
-    //  * @return \Illuminate\Http\RedirectResponse
-    //  */
-    // public function store(PostLocalidadeRequest $request)
-    // {
-    //     $localidade = new Localidade();
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(PostLocalidadeRequest $request)
+    {
+        $localidade = new Localidade();
 
-    //     $localidade->nome = $request->input('nome');
-    //     $localidade->descricao = $request->input('descricao');
+        $localidade->nome = $request->input('nome');
+        $localidade->descricao = $request->input('descricao');
 
-    //     $salvo = $localidade->save();
+        $salvo = $localidade->save();
 
-    //     return back()->with(...$this->feedback($salvo));
-    // }
+        return back()->with(...$this->feedback($salvo));
+    }
 
     // /**
     //  * Show the form for editing the specified resource.

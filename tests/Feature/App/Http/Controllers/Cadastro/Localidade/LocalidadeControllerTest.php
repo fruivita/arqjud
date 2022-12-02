@@ -8,12 +8,14 @@
  */
 
 use App\Http\Controllers\Cadastro\Localidade\LocalidadeController;
+use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
 use App\Models\Localidade;
 use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
+use function Pest\Laravel\post;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
@@ -37,24 +39,22 @@ test('usuário sem permissão não consegue excluir uma localidade', function ()
     expect(Localidade::where('id', $id_localidade)->exists())->toBeTrue();
 });
 
-// test('usuário sem permissão não consegue exibir formulário de criação da localidade', function () {
-//     get(route('cadastro.localidade.create'))
-//         ->assertForbidden();
-// });
+test('usuário sem permissão não consegue exibir formulário de criação da localidade', function () {
+    get(route('cadastro.localidade.create'))->assertForbidden();
+});
 
-// // Caminho feliz
-// test('action do controller usa o form request', function ($action, $request) {
-//     $this->assertActionUsesFormRequest(
-//         LocalidadeController::class,
-//         $action,
-//         $request
-//     );
-// })->with([
-//     ['index', IndexLocalidadeRequest::class],
-//     ['store', PostLocalidadeRequest::class],
-//     ['edit', EditLocalidadeRequest::class],
-//     ['update', PostLocalidadeRequest::class],
-// ]);
+// Caminho feliz
+test('action do controller usa o form request', function ($action, $request) {
+    $this->assertActionUsesFormRequest(
+        LocalidadeController::class,
+        $action,
+        $request
+    );
+})->with([
+    ['store', PostLocalidadeRequest::class],
+    // ['edit', EditLocalidadeRequest::class],
+    // ['update', PostLocalidadeRequest::class],
+]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     Localidade::factory(2)->create();
@@ -70,42 +70,42 @@ test('action index compartilha os dados esperados com a view/componente correto'
         );
 });
 
-// test('action create compartilha os dados esperados com a view/componente correto', function () {
-//     Localidade::factory()->create();
+test('action create compartilha os dados esperados com a view/componente correto', function () {
+    Localidade::factory()->create();
 
-//     $this->travel(1)->seconds();
+    $this->travel(1)->seconds();
 
-//     $ultima_localidade_criada = Localidade::factory()->create();
+    $ultima_localidade_criada = Localidade::factory()->create();
 
-//     concederPermissao(Permissao::LocalidadeCreate);
+    concederPermissao(Permissao::LOCALIDADE_CREATE);
 
-//     get(route('cadastro.localidade.create'))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Localidade/Create')
-//                 ->where('ultima_insercao', ['nome' => $ultima_localidade_criada->nome])
-//         );
-// });
+    get(route('cadastro.localidade.create'))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Localidade/Create')
+                ->where('ultima_insercao', ['nome' => $ultima_localidade_criada->nome])
+        );
+});
 
-// test('cria uma nova localidade', function () {
-//     concederPermissao(Permissao::LocalidadeCreate);
+test('cria uma nova localidade', function () {
+    concederPermissao(Permissao::LOCALIDADE_CREATE);
 
-//     expect(Localidade::count())->toBe(0);
+    expect(Localidade::count())->toBe(0);
 
-//     post(route('cadastro.localidade.store', [
-//         'nome' => 'foo',
-//         'descricao' => 'foo bar',
-//     ]))
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    post(route('cadastro.localidade.store', [
+        'nome' => 'foo',
+        'descricao' => 'foo bar',
+    ]))
+        ->assertRedirect()
+        ->assertSessionHas('sucesso');
 
-//     $localidade = Localidade::first();
+    $localidade = Localidade::first();
 
-//     expect(Localidade::count())->toBe(1)
-//         ->and($localidade->nome)->toBe('foo')
-//         ->and($localidade->descricao)->toBe('foo bar');
-// });
+    expect(Localidade::count())->toBe(1)
+        ->and($localidade->nome)->toBe('foo')
+        ->and($localidade->descricao)->toBe('foo bar');
+});
 
 // test('action edit compartilha os dados esperados com a view/componente correto', function (bool $permissao) {
 //     concederPermissao(Permissao::LocalidadeUpdate);
