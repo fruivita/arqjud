@@ -43,6 +43,7 @@ class Localidade extends Model
      * - nome da localidade
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $termo
      * @return void
      */
     public function scopeSearch(Builder $query, string $termo = null)
