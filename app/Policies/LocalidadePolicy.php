@@ -80,6 +80,12 @@ class LocalidadePolicy
      */
     public function delete(Usuario $usuario, Localidade $localidade)
     {
-        return $usuario->possuiPermissao(Permissao::LOCALIDADE_DELETE);
+        if (isset($localidade->predios_count) !== true) {
+            $localidade->loadCount('predios');
+        }
+
+        return
+            $localidade->predios_count === 0
+            && $usuario->possuiPermissao(Permissao::LOCALIDADE_DELETE);
     }
 }
