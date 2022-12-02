@@ -44,16 +44,19 @@ class Predio extends Model
      * - nome do prédio
      *
      * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  string|null  $termo
      * @return void
      */
     public function scopeSearch(Builder $query, string $termo = null)
     {
+        $termo = "{$termo}%";
+
         $query->where(function ($query) use ($termo) {
-            $query->where('nome', 'like', "{$termo}%")
+            $query->where('nome', 'like', $termo)
                 ->orWhereIn(
                     'localidade_id',
                     Localidade::query()
-                        ->where('nome', 'like', "{$termo}%")
+                        ->where('nome', 'like', $termo)
                         ->pluck('id')
                 );
         });
