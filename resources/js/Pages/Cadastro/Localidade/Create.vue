@@ -1,0 +1,94 @@
+<!--
+    View para criação da localidade.
+
+    @link https://vuejs.org/guide/introduction.html
+    @link https://tailwindcss.com/docs
+    @link https://inertiajs.com/
+ -->
+
+<script setup>
+import { flash } from '@/Composables/useFlash';
+import ButtonText from '@/Shared/Buttons/ButtonText.vue';
+import Container from '@/Shared/Containers/Container.vue';
+import Pagina from '@/Shared/Containers/Pagina.vue';
+import TextAreaInput from '@/Shared/Forms/TextAreaInput.vue';
+import TextInput from '@/Shared/Forms/TextInput.vue';
+import { useTranslationsStore } from '@/Stores/TranslationsStore';
+import { useForm } from '@inertiajs/inertia-vue3';
+
+const props = defineProps({
+    ultima_insercao: { type: Object },
+    links: { type: Object },
+});
+
+const __ = useTranslationsStore().__;
+
+const form = useForm({
+    nome: '',
+    descricao: '',
+});
+
+const cadastrar = () => {
+    form.post(props.links.create, {
+        onSuccess: () => {
+            form.reset();
+            flash();
+        },
+        preserveScroll: true,
+    });
+};
+</script>
+
+<template>
+    <Pagina :titulo="__('Nova localidade')">
+        <Container>
+            <form @submit.prevent="cadastrar">
+                <div class="space-y-6">
+                    <TextInput
+                        v-model="form.nome"
+                        :erro="form.errors.nome"
+                        :label="__('Localidade')"
+                        :placeholder="__('Nome da localidade')"
+                        :maxlength="100"
+                        autocomplete="off"
+                        icone="pin-map"
+                        required
+                    />
+
+                    <TextAreaInput
+                        v-model="form.descricao"
+                        :erro="form.errors.descricao"
+                        :label="__('Descrição')"
+                        :maxlength="255"
+                        :placeholder="__('Sobre a localidade')"
+                        icone="blockquote-left"
+                    />
+
+                    <div class="flex justify-end">
+                        <ButtonText
+                            :texto="__('Salvar')"
+                            dusk="cadastrar"
+                            especie="acao"
+                            icone="save"
+                            type="submit"
+                        />
+                    </div>
+                </div>
+            </form>
+        </Container>
+
+        <Container v-if="ultima_insercao">
+            <div>
+                <span class="text-sm text-primaria-700 underline dark:text-secundaria-400">{{
+                    __('Último Registro Cadastrado:')
+                }}</span>
+
+                <p class="font-bold">
+                    <span>{{
+                        __('Localidade: :attribute', { attribute: ultima_insercao.nome })
+                    }}</span>
+                </p>
+            </div>
+        </Container>
+    </Pagina>
+</template>
