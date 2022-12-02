@@ -5,6 +5,7 @@
  */
 
 use App\Models\Localidade;
+use App\Models\Predio;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 
@@ -15,7 +16,7 @@ test('lança exception ao tentar criar localidades duplicadas, isto é, com mesm
     )->toThrow(QueryException::class, 'Duplicate entry');
 });
 
-test('lança exception ao tentar criar localidade com campo inválido', function ($campo, $valor, $mensagem) {
+test('lança exception ao tentar criar localidade com campo inválido', function (string $campo, mixed $valor, string $mensagem) {
     expect(
         fn () => Localidade::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);
@@ -39,6 +40,14 @@ test('campos opcionais estão definidos', function () {
     Localidade::factory()->create(['descricao' => null]);
 
     expect(Localidade::count())->toBe(1);
+});
+
+test('uma localidade possui muitos prédios', function () {
+    Localidade::factory()->has(Predio::factory(3), 'predios')->create();
+
+    $localidade = Localidade::with('predios')->first();
+
+    expect($localidade->predios)->toHaveCount(3);
 });
 
 test('retorna as localidades pelo escopo search que busca a partir do início do texto', function () {

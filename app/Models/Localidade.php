@@ -24,6 +24,18 @@ class Localidade extends Model
     protected $fillable = ['nome'];
 
     /**
+     * Relacionamento localidade (1:N) prédios.
+     *
+     * Prédios da localidade.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function predios()
+    {
+        return $this->hasMany(Predio::class, 'localidade_id', 'id');
+    }
+
+    /**
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
