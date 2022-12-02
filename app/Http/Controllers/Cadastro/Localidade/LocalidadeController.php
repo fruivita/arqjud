@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Cadastro\Localidade;
 
 use App\Enums\Policy;
+use App\Filters\Localidade\Order;
+use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Localidade\EditLocalidadeRequest;
 use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
@@ -15,6 +17,7 @@ use App\Services\Predio\PesquisarPredio;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Inertia\Inertia;
 
 /**
@@ -37,9 +40,10 @@ class LocalidadeController extends Controller
 
         return Inertia::render('Cadastro/Localidade/Index', [
             'localidades' => LocalidadeCollection::make(
-                Localidade::query()
-                    ->search(request()->query('termo'))
-                    ->orderByOrLatest(request()->query('order'))
+                app(Pipeline::class)
+                    ->send(Localidade::query())
+                    ->through([Order::class, Search::class])
+                    ->thenReturn()
                     ->paginate($this->perPage(request()->query('per_page')))
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
