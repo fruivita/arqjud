@@ -64,18 +64,23 @@ test('um prédio pertence a uma localidade', function () {
     expect($predio->localidade)->toBeInstanceOf(Localidade::class);
 });
 
-test('retorna os prédios pelo escopo search que busca a partir do início do texto', function () {
-    $localidade_1 = Localidade::factory()->create(['nome' => 'foo']);
-    Localidade::factory()->create(['nome' => 'bar']);
-    Localidade::factory()->create(['nome' => 'baz']);
-    $localidade_2 = Localidade::factory()->create(['nome' => 'taz']);
+test('retorna os prédios pelo escopo search que busca a partir do início do texto no nome do prédio', function () {
+    Predio::factory()->create(['nome' => 'aaaaaaaa']);
+    Predio::factory()->create(['nome' => 'ccccbbbb']);
+    Predio::factory()->create(['nome' => 'cccccccc']);
+    Predio::factory()->create(['nome' => 'dddddddd']);
 
-    Predio::factory()->for($localidade_1, 'localidade')->create(['nome' => 'bar']);
-    Predio::factory()->for($localidade_1, 'localidade')->create(['nome' => 'baz']);
-    Predio::factory()->for($localidade_2, 'localidade')->create(['nome' => 'taz']);
+    expect(Predio::search()->count())->toBe(4)
+        ->and(Predio::search('ccc')->count())->toBe(2)
+        ->and(Predio::search('ddd')->count())->toBe(1)
+        ->and(Predio::search('ccbb')->count())->toBe(0);
+});
 
-    expect(Predio::search()->count())->toBe(3)
-        ->and(Predio::search('fo')->count())->toBe(2)
-        ->and(Predio::search('ba')->count())->toBe(2)
-        ->and(Predio::search('az')->count())->toBe(0);
+test('retorna os prédios pelo escopo search que busca a partir do início do texto no nome da localidade pai', function () {
+    Localidade::factory()->has(Predio::factory(2))->create(['nome' => 'aaaaaaaa']);
+    Localidade::factory()->has(Predio::factory(3))->create(['nome' => 'bbbbbbbb']);
+
+    expect(Predio::search()->count())->toBe(5)
+        ->and(Predio::search('aaaa')->count())->toBe(2)
+        ->and(Predio::search('bbbb')->count())->toBe(3);
 });
