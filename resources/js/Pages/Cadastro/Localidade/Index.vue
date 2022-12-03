@@ -52,6 +52,7 @@ const { ordenacoes, mudarOrdenacao } = useOrdenacao(props.localidades.meta.order
 const elementosVisiveis = useLocalStorage(usePage().component.value, {
     localidade: true,
     predios: true,
+    caixas: true,
     acao: true,
 });
 
@@ -109,6 +110,11 @@ watch(perPage, filtrar);
 
                     <CheckBox v-model="elementosVisiveis.predios" :label="__('Qtd prédios')" />
 
+                    <CheckBox
+                        v-model="elementosVisiveis.caixas"
+                        :label="__('Qtd caixas criadas')"
+                    />
+
                     <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
@@ -129,6 +135,13 @@ watch(perPage, filtrar);
                         @ordenar="(direcao) => mudarOrdenacao('predios_count', direcao)"
                     />
 
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.caixas"
+                        :ordenacao="ordenacoes.caixas_criadas_count"
+                        :texto="__('Qtd caixas criadas')"
+                        @ordenar="(direcao) => mudarOrdenacao('caixas_criadas_count', direcao)"
+                    />
+
                     <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
@@ -139,6 +152,10 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.predios">{{
                                 localidade.predios_count
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.caixas">{{
+                                localidade.caixas_criadas_count
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.acao" class="w-10">
