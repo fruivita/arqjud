@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Lotacao;
 use App\Models\Permissao;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -91,7 +92,11 @@ function login(string $samaccountname = 'foo')
         'password' => 'secret',
     ]);
 
-    return usuarioAutenticado();
+    $usuario = usuarioAutenticado();
+    $usuario->lotacao()->associate(Lotacao::factory()->create());
+    $usuario->save();
+
+    return $usuario;
 }
 
 /**
