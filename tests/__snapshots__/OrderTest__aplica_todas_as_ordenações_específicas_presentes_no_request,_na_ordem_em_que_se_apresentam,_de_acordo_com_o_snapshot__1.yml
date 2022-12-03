@@ -1,0 +1,2 @@
+- 'select * from `localidades` order by `predios_count` desc, `nome` asc, `id` desc'
+- {  }
