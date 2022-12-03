@@ -8,6 +8,7 @@
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Models\Localidade;
 use App\Models\Permissao;
+use App\Models\Predio;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
@@ -29,6 +30,19 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
     expect($resource->response(request())->getData(true))->toBe([
         'data' => $this->localidade->only(['id', 'nome']) + [
+            'view_or_update' => route('cadastro.localidade.edit', $this->localidade),
+            'delete' => route('cadastro.localidade.destroy', $this->localidade),
+        ]
+    ]);
+});
+
+test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
+    concederPermissao([Permissao::LOCALIDADE_DELETE, Permissao::LOCALIDADE_VIEW]);
+
+    $resource = LocalidadeResource::make($this->localidade->loadCount('predios'));
+
+    expect($resource->response(request())->getData(true))->toBe([
+        'data' => $this->localidade->only(['id', 'nome', 'predios_count']) + [
             'view_or_update' => route('cadastro.localidade.edit', $this->localidade),
             'delete' => route('cadastro.localidade.destroy', $this->localidade),
         ]

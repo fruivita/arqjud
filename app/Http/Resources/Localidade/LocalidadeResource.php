@@ -22,6 +22,7 @@ class LocalidadeResource extends JsonResource
         return [
             'id' => $this->id,
             'nome' => $this->nome,
+            'predios_count' => $this->whenCounted('predios'),
             'view_or_update' => $this->when(
                 $request->user()->can(Policy::ViewOrUpdate->value, Localidade::class),
                 fn () => route('cadastro.localidade.edit', $this->id),
