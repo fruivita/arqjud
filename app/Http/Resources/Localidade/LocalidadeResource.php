@@ -23,14 +23,16 @@ class LocalidadeResource extends JsonResource
             'id' => $this->id,
             'nome' => $this->nome,
             'predios_count' => $this->whenCounted('predios'),
-            'view_or_update' => $this->when(
-                $request->user()->can(Policy::ViewOrUpdate->value, Localidade::class),
-                fn () => route('cadastro.localidade.edit', $this->id),
-            ),
-            'delete' => $this->when(
-                $request->user()->can(Policy::Delete->value, $this->resource),
-                fn () => route('cadastro.localidade.destroy', $this->id),
-            ),
+            'links' => [
+                'view_or_update' => $this->when(
+                    $request->user()->can(Policy::ViewOrUpdate->value, Localidade::class),
+                    fn () => route('cadastro.localidade.edit', $this->id),
+                ),
+                'delete' => $this->when(
+                    $request->user()->can(Policy::Delete->value, $this->resource),
+                    fn () => route('cadastro.localidade.destroy', $this->id),
+                ),
+            ],
         ];
     }
 }

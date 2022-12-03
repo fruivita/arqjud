@@ -144,15 +144,18 @@ watch(perPage, filtrar);
                             <Cell v-show="elementosVisiveis.acao" class="w-10">
                                 <div class="flex space-x-3">
                                     <InertiaButtonIconeLink
-                                        v-if="localidade.view_or_update"
-                                        :href="localidade.view_or_update"
+                                        v-if="localidade.links.view_or_update"
+                                        :href="localidade.links.view_or_update"
                                         icone="eye"
                                     />
 
                                     <ButtonIcone
-                                        v-if="localidade.delete"
+                                        v-if="localidade.links.delete"
                                         @click="
-                                            confirmarExclusao(localidade.delete, localidade.nome)
+                                            confirmarExclusao(
+                                                localidade.links.delete,
+                                                localidade.nome
+                                            )
                                         "
                                         especie="perigo"
                                         icone="trash"
