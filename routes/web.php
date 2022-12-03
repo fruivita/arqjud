@@ -1,9 +1,25 @@
 <?php
 
 use App\Enums\Policy;
+use App\Http\Controllers\Cadastro\Andar\AndarController;
+use App\Http\Controllers\Cadastro\Caixa\CaixaController;
+use App\Http\Controllers\Cadastro\Estante\EstanteController;
 use App\Http\Controllers\Cadastro\Localidade\LocalidadeController;
+use App\Http\Controllers\Cadastro\Prateleira\PrateleiraController;
+use App\Http\Controllers\Cadastro\Predio\PredioController;
+use App\Http\Controllers\Cadastro\Processo\ProcessoController;
+use App\Http\Controllers\Cadastro\Sala\SalaController;
+use App\Http\Controllers\Cadastro\VolumeCaixa\VolumeCaixaController;
 use App\Http\Controllers\HomeController;
+use App\Models\Andar;
+use App\Models\Caixa;
+use App\Models\Estante;
 use App\Models\Localidade;
+use App\Models\Prateleira;
+use App\Models\Predio;
+use App\Models\Processo;
+use App\Models\Sala;
+use App\Models\VolumeCaixa;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -42,6 +58,78 @@ Route::middleware('auth')->group(function () {
             Route::get('{localidade}/edit', [LocalidadeController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Localidade::class);
             Route::patch('{localidade}', [LocalidadeController::class, 'update'])->name('update')->can(Policy::Update->value, Localidade::class);
             Route::delete('{localidade}', [LocalidadeController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'localidade');
+        });
+
+        Route::prefix('predio')->name('predio.')->group(function () {
+            Route::get('/', [PredioController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Predio::class);
+            Route::get('localidade/{localidade}/create', [PredioController::class, 'create'])->name('create')->can(Policy::Create->value, Predio::class);
+            Route::post('localidade/{localidade}/create', [PredioController::class, 'store'])->name('store')->can(Policy::Create->value, Predio::class);
+            Route::get('{predio_pais}/edit', [PredioController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Predio::class);
+            Route::patch('{predio}', [PredioController::class, 'update'])->name('update')->can(Policy::Update->value, Predio::class);
+            Route::delete('{predio}', [PredioController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'predio');
+        });
+
+        Route::prefix('andar')->name('andar.')->group(function () {
+            Route::get('/', [AndarController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Andar::class);
+            Route::get('predio/{predio_pais}/create', [AndarController::class, 'create'])->name('create')->can(Policy::Create->value, Andar::class);
+            Route::post('predio/{predio}/create', [AndarController::class, 'store'])->name('store')->can(Policy::Create->value, Andar::class);
+            Route::get('{andar_pais}/edit', [AndarController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Andar::class);
+            Route::patch('{andar}', [AndarController::class, 'update'])->name('update')->can(Policy::Update->value, Andar::class);
+            Route::delete('{andar}', [AndarController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'andar');
+        });
+
+        Route::prefix('sala')->name('sala.')->group(function () {
+            Route::get('/', [SalaController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Sala::class);
+            Route::get('andar/{andar_pais}/create', [SalaController::class, 'create'])->name('create')->can(Policy::Create->value, Sala::class);
+            Route::post('andar/{andar}/create', [SalaController::class, 'store'])->name('store')->can(Policy::Create->value, Sala::class);
+            Route::get('{sala_pais}/edit', [SalaController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Sala::class);
+            Route::patch('{sala}', [SalaController::class, 'update'])->name('update')->can(Policy::Update->value, Sala::class);
+            Route::delete('{sala}', [SalaController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'sala');
+        });
+
+        Route::prefix('estante')->name('estante.')->group(function () {
+            Route::get('/', [EstanteController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Estante::class);
+            Route::get('sala/{sala_pais}/create', [EstanteController::class, 'create'])->name('create')->can(Policy::Create->value, Estante::class);
+            Route::post('sala/{sala}/create', [EstanteController::class, 'store'])->name('store')->can(Policy::Create->value, Estante::class);
+            Route::get('{estante_pais}/edit', [EstanteController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Estante::class);
+            Route::patch('{estante}', [EstanteController::class, 'update'])->name('update')->can(Policy::Update->value, Estante::class);
+            Route::delete('{estante}', [EstanteController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'estante');
+        });
+
+        Route::prefix('prateleira')->name('prateleira.')->group(function () {
+            Route::get('/', [PrateleiraController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Prateleira::class);
+            Route::get('estante/{estante_pais}/create', [PrateleiraController::class, 'create'])->name('create')->can(Policy::Create->value, Prateleira::class);
+            Route::post('estante/{estante}/create', [PrateleiraController::class, 'store'])->name('store')->can(Policy::Create->value, Prateleira::class);
+            Route::get('{prateleira_pais}/edit', [PrateleiraController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Prateleira::class);
+            Route::patch('{prateleira}', [PrateleiraController::class, 'update'])->name('update')->can(Policy::Update->value, Prateleira::class);
+            Route::delete('{prateleira}', [PrateleiraController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'prateleira');
+        });
+
+        Route::prefix('caixa')->name('caixa.')->group(function () {
+            Route::get('/', [CaixaController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Caixa::class);
+            Route::get('prateleira/{prateleira_pais}/create', [CaixaController::class, 'create'])->name('create')->can(Policy::Create->value, Caixa::class);
+            Route::post('prateleira/{prateleira}/create', [CaixaController::class, 'store'])->name('store')->can(Policy::Create->value, Caixa::class);
+            Route::get('{caixa_pais}/edit', [CaixaController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Caixa::class);
+            Route::patch('{caixa}', [CaixaController::class, 'update'])->name('update')->can(Policy::Update->value, Caixa::class);
+            Route::delete('{caixa}', [CaixaController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'caixa');
+        });
+
+        Route::prefix('volumeCaixa')->name('volumeCaixa.')->group(function () {
+            Route::get('/', [VolumeCaixaController::class, 'index'])->name('index')->can(Policy::ViewAny->value, VolumeCaixa::class);
+            Route::get('caixa/{caixa_pais}/create', [VolumeCaixaController::class, 'create'])->name('create')->can(Policy::Create->value, VolumeCaixa::class);
+            Route::post('caixa/{caixa}/create', [VolumeCaixaController::class, 'store'])->name('store')->can(Policy::Create->value, VolumeCaixa::class);
+            Route::get('{volume_caixa_pais}/edit', [VolumeCaixaController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, VolumeCaixa::class);
+            Route::patch('{volume_caixa}', [VolumeCaixaController::class, 'update'])->name('update')->can(Policy::Update->value, VolumeCaixa::class);
+            Route::delete('{volume_caixa}', [VolumeCaixaController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'volume_caixa');
+        });
+
+        Route::prefix('processo')->name('processo.')->group(function () {
+            Route::get('/', [ProcessoController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Processo::class);
+            Route::get('volume_caixa/{volume_caixa_pais}/create', [ProcessoController::class, 'create'])->name('create')->can(Policy::Create->value, Processo::class);
+            Route::post('volume_caixa/{volume_caixa_pais}/create', [ProcessoController::class, 'store'])->name('store')->can(Policy::Create->value, Processo::class);
+            Route::get('{processo_pais}/edit', [ProcessoController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Processo::class);
+            Route::patch('{processo}', [ProcessoController::class, 'update'])->name('update')->can(Policy::Update->value, Processo::class);
+            Route::delete('{processo}', [ProcessoController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'processo');
         });
     });
 });
