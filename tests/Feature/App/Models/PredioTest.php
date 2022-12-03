@@ -73,23 +73,31 @@ test('um prédio possui muitos andares', function () {
     expect($predio->andares)->toHaveCount(3);
 });
 
-test('retorna os prédios pelo escopo search que busca a partir do início do texto no nome do prédio', function () {
+test('retorna os prédios pelo escopo search que busca a partir do início do texto no nome do prédio', function (string $termo, int $quantidade) {
     Predio::factory()->create(['nome' => 'aaaaaaaa']);
     Predio::factory()->create(['nome' => 'ccccbbbb']);
     Predio::factory()->create(['nome' => 'cccccccc']);
     Predio::factory()->create(['nome' => 'dddddddd']);
 
-    expect(Predio::search()->count())->toBe(4)
-        ->and(Predio::search('ccc')->count())->toBe(2)
-        ->and(Predio::search('ddd')->count())->toBe(1)
-        ->and(Predio::search('ccbb')->count())->toBe(0);
-});
+    $query = Predio::join('localidades', 'localidades.id', 'predios.localidade_id');
 
-test('retorna os prédios pelo escopo search que busca a partir do início do texto no nome da localidade pai', function () {
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 4],
+    ['ccc', 2],
+    ['ddd', 1],
+    ['ccbb', 0],
+]);
+
+test('retorna os prédios pelo escopo search que busca a partir do início do texto no nome da localidade pai', function (string $termo, int $quantidade) {
     Localidade::factory()->has(Predio::factory(2))->create(['nome' => 'aaaaaaaa']);
     Localidade::factory()->has(Predio::factory(3))->create(['nome' => 'bbbbbbbb']);
 
-    expect(Predio::search()->count())->toBe(5)
-        ->and(Predio::search('aaaa')->count())->toBe(2)
-        ->and(Predio::search('bbbb')->count())->toBe(3);
-});
+    $query = Predio::join('localidades', 'localidades.id', 'predios.localidade_id');
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['aaaa', 2],
+    ['bbbb', 3],
+]);

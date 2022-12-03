@@ -51,6 +51,8 @@ class Predio extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
+     * Pressupõe join com as localidades.
+     *
      * Colunas pesquisadas:
      * - nome da localidade
      * - nome do prédio
@@ -63,15 +65,17 @@ class Predio extends Model
     {
         $termo = "{$termo}%";
 
-        $query->where(function ($query) use ($termo) {
-            $query->where('nome', 'like', $termo)
-                ->orWhereIn(
-                    'localidade_id',
-                    Localidade::query()
-                        ->where('nome', 'like', $termo)
-                        ->pluck('id')
-                );
-        });
+        $query->where('localidades.nome', 'like', $termo)
+            ->orWhere('predios.nome', 'like', $termo);
+        // $query->where(function ($query) use ($termo) {
+        //     $query->where('nome', 'like', $termo)
+        //         ->orWhereIn(
+        //             'localidade_id',
+        //             Localidade::query()
+        //                 ->where('nome', 'like', $termo)
+        //                 ->pluck('id')
+        //         );
+        // });
 
         // $query->whereIn('id', function (Builder $query) use ($termo) {
         //     $query->select('id')
