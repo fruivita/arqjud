@@ -41,7 +41,7 @@ class LocalidadeController extends Controller
         return Inertia::render('Cadastro/Localidade/Index', [
             'localidades' => LocalidadeCollection::make(
                 app(Pipeline::class)
-                    ->send(Localidade::query())
+                    ->send(Localidade::withCount('predios'))
                     ->through([Order::class, Search::class])
                     ->thenReturn()
                     ->paginate($this->perPage(request()->query('per_page')))
