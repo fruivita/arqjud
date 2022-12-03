@@ -40,4 +40,18 @@ class UsuarioFactory extends Factory
             ]
         );
     }
+
+    /**
+     * Gera um usuário com o campo nome obrigatoriamente preenchido.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function comNome()
+    {
+        return $this->state(function () {
+            return [
+                'nome' => fake()->text(50),
+            ];
+        });
+    }
 }
