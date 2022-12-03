@@ -8,7 +8,6 @@ use App\Models\Permissao;
 use App\Enums\Policy;
 use App\Models\Andar;
 use App\Models\Predio;
-use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,13 +48,13 @@ test('usuário sem permissão não pode excluir um prédio', function () {
     expect(Auth::user()->can(Policy::Delete->value, $predio))->toBeFalse();
 });
 
-// test('prédio com andares não pode ser excluído, independente de permissão', function () {
-//     concederPermissao(Permissao::PredioDelete->value);
+test('prédio com andares não pode ser excluído, independente de permissão', function () {
+    concederPermissao(Permissao::PREDIO_DELETE);
 
-//     $predio = Predio::factory()->has(Andar::factory(2), 'andares')->create();
+    $predio = Predio::factory()->has(Andar::factory(2), 'andares')->create();
 
-//     expect(Auth::user()->can(Policy::Delete->value, $predio))->toBeFalse();
-// });
+    expect(Auth::user()->can(Policy::Delete->value, $predio))->toBeFalse();
+});
 
 // Caminho feliz
 test('usuário com permissão pode listar os prédios', function () {
