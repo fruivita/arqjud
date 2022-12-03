@@ -23,6 +23,7 @@ class LocalidadeResource extends JsonResource
             'id' => $this->id,
             'nome' => $this->nome,
             'predios_count' => $this->whenCounted('predios'),
+            'caixas_criadas_count' => $this->whenCounted('caixasCriadas'),
             'links' => [
                 'view_or_update' => $this->when(
                     $request->user()->can(Policy::ViewOrUpdate->value, Localidade::class),
