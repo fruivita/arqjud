@@ -4,6 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Predio;
 use Illuminate\Database\QueryException;
@@ -48,6 +49,14 @@ test('uma localidade possui muitos prédios', function () {
     $localidade = Localidade::with('predios')->first();
 
     expect($localidade->predios)->toHaveCount(3);
+});
+
+test('uma localidade pode criar muitas caixas', function () {
+    Localidade::factory()->has(Caixa::factory(3), 'caixasCriadas')->create();
+
+    $localidade = Localidade::with('caixasCriadas')->first();
+
+    expect($localidade->caixasCriadas)->toHaveCount(3);
 });
 
 test('retorna as localidades pelo escopo search que busca a partir do início do texto', function () {
