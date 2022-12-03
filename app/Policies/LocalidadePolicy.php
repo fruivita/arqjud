@@ -84,6 +84,10 @@ class LocalidadePolicy
             $localidade->loadCount('predios');
         }
 
+        if (isset($localidade->caixas_criadas_count) !== true) {
+            $localidade->loadCount('caixasCriadas');
+        }
+
         return
             $localidade->predios_count === 0
             && $usuario->possuiPermissao(Permissao::LOCALIDADE_DELETE);

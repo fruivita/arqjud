@@ -5,6 +5,7 @@
  */
 
 use App\Enums\Policy;
+use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Permissao;
 use App\Models\Predio;
@@ -56,13 +57,13 @@ test('localidade com prédios não pode ser excluída, independente de permissã
     expect(Auth::user()->can(Policy::Delete->value, $localidade))->toBeFalse();
 });
 
-// test('localidade com caixas criadas pode ser excluída, independente de permissão', function () {
-//     concederPermissao(Permissao::LocalidadeDelete);
+test('localidade com caixas criadas pode ser excluída, independente de permissão', function () {
+    concederPermissao(Permissao::LOCALIDADE_DELETE);
 
-//     $localidade = Localidade::factory()->has(Caixa::factory(2), 'caixasCriadas')->create();
+    $localidade = Localidade::factory()->has(Caixa::factory(2), 'caixasCriadas')->create();
 
-//     expect(Auth::user()->can(Policy::Delete->value, $localidade))->toBeFalse();
-// });
+    expect(Auth::user()->can(Policy::Delete->value, $localidade))->toBeFalse();
+});
 
 // Caminho feliz
 test('usuário com permissão pode listar as localidades', function () {
