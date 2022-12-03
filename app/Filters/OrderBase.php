@@ -25,6 +25,8 @@ abstract class OrderBase
         collect(request()->query('order'))
             ->filter()
             ->each(function (string $direcao, string $coluna) use ($query) {
+                $coluna = str()->camel($coluna);
+
                 if (method_exists($this, $coluna)) {
                     $this->{$coluna}($query, $direcao);
                 }
