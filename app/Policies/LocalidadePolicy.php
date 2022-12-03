@@ -90,6 +90,7 @@ class LocalidadePolicy
 
         return
             $localidade->predios_count === 0
+            && $localidade->caixas_criadas_count === 0
             && $usuario->possuiPermissao(Permissao::LOCALIDADE_DELETE);
     }
 }
