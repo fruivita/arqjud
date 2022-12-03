@@ -37,4 +37,18 @@ class Order extends OrderBase
 
         $query->orderBy('predios_count', $direcao);
     }
+
+    /**
+     * Aplica a ordenação pela quantidade de caixas criadas pela localidade.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $direcao asc ou desc
+     * @return void
+     */
+    protected function caixasCriadasCount(Builder $query, string $direcao)
+    {
+        $direcao = ascOrDesc($direcao);
+
+        $query->orderBy('caixas_criadas_count', $direcao);
+    }
 }

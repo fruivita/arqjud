@@ -44,7 +44,7 @@ test('aplica a ordenação específica se a chave order no request possuir orden
 });
 
 test('aplica todas as ordenações específicas presentes no request, na ordem em que se apresentam, de acordo com o snapshot', function () {
-    request()->merge(['order' => ['predios_count' => 'desc', 'nome' => 'asc']]);
+    request()->merge(['order' => ['predios_count' => 'desc', 'nome' => 'asc', 'caixas_criadas_count' => 'asc']]);
 
     $query = app(Pipeline::class)
         ->send(Localidade::query())
