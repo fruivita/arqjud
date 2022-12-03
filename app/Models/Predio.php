@@ -36,10 +36,22 @@ class Predio extends Model
     }
 
     /**
+     * Relacionamento prédio (1:N) andares.
+     *
+     * Andares do prédio.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function andares()
+    {
+        return $this->hasMany(Andar::class, 'predio_id', 'id');
+    }
+
+    /**
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * * Colunas pesquisadas:
+     * Colunas pesquisadas:
      * - nome da localidade
      * - nome do prédio
      *

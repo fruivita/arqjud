@@ -4,6 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
 use Illuminate\Database\QueryException;
@@ -62,6 +63,14 @@ test('um prédio pertence a uma localidade', function () {
     $predio->load(['localidade']);
 
     expect($predio->localidade)->toBeInstanceOf(Localidade::class);
+});
+
+test('um prédio possui muitos andares', function () {
+    Predio::factory()->has(Andar::factory(3), 'andares')->create();
+
+    $predio = Predio::with('andares')->first();
+
+    expect($predio->andares)->toHaveCount(3);
 });
 
 test('retorna os prédios pelo escopo search que busca a partir do início do texto no nome do prédio', function () {
