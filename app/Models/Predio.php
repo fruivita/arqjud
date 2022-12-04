@@ -51,11 +51,12 @@ class Predio extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * Pressupõe join com as localidades.
+     * Pressupõe join com a tabela:
+     * - localidades.
      *
      * Colunas pesquisadas:
-     * - nome da localidade
-     * - nome do prédio
+     * - nome da localidade;
+     * - nome do prédio.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
      * @param  string|null  $termo

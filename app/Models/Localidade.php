@@ -52,7 +52,7 @@ class Localidade extends Model
      * formato: `termo%`
      *
      * Colunas pesquisadas:
-     * - nome da localidade
+     * - nome da localidade.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string|null  $termo
