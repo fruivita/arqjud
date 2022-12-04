@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Predio;
 
+use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -20,6 +21,9 @@ class PredioOnlyResource extends JsonResource
         return [
             'id' => $this->id,
             'nome' => $this->nome,
+            'localidade_id' => $this->localidade_id,
+            'localidade' => LocalidadeOnlyResource::make($this->whenLoaded('localidade')),
+            'andares_count' => $this->whenCounted('andares'),
         ];
     }
 }
