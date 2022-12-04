@@ -44,7 +44,7 @@ test('campos opcionais estão definidos', function () {
 });
 
 test('uma localidade possui muitos prédios', function () {
-    Localidade::factory()->has(Predio::factory(3), 'predios')->create();
+    Localidade::factory()->hasPredios(3)->create();
 
     $localidade = Localidade::with('predios')->first();
 
@@ -52,7 +52,7 @@ test('uma localidade possui muitos prédios', function () {
 });
 
 test('uma localidade pode criar muitas caixas', function () {
-    Localidade::factory()->has(Caixa::factory(3), 'caixasCriadas')->create();
+    Localidade::factory()->hasCaixasCriadas(3)->create();
 
     $localidade = Localidade::with('caixasCriadas')->first();
 

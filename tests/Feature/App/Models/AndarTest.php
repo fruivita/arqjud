@@ -109,7 +109,7 @@ test('um andar pertence a um prédio', function () {
 });
 
 test('um andar possui muitas salas', function () {
-    Andar::factory()->has(Sala::factory(3), 'salas')->create();
+    Andar::factory()->hasSalas(3)->create();
 
     $andar = Andar::with('salas')->first();
 
@@ -136,8 +136,8 @@ test('retorna os andares pelo escopo search que busca a partir do início do tex
 ]);
 
 test('retorna os andares pelo escopo search que busca a partir do início do texto no nome do prédio pai', function (string $termo, int $quantidade) {
-    Predio::factory()->has(Andar::factory(2), 'andares')->create(['nome' => 'aaaaaaaa']);
-    Predio::factory()->has(Andar::factory(3), 'andares')->create(['nome' => 'bbbbbbbb']);
+    Predio::factory()->hasAndares(2)->create(['nome' => 'aaaaaaaa']);
+    Predio::factory()->hasAndares(3)->create(['nome' => 'bbbbbbbb']);
 
     $query = Andar::query()
         ->join('predios', 'predios.id', 'andares.predio_id')
@@ -152,21 +152,11 @@ test('retorna os andares pelo escopo search que busca a partir do início do tex
 
 test('retorna os andares pelo escopo search que busca a partir do início do texto no nome da localidade pai', function (string $termo, int $quantidade) {
     Localidade::factory()
-        ->has(
-            Predio::factory()->has(
-                Andar::factory(2),
-                'andares'
-            ),
-            'predios'
-        )->create(['nome' => 'aaaaaaaa']);
+        ->has(Predio::factory()->hasAndares(2), 'predios')
+        ->create(['nome' => 'aaaaaaaa']);
     Localidade::factory()
-        ->has(
-            Predio::factory()->has(
-                Andar::factory(3),
-                'andares'
-            ),
-            'predios'
-        )->create(['nome' => 'bbbbbbbb']);
+        ->has(Predio::factory()->hasAndares(3), 'predios')
+        ->create(['nome' => 'bbbbbbbb']);
 
     $query = Andar::query()
         ->join('predios', 'predios.id', 'andares.predio_id')

@@ -51,7 +51,7 @@ test('usuário sem permissão não pode excluir uma sala', function () {
 test('sala com estantes não pode ser excluída, independente de permissão', function () {
     concederPermissao(Permissao::SALA_DELETE);
 
-    $sala = Sala::factory()->has(Estante::factory(2), 'estantes')->create();
+    $sala = Sala::factory()->hasEstantes(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $sala))->toBeFalse();
 });

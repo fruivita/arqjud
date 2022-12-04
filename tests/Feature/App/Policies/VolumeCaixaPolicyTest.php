@@ -51,7 +51,7 @@ test('usuário sem permissão não pode excluir um volume de caixa', function ()
 test('volume de caixa com processos não pode ser excluído, independente de permissão', function () {
     concederPermissao(Permissao::CAIXA_DELETE);
 
-    $volume = VolumeCaixa::factory()->has(Processo::factory(2), 'processos')->create();
+    $volume = VolumeCaixa::factory()->hasProcessos(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $volume))->toBeFalse();
 });

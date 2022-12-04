@@ -51,7 +51,7 @@ test('usuário sem permissão não pode excluir um prédio', function () {
 test('prédio com andares não pode ser excluído, independente de permissão', function () {
     concederPermissao(Permissao::PREDIO_DELETE);
 
-    $predio = Predio::factory()->has(Andar::factory(2), 'andares')->create();
+    $predio = Predio::factory()->hasAndares(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $predio))->toBeFalse();
 });

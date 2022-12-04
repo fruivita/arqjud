@@ -11,8 +11,7 @@ use Illuminate\Pipeline\Pipeline;
 
 // Caminho feliz
 test('join do prédio até a localidade', function () {
-    $localidade = Localidade::factory()->create();
-    Predio::factory()->for($localidade, 'localidade')->create();
+    $localidade = Localidade::factory()->hasPredios(1)->create();
 
     $predio = app(Pipeline::class)
         ->send(Predio::query())

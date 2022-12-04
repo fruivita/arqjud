@@ -82,7 +82,7 @@ test('slugs dos perfis estão definidos', function () {
 });
 
 test('um perfil possui muitas permissões', function () {
-    Perfil::factory()->has(Permissao::factory(3), 'permissoes')->create();
+    Perfil::factory()->hasPermissoes(3)->create();
 
     $perfil = Perfil::with('permissoes')->first();
 
@@ -90,7 +90,7 @@ test('um perfil possui muitas permissões', function () {
 });
 
 test('um perfil possui muitos usuários', function () {
-    Perfil::factory()->has(Usuario::factory(3), 'usuarios')->create();
+    Perfil::factory()->hasUsuarios(3)->create();
 
     $perfil = Perfil::with('usuarios')->first();
 

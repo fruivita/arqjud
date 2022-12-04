@@ -117,7 +117,7 @@ test('um usuário pode ter um perfil antigo', function () {
 });
 
 test('usuário pode delegar seu perfil para diversos outros', function () {
-    $delegante = Usuario::factory()->has(Usuario::factory(3), 'delegados')->create();
+    $delegante = Usuario::factory()->hasDelegados(3)->create();
 
     $delegante->loadCount('delegados');
 

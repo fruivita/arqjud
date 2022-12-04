@@ -43,8 +43,8 @@ test('ordena pelo nome', function () {
 });
 
 test('ordena pela quantidade de prédios filhos', function () {
-    Localidade::factory()->has(Predio::factory(1), 'predios')->create(['id' => 1]);
-    Localidade::factory()->has(Predio::factory(2), 'predios')->create(['id' => 2]);
+    Localidade::factory()->hasPredios(1)->create(['id' => 1]);
+    Localidade::factory()->hasPredios(2)->create(['id' => 2]);
 
     request()->merge(['order' => ['predios_count' => 'asc']]);
 

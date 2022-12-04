@@ -51,7 +51,7 @@ test('usuário sem permissão não pode excluir uma prateleira', function () {
 test('prateleira com caixas não pode ser excluída, independente de permissão', function () {
     concederPermissao(Permissao::PRATELEIRA_DELETE);
 
-    $prateleira = Prateleira::factory()->has(Caixa::factory(2), 'caixas')->create();
+    $prateleira = Prateleira::factory()->hasCaixas(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $prateleira))->toBeFalse();
 });

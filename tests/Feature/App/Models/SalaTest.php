@@ -68,7 +68,7 @@ test('uma sala pertence a um andar', function () {
 });
 
 test('uma sala possui muitas estantes', function () {
-    Sala::factory()->has(Estante::factory(3), 'estantes')->create();
+    Sala::factory()->hasEstantes(3)->create();
 
     $sala = Sala::with('estantes')->first();
 
@@ -95,8 +95,8 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
 ]);
 
 test('retorna as salas pelo escopo search que busca a partir do início do texto no número e apelido do andar', function (string $termo, int $quantidade) {
-    Andar::factory()->has(Sala::factory(2), 'salas')->create(['numero' => 10, 'apelido' => 'aaaaaaaa']);
-    Andar::factory()->has(Sala::factory(3), 'salas')->create(['numero' => 20, 'apelido' => 'bbbbbbbb']);
+    Andar::factory()->hasSalas(2)->create(['numero' => 10, 'apelido' => 'aaaaaaaa']);
+    Andar::factory()->hasSalas(3)->create(['numero' => 20, 'apelido' => 'bbbbbbbb']);
 
     $query = Sala::query()
         ->join('andares', 'andares.id', 'salas.andar_id')

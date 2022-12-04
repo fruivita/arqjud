@@ -51,7 +51,7 @@ test('usuário sem permissão não pode excluir uma caixa', function () {
 test('caixa com volumes não pode ser excluída, independente de permissão', function () {
     concederPermissao(Permissao::CAIXA_DELETE);
 
-    $caixa = Caixa::factory()->has(VolumeCaixa::factory(2), 'volumes')->create();
+    $caixa = Caixa::factory()->hasVolumes(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $caixa))->toBeFalse();
 });

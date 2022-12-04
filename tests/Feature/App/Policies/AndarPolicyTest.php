@@ -51,7 +51,7 @@ test('usuário sem permissão não pode excluir um andar', function () {
 test('andar com salas não pode ser excluído, independente de permissão', function () {
     concederPermissao(Permissao::ANDAR_DELETE);
 
-    $andar = Andar::factory()->has(Sala::factory(2), 'salas')->create();
+    $andar = Andar::factory()->hasSalas(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $andar))->toBeFalse();
 });

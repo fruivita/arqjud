@@ -51,7 +51,7 @@ test('usuário sem permissão não pode excluir uma estante', function () {
 test('estante com prateleiras não pode ser excluída, independente de permissão', function () {
     concederPermissao(Permissao::ESTANTE_DELETE);
 
-    $estante = Estante::factory()->has(Prateleira::factory(2), 'prateleiras')->create();
+    $estante = Estante::factory()->hasPrateleiras(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $estante))->toBeFalse();
 });

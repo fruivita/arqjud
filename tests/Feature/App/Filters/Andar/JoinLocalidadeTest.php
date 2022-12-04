@@ -12,9 +12,7 @@ use Illuminate\Pipeline\Pipeline;
 
 // Caminho feliz
 test('join do andar até a localidade', function () {
-    $localidade = Localidade::factory()->create();
-    $predio = Predio::factory()->for($localidade, 'localidade')->create();
-    Andar::factory()->for($predio, 'predio')->create();
+    $localidade = Localidade::factory()->has(Predio::factory()->hasAndares(1))->create();
 
     $andar = app(Pipeline::class)
         ->send(Andar::query())

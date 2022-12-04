@@ -126,7 +126,7 @@ test('slugs das permissões estão definidas', function () {
 });
 
 test('uma permissão pode ser usada em muitos perfis', function () {
-    Permissao::factory()->has(Perfil::factory(3), 'perfis')->create();
+    Permissao::factory()->hasPerfis(3)->create();
 
     $permissao = Permissao::with('perfis')->first();
 

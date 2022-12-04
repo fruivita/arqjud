@@ -52,7 +52,7 @@ test('usuário sem permissão não pode excluir uma localidade', function () {
 test('localidade com prédios não pode ser excluída, independente de permissão', function () {
     concederPermissao(Permissao::LOCALIDADE_DELETE);
 
-    $localidade = Localidade::factory()->has(Predio::factory(2), 'predios')->create();
+    $localidade = Localidade::factory()->hasPredios(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $localidade))->toBeFalse();
 });
@@ -60,7 +60,7 @@ test('localidade com prédios não pode ser excluída, independente de permissã
 test('localidade com caixas criadas não pode ser excluída, independente de permissão', function () {
     concederPermissao(Permissao::LOCALIDADE_DELETE);
 
-    $localidade = Localidade::factory()->has(Caixa::factory(2), 'caixasCriadas')->create();
+    $localidade = Localidade::factory()->hasCaixasCriadas(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $localidade))->toBeFalse();
 });

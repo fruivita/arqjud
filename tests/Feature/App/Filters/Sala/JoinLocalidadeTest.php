@@ -13,10 +13,10 @@ use Illuminate\Pipeline\Pipeline;
 
 // Caminho feliz
 test('join da sala até a localidade', function () {
-    $localidade = Localidade::factory()->create();
-    $predio = Predio::factory()->for($localidade, 'localidade')->create();
-    $andar = Andar::factory()->for($predio, 'predio')->create();
-    Sala::factory()->for($andar, 'andar')->create();
+    $localidade = Localidade::factory()
+        ->has(Predio::factory()
+            ->has(Andar::factory()->hasSalas(1)))
+        ->create();
 
     $sala = app(Pipeline::class)
         ->send(Sala::query())

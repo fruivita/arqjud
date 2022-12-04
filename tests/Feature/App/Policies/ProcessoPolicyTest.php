@@ -51,7 +51,7 @@ test('usuário sem permissão não pode excluir um processo', function () {
 test('processo com processos filho não pode ser excluído, independente de permissão', function () {
     concederPermissao(Permissao::PROCESSO_DELETE);
 
-    $processo = Processo::factory()->has(Processo::factory(2), 'processosFilho')->create();
+    $processo = Processo::factory()->hasProcessosFilho(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $processo))->toBeFalse();
 });

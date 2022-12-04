@@ -66,7 +66,7 @@ test('um prédio pertence a uma localidade', function () {
 });
 
 test('um prédio possui muitos andares', function () {
-    Predio::factory()->has(Andar::factory(3), 'andares')->create();
+    Predio::factory()->hasAndares(3)->create();
 
     $predio = Predio::with('andares')->first();
 
@@ -90,8 +90,8 @@ test('retorna os prédios pelo escopo search que busca a partir do início do te
 ]);
 
 test('retorna os prédios pelo escopo search que busca a partir do início do texto no nome da localidade pai', function (string $termo, int $quantidade) {
-    Localidade::factory()->has(Predio::factory(2), 'predios')->create(['nome' => 'aaaaaaaa']);
-    Localidade::factory()->has(Predio::factory(3), 'predios')->create(['nome' => 'bbbbbbbb']);
+    Localidade::factory()->hasPredios(2)->create(['nome' => 'aaaaaaaa']);
+    Localidade::factory()->hasPredios(3)->create(['nome' => 'bbbbbbbb']);
 
     $query = Predio::join('localidades', 'localidades.id', 'predios.localidade_id');
 
