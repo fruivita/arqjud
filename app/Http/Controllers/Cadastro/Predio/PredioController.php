@@ -2,20 +2,45 @@
 
 namespace App\Http\Controllers\Cadastro\Predio;
 
+use App\Enums\Policy;
+use App\Filters\Predio\JoinLocalidade;
+use App\Filters\Predio\Order;
+use App\Filters\Search;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Predio\PredioCollection;
 use App\Models\Predio;
+use App\Traits\ComFeedback;
+use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
+use Inertia\Inertia;
 
 class PredioController extends Controller
 {
+    use ComFeedback;
+    use ComPaginacaoEmCache;
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
-        //
+        $this->authorize(Policy::ViewAny->value, Predio::class);
+
+        return Inertia::render('Cadastro/Predio/Index', [
+            'predios' => PredioCollection::make(
+                app(Pipeline::class)
+                    ->send(Predio::withCount(['andares'])->with('localidade'))
+                    ->through([JoinLocalidade::class, Order::class, Search::class])
+                    ->thenReturn()
+                    ->paginate($this->perPage(request()->query('per_page')))
+            )->additional(['meta' => [
+                'termo' => request()->query('termo'),
+                'order' => request()->query('order'),
+            ]])->preserveQuery(),
+        ]);
     }
 
     /**
@@ -81,6 +106,10 @@ class PredioController extends Controller
      */
     public function destroy(Predio $predio)
     {
-        //
+        $this->authorize(Policy::Delete->value, $predio);
+
+        $excluido = $predio->delete();
+
+        return back()->with(...$this->feedback($excluido));
     }
 }
