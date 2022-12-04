@@ -17,6 +17,8 @@ class PerfilAttributeHandler
      */
     public function handle(LdapUser $ldap, Usuario $usuario)
     {
-        $usuario->perfil_id = Perfil::firstWhere('slug', Perfil::PADRAO)->id;
+        if (empty($usuario->perfil_id)) {
+            $usuario->perfil_id = Perfil::firstWhere('slug', Perfil::PADRAO)->id;
+        }
     }
 }
