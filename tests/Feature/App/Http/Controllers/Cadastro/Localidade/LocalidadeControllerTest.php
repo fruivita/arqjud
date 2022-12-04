@@ -44,7 +44,7 @@ test('usuário sem permissão não consegue exibir formulário de criação da l
 });
 
 // Caminho feliz
-test('action do controller usa o form request', function ($action, $request) {
+test('action do controller usa o form request', function (string $action, string $request) {
     $this->assertActionUsesFormRequest(
         LocalidadeController::class,
         $action,
