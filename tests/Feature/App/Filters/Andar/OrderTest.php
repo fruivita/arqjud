@@ -7,7 +7,6 @@
 use App\Filters\Andar\JoinLocalidade;
 use App\Filters\Andar\Order;
 use App\Models\Andar;
-use App\Models\Predio;
 use Illuminate\Pipeline\Pipeline;
 use Mockery\MockInterface;
 use function Spatie\Snapshots\assertMatchesSnapshot;
@@ -79,7 +78,7 @@ test('todas as ordenações possíveis no request do andar', function () {
     ]]);
 
     $query = app(Pipeline::class)
-        ->send(Predio::query())
+        ->send(Andar::query())
         ->through([JoinLocalidade::class, Order::class])
         ->thenReturn();
 

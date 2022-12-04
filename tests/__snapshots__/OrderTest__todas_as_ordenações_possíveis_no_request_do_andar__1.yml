@@ -1,2 +1,2 @@
-- 'select * from `predios` inner join `predios` on `predios`.`id` = `andares`.`predio_id` inner join `localidades` on `localidades`.`id` = `predios`.`localidade_id` order by `numero` asc, `apelido` asc, `localidades`.`nome` asc, `predios`.`nome` desc, `salas_count` desc, `id` desc'
+- 'select * from `andares` inner join `predios` on `predios`.`id` = `andares`.`predio_id` inner join `localidades` on `localidades`.`id` = `predios`.`localidade_id` order by `numero` asc, `apelido` asc, `localidades`.`nome` asc, `predios`.`nome` desc, `salas_count` desc, `id` desc'
 - {  }
