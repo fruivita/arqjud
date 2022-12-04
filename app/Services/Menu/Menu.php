@@ -2,6 +2,18 @@
 
 namespace App\Services\Menu;
 
+use App\Enums\Policy;
+use App\Models\Andar;
+use App\Models\Caixa;
+use App\Models\Estante;
+use App\Models\Localidade;
+use App\Models\Prateleira;
+use App\Models\Predio;
+use App\Models\Processo;
+use App\Models\Sala;
+use App\Models\VolumeCaixa;
+use Illuminate\Support\Facades\Route;
+
 /**
  * @see https://m.dotdev.co/design-pattern-service-layer-with-laravel-5-740ff0a7b65f
  * @see https://blackdeerdev.com/laravel-services-pattern/
@@ -23,6 +35,112 @@ final class Menu implements MenuInterface
      */
     public function gerar()
     {
-        return [];
+        return collect()
+            ->when(
+                $this->linksGrupoCadastro(),
+                fn ($collection, $links) => $collection->push(['nome' => __('Cadastro'), 'links' => $links])
+            )
+            ->toArray();
+    }
+
+    /**
+     * Todas os links do menu do grupo cadastro autorizados para o usuário
+     * autenticado.
+     *
+     * Ex.:
+     * [
+     *      'icone' => 'person',
+     *      'href' => 'http://exemplo.com/algo',
+     *      'texto' => 'Pessoas',
+     *      'ativo' => false/true,
+     * ]
+     *
+     * @return array
+     */
+    private function linksGrupoCadastro()
+    {
+        return collect()
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Localidade::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'pin-map',
+                    'href' => route('cadastro.localidade.index'),
+                    'texto' => __('Localidades'),
+                    'ativo' => Route::is('cadastro.localidade.*'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Predio::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'buildings',
+                    'href' => route('cadastro.predio.index'),
+                    'texto' => __('Prédios'),
+                    'ativo' => Route::is('cadastro.predio.*'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Andar::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'layers',
+                    'href' => route('cadastro.andar.index'),
+                    'texto' => __('Andares'),
+                    'ativo' => Route::is('cadastro.andar.*'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Sala::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'door-closed',
+                    'href' => route('cadastro.sala.index'),
+                    'texto' => __('Salas'),
+                    'ativo' => Route::is('cadastro.sala.*'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Estante::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'bookshelf',
+                    'href' => route('cadastro.estante.index'),
+                    'texto' => __('Estantes'),
+                    'ativo' => Route::is('cadastro.estante.*'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Prateleira::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'list-nested',
+                    'href' => route('cadastro.prateleira.index'),
+                    'texto' => __('Prateleiras'),
+                    'ativo' => Route::is('cadastro.prateleira.*'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Caixa::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'box2',
+                    'href' => route('cadastro.caixa.index'),
+                    'texto' => __('Caixas'),
+                    'ativo' => Route::is('cadastro.caixa.*'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, VolumeCaixa::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'boxes',
+                    'href' => route('cadastro.volumeCaixa.index'),
+                    'texto' => __('Volumes das caixas'),
+                    'ativo' => Route::is('cadastro.volumeCaixa.*'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Processo::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'journal-bookmark',
+                    'href' => route('cadastro.processo.index'),
+                    'texto' => __('Processos'),
+                    'ativo' => Route::is('cadastro.processo.*'),
+                ])
+            )
+            ->toArray();
     }
 }
