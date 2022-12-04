@@ -6,12 +6,14 @@ use App\Filters\OrderBase;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
+ * Pressupõe join com as tabelas pais.
+ *
  * @see https://www.youtube.com/watch?v=FByQN_d876c
  */
 class Order extends OrderBase
 {
     /**
-     * Aplica a ordenação por nome do prédio.
+     * Aplica a ordenação pelo nome do prédio.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string $direcao asc ou desc
@@ -39,7 +41,7 @@ class Order extends OrderBase
     }
 
     /**
-     * Aplica a ordenação pela nome da localidade pai do prédio.
+     * Aplica a ordenação pelo nome da localidade pai.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string $direcao asc ou desc
