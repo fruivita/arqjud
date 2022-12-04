@@ -10,14 +10,15 @@ use App\Models\Predio;
 use Illuminate\Pipeline\Pipeline;
 
 // Caminho feliz
-test('join da localidade com o prédio', function () {
-    Predio::factory()->for(Localidade::factory(['nome' => 'foo']), 'localidade')->create(['id' => 1]);
+test('join do prédio até a localidade', function () {
+    $localidade = Localidade::factory()->create();
+    Predio::factory()->for($localidade, 'localidade')->create();
 
-    $localidade = app(Pipeline::class)
+    $predio = app(Pipeline::class)
         ->send(Predio::query())
         ->through([JoinLocalidade::class])
         ->thenReturn()
         ->pluck('localidades.nome');
 
-    expect($localidade->first())->toBe('foo');
+    expect($predio->first())->toBe($localidade->nome);
 });
