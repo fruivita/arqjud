@@ -1,0 +1,2 @@
+- 'select * from `predios` inner join `localidades` on `localidades`.`id` = `predios`.`localidade_id` order by `nome` asc, `localidades`.`nome` asc, `andares_count` desc, `id` desc'
+- {  }

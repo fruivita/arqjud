@@ -6,10 +6,10 @@
 
 use App\Filters\Predio\JoinLocalidade;
 use App\Filters\Predio\Order;
-use App\Models\Andar;
-use App\Models\Localidade;
 use App\Models\Predio;
 use Illuminate\Pipeline\Pipeline;
+use Mockery\MockInterface;
+
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 // Caminho feliz
@@ -32,8 +32,8 @@ test('sem ordenação válida no request, ordena pelo ID desc', function (string
 ]);
 
 test('ordena pelo nome', function () {
-    Predio::factory()->create(['id' => 1, 'nome' => 'aaa']);
-    Predio::factory()->create(['id' => 2, 'nome' => 'bbb']);
+    Predio::factory()->create(['id' => 1, 'nome' => 'bbb']);
+    Predio::factory()->create(['id' => 2, 'nome' => 'aaa']);
 
     request()->merge(['order' => ['nome' => 'desc']]);
 
@@ -43,42 +43,36 @@ test('ordena pelo nome', function () {
         ->thenReturn()
         ->pluck('id');
 
-    expect($predios->toArray())->toBe([2, 1]);
+    expect($predios->toArray())->toBe([1, 2]);
 });
 
-test('ordena pela nome da localidade pai', function () {
-    Predio::factory()->has(Localidade::factory(1, ['nome' => 'aaa']), 'localidade')->create(['id' => 1]);
-    Predio::factory()->has(Localidade::factory(1, ['nome' => 'bbb']), 'localidade')->create(['id' => 2]);
+test('todos os método de ordenação disponíveis são acionados', function (string $campo) {
+    $this->partialMock(Order::class, function (MockInterface $mock) use ($campo) {
+        $mock
+            ->shouldAllowMockingProtectedMethods()
+            ->shouldReceive(str()->camel($campo))
+            ->withSomeOfArgs('desc')
+            ->once();
+    });
 
-    request()->merge(['order' => ['localidade_pai_nome' => 'desc']]);
+    request()->merge(['order' => [$campo => 'desc']]);
 
-    $predios = app(Pipeline::class)
+    app(Pipeline::class)
         ->send(Predio::query())
-        ->through([JoinLocalidade::class, Order::class])
-        ->thenReturn()
-        ->pluck('predios.id');
-
-    expect($predios->toArray())->toBe([2, 1]);
-});
-
-test('ordena pela quantidade de andares filhos', function () {
-    Predio::factory()->has(Andar::factory(2), 'andares')->create(['id' => 1]);
-    Predio::factory()->has(Andar::factory(1), 'andares')->create(['id' => 2]);
-
-    request()->merge(['order' => ['andares_count' => 'asc']]);
-
-    $predios = app(Pipeline::class)
-        ->send(Predio::query()->withCount('andares'))
         ->through([Order::class])
-        ->thenReturn()
-        ->pluck('id');
+        ->thenReturn();
+})->with([
+    'nome',
+    'localidade_pai_nome',
+    'andares_count',
+]);
 
-    expect($predios->toArray())->toBe([2, 1]);
-});
-
-
-test('com todas as ordenações específicas no prédio', function () {
-    request()->merge(['order' => ['andares_count' => 'desc', 'nome' => 'asc', 'localidade_pai_nome' => 'asc']]);
+test('todas as ordenações possíveis no request do prédio', function () {
+    request()->merge(['order' => [
+        'nome' => 'asc',
+        'localidade_pai_nome' => 'asc',
+        'andares_count' => 'desc',
+    ]]);
 
     $query = app(Pipeline::class)
         ->send(Predio::query())
