@@ -5,7 +5,6 @@
  */
 
 use App\Enums\Policy;
-use App\Models\Caixa;
 use App\Models\Permissao;
 use App\Models\Prateleira;
 use Database\Seeders\PerfilSeeder;

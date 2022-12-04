@@ -7,7 +7,6 @@
 use App\Enums\Policy;
 use App\Models\Andar;
 use App\Models\Permissao;
-use App\Models\Sala;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 

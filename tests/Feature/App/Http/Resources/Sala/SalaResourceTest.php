@@ -6,8 +6,8 @@
  */
 
 use App\Http\Resources\Sala\SalaResource;
-use App\Models\Sala;
 use App\Models\Permissao;
+use App\Models\Sala;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {

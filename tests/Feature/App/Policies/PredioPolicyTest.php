@@ -5,7 +5,6 @@
  */
 
 use App\Enums\Policy;
-use App\Models\Andar;
 use App\Models\Permissao;
 use App\Models\Predio;
 use Database\Seeders\PerfilSeeder;

@@ -7,17 +7,15 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Controllers\Cadastro\Andar\AndarController;
 use App\Http\Requests\Cadastro\Andar\EditAndarRequest;
 use App\Http\Requests\Cadastro\Andar\IndexAndarRequest;
 use App\Http\Requests\Cadastro\Andar\PostAndarRequest;
 use App\Models\Andar;
+use App\Models\Permissao;
 use App\Models\Predio;
 use App\Models\Sala;
-use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;

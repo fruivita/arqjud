@@ -5,10 +5,8 @@
  */
 
 use App\Enums\Policy;
-use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Permissao;
-use App\Models\Predio;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 

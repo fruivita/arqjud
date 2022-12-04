@@ -6,7 +6,6 @@
 
 use App\Enums\Policy;
 use App\Models\Permissao;
-use App\Models\Processo;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;

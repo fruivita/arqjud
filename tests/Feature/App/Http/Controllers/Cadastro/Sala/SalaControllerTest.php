@@ -7,18 +7,16 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Controllers\Cadastro\Sala\SalaController;
 use App\Http\Requests\Cadastro\Sala\EditSalaRequest;
 use App\Http\Requests\Cadastro\Sala\IndexSalaRequest;
 use App\Http\Requests\Cadastro\Sala\PostSalaRequest;
 use App\Models\Andar;
 use App\Models\Estante;
+use App\Models\Permissao;
 use App\Models\Prateleira;
 use App\Models\Sala;
-use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;

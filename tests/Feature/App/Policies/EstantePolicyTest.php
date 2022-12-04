@@ -7,7 +7,6 @@
 use App\Enums\Policy;
 use App\Models\Estante;
 use App\Models\Permissao;
-use App\Models\Prateleira;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 

@@ -4,7 +4,6 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
 use Illuminate\Database\QueryException;

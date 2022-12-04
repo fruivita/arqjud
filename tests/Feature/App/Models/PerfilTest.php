@@ -6,7 +6,6 @@
 
 use App\Models\Perfil;
 use App\Models\Permissao;
-use App\Models\Usuario;
 use Database\Seeders\PerfilPermissaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Database\Seeders\PermissaoSeeder;

@@ -5,7 +5,6 @@
  */
 
 use App\Models\Andar;
-use App\Models\Estante;
 use App\Models\Localidade;
 use App\Models\Predio;
 use App\Models\Sala;

@@ -5,7 +5,6 @@
  */
 
 use App\Enums\Policy;
-use App\Models\Estante;
 use App\Models\Permissao;
 use App\Models\Sala;
 use Database\Seeders\PerfilSeeder;

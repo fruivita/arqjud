@@ -5,10 +5,10 @@
  */
 
 use App\Filters\Sala\JoinLocalidade;
-use App\Models\Sala;
+use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
-use App\Models\Andar;
+use App\Models\Sala;
 use Illuminate\Pipeline\Pipeline;
 
 // Caminho feliz

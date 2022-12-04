@@ -6,7 +6,6 @@
 
 use App\Filters\Localidade\Order;
 use App\Models\Localidade;
-use App\Models\Predio;
 use Illuminate\Pipeline\Pipeline;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
