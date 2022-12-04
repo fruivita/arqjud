@@ -45,7 +45,7 @@ class GuiaFactory extends Factory
     }
 
     /**
-     * Gera uma remessa no status de solicitada.
+     * Gera uma solicitação no status de solicitada.
      *
      * @return array
      */
