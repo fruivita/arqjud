@@ -47,7 +47,7 @@ test('retorna a localidade pai se houver o eager load da propriedade', function 
             + ['localidade' => $this->predio->localidade->only(['id', 'nome'])]
             + ['links' => []]
     ]);
-})->only();
+});
 
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = PredioResource::make($this->predio->loadCount('andares'));
