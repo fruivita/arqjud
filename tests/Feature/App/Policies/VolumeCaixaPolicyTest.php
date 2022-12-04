@@ -4,8 +4,8 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Permissao;
 use App\Enums\Policy;
+use App\Models\Permissao;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;

@@ -34,8 +34,8 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                     'create_sala' => route('cadastro.sala.create', $this->andar),
                     'view_or_update' => route('cadastro.andar.edit', $this->andar),
                     'delete' => route('cadastro.andar.destroy', $this->andar),
-                ]
-            ]
+                ],
+            ],
     ]);
 });
 
@@ -45,7 +45,7 @@ test('retorna o prédio pai se houver o eager load da propriedade', function () 
     expect($resource->response(request())->getData(true))->toBe([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'predio_id'])
             + ['predio' => $this->andar->predio->only(['id', 'nome', 'localidade_id'])]
-            + ['links' => []]
+            + ['links' => []],
     ]);
 });
 
@@ -54,7 +54,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 
     expect($resource->response(request())->getData(true))->toBe([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'predio_id', 'salas_count'])
-            + ['links' => []]
+            + ['links' => []],
     ]);
 });
 
@@ -63,6 +63,6 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
 
     expect($resource->response(request())->getData(true))->toBe([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'predio_id'])
-            + ['links' => []]
+            + ['links' => []],
     ]);
 });

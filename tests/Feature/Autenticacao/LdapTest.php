@@ -6,11 +6,9 @@
  * @see https://ldaprecord.com/docs/laravel/v2/auth/testing/
  */
 
-use App\Models\Lotacao;
 use App\Models\Perfil;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
-use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;

@@ -6,7 +6,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use JMac\Testing\Traits\AdditionalAssertions;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use LdapRecord\Models\ActiveDirectory\User;
-
 use function Pest\Faker\faker;
 use function Pest\Laravel\post;
 
@@ -114,7 +113,6 @@ function logout()
 {
     post(route('logout'));
 }
-
 
 /**
  * Concede a permissão informada ao usuário autenticado.

@@ -6,9 +6,9 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
 use App\Models\Localidade;
+use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {

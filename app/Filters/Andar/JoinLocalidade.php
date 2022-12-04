@@ -16,8 +16,8 @@ class JoinLocalidade
      * - prédios;
      * - andares.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Closure $next
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function handle(Builder $query, Closure $next)

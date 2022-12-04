@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Permissao;
 use App\Models\Estante;
+use App\Models\Permissao;
 use App\Models\Usuario;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

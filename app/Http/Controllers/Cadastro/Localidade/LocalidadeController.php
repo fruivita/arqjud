@@ -9,14 +9,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Localidade\EditLocalidadeRequest;
 use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
 use App\Http\Resources\Localidade\LocalidadeCollection;
-use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Models\Localidade;
 use App\Models\Predio;
-use App\Services\Localidade\PesquisarLocalidade;
 use App\Services\Predio\PesquisarPredio;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
-use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Inertia\Inertia;
 

@@ -7,9 +7,7 @@
 
 use App\Http\Resources\Predio\PredioCollection;
 use App\Http\Resources\Predio\PredioResource;
-use App\Models\Localidade;
 use App\Models\Predio;
-use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {

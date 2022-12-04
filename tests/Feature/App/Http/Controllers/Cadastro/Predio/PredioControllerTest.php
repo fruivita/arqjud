@@ -7,17 +7,15 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Controllers\Cadastro\Predio\PredioController;
 use App\Http\Requests\Cadastro\Predio\EditPredioRequest;
 use App\Http\Requests\Cadastro\Predio\IndexPredioRequest;
 use App\Http\Requests\Cadastro\Predio\PostPredioRequest;
 use App\Models\Andar;
 use App\Models\Localidade;
+use App\Models\Permissao;
 use App\Models\Predio;
-use Database\Seeders\LotacaoSeeder;
 use Database\Seeders\PerfilSeeder;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;

@@ -33,8 +33,8 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                 'links' => [
                     'view_or_update' => route('cadastro.localidade.edit', $this->localidade),
                     'delete' => route('cadastro.localidade.destroy', $this->localidade),
-                ]
-            ]
+                ],
+            ],
     ]);
 });
 
@@ -43,7 +43,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 
     expect($resource->response(request())->getData(true))->toBe([
         'data' => $this->localidade->only(['id', 'nome', 'predios_count', 'caixas_criadas_count'])
-            + ['links' => []]
+            + ['links' => []],
     ]);
 });
 
@@ -52,6 +52,6 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
 
     expect($resource->response(request())->getData(true))->toBe([
         'data' => $this->localidade->only(['id', 'nome'])
-            + ['links' => []]
+            + ['links' => []],
     ]);
 });

@@ -6,8 +6,8 @@
  */
 
 use App\Http\Resources\Predio\PredioResource;
-use App\Models\Predio;
 use App\Models\Permissao;
+use App\Models\Predio;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
@@ -34,8 +34,8 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                     'create_andar' => route('cadastro.andar.create', $this->predio),
                     'view_or_update' => route('cadastro.predio.edit', $this->predio),
                     'delete' => route('cadastro.predio.destroy', $this->predio),
-                ]
-            ]
+                ],
+            ],
     ]);
 });
 
@@ -45,7 +45,7 @@ test('retorna a localidade pai se houver o eager load da propriedade', function 
     expect($resource->response(request())->getData(true))->toBe([
         'data' => $this->predio->only(['id', 'nome', 'localidade_id'])
             + ['localidade' => $this->predio->localidade->only(['id', 'nome'])]
-            + ['links' => []]
+            + ['links' => []],
     ]);
 });
 
@@ -54,7 +54,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 
     expect($resource->response(request())->getData(true))->toBe([
         'data' => $this->predio->only(['id', 'nome', 'localidade_id', 'andares_count'])
-            + ['links' => []]
+            + ['links' => []],
     ]);
 });
 
@@ -63,6 +63,6 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
 
     expect($resource->response(request())->getData(true))->toBe([
         'data' => $this->predio->only(['id', 'nome', 'localidade_id'])
-            + ['links' => []]
+            + ['links' => []],
     ]);
 });

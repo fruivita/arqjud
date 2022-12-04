@@ -4,8 +4,8 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Permissao;
 use App\Enums\Policy;
+use App\Models\Permissao;
 use App\Models\Solicitacao;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;

@@ -5,7 +5,6 @@ namespace App\Http\Requests\Cadastro\Localidade;
 use App\Enums\Policy;
 use App\Models\Localidade;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation

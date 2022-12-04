@@ -9,7 +9,6 @@ use App\Filters\Predio\Order;
 use App\Models\Predio;
 use Illuminate\Pipeline\Pipeline;
 use Mockery\MockInterface;
-
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 // Caminho feliz

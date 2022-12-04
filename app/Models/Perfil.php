@@ -19,9 +19,13 @@ class Perfil extends Model
 
     // Slug dos perfis da aplicação
     const ADMINISTRADOR = 'administrador';
+
     const GERENTE_NEGOCIO = 'gerente-de-negocio';
+
     const OPERADOR = 'operador';
+
     const OBSERVADOR = 'observador';
+
     const PADRAO = 'padrao';
 
     /**

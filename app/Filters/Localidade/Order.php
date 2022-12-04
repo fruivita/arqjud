@@ -13,8 +13,8 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação por nome da localidade.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $direcao asc ou desc
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $direcao asc ou desc
      * @return void
      */
     protected function nome(Builder $query, string $direcao)
@@ -27,8 +27,8 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela quantidade de prédios da localidade.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $direcao asc ou desc
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $direcao asc ou desc
      * @return void
      */
     protected function prediosCount(Builder $query, string $direcao)
@@ -41,8 +41,8 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela quantidade de caixas criadas pela localidade.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $direcao asc ou desc
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $direcao asc ou desc
      * @return void
      */
     protected function caixasCriadasCount(Builder $query, string $direcao)

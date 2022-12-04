@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Permissao;
 use App\Models\Andar;
+use App\Models\Permissao;
 use App\Models\Usuario;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

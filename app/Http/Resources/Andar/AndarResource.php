@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Andar;
 
 use App\Enums\Policy;
-use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Predio\PredioOnlyResource;
 use App\Models\Andar;
 use App\Models\Sala;

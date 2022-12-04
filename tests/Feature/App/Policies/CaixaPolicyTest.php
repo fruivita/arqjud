@@ -4,9 +4,9 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Permissao;
 use App\Enums\Policy;
 use App\Models\Caixa;
+use App\Models\Permissao;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;

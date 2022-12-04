@@ -25,6 +25,6 @@ test('retorna os campos principais do modelo', function () {
     $resource = LocalidadeOnlyResource::make($this->localidade);
 
     expect($resource->response(request())->getData(true))->toBe([
-        'data' => $this->localidade->only(['id', 'nome'])
+        'data' => $this->localidade->only(['id', 'nome']),
     ]);
 });
