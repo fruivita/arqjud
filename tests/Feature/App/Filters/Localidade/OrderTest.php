@@ -6,44 +6,57 @@
 
 use App\Filters\Localidade\Order;
 use App\Models\Localidade;
+use App\Models\Predio;
 use Illuminate\Pipeline\Pipeline;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 // Caminho feliz
-test('não aplica ordenação específica se a chave order for inexistente no request de acordo com o snapshot', function () {
-    request()->merge(['order' => '']);
+test('sem ordenação válida no request, ordena pelo ID desc', function (string $coluna, string $direcao) {
+    Localidade::factory()->create(['id' => 1]);
+    Localidade::factory()->create(['id' => 2]);
 
-    $query = app(Pipeline::class)
+    request()->merge(['order' => [$coluna, $direcao]]);
+
+    $localidades = app(Pipeline::class)
         ->send(Localidade::query())
         ->through([Order::class])
-        ->thenReturn();
+        ->thenReturn()->pluck('id');
 
-    assertMatchesSnapshot([$query->toSql(), $query->getBindings()]);
-});
+    expect($localidades->toArray())->toBe([2, 1]);
+})->with([
+    ['', ''],
+    ['foo', 'asc'],
+]);
 
-test('não aplica ordenação específica se a chave order, mesmo existindo no request, não for uma chave permitida de acordo com o snapshot', function () {
-    request()->merge(['order' => ['foo' => 'asc']]);
+test('ordena pelo nome', function () {
+    Localidade::factory()->create(['id' => 1, 'nome' => 'aaa']);
+    Localidade::factory()->create(['id' => 2, 'nome' => 'bbb']);
 
-    $query = app(Pipeline::class)
+    request()->merge(['order' => ['nome' => 'desc']]);
+
+    $localidades = app(Pipeline::class)
         ->send(Localidade::query())
         ->through([Order::class])
-        ->thenReturn();
+        ->thenReturn()->pluck('id');
 
-    assertMatchesSnapshot([$query->toSql(), $query->getBindings()]);
+    expect($localidades->toArray())->toBe([2, 1]);
 });
 
-test('aplica a ordenação específica se a chave order no request possuir ordenação permitida para o modelo de acordo com o snapshot', function () {
-    request()->merge(['order' => ['nome' => 'asc']]);
+test('ordena pela quantidade de prédios filhos', function () {
+    Localidade::factory()->has(Predio::factory(2), 'predios')->create(['id' => 1]);
+    Localidade::factory()->has(Predio::factory(1), 'predios')->create(['id' => 2]);
 
-    $query = app(Pipeline::class)
-        ->send(Localidade::query())
+    request()->merge(['order' => ['predios_count' => 'asc']]);
+
+    $localidades = app(Pipeline::class)
+        ->send(Localidade::query()->withCount('predios'))
         ->through([Order::class])
-        ->thenReturn();
+        ->thenReturn()->pluck('id');
 
-    assertMatchesSnapshot([$query->toSql(), $query->getBindings()]);
+    expect($localidades->toArray())->toBe([2, 1]);
 });
 
-test('aplica todas as ordenações específicas presentes no request, na ordem em que se apresentam, de acordo com o snapshot', function () {
+test('com todas as ordenações específicas na localidade', function () {
     request()->merge(['order' => ['predios_count' => 'desc', 'nome' => 'asc', 'caixas_criadas_count' => 'asc']]);
 
     $query = app(Pipeline::class)
