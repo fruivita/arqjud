@@ -46,4 +46,32 @@ class Andar extends Model
     {
         return $this->hasMany(Sala::class, 'andar_id', 'id');
     }
+
+    /**
+     * Pesquisa utilizando o termo informado com o operador like no seguinte
+     * formato: `termo%`
+     *
+     * Pressupõe join com as tabelas:
+     * - Localidades;
+     * - Prédios.
+     *
+     * Colunas pesquisadas:
+     * - nome da localidade;
+     * - nome do prédio;
+     * - número do andar;
+     * - apelido do andar.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  string|null  $termo
+     * @return void
+     */
+    public function scopeSearch(Builder $query, string $termo = null)
+    {
+        $termo = "{$termo}%";
+
+        $query->where('localidades.nome', 'like', $termo)
+            ->orWhere('predios.nome', 'like', $termo)
+            ->orWhere('andares.numero', 'like', $termo)
+            ->orWhere('andares.apelido', 'like', $termo);
+    }
 }
