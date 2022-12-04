@@ -29,8 +29,8 @@ test('sem ordenação válida no request, ordena pelo ID desc', function (string
 ]);
 
 test('ordena pelo nome', function () {
-    Localidade::factory()->create(['id' => 1, 'nome' => 'aaa']);
-    Localidade::factory()->create(['id' => 2, 'nome' => 'bbb']);
+    Localidade::factory()->create(['id' => 1, 'nome' => 'bbb']);
+    Localidade::factory()->create(['id' => 2, 'nome' => 'aaa']);
 
     request()->merge(['order' => ['nome' => 'desc']]);
 
@@ -39,12 +39,12 @@ test('ordena pelo nome', function () {
         ->through([Order::class])
         ->thenReturn()->pluck('id');
 
-    expect($localidades->toArray())->toBe([2, 1]);
+    expect($localidades->toArray())->toBe([1, 2]);
 });
 
 test('ordena pela quantidade de prédios filhos', function () {
-    Localidade::factory()->has(Predio::factory(2), 'predios')->create(['id' => 1]);
-    Localidade::factory()->has(Predio::factory(1), 'predios')->create(['id' => 2]);
+    Localidade::factory()->has(Predio::factory(1), 'predios')->create(['id' => 1]);
+    Localidade::factory()->has(Predio::factory(2), 'predios')->create(['id' => 2]);
 
     request()->merge(['order' => ['predios_count' => 'asc']]);
 
@@ -53,7 +53,7 @@ test('ordena pela quantidade de prédios filhos', function () {
         ->through([Order::class])
         ->thenReturn()->pluck('id');
 
-    expect($localidades->toArray())->toBe([2, 1]);
+    expect($localidades->toArray())->toBe([1, 2]);
 });
 
 test('com todas as ordenações específicas na localidade', function () {
