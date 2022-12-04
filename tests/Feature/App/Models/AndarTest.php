@@ -116,7 +116,7 @@ test('um andar possui muitas salas', function () {
     expect($andar->salas)->toHaveCount(3);
 });
 
-test('retorna os prédios pelo escopo search que busca a partir do início do texto no número e apelido do andar', function (string $termo, int $quantidade) {
+test('retorna os andares pelo escopo search que busca a partir do início do texto no número e apelido do andar', function (string $termo, int $quantidade) {
     Andar::factory()->create(['numero' => 22, 'apelido' => 'aaaaaaaa']);
     Andar::factory()->create(['numero' => 222, 'apelido' => 'ccccbbbb']);
     Andar::factory()->create(['numero' => 30, 'apelido' => 'cccccccc']);
