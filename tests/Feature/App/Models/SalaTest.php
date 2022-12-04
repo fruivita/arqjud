@@ -94,8 +94,8 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
 ]);
 
 test('retorna as salas pelo escopo search que busca a partir do início do texto no número e apelido do andar', function (string $termo, int $quantidade) {
-    Andar::factory()->hasSalas(2)->create(['numero' => 10, 'apelido' => 'aaaaaaaa']);
-    Andar::factory()->hasSalas(3)->create(['numero' => 20, 'apelido' => 'bbbbbbbb']);
+    Andar::factory()->hasSalas(2)->create(['numero' => 99999999, 'apelido' => 'aaaaaaaa']);
+    Andar::factory()->hasSalas(3)->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
     $query = Sala::query()
         ->join('andares', 'andares.id', 'salas.andar_id')
@@ -107,8 +107,8 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
     ['', 5],
     ['aaaa', 2],
     ['bbbb', 3],
-    [10, 2],
-    [20, 3],
+    [999999, 2],
+    [888888, 3],
 ]);
 
 test('retorna as salas pelo escopo search que busca a partir do início do texto no nome do prédio', function (string $termo, int $quantidade) {

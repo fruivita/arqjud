@@ -116,10 +116,10 @@ test('um andar possui muitas salas', function () {
 });
 
 test('retorna os andares pelo escopo search que busca a partir do início do texto no número e apelido do andar', function (string $termo, int $quantidade) {
-    Andar::factory()->create(['numero' => 22, 'apelido' => 'aaaaaaaa']);
-    Andar::factory()->create(['numero' => 222, 'apelido' => 'ccccbbbb']);
-    Andar::factory()->create(['numero' => 30, 'apelido' => 'cccccccc']);
-    Andar::factory()->create(['numero' => 40, 'apelido' => 'dddddddd']);
+    Andar::factory()->create(['numero' => 99999988, 'apelido' => 'aaaaaaaa']);
+    Andar::factory()->create(['numero' => 99999999, 'apelido' => 'ccccbbbb']);
+    Andar::factory()->create(['numero' => 33333333, 'apelido' => 'cccccccc']);
+    Andar::factory()->create(['numero' => 44444444, 'apelido' => 'dddddddd']);
 
     $query = Andar::query()
         ->join('predios', 'predios.id', 'andares.predio_id')
@@ -129,8 +129,8 @@ test('retorna os andares pelo escopo search que busca a partir do início do tex
 })->with([
     ['', 4],
     ['ccc', 2],
-    ['22', 2],
-    ['40', 1],
+    ['999999', 2],
+    ['444444', 1],
     ['ccbb', 0],
 ]);
 
