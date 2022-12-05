@@ -15,7 +15,7 @@ beforeEach(function () {
 
     $this->caixa = Caixa::factory()->create();
 
-    $this->caixaApi = [
+    $this->caixa_api = [
         'id' => $this->caixa->id,
         'numero' => $this->caixa->numero,
         'ano' => $this->caixa->ano,
@@ -34,14 +34,14 @@ afterEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = CaixaOnlyResource::make($this->caixa);
 
-    expect($resource->response(request())->getData(true))->toBe(['data' => $this->caixaApi]);
+    expect($resource->response(request())->getData(true))->toBe(['data' => $this->caixa_api]);
 });
 
 test('retorna a prateleira pai e localidade criadora se houver o eager load da propriedade', function () {
     $resource = CaixaOnlyResource::make($this->caixa->load(['prateleira', 'localidadeCriadora']));
 
     expect($resource->response(request())->getData(true))->toBe([
-        'data' => $this->caixaApi
+        'data' => $this->caixa_api
             + ['prateleira' => $this->caixa->prateleira->only(['id', 'numero', 'estante_id'])]
             + ['localidade_criadora' => $this->caixa->localidadeCriadora->only(['id', 'nome'])],
     ]);
@@ -51,7 +51,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
     $resource = CaixaOnlyResource::make($this->caixa->loadCount('volumes'));
 
     expect($resource->response(request())->getData(true))->toBe([
-        'data' => $this->caixaApi
+        'data' => $this->caixa_api
             + $this->caixa->only('volumes_count')
     ]);
 });
