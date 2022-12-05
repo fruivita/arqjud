@@ -19,7 +19,7 @@ class JoinLocalidade
      * - estantes;
      * - prateleiras;
      * - caixas;
-     * - criadoras (Localidades criadoras).
+     * - criadoras (Localidades criadoras das caixas).
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  \Closure  $next

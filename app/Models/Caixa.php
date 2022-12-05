@@ -67,7 +67,7 @@ class Caixa extends Model
      * - Salas;
      * - Estantes;
      * - Prateleiras;
-     * - Criadoras (Localidades criadoras).
+     * - Criadoras (Localidades criadoras das caixas).
      *
      * Colunas pesquisadas:
      * - nome da localidade;
