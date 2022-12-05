@@ -45,7 +45,7 @@ test('ordena pelo número', function () {
     expect($salas->toArray())->toBe([1, 2]);
 });
 
-test('todos os método de ordenação disponíveis são acionados', function (string $campo) {
+test('todos os métodos de ordenação disponíveis são acionados', function (string $campo) {
     $this->partialMock(Order::class, function (MockInterface $mock) use ($campo) {
         $mock
             ->shouldAllowMockingProtectedMethods()
