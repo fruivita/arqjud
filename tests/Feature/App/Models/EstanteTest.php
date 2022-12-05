@@ -4,6 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Filters\Estante\JoinLocalidade;
 use App\Models\Andar;
 use App\Models\Estante;
 use App\Models\Localidade;
@@ -11,6 +12,7 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Sala;
 use Illuminate\Database\QueryException;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -90,11 +92,10 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
     Estante::factory()->create(['numero' => 'cccccccc']);
     Estante::factory()->create(['numero' => 'dddddddd']);
 
-    $query = Estante::query()
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Estante::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -108,11 +109,10 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
     Sala::factory()->hasEstantes(2)->create(['numero' => 'aaaaaaaa']);
     Sala::factory()->hasEstantes(3)->create(['numero' => 'bbbbbbbb']);
 
-    $query = Estante::query()
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Estante::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -129,11 +129,10 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
         ->has(Sala::factory()->hasEstantes(3))
         ->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
-    $query = Estante::query()
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Estante::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -154,11 +153,10 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
             ->has(Sala::factory()->hasEstantes(3)), 'andares')
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = Estante::query()
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Estante::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -181,11 +179,10 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
                 ->has(Sala::factory()->hasEstantes(3)), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = Estante::query()
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Estante::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([

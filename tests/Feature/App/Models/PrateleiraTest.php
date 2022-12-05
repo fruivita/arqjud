@@ -4,6 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Filters\Prateleira\JoinLocalidade;
 use App\Models\Andar;
 use App\Models\Caixa;
 use App\Models\Estante;
@@ -12,6 +13,7 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Sala;
 use Illuminate\Database\QueryException;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -93,12 +95,10 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
     Prateleira::factory()->create(['numero' => 'cccccccc']);
     Prateleira::factory()->create(['numero' => 'dddddddd']);
 
-    $query = Prateleira::query()
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Prateleira::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -112,12 +112,10 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
     Estante::factory()->hasPrateleiras(2)->create(['numero' => 'aaaaaaaa']);
     Estante::factory()->hasPrateleiras(3)->create(['numero' => 'bbbbbbbb']);
 
-    $query = Prateleira::query()
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Prateleira::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -130,12 +128,10 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
     Sala::factory()->has(Estante::factory()->hasPrateleiras(2))->create(['numero' => 'aaaaaaaa']);
     Sala::factory()->has(Estante::factory()->hasPrateleiras(3))->create(['numero' => 'bbbbbbbb']);
 
-    $query = Prateleira::query()
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Prateleira::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -154,12 +150,10 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
             ->has(Estante::factory()->hasPrateleiras(3)))
         ->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
-    $query = Prateleira::query()
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Prateleira::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -182,12 +176,10 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
                 ->has(Estante::factory()->hasPrateleiras(3))), 'andares')
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = Prateleira::query()
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Prateleira::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -212,12 +204,10 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
                     ->has(Estante::factory()->hasPrateleiras(3))), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = Prateleira::query()
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Prateleira::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([

@@ -4,11 +4,13 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Filters\Sala\JoinLocalidade;
 use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
 use App\Models\Sala;
 use Illuminate\Database\QueryException;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -80,10 +82,10 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
     Sala::factory()->create(['numero' => 'cccccccc']);
     Sala::factory()->create(['numero' => 'dddddddd']);
 
-    $query = Sala::query()
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Sala::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -97,10 +99,10 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
     Andar::factory()->hasSalas(2)->create(['numero' => 99999999, 'apelido' => 'aaaaaaaa']);
     Andar::factory()->hasSalas(3)->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
-    $query = Sala::query()
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Sala::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -115,10 +117,10 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
     Predio::factory()->has(Andar::factory()->hasSalas(2), 'andares')->create(['nome' => 'aaaaaaaa']);
     Predio::factory()->has(Andar::factory()->hasSalas(3), 'andares')->create(['nome' => 'bbbbbbbb']);
 
-    $query = Sala::query()
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Sala::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -138,10 +140,10 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
             ->has(Andar::factory()->hasSalas(3), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = Sala::query()
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Sala::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([

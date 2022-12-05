@@ -4,6 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Filters\Caixa\JoinLocalidade;
 use App\Models\Andar;
 use App\Models\Caixa;
 use App\Models\Estante;
@@ -14,6 +15,7 @@ use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\VolumeCaixa;
 use Illuminate\Database\QueryException;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -101,14 +103,10 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
     Caixa::factory()->create(['numero' => 77777777, 'ano' => 33333,  'complemento' => 'cccccccc']);
     Caixa::factory()->create(['numero' => 55555555, 'ano' => 22222,  'complemento' => 'dddddddd']);
 
-    $query = Caixa::query()
-        ->join('localidades AS criadoras', 'criadoras.id', 'caixas.localidade_criadora_id')
-        ->join('prateleiras', 'prateleiras.id', 'caixas.prateleira_id')
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Caixa::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -124,14 +122,10 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
     Prateleira::factory()->hasCaixas(2)->create(['numero' => 'aaaaaaaa']);
     Prateleira::factory()->hasCaixas(3)->create(['numero' => 'bbbbbbbb']);
 
-    $query = Caixa::query()
-        ->join('localidades AS criadoras', 'criadoras.id', 'caixas.localidade_criadora_id')
-        ->join('prateleiras', 'prateleiras.id', 'caixas.prateleira_id')
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Caixa::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -144,15 +138,10 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
     Estante::factory()->has(Prateleira::factory()->hasCaixas(2))->create(['numero' => 'aaaaaaaa']);
     Estante::factory()->has(Prateleira::factory()->hasCaixas(3))->create(['numero' => 'bbbbbbbb']);
 
-    $query = Caixa::query()
-        ->join('localidades AS criadoras', 'criadoras.id', 'caixas.localidade_criadora_id')
-        ->join('prateleiras', 'prateleiras.id', 'caixas.prateleira_id')
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
-
+    $query = app(Pipeline::class)
+        ->send(Caixa::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -169,15 +158,10 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
         ->has(Estante::factory()
             ->has(Prateleira::factory()->hasCaixas(3)))->create(['numero' => 'bbbbbbbb']);
 
-    $query = Caixa::query()
-        ->join('localidades AS criadoras', 'criadoras.id', 'caixas.localidade_criadora_id')
-        ->join('prateleiras', 'prateleiras.id', 'caixas.prateleira_id')
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
-
+    $query = app(Pipeline::class)
+        ->send(Caixa::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -198,14 +182,10 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
                 ->has(Prateleira::factory()->hasCaixas(3))))
         ->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
-    $query = Caixa::query()
-        ->join('localidades AS criadoras', 'criadoras.id', 'caixas.localidade_criadora_id')
-        ->join('prateleiras', 'prateleiras.id', 'caixas.prateleira_id')
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
+    $query = app(Pipeline::class)
+        ->send(Caixa::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -230,15 +210,10 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
                     ->has(Prateleira::factory()->hasCaixas(3)))), 'andares')
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = Caixa::query()
-        ->join('localidades AS criadoras', 'criadoras.id', 'caixas.localidade_criadora_id')
-        ->join('prateleiras', 'prateleiras.id', 'caixas.prateleira_id')
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
-
+    $query = app(Pipeline::class)
+        ->send(Caixa::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -264,15 +239,10 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
                         ->has(Prateleira::factory()->hasCaixas(3)))), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = Caixa::query()
-        ->join('localidades AS criadoras', 'criadoras.id', 'caixas.localidade_criadora_id')
-        ->join('prateleiras', 'prateleiras.id', 'caixas.prateleira_id')
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
-
+    $query = app(Pipeline::class)
+        ->send(Caixa::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
@@ -285,15 +255,10 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
     Localidade::factory()->hasCaixasCriadas(2)->create(['nome' => 'aaaaaaaa']);
     Localidade::factory()->hasCaixasCriadas(3)->create(['nome' => 'bbbbbbbb']);
 
-    $query = Caixa::query()
-        ->join('localidades AS criadoras', 'criadoras.id', 'caixas.localidade_criadora_id')
-        ->join('prateleiras', 'prateleiras.id', 'caixas.prateleira_id')
-        ->join('estantes', 'estantes.id', 'prateleiras.estante_id')
-        ->join('salas', 'salas.id', 'estantes.sala_id')
-        ->join('andares', 'andares.id', 'salas.andar_id')
-        ->join('predios', 'predios.id', 'andares.predio_id')
-        ->join('localidades', 'localidades.id', 'predios.localidade_id');
-
+    $query = app(Pipeline::class)
+        ->send(Caixa::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
