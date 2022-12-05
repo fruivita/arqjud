@@ -15,7 +15,7 @@ use Illuminate\Pipeline\Pipeline;
 test('join da sala até a localidade', function () {
     $localidade = Localidade::factory()
         ->has(Predio::factory()
-            ->has(Andar::factory()->hasSalas(1)))
+            ->has(Andar::factory()->hasSalas(1), 'andares'))
         ->create();
 
     $sala = app(Pipeline::class)
