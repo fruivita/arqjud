@@ -142,6 +142,7 @@ class Processo extends Model
     public function scopeSearch(Builder $query, string $termo = null)
     {
         $termo = "{$termo}%";
+        $apenas_numeros = apenasNumeros($termo);
 
         $query->where('localidades.nome', 'like', $termo)
             ->orWhere('predios.nome', 'like', $termo)
@@ -155,8 +156,10 @@ class Processo extends Model
             ->orWhere('caixas.ano', 'like', $termo)
             ->orWhere('caixas.complemento', 'like', $termo)
             ->orWhere('volumes_caixa.numero', 'like', $termo)
-            ->orWhere('processos.numero', 'like', $termo)
-            ->orWhere('processos.numero_antigo', 'like', $termo)
+            ->when($apenas_numeros, function ($query, $apenas_numeros) {
+                $query->orWhere('processos.numero', 'like', "{$apenas_numeros}%")
+                    ->orWhere('processos.numero_antigo', 'like', "{$apenas_numeros}%");
+            })
             ->orWhere('processos.qtd_volumes', 'like', $termo);
     }
 

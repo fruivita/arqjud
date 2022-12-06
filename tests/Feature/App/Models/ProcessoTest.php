@@ -120,7 +120,6 @@ test('um processo pode ter várias solicitações', function () {
     expect($processo->solicitacoes)->toHaveCount(3);
 });
 
-
 test('retorna os processos pelo escopo search que busca a partir do início do texto no número, do número antigo e da quantidade de volumes da caixa', function (string $termo, int $quantidade) {
     Processo::factory()->create(['numero' => '99999999', 'numero_antigo' => '55555555', 'qtd_volumes' => 11111111]);
     Processo::factory()->create(['numero' => '77778888', 'numero_antigo' => '44444444', 'qtd_volumes' => 11111222]);
@@ -139,6 +138,23 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
     [33333, 2],
     [11111, 4],
     [777888, 0],
+]);
+
+test('busca considera apenas a parte numérica na busca nos campos número e número antigo', function (string $termo, int $quantidade) {
+    Processo::factory()->create(['numero' => '99999999', 'numero_antigo' => '55555555']);
+    Processo::factory()->create(['numero' => '77778888', 'numero_antigo' => '44444444']);
+    Processo::factory()->create(['numero' => '77777777', 'numero_antigo' => '33333333']);
+    Processo::factory()->create(['numero' => '66666666', 'numero_antigo' => '33333222']);
+
+    $query = app(Pipeline::class)
+        ->send(Processo::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['ab99999bc', 1], // 99999
+    ['ab3ab3333ab', 2], // 33333
 ]);
 
 test('retorna os processos pelo escopo search que busca a partir do início do texto no número do volume da caixa', function (string $termo, int $quantidade) {
