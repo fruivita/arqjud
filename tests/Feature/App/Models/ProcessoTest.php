@@ -84,12 +84,10 @@ test('processo pai é opcional', function () {
     expect(Processo::count())->toBe(1);
 });
 
-test('máscara padrão do processo CNJ está definida', function () {
-    expect(Processo::MASCARA_CNJ)->toBe('#######-##.####.#.##.####');
-});
-
-test('máscara padrão do processo V2 está definida', function () {
-    expect(Processo::MASCARA_V2)->toBe('####.##.##.######-#');
+test('máscaras de processo estão definidas', function () {
+    expect(Processo::MASCARA_CNJ)->toBe('#######-##.####.#.##.####')
+        ->and(Processo::MASCARA_V2)->toBe('####.##.##.######-#')
+        ->and(Processo::MASCARA_V1)->toBe('##.#######-#');
 });
 
 test('um processo pertence a um volume de caixa', function () {
@@ -370,4 +368,15 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
     ['', 5],
     ['aaaa', 2],
     ['bbbb', 3],
+]);
+
+test('aplica a máscara correta ao processo e retorna o valor esperado', function (mixed $sem_mascara, mixed $com_mascara) {
+    expect(Processo::aplicarMascaraProcesso($sem_mascara))->toBe($com_mascara);
+})->with([
+    ['1111111111', '11.1111111-1'],
+    ['111111111111111', '1111.11.11.111111-1'],
+    ['11111111111111111111', '1111111-11.1111.1.11.1111'],
+    ['111111', '111111'],
+    ['', null],
+    [null, null],
 ]);

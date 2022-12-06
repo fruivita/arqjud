@@ -39,6 +39,13 @@ class Processo extends Model
     public const MASCARA_V2 = '####.##.##.######-#';
 
     /**
+     * Máscara padrão para o número do processo de 10 dígitos.
+     *
+     * @var string
+     */
+    public const MASCARA_V1 = '##.#######-#';
+
+    /**
      * Relacionamento processo (N:1) volume da caixa.
      *
      * Volume da caixa em que o processo está armazenado.
@@ -140,5 +147,33 @@ class Processo extends Model
             ->orWhere('processos.numero', 'like', $termo)
             ->orWhere('processos.numero_antigo', 'like', $termo)
             ->orWhere('processos.qtd_volumes', 'like', $termo);
+    }
+
+    /**
+     * Aplica ao número de informado à mascara a mascara CNJ, V2 ou V1
+     * necessária.
+     *
+     * @param null|string $processo
+     * @return null|string processo com máscara ou null
+     */
+    public static function aplicarMascaraProcesso(string $processo = null)
+    {
+        $processo = trim($processo);
+
+        switch (str($processo)->length()) {
+            case 20:
+                $processo = mascara($processo, self::MASCARA_CNJ);
+                break;
+
+            case 15:
+                $processo = mascara($processo, self::MASCARA_V2);
+                break;
+
+            case 10:
+                $processo = mascara($processo, self::MASCARA_V1);
+                break;
+        }
+
+        return $processo ?: null;
     }
 }
