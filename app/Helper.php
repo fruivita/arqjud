@@ -16,3 +16,30 @@ if (!function_exists('ascOrDesc')) {
         return str($direcao)->lower()->exactly('asc') ? 'asc' : 'desc';
     }
 }
+
+if (!function_exists('mascara')) {
+    /**
+     * Aplica determinada máscara à string informada. Se a máscara não for
+     * compatível com a string informada, retorna-a sem o mascaramento.
+     *
+     * Exemplo: 1234567 com mascara ##.##-### retornará 12.34-567
+     * Exemplo: 123 com mascara ##.##-### retornará 123
+     *
+     * @param  string  $valor
+     * @param  string  $mascara
+     * @return string
+     */
+    function mascara(string $valor, string $mascara)
+    {
+        $mascara_aux = str($mascara);
+
+        if ($mascara_aux->substrCount('#') !== str($valor)->length()) {
+            return $valor;
+        }
+
+        return sprintf(
+            $mascara_aux->replace('#', '%s')->toString(),
+            ...str_split($valor)
+        );
+    }
+}
