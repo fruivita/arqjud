@@ -380,3 +380,60 @@ test('aplica a máscara correta ao processo e retorna o valor esperado', functio
     ['', null],
     [null, null],
 ]);
+
+test('aplica máscara CNJ, quando necessário, por meio do cast do método get das propriedades número e número antigo', function () {
+    $processo_1 = Processo::factory()->make([
+        'numero' => '1111111-11.1111.1.11.1111',
+        'numero_antigo' => '2222222-22.2222.2.22.2222',
+    ]);
+    $processo_2 = Processo::factory()->make([
+        'numero' => '33333333333333333333',
+        'numero_antigo' => '44444444444444444444',
+    ]);
+
+    expect($processo_1->numero)->toBe('1111111-11.1111.1.11.1111')
+        ->and($processo_1->numero_antigo)->toBe('2222222-22.2222.2.22.2222')
+        ->and($processo_2->numero)->toBe('3333333-33.3333.3.33.3333')
+        ->and($processo_2->numero_antigo)->toBe('4444444-44.4444.4.44.4444');
+});
+
+test('aplica máscara V2, quando necessário, por meio do cast do método get da propriedade número', function () {
+    $processo_1 = Processo::factory()->make([
+        'numero' => '1111.11.11.111111-1',
+        'numero_antigo' => '2222.22.22.222222-2',
+    ]);
+    $processo_2 = Processo::factory()->make([
+        'numero' => '333333333333333',
+        'numero_antigo' => '444444444444444',
+    ]);
+
+    expect($processo_1->numero)->toBe('1111.11.11.111111-1')
+        ->and($processo_1->numero_antigo)->toBe('2222.22.22.222222-2')
+        ->and($processo_2->numero)->toBe('3333.33.33.333333-3')
+        ->and($processo_2->numero_antigo)->toBe('4444.44.44.444444-4');
+});
+
+test('aplica máscara V1, quando necessário, por meio do cast do método get da propriedade número', function () {
+    $processo_1 = Processo::factory()->make([
+        'numero' => '11.1111111-1',
+        'numero_antigo' => '22.2222222-2',
+    ]);
+    $processo_2 = Processo::factory()->make([
+        'numero' => '3333333333',
+        'numero_antigo' => '4444444444',
+    ]);
+
+    expect($processo_1->numero)->toBe('11.1111111-1')
+        ->and($processo_1->numero_antigo)->toBe('22.2222222-2')
+        ->and($processo_2->numero)->toBe('33.3333333-3')
+        ->and($processo_2->numero_antigo)->toBe('44.4444444-4');
+});
+
+test('remove máscara por meio do cast do método set da propriedade número e número antigo', function () {
+    Processo::factory()->make(['numero' => '1111111-11.1111.111.1111', 'numero_antigo' => '2222.22.22.222222-2'])->save();
+    Processo::factory()->make(['numero' => '33333333333333333333', 'numero_antigo' => '44.4444444-4'])->save();
+
+    $this
+        ->assertDatabaseHas('processos', ['numero' => '11111111111111111111', 'numero_antigo' => '222222222222222'])
+        ->assertDatabaseHas('processos', ['numero' => '33333333333333333333', 'numero_antigo' => '4444444444']);
+});

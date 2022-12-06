@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\NumeroProcesso;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,6 +45,14 @@ class Processo extends Model
      * @var string
      */
     public const MASCARA_V1 = '##.#######-#';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $casts = [
+        'numero' => NumeroProcesso::class,
+        'numero_antigo' => NumeroProcesso::class,
+    ];
 
     /**
      * Relacionamento processo (N:1) volume da caixa.
