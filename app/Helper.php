@@ -31,15 +31,34 @@ if (!function_exists('mascara')) {
      */
     function mascara(string $valor, string $mascara)
     {
-        $mascara_aux = str($mascara);
+        $mascara = str($mascara);
 
-        if ($mascara_aux->substrCount('#') !== str($valor)->length()) {
+        if ($mascara->substrCount('#') !== str($valor)->length()) {
             return $valor;
         }
 
         return sprintf(
-            $mascara_aux->replace('#', '%s')->toString(),
+            $mascara->replace('#', '%s')->toString(),
             ...str_split($valor)
         );
+    }
+}
+
+if (!function_exists('apenasNumeros')) {
+    /**
+     * Retorna apenas a parte numérica da string informada.
+     *
+     * Exemplo: 123.456-AB retornará 123456
+     *
+     * @param  string|null  $valor
+     * @return string|null
+     */
+    function apenasNumeros(string $valor = null)
+    {
+        $numeros = str($valor)->replaceMatches('/[^0-9]++/', '')->toString();
+
+        return $numeros === ''
+            ? null
+            : $numeros;
     }
 }

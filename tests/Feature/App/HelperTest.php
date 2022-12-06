@@ -21,3 +21,13 @@ test('helper ascOrDesc() retorna a ordenação a que deve ser utilizada sendo de
         ->and(ascOrDesc('asc'))->toBe('asc')
         ->and(ascOrDesc('AsC'))->toBe('asc');
 });
+
+test('helper apenasNumeros() retorna apenas a parte numérica de uma string ou nulo se nada sobrar', function (mixed $string, mixed $esperado) {
+    expect(apenasNumeros($string))->toBe($esperado);
+})->with([
+    ['123ABC456', '123456'],
+    ['123456', '123456'],
+    ['12.3A4-56', '123456'],
+    ['aa-aa', null],
+    [null, null],
+]);
