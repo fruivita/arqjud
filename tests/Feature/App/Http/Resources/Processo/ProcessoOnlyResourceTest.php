@@ -9,7 +9,10 @@ use App\Http\Resources\Processo\ProcessoOnlyResource;
 use App\Models\Processo;
 use Database\Seeders\PerfilSeeder;
 
+use function Spatie\PestPluginTestTime\testTime;
+
 beforeEach(function () {
+    testTime()->freeze();
     $this->seed([PerfilSeeder::class]);
     login();
 
@@ -19,7 +22,7 @@ beforeEach(function () {
         'id' => $this->processo->id,
         'numero' => $this->processo->numero,
         'numero_antigo' => $this->processo->numero_antigo,
-        'arquivado_em' => $this->processo->arquivado_em,
+        'arquivado_em' => $this->processo->arquivado_em->format('d-m-Y'),
         'guarda_permanente' => $this->processo->guarda_permanente ? __('Sim') : __('Não'),
         'qtd_volumes' => $this->processo->qtd_volumes,
         'volume_caixa_id' => $this->processo->volume_caixa_id,
@@ -45,7 +48,7 @@ test('retorna o volume da caixa pai e o processo pai se houver o eager load da p
         'id' => $this->processo->processoPai->id,
         'numero' => $this->processo->processoPai->numero,
         'numero_antigo' => $this->processo->processoPai->numero_antigo,
-        'arquivado_em' => $this->processo->processoPai->arquivado_em,
+        'arquivado_em' => $this->processo->processoPai->arquivado_em->format('d-m-Y'),
         'guarda_permanente' => $this->processo->processoPai->guarda_permanente ? __('Sim') : __('Não'),
         'qtd_volumes' => $this->processo->processoPai->qtd_volumes,
         'volume_caixa_id' => $this->processo->processoPai->volume_caixa_id,
