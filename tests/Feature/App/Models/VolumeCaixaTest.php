@@ -82,7 +82,7 @@ test('um volume de caixa possui muitos processos', function () {
     expect($volume_caixa->processos)->toHaveCount(3);
 });
 
-test('retorna os volumes das caixa pelo escopo search que busca a partir do início do texto no número da caixa', function (string $termo, int $quantidade) {
+test('retorna os volumes das caixa pelo escopo search que busca a partir do início do texto no número do volume da caixa', function (string $termo, int $quantidade) {
     VolumeCaixa::factory()->create(['numero' => 99999999]);
     VolumeCaixa::factory()->create(['numero' => 77778888]);
     VolumeCaixa::factory()->create(['numero' => 77777777]);
@@ -138,10 +138,12 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
 ]);
 
 test('retorna os volumes das caixa pelo escopo search que busca a partir do início do texto no número da estante', function (string $termo, int $quantidade) {
-    Estante::factory()->has(Prateleira::factory()
-        ->has(Caixa::factory()->hasVolumes(2)))->create(['numero' => 'aaaaaaaa']);
-    Estante::factory()->has(Prateleira::factory()
-        ->has(Caixa::factory()->hasVolumes(3)))->create(['numero' => 'bbbbbbbb']);
+    Estante::factory()
+        ->has(Prateleira::factory()
+            ->has(Caixa::factory()->hasVolumes(2)))->create(['numero' => 'aaaaaaaa']);
+    Estante::factory()
+        ->has(Prateleira::factory()
+            ->has(Caixa::factory()->hasVolumes(3)))->create(['numero' => 'bbbbbbbb']);
 
     $query = app(Pipeline::class)
         ->send(VolumeCaixa::query())
