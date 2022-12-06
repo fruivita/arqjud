@@ -52,6 +52,8 @@ class Processo extends Model
     protected $casts = [
         'numero' => NumeroProcesso::class,
         'numero_antigo' => NumeroProcesso::class,
+        'arquivado_em' => 'date',
+        'guarda_permanente' => 'boolean',
     ];
 
     /**

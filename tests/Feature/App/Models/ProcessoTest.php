@@ -37,8 +37,6 @@ test('lança exception ao tentar criar processo com campo inválido', function (
     ['numero',            fn () => str_repeat('1', 21), 'Data too long for column'], // máximo 20 caracteres
     ['numero',            null,                         'cannot be null'],           // obrigatório
     ['numero_antigo',     fn () => str_repeat('1', 21), 'Data too long for column'], // máximo 20 caracteres
-    ['arquivado_em',      '2000-02-31',                 'Incorrect date value'],     // data inexistente
-    ['arquivado_em',      'foo',                        'Incorrect date value'],     // não conversível em date
     ['arquivado_em',      null,                         'cannot be null'],           // obrigatório
     ['guarda_permanente', 'foo',                        'Incorrect integer value'],  // não conversível em boolean
     ['guarda_permanente', null,                         'cannot be null'],           // obrigatório
