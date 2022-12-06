@@ -22,6 +22,7 @@ import Pagina from '@/Shared/Containers/Pagina.vue';
 import CheckBox from '@/Shared/Forms/CheckBox.vue';
 import Pesquisa from '@/Shared/Forms/Pesquisa.vue';
 import InertiaButtonIconeLink from '@/Shared/Inertia/InertiaButtonIconeLink.vue';
+import Clipboard from '@/Shared/Misc/Clipboard.vue';
 import ModalConfirmacao from '@/Shared/Modals/ModalConfirmacao.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
 import Heading from '@/Shared/Tables/Heading.vue';
@@ -317,11 +318,13 @@ watch(perPage, filtrar);
                 <template #body>
                     <template v-if="processos.data.length">
                         <Row v-for="processo in processos.data" :key="processo.id">
-                            <Cell v-show="elementosVisiveis.numero">{{ processo.numero }}</Cell>
+                            <Cell v-show="elementosVisiveis.numero">
+                                <Clipboard :copiavel="processo.numero" />
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.numeroAntigo">{{
-                                processo.numero_antigo
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.numeroAntigo">
+                                <Clipboard :copiavel="processo.numero_antigo" />
+                            </Cell>
 
                             <Cell v-show="elementosVisiveis.arquivadoEm">{{
                                 processo.arquivado_em
