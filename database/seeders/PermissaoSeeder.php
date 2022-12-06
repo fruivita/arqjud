@@ -627,7 +627,7 @@ class PermissaoSeeder extends Seeder
             [
                 'nome' => 'Guia de remessa: Visualizar',
                 'slug' => Permissao::GUIA_VIEW,
-                'descricao' => 'Permissão para visualizar em detalhes as guias de remessa cadastrados.',
+                'descricao' => 'Permissão para visualizar em detalhes as guias de remessa cadastrada.',
             ],
         ]);
     }
