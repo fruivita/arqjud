@@ -32,7 +32,7 @@ const { copy, copied, isSupported } = useClipboard({
             @click="copy()"
             class="rounded p-1 opacity-50 ring-primaria-500 transition duration-150 hover:opacity-100 dark:ring-secundaria-500"
         >
-            <Icone :nome="copied ? 'check-circle' : 'clipboard'" class="h-5 w-5" />
+            <Icone :nome="copied ? 'check-circle' : 'clipboard'" class="h-4 w-4" />
         </button>
     </div>
 </template>

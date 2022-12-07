@@ -1,9 +1,14 @@
 // Vitest Snapshot v1
 
-exports[`Cell > renderiza a mensagem de erro respeitando o snapshot 1`] = `"<td class=\\"p-3\\" dusk=\\"slot\\">foo<span class=\\"block text-sm font-bold text-red-500\\">bar</span></td>"`;
+exports[`Cell > renderiza a mensagem de erro respeitando o snapshot 1`] = `
+"<td class=\\"p-3\\" dusk=\\"slot\\">
+  <div class=\\"flex items-center justify-center\\">foo</div><span class=\\"block text-sm font-bold text-red-500\\">bar</span>
+</td>"
+`;
 
 exports[`Cell > renderiza o componente respeitando o snapshot 1`] = `
-"<td class=\\"p-3\\" dusk=\\"slot\\">foo
+"<td class=\\"p-3\\" dusk=\\"slot\\">
+  <div class=\\"flex items-center justify-center\\">foo</div>
   <!--v-if-->
 </td>"
 `;

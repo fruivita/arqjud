@@ -100,7 +100,7 @@ onClickOutside(floatingRef, () => {
             dusk="toggle"
             type="button"
         >
-            <Icone :nome="icone" class="h-5 w-5" />
+            <Icone :nome="icone" class="h-4 w-4" />
         </button>
 
         <div

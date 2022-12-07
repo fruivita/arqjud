@@ -14,7 +14,9 @@ defineProps({
 
 <template>
     <td class="p-3" dusk="slot">
-        <slot></slot>
+        <div class="flex items-center justify-center">
+            <slot></slot>
+        </div>
 
         <span v-if="erro" class="block text-sm font-bold text-red-500">{{ erro }}</span>
     </td>
