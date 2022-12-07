@@ -46,7 +46,8 @@ if (!function_exists('mascara')) {
 
 if (!function_exists('apenasNumeros')) {
     /**
-     * Retorna apenas a parte numérica da string informada.
+     * Retorna apenas a parte numérica da string informada ou, se nada sobrar,
+     * null.
      *
      * Exemplo: 123.456-AB retornará 123456
      *
@@ -57,8 +58,6 @@ if (!function_exists('apenasNumeros')) {
     {
         $numeros = str($valor)->replaceMatches('/[^0-9]++/', '')->toString();
 
-        return $numeros === ''
-            ? null
-            : $numeros;
+        return $numeros ?: null;
     }
 }
