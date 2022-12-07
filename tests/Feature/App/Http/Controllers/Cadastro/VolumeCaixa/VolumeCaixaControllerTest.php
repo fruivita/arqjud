@@ -9,6 +9,7 @@
 
 use App\Models\Permissao;
 use App\Http\Controllers\Cadastro\VolumeCaixa\VolumeCaixaController;
+use App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest;
 use App\Models\Caixa;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
@@ -47,18 +48,16 @@ test('usuário sem permissão não consegue exibir formulário de criação do v
 });
 
 // Caminho feliz
-// test('action do controller usa o form request', function ($action, $request) {
-//     $this->assertActionUsesFormRequest(
-//         VolumeCaixaController::class,
-//         $action,
-//         $request
-//     );
-// })->with([
-//     ['index', IndexVolumeCaixaRequest::class],
-//     ['store', PostVolumeCaixaRequest::class],
-//     ['edit', EditVolumeCaixaRequest::class],
-//     ['update', PostVolumeCaixaRequest::class],
-// ]);
+test('action do controller usa o form request', function ($action, $request) {
+    $this->assertActionUsesFormRequest(
+        VolumeCaixaController::class,
+        $action,
+        $request
+    );
+})->with([
+    // ['store', PostVolumeCaixaRequest::class],
+    ['update', PostVolumeCaixaRequest::class],
+]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     VolumeCaixa::factory(2)->create();
@@ -119,64 +118,46 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         ->and($volume_caixa->caixa_id)->toBe($this->caixa->id);
 // });
 
-// test('action edit compartilha os dados esperados com a view/componente correto', function (bool $permissao) {
-//     concederPermissao(Permissao::VolumeCaixaUpdate);
+test('action edit compartilha os dados esperados com a view/componente correto', function () {
+    concederPermissao(Permissao::VOLUME_CAIXA_UPDATE);
 
-//     if ($permissao) {
-//         concederPermissao(Permissao::ProcessoCreate);
-//         concederPermissao(Permissao::ProcessoUpdate);
-//     }
+    $volume_caixa = VolumeCaixa::factory()->hasProcessos(3)->create();
 
-//     $volume_caixa = VolumeCaixa::factory()->has(Processo::factory(3), 'processos')->create();
+    get(route('cadastro.volumeCaixa.edit', $volume_caixa))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/VolumeCaixa/Edit')
+                ->where('volume_caixa.data.id', $volume_caixa->id)
+                ->has('processos.data', 3)
+        );
+});
 
-//     get(route('cadastro.volumeCaixa.edit', $volume_caixa))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/VolumeCaixa/Edit')
-//                 ->where('volume_caixa', VolumeCaixa::hierarquiaAscendente()->find($volume_caixa->id))
-//                 ->has('processos.data', 3)
-//                 ->has('filtros')
-//                 ->where('per_page', 10)
-//                 ->where('can', ['updateVolumeCaixa' => true, 'createProcesso' => $permissao, 'viewOrUpdateProcesso' => $permissao])
-//         );
-// })->with([
-//     false,
-//     true,
-// ]);
+test('action edit também é executável com permissão de visualização', function () {
+    concederPermissao(Permissao::VOLUME_CAIXA_VIEW);
 
-// test('action edit também é executável com permissão de visualização', function () {
-//     concederPermissao(Permissao::VolumeCaixaView);
+    $volume_caixa = VolumeCaixa::factory()->create();
 
-//     $volume_caixa = VolumeCaixa::factory()->create();
+    get(route('cadastro.volumeCaixa.edit', $volume_caixa))->assertOk();
+});
 
-//     get(route('cadastro.volumeCaixa.edit', $volume_caixa))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/VolumeCaixa/Edit')
-//                 ->where('volume_caixa', VolumeCaixa::hierarquiaAscendente()->find($volume_caixa->id))
-//                 ->where('can', ['updateVolumeCaixa' => false, 'createProcesso' => false, 'viewOrUpdateProcesso' => false])
-//         );
-// });
+test('atualiza um volume da caixa', function () {
+    concederPermissao(Permissao::VOLUME_CAIXA_UPDATE);
 
-// test('atualiza um volume da caixa', function () {
-//     concederPermissao(Permissao::VolumeCaixaUpdate);
+    $volume_caixa = VolumeCaixa::factory()->create();
 
-//     $volume_caixa = VolumeCaixa::factory()->create();
+    patch(route('cadastro.volumeCaixa.update', $volume_caixa), [
+        'numero' => 10,
+        'descricao' => 'foo bar',
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('sucesso');
 
-//     patch(route('cadastro.volumeCaixa.update', $volume_caixa), [
-//         'numero' => 10,
-//         'descricao' => 'foo bar',
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    $volume_caixa->refresh();
 
-//     $volume_caixa->refresh();
-
-//     expect($volume_caixa->numero)->toBe(10)
-//         ->and($volume_caixa->descricao)->toBe('foo bar');
-// });
+    expect($volume_caixa->numero)->toBe(10)
+        ->and($volume_caixa->descricao)->toBe('foo bar');
+});
 
 test('exclui o volume da caixa informada', function () {
     $id_volume_caixa = VolumeCaixa::factory()->create()->id;

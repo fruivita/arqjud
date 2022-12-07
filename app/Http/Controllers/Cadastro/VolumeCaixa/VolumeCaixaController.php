@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Cadastro\VolumeCaixa;
 
 use App\Enums\Policy;
+use App\Filters\Processo\Order as ProcessoOrder;
 use App\Filters\Search;
 use App\Filters\VolumeCaixa\JoinLocalidade;
 use App\Filters\VolumeCaixa\Order;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest;
+use App\Http\Resources\Processo\ProcessoCollection;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaCollection;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
+use App\Models\Processo;
 use App\Models\VolumeCaixa;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
@@ -78,24 +83,42 @@ class VolumeCaixaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\VolumeCaixa  $volume
+     * @param  \App\Models\VolumeCaixa  $volume_caixa
      * @return \Illuminate\Http\Response
      */
-    public function edit(VolumeCaixa $volume)
+    public function edit(VolumeCaixa $volume_caixa)
     {
-        //
+        $this->authorize(Policy::ViewOrUpdate->value, VolumeCaixa::class);
+
+        return Inertia::render('Cadastro/VolumeCaixa/Edit', [
+            'volume_caixa' => fn () => VolumeCaixaResource::make($volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora'])),
+            'processos' => ProcessoCollection::make(
+                app(Pipeline::class)
+                    ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($volume_caixa))
+                    ->through([ProcessoOrder::class])
+                    ->thenReturn()
+                    ->paginate($this->perPage(request()->query('per_page')))
+            )->additional(['meta' => [
+                'order' => request()->query('order'),
+            ]])->preserveQuery(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\VolumeCaixa  $volume
+     * @param  \App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest  $request
+     * @param  \App\Models\VolumeCaixa  $volume_caixa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, VolumeCaixa $volume)
+    public function update(PostVolumeCaixaRequest $request, VolumeCaixa $volume_caixa)
     {
-        //
+        $volume_caixa->numero = $request->input('numero');
+        $volume_caixa->descricao = $request->input('descricao');
+
+        $salvo = $volume_caixa->save();
+
+        return back()->with(...$this->feedback($salvo));
     }
 
     /**
