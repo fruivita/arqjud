@@ -51,6 +51,8 @@ const __ = useTranslationsStore().__;
 const modoEdicao = ref(false);
 
 const form = useForm({
+    localidade_criadora_id: props.caixa.data.localidade_criadora_id,
+    numero: props.caixa.data.numero,
     numero: props.caixa.data.numero,
     ano: props.caixa.data.ano,
     guarda_permanente: new Caixa(props.caixa.data).gp(),
@@ -158,6 +160,12 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         <ChaveValor
                             :chave="__('Prateleira')"
                             :valor="caixa.data.prateleira.numero"
+                            icone="list-nested"
+                        />
+
+                        <ChaveValor
+                            :chave="__('Localidade criadora')"
+                            :valor="caixa.data.localidade_criadora.nome"
                             icone="list-nested"
                         />
 
