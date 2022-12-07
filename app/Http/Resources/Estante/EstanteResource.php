@@ -28,17 +28,21 @@ class EstanteResource extends JsonResource
             'sala' => SalaOnlyResource::make($this->whenLoaded('sala')),
             'prateleiras_count' => $this->whenCounted('prateleiras'),
             'links' => [
-                'create_prateleira' => $this->when(
-                    $request->user()->can(Policy::Create->value, Prateleira::class),
-                    fn () => route('cadastro.prateleira.create', $this->id),
-                ),
-                'view_or_update' => $this->when(
+                'view' => $this->when(
                     $request->user()->can(Policy::ViewOrUpdate->value, Estante::class),
                     fn () => route('cadastro.estante.edit', $this->id),
+                ),
+                'update' => $this->when(
+                    $request->user()->can(Policy::Update->value, Estante::class),
+                    fn () => route('cadastro.estante.update', $this->id),
                 ),
                 'delete' => $this->when(
                     $request->user()->can(Policy::Delete->value, $this->resource),
                     fn () => route('cadastro.estante.destroy', $this->id),
+                ),
+                'create_prateleira' => $this->when(
+                    $request->user()->can(Policy::Create->value, Prateleira::class),
+                    fn () => route('cadastro.prateleira.create', $this->id),
                 ),
             ],
         ];

@@ -23,7 +23,7 @@ afterEach(function () {
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
-    concederPermissao([Permissao::SALA_CREATE, Permissao::ANDAR_DELETE, Permissao::ANDAR_VIEW]);
+    concederPermissao([Permissao::SALA_CREATE, Permissao::ANDAR_DELETE, Permissao::ANDAR_VIEW, Permissao::ANDAR_UPDATE]);
 
     $resource = AndarResource::make($this->andar);
 
@@ -31,9 +31,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'predio_id'])
             + [
                 'links' => [
-                    'create_sala' => route('cadastro.sala.create', $this->andar),
-                    'view_or_update' => route('cadastro.andar.edit', $this->andar),
+                    'view' => route('cadastro.andar.edit', $this->andar),
+                    'update' => route('cadastro.andar.update', $this->andar),
                     'delete' => route('cadastro.andar.destroy', $this->andar),
+                    'create_sala' => route('cadastro.sala.create', $this->andar),
                 ],
             ],
     ]);

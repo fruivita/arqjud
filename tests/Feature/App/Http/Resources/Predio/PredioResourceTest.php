@@ -23,7 +23,7 @@ afterEach(function () {
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
-    concederPermissao([Permissao::ANDAR_CREATE, Permissao::PREDIO_DELETE, Permissao::PREDIO_VIEW]);
+    concederPermissao([Permissao::ANDAR_CREATE, Permissao::PREDIO_DELETE, Permissao::PREDIO_VIEW, Permissao::PREDIO_UPDATE]);
 
     $resource = PredioResource::make($this->predio);
 
@@ -31,9 +31,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
         'data' => $this->predio->only(['id', 'nome', 'localidade_id'])
             + [
                 'links' => [
-                    'create_andar' => route('cadastro.andar.create', $this->predio),
-                    'view_or_update' => route('cadastro.predio.edit', $this->predio),
+                    'view' => route('cadastro.predio.edit', $this->predio),
+                    'update' => route('cadastro.predio.update', $this->predio),
                     'delete' => route('cadastro.predio.destroy', $this->predio),
+                    'create_andar' => route('cadastro.andar.create', $this->predio),
                 ],
             ],
     ]);

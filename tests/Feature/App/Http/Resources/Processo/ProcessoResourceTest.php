@@ -37,7 +37,7 @@ afterEach(function () {
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
-    concederPermissao([Permissao::PROCESSO_DELETE, Permissao::PROCESSO_VIEW]);
+    concederPermissao([Permissao::PROCESSO_DELETE, Permissao::PROCESSO_VIEW, Permissao::PROCESSO_UPDATE]);
 
     $resource = ProcessoResource::make($this->processo);
 
@@ -45,7 +45,8 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
         'data' => $this->processo_api
             + [
                 'links' => [
-                    'view_or_update' => route('cadastro.processo.edit', $this->processo),
+                    'view' => route('cadastro.processo.edit', $this->processo),
+                    'update' => route('cadastro.processo.update', $this->processo),
                     'delete' => route('cadastro.processo.destroy', $this->processo),
                 ],
             ],

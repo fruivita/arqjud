@@ -23,7 +23,7 @@ afterEach(function () {
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
-    concederPermissao([Permissao::CAIXA_CREATE, Permissao::PRATELEIRA_DELETE, Permissao::PRATELEIRA_VIEW]);
+    concederPermissao([Permissao::CAIXA_CREATE, Permissao::PRATELEIRA_DELETE, Permissao::PRATELEIRA_VIEW, Permissao::PRATELEIRA_UPDATE]);
 
     $resource = PrateleiraResource::make($this->prateleira);
 
@@ -31,9 +31,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
         'data' => $this->prateleira->only(['id', 'numero', 'estante_id'])
             + [
                 'links' => [
-                    'create_caixa' => route('cadastro.caixa.create', $this->prateleira),
-                    'view_or_update' => route('cadastro.prateleira.edit', $this->prateleira),
+                    'view' => route('cadastro.prateleira.edit', $this->prateleira),
+                    'update' => route('cadastro.prateleira.update', $this->prateleira),
                     'delete' => route('cadastro.prateleira.destroy', $this->prateleira),
+                    'create_caixa' => route('cadastro.caixa.create', $this->prateleira),
                 ],
             ],
     ]);

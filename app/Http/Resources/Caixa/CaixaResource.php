@@ -34,17 +34,21 @@ class CaixaResource extends JsonResource
             'localidade_criadora' => LocalidadeOnlyResource::make($this->whenLoaded('localidadeCriadora')),
             'volumes_count' => $this->whenCounted('volumes'),
             'links' => [
-                'create_volume' => $this->when(
-                    $request->user()->can(Policy::Create->value, VolumeCaixa::class),
-                    fn () => route('cadastro.volumeCaixa.create', $this->id),
-                ),
-                'view_or_update' => $this->when(
+                'view' => $this->when(
                     $request->user()->can(Policy::ViewOrUpdate->value, Caixa::class),
                     fn () => route('cadastro.caixa.edit', $this->id),
+                ),
+                'update' => $this->when(
+                    $request->user()->can(Policy::Update->value, Caixa::class),
+                    fn () => route('cadastro.caixa.update', $this->id),
                 ),
                 'delete' => $this->when(
                     $request->user()->can(Policy::Delete->value, $this->resource),
                     fn () => route('cadastro.caixa.destroy', $this->id),
+                ),
+                'create_volume' => $this->when(
+                    $request->user()->can(Policy::Create->value, VolumeCaixa::class),
+                    fn () => route('cadastro.volumeCaixa.create', $this->id),
                 ),
             ],
         ];

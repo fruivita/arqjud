@@ -29,7 +29,7 @@ afterEach(function () {
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
-    concederPermissao([Permissao::PROCESSO_CREATE, Permissao::VOLUME_CAIXA_DELETE, Permissao::VOLUME_CAIXA_VIEW]);
+    concederPermissao([Permissao::PROCESSO_CREATE, Permissao::VOLUME_CAIXA_DELETE, Permissao::VOLUME_CAIXA_VIEW, Permissao::VOLUME_CAIXA_UPDATE]);
 
     $resource = VolumeCaixaResource::make($this->volume);
 
@@ -37,9 +37,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
         'data' => $this->volume_api
             + [
                 'links' => [
-                    'create_processo' => route('cadastro.processo.create', $this->volume),
-                    'view_or_update' => route('cadastro.volumeCaixa.edit', $this->volume),
+                    'view' => route('cadastro.volumeCaixa.edit', $this->volume),
+                    'update' => route('cadastro.volumeCaixa.update', $this->volume),
                     'delete' => route('cadastro.volumeCaixa.destroy', $this->volume),
+                    'create_processo' => route('cadastro.processo.create', $this->volume),
                 ],
             ],
     ]);

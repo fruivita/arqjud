@@ -23,7 +23,7 @@ afterEach(function () {
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
-    concederPermissao([Permissao::ESTANTE_CREATE, Permissao::SALA_DELETE, Permissao::SALA_VIEW]);
+    concederPermissao([Permissao::ESTANTE_CREATE, Permissao::SALA_DELETE, Permissao::SALA_VIEW, Permissao::SALA_UPDATE]);
 
     $resource = SalaResource::make($this->sala);
 
@@ -31,9 +31,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
         'data' => $this->sala->only(['id', 'numero', 'andar_id'])
             + [
                 'links' => [
-                    'create_estante' => route('cadastro.estante.create', $this->sala),
-                    'view_or_update' => route('cadastro.sala.edit', $this->sala),
+                    'view' => route('cadastro.sala.edit', $this->sala),
+                    'update' => route('cadastro.sala.update', $this->sala),
                     'delete' => route('cadastro.sala.destroy', $this->sala),
+                    'create_estante' => route('cadastro.estante.create', $this->sala),
                 ],
             ],
     ]);

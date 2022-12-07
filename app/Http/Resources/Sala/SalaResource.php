@@ -28,17 +28,21 @@ class SalaResource extends JsonResource
             'andar' => AndarOnlyResource::make($this->whenLoaded('andar')),
             'estantes_count' => $this->whenCounted('estantes'),
             'links' => [
-                'create_estante' => $this->when(
-                    $request->user()->can(Policy::Create->value, Estante::class),
-                    fn () => route('cadastro.estante.create', $this->id),
-                ),
-                'view_or_update' => $this->when(
+                'view' => $this->when(
                     $request->user()->can(Policy::ViewOrUpdate->value, Sala::class),
                     fn () => route('cadastro.sala.edit', $this->id),
+                ),
+                'update' => $this->when(
+                    $request->user()->can(Policy::Update->value, Sala::class),
+                    fn () => route('cadastro.sala.update', $this->id),
                 ),
                 'delete' => $this->when(
                     $request->user()->can(Policy::Delete->value, $this->resource),
                     fn () => route('cadastro.sala.destroy', $this->id),
+                ),
+                'create_estante' => $this->when(
+                    $request->user()->can(Policy::Create->value, Estante::class),
+                    fn () => route('cadastro.estante.create', $this->id),
                 ),
             ],
         ];

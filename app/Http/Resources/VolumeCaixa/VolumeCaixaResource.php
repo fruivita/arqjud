@@ -28,17 +28,21 @@ class VolumeCaixaResource extends JsonResource
             'caixa' => CaixaOnlyResource::make($this->whenLoaded('caixa')),
             'processos_count' => $this->whenCounted('processos'),
             'links' => [
-                'create_processo' => $this->when(
-                    $request->user()->can(Policy::Create->value, Processo::class),
-                    fn () => route('cadastro.processo.create', $this->id),
-                ),
-                'view_or_update' => $this->when(
+                'view' => $this->when(
                     $request->user()->can(Policy::ViewOrUpdate->value, VolumeCaixa::class),
                     fn () => route('cadastro.volumeCaixa.edit', $this->id),
+                ),
+                'update' => $this->when(
+                    $request->user()->can(Policy::Update->value, VolumeCaixa::class),
+                    fn () => route('cadastro.volumeCaixa.update', $this->id),
                 ),
                 'delete' => $this->when(
                     $request->user()->can(Policy::Delete->value, $this->resource),
                     fn () => route('cadastro.volumeCaixa.destroy', $this->id),
+                ),
+                'create_processo' => $this->when(
+                    $request->user()->can(Policy::Create->value, Processo::class),
+                    fn () => route('cadastro.processo.create', $this->id),
                 ),
             ],
         ];

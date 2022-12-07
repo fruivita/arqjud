@@ -29,17 +29,21 @@ class AndarResource extends JsonResource
             'predio' => PredioOnlyResource::make($this->whenLoaded('predio')),
             'salas_count' => $this->whenCounted('salas'),
             'links' => [
-                'create_sala' => $this->when(
-                    $request->user()->can(Policy::Create->value, Sala::class),
-                    fn () => route('cadastro.sala.create', $this->id),
-                ),
-                'view_or_update' => $this->when(
+                'view' => $this->when(
                     $request->user()->can(Policy::ViewOrUpdate->value, Andar::class),
                     fn () => route('cadastro.andar.edit', $this->id),
+                ),
+                'update' => $this->when(
+                    $request->user()->can(Policy::Update->value, Andar::class),
+                    fn () => route('cadastro.andar.update', $this->id),
                 ),
                 'delete' => $this->when(
                     $request->user()->can(Policy::Delete->value, $this->resource),
                     fn () => route('cadastro.andar.destroy', $this->id),
+                ),
+                'create_sala' => $this->when(
+                    $request->user()->can(Policy::Create->value, Sala::class),
+                    fn () => route('cadastro.sala.create', $this->id),
                 ),
             ],
         ];

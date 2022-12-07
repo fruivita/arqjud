@@ -35,9 +35,13 @@ class ProcessoResource extends JsonResource
             'processos_filho_count' => $this->whenCounted('processosFilho'),
             'solicitacoes_count' => $this->whenCounted('solicitacoes'),
             'links' => [
-                'view_or_update' => $this->when(
+                'view' => $this->when(
                     $request->user()->can(Policy::ViewOrUpdate->value, Processo::class),
                     fn () => route('cadastro.processo.edit', $this->id),
+                ),
+                'update' => $this->when(
+                    $request->user()->can(Policy::Update->value, Processo::class),
+                    fn () => route('cadastro.processo.update', $this->id),
                 ),
                 'delete' => $this->when(
                     $request->user()->can(Policy::Delete->value, $this->resource),

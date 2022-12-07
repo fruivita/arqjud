@@ -28,17 +28,21 @@ class PrateleiraResource extends JsonResource
             'estante' => EstanteOnlyResource::make($this->whenLoaded('estante')),
             'caixas_count' => $this->whenCounted('caixas'),
             'links' => [
-                'create_caixa' => $this->when(
-                    $request->user()->can(Policy::Create->value, Caixa::class),
-                    fn () => route('cadastro.caixa.create', $this->id),
-                ),
-                'view_or_update' => $this->when(
+                'view' => $this->when(
                     $request->user()->can(Policy::ViewOrUpdate->value, Prateleira::class),
                     fn () => route('cadastro.prateleira.edit', $this->id),
+                ),
+                'update' => $this->when(
+                    $request->user()->can(Policy::Update->value, Prateleira::class),
+                    fn () => route('cadastro.prateleira.update', $this->id),
                 ),
                 'delete' => $this->when(
                     $request->user()->can(Policy::Delete->value, $this->resource),
                     fn () => route('cadastro.prateleira.destroy', $this->id),
+                ),
+                'create_caixa' => $this->when(
+                    $request->user()->can(Policy::Create->value, Caixa::class),
+                    fn () => route('cadastro.caixa.create', $this->id),
                 ),
             ],
         ];

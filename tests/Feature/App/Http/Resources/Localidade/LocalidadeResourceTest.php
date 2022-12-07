@@ -23,7 +23,7 @@ afterEach(function () {
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
-    concederPermissao([Permissao::LOCALIDADE_DELETE, Permissao::LOCALIDADE_VIEW]);
+    concederPermissao([Permissao::LOCALIDADE_DELETE, Permissao::LOCALIDADE_VIEW, Permissao::LOCALIDADE_UPDATE, Permissao::PREDIO_CREATE]);
 
     $resource = LocalidadeResource::make($this->localidade);
 
@@ -31,8 +31,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
         'data' => $this->localidade->only(['id', 'nome'])
             + [
                 'links' => [
-                    'view_or_update' => route('cadastro.localidade.edit', $this->localidade),
+                    'view' => route('cadastro.localidade.edit', $this->localidade),
+                    'update' => route('cadastro.localidade.update', $this->localidade),
                     'delete' => route('cadastro.localidade.destroy', $this->localidade),
+                    'create_predio' => route('cadastro.predio.create', $this->localidade),
                 ],
             ],
     ]);
