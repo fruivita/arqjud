@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Cadastro\Prateleira;
 
 use App\Enums\Policy;
+use App\Filters\Caixa\JoinLocalidadeCriadora;
+use App\Filters\Caixa\Order as CaixaOrder;
 use App\Filters\Prateleira\JoinLocalidade;
 use App\Filters\Prateleira\Order;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest;
+use App\Http\Resources\Caixa\CaixaCollection;
 use App\Http\Resources\Prateleira\PrateleiraCollection;
+use App\Http\Resources\Prateleira\PrateleiraResource;
+use App\Models\Caixa;
 use App\Models\Prateleira;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
@@ -83,19 +89,37 @@ class PrateleiraController extends Controller
      */
     public function edit(Prateleira $prateleira)
     {
-        //
+        $this->authorize(Policy::ViewOrUpdate->value, Prateleira::class);
+
+        return Inertia::render('Cadastro/Prateleira/Edit', [
+            'prateleira' => fn () => PrateleiraResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
+            'caixas' => CaixaCollection::make(
+                app(Pipeline::class)
+                    ->send(Caixa::with(['localidadeCriadora'])->withCount(['volumes'])->whereBelongsTo($prateleira))
+                    ->through([JoinLocalidadeCriadora::class, CaixaOrder::class])
+                    ->thenReturn()
+                    ->paginate($this->perPage(request()->query('per_page')))
+            )->additional(['meta' => [
+                'order' => request()->query('order'),
+            ]])->preserveQuery(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest  $request
      * @param  \App\Models\Prateleira  $prateleira
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Prateleira $prateleira)
+    public function update(PostPrateleiraRequest $request, Prateleira $prateleira)
     {
-        //
+        $prateleira->numero = $request->input('numero');
+        $prateleira->descricao = $request->input('descricao');
+
+        $salvo = $prateleira->save();
+
+        return back()->with(...$this->feedback($salvo));
     }
 
     /**

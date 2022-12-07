@@ -51,18 +51,16 @@ test('usuário sem permissão não consegue exibir formulário de criação da p
 });
 
 // Caminho feliz
-// test('action do controller usa o form request', function ($action, $request) {
-//     $this->assertActionUsesFormRequest(
-//         PrateleiraController::class,
-//         $action,
-//         $request
-//     );
-// })->with([
-//     ['index', IndexPrateleiraRequest::class],
-//     ['store', PostPrateleiraRequest::class],
-//     ['edit', EditPrateleiraRequest::class],
-//     ['update', PostPrateleiraRequest::class],
-// ]);
+test('action do controller usa o form request', function ($action, $request) {
+    $this->assertActionUsesFormRequest(
+        PrateleiraController::class,
+        $action,
+        $request
+    );
+})->with([
+    // ['store', PostPrateleiraRequest::class],
+    ['update', PostPrateleiraRequest::class],
+]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     Prateleira::factory(2)->create();
@@ -123,64 +121,46 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         ->and($prateleira->estante_id)->toBe($this->estante->id);
 // });
 
-// test('action edit compartilha os dados esperados com a view/componente correto', function (bool $permissao) {
-//     concederPermissao(Permissao::PrateleiraUpdate);
+test('action edit compartilha os dados esperados com a view/componente correto', function () {
+    concederPermissao(Permissao::PRATELEIRA_UPDATE);
 
-//     if ($permissao) {
-//         concederPermissao(Permissao::CaixaCreate);
-//         concederPermissao(Permissao::CaixaView);
-//     }
+    $prateleira = Prateleira::factory()->hasCaixas(3)->create();
 
-//     $prateleira = Prateleira::factory()->has(Caixa::factory(3), 'caixas')->create();
+    get(route('cadastro.prateleira.edit', $prateleira))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Prateleira/Edit')
+                ->where('prateleira.data.id', $prateleira->id)
+                ->has('caixas.data', 3)
+        );
+});
 
-//     get(route('cadastro.prateleira.edit', $prateleira))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Prateleira/Edit')
-//                 ->where('prateleira', Prateleira::hierarquiaAscendente()->find($prateleira->id))
-//                 ->has('caixas.data', 3)
-//                 ->has('filtros')
-//                 ->where('per_page', 10)
-//                 ->where('can', ['updatePrateleira' => true, 'createCaixa' => $permissao, 'viewOrUpdateCaixa' => $permissao])
-//         );
-// })->with([
-//     false,
-//     true,
-// ]);
+test('action edit também é executável com permissão de visualização', function () {
+    concederPermissao(Permissao::PRATELEIRA_VIEW);
 
-// test('action edit também é executável com permissão de visualização', function () {
-//     concederPermissao(Permissao::PrateleiraView);
+    $prateleira = Prateleira::factory()->create();
 
-//     $prateleira = Prateleira::factory()->create();
+    get(route('cadastro.prateleira.edit', $prateleira))->assertOk();
+});
 
-//     get(route('cadastro.prateleira.edit', $prateleira))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Prateleira/Edit')
-//                 ->where('prateleira', Prateleira::hierarquiaAscendente()->find($prateleira->id))
-//                 ->where('can', ['updatePrateleira' => false, 'createCaixa' => false, 'viewOrUpdateCaixa' => false])
-//         );
-// });
+test('atualiza uma prateleira', function () {
+    concederPermissao(Permissao::PRATELEIRA_UPDATE);
 
-// test('atualiza uma prateleira', function () {
-//     concederPermissao(Permissao::PrateleiraUpdate);
+    $prateleira = Prateleira::factory()->create();
 
-//     $prateleira = Prateleira::factory()->create();
+    patch(route('cadastro.prateleira.update', $prateleira), [
+        'numero' => '10-a',
+        'descricao' => 'foo bar',
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('sucesso');
 
-//     patch(route('cadastro.prateleira.update', $prateleira), [
-//         'numero' => '10-a',
-//         'descricao' => 'foo bar',
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    $prateleira->refresh();
 
-//     $prateleira->refresh();
-
-//     expect($prateleira->numero)->toBe('10-a')
-//         ->and($prateleira->descricao)->toBe('foo bar');
-// });
+    expect($prateleira->numero)->toBe('10-a')
+        ->and($prateleira->descricao)->toBe('foo bar');
+});
 
 test('exclui a prateleira informada', function () {
     $id_prateleira = Prateleira::factory()->create()->id;
