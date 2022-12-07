@@ -215,8 +215,8 @@ watch(perPage, filtrar);
                             <Cell v-show="elementosVisiveis.acao" class="w-10">
                                 <div class="flex space-x-3">
                                     <InertiaButtonIconeLink
-                                        v-if="prateleira.links.view_or_update"
-                                        :href="prateleira.links.view_or_update"
+                                        v-if="prateleira.links.view"
+                                        :href="prateleira.links.view"
                                         icone="eye"
                                     />
 
