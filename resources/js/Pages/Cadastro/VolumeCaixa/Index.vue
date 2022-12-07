@@ -228,7 +228,7 @@ watch(perPage, filtrar);
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.caixaLocalidadeCriadora"
                         :ordenacao="ordenacoes.caixa_pai_localidade_criadora_nome"
-                        :texto="__('Criada em')"
+                        :texto="__('Localidade criadora')"
                         @ordenar="
                             (direcao) =>
                                 mudarOrdenacao('caixa_pai_localidade_criadora_nome', direcao)
