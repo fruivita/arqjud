@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Cadastro\Localidade;
 
 use App\Enums\Policy;
 use App\Filters\Localidade\Order;
+use App\Filters\Predio\Order as PredioOrder;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Localidade\EditLocalidadeRequest;
 use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
 use App\Http\Resources\Localidade\LocalidadeCollection;
+use App\Http\Resources\Localidade\LocalidadeOnlyResource;
+use App\Http\Resources\Localidade\LocalidadeResource;
+use App\Http\Resources\Predio\PredioCollection;
 use App\Models\Localidade;
 use App\Models\Predio;
 use App\Services\Predio\PesquisarPredio;
@@ -82,49 +86,47 @@ class LocalidadeController extends Controller
         return back()->with(...$this->feedback($salvo));
     }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  \App\Http\Requests\Cadastro\Localidade\EditLocalidadeRequest  $request
-    //  * @param  \App\Models\Localidade  $localidade
-    //  * @return \Inertia\Response
-    //  */
-    // public function edit(EditLocalidadeRequest $request, Localidade $localidade)
-    // {
-    //     return Inertia::render('Cadastro/Localidade/Edit', [
-    //         'localidade' => fn () => $localidade,
-    //         'can' => fn () => [
-    //             'updateLocalidade' => auth()->user()->can(Policy::Update->value, Localidade::class),
-    //             'createPredio' => auth()->user()->can(Policy::Create->value, Predio::class),
-    //             'viewOrUpdatePredio' => auth()->user()->can(Policy::ViewOrUpdate->value, Predio::class),
-    //         ],
-    //         'predios' => fn () => PesquisarPredio::make()->pesquisar(
-    //             ordenacao: $request->query('order', []),
-    //             per_page: intval($request->query('per_page')),
-    //             campos: ['id', 'nome', 'andares_count'],
-    //             pai: $localidade
-    //         ),
-    //         'filtros' => fn () => $request->only(['order']),
-    //         'per_page' => fn () => $this->perPage(),
-    //     ]);
-    // }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Http\Requests\Cadastro\Localidade\EditLocalidadeRequest  $request
+     * @param  \App\Models\Localidade  $localidade
+     * @return \Inertia\Response
+     */
+    public function edit(Localidade $localidade)
+    {
+        $this->authorize(Policy::ViewOrUpdate->value, Localidade::class);
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest  $request
-    //  * @param  \App\Models\Localidade  $localidade
-    //  * @return \Illuminate\Http\RedirectResponse
-    //  */
-    // public function update(PostLocalidadeRequest $request, Localidade $localidade)
-    // {
-    //     $localidade->nome = $request->input('nome');
-    //     $localidade->descricao = $request->input('descricao');
+        return Inertia::render('Cadastro/Localidade/Edit', [
+            'localidade' => fn () => LocalidadeResource::make($localidade),
+            'predios' => PredioCollection::make(
+                app(Pipeline::class)
+                    ->send(Predio::withCount(['andares'])->whereBelongsTo($localidade))
+                    ->through([PredioOrder::class])
+                    ->thenReturn()
+                    ->paginate($this->perPage(request()->query('per_page')))
+            )->additional(['meta' => [
+                'order' => request()->query('order'),
+            ]])->preserveQuery(),
+        ]);
+    }
 
-    //     $salvo = $localidade->save();
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest  $request
+     * @param  \App\Models\Localidade  $localidade
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(PostLocalidadeRequest $request, Localidade $localidade)
+    {
+        $localidade->nome = $request->input('nome');
+        $localidade->descricao = $request->input('descricao');
 
-    //     return back()->with(...$this->feedback($salvo));
-    // }
+        $salvo = $localidade->save();
+
+        return back()->with(...$this->feedback($salvo));
+    }
 
     /**
      * Remove the specified resource from storage.

@@ -11,10 +11,12 @@ use App\Http\Controllers\Cadastro\Localidade\LocalidadeController;
 use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
 use App\Models\Localidade;
 use App\Models\Permissao;
+use App\Models\Predio;
 use Database\Seeders\PerfilSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
+use function Pest\Laravel\patch;
 use function Pest\Laravel\post;
 
 beforeEach(function () {
@@ -52,8 +54,7 @@ test('action do controller usa o form request', function (string $action, string
     );
 })->with([
     ['store', PostLocalidadeRequest::class],
-    // ['edit', EditLocalidadeRequest::class],
-    // ['update', PostLocalidadeRequest::class],
+    ['update', PostLocalidadeRequest::class],
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
@@ -107,64 +108,46 @@ test('cria uma nova localidade', function () {
         ->and($localidade->descricao)->toBe('foo bar');
 });
 
-// test('action edit compartilha os dados esperados com a view/componente correto', function (bool $permissao) {
-//     concederPermissao(Permissao::LocalidadeUpdate);
+test('action edit compartilha os dados esperados com a view/componente correto', function () {
+    concederPermissao(Permissao::LOCALIDADE_UPDATE);
 
-//     if ($permissao) {
-//         concederPermissao(Permissao::PredioCreate);
-//         concederPermissao(Permissao::PredioUpdate);
-//     }
+    $localidade = Localidade::factory()->hasPredios(3)->create();
 
-//     $localidade = Localidade::factory()->has(Predio::factory(3), 'predios')->create();
+    get(route('cadastro.localidade.edit', $localidade))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Localidade/Edit')
+                ->where('localidade.data.id', $localidade->id)
+                ->has('predios.data', 3)
+        );
+});
 
-//     get(route('cadastro.localidade.edit', $localidade))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Localidade/Edit')
-//                 ->where('localidade', $localidade)
-//                 ->has('predios.data', 3)
-//                 ->has('filtros')
-//                 ->where('per_page', 10)
-//                 ->where('can', ['updateLocalidade' => true, 'createPredio' => $permissao, 'viewOrUpdatePredio' => $permissao])
-//         );
-// })->with([
-//     false,
-//     true,
-// ]);
+test('action edit também é executável com permissão de visualização', function () {
+    concederPermissao(Permissao::LOCALIDADE_VIEW);
 
-// test('action edit também é executável com permissão de visualização', function () {
-//     concederPermissao(Permissao::LocalidadeView);
+    $localidade = Localidade::factory()->create();
 
-//     $localidade = Localidade::factory()->create();
+    get(route('cadastro.localidade.edit', $localidade))->assertOk();
+});
 
-//     get(route('cadastro.localidade.edit', $localidade))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Localidade/Edit')
-//                 ->where('localidade', $localidade)
-//                 ->where('can', ['updateLocalidade' => false, 'createPredio' => false, 'viewOrUpdatePredio' => false])
-//         );
-// });
+test('atualiza uma localidade', function () {
+    concederPermissao(Permissao::LOCALIDADE_UPDATE);
 
-// test('atualiza uma localidade', function () {
-//     concederPermissao(Permissao::LocalidadeUpdate);
+    $localidade = Localidade::factory()->create();
 
-//     $localidade = Localidade::factory()->create();
+    patch(route('cadastro.localidade.update', $localidade), [
+        'nome' => 'foo',
+        'descricao' => 'foo bar',
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('sucesso');
 
-//     patch(route('cadastro.localidade.update', $localidade), [
-//         'nome' => 'foo',
-//         'descricao' => 'foo bar',
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    $localidade->refresh();
 
-//     $localidade->refresh();
-
-//     expect($localidade->nome)->toBe('foo')
-//         ->and($localidade->descricao)->toBe('foo bar');
-// });
+    expect($localidade->nome)->toBe('foo')
+        ->and($localidade->descricao)->toBe('foo bar');
+});
 
 test('exclui a localidade informada', function () {
     $id_localidade = Localidade::factory()->create()->id;
