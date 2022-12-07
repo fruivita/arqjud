@@ -51,18 +51,16 @@ test('usuário sem permissão não consegue exibir formulário de criação do p
 });
 
 // Caminho feliz
-// test('action do controller usa o form request', function (string $action, string $request) {
-//     $this->assertActionUsesFormRequest(
-//         PredioController::class,
-//         $action,
-//         $request
-//     );
-// })->with([
-//     ['index', IndexPredioRequest::class],
-//     ['store', PostPredioRequest::class],
-//     ['edit', EditPredioRequest::class],
-//     ['update', PostPredioRequest::class],
-// ]);
+test('action do controller usa o form request', function (string $action, string $request) {
+    $this->assertActionUsesFormRequest(
+        PredioController::class,
+        $action,
+        $request
+    );
+})->with([
+    // ['store', PostPredioRequest::class],
+    ['update', PostPredioRequest::class],
+]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     Predio::factory(2)->create();
@@ -121,64 +119,46 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         ->and($predio->localidade_id)->toBe($this->localidade->id);
 // });
 
-// test('action edit compartilha os dados esperados com a view/componente correto', function (bool $permissao) {
-//     concederPermissao(Permissao::PredioUpdate);
+test('action edit compartilha os dados esperados com a view/componente correto', function () {
+    concederPermissao(Permissao::PREDIO_UPDATE);
 
-//     if ($permissao) {
-//         concederPermissao(Permissao::AndarCreate);
-//         concederPermissao(Permissao::AndarUpdate);
-//     }
+    $predio = Predio::factory()->hasAndares(3)->create();
 
-//     $predio = Predio::factory()->has(Andar::factory(3), 'andares')->create();
+    get(route('cadastro.predio.edit', $predio))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Predio/Edit')
+                ->where('predio.data.id', $predio->id)
+                ->has('andares.data', 3)
+        );
+});
 
-//     get(route('cadastro.predio.edit', $predio))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Predio/Edit')
-//                 ->where('predio', Predio::hierarquiaAscendente()->find($predio->id))
-//                 ->has('andares.data', 3)
-//                 ->has('filtros')
-//                 ->where('per_page', 10)
-//                 ->where('can', ['updatePredio' => true, 'createAndar' => $permissao, 'viewOrUpdateAndar' => $permissao])
-//         );
-// })->with([
-//     false,
-//     true,
-// ]);
+test('action edit também é executável com permissão de visualização', function () {
+    concederPermissao(Permissao::PREDIO_VIEW);
 
-// test('action edit também é executável com permissão de visualização', function () {
-//     concederPermissao(Permissao::PredioView);
+    $predio = Predio::factory()->create();
 
-//     $predio = Predio::factory()->create();
+    get(route('cadastro.predio.edit', $predio))->assertOk();
+});
 
-//     get(route('cadastro.predio.edit', $predio))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Predio/Edit')
-//                 ->where('predio', Predio::hierarquiaAscendente()->find($predio->id))
-//                 ->where('can', ['updatePredio' => false, 'createAndar' => false, 'viewOrUpdateAndar' => false])
-//         );
-// });
+test('atualiza um prédio', function () {
+    concederPermissao(Permissao::PREDIO_UPDATE);
 
-// test('atualiza um prédio', function () {
-//     concederPermissao(Permissao::PredioUpdate);
+    $predio = Predio::factory()->create();
 
-//     $predio = Predio::factory()->create();
+    patch(route('cadastro.predio.update', $predio), [
+        'nome' => 'foo',
+        'descricao' => 'foo bar',
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('sucesso');
 
-//     patch(route('cadastro.predio.update', $predio), [
-//         'nome' => 'foo',
-//         'descricao' => 'foo bar',
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    $predio->refresh();
 
-//     $predio->refresh();
-
-//     expect($predio->nome)->toBe('foo')
-//         ->and($predio->descricao)->toBe('foo bar');
-// });
+    expect($predio->nome)->toBe('foo')
+        ->and($predio->descricao)->toBe('foo bar');
+});
 
 test('exclui o prédio informado', function () {
     $id_predio = Predio::factory()->create()->id;

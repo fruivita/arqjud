@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Cadastro\Predio;
 
 use App\Enums\Policy;
+use App\Filters\Andar\Order as AndarOrder;
 use App\Filters\Predio\JoinLocalidade;
 use App\Filters\Predio\Order;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cadastro\Predio\PostPredioRequest;
+use App\Http\Resources\Andar\AndarCollection;
 use App\Http\Resources\Predio\PredioCollection;
+use App\Http\Resources\Predio\PredioResource;
+use App\Models\Andar;
 use App\Models\Predio;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
@@ -83,19 +88,37 @@ class PredioController extends Controller
      */
     public function edit(Predio $predio)
     {
-        //
+        $this->authorize(Policy::ViewOrUpdate->value, Predio::class);
+
+        return Inertia::render('Cadastro/Predio/Edit', [
+            'predio' => fn () => PredioResource::make($predio->load('localidade')),
+            'andares' => AndarCollection::make(
+                app(Pipeline::class)
+                    ->send(Andar::withCount(['salas'])->whereBelongsTo($predio))
+                    ->through([AndarOrder::class])
+                    ->thenReturn()
+                    ->paginate($this->perPage(request()->query('per_page')))
+            )->additional(['meta' => [
+                'order' => request()->query('order'),
+            ]])->preserveQuery(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Cadastro\Predio\PostPredioRequest  $request
      * @param  \App\Models\Predio  $predio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Predio $predio)
+    public function update(PostPredioRequest $request, Predio $predio)
     {
-        //
+        $predio->nome = $request->input('nome');
+        $predio->descricao = $request->input('descricao');
+
+        $salvo = $predio->save();
+
+        return back()->with(...$this->feedback($salvo));
     }
 
     /**
