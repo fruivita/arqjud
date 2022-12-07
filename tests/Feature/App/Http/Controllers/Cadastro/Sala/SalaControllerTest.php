@@ -52,18 +52,16 @@ test('usuário sem permissão não consegue exibir formulário de criação da s
 });
 
 // Caminho feliz
-// test('action do controller usa o form request', function ($action, $request) {
-//     $this->assertActionUsesFormRequest(
-//         SalaController::class,
-//         $action,
-//         $request
-//     );
-// })->with([
-//     ['index', IndexSalaRequest::class],
-//     ['store', PostSalaRequest::class],
-//     ['edit', EditSalaRequest::class],
-//     ['update', PostSalaRequest::class],
-// ]);
+test('action do controller usa o form request', function ($action, $request) {
+    $this->assertActionUsesFormRequest(
+        SalaController::class,
+        $action,
+        $request
+    );
+})->with([
+    // ['store', PostSalaRequest::class],
+    ['update', PostSalaRequest::class],
+]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     Sala::factory(2)->create();
@@ -136,64 +134,46 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         ->and($prateleira->descricao)->toBe(__('Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado'));
 // });
 
-// test('action edit compartilha os dados esperados com a view/componente correto', function (bool $permissao) {
-//     concederPermissao(Permissao::SalaUpdate);
+test('action edit compartilha os dados esperados com a view/componente correto', function () {
+    concederPermissao(Permissao::SALA_UPDATE);
 
-//     if ($permissao) {
-//         concederPermissao(Permissao::EstanteCreate);
-//         concederPermissao(Permissao::EstanteUpdate);
-//     }
+    $sala = Sala::factory()->hasEstantes(3)->create();
 
-//     $sala = Sala::factory()->has(Estante::factory(3), 'estantes')->create();
+    get(route('cadastro.sala.edit', $sala))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Sala/Edit')
+                ->where('sala.data.id', $sala->id)
+                ->has('estantes.data', 3)
+        );
+});
 
-//     get(route('cadastro.sala.edit', $sala))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Sala/Edit')
-//                 ->where('sala', Sala::hierarquiaAscendente()->find($sala->id))
-//                 ->has('estantes.data', 3)
-//                 ->has('filtros')
-//                 ->where('per_page', 10)
-//                 ->where('can', ['updateSala' => true, 'createEstante' => $permissao, 'viewOrUpdateEstante' => $permissao])
-//         );
-// })->with([
-//     false,
-//     true,
-// ]);
+test('action edit também é executável com permissão de visualização', function () {
+    concederPermissao(Permissao::SALA_VIEW);
 
-// test('action edit também é executável com permissão de visualização', function () {
-//     concederPermissao(Permissao::SalaView);
+    $sala = Sala::factory()->create();
 
-//     $sala = Sala::factory()->create();
+    get(route('cadastro.sala.edit', $sala))->assertOk();
+});
 
-//     get(route('cadastro.sala.edit', $sala))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Sala/Edit')
-//                 ->where('sala', Sala::hierarquiaAscendente()->find($sala->id))
-//                 ->where('can', ['updateSala' => false, 'createEstante' => false, 'viewOrUpdateEstante' => false])
-//         );
-// });
+test('atualiza uma sala', function () {
+    concederPermissao(Permissao::SALA_UPDATE);
 
-// test('atualiza uma sala', function () {
-//     concederPermissao(Permissao::SalaUpdate);
+    $sala = Sala::factory()->create();
 
-//     $sala = Sala::factory()->create();
+    patch(route('cadastro.sala.update', $sala), [
+        'numero' => '10-a',
+        'descricao' => 'foo bar',
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('sucesso');
 
-//     patch(route('cadastro.sala.update', $sala), [
-//         'numero' => '10-a',
-//         'descricao' => 'foo bar',
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    $sala->refresh();
 
-//     $sala->refresh();
-
-//     expect($sala->numero)->toBe('10-a')
-//         ->and($sala->descricao)->toBe('foo bar');
-// });
+    expect($sala->numero)->toBe('10-a')
+        ->and($sala->descricao)->toBe('foo bar');
+});
 
 test('exclui a sala informada', function () {
     $id_sala = Sala::factory()->create()->id;
