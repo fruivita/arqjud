@@ -1,6 +1,9 @@
 /**
  * Encapsulamento de funcionalidades relativas caixa pra uso no client side.
  */
+
+import { toLower } from 'lodash';
+
 class Caixa {
     constructor(attributes = {}) {
         Object.assign(this, attributes);
@@ -9,7 +12,7 @@ class Caixa {
     /**
      * Nome completo da caixa para exibição.
      *
-     * @return string
+     * @return {String}
      */
     numeroExibicao() {
         let texto = `${this.numero}/${this.ano}/GP:${this.guarda_permanente}`;
@@ -21,6 +24,15 @@ class Caixa {
         }
 
         return texto;
+    }
+
+    /**
+     * Caixa de guarda permanente?
+     *
+     * @return {Boolean}
+     */
+    gp() {
+        return toLower(this.guarda_permanente) === 'sim' ? true : false;
     }
 }
 

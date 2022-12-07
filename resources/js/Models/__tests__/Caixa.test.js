@@ -43,4 +43,12 @@ describe('Caixa', () => {
 
         expect(caixa.numeroExibicao()).toBe('123/2000/GP:Sim/foo');
     });
+
+    test('retorna o boolean guarda_permanente da caixa', () => {
+        const caixa = new Caixa({
+            guarda_permanente: 'Sim',
+        });
+
+        expect(caixa.gp()).toBeTruthy();
+    });
 });
