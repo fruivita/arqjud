@@ -51,18 +51,16 @@ test('usuário sem permissão não consegue exibir formulário de criação do a
 });
 
 // Caminho feliz
-// test('action do controller usa o form request', function (string $action, string $request) {
-//     $this->assertActionUsesFormRequest(
-//         AndarController::class,
-//         $action,
-//         $request
-//     );
-// })->with([
-//     ['index', IndexAndarRequest::class],
-//     ['store', PostAndarRequest::class],
-//     ['edit', EditAndarRequest::class],
-//     ['update', PostAndarRequest::class],
-// ]);
+test('action do controller usa o form request', function (string $action, string $request) {
+    $this->assertActionUsesFormRequest(
+        AndarController::class,
+        $action,
+        $request
+    );
+})->with([
+    // ['store', PostAndarRequest::class],
+    ['update', PostAndarRequest::class],
+]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     Andar::factory(2)->create();
@@ -126,66 +124,48 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         ->and($andar->predio_id)->toBe($this->predio->id);
 // });
 
-// test('action edit compartilha os dados esperados com a view/componente correto', function (bool $permissao) {
-//     concederPermissao(Permissao::AndarUpdate);
+test('action edit compartilha os dados esperados com a view/componente correto', function () {
+    concederPermissao(Permissao::ANDAR_UPDATE);
 
-//     $andar = Andar::factory()->has(Sala::factory(3), 'salas')->create();
+    $andar = Andar::factory()->hasSalas(3)->create();
 
-//     if ($permissao) {
-//         concederPermissao(Permissao::SalaCreate);
-//         concederPermissao(Permissao::SalaUpdate);
-//     }
+    get(route('cadastro.andar.edit', $andar))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Andar/Edit')
+                ->where('andar.data.id', $andar->id)
+                ->has('salas.data', 3)
+        );
+});
 
-//     get(route('cadastro.andar.edit', $andar))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Andar/Edit')
-//                 ->where('andar', Andar::hierarquiaAscendente()->find($andar->id))
-//                 ->has('salas.data', 3)
-//                 ->has('filtros')
-//                 ->where('per_page', 10)
-//                 ->where('can', ['updateAndar' => true, 'createSala' => $permissao, 'viewOrUpdateSala' => $permissao])
-//         );
-// })->with([
-//     false,
-//     true,
-// ]);
+test('action edit também é executável com permissão de visualização', function () {
+    concederPermissao(Permissao::ANDAR_VIEW);
 
-// test('action edit também é executável com permissão de visualização', function () {
-//     concederPermissao(Permissao::AndarView);
+    $andar = Andar::factory()->create();
 
-//     $andar = Andar::factory()->create();
+    get(route('cadastro.andar.edit', $andar))->assertOk();
+});
 
-//     get(route('cadastro.andar.edit', $andar))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Andar/Edit')
-//                 ->where('andar', Andar::hierarquiaAscendente()->find($andar->id))
-//                 ->where('can', ['updateAndar' => false, 'createSala' => false, 'viewOrUpdateSala' => false])
-//         );
-// });
+test('atualiza um andar', function () {
+    concederPermissao(Permissao::ANDAR_UPDATE);
 
-// test('atualiza um andar', function () {
-//     concederPermissao(Permissao::AndarUpdate);
+    $andar = Andar::factory()->create();
 
-//     $andar = Andar::factory()->create();
+    patch(route('cadastro.andar.update', $andar), [
+        'numero' => 10,
+        'apelido' => '10º',
+        'descricao' => 'foo bar',
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('sucesso');
 
-//     patch(route('cadastro.andar.update', $andar), [
-//         'numero' => 10,
-//         'apelido' => '10º',
-//         'descricao' => 'foo bar',
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    $andar->refresh();
 
-//     $andar->refresh();
-
-//     expect($andar->numero)->toBe(10)
-//         ->and($andar->apelido)->toBe('10º')
-//         ->and($andar->descricao)->toBe('foo bar');
-// });
+    expect($andar->numero)->toBe(10)
+        ->and($andar->apelido)->toBe('10º')
+        ->and($andar->descricao)->toBe('foo bar');
+});
 
 test('exclui o andar informado', function () {
     $id_andar = Andar::factory()->create()->id;
