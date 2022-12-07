@@ -6,7 +6,7 @@ use App\Filters\OrderBase;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Pressupõe join com as tabelas pais.
+ * Pressupõe join com as tabelas pais se o critério de ordenação for por elas.
  *
  * @see https://www.youtube.com/watch?v=FByQN_d876c
  */
