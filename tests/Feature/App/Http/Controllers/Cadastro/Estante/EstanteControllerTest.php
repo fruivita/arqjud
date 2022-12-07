@@ -51,18 +51,16 @@ test('usuário sem permissão não consegue exibir formulário de criação da e
 });
 
 // Caminho feliz
-// test('action do controller usa o form request', function (string $action, string $request) {
-//     $this->assertActionUsesFormRequest(
-//         EstanteController::class,
-//         $action,
-//         $request
-//     );
-// })->with([
-//     ['index', IndexEstanteRequest::class],
-//     ['store', PostEstanteRequest::class],
-//     ['edit', EditEstanteRequest::class],
-//     ['update', PostEstanteRequest::class],
-// ]);
+test('action do controller usa o form request', function (string $action, string $request) {
+    $this->assertActionUsesFormRequest(
+        EstanteController::class,
+        $action,
+        $request
+    );
+})->with([
+    // ['store', PostEstanteRequest::class],
+    ['update', PostEstanteRequest::class],
+]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     Estante::factory(2)->create();
@@ -129,64 +127,46 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         ->and($prateleira->descricao)->toBe(__('Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado'));
 // });
 
-// test('action edit compartilha os dados esperados com a view/componente correto', function (bool $permissao) {
-//     concederPermissao(Permissao::EstanteUpdate);
+test('action edit compartilha os dados esperados com a view/componente correto', function () {
+    concederPermissao(Permissao::ESTANTE_UPDATE);
 
-//     if ($permissao) {
-//         concederPermissao(Permissao::PrateleiraCreate);
-//         concederPermissao(Permissao::PrateleiraView);
-//     }
+    $estante = Estante::factory()->has(Prateleira::factory(3), 'prateleiras')->create();
 
-//     $estante = Estante::factory()->has(Prateleira::factory(3), 'prateleiras')->create();
+    get(route('cadastro.estante.edit', $estante))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Estante/Edit')
+                ->where('estante.data.id', $estante->id)
+                ->has('prateleiras.data', 3)
+        );
+});
 
-//     get(route('cadastro.estante.edit', $estante))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Estante/Edit')
-//                 ->where('estante', Estante::hierarquiaAscendente()->find($estante->id))
-//                 ->has('prateleiras.data', 3)
-//                 ->has('filtros')
-//                 ->where('per_page', 10)
-//                 ->where('can', ['updateEstante' => true, 'createPrateleira' => $permissao, 'viewOrUpdatePrateleira' => $permissao])
-//         );
-// })->with([
-//     false,
-//     true,
-// ]);
+test('action edit também é executável com permissão de visualização', function () {
+    concederPermissao(Permissao::ESTANTE_VIEW);
 
-// test('action edit também é executável com permissão de visualização', function () {
-//     concederPermissao(Permissao::EstanteView);
+    $estante = Estante::factory()->create();
 
-//     $estante = Estante::factory()->create();
+    get(route('cadastro.estante.edit', $estante))->assertOk();
+});
 
-//     get(route('cadastro.estante.edit', $estante))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Estante/Edit')
-//                 ->where('estante', Estante::hierarquiaAscendente()->find($estante->id))
-//                 ->where('can', ['updateEstante' => false, 'createPrateleira' => false, 'viewOrUpdatePrateleira' => false])
-//         );
-// });
+test('atualiza uma estante', function () {
+    concederPermissao(Permissao::ESTANTE_UPDATE);
 
-// test('atualiza uma estante', function () {
-//     concederPermissao(Permissao::EstanteUpdate);
+    $estante = Estante::factory()->create();
 
-//     $estante = Estante::factory()->create();
+    patch(route('cadastro.estante.update', $estante), [
+        'numero' => '10-a',
+        'descricao' => 'foo bar',
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('sucesso');
 
-//     patch(route('cadastro.estante.update', $estante), [
-//         'numero' => '10-a',
-//         'descricao' => 'foo bar',
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    $estante->refresh();
 
-//     $estante->refresh();
-
-//     expect($estante->numero)->toBe('10-a')
-//         ->and($estante->descricao)->toBe('foo bar');
-// });
+    expect($estante->numero)->toBe('10-a')
+        ->and($estante->descricao)->toBe('foo bar');
+});
 
 test('exclui a estante informado', function () {
     $id_estante = Estante::factory()->create()->id;

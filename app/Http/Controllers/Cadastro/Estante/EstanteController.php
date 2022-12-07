@@ -5,10 +5,15 @@ namespace App\Http\Controllers\Cadastro\Estante;
 use App\Enums\Policy;
 use App\Filters\Estante\JoinLocalidade;
 use App\Filters\Estante\Order;
+use App\Filters\Prateleira\Order as PrateleiraOrder;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cadastro\Estante\PostEstanteRequest;
 use App\Http\Resources\Estante\EstanteCollection;
+use App\Http\Resources\Estante\EstanteResource;
+use App\Http\Resources\Prateleira\PrateleiraCollection;
 use App\Models\Estante;
+use App\Models\Prateleira;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
@@ -83,19 +88,37 @@ class EstanteController extends Controller
      */
     public function edit(Estante $estante)
     {
-        //
+        $this->authorize(Policy::ViewOrUpdate->value, Estante::class);
+
+        return Inertia::render('Cadastro/Estante/Edit', [
+            'estante' => fn () => EstanteResource::make($estante->load('sala.andar.predio.localidade')),
+            'prateleiras' => PrateleiraCollection::make(
+                app(Pipeline::class)
+                    ->send(Prateleira::withCount(['caixas'])->whereBelongsTo($estante))
+                    ->through([PrateleiraOrder::class])
+                    ->thenReturn()
+                    ->paginate($this->perPage(request()->query('per_page')))
+            )->additional(['meta' => [
+                'order' => request()->query('order'),
+            ]])->preserveQuery(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Cadastro\Estante\PostEstanteRequest  $request
      * @param  \App\Models\Estante  $estante
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estante $estante)
+    public function update(PostEstanteRequest $request, Estante $estante)
     {
-        //
+        $estante->numero = $request->input('numero');
+        $estante->descricao = $request->input('descricao');
+
+        $salvo = $estante->save();
+
+        return back()->with(...$this->feedback($salvo));
     }
 
     /**
