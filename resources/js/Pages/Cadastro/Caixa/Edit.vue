@@ -167,6 +167,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             :chave="__('Localidade criadora')"
                             :valor="caixa.data.localidade_criadora.nome"
                             icone="list-nested"
+                            :erro="form.errors.localidade_criadora_id"
                         />
 
                         <NumeroInput

@@ -25,6 +25,7 @@ describe('ChaveValor', () => {
             icone: { type: String },
             chave: { type: String, required: true },
             valor: { type: [Number, String] },
+            erro: { type: String },
         });
     });
 
@@ -48,6 +49,14 @@ describe('ChaveValor', () => {
         expect(
             mountFunction({
                 props: { icone: 'key', chave: 'foo', valor: 'bar' },
+            }).html()
+        ).toMatchSnapshot();
+    });
+
+    test('renderiza a mensagem de erro respeitando o snapshot', () => {
+        expect(
+            mountFunction({
+                props: { chave: 'foo', erro: 'bar' },
             }).html()
         ).toMatchSnapshot();
     });

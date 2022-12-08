@@ -9,11 +9,14 @@
  -->
 
 <script setup>
+import MensagemErro from '@/Shared/Forms/MensagemErro.vue';
 import Icone from '@/Shared/Icones/Icone.vue';
+
 defineProps({
     icone: { type: String },
     chave: { type: String, required: true },
     valor: { type: [Number, String] },
+    erro: { type: String },
 });
 </script>
 
@@ -28,5 +31,7 @@ defineProps({
 
             <span v-if="valor">{{ valor }}</span>
         </p>
+
+        <MensagemErro v-if="erro" :erro="erro" />
     </div>
 </template>

@@ -1,10 +1,21 @@
 // Vitest Snapshot v1
 
+exports[`ChaveValor > renderiza a mensagem de erro respeitando o snapshot 1`] = `
+"<div class=\\"space-y-1\\"><span class=\\"font-bold\\">foo</span>
+  <p class=\\"flex space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\">
+    <!--v-if-->
+    <!--v-if-->
+  </p>
+  <p class=\\"text-sm font-bold text-red-500\\" dusk=\\"erro\\">bar</p>
+</div>"
+`;
+
 exports[`ChaveValor > renderiza o componente com o valor informado respeitando o snapshot 1`] = `
 "<div class=\\"space-y-1\\"><span class=\\"font-bold\\">foo</span>
   <p class=\\"flex space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\">
     <!--v-if--><span>bar</span>
   </p>
+  <!--v-if-->
 </div>"
 `;
 
@@ -14,6 +25,7 @@ exports[`ChaveValor > renderiza o componente com o ícone respeitando o snapshot
       <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
       <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
     </svg><span>bar</span></p>
+  <!--v-if-->
 </div>"
 `;
 
@@ -23,5 +35,6 @@ exports[`ChaveValor > renderiza o componente respeitando o snapshot 1`] = `
     <!--v-if-->
     <!--v-if-->
   </p>
+  <!--v-if-->
 </div>"
 `;
