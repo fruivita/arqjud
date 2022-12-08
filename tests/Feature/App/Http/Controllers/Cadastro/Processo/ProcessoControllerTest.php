@@ -50,18 +50,16 @@ test('usuário sem permissão não consegue exibir formulário de criação do p
 });
 
 // Caminho feliz
-// test('action do controller usa o form request', function ($action, $request) {
-//     $this->assertActionUsesFormRequest(
-//         ProcessoController::class,
-//         $action,
-//         $request
-//     );
-// })->with([
-//     ['index', IndexProcessoRequest::class],
-//     ['store', PostProcessoRequest::class],
-//     ['edit', EditProcessoRequest::class],
-//     ['update', PostProcessoRequest::class],
-// ]);
+test('action do controller usa o form request', function ($action, $request) {
+    $this->assertActionUsesFormRequest(
+        ProcessoController::class,
+        $action,
+        $request
+    );
+})->with([
+    // ['store', PostProcessoRequest::class],
+    ['update', PostProcessoRequest::class],
+]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     Processo::factory(2)->create();
@@ -165,66 +163,56 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         ->and($processo->volume_caixa_id)->toBe($this->processo->id);
 // });
 
-// test('action edit compartilha os dados esperados com a view/componente correto', function () {
-//     concederPermissao(Permissao::ProcessoUpdate);
+test('action edit compartilha os dados esperados com a view/componente correto', function () {
+    concederPermissao(Permissao::PROCESSO_UPDATE);
 
-//     $processo = Processo::factory()->has(Processo::factory(3), 'processosFilho')->create();
+    $processo = Processo::factory()->hasProcessosFilho(3)->hasSolicitacoes(4)->create();
 
-//     get(route('cadastro.processo.edit', $processo))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Processo/Edit')
-//                 ->where('processo', Processo::hierarquiaAscendente()->find($processo->id))
-//                 ->has('processos_filho.data', 3)
-//                 ->has('filtros')
-//                 ->where('per_page', 10)
-//                 ->where('can', ['updateProcesso' => true, 'viewOrUpdateProcesso' => true])
-//         );
-// });
+    get(route('cadastro.processo.edit', $processo))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Processo/Edit')
+                ->where('processo.data.id', $processo->id)
+                ->has('processos_filho.data', 3)
+        );
+});
 
-// test('action edit também é executável com permissão de visualização', function () {
-//     concederPermissao(Permissao::ProcessoView);
+test('action edit também é executável com permissão de visualização', function () {
+    concederPermissao(Permissao::PROCESSO_VIEW);
 
-//     $processo = Processo::factory()->create();
+    $processo = Processo::factory()->create();
 
-//     get(route('cadastro.processo.edit', $processo))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Processo/Edit')
-//                 ->where('processo', Processo::hierarquiaAscendente()->find($processo->id))
-//                 ->where('can', ['updateProcesso' => false, 'viewOrUpdateProcesso' => true])
-//         );
-// });
+    get(route('cadastro.processo.edit', $processo))->assertOk();
+});
 
-// test('atualiza um processo, mas não altera o atributo guarda permanente', function () {
-//     concederPermissao(Permissao::ProcessoUpdate);
+test('atualiza um processo, mas não altera o atributo guarda permanente', function () {
+    concederPermissao(Permissao::PROCESSO_UPDATE);
 
-//     $processo = Processo::factory()->create(['guarda_permanente' => true]);
-//     $pai = Processo::factory()->create();
+    $processo = Processo::factory()->create(['guarda_permanente' => true]);
+    $pai = Processo::factory()->create();
 
-//     patch(route('cadastro.processo.update', $processo), [
-//         'numero' => '02393484420224003909',
-//         'numero_antigo' => '18960718119064902226',
-//         'processo_pai_numero' => $pai->numero,
-//         'arquivado_em' => '21-01-2000',
-//         'qtd_volumes' => 15,
-//         'descricao' => 'foo bar',
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    patch(route('cadastro.processo.update', $processo), [
+        'numero' => '02393484420224003909',
+        'numero_antigo' => '18960718119064902226',
+        'processo_pai_numero' => $pai->numero,
+        'arquivado_em' => '21-01-2000',
+        'qtd_volumes' => 15,
+        'descricao' => 'foo bar',
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('sucesso');
 
-//     $processo->refresh();
+    $processo->refresh();
 
-//     expect($processo->numero)->toBe('0239348-44.2022.4.00.3909')
-//         ->and($processo->numero_antigo)->toBe('1896071-81.1906.4.90.2226')
-//         ->and($processo->processo_pai_id)->toBe($pai->id)
-//         ->and($processo->arquivado_em)->toBe('21-01-2000')
-//         ->and($processo->guarda_permanente)->toBeTrue()
-//         ->and($processo->qtd_volumes)->toBe(15)
-//         ->and($processo->descricao)->toBe('foo bar');
-// });
+    expect($processo->numero)->toBe('0239348-44.2022.4.00.3909')
+        ->and($processo->numero_antigo)->toBe('1896071-81.1906.4.90.2226')
+        ->and($processo->processo_pai_id)->toBe($pai->id)
+        ->and($processo->arquivado_em->format('d-m-Y'))->toBe('21-01-2000')
+        ->and($processo->guarda_permanente)->toBeTrue()
+        ->and($processo->qtd_volumes)->toBe(15)
+        ->and($processo->descricao)->toBe('foo bar');
+});
 
 test('exclui o processo informado', function () {
     $id_processo = Processo::factory()->create()->id;
