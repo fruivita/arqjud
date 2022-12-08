@@ -6,14 +6,21 @@ use App\Enums\Policy;
 use App\Filters\Caixa\JoinLocalidade;
 use App\Filters\Caixa\Order;
 use App\Filters\Search;
+use App\Filters\VolumeCaixa\Order as VolumeCaixaOrder;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cadastro\Caixa\PostCaixaRequest;
 use App\Http\Resources\Caixa\CaixaCollection;
+use App\Http\Resources\Caixa\CaixaResource;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaCollection;
 use App\Models\Caixa;
+use App\Models\VolumeCaixa;
+use App\Pipes\Caixa\Atualizar;
+use App\Pipes\Caixa\SetGPProcessos;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
 use Inertia\Inertia;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 class CaixaController extends Controller
 {
@@ -31,7 +38,7 @@ class CaixaController extends Controller
 
         return Inertia::render('Cadastro/Caixa/Index', [
             'caixas' => CaixaCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Caixa::withCount(['volumes'])->with(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
@@ -83,19 +90,40 @@ class CaixaController extends Controller
      */
     public function edit(Caixa $caixa)
     {
-        //
+        $this->authorize(Policy::ViewOrUpdate->value, Caixa::class);
+
+        return Inertia::render('Cadastro/Caixa/Edit', [
+            'caixa' => fn () => CaixaResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
+            'volumes_caixa' => VolumeCaixaCollection::make(
+                Pipeline::make()
+                    ->send(VolumeCaixa::withCount(['processos'])->whereBelongsTo($caixa))
+                    ->through([VolumeCaixaOrder::class])
+                    ->thenReturn()
+                    ->paginate($this->perPage(request()->query('per_page')))
+            )->additional(['meta' => [
+                'order' => request()->query('order'),
+            ]])->preserveQuery(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Cadastro\Caixa\PostCaixaRequest  $request
      * @param  \App\Models\Caixa  $caixa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Caixa $caixa)
+    public function update(PostCaixaRequest $request, Caixa $caixa)
     {
-        //
+        $salvo = Pipeline::make()
+            ->withTransaction()
+            ->send($caixa)
+            ->through([Atualizar::class, SetGPProcessos::class])
+            ->onFailure(function ($data, $exception) {
+                return false;
+            })->thenReturn();
+
+        return back()->with($this->feedback($salvo));
     }
 
     /**
@@ -110,6 +138,6 @@ class CaixaController extends Controller
 
         $excluido = $caixa->delete();
 
-        return back()->with(...$this->feedback($excluido));
+        return back()->with($this->feedback($excluido));
     }
 }

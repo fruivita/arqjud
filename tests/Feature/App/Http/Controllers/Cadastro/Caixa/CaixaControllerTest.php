@@ -17,8 +17,12 @@ use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
+use App\Pipes\Caixa\SetGPProcessos;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia as Assert;
+use Mockery\MockInterface;
+
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
 use function Pest\Laravel\patch;
@@ -53,18 +57,16 @@ test('usuário sem permissão não consegue exibir formulário de criação da c
 });
 
 // Caminho feliz
-// test('action do controller usa o form request', function ($action, $request) {
-//     $this->assertActionUsesFormRequest(
-//         CaixaController::class,
-//         $action,
-//         $request
-//     );
-// })->with([
-//     ['index', IndexCaixaRequest::class],
-//     ['store', PostCaixaRequest::class],
-//     ['edit', EditCaixaRequest::class],
-//     ['update', PostCaixaRequest::class],
-// ]);
+test('action do controller usa o form request', function ($action, $request) {
+    $this->assertActionUsesFormRequest(
+        CaixaController::class,
+        $action,
+        $request
+    );
+})->with([
+    // ['store', PostCaixaRequest::class],
+    ['update', PostCaixaRequest::class],
+]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     Caixa::factory(2)->create();
@@ -141,79 +143,112 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         ->and($caixa->prateleira_id)->toBe($this->prateleira->id);
 // });
 
-// test('action edit compartilha os dados esperados com a view/componente correto', function (bool $permissao) {
-//     concederPermissao(Permissao::CaixaUpdate);
+test('action edit compartilha os dados esperados com a view/componente correto', function () {
+    concederPermissao(Permissao::CAIXA_UPDATE);
 
-//     if ($permissao) {
-//         concederPermissao(Permissao::VolumeCaixaCreate);
-//         concederPermissao(Permissao::VolumeCaixaUpdate);
-//     }
+    $caixa = Caixa::factory()->hasVolumes(3)->create();
 
-//     $caixa = Caixa::factory()->has(VolumeCaixa::factory(3), 'volumes')->create();
+    get(route('cadastro.caixa.edit', $caixa))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Caixa/Edit')
+                ->where('caixa.data.id', $caixa->id)
+                ->has('volumes_caixa.data', 3)
+        );
+});
 
-//     get(route('cadastro.caixa.edit', $caixa))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Caixa/Edit')
-//                 ->where('caixa', Caixa::hierarquiaAscendente()->find($caixa->id))
-//                 ->has('localidades', 2 + 1) // 1 localidade criadora da caixa
-//                 ->has('volumes_caixa.data', 3)
-//                 ->has('filtros')
-//                 ->where('per_page', 10)
-//                 ->where('can', ['updateCaixa' => true, 'createVolumeCaixa' => $permissao, 'viewOrUpdateVolumeCaixa' => $permissao])
-//         );
-// })->with([
-//     false,
-//     true,
-// ]);
+test('action edit também é executável com permissão de visualização', function () {
+    concederPermissao(Permissao::CAIXA_VIEW);
 
-// test('action edit também é executável com permissão de visualização', function () {
-//     concederPermissao(Permissao::CaixaView);
+    $caixa = Caixa::factory()->create();
 
-//     $caixa = Caixa::factory()->create();
+    get(route('cadastro.caixa.edit', $caixa))->assertOk();
+});
 
-//     get(route('cadastro.caixa.edit', $caixa))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Caixa/Edit')
-//                 ->where('caixa', Caixa::hierarquiaAscendente()->find($caixa->id))
-//                 ->where('can', ['updateCaixa' => false, 'createVolumeCaixa' => false, 'viewOrUpdateVolumeCaixa' => false])
-//         );
-// });
+test('atualiza uma caixa e o status de guarda dos processos da caixa', function (bool $gp) {
+    concederPermissao(Permissao::CAIXA_UPDATE);
 
-// test('atualiza uma caixa e o status de guarda dos processos da caixa', function () {
-//     concederPermissao(Permissao::CaixaUpdate);
+    $caixa = Caixa::factory()
+        ->has(VolumeCaixa::factory(2)->hasProcessos(3, ['guarda_permanente' => !$gp]), 'volumes')
+        ->create();
 
-//     $localidade = Localidade::factory()->create();
-//     $caixa = Caixa::factory()->create();
-//     $volume_caixa = VolumeCaixa::factory()->for($caixa, 'caixa')->create();
-//     Processo::factory(2)->for($volume_caixa, 'volumeCaixa')->create();
+    Processo::factory(2)->create(['guarda_permanente' => !$gp]); // não serão afetados
 
-//     patch(route('cadastro.caixa.update', $caixa), [
-//         'numero' => 10,
-//         'ano' => 2020,
-//         'guarda_permanente' => true,
-//         'complemento' => 'foo',
-//         'descricao' => 'foo bar',
-//         'localidade_criadora_id' => $localidade->id,
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    $localidade = Localidade::factory()->create();
 
-//     $caixa->refresh();
+    $dados = [
+        'numero' => 500,
+        'ano' => 2000,
+        'guarda_permanente' => true,
+        'complemento' => 'foo',
+        'descricao' => 'foo bar',
+        'localidade_criadora_id' => $localidade->id,
+    ];
 
-//     $volume_caixa->load('processos');
+    patch(route('cadastro.caixa.update', $caixa), $dados)
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     expect($caixa->numero)->toBe(10)
-//         ->and($caixa->ano)->toBe(2020)
-//         ->and($caixa->guarda_permanente)->toBe(true)
-//         ->and($caixa->complemento)->toBe('foo')
-//         ->and($caixa->descricao)->toBe('foo bar')
-//         ->and($caixa->localidade_criadora_id)->toBe($localidade->id)
-//         ->and($volume_caixa->processos->pluck('guarda_permanente')->toArray())->toBe([true, true]);
-// });
+    expect(Caixa::find($caixa->id)->only(array_keys($dados)))->toBe($dados)
+        ->and(Processo::where('guarda_permanente', $gp)->count())->toBe(6)
+        ->and(Processo::where('guarda_permanente', !$gp)->count())->toBe(2);
+})->with([
+    true,
+    false,
+]);
+
+test('atualização está protegida com transação', function () {
+    concederPermissao(Permissao::CAIXA_UPDATE);
+
+    $caixa = Caixa::factory()
+        ->has(VolumeCaixa::factory(2)->hasProcessos(3), 'volumes')
+        ->create();
+
+    $dados = [
+        'numero' => 500,
+        'ano' => 2000,
+        'guarda_permanente' => true,
+        'localidade_criadora_id' => Localidade::first()->id,
+    ];
+
+    $database = DB::spy();
+
+    patch(route('cadastro.caixa.update', $caixa), $dados)
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('commit')->once();
+});
+
+test('atualização está protegida com transação e faz o rollback', function () {
+    concederPermissao(Permissao::CAIXA_UPDATE);
+
+    $this->mock(SetGPProcessos::class)
+        ->shouldReceive('handle')
+        ->andThrow(new \RuntimeException());
+
+    $caixa = Caixa::factory()
+        ->has(VolumeCaixa::factory(2)->hasProcessos(3), 'volumes')
+        ->create();
+
+    $dados = [
+        'numero' => 500,
+        'ano' => 2000,
+        'guarda_permanente' => true,
+        'localidade_criadora_id' => Localidade::first()->id,
+    ];
+
+    $database = DB::spy();
+
+    patch(route('cadastro.caixa.update', $caixa), $dados)
+        ->assertRedirect()
+        ->assertSessionHas('feedback.erro');
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('rollBack')->once();
+});
 
 test('exclui a caixa informada', function () {
     $id_caixa = Caixa::factory()->create()->id;
@@ -224,7 +259,7 @@ test('exclui a caixa informada', function () {
 
     delete(route('cadastro.caixa.destroy', $id_caixa))
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     expect(Caixa::where('id', $id_caixa)->exists())->toBeFalse();
 });
