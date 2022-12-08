@@ -26,6 +26,16 @@ class Processo extends Model
     protected $fillable = ['numero', 'qtd_volumes', 'arquivado_em', 'guarda_permanente', 'numero_antigo'];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $casts = [
+        'numero' => NumeroProcesso::class,
+        'numero_antigo' => NumeroProcesso::class,
+        'arquivado_em' => 'date',
+        'guarda_permanente' => 'boolean',
+    ];
+
+    /**
      * Máscara padrão para o número do processo do CNJ.
      *
      * @var string
@@ -45,16 +55,6 @@ class Processo extends Model
      * @var string
      */
     public const MASCARA_V1 = '##.#######-#';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $casts = [
-        'numero' => NumeroProcesso::class,
-        'numero_antigo' => NumeroProcesso::class,
-        'arquivado_em' => 'date',
-        'guarda_permanente' => 'boolean',
-    ];
 
     /**
      * Relacionamento processo (N:1) volume da caixa.
