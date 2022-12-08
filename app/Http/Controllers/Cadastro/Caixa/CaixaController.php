@@ -72,17 +72,6 @@ class CaixaController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Caixa  $caixa
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Caixa $caixa)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Caixa  $caixa

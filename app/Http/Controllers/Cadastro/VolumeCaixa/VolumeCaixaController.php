@@ -70,17 +70,6 @@ class VolumeCaixaController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\VolumeCaixa  $volume
-     * @return \Illuminate\Http\Response
-     */
-    public function show(VolumeCaixa $volume)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\VolumeCaixa  $volume_caixa

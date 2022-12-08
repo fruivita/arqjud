@@ -70,17 +70,6 @@ class EstanteController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Estante  $estante
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Estante $estante)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Estante  $estante

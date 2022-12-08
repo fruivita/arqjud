@@ -70,17 +70,6 @@ class AndarController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Andar  $andar
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Andar $andar)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Andar  $andar

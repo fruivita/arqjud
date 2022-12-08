@@ -88,17 +88,6 @@ class PredioController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Predio  $predio
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Predio $predio)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Predio  $predio

@@ -71,17 +71,6 @@ class PrateleiraController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Prateleira  $prateleira
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Prateleira $prateleira)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Prateleira  $prateleira

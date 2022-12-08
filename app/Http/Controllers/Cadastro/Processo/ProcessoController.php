@@ -67,17 +67,6 @@ class ProcessoController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Processo  $processo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Processo $processo)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Processo  $processo
