@@ -85,7 +85,7 @@ test('action create compartilha os dados esperados com a view/componente correto
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Localidade/Create')
-                ->where('ultima_insercao', ['nome' => $ultima_localidade_criada->nome])
+                ->where('ultima_insercao.data.id', $ultima_localidade_criada->id)
         );
 });
 

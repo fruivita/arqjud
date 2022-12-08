@@ -85,7 +85,7 @@ const cadastrar = () => {
 
                 <p class="font-bold">
                     <span>{{
-                        __('Localidade: :attribute', { attribute: ultima_insercao.nome })
+                        __('Localidade: :attribute', { attribute: ultima_insercao.data.nome })
                     }}</span>
                 </p>
             </div>
