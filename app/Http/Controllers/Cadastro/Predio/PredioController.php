@@ -39,7 +39,7 @@ class PredioController extends Controller
         $this->authorize(Policy::ViewAny->value, Predio::class);
 
         return Inertia::render('Cadastro/Predio/Index', [
-            'predios' => PredioCollection::make(
+            'predios' => fn () => PredioCollection::make(
                 Pipeline::make()
                     ->send(Predio::withCount(['andares'])->with('localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
@@ -99,7 +99,7 @@ class PredioController extends Controller
 
         return Inertia::render('Cadastro/Predio/Edit', [
             'predio' => fn () => PredioResource::make($predio->load('localidade')),
-            'andares' => AndarCollection::make(
+            'andares' => fn () => AndarCollection::make(
                 Pipeline::make()
                     ->send(Andar::withCount(['salas'])->whereBelongsTo($predio))
                     ->through([AndarOrder::class])

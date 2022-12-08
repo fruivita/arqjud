@@ -32,7 +32,7 @@ class ProcessoController extends Controller
         $this->authorize(Policy::ViewAny->value, Processo::class);
 
         return Inertia::render('Cadastro/Processo/Index', [
-            'processos' => ProcessoCollection::make(
+            'processos' => fn () => ProcessoCollection::make(
                 Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->with(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
@@ -78,7 +78,7 @@ class ProcessoController extends Controller
 
         return Inertia::render('Cadastro/Processo/Edit', [
             'processo' => fn () => ProcessoResource::make($processo->load(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora', 'processoPai'])),
-            'processos_filho' => ProcessoCollection::make(
+            'processos_filho' => fn () => ProcessoCollection::make(
                 Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($processo, 'processoPai'))
                     ->through([Order::class])

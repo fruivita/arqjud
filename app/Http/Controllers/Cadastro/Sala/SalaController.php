@@ -35,7 +35,7 @@ class SalaController extends Controller
         $this->authorize(Policy::ViewAny->value, Sala::class);
 
         return Inertia::render('Cadastro/Sala/Index', [
-            'salas' => SalaCollection::make(
+            'salas' => fn () => SalaCollection::make(
                 Pipeline::make()
                     ->send(Sala::withCount(['estantes'])->with('andar.predio.localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
@@ -81,7 +81,7 @@ class SalaController extends Controller
 
         return Inertia::render('Cadastro/Sala/Edit', [
             'sala' => fn () => SalaResource::make($sala->load('andar.predio.localidade')),
-            'estantes' => EstanteCollection::make(
+            'estantes' => fn () => EstanteCollection::make(
                 Pipeline::make()
                     ->send(Estante::withCount(['prateleiras'])->whereBelongsTo($sala))
                     ->through([EstanteOrder::class])

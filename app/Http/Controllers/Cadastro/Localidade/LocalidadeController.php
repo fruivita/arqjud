@@ -40,7 +40,7 @@ class LocalidadeController extends Controller
         $this->authorize(Policy::ViewAny->value, Localidade::class);
 
         return Inertia::render('Cadastro/Localidade/Index', [
-            'localidades' => LocalidadeCollection::make(
+            'localidades' => fn () => LocalidadeCollection::make(
                 Pipeline::make()
                     ->send(Localidade::withCount(['predios', 'caixasCriadas']))
                     ->through([Order::class, Search::class])
@@ -99,7 +99,7 @@ class LocalidadeController extends Controller
 
         return Inertia::render('Cadastro/Localidade/Edit', [
             'localidade' => fn () => LocalidadeResource::make($localidade),
-            'predios' => PredioCollection::make(
+            'predios' => fn () => PredioCollection::make(
                 Pipeline::make()
                     ->send(Predio::withCount(['andares'])->whereBelongsTo($localidade))
                     ->through([PredioOrder::class])

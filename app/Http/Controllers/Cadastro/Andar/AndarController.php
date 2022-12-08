@@ -35,7 +35,7 @@ class AndarController extends Controller
         $this->authorize(Policy::ViewAny->value, Andar::class);
 
         return Inertia::render('Cadastro/Andar/Index', [
-            'andares' => AndarCollection::make(
+            'andares' => fn () => AndarCollection::make(
                 Pipeline::make()
                     ->send(Andar::withCount(['salas'])->with('predio.localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
@@ -81,7 +81,7 @@ class AndarController extends Controller
 
         return Inertia::render('Cadastro/Andar/Edit', [
             'andar' => fn () => AndarResource::make($andar->load('predio.localidade')),
-            'salas' => SalaCollection::make(
+            'salas' => fn () => SalaCollection::make(
                 Pipeline::make()
                     ->send(Sala::withCount(['estantes'])->whereBelongsTo($andar))
                     ->through([SalaOrder::class])

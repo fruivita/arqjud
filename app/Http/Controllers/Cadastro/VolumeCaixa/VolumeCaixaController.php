@@ -35,7 +35,7 @@ class VolumeCaixaController extends Controller
         $this->authorize(Policy::ViewAny->value, VolumeCaixa::class);
 
         return Inertia::render('Cadastro/VolumeCaixa/Index', [
-            'volumes' => VolumeCaixaCollection::make(
+            'volumes' => fn () => VolumeCaixaCollection::make(
                 Pipeline::make()
                     ->send(VolumeCaixa::withCount(['processos'])->with(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
@@ -81,7 +81,7 @@ class VolumeCaixaController extends Controller
 
         return Inertia::render('Cadastro/VolumeCaixa/Edit', [
             'volume_caixa' => fn () => VolumeCaixaResource::make($volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora'])),
-            'processos' => ProcessoCollection::make(
+            'processos' => fn () => ProcessoCollection::make(
                 Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($volume_caixa))
                     ->through([ProcessoOrder::class])

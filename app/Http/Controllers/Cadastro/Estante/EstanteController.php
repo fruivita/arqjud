@@ -35,7 +35,7 @@ class EstanteController extends Controller
         $this->authorize(Policy::ViewAny->value, Estante::class);
 
         return Inertia::render('Cadastro/Estante/Index', [
-            'estantes' => EstanteCollection::make(
+            'estantes' => fn () => EstanteCollection::make(
                 Pipeline::make()
                     ->send(Estante::withCount(['prateleiras'])->with('sala.andar.predio.localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
@@ -81,7 +81,7 @@ class EstanteController extends Controller
 
         return Inertia::render('Cadastro/Estante/Edit', [
             'estante' => fn () => EstanteResource::make($estante->load('sala.andar.predio.localidade')),
-            'prateleiras' => PrateleiraCollection::make(
+            'prateleiras' => fn () => PrateleiraCollection::make(
                 Pipeline::make()
                     ->send(Prateleira::withCount(['caixas'])->whereBelongsTo($estante))
                     ->through([PrateleiraOrder::class])

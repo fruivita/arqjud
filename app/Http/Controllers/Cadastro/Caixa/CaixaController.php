@@ -37,7 +37,7 @@ class CaixaController extends Controller
         $this->authorize(Policy::ViewAny->value, Caixa::class);
 
         return Inertia::render('Cadastro/Caixa/Index', [
-            'caixas' => CaixaCollection::make(
+            'caixas' => fn () => CaixaCollection::make(
                 Pipeline::make()
                     ->send(Caixa::withCount(['volumes'])->with(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
@@ -83,7 +83,7 @@ class CaixaController extends Controller
 
         return Inertia::render('Cadastro/Caixa/Edit', [
             'caixa' => fn () => CaixaResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
-            'volumes_caixa' => VolumeCaixaCollection::make(
+            'volumes_caixa' => fn () => VolumeCaixaCollection::make(
                 Pipeline::make()
                     ->send(VolumeCaixa::withCount(['processos'])->whereBelongsTo($caixa))
                     ->through([VolumeCaixaOrder::class])

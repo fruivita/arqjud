@@ -36,7 +36,7 @@ class PrateleiraController extends Controller
         $this->authorize(Policy::ViewAny->value, Prateleira::class);
 
         return Inertia::render('Cadastro/Prateleira/Index', [
-            'prateleiras' => PrateleiraCollection::make(
+            'prateleiras' => fn () => PrateleiraCollection::make(
                 Pipeline::make()
                     ->send(Prateleira::withCount(['caixas'])->with('estante.sala.andar.predio.localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
@@ -82,7 +82,7 @@ class PrateleiraController extends Controller
 
         return Inertia::render('Cadastro/Prateleira/Edit', [
             'prateleira' => fn () => PrateleiraResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
-            'caixas' => CaixaCollection::make(
+            'caixas' => fn () => CaixaCollection::make(
                 Pipeline::make()
                     ->send(Caixa::with(['localidadeCriadora'])->withCount(['volumes'])->whereBelongsTo($prateleira))
                     ->through([JoinLocalidadeCriadora::class, CaixaOrder::class])
