@@ -10,7 +10,7 @@ use App\Models\Estante;
 use App\Models\Localidade;
 use App\Models\Predio;
 use App\Models\Sala;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Caminho feliz
 test('join da estante até a localidade', function () {
@@ -20,7 +20,7 @@ test('join da estante até a localidade', function () {
                 ->has(Sala::factory()->hasEstantes(1)), 'andares'))
         ->create();
 
-    $estante = app(Pipeline::class)
+    $estante = Pipeline::make()
         ->send(Estante::query())
         ->through([JoinLocalidade::class])
         ->thenReturn()

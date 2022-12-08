@@ -15,7 +15,7 @@ use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\VolumeCaixa;
 use Illuminate\Database\QueryException;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -103,7 +103,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
     Caixa::factory()->create(['numero' => 77777777, 'ano' => 33333,  'complemento' => 'cccccccc']);
     Caixa::factory()->create(['numero' => 55555555, 'ano' => 22222,  'complemento' => 'dddddddd']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Caixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -122,7 +122,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
     Prateleira::factory()->hasCaixas(2)->create(['numero' => 'aaaaaaaa']);
     Prateleira::factory()->hasCaixas(3)->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Caixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -138,7 +138,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
     Estante::factory()->has(Prateleira::factory()->hasCaixas(2))->create(['numero' => 'aaaaaaaa']);
     Estante::factory()->has(Prateleira::factory()->hasCaixas(3))->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Caixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -158,7 +158,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
         ->has(Estante::factory()
             ->has(Prateleira::factory()->hasCaixas(3)))->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Caixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -182,7 +182,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
                 ->has(Prateleira::factory()->hasCaixas(3))))
         ->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Caixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -210,7 +210,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
                     ->has(Prateleira::factory()->hasCaixas(3)))), 'andares')
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Caixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -239,7 +239,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
                         ->has(Prateleira::factory()->hasCaixas(3)))), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Caixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -255,7 +255,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
     Localidade::factory()->hasCaixasCriadas(2)->create(['nome' => 'aaaaaaaa']);
     Localidade::factory()->hasCaixasCriadas(3)->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Caixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();

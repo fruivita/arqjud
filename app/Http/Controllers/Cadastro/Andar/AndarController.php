@@ -17,8 +17,8 @@ use App\Models\Sala;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
 use Inertia\Inertia;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 class AndarController extends Controller
 {
@@ -36,7 +36,7 @@ class AndarController extends Controller
 
         return Inertia::render('Cadastro/Andar/Index', [
             'andares' => AndarCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Andar::withCount(['salas'])->with('predio.localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
@@ -93,7 +93,7 @@ class AndarController extends Controller
         return Inertia::render('Cadastro/Andar/Edit', [
             'andar' => fn () => AndarResource::make($andar->load('predio.localidade')),
             'salas' => SalaCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Sala::withCount(['estantes'])->whereBelongsTo($andar))
                     ->through([SalaOrder::class])
                     ->thenReturn()

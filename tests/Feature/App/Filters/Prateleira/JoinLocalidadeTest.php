@@ -11,7 +11,7 @@ use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Sala;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Caminho feliz
 test('join da prateleira até a localidade', function () {
@@ -22,7 +22,7 @@ test('join da prateleira até a localidade', function () {
                     ->has(Estante::factory()->hasPrateleiras(1))), 'andares'))
         ->create();
 
-    $prateleira = app(Pipeline::class)
+    $prateleira = Pipeline::make()
         ->send(Prateleira::query())
         ->through([JoinLocalidade::class])
         ->thenReturn()

@@ -10,7 +10,7 @@ use App\Models\Localidade;
 use App\Models\Predio;
 use App\Models\Sala;
 use Illuminate\Database\QueryException;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -82,7 +82,7 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
     Sala::factory()->create(['numero' => 'cccccccc']);
     Sala::factory()->create(['numero' => 'dddddddd']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Sala::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -99,7 +99,7 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
     Andar::factory()->hasSalas(2)->create(['numero' => 99999999, 'apelido' => 'aaaaaaaa']);
     Andar::factory()->hasSalas(3)->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Sala::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -117,7 +117,7 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
     Predio::factory()->has(Andar::factory()->hasSalas(2), 'andares')->create(['nome' => 'aaaaaaaa']);
     Predio::factory()->has(Andar::factory()->hasSalas(3), 'andares')->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Sala::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -140,7 +140,7 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
             ->has(Andar::factory()->hasSalas(3), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Sala::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();

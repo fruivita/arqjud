@@ -9,7 +9,7 @@ use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
 use Illuminate\Database\QueryException;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -123,7 +123,7 @@ test('retorna os andares pelo escopo search que busca a partir do início do tex
     Andar::factory()->create(['numero' => 33333333, 'apelido' => 'cccccccc']);
     Andar::factory()->create(['numero' => 44444444, 'apelido' => 'dddddddd']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Andar::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -141,7 +141,7 @@ test('retorna os andares pelo escopo search que busca a partir do início do tex
     Predio::factory()->hasAndares(2)->create(['nome' => 'aaaaaaaa']);
     Predio::factory()->hasAndares(3)->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Andar::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -161,7 +161,7 @@ test('retorna os andares pelo escopo search que busca a partir do início do tex
         ->has(Predio::factory()->hasAndares(3), 'predios')
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Andar::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();

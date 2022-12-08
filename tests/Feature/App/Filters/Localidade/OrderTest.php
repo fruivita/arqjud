@@ -6,7 +6,7 @@
 
 use App\Filters\Localidade\Order;
 use App\Models\Localidade;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 // Caminho feliz
@@ -16,7 +16,7 @@ test('sem ordenação válida no request, ordena pelo ID desc', function (string
 
     request()->merge(['order' => [$coluna, $direcao]]);
 
-    $localidades = app(Pipeline::class)
+    $localidades = Pipeline::make()
         ->send(Localidade::query())
         ->through([Order::class])
         ->thenReturn()->pluck('id');
@@ -33,7 +33,7 @@ test('ordena pelo nome', function () {
 
     request()->merge(['order' => ['nome' => 'desc']]);
 
-    $localidades = app(Pipeline::class)
+    $localidades = Pipeline::make()
         ->send(Localidade::query())
         ->through([Order::class])
         ->thenReturn()->pluck('id');
@@ -47,7 +47,7 @@ test('ordena pela quantidade de prédios filhos', function () {
 
     request()->merge(['order' => ['predios_count' => 'asc']]);
 
-    $localidades = app(Pipeline::class)
+    $localidades = Pipeline::make()
         ->send(Localidade::query()->withCount('predios'))
         ->through([Order::class])
         ->thenReturn()->pluck('id');
@@ -58,7 +58,7 @@ test('ordena pela quantidade de prédios filhos', function () {
 test('com todas as ordenações específicas na localidade', function () {
     request()->merge(['order' => ['predios_count' => 'desc', 'nome' => 'asc', 'caixas_criadas_count' => 'asc']]);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Localidade::query())
         ->through([Order::class])
         ->thenReturn();

@@ -18,7 +18,7 @@ use App\Models\Prateleira;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Inertia\Inertia;
 
 class PrateleiraController extends Controller
@@ -37,7 +37,7 @@ class PrateleiraController extends Controller
 
         return Inertia::render('Cadastro/Prateleira/Index', [
             'prateleiras' => PrateleiraCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Prateleira::withCount(['caixas'])->with('estante.sala.andar.predio.localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
@@ -94,7 +94,7 @@ class PrateleiraController extends Controller
         return Inertia::render('Cadastro/Prateleira/Edit', [
             'prateleira' => fn () => PrateleiraResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
             'caixas' => CaixaCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Caixa::with(['localidadeCriadora'])->withCount(['volumes'])->whereBelongsTo($prateleira))
                     ->through([JoinLocalidadeCriadora::class, CaixaOrder::class])
                     ->thenReturn()

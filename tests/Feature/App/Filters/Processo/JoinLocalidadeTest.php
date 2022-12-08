@@ -14,7 +14,7 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Sala;
 use App\Models\VolumeCaixa;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Caminho feliz
 test('join do processo até a localidade', function () {
@@ -28,7 +28,7 @@ test('join do processo até a localidade', function () {
                                 ->has(VolumeCaixa::factory()->hasProcessos(1), 'volumes'))))), 'andares'))
         ->create();
 
-    $volume = app(Pipeline::class)
+    $volume = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn()
@@ -43,7 +43,7 @@ test('join da caixa com a localidade criadora', function () {
             ->has(VolumeCaixa::factory()->hasProcessos(1), 'volumes'), 'caixasCriadas')
         ->create();
 
-    $volume = app(Pipeline::class)
+    $volume = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn()

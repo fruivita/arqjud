@@ -12,7 +12,7 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Sala;
 use Illuminate\Database\QueryException;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -92,7 +92,7 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
     Estante::factory()->create(['numero' => 'cccccccc']);
     Estante::factory()->create(['numero' => 'dddddddd']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Estante::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -109,7 +109,7 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
     Sala::factory()->hasEstantes(2)->create(['numero' => 'aaaaaaaa']);
     Sala::factory()->hasEstantes(3)->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Estante::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -129,7 +129,7 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
         ->has(Sala::factory()->hasEstantes(3))
         ->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Estante::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -153,7 +153,7 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
             ->has(Sala::factory()->hasEstantes(3)), 'andares')
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Estante::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -179,7 +179,7 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
                 ->has(Sala::factory()->hasEstantes(3)), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Estante::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();

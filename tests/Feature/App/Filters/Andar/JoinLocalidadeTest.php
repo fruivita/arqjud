@@ -8,13 +8,13 @@ use App\Filters\Andar\JoinLocalidade;
 use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Caminho feliz
 test('join do andar até a localidade', function () {
     $localidade = Localidade::factory()->has(Predio::factory()->hasAndares(1))->create();
 
-    $andar = app(Pipeline::class)
+    $andar = Pipeline::make()
         ->send(Andar::query())
         ->through([JoinLocalidade::class])
         ->thenReturn()

@@ -14,7 +14,7 @@ use App\Models\Processo;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Inertia\Inertia;
 
 class ProcessoController extends Controller
@@ -33,7 +33,7 @@ class ProcessoController extends Controller
 
         return Inertia::render('Cadastro/Processo/Index', [
             'processos' => ProcessoCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->with(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
@@ -90,7 +90,7 @@ class ProcessoController extends Controller
         return Inertia::render('Cadastro/Processo/Edit', [
             'processo' => fn () => ProcessoResource::make($processo->load(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora', 'processoPai'])),
             'processos_filho' => ProcessoCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($processo, 'processoPai'))
                     ->through([Order::class])
                     ->thenReturn()

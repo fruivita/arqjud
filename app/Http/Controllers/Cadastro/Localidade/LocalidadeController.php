@@ -18,7 +18,7 @@ use App\Models\Predio;
 use App\Services\Predio\PesquisarPredio;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Inertia\Inertia;
 
 /**
@@ -41,7 +41,7 @@ class LocalidadeController extends Controller
 
         return Inertia::render('Cadastro/Localidade/Index', [
             'localidades' => LocalidadeCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Localidade::withCount(['predios', 'caixasCriadas']))
                     ->through([Order::class, Search::class])
                     ->thenReturn()
@@ -100,7 +100,7 @@ class LocalidadeController extends Controller
         return Inertia::render('Cadastro/Localidade/Edit', [
             'localidade' => fn () => LocalidadeResource::make($localidade),
             'predios' => PredioCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Predio::withCount(['andares'])->whereBelongsTo($localidade))
                     ->through([PredioOrder::class])
                     ->thenReturn()

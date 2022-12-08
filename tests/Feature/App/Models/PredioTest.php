@@ -8,7 +8,7 @@ use App\Filters\Predio\JoinLocalidade;
 use App\Models\Localidade;
 use App\Models\Predio;
 use Illuminate\Database\QueryException;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -80,7 +80,7 @@ test('retorna os prédios pelo escopo search que busca a partir do início do te
     Predio::factory()->create(['nome' => 'cccccccc']);
     Predio::factory()->create(['nome' => 'dddddddd']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Predio::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -97,7 +97,7 @@ test('retorna os prédios pelo escopo search que busca a partir do início do te
     Localidade::factory()->hasPredios(2)->create(['nome' => 'aaaaaaaa']);
     Localidade::factory()->hasPredios(3)->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Predio::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();

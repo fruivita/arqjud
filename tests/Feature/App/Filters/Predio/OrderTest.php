@@ -7,7 +7,7 @@
 use App\Filters\Predio\JoinLocalidade;
 use App\Filters\Predio\Order;
 use App\Models\Predio;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Mockery\MockInterface;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
@@ -18,7 +18,7 @@ test('sem ordenação válida no request, ordena pelo ID desc', function (string
 
     request()->merge(['order' => [$coluna, $direcao]]);
 
-    $predios = app(Pipeline::class)
+    $predios = Pipeline::make()
         ->send(Predio::query())
         ->through([Order::class])
         ->thenReturn()
@@ -36,7 +36,7 @@ test('ordena pelo nome', function () {
 
     request()->merge(['order' => ['nome' => 'desc']]);
 
-    $predios = app(Pipeline::class)
+    $predios = Pipeline::make()
         ->send(Predio::query())
         ->through([Order::class])
         ->thenReturn()
@@ -54,7 +54,7 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
 
     request()->merge(['order' => [$campo => 'desc']]);
 
-    app(Pipeline::class)
+    Pipeline::make()
         ->send(Predio::query())
         ->through([Order::class])
         ->thenReturn();
@@ -71,7 +71,7 @@ test('todas as ordenações possíveis no request do prédio', function () {
         'andares_count' => 'desc',
     ]]);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Predio::query())
         ->through([JoinLocalidade::class, Order::class])
         ->thenReturn();

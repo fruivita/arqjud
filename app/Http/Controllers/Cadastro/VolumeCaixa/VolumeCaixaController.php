@@ -17,7 +17,7 @@ use App\Models\VolumeCaixa;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Inertia\Inertia;
 
 class VolumeCaixaController extends Controller
@@ -36,7 +36,7 @@ class VolumeCaixaController extends Controller
 
         return Inertia::render('Cadastro/VolumeCaixa/Index', [
             'volumes' => VolumeCaixaCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(VolumeCaixa::withCount(['processos'])->with(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
@@ -93,7 +93,7 @@ class VolumeCaixaController extends Controller
         return Inertia::render('Cadastro/VolumeCaixa/Edit', [
             'volume_caixa' => fn () => VolumeCaixaResource::make($volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora'])),
             'processos' => ProcessoCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($volume_caixa))
                     ->through([ProcessoOrder::class])
                     ->thenReturn()

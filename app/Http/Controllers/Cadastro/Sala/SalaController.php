@@ -17,7 +17,7 @@ use App\Models\Sala;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Inertia\Inertia;
 
 class SalaController extends Controller
@@ -36,7 +36,7 @@ class SalaController extends Controller
 
         return Inertia::render('Cadastro/Sala/Index', [
             'salas' => SalaCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Sala::withCount(['estantes'])->with('andar.predio.localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
@@ -93,7 +93,7 @@ class SalaController extends Controller
         return Inertia::render('Cadastro/Sala/Edit', [
             'sala' => fn () => SalaResource::make($sala->load('andar.predio.localidade')),
             'estantes' => EstanteCollection::make(
-                app(Pipeline::class)
+                Pipeline::make()
                     ->send(Estante::withCount(['prateleiras'])->whereBelongsTo($sala))
                     ->through([EstanteOrder::class])
                     ->thenReturn()

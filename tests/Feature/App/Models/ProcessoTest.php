@@ -15,7 +15,7 @@ use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\VolumeCaixa;
 use Illuminate\Database\QueryException;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -126,7 +126,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
     Processo::factory()->create(['numero' => '77777777', 'numero_antigo' => '33333333', 'qtd_volumes' => 11111333]);
     Processo::factory()->create(['numero' => '66666666', 'numero_antigo' => '33333222', 'qtd_volumes' => 11111444]);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -146,7 +146,7 @@ test('busca considera apenas a parte numérica na busca nos campos número e nú
     Processo::factory()->create(['numero' => '77777777', 'numero_antigo' => '33333333']);
     Processo::factory()->create(['numero' => '66666666', 'numero_antigo' => '33333222']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -161,7 +161,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
     VolumeCaixa::factory()->hasProcessos(2)->create(['numero' => 99999999]);
     VolumeCaixa::factory()->hasProcessos(3)->create(['numero' => 77778888]);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -181,7 +181,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
         ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes')
         ->create(['numero' => 88888888, 'ano' => 44444,  'complemento' => 'ccccbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -207,7 +207,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
             ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes'))
         ->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -231,7 +231,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
                 ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes')))
         ->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -257,7 +257,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
                     ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes'))))
         ->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -285,7 +285,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
                         ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes')))))
         ->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -317,7 +317,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
                             ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes'))))), 'andares')
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -350,7 +350,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
                                 ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes'))))), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -372,7 +372,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
             ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes'), 'caixasCriadas')
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();

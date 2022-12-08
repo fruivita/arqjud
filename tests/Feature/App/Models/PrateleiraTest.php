@@ -13,7 +13,7 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Sala;
 use Illuminate\Database\QueryException;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -95,7 +95,7 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
     Prateleira::factory()->create(['numero' => 'cccccccc']);
     Prateleira::factory()->create(['numero' => 'dddddddd']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Prateleira::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -112,7 +112,7 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
     Estante::factory()->hasPrateleiras(2)->create(['numero' => 'aaaaaaaa']);
     Estante::factory()->hasPrateleiras(3)->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Prateleira::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -128,7 +128,7 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
     Sala::factory()->has(Estante::factory()->hasPrateleiras(2))->create(['numero' => 'aaaaaaaa']);
     Sala::factory()->has(Estante::factory()->hasPrateleiras(3))->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Prateleira::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -150,7 +150,7 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
             ->has(Estante::factory()->hasPrateleiras(3)))
         ->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Prateleira::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -176,7 +176,7 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
                 ->has(Estante::factory()->hasPrateleiras(3))), 'andares')
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Prateleira::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -204,7 +204,7 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
                     ->has(Estante::factory()->hasPrateleiras(3))), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Prateleira::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();

@@ -7,13 +7,13 @@
 use App\Filters\Predio\JoinLocalidade;
 use App\Models\Localidade;
 use App\Models\Predio;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Caminho feliz
 test('join do prédio até a localidade', function () {
     $localidade = Localidade::factory()->hasPredios(1)->create();
 
-    $predio = app(Pipeline::class)
+    $predio = Pipeline::make()
         ->send(Predio::query())
         ->through([JoinLocalidade::class])
         ->thenReturn()

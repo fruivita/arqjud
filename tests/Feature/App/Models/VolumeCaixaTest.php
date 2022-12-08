@@ -15,7 +15,7 @@ use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\VolumeCaixa;
 use Illuminate\Database\QueryException;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
 
 // Exceptions
@@ -88,7 +88,7 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
     VolumeCaixa::factory()->create(['numero' => 77777777]);
     VolumeCaixa::factory()->create(['numero' => 55555555]);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(VolumeCaixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -105,7 +105,7 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
     Caixa::factory()->hasVolumes(2)->create(['numero' => 99999999, 'ano' => 55555,  'complemento' => 'aaaaaaaa']);
     Caixa::factory()->hasVolumes(3)->create(['numero' => 88888888, 'ano' => 44444,  'complemento' => 'ccccbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(VolumeCaixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -125,7 +125,7 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
     Prateleira::factory()->has(Caixa::factory()->hasVolumes(2))->create(['numero' => 'aaaaaaaa']);
     Prateleira::factory()->has(Caixa::factory()->hasVolumes(3))->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(VolumeCaixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -145,7 +145,7 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
         ->has(Prateleira::factory()
             ->has(Caixa::factory()->hasVolumes(3)))->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(VolumeCaixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -167,7 +167,7 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
             ->has(Prateleira::factory()
                 ->has(Caixa::factory()->hasVolumes(3))))->create(['numero' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(VolumeCaixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -193,7 +193,7 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
                     ->has(Caixa::factory()->hasVolumes(3)))))
         ->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(VolumeCaixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -223,7 +223,7 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
                         ->has(Caixa::factory()->hasVolumes(3))))), 'andares')
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(VolumeCaixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -254,7 +254,7 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
                             ->has(Caixa::factory()->hasVolumes(3))))), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(VolumeCaixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();
@@ -270,7 +270,7 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
     Localidade::factory()->has(Caixa::factory()->hasVolumes(2), 'caixasCriadas')->create(['nome' => 'aaaaaaaa']);
     Localidade::factory()->has(Caixa::factory()->hasVolumes(3), 'caixasCriadas')->create(['nome' => 'bbbbbbbb']);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(VolumeCaixa::query())
         ->through([JoinLocalidade::class])
         ->thenReturn();

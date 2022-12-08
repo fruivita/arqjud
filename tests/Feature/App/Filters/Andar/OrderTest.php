@@ -7,7 +7,7 @@
 use App\Filters\Andar\JoinLocalidade;
 use App\Filters\Andar\Order;
 use App\Models\Andar;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 use Mockery\MockInterface;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
@@ -18,7 +18,7 @@ test('sem ordenação válida no request, ordena pelo ID desc', function (string
 
     request()->merge(['order' => [$coluna, $direcao]]);
 
-    $andares = app(Pipeline::class)
+    $andares = Pipeline::make()
         ->send(Andar::query())
         ->through([Order::class])
         ->thenReturn()
@@ -36,7 +36,7 @@ test('ordena pelo número', function () {
 
     request()->merge(['order' => ['numero' => 'desc']]);
 
-    $andares = app(Pipeline::class)
+    $andares = Pipeline::make()
         ->send(Andar::query())
         ->through([Order::class])
         ->thenReturn()
@@ -54,7 +54,7 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
 
     request()->merge(['order' => [$campo => 'desc']]);
 
-    app(Pipeline::class)
+    Pipeline::make()
         ->send(Andar::query())
         ->through([Order::class])
         ->thenReturn();
@@ -75,7 +75,7 @@ test('todas as ordenações possíveis no request do andar', function () {
         'salas_count' => 'desc',
     ]]);
 
-    $query = app(Pipeline::class)
+    $query = Pipeline::make()
         ->send(Andar::query())
         ->through([JoinLocalidade::class, Order::class])
         ->thenReturn();

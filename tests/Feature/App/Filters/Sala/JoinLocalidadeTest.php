@@ -9,7 +9,7 @@ use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
 use App\Models\Sala;
-use Illuminate\Pipeline\Pipeline;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Caminho feliz
 test('join da sala até a localidade', function () {
@@ -18,7 +18,7 @@ test('join da sala até a localidade', function () {
             ->has(Andar::factory()->hasSalas(1), 'andares'))
         ->create();
 
-    $sala = app(Pipeline::class)
+    $sala = Pipeline::make()
         ->send(Sala::query())
         ->through([JoinLocalidade::class])
         ->thenReturn()
