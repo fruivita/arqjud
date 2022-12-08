@@ -1,5 +1,5 @@
 /**
- * Testes para o composable useCountElementosVisiveis.
+ * Testes para o modelo Caixa.
  *
  * @see https://vuejs.org/guide/scaling-up/testing.html
  * @see https://test-utils.vuejs.org/guide/
@@ -7,7 +7,7 @@
  */
 
 import Caixa from '@/Models/Caixa';
-import { expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 describe('Caixa', () => {
     test('retorna o nome da caixa completo', () => {
