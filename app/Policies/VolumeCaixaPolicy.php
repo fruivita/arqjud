@@ -80,12 +80,17 @@ class VolumeCaixaPolicy
      */
     public function delete(Usuario $usuario, VolumeCaixa $volume_caixa)
     {
+        if ($usuario->possuiPermissao(Permissao::VOLUME_CAIXA_DELETE) !== true) {
+            return false;
+        }
+
         if (isset($volume_caixa->processos_count) !== true) {
             $volume_caixa->loadCount('processos');
         }
+        if ($volume_caixa->processos_count !== 0) {
+            return false;
+        }
 
-        return
-            $volume_caixa->processos_count === 0
-            && $usuario->possuiPermissao(Permissao::VOLUME_CAIXA_DELETE);
+        return true;
     }
 }

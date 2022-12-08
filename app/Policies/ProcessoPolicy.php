@@ -80,17 +80,24 @@ class ProcessoPolicy
      */
     public function delete(Usuario $usuario, Processo $processo)
     {
+        if ($usuario->possuiPermissao(Permissao::PROCESSO_DELETE) !== true) {
+            return false;
+        }
+
         if (isset($processo->processos_filho_count) !== true) {
             $processo->loadCount('processosFilho');
+        }
+        if ($processo->processos_filho_count !== 0) {
+            return false;
         }
 
         if (isset($processo->solicitacoes_count) !== true) {
             $processo->loadCount('solicitacoes');
         }
+        if ($processo->solicitacoes_count !== 0) {
+            return false;
+        }
 
-        return
-            $processo->processos_filho_count === 0
-            && $processo->solicitacoes_count === 0
-            && $usuario->possuiPermissao(Permissao::PROCESSO_DELETE);
+        return true;
     }
 }

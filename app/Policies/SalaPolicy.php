@@ -80,12 +80,17 @@ class SalaPolicy
      */
     public function delete(Usuario $usuario, Sala $sala)
     {
+        if ($usuario->possuiPermissao(Permissao::SALA_DELETE) !== true) {
+            return false;
+        }
+
         if (isset($sala->estantes_count) !== true) {
             $sala->loadCount('estantes');
         }
+        if ($sala->estantes_count !== 0) {
+            return false;
+        }
 
-        return
-            $sala->estantes_count === 0
-            && $usuario->possuiPermissao(Permissao::SALA_DELETE);
+        return true;
     }
 }

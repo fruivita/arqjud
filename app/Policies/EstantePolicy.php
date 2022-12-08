@@ -80,12 +80,17 @@ class EstantePolicy
      */
     public function delete(Usuario $usuario, Estante $estante)
     {
+        if ($usuario->possuiPermissao(Permissao::ESTANTE_DELETE) !== true) {
+            return false;
+        }
+
         if (isset($estante->prateleiras_count) !== true) {
             $estante->loadCount('prateleiras');
         }
+        if ($estante->prateleiras_count !== 0) {
+            return false;
+        }
 
-        return
-            $estante->prateleiras_count === 0
-            && $usuario->possuiPermissao(Permissao::ESTANTE_DELETE);
+        return true;
     }
 }

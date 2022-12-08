@@ -80,12 +80,17 @@ class AndarPolicy
      */
     public function delete(Usuario $usuario, Andar $andar)
     {
+        if ($usuario->possuiPermissao(Permissao::ANDAR_DELETE) !== true) {
+            return false;
+        }
+
         if (isset($andar->salas_count) !== true) {
             $andar->loadCount('salas');
         }
+        if ($andar->salas_count !== 0) {
+            return false;
+        }
 
-        return
-            $andar->salas_count === 0
-            && $usuario->possuiPermissao(Permissao::ANDAR_DELETE);
+        return true;
     }
 }

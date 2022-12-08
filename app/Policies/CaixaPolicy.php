@@ -80,12 +80,17 @@ class CaixaPolicy
      */
     public function delete(Usuario $usuario, Caixa $caixa)
     {
+        if ($usuario->possuiPermissao(Permissao::CAIXA_DELETE) !== true) {
+            return false;
+        }
+
         if (isset($caixa->volumes_count) !== true) {
             $caixa->loadCount('volumes');
         }
+        if ($caixa->volumes_count !== 0) {
+            return false;
+        }
 
-        return
-            $caixa->volumes_count === 0
-            && $usuario->possuiPermissao(Permissao::CAIXA_DELETE);
+        return true;
     }
 }

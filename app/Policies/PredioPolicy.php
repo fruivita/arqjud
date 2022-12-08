@@ -80,12 +80,17 @@ class PredioPolicy
      */
     public function delete(Usuario $usuario, Predio $predio)
     {
+        if ($usuario->possuiPermissao(Permissao::PREDIO_DELETE) !== true) {
+            return false;
+        }
+
         if (isset($predio->andares_count) !== true) {
             $predio->loadCount('andares');
         }
+        if ($predio->andares_count !== 0) {
+            return false;
+        }
 
-        return
-            $predio->andares_count === 0
-            && $usuario->possuiPermissao(Permissao::PREDIO_DELETE);
+        return true;
     }
 }

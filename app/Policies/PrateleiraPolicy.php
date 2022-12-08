@@ -80,12 +80,17 @@ class PrateleiraPolicy
      */
     public function delete(Usuario $usuario, Prateleira $prateleira)
     {
-        if (isset($prateleira->caixas_count) !== true) {
-            $prateleira->loadCount('caixas');
+        if ($usuario->possuiPermissao(Permissao::PRATELEIRA_DELETE) !== true) {
+            return false;
         }
 
-        return
-            $prateleira->caixas_count === 0
-            && $usuario->possuiPermissao(Permissao::PRATELEIRA_DELETE);
+        if (isset($prateleira->caixas_count) !== true) {
+            $prateleira->loadCount('prateleiras');
+        }
+        if ($prateleira->caixas_count !== 0) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -80,17 +80,24 @@ class LocalidadePolicy
      */
     public function delete(Usuario $usuario, Localidade $localidade)
     {
+        if ($usuario->possuiPermissao(Permissao::LOCALIDADE_DELETE) !== true) {
+            return false;
+        }
+
         if (isset($localidade->predios_count) !== true) {
             $localidade->loadCount('predios');
+        }
+        if ($localidade->predios_count !== 0) {
+            return false;
         }
 
         if (isset($localidade->caixas_criadas_count) !== true) {
             $localidade->loadCount('caixasCriadas');
         }
+        if ($localidade->caixas_criadas_count !== 0) {
+            return false;
+        }
 
-        return
-            $localidade->predios_count === 0
-            && $localidade->caixas_criadas_count === 0
-            && $usuario->possuiPermissao(Permissao::LOCALIDADE_DELETE);
+        return true;
     }
 }
