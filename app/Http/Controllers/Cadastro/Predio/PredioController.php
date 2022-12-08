@@ -10,9 +10,13 @@ use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Predio\PostPredioRequest;
 use App\Http\Resources\Andar\AndarCollection;
+use App\Http\Resources\Localidade\LocalidadeOnlyResource;
+use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
+use App\Http\Resources\Predio\PredioOnlyResource;
 use App\Http\Resources\Predio\PredioResource;
 use App\Models\Andar;
+use App\Models\Localidade;
 use App\Models\Predio;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
@@ -51,22 +55,36 @@ class PredioController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Localidade  $localidade
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(Localidade $localidade)
     {
-        //
+        $this->authorize(Policy::Create->value, Predio::class);
+
+        return Inertia::render('Cadastro/Predio/Create', [
+            'ultima_insercao' => fn () => PredioResource::make($localidade->predios()->latest()->first()),
+            'localidade' => fn () => LocalidadeResource::make($localidade),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Cadastro\Predio\PostPredioRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PostPredioRequest $request)
     {
-        //
+        $predio = new Predio();
+
+        $predio->nome = $request->input('nome');
+        $predio->descricao = $request->input('descricao');
+        $predio->localidade_id = $request->input('localidade_id');
+
+        $salvo = $predio->save();
+
+        return back()->with($this->feedback($salvo));
     }
 
     /**

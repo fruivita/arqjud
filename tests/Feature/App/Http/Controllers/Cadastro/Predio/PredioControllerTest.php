@@ -11,11 +11,14 @@ use App\Http\Controllers\Cadastro\Predio\PredioController;
 use App\Http\Requests\Cadastro\Predio\EditPredioRequest;
 use App\Http\Requests\Cadastro\Predio\IndexPredioRequest;
 use App\Http\Requests\Cadastro\Predio\PostPredioRequest;
+use App\Http\Resources\Localidade\LocalidadeResource;
+use App\Http\Resources\Predio\PredioResource;
 use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Permissao;
 use App\Models\Predio;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
@@ -58,7 +61,7 @@ test('action do controller usa o form request', function (string $action, string
         $request
     );
 })->with([
-    // ['store', PostPredioRequest::class],
+    ['store', PostPredioRequest::class],
     ['update', PostPredioRequest::class],
 ]);
 
@@ -76,48 +79,49 @@ test('action index compartilha os dados esperados com a view/componente correto'
         );
 });
 
-// test('action create compartilha os dados esperados com a view/componente correto', function () {
-//     Predio::factory()->for($this->localidade)->create();
+test('action create compartilha os dados esperados com a view/componente correto', function () {
+    Predio::factory()->for($this->localidade)->create();
 
-//     $this->travel(1)->seconds();
-//     $ultimo_predio_criado = Predio::factory()->for($this->localidade)->create();
+    $this->travel(1)->seconds();
+    $ultimo_predio_criado = Predio::factory()->for($this->localidade)->create();
 
-//     $this->travel(1)->seconds();
-//     // prédio de outra localidade, será desconsiderado
-//     Predio::factory()->create();
+    $this->travel(1)->seconds();
+    // prédio de outra localidade, será desconsiderado
+    Predio::factory()->create();
 
-//     concederPermissao(Permissao::PredioCreate);
+    concederPermissao(Permissao::PREDIO_CREATE);
 
-//     get(route('cadastro.predio.create', $this->localidade))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Predio/Create')
-//                 ->where('ultima_insercao', ['nome' => $ultimo_predio_criado->nome])
-//                 ->where('localidade_pai', $this->localidade->only(['id', 'nome']))
-//         );
-// });
+    get(route('cadastro.predio.create', $this->localidade))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Predio/Create')
+                ->whereAll([
+                    'ultima_insercao.data' => PredioResource::make($ultimo_predio_criado)->resolve(request()),
+                    'localidade.data' => LocalidadeResource::make($this->localidade)->resolve(request()),
+                ])
+        );
+});
 
-// test('cria um novo prédio', function () {
-//     concederPermissao(Permissao::PredioCreate);
+test('cria um novo prédio', function () {
+    concederPermissao(Permissao::PREDIO_CREATE);
 
-//     expect(Predio::count())->toBe(0);
+    $dados = [
+        'nome' => 'foo',
+        'descricao' => 'foo bar',
+        'localidade_id' => $this->localidade->id,
+    ];
 
-//     post(route('cadastro.predio.store', $this->localidade), [
-//         'nome' => 'foo',
-//         'descricao' => 'foo bar',
-//         'localidade_id' => $this->localidade->id,
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('feedback.sucesso');
+    expect(Predio::count())->toBe(0);
 
-//     $predio = Predio::first();
+    post(route('cadastro.predio.store', $this->localidade), $dados)
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     expect(Predio::count())->toBe(1)
-//         ->and($predio->nome)->toBe('foo')
-//         ->and($predio->descricao)->toBe('foo bar')
-//         ->and($predio->localidade_id)->toBe($this->localidade->id);
-// });
+    expect(Predio::count())->toBe(1)
+        ->and(Predio::first()->only(array_keys($dados)))
+        ->toBe($dados);
+});
 
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::PREDIO_UPDATE);
