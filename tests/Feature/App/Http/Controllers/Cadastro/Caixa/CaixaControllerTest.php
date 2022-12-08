@@ -12,6 +12,7 @@ use App\Http\Controllers\Cadastro\Caixa\CaixaController;
 use App\Http\Requests\Cadastro\Caixa\EditCaixaRequest;
 use App\Http\Requests\Cadastro\Caixa\IndexCaixaRequest;
 use App\Http\Requests\Cadastro\Caixa\PostCaixaRequest;
+use App\Http\Resources\Caixa\CaixaResource;
 use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Prateleira;
@@ -46,8 +47,7 @@ test('usuário sem permissão não consegue excluir uma caixa', function () {
 
     expect(Caixa::where('id', $id_caixa)->exists())->toBeTrue();
 
-    delete(route('cadastro.caixa.destroy', $id_caixa))
-        ->assertForbidden();
+    delete(route('cadastro.caixa.destroy', $id_caixa))->assertForbidden();
 
     expect(Caixa::where('id', $id_caixa)->exists())->toBeTrue();
 });
@@ -148,12 +148,14 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 
     $caixa = Caixa::factory()->hasVolumes(3)->create();
 
+    $caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora']);
+
     get(route('cadastro.caixa.edit', $caixa))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Caixa/Edit')
-                ->where('caixa.data.id', $caixa->id)
+                ->where('caixa', CaixaResource::make($caixa)->response()->getData(true))
                 ->has('volumes_caixa.data', 3)
         );
 });
@@ -163,7 +165,11 @@ test('action edit também é executável com permissão de visualização', func
 
     $caixa = Caixa::factory()->create();
 
-    get(route('cadastro.caixa.edit', $caixa))->assertOk();
+    get(route('cadastro.caixa.edit', $caixa))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->component('Cadastro/Caixa/Edit')
+        );
 });
 
 test('atualiza uma caixa e o status de guarda dos processos da caixa', function (bool $gp) {

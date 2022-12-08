@@ -43,8 +43,7 @@ test('usuário sem permissão não consegue excluir um prédio', function () {
 
     expect(Predio::where('id', $id_predio)->exists())->toBeTrue();
 
-    delete(route('cadastro.predio.destroy', $id_predio))
-        ->assertForbidden();
+    delete(route('cadastro.predio.destroy', $id_predio))->assertForbidden();
 
     expect(Predio::where('id', $id_predio)->exists())->toBeTrue();
 });
@@ -97,8 +96,8 @@ test('action create compartilha os dados esperados com a view/componente correto
             fn (Assert $page) => $page
                 ->component('Cadastro/Predio/Create')
                 ->whereAll([
-                    'ultima_insercao.data' => PredioResource::make($ultimo_predio_criado)->resolve(request()),
-                    'localidade.data' => LocalidadeResource::make($this->localidade)->resolve(request()),
+                    'ultima_insercao.data' => PredioResource::make($ultimo_predio_criado)->resolve(),
+                    'localidade.data' => LocalidadeResource::make($this->localidade)->resolve(),
                 ])
         );
 });
@@ -128,12 +127,14 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 
     $predio = Predio::factory()->hasAndares(3)->create();
 
+    $predio->load('localidade');
+
     get(route('cadastro.predio.edit', $predio))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Predio/Edit')
-                ->where('predio.data.id', $predio->id)
+                ->where('predio', PredioResource::make($predio)->response()->getData(true))
                 ->has('andares.data', 3)
         );
 });
@@ -143,7 +144,11 @@ test('action edit também é executável com permissão de visualização', func
 
     $predio = Predio::factory()->create();
 
-    get(route('cadastro.predio.edit', $predio))->assertOk();
+    get(route('cadastro.predio.edit', $predio))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->component('Cadastro/Predio/Edit')
+        );
 });
 
 test('atualiza um prédio', function () {
@@ -151,17 +156,18 @@ test('atualiza um prédio', function () {
 
     $predio = Predio::factory()->create();
 
-    patch(route('cadastro.predio.update', $predio), [
+    $dados = [
         'nome' => 'foo',
         'descricao' => 'foo bar',
-    ])
+    ];
+
+    patch(route('cadastro.predio.update', $predio), $dados)
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
     $predio->refresh();
 
-    expect($predio->nome)->toBe('foo')
-        ->and($predio->descricao)->toBe('foo bar');
+    expect($predio->only(array_keys($dados)))->toBe($dados);
 });
 
 test('exclui o prédio informado', function () {

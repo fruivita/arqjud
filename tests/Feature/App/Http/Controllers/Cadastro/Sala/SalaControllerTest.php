@@ -11,6 +11,7 @@ use App\Http\Controllers\Cadastro\Sala\SalaController;
 use App\Http\Requests\Cadastro\Sala\EditSalaRequest;
 use App\Http\Requests\Cadastro\Sala\IndexSalaRequest;
 use App\Http\Requests\Cadastro\Sala\PostSalaRequest;
+use App\Http\Resources\Sala\SalaResource;
 use App\Models\Andar;
 use App\Models\Estante;
 use App\Models\Permissao;
@@ -41,8 +42,7 @@ test('usuário sem permissão não consegue excluir uma sala', function () {
 
     expect(Sala::where('id', $id_sala)->exists())->toBeTrue();
 
-    delete(route('cadastro.sala.destroy', $id_sala))
-        ->assertForbidden();
+    delete(route('cadastro.sala.destroy', $id_sala))->assertForbidden();
 
     expect(Sala::where('id', $id_sala)->exists())->toBeTrue();
 });
@@ -139,12 +139,14 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 
     $sala = Sala::factory()->hasEstantes(3)->create();
 
+    $sala->load('andar.predio.localidade');
+
     get(route('cadastro.sala.edit', $sala))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Sala/Edit')
-                ->where('sala.data.id', $sala->id)
+                ->where('sala', SalaResource::make($sala)->response()->getData(true))
                 ->has('estantes.data', 3)
         );
 });
@@ -154,7 +156,11 @@ test('action edit também é executável com permissão de visualização', func
 
     $sala = Sala::factory()->create();
 
-    get(route('cadastro.sala.edit', $sala))->assertOk();
+    get(route('cadastro.sala.edit', $sala))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->component('Cadastro/Sala/Edit')
+        );
 });
 
 test('atualiza uma sala', function () {
@@ -162,17 +168,18 @@ test('atualiza uma sala', function () {
 
     $sala = Sala::factory()->create();
 
-    patch(route('cadastro.sala.update', $sala), [
+    $dados = [
         'numero' => '10-a',
         'descricao' => 'foo bar',
-    ])
+    ];
+
+    patch(route('cadastro.sala.update', $sala), $dados)
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
     $sala->refresh();
 
-    expect($sala->numero)->toBe('10-a')
-        ->and($sala->descricao)->toBe('foo bar');
+    expect($sala->only(array_keys($dados)))->toBe($dados);
 });
 
 test('exclui a sala informada', function () {

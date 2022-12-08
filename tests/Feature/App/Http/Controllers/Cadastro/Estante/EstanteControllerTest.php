@@ -12,6 +12,7 @@ use App\Http\Controllers\Cadastro\Estante\EstanteController;
 use App\Http\Requests\Cadastro\Estante\EditEstanteRequest;
 use App\Http\Requests\Cadastro\Estante\IndexEstanteRequest;
 use App\Http\Requests\Cadastro\Estante\PostEstanteRequest;
+use App\Http\Resources\Estante\EstanteResource;
 use App\Models\Estante;
 use App\Models\Prateleira;
 use App\Models\Sala;
@@ -40,8 +41,7 @@ test('usuário sem permissão não consegue excluir uma estante', function () {
 
     expect(Estante::where('id', $id_estante)->exists())->toBeTrue();
 
-    delete(route('cadastro.estante.destroy', $id_estante))
-        ->assertForbidden();
+    delete(route('cadastro.estante.destroy', $id_estante))->assertForbidden();
 
     expect(Estante::where('id', $id_estante)->exists())->toBeTrue();
 });
@@ -132,12 +132,14 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 
     $estante = Estante::factory()->has(Prateleira::factory(3), 'prateleiras')->create();
 
+    $estante->load('sala.andar.predio.localidade');
+
     get(route('cadastro.estante.edit', $estante))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Estante/Edit')
-                ->where('estante.data.id', $estante->id)
+                ->where('estante', EstanteResource::make($estante)->response()->getData(true))
                 ->has('prateleiras.data', 3)
         );
 });
@@ -147,7 +149,11 @@ test('action edit também é executável com permissão de visualização', func
 
     $estante = Estante::factory()->create();
 
-    get(route('cadastro.estante.edit', $estante))->assertOk();
+    get(route('cadastro.estante.edit', $estante))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->component('Cadastro/Estante/Edit')
+        );
 });
 
 test('atualiza uma estante', function () {
@@ -155,17 +161,18 @@ test('atualiza uma estante', function () {
 
     $estante = Estante::factory()->create();
 
-    patch(route('cadastro.estante.update', $estante), [
+    $dados = [
         'numero' => '10-a',
         'descricao' => 'foo bar',
-    ])
+    ];
+
+    patch(route('cadastro.estante.update', $estante), $dados)
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
     $estante->refresh();
 
-    expect($estante->numero)->toBe('10-a')
-        ->and($estante->descricao)->toBe('foo bar');
+    expect($estante->only(array_keys($dados)))->toBe($dados);
 });
 
 test('exclui a estante informado', function () {

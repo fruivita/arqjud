@@ -12,6 +12,7 @@ use App\Http\Controllers\Cadastro\Processo\ProcessoController;
 use App\Http\Requests\Cadastro\Processo\EditProcessoRequest;
 use App\Http\Requests\Cadastro\Processo\IndexProcessoRequest;
 use App\Http\Requests\Cadastro\Processo\PostProcessoRequest;
+use App\Http\Resources\Processo\ProcessoResource;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
@@ -39,8 +40,7 @@ test('usuário sem permissão não consegue excluir um processo', function () {
 
     expect(Processo::where('id', $id_processo)->exists())->toBeTrue();
 
-    delete(route('cadastro.processo.destroy', $id_processo))
-        ->assertForbidden();
+    delete(route('cadastro.processo.destroy', $id_processo))->assertForbidden();
 
     expect(Processo::where('id', $id_processo)->exists())->toBeTrue();
 });
@@ -168,12 +168,14 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 
     $processo = Processo::factory()->hasProcessosFilho(3)->hasSolicitacoes(4)->create();
 
+    $processo->load(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora', 'processoPai']);
+
     get(route('cadastro.processo.edit', $processo))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Processo/Edit')
-                ->where('processo.data.id', $processo->id)
+                ->where('processo', ProcessoResource::make($processo)->response()->getData(true))
                 ->has('processos_filho.data', 3)
         );
 });
@@ -183,7 +185,11 @@ test('action edit também é executável com permissão de visualização', func
 
     $processo = Processo::factory()->create();
 
-    get(route('cadastro.processo.edit', $processo))->assertOk();
+    get(route('cadastro.processo.edit', $processo))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->component('Cadastro/Processo/Edit')
+        );
 });
 
 test('atualiza um processo, mas não altera o atributo guarda permanente', function () {

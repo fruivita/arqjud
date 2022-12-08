@@ -10,6 +10,7 @@
 use App\Models\Permissao;
 use App\Http\Controllers\Cadastro\VolumeCaixa\VolumeCaixaController;
 use App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Caixa;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
@@ -37,8 +38,7 @@ test('usuário sem permissão não consegue excluir um volume de caixa', functio
 
     expect(VolumeCaixa::where('id', $id_volume_caixa)->exists())->toBeTrue();
 
-    delete(route('cadastro.volumeCaixa.destroy', $id_volume_caixa))
-        ->assertForbidden();
+    delete(route('cadastro.volumeCaixa.destroy', $id_volume_caixa))->assertForbidden();
 
     expect(VolumeCaixa::where('id', $id_volume_caixa)->exists())->toBeTrue();
 });
@@ -123,12 +123,14 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 
     $volume_caixa = VolumeCaixa::factory()->hasProcessos(3)->create();
 
+    $volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora']);
+
     get(route('cadastro.volumeCaixa.edit', $volume_caixa))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/VolumeCaixa/Edit')
-                ->where('volume_caixa.data.id', $volume_caixa->id)
+                ->where('volume_caixa', VolumeCaixaResource::make($volume_caixa)->response()->getData(true))
                 ->has('processos.data', 3)
         );
 });
@@ -138,7 +140,11 @@ test('action edit também é executável com permissão de visualização', func
 
     $volume_caixa = VolumeCaixa::factory()->create();
 
-    get(route('cadastro.volumeCaixa.edit', $volume_caixa))->assertOk();
+    get(route('cadastro.volumeCaixa.edit', $volume_caixa))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->component('Cadastro/VolumeCaixa/Edit')
+        );
 });
 
 test('atualiza um volume da caixa', function () {
@@ -146,17 +152,18 @@ test('atualiza um volume da caixa', function () {
 
     $volume_caixa = VolumeCaixa::factory()->create();
 
-    patch(route('cadastro.volumeCaixa.update', $volume_caixa), [
+    $dados = [
         'numero' => 10,
         'descricao' => 'foo bar',
-    ])
+    ];
+
+    patch(route('cadastro.volumeCaixa.update', $volume_caixa), $dados)
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
     $volume_caixa->refresh();
 
-    expect($volume_caixa->numero)->toBe(10)
-        ->and($volume_caixa->descricao)->toBe('foo bar');
+    expect($volume_caixa->only(array_keys($dados)))->toBe($dados);
 });
 
 test('exclui o volume da caixa informada', function () {

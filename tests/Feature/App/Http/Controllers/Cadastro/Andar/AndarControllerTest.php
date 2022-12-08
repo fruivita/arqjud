@@ -11,6 +11,7 @@ use App\Http\Controllers\Cadastro\Andar\AndarController;
 use App\Http\Requests\Cadastro\Andar\EditAndarRequest;
 use App\Http\Requests\Cadastro\Andar\IndexAndarRequest;
 use App\Http\Requests\Cadastro\Andar\PostAndarRequest;
+use App\Http\Resources\Andar\AndarResource;
 use App\Models\Andar;
 use App\Models\Permissao;
 use App\Models\Predio;
@@ -40,8 +41,7 @@ test('usuário sem permissão não consegue excluir um andar', function () {
 
     expect(Andar::where('id', $id_andar)->exists())->toBeTrue();
 
-    delete(route('cadastro.andar.destroy', $id_andar))
-        ->assertForbidden();
+    delete(route('cadastro.andar.destroy', $id_andar))->assertForbidden();
 
     expect(Andar::where('id', $id_andar)->exists())->toBeTrue();
 });
@@ -129,12 +129,14 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 
     $andar = Andar::factory()->hasSalas(3)->create();
 
+    $andar->load('predio.localidade');
+
     get(route('cadastro.andar.edit', $andar))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Andar/Edit')
-                ->where('andar.data.id', $andar->id)
+                ->where('andar', AndarResource::make($andar)->response()->getData(true))
                 ->has('salas.data', 3)
         );
 });
@@ -144,7 +146,11 @@ test('action edit também é executável com permissão de visualização', func
 
     $andar = Andar::factory()->create();
 
-    get(route('cadastro.andar.edit', $andar))->assertOk();
+    get(route('cadastro.andar.edit', $andar))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->component('Cadastro/Andar/Edit')
+        );
 });
 
 test('atualiza um andar', function () {
@@ -152,19 +158,19 @@ test('atualiza um andar', function () {
 
     $andar = Andar::factory()->create();
 
-    patch(route('cadastro.andar.update', $andar), [
+    $dados = [
         'numero' => 10,
         'apelido' => '10º',
         'descricao' => 'foo bar',
-    ])
+    ];
+
+    patch(route('cadastro.andar.update', $andar), $dados)
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
     $andar->refresh();
 
-    expect($andar->numero)->toBe(10)
-        ->and($andar->apelido)->toBe('10º')
-        ->and($andar->descricao)->toBe('foo bar');
+    expect($andar->only(array_keys($dados)))->toBe($dados);
 });
 
 test('exclui o andar informado', function () {

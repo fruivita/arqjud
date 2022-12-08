@@ -9,6 +9,7 @@
 
 use App\Http\Controllers\Cadastro\Localidade\LocalidadeController;
 use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
+use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Models\Localidade;
 use App\Models\Permissao;
 use App\Models\Predio;
@@ -21,6 +22,11 @@ use function Pest\Laravel\post;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
+
+    $this->dados = [
+        'nome' => 'foo',
+        'descricao' => 'foo bar',
+    ];
 
     login();
 });
@@ -35,8 +41,7 @@ test('usuário sem permissão não consegue excluir uma localidade', function ()
 
     expect(Localidade::where('id', $id_localidade)->exists())->toBeTrue();
 
-    delete(route('cadastro.localidade.destroy', $id_localidade))
-        ->assertForbidden();
+    delete(route('cadastro.localidade.destroy', $id_localidade))->assertForbidden();
 
     expect(Localidade::where('id', $id_localidade)->exists())->toBeTrue();
 });
@@ -67,7 +72,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Localidade/Index')
-                ->has('localidades.data', 2)
+                ->where('localidades', 2)
         );
 });
 
@@ -85,7 +90,10 @@ test('action create compartilha os dados esperados com a view/componente correto
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Localidade/Create')
-                ->where('ultima_insercao.data.id', $ultima_localidade_criada->id)
+                ->whereAll([
+                    'ultima_insercao.data' => LocalidadeResource::make($ultima_localidade_criada)->resolve(),
+                    'links' => ['create' => route('cadastro.localidade.store')],
+                ])
         );
 });
 
@@ -94,18 +102,13 @@ test('cria uma nova localidade', function () {
 
     expect(Localidade::count())->toBe(0);
 
-    post(route('cadastro.localidade.store', [
-        'nome' => 'foo',
-        'descricao' => 'foo bar',
-    ]))
+    post(route('cadastro.localidade.store', $this->dados))
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
-    $localidade = Localidade::first();
-
     expect(Localidade::count())->toBe(1)
-        ->and($localidade->nome)->toBe('foo')
-        ->and($localidade->descricao)->toBe('foo bar');
+        ->and(Localidade::first()->only(array_keys($this->dados)))
+        ->toBe($this->dados);
 });
 
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
@@ -118,7 +121,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Localidade/Edit')
-                ->where('localidade.data.id', $localidade->id)
+                ->where('localidade.data', LocalidadeResource::make($localidade)->resolve())
                 ->has('predios.data', 3)
         );
 });
@@ -128,7 +131,11 @@ test('action edit também é executável com permissão de visualização', func
 
     $localidade = Localidade::factory()->create();
 
-    get(route('cadastro.localidade.edit', $localidade))->assertOk();
+    get(route('cadastro.localidade.edit', $localidade))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->component('Cadastro/Localidade/Edit')
+        );
 });
 
 test('atualiza uma localidade', function () {
@@ -136,17 +143,13 @@ test('atualiza uma localidade', function () {
 
     $localidade = Localidade::factory()->create();
 
-    patch(route('cadastro.localidade.update', $localidade), [
-        'nome' => 'foo',
-        'descricao' => 'foo bar',
-    ])
+    patch(route('cadastro.localidade.update', $localidade), $this->dados)
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
     $localidade->refresh();
 
-    expect($localidade->nome)->toBe('foo')
-        ->and($localidade->descricao)->toBe('foo bar');
+    expect($localidade->only(array_keys($this->dados)))->toBe($this->dados);
 });
 
 test('exclui a localidade informada', function () {
