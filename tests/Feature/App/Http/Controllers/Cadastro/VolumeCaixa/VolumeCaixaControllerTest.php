@@ -108,7 +108,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         'caixa_id' => $this->caixa->id,
 //     ])
 //         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+//         ->assertSessionHas('feedback.sucesso');
 
 //     $volume_caixa = VolumeCaixa::first();
 
@@ -151,7 +151,7 @@ test('atualiza um volume da caixa', function () {
         'descricao' => 'foo bar',
     ])
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     $volume_caixa->refresh();
 
@@ -168,7 +168,7 @@ test('exclui o volume da caixa informada', function () {
 
     delete(route('cadastro.volumeCaixa.destroy', $id_volume_caixa))
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     expect(VolumeCaixa::where('id', $id_volume_caixa)->exists())->toBeFalse();
 });

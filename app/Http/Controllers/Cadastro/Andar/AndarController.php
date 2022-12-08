@@ -119,7 +119,7 @@ class AndarController extends Controller
 
         $salvo = $andar->save();
 
-        return back()->with(...$this->feedback($salvo));
+        return back()->with($this->feedback($salvo));
     }
 
     /**
@@ -134,6 +134,6 @@ class AndarController extends Controller
 
         $excluido = $andar->delete();
 
-        return back()->with(...$this->feedback($excluido));
+        return back()->with($this->feedback($excluido));
     }
 }

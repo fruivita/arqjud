@@ -114,7 +114,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         'andar_id' => $this->andar->id,
 //     ])
 //         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+//         ->assertSessionHas('feedback.sucesso');
 
 //     $sala = Sala::with('estantes.prateleiras')->first();
 //     $estante = $sala->estantes->first();
@@ -167,7 +167,7 @@ test('atualiza uma sala', function () {
         'descricao' => 'foo bar',
     ])
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     $sala->refresh();
 
@@ -184,7 +184,7 @@ test('exclui a sala informada', function () {
 
     delete(route('cadastro.sala.destroy', $id_sala))
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     expect(Sala::where('id', $id_sala)->exists())->toBeFalse();
 });

@@ -113,7 +113,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         'predio_id' => $this->predio->id,
 //     ])
 //         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+//         ->assertSessionHas('feedback.sucesso');
 
 //     $andar = Andar::first();
 
@@ -158,7 +158,7 @@ test('atualiza um andar', function () {
         'descricao' => 'foo bar',
     ])
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     $andar->refresh();
 
@@ -176,7 +176,7 @@ test('exclui o andar informado', function () {
 
     delete(route('cadastro.andar.destroy', $id_andar))
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     expect(Andar::where('id', $id_andar)->exists())->toBeFalse();
 });

@@ -129,7 +129,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         'prateleira_id' => $this->prateleira->id,
 //     ])
 //         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+//         ->assertSessionHas('feedback.sucesso');
 
 //     $caixa = Caixa::first();
 

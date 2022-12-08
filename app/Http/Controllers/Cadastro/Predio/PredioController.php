@@ -118,7 +118,7 @@ class PredioController extends Controller
 
         $salvo = $predio->save();
 
-        return back()->with(...$this->feedback($salvo));
+        return back()->with($this->feedback($salvo));
     }
 
     /**
@@ -133,6 +133,6 @@ class PredioController extends Controller
 
         $excluido = $predio->delete();
 
-        return back()->with(...$this->feedback($excluido));
+        return back()->with($this->feedback($excluido));
     }
 }

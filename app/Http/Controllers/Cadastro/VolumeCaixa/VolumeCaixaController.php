@@ -118,7 +118,7 @@ class VolumeCaixaController extends Controller
 
         $salvo = $volume_caixa->save();
 
-        return back()->with(...$this->feedback($salvo));
+        return back()->with($this->feedback($salvo));
     }
 
     /**
@@ -133,6 +133,6 @@ class VolumeCaixaController extends Controller
 
         $excluido = $volume_caixa->delete();
 
-        return back()->with(...$this->feedback($excluido));
+        return back()->with($this->feedback($excluido));
     }
 }

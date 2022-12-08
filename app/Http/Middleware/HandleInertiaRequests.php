@@ -51,10 +51,9 @@ class HandleInertiaRequests extends Middleware
                 ]
                 : null,
 
-            'flash' => fn () => [
-                'sucesso' => session()->pull('sucesso'),
-                'erro' => session()->pull('erro'),
-            ],
+            'flash' => fn () => session()->has('feedback')
+                ? session()->pull('feedback')
+                : null,
         ]);
     }
 }

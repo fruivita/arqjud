@@ -118,7 +118,7 @@ class SalaController extends Controller
 
         $salvo = $sala->save();
 
-        return back()->with(...$this->feedback($salvo));
+        return back()->with($this->feedback($salvo));
     }
 
     /**
@@ -133,6 +133,6 @@ class SalaController extends Controller
 
         $excluido = $sala->delete();
 
-        return back()->with(...$this->feedback($excluido));
+        return back()->with($this->feedback($excluido));
     }
 }

@@ -112,7 +112,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         'sala_id' => $this->sala->id,
 //     ])
 //         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+//         ->assertSessionHas('feedback.sucesso');
 
 //     $estante = Estante::with('prateleiras')->first();
 //     $prateleira = $estante->prateleiras->first();
@@ -160,7 +160,7 @@ test('atualiza uma estante', function () {
         'descricao' => 'foo bar',
     ])
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     $estante->refresh();
 
@@ -177,7 +177,7 @@ test('exclui a estante informado', function () {
 
     delete(route('cadastro.estante.destroy', $id_estante))
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     expect(Estante::where('id', $id_estante)->exists())->toBeFalse();
 });

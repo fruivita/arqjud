@@ -111,7 +111,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         'estante_id' => $this->estante->id,
 //     ])
 //         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+//         ->assertSessionHas('feedback.sucesso');
 
 //     $prateleira = Prateleira::first();
 
@@ -154,7 +154,7 @@ test('atualiza uma prateleira', function () {
         'descricao' => 'foo bar',
     ])
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     $prateleira->refresh();
 
@@ -171,7 +171,7 @@ test('exclui a prateleira informada', function () {
 
     delete(route('cadastro.prateleira.destroy', $id_prateleira))
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     expect(Prateleira::where('id', $id_prateleira)->exists())->toBeFalse();
 });

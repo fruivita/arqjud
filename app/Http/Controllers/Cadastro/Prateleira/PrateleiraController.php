@@ -119,7 +119,7 @@ class PrateleiraController extends Controller
 
         $salvo = $prateleira->save();
 
-        return back()->with(...$this->feedback($salvo));
+        return back()->with($this->feedback($salvo));
     }
 
     /**
@@ -134,6 +134,6 @@ class PrateleiraController extends Controller
 
         $excluido = $prateleira->delete();
 
-        return back()->with(...$this->feedback($excluido));
+        return back()->with($this->feedback($excluido));
     }
 }

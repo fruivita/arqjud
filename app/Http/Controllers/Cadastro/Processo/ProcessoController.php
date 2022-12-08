@@ -124,7 +124,7 @@ class ProcessoController extends Controller
 
         $salvo = $processo->save();
 
-        return back()->with(...$this->feedback($salvo));
+        return back()->with($this->feedback($salvo));
     }
 
     /**
@@ -139,6 +139,6 @@ class ProcessoController extends Controller
 
         $excluido = $processo->delete();
 
-        return back()->with(...$this->feedback($excluido));
+        return back()->with($this->feedback($excluido));
     }
 }

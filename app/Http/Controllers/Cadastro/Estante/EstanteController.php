@@ -118,7 +118,7 @@ class EstanteController extends Controller
 
         $salvo = $estante->save();
 
-        return back()->with(...$this->feedback($salvo));
+        return back()->with($this->feedback($salvo));
     }
 
     /**
@@ -133,6 +133,6 @@ class EstanteController extends Controller
 
         $excluido = $estante->delete();
 
-        return back()->with(...$this->feedback($excluido));
+        return back()->with($this->feedback($excluido));
     }
 }

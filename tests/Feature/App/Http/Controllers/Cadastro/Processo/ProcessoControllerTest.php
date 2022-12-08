@@ -117,7 +117,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         'volume_caixa_id' => $this->processo->id,
 //     ])
 //         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+//         ->assertSessionHas('feedback.sucesso');
 
 //     $processo = Processo::first();
 
@@ -149,7 +149,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         'volume_caixa_id' => $this->processo->id,
 //     ])
 //         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+//         ->assertSessionHas('feedback.sucesso');
 
 //     $processo = Processo::firstWhere('numero', '13579006620223003639');
 
@@ -201,7 +201,7 @@ test('atualiza um processo, mas não altera o atributo guarda permanente', funct
         'descricao' => 'foo bar',
     ])
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     $processo->refresh();
 
@@ -223,7 +223,7 @@ test('exclui o processo informado', function () {
 
     delete(route('cadastro.processo.destroy', $id_processo))
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     expect(Processo::where('id', $id_processo)->exists())->toBeFalse();
 });

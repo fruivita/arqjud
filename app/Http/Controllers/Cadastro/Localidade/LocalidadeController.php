@@ -83,7 +83,7 @@ class LocalidadeController extends Controller
 
         $salvo = $localidade->save();
 
-        return back()->with(...$this->feedback($salvo));
+        return back()->with($this->feedback($salvo));
     }
 
     /**
@@ -125,7 +125,7 @@ class LocalidadeController extends Controller
 
         $salvo = $localidade->save();
 
-        return back()->with(...$this->feedback($salvo));
+        return back()->with($this->feedback($salvo));
     }
 
     /**
@@ -140,6 +140,6 @@ class LocalidadeController extends Controller
 
         $excluido = $localidade->delete();
 
-        return back()->with(...$this->feedback($excluido));
+        return back()->with($this->feedback($excluido));
     }
 }

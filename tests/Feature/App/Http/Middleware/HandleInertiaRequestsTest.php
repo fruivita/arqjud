@@ -23,17 +23,40 @@ test('dados básicos compartilhados com autenticação estão definidos', functi
 
     login('foo');
 
-    // mensagens de sucesso e de erro
-    session()->put('sucesso', 'foo bar');
-    session()->put('erro', 'bar baz');
-
     get(route('home.show'))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
                 ->where('auth.user.username', 'foo')
                 ->has('auth.menu', 0)
-                ->where('flash.sucesso', 'foo bar')
-                ->where('flash.erro', 'bar baz')
+                ->has('flash', null)
+        );
+});
+
+test('compartilha mensagem de sucesso', function () {
+    $this->seed([PerfilSeeder::class]);
+
+    login('foo');
+
+    session()->put('feedback', ['sucesso' => 'foo bar']);
+
+    get(route('home.show'))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->where('flash.sucesso', 'foo bar')
+        );
+});
+
+test('compartilha mensagem de erro', function () {
+    $this->seed([PerfilSeeder::class]);
+
+    login('foo');
+
+    session()->put('feedback', ['erro' => 'bar baz']);
+
+    get(route('home.show'))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page->where('flash.erro', 'bar baz')
         );
 });

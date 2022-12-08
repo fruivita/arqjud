@@ -99,7 +99,7 @@ test('cria uma nova localidade', function () {
         'descricao' => 'foo bar',
     ]))
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     $localidade = Localidade::first();
 
@@ -141,7 +141,7 @@ test('atualiza uma localidade', function () {
         'descricao' => 'foo bar',
     ])
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     $localidade->refresh();
 
@@ -158,7 +158,7 @@ test('exclui a localidade informada', function () {
 
     delete(route('cadastro.localidade.destroy', $id_localidade))
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     expect(Localidade::where('id', $id_localidade)->exists())->toBeFalse();
 });

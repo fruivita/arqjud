@@ -109,7 +109,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 //         'localidade_id' => $this->localidade->id,
 //     ])
 //         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+//         ->assertSessionHas('feedback.sucesso');
 
 //     $predio = Predio::first();
 
@@ -152,7 +152,7 @@ test('atualiza um prédio', function () {
         'descricao' => 'foo bar',
     ])
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     $predio->refresh();
 
@@ -169,7 +169,7 @@ test('exclui o prédio informado', function () {
 
     delete(route('cadastro.predio.destroy', $id_predio))
         ->assertRedirect()
-        ->assertSessionHas('sucesso');
+        ->assertSessionHas('feedback.sucesso');
 
     expect(Predio::where('id', $id_predio)->exists())->toBeFalse();
 });
