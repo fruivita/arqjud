@@ -25,6 +25,13 @@ class Caixa extends Model
     protected $fillable = ['numero', 'ano', 'guarda_permanente', 'complemento', 'descricao', 'localidade_criadora_id'];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $casts = [
+        'guarda_permanente' => 'boolean',
+    ];
+
+    /**
      * Relacionamento caixa (N:1) prateleira.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
