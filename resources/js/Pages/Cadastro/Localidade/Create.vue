@@ -79,15 +79,19 @@ const cadastrar = () => {
 
         <Container v-if="ultima_insercao">
             <div>
-                <span class="text-sm text-primaria-700 underline dark:text-secundaria-400">{{
-                    __('Último Registro Cadastrado:')
-                }}</span>
+                <div class="text-sm text-primaria-700 dark:text-secundaria-300">
+                    {{ __('Último item cadastrado:') }}
+                </div>
 
-                <p class="font-bold">
-                    <span>{{
-                        __('Localidade: :attribute', { attribute: ultima_insercao.data.nome })
-                    }}</span>
-                </p>
+                <component
+                    :class="{
+                        'underline hover:opacity-80': ultima_insercao.data.links.view,
+                    }"
+                    :href="ultima_insercao.data.links.view"
+                    :is="ultima_insercao.data.links.view ? 'InertiaLink' : 'span'"
+                    class="font-bold"
+                    v-html="__('Localidade: :attribute', { attribute: ultima_insercao.data.nome })"
+                />
             </div>
         </Container>
     </Pagina>
