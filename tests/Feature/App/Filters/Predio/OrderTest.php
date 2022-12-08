@@ -46,13 +46,11 @@ test('ordena pelo nome', function () {
 });
 
 test('todos os métodos de ordenação disponíveis são acionados', function (string $campo) {
-    $this->partialMock(Order::class, function (MockInterface $mock) use ($campo) {
-        $mock
-            ->shouldAllowMockingProtectedMethods()
-            ->shouldReceive(str()->camel($campo))
-            ->withSomeOfArgs('desc')
-            ->once();
-    });
+    $this->partialMock(Order::class)
+        ->shouldAllowMockingProtectedMethods()
+        ->shouldReceive(str()->camel($campo))
+        ->withSomeOfArgs('desc')
+        ->once();
 
     request()->merge(['order' => [$campo => 'desc']]);
 
