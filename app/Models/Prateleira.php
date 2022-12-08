@@ -79,4 +79,18 @@ class Prateleira extends Model
             ->orWhere('estantes.numero', 'like', $termo)
             ->orWhere('prateleiras.numero', 'like', $termo);
     }
+
+    /**
+     * Prateleira padrão para ser utilizada na hipótese de criação automática.
+     *
+     * @return self
+     */
+    public static function modeloPadrao()
+    {
+        $prateleira = new self();
+        $prateleira->numero = 0;
+        $prateleira->descricao = 'Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado';
+
+        return $prateleira;
+    }
 }

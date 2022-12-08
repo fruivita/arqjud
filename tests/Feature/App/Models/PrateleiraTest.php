@@ -215,3 +215,10 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
     ['aaaa', 2],
     ['bbbb', 3],
 ]);
+
+test('método modeloPadrao retorna o modelo com os atributos esperados', function () {
+    $prateleira = Prateleira::modeloPadrao();
+
+    expect($prateleira->numero)->toBe(0)
+        ->and($prateleira->descricao)->toBe('Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado');
+});

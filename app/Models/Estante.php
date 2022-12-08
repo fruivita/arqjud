@@ -76,4 +76,18 @@ class Estante extends Model
             ->orWhere('salas.numero', 'like', $termo)
             ->orWhere('estantes.numero', 'like', $termo);
     }
+
+    /**
+     * Estante padrão para ser utilizada na hipótese de criação automática.
+     *
+     * @return self
+     */
+    public static function modeloPadrao()
+    {
+        $estante = new self();
+        $estante->numero = 0;
+        $estante->descricao = 'Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado';
+
+        return $estante;
+    }
 }
