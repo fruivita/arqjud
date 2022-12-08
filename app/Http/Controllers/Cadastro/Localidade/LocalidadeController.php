@@ -63,7 +63,7 @@ class LocalidadeController extends Controller
         $this->authorize(Policy::Create->value, Localidade::class);
 
         return Inertia::render('Cadastro/Localidade/Create', [
-            'ultima_insercao' => fn () => LocalidadeOnlyResource::make(Localidade::latest()->first()),
+            'ultima_insercao' => fn () => LocalidadeResource::make(Localidade::latest()->first()),
             'links' => fn () => ['create' => route('cadastro.localidade.store')],
         ]);
     }
