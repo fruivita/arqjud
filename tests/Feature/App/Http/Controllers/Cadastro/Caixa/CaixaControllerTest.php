@@ -180,7 +180,7 @@ test('atualiza uma caixa e o status de guarda dos processos da caixa', function 
     $dados = [
         'numero' => 500,
         'ano' => 2000,
-        'guarda_permanente' => true,
+        'guarda_permanente' => $gp,
         'complemento' => 'foo',
         'descricao' => 'foo bar',
         'localidade_criadora_id' => $localidade->id,
