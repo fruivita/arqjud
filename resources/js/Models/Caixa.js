@@ -1,5 +1,5 @@
 /**
- * Encapsulamento de funcionalidades relativas caixa pra uso no client side.
+ * Encapsulamento de funcionalidades relativas à caixa pra uso no client side.
  */
 
 import { toLower } from 'lodash';
