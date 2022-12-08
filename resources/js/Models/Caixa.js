@@ -16,11 +16,11 @@ class Caixa {
      */
     numeroExibicao() {
         let texto = `${this.numero}/${this.ano}/GP:${this.guarda_permanente}`;
-        if (this.complemento) {
-            texto = `${texto}/${this.complemento}`;
-        }
         if (this.localidade_criadora) {
             texto = `${texto}/${this.localidade_criadora.nome}`;
+        }
+        if (this.complemento) {
+            texto = `${texto}/${this.complemento}`;
         }
 
         return texto;

@@ -51,7 +51,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 const { ordenacoes, mudarOrdenacao } = useOrdenacao(props.processos.meta.order);
 
 const elementosVisiveis = useLocalStorage(usePage().component.value, {
-    numero: true,
+    processo: true,
     numeroAntigo: true,
     arquivadoEm: true,
     guardaPermanente: true,
@@ -110,7 +110,7 @@ watch(perPage, filtrar);
 
         <Container class="space-y-3">
             <Preferencia>
-                <CheckBox v-model="elementosVisiveis.numero" :label="__('Processo')" />
+                <CheckBox v-model="elementosVisiveis.processo" :label="__('Processo')" />
 
                 <CheckBox v-model="elementosVisiveis.numeroAntigo" :label="__('Número antigo')" />
 
@@ -118,7 +118,7 @@ watch(perPage, filtrar);
 
                 <CheckBox v-model="elementosVisiveis.guardaPermanente" :label="__('GP')" />
 
-                <CheckBox v-model="elementosVisiveis.qtdVolumes" :label="__('Qtd volumes')" />
+                <CheckBox v-model="elementosVisiveis.qtdVolumes" :label="__('Volumes')" />
 
                 <CheckBox
                     v-model="elementosVisiveis.processosFilho"
@@ -168,7 +168,7 @@ watch(perPage, filtrar);
             <Tabela>
                 <template #header>
                     <HeadingOrdenavel
-                        v-show="elementosVisiveis.numero"
+                        v-show="elementosVisiveis.processo"
                         :ordenacao="ordenacoes.numero"
                         :texto="__('Processo')"
                         @ordenar="(direcao) => mudarOrdenacao('numero', direcao)"
@@ -198,7 +198,7 @@ watch(perPage, filtrar);
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.qtdVolumes"
                         :ordenacao="ordenacoes.qtd_volumes"
-                        :texto="__('Qtd volumes')"
+                        :texto="__('Volumes')"
                         @ordenar="(direcao) => mudarOrdenacao('qtd_volumes', direcao)"
                     />
 
@@ -318,7 +318,7 @@ watch(perPage, filtrar);
                 <template #body>
                     <template v-if="processos.data.length">
                         <Row v-for="processo in processos.data" :key="processo.id">
-                            <Cell v-show="elementosVisiveis.numero">
+                            <Cell v-show="elementosVisiveis.processo">
                                 <Clipboard :copiavel="processo.numero" />
                             </Cell>
 

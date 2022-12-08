@@ -15,11 +15,11 @@ describe('Caixa', () => {
             numero: 123,
             ano: 2000,
             guarda_permanente: 'Sim',
-            complemento: 'foo',
             localidade_criadora: { nome: 'bar' },
+            complemento: 'foo',
         });
 
-        expect(caixa.numeroExibicao()).toBe('123/2000/GP:Sim/foo/bar');
+        expect(caixa.numeroExibicao()).toBe('123/2000/GP:Sim/bar/foo');
     });
 
     test('retorna o nome da caixa sem o complemento', () => {

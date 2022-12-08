@@ -51,7 +51,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 const { ordenacoes, mudarOrdenacao } = useOrdenacao(props.caixas.meta.order);
 
 const elementosVisiveis = useLocalStorage(usePage().component.value, {
-    numero: true,
+    caixa: true,
     ano: true,
     guardaPermanente: true,
     complemento: true,
@@ -103,7 +103,7 @@ watch(perPage, filtrar);
 
         <Container class="space-y-3">
             <Preferencia>
-                <CheckBox v-model="elementosVisiveis.numero" :label="__('Número')" />
+                <CheckBox v-model="elementosVisiveis.caixa" :label="__('Caixa')" />
 
                 <CheckBox v-model="elementosVisiveis.ano" :label="__('Ano')" />
 
@@ -138,9 +138,9 @@ watch(perPage, filtrar);
             <Tabela>
                 <template #header>
                     <HeadingOrdenavel
-                        v-show="elementosVisiveis.numero"
+                        v-show="elementosVisiveis.caixa"
                         :ordenacao="ordenacoes.numero"
-                        :texto="__('Número')"
+                        :texto="__('Caixa')"
                         @ordenar="(direcao) => mudarOrdenacao('numero', direcao)"
                     />
 
@@ -234,7 +234,7 @@ watch(perPage, filtrar);
                 <template #body>
                     <template v-if="caixas.data.length">
                         <Row v-for="caixa in caixas.data" :key="caixa.id">
-                            <Cell v-show="elementosVisiveis.numero">{{ caixa.numero }}</Cell>
+                            <Cell v-show="elementosVisiveis.caixa">{{ caixa.numero }}</Cell>
 
                             <Cell v-show="elementosVisiveis.ano">{{ caixa.ano }}</Cell>
 
