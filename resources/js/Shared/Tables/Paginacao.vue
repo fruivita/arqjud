@@ -34,7 +34,7 @@ const ultimo = computed(() => props.meta.links.length - 1);
         <div
             class="flex divide-x-2 divide-primaria-300 rounded border-4 border-primaria-300 dark:divide-secundaria-400 dark:border-secundaria-400"
         >
-            <Component
+            <component
                 v-for="(link, index) in meta.links"
                 :key="`page-link-${index}`"
                 :class="{
