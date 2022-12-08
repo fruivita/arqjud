@@ -25,7 +25,7 @@ afterEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = EstanteCollection::make($this->estantes);
 
-    $dados = $resource->response(request())->getData(true);
+    $dados = $resource->response()->getData(true);
 
     expect($dados['data'])->toHaveCount($this->estantes->count());
 });

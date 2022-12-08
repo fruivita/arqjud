@@ -27,7 +27,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
     $resource = PredioResource::make($this->predio);
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->predio->only(['id', 'nome', 'localidade_id'])
             + [
                 'links' => [
@@ -43,7 +43,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna a localidade pai se houver o eager load da propriedade', function () {
     $resource = PredioResource::make($this->predio->load('localidade'));
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->predio->only(['id', 'nome', 'localidade_id'])
             + ['localidade' => $this->predio->localidade->only(['id', 'nome'])]
             + ['links' => []],
@@ -53,7 +53,7 @@ test('retorna a localidade pai se houver o eager load da propriedade', function 
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = PredioResource::make($this->predio->loadCount('andares'));
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->predio->only(['id', 'nome', 'localidade_id', 'andares_count'])
             + ['links' => []],
     ]);
@@ -62,7 +62,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {
     $resource = PredioResource::make($this->predio);
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->predio->only(['id', 'nome', 'localidade_id'])
             + ['links' => []],
     ]);

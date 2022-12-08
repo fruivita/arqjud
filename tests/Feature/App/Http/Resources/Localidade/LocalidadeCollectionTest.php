@@ -28,7 +28,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
     $resource = LocalidadeCollection::make($this->localidades);
 
-    $dados = $resource->response(request())->getData(true);
+    $dados = $resource->response()->getData(true);
 
     expect($dados['data'])->toHaveCount($this->localidades->count())
         ->and($dados['links'])->toBe(['create' => route('cadastro.localidade.create')]);
@@ -37,7 +37,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {
     $resource = LocalidadeCollection::make($this->localidades);
 
-    $dados = $resource->response(request())->getData(true);
+    $dados = $resource->response()->getData(true);
 
     expect($dados)
         ->toHaveKey('data')

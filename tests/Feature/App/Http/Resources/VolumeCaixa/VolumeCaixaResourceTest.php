@@ -33,7 +33,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
     $resource = VolumeCaixaResource::make($this->volume);
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->volume_api
             + [
                 'links' => [
@@ -59,7 +59,7 @@ test('retorna a caixa pai se houver o eager load da propriedade', function () {
         'localidade_criadora_id' => $this->volume->caixa->localidade_criadora_id,
     ];
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->volume_api
             + ['caixa' => $caixa_api]
             + ['links' => []],
@@ -69,7 +69,7 @@ test('retorna a caixa pai se houver o eager load da propriedade', function () {
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = VolumeCaixaResource::make($this->volume->loadCount('processos'));
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->volume_api
             + $this->volume->only('processos_count')
             + ['links' => []],
@@ -79,7 +79,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {
     $resource = VolumeCaixaResource::make($this->volume);
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->volume_api
             + ['links' => []],
     ]);

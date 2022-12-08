@@ -25,7 +25,7 @@ afterEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = AndarCollection::make($this->andares);
 
-    $dados = $resource->response(request())->getData(true);
+    $dados = $resource->response()->getData(true);
 
     expect($dados['data'])->toHaveCount($this->andares->count());
 });

@@ -30,7 +30,7 @@ afterEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = VolumeCaixaOnlyResource::make($this->volume);
 
-    expect($resource->response(request())->getData(true))->toBe(['data' => $this->volume_api]);
+    expect($resource->response()->getData(true))->toBe(['data' => $this->volume_api]);
 });
 
 test('retorna a caixa pai se houver o eager load da propriedade', function () {
@@ -46,7 +46,7 @@ test('retorna a caixa pai se houver o eager load da propriedade', function () {
         'localidade_criadora_id' => $this->volume->caixa->localidade_criadora_id,
     ];
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->volume_api
             + ['caixa' => $caixa_api]
     ]);
@@ -55,7 +55,7 @@ test('retorna a caixa pai se houver o eager load da propriedade', function () {
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = VolumeCaixaOnlyResource::make($this->volume->loadCount('processos'));
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->volume_api
             + $this->volume->only('processos_count')
     ]);

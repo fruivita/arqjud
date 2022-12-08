@@ -24,7 +24,7 @@ afterEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = PrateleiraOnlyResource::make($this->prateleira);
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->prateleira->only(['id', 'numero', 'estante_id']),
     ]);
 });
@@ -32,7 +32,7 @@ test('retorna os campos principais do modelo', function () {
 test('retorna a estante pai se houver o eager load da propriedade', function () {
     $resource = PrateleiraOnlyResource::make($this->prateleira->load('estante'));
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->prateleira->only(['id', 'numero', 'estante_id'])
             + ['estante' => $this->prateleira->estante->only(['id', 'numero', 'sala_id'])],
     ]);
@@ -41,7 +41,7 @@ test('retorna a estante pai se houver o eager load da propriedade', function () 
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = PrateleiraOnlyResource::make($this->prateleira->loadCount('caixas'));
 
-    expect($resource->response(request())->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toBe([
         'data' => $this->prateleira->only(['id', 'numero', 'estante_id', 'caixas_count']),
     ]);
 });
