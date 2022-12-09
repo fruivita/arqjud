@@ -16,6 +16,7 @@ import TextInput from '@/Shared/Forms/TextInput.vue';
 import ChaveValor from '@/Shared/Misc/ChaveValor.vue';
 import { useTranslationsStore } from '@/Stores/TranslationsStore';
 import { useForm } from '@inertiajs/inertia-vue3';
+import { isEmpty } from 'lodash';
 
 const props = defineProps({
     ultima_insercao: { type: Object },
@@ -87,7 +88,7 @@ const cadastrar = () => {
             </form>
         </Container>
 
-        <Container v-if="ultima_insercao">
+        <Container v-if="!isEmpty(ultima_insercao.data)">
             <div>
                 <div class="text-sm text-primaria-700 dark:text-secundaria-300">
                     {{ __('Último item cadastrado:') }}
