@@ -223,7 +223,7 @@ test('método criar faz rollBack em caso de falha', function () {
     expect($salvo)->toBeFalse();
 });
 
-test('modelo não são persistidos devido ao rollBack no método criar', function () {
+test('modelos não são persistidos devido ao rollBack no método criar', function () {
     $andar = Andar::factory()->create();
 
     Prateleira::saving(fn () => throw new \RuntimeException());
