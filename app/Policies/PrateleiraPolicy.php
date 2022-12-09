@@ -85,7 +85,7 @@ class PrateleiraPolicy
         }
 
         if (isset($prateleira->caixas_count) !== true) {
-            $prateleira->loadCount('prateleiras');
+            $prateleira->loadCount('caixas');
         }
         if ($prateleira->caixas_count !== 0) {
             return false;
