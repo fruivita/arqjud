@@ -203,11 +203,7 @@ test('método modeloPadrao retorna o modelo com os atributos esperados', functio
 test('método criar cria uma estante como filha da sala infomada e também a prateleira padrão', function () {
     $sala = Sala::factory()->create();
 
-    $salvo = Estante::criar(
-        '10',
-        $sala->id,
-        'foo'
-    );
+    $salvo = Estante::criar('10', $sala, 'foo');
 
     $sala->load('estantes.prateleiras');
 
@@ -228,11 +224,7 @@ test('método criar está protegido por transaction', function () {
 
     $database = DB::spy();
 
-    Estante::criar(
-        '10',
-        $sala->id,
-        'foo'
-    );
+    Estante::criar('10', $sala, 'foo');
 
     $database->shouldHaveReceived('beginTransaction')->once();
     $database->shouldHaveReceived('commit')->once();
@@ -249,11 +241,7 @@ test('método criar faz rollBack em caso de falha', function () {
 
     Prateleira::saving(fn () => throw new \RuntimeException());
 
-    $salvo = Estante::criar(
-        '10',
-        $sala->id,
-        'foo'
-    );
+    $salvo = Estante::criar('10', $sala, 'foo');
 
     $database->shouldHaveReceived('beginTransaction')->once();
     $database->shouldHaveReceived('rollBack')->once();
@@ -267,11 +255,7 @@ test('modelos não são persistidos devido ao rollBack no método criar', functi
 
     Prateleira::saving(fn () => throw new \RuntimeException());
 
-    Estante::criar(
-        '10',
-        $sala->id,
-        'foo'
-    );
+    Estante::criar('10', $sala, 'foo');
 
     expect(Estante::count())->toBe(0)
         ->and(Prateleira::count())->toBe(0);
@@ -284,11 +268,7 @@ test('registra falhas do método criar em log', function () {
 
     Log::spy();
 
-    Estante::criar(
-        '10',
-        $sala->id,
-        'foo'
-    );
+    Estante::criar('10', $sala, 'foo');
 
     Log::shouldHaveReceived('error')
         ->withArgs(fn ($message) => $message === __('Falha na criação da estante'))

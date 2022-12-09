@@ -89,11 +89,11 @@ class Sala extends Model
      * criada pela aplicação como efeito colateral de uma ação.
      *
      * @param  string  $numero número da sala
-     * @param  int  $andar_pai id da andar pai
+     * @param  \App\Models\Andar  $andar andar pai
      * @param  string|null  $descricao descrição da sala
      * @return bool
      */
-    public static function criar(string $numero, int $andar_pai, string $descricao = null)
+    public static function criar(string $numero, Andar $andar, string $descricao = null)
     {
         $sala = new self();
 
@@ -102,10 +102,9 @@ class Sala extends Model
 
             $sala->numero = $numero;
             $sala->descricao = $descricao;
-            $sala->andar_id = $andar_pai;
-            $sala->save();
 
-            $sala
+            $andar
+                ->salas()->save($sala)
                 ->estantes()->save(Estante::modeloPadrao())
                 ->prateleiras()->save(Prateleira::modeloPadrao());
 
@@ -118,7 +117,7 @@ class Sala extends Model
             Log::error(
                 __('Falha na criação da sala'),
                 [
-                    'params' => ['numero' => $numero, 'andar' => $andar_pai, 'descricao' => $descricao],
+                    'params' => ['numero' => $numero, 'andar' => $andar, 'descricao' => $descricao],
                     'sala' => $sala,
                     'exception' => $exception,
                 ]

@@ -159,11 +159,7 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
 test('método criar cria uma sala como filha do andar infomado e também a estante e a prateleira padrão', function () {
     $andar = Andar::factory()->create();
 
-    $salvo = Sala::criar(
-        '10',
-        $andar->id,
-        'foo'
-    );
+    $salvo = Sala::criar('10', $andar, 'foo');
 
     $andar->load('salas.estantes.prateleiras');
 
@@ -188,11 +184,7 @@ test('método criar está protegido por transaction', function () {
 
     $database = DB::spy();
 
-    Sala::criar(
-        '10',
-        $andar->id,
-        'foo'
-    );
+    Sala::criar('10', $andar, 'foo');
 
     $database->shouldHaveReceived('beginTransaction')->once();
     $database->shouldHaveReceived('commit')->once();
@@ -210,11 +202,7 @@ test('método criar faz rollBack em caso de falha', function () {
 
     Prateleira::saving(fn () => throw new \RuntimeException());
 
-    $salvo = Sala::criar(
-        '10',
-        $andar->id,
-        'foo'
-    );
+    $salvo = Sala::criar('10', $andar, 'foo');
 
     $database->shouldHaveReceived('beginTransaction')->once();
     $database->shouldHaveReceived('rollBack')->once();
@@ -228,11 +216,7 @@ test('modelos não são persistidos devido ao rollBack no método criar', functi
 
     Prateleira::saving(fn () => throw new \RuntimeException());
 
-    Sala::criar(
-        '10',
-        $andar->id,
-        'foo'
-    );
+    Sala::criar('10', $andar, 'foo');
 
     expect(Sala::count())->toBe(0)
         ->and(Estante::count())->toBe(0)
@@ -246,11 +230,7 @@ test('registra falhas do método criar em log', function () {
 
     Log::spy();
 
-    Sala::criar(
-        '10',
-        $andar->id,
-        'foo'
-    );
+    Sala::criar('10', $andar, 'foo');
 
     Log::shouldHaveReceived('error')
         ->withArgs(fn ($message) => $message === __('Falha na criação da sala'))

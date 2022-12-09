@@ -102,11 +102,11 @@ class Estante extends Model
      * aplicação como efeito colateral de uma ação.
      *
      * @param  string  $numero número da estante
-     * @param  int  $sala_pai id da sala pai
+     * @param  \App\Models\Sala  $sala sala pai
      * @param  string|null  $descricao descrição da estante
      * @return bool
      */
-    public static function criar(string $numero, int $sala_pai, string $descricao = null)
+    public static function criar(string $numero, Sala $sala, string $descricao = null)
     {
         $estante = new self();
 
@@ -115,10 +115,10 @@ class Estante extends Model
 
             $estante->numero = $numero;
             $estante->descricao = $descricao;
-            $estante->sala_id = $sala_pai;
-            $estante->save();
 
-            $estante->prateleiras()->save(Prateleira::modeloPadrao());
+            $sala
+                ->estantes()->save($estante)
+                ->prateleiras()->save(Prateleira::modeloPadrao());
 
             DB::commit();
 
@@ -129,7 +129,7 @@ class Estante extends Model
             Log::error(
                 __('Falha na criação da estante'),
                 [
-                    'params' => ['numero' => $numero, 'sala' => $sala_pai, 'descricao' => $descricao],
+                    'params' => ['numero' => $numero, 'sala' => $sala, 'descricao' => $descricao],
                     'estante' => $estante,
                     'exception' => $exception,
                 ]
