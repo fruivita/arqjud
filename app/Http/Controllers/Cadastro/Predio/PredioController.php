@@ -72,17 +72,17 @@ class PredioController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\Cadastro\Predio\PostPredioRequest  $request
+     * @param  \App\Models\Localidade  $localidade
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostPredioRequest $request)
+    public function store(PostPredioRequest $request, Localidade $localidade)
     {
         $predio = new Predio();
 
         $predio->nome = $request->input('nome');
         $predio->descricao = $request->input('descricao');
-        $predio->localidade_id = $request->input('localidade_id');
 
-        $salvo = $predio->save();
+        $salvo = $localidade->predios()->save($predio);
 
         return back()->with($this->feedback($salvo));
     }
