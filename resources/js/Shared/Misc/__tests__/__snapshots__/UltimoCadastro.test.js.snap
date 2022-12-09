@@ -1,0 +1,15 @@
+// Vitest Snapshot v1
+
+exports[`UltimoCadastro > renderiza o componente respeitando o snapshot 1`] = `
+"<div>
+  <div class=\\"text-sm text-primaria-700 dark:text-secundaria-300\\">Último item cadastrado:</div>
+  <inertialink class=\\"underline hover:opacity-80 font-bold\\" href=\\"http://foo.bar\\">foo</inertialink>
+</div>"
+`;
+
+exports[`UltimoCadastro > renderiza o componente sem as suas propriedades respeitando o snapshot 1`] = `
+"<div>
+  <div class=\\"text-sm text-primaria-700 dark:text-secundaria-300\\">Último item cadastrado:</div>
+  <p class=\\"font-bold\\">Nenhum item cadastrado até o momento</p>
+</div>"
+`;
