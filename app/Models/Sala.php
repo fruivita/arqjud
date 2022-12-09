@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @see https://laravel.com/docs/9.x/eloquent
@@ -76,5 +78,53 @@ class Sala extends Model
             ->orWhere('andares.numero', 'like', $termo)
             ->orWhere('andares.apelido', 'like', $termo)
             ->orWhere('salas.numero', 'like', $termo);
+    }
+
+    /**
+     * Cria a sala com os parâmetros informados. Também cria a estante e a
+     * prateleira padrão.
+     *
+     * A estante e/ou a prateleira padrão é a que não foi revisada ou criada
+     * por requisição direta e intencional do usuário, mas automaticamente
+     * criada pela aplicação como efeito colateral de uma ação.
+     *
+     * @param  string  $numero número da sala
+     * @param  int  $andar_pai id da andar pai
+     * @param  string|null  $descricao descrição da sala
+     * @return bool
+     */
+    public static function criar(string $numero, int $andar_pai, string $descricao = null)
+    {
+        $sala = new self();
+
+        try {
+            DB::beginTransaction();
+
+            $sala->numero = $numero;
+            $sala->descricao = $descricao;
+            $sala->andar_id = $andar_pai;
+            $sala->save();
+
+            $sala
+                ->estantes()->save(Estante::modeloPadrao())
+                ->prateleiras()->save(Prateleira::modeloPadrao());
+
+            DB::commit();
+
+            return true;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            Log::error(
+                __('Falha na criação da sala'),
+                [
+                    'params' => ['numero' => $numero, 'andar' => $andar_pai, 'descricao' => $descricao],
+                    'sala' => $sala,
+                    'exception' => $exception,
+                ]
+            );
+
+            return false;
+        }
     }
 }

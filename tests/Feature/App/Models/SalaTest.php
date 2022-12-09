@@ -6,10 +6,14 @@
 
 use App\Filters\Sala\JoinLocalidade;
 use App\Models\Andar;
+use App\Models\Estante;
 use App\Models\Localidade;
+use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Sala;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
 
@@ -151,3 +155,104 @@ test('retorna as salas pelo escopo search que busca a partir do início do texto
     ['aaaa', 2],
     ['bbbb', 3],
 ]);
+
+test('método criar cria uma sala como filha do andar infomado e também a estante e a prateleira padrão', function () {
+    $andar = Andar::factory()->create();
+
+    $salvo = Sala::criar(
+        '10',
+        $andar->id,
+        'foo'
+    );
+
+    $andar->load('salas.estantes.prateleiras');
+
+    $sala = $andar->salas->first();
+    $estante = $sala->estantes->first();
+    $prateleira = $estante->prateleiras->first();
+
+    expect($salvo)->toBeTrue()
+        ->and($sala->numero)->toBe('10')
+        ->and($sala->descricao)->toBe('foo')
+        ->and($sala->andar_id)->toBe($andar->id)
+        ->and($estante->numero)->toBe('0')
+        ->and($estante->sala_id)->toBe($sala->id)
+        ->and($estante->descricao)->toBe('Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado')
+        ->and($prateleira->numero)->toBe('0')
+        ->and($prateleira->estante_id)->toBe($estante->id)
+        ->and($prateleira->descricao)->toBe('Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado');
+});
+
+test('método criar está protegido por transaction', function () {
+    $andar = Andar::factory()->create();
+
+    $database = DB::spy();
+
+    Sala::criar(
+        '10',
+        $andar->id,
+        'foo'
+    );
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('commit')->once();
+    $database->shouldNotReceive('rollBack');
+
+    expect(Sala::count())->toBe(1)
+        ->and(Estante::count())->toBe(1)
+        ->and(Prateleira::count())->toBe(1);
+});
+
+test('método criar faz rollBack em caso de falha', function () {
+    $andar = Andar::factory()->create();
+
+    $database = DB::spy();
+
+    Prateleira::saving(fn () => throw new \RuntimeException());
+
+    $salvo = Sala::criar(
+        '10',
+        $andar->id,
+        'foo'
+    );
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('rollBack')->once();
+    $database->shouldNotReceive('commit');
+
+    expect($salvo)->toBeFalse();
+});
+
+test('modelo não são persistidos devido ao rollBack no método criar', function () {
+    $andar = Andar::factory()->create();
+
+    Prateleira::saving(fn () => throw new \RuntimeException());
+
+    Sala::criar(
+        '10',
+        $andar->id,
+        'foo'
+    );
+
+    expect(Sala::count())->toBe(0)
+        ->and(Estante::count())->toBe(0)
+        ->and(Prateleira::count())->toBe(0);
+});
+
+test('registra falhas do método criar em log', function () {
+    $andar = Andar::factory()->create();
+
+    Prateleira::saving(fn () => throw new \RuntimeException());
+
+    Log::spy();
+
+    Sala::criar(
+        '10',
+        $andar->id,
+        'foo'
+    );
+
+    Log::shouldHaveReceived('error')
+        ->withArgs(fn ($message) => $message === __('Falha na criação da sala'))
+        ->once();
+});
