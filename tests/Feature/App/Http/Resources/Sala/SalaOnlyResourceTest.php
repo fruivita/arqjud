@@ -45,3 +45,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
         'data' => $this->sala->only(['id', 'numero', 'andar_id', 'estantes_count']),
     ]);
 });
+
+test('retorna o resource vazio se o modelo for nulo', function () {
+    expect(SalaOnlyResource::make(null)->resolve())->toBeEmpty();
+});

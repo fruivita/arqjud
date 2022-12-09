@@ -28,3 +28,7 @@ test('retorna os campos principais do modelo', function () {
         'data' => $this->localidade->only(['id', 'nome']),
     ]);
 });
+
+test('retorna o resource vazio se o modelo for nulo', function () {
+    expect(LocalidadeOnlyResource::make(null)->resolve())->toBeEmpty();
+});

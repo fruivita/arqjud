@@ -18,13 +18,15 @@ class AndarOnlyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'numero' => $this->numero,
-            'apelido' => $this->apelido,
-            'predio_id' => $this->predio_id,
-            'predio' => PredioOnlyResource::make($this->whenLoaded('predio')),
-            'salas_count' => $this->whenCounted('salas'),
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'numero' => $this->numero,
+                'apelido' => $this->apelido,
+                'predio_id' => $this->predio_id,
+                'predio' => PredioOnlyResource::make($this->whenLoaded('predio')),
+                'salas_count' => $this->whenCounted('salas'),
+            ]
+            : [];
     }
 }

@@ -18,19 +18,21 @@ class ProcessoOnlyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'numero' => $this->numero,
-            'numero_antigo' => $this->numero_antigo,
-            'arquivado_em' => $this->arquivado_em->format('d-m-Y'),
-            'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
-            'qtd_volumes' => $this->qtd_volumes,
-            'volume_caixa_id' => $this->volume_caixa_id,
-            'processo_pai_id' => $this->processo_pai_id,
-            'volume_caixa' => VolumeCaixaOnlyResource::make($this->whenLoaded('volumeCaixa')),
-            'processo_pai' => ProcessoOnlyResource::make($this->whenLoaded('processoPai')),
-            'processos_filho_count' => $this->whenCounted('processosFilho'),
-            'solicitacoes_count' => $this->whenCounted('solicitacoes'),
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'numero' => $this->numero,
+                'numero_antigo' => $this->numero_antigo,
+                'arquivado_em' => $this->arquivado_em->format('d-m-Y'),
+                'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
+                'qtd_volumes' => $this->qtd_volumes,
+                'volume_caixa_id' => $this->volume_caixa_id,
+                'processo_pai_id' => $this->processo_pai_id,
+                'volume_caixa' => VolumeCaixaOnlyResource::make($this->whenLoaded('volumeCaixa')),
+                'processo_pai' => ProcessoOnlyResource::make($this->whenLoaded('processoPai')),
+                'processos_filho_count' => $this->whenCounted('processosFilho'),
+                'solicitacoes_count' => $this->whenCounted('solicitacoes'),
+            ]
+            : [];
     }
 }

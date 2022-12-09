@@ -22,35 +22,37 @@ class CaixaResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'numero' => $this->numero,
-            'ano' => $this->ano,
-            'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
-            'complemento' => $this->complemento,
-            'prateleira_id' => $this->prateleira_id,
-            'localidade_criadora_id' => $this->localidade_criadora_id,
-            'prateleira' => PrateleiraOnlyResource::make($this->whenLoaded('prateleira')),
-            'localidade_criadora' => LocalidadeOnlyResource::make($this->whenLoaded('localidadeCriadora')),
-            'volumes_count' => $this->whenCounted('volumes'),
-            'links' => [
-                'view' => $this->when(
-                    $request->user()->can(Policy::ViewOrUpdate->value, Caixa::class),
-                    fn () => route('cadastro.caixa.edit', $this->id),
-                ),
-                'update' => $this->when(
-                    $request->user()->can(Policy::Update->value, Caixa::class),
-                    fn () => route('cadastro.caixa.update', $this->id),
-                ),
-                'delete' => $this->when(
-                    $request->user()->can(Policy::Delete->value, $this->resource),
-                    fn () => route('cadastro.caixa.destroy', $this->id),
-                ),
-                'create_volume' => $this->when(
-                    $request->user()->can(Policy::Create->value, VolumeCaixa::class),
-                    fn () => route('cadastro.volumeCaixa.create', $this->id),
-                ),
-            ],
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'numero' => $this->numero,
+                'ano' => $this->ano,
+                'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
+                'complemento' => $this->complemento,
+                'prateleira_id' => $this->prateleira_id,
+                'localidade_criadora_id' => $this->localidade_criadora_id,
+                'prateleira' => PrateleiraOnlyResource::make($this->whenLoaded('prateleira')),
+                'localidade_criadora' => LocalidadeOnlyResource::make($this->whenLoaded('localidadeCriadora')),
+                'volumes_count' => $this->whenCounted('volumes'),
+                'links' => [
+                    'view' => $this->when(
+                        $request->user()->can(Policy::ViewOrUpdate->value, Caixa::class),
+                        fn () => route('cadastro.caixa.edit', $this->id),
+                    ),
+                    'update' => $this->when(
+                        $request->user()->can(Policy::Update->value, Caixa::class),
+                        fn () => route('cadastro.caixa.update', $this->id),
+                    ),
+                    'delete' => $this->when(
+                        $request->user()->can(Policy::Delete->value, $this->resource),
+                        fn () => route('cadastro.caixa.destroy', $this->id),
+                    ),
+                    'create_volume' => $this->when(
+                        $request->user()->can(Policy::Create->value, VolumeCaixa::class),
+                        fn () => route('cadastro.volumeCaixa.create', $this->id),
+                    ),
+                ],
+            ]
+            : [];
     }
 }

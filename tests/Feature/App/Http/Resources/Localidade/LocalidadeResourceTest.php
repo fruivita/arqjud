@@ -57,3 +57,7 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
             + ['links' => []],
     ]);
 });
+
+test('retorna o resource vazio se o modelo for nulo', function () {
+    expect(LocalidadeResource::make(null)->resolve())->toBeEmpty();
+});

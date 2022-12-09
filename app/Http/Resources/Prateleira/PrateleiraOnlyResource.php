@@ -18,12 +18,14 @@ class PrateleiraOnlyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'numero' => $this->numero,
-            'estante_id' => $this->estante_id,
-            'estante' => EstanteOnlyResource::make($this->whenLoaded('estante')),
-            'caixas_count' => $this->whenCounted('caixas'),
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'numero' => $this->numero,
+                'estante_id' => $this->estante_id,
+                'estante' => EstanteOnlyResource::make($this->whenLoaded('estante')),
+                'caixas_count' => $this->whenCounted('caixas'),
+            ]
+            : [];
     }
 }

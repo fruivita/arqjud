@@ -18,12 +18,14 @@ class SalaOnlyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'numero' => $this->numero,
-            'andar_id' => $this->andar_id,
-            'andar' => AndarOnlyResource::make($this->whenLoaded('andar')),
-            'estantes_count' => $this->whenCounted('estantes'),
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'numero' => $this->numero,
+                'andar_id' => $this->andar_id,
+                'andar' => AndarOnlyResource::make($this->whenLoaded('andar')),
+                'estantes_count' => $this->whenCounted('estantes'),
+            ]
+            : [];
     }
 }

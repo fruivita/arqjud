@@ -17,9 +17,11 @@ class LocalidadeOnlyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'nome' => $this->nome,
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'nome' => $this->nome,
+            ]
+            : [];
     }
 }

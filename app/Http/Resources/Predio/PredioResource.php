@@ -21,30 +21,32 @@ class PredioResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'nome' => $this->nome,
-            'localidade_id' => $this->localidade_id,
-            'localidade' => LocalidadeOnlyResource::make($this->whenLoaded('localidade')),
-            'andares_count' => $this->whenCounted('andares'),
-            'links' => [
-                'view' => $this->when(
-                    $request->user()->can(Policy::ViewOrUpdate->value, Predio::class),
-                    fn () => route('cadastro.predio.edit', $this->id),
-                ),
-                'update' => $this->when(
-                    $request->user()->can(Policy::Update->value, Predio::class),
-                    fn () => route('cadastro.predio.update', $this->id),
-                ),
-                'delete' => $this->when(
-                    $request->user()->can(Policy::Delete->value, $this->resource),
-                    fn () => route('cadastro.predio.destroy', $this->id),
-                ),
-                'create_andar' => $this->when(
-                    $request->user()->can(Policy::Create->value, Andar::class),
-                    fn () => route('cadastro.andar.create', $this->id),
-                ),
-            ],
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'nome' => $this->nome,
+                'localidade_id' => $this->localidade_id,
+                'localidade' => LocalidadeOnlyResource::make($this->whenLoaded('localidade')),
+                'andares_count' => $this->whenCounted('andares'),
+                'links' => [
+                    'view' => $this->when(
+                        $request->user()->can(Policy::ViewOrUpdate->value, Predio::class),
+                        fn () => route('cadastro.predio.edit', $this->id),
+                    ),
+                    'update' => $this->when(
+                        $request->user()->can(Policy::Update->value, Predio::class),
+                        fn () => route('cadastro.predio.update', $this->id),
+                    ),
+                    'delete' => $this->when(
+                        $request->user()->can(Policy::Delete->value, $this->resource),
+                        fn () => route('cadastro.predio.destroy', $this->id),
+                    ),
+                    'create_andar' => $this->when(
+                        $request->user()->can(Policy::Create->value, Andar::class),
+                        fn () => route('cadastro.andar.create', $this->id),
+                    ),
+                ],
+            ]
+            : [];
     }
 }

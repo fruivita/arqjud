@@ -21,30 +21,32 @@ class EstanteResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'numero' => $this->numero,
-            'sala_id' => $this->sala_id,
-            'sala' => SalaOnlyResource::make($this->whenLoaded('sala')),
-            'prateleiras_count' => $this->whenCounted('prateleiras'),
-            'links' => [
-                'view' => $this->when(
-                    $request->user()->can(Policy::ViewOrUpdate->value, Estante::class),
-                    fn () => route('cadastro.estante.edit', $this->id),
-                ),
-                'update' => $this->when(
-                    $request->user()->can(Policy::Update->value, Estante::class),
-                    fn () => route('cadastro.estante.update', $this->id),
-                ),
-                'delete' => $this->when(
-                    $request->user()->can(Policy::Delete->value, $this->resource),
-                    fn () => route('cadastro.estante.destroy', $this->id),
-                ),
-                'create_prateleira' => $this->when(
-                    $request->user()->can(Policy::Create->value, Prateleira::class),
-                    fn () => route('cadastro.prateleira.create', $this->id),
-                ),
-            ],
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'numero' => $this->numero,
+                'sala_id' => $this->sala_id,
+                'sala' => SalaOnlyResource::make($this->whenLoaded('sala')),
+                'prateleiras_count' => $this->whenCounted('prateleiras'),
+                'links' => [
+                    'view' => $this->when(
+                        $request->user()->can(Policy::ViewOrUpdate->value, Estante::class),
+                        fn () => route('cadastro.estante.edit', $this->id),
+                    ),
+                    'update' => $this->when(
+                        $request->user()->can(Policy::Update->value, Estante::class),
+                        fn () => route('cadastro.estante.update', $this->id),
+                    ),
+                    'delete' => $this->when(
+                        $request->user()->can(Policy::Delete->value, $this->resource),
+                        fn () => route('cadastro.estante.destroy', $this->id),
+                    ),
+                    'create_prateleira' => $this->when(
+                        $request->user()->can(Policy::Create->value, Prateleira::class),
+                        fn () => route('cadastro.prateleira.create', $this->id),
+                    ),
+                ],
+            ]
+            : [];
     }
 }

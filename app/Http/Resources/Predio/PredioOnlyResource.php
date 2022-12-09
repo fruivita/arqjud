@@ -18,12 +18,14 @@ class PredioOnlyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'nome' => $this->nome,
-            'localidade_id' => $this->localidade_id,
-            'localidade' => LocalidadeOnlyResource::make($this->whenLoaded('localidade')),
-            'andares_count' => $this->whenCounted('andares'),
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'nome' => $this->nome,
+                'localidade_id' => $this->localidade_id,
+                'localidade' => LocalidadeOnlyResource::make($this->whenLoaded('localidade')),
+                'andares_count' => $this->whenCounted('andares'),
+            ]
+            : [];
     }
 }

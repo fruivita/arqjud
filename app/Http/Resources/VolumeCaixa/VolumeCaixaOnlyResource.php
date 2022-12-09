@@ -18,12 +18,14 @@ class VolumeCaixaOnlyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'numero' => $this->numero,
-            'caixa_id' => $this->caixa_id,
-            'caixa' => CaixaOnlyResource::make($this->whenLoaded('caixa')),
-            'processos_count' => $this->whenCounted('processos'),
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'numero' => $this->numero,
+                'caixa_id' => $this->caixa_id,
+                'caixa' => CaixaOnlyResource::make($this->whenLoaded('caixa')),
+                'processos_count' => $this->whenCounted('processos'),
+            ]
+            : [];
     }
 }

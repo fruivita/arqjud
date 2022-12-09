@@ -20,17 +20,19 @@ class CaixaOnlyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'numero' => $this->numero,
-            'ano' => $this->ano,
-            'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
-            'complemento' => $this->complemento,
-            'prateleira_id' => $this->prateleira_id,
-            'localidade_criadora_id' => $this->localidade_criadora_id,
-            'prateleira' => PrateleiraOnlyResource::make($this->whenLoaded('prateleira')),
-            'localidade_criadora' => LocalidadeOnlyResource::make($this->whenLoaded('localidadeCriadora')),
-            'volumes_count' => $this->whenCounted('volumes'),
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'numero' => $this->numero,
+                'ano' => $this->ano,
+                'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
+                'complemento' => $this->complemento,
+                'prateleira_id' => $this->prateleira_id,
+                'localidade_criadora_id' => $this->localidade_criadora_id,
+                'prateleira' => PrateleiraOnlyResource::make($this->whenLoaded('prateleira')),
+                'localidade_criadora' => LocalidadeOnlyResource::make($this->whenLoaded('localidadeCriadora')),
+                'volumes_count' => $this->whenCounted('volumes'),
+            ]
+            : [];
     }
 }

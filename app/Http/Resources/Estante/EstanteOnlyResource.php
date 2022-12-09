@@ -18,12 +18,14 @@ class EstanteOnlyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'numero' => $this->numero,
-            'sala_id' => $this->sala_id,
-            'sala' => SalaOnlyResource::make($this->whenLoaded('sala')),
-            'prateleiras_count' => $this->whenCounted('prateleiras'),
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'numero' => $this->numero,
+                'sala_id' => $this->sala_id,
+                'sala' => SalaOnlyResource::make($this->whenLoaded('sala')),
+                'prateleiras_count' => $this->whenCounted('prateleiras'),
+            ]
+            : [];
     }
 }

@@ -60,3 +60,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
             + $this->volume->only('processos_count')
     ]);
 });
+
+test('retorna o resource vazio se o modelo for nulo', function () {
+    expect(VolumeCaixaOnlyResource::make(null)->resolve())->toBeEmpty();
+});

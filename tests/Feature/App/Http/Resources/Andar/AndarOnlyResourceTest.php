@@ -45,3 +45,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'predio_id', 'salas_count']),
     ]);
 });
+
+test('retorna o resource vazio se o modelo for nulo', function () {
+    expect(AndarOnlyResource::make(null)->resolve())->toBeEmpty();
+});

@@ -45,3 +45,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
         'data' => $this->predio->only(['id', 'nome', 'localidade_id', 'andares_count']),
     ]);
 });
+
+test('retorna o resource vazio se o modelo for nulo', function () {
+    expect(PredioOnlyResource::make(null)->resolve())->toBeEmpty();
+});

@@ -45,3 +45,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
         'data' => $this->prateleira->only(['id', 'numero', 'estante_id', 'caixas_count']),
     ]);
 });
+
+test('retorna o resource vazio se o modelo for nulo', function () {
+    expect(PrateleiraOnlyResource::make(null)->resolve())->toBeEmpty();
+});

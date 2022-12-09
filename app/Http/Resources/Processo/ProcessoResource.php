@@ -21,33 +21,35 @@ class ProcessoResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'numero' => $this->numero,
-            'numero_antigo' => $this->numero_antigo,
-            'arquivado_em' => $this->arquivado_em->format('d-m-Y'),
-            'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
-            'qtd_volumes' => $this->qtd_volumes,
-            'volume_caixa_id' => $this->volume_caixa_id,
-            'processo_pai_id' => $this->processo_pai_id,
-            'volume_caixa' => VolumeCaixaOnlyResource::make($this->whenLoaded('volumeCaixa')),
-            'processo_pai' => ProcessoOnlyResource::make($this->whenLoaded('processoPai')),
-            'processos_filho_count' => $this->whenCounted('processosFilho'),
-            'solicitacoes_count' => $this->whenCounted('solicitacoes'),
-            'links' => [
-                'view' => $this->when(
-                    $request->user()->can(Policy::ViewOrUpdate->value, Processo::class),
-                    fn () => route('cadastro.processo.edit', $this->id),
-                ),
-                'update' => $this->when(
-                    $request->user()->can(Policy::Update->value, Processo::class),
-                    fn () => route('cadastro.processo.update', $this->id),
-                ),
-                'delete' => $this->when(
-                    $request->user()->can(Policy::Delete->value, $this->resource),
-                    fn () => route('cadastro.processo.destroy', $this->id),
-                ),
-            ],
-        ];
+        return ($this->resource)
+            ? [
+                'id' => $this->id,
+                'numero' => $this->numero,
+                'numero_antigo' => $this->numero_antigo,
+                'arquivado_em' => $this->arquivado_em->format('d-m-Y'),
+                'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
+                'qtd_volumes' => $this->qtd_volumes,
+                'volume_caixa_id' => $this->volume_caixa_id,
+                'processo_pai_id' => $this->processo_pai_id,
+                'volume_caixa' => VolumeCaixaOnlyResource::make($this->whenLoaded('volumeCaixa')),
+                'processo_pai' => ProcessoOnlyResource::make($this->whenLoaded('processoPai')),
+                'processos_filho_count' => $this->whenCounted('processosFilho'),
+                'solicitacoes_count' => $this->whenCounted('solicitacoes'),
+                'links' => [
+                    'view' => $this->when(
+                        $request->user()->can(Policy::ViewOrUpdate->value, Processo::class),
+                        fn () => route('cadastro.processo.edit', $this->id),
+                    ),
+                    'update' => $this->when(
+                        $request->user()->can(Policy::Update->value, Processo::class),
+                        fn () => route('cadastro.processo.update', $this->id),
+                    ),
+                    'delete' => $this->when(
+                        $request->user()->can(Policy::Delete->value, $this->resource),
+                        fn () => route('cadastro.processo.destroy', $this->id),
+                    ),
+                ],
+            ]
+            : [];
     }
 }
