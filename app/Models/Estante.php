@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @see https://laravel.com/docs/9.x/eloquent
@@ -89,5 +91,51 @@ class Estante extends Model
         $estante->descricao = 'Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado';
 
         return $estante;
+    }
+
+    /**
+     * Cria a estante com os parâmetros informados. Também cria a prateleira
+     * padrão.
+     *
+     * A prateleira padrão é a que não foi revisada ou criada por requisição
+     * direta e intencional do usuário, mas automaticamente criada pela
+     * aplicação como efeito colateral de uma ação.
+     *
+     * @param  string  $numero número da estante
+     * @param  int  $sala_pai id da sala pai
+     * @param  string|null  $descricao descrição da estante
+     * @return bool
+     */
+    public static function criar(string $numero, int $sala_pai, string $descricao = null)
+    {
+        $estante = new self();
+
+        try {
+            DB::beginTransaction();
+
+            $estante->numero = $numero;
+            $estante->descricao = $descricao;
+            $estante->sala_id = $sala_pai;
+            $estante->save();
+
+            $estante->prateleiras()->save(Prateleira::modeloPadrao());
+
+            DB::commit();
+
+            return true;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            Log::error(
+                __('Falha na criação da estante'),
+                [
+                    'params' => ['numero' => $numero, 'sala' => $sala_pai, 'descricao' => $descricao],
+                    'estante' => $estante,
+                    'exception' => $exception,
+                ]
+            );
+
+            return false;
+        }
     }
 }
