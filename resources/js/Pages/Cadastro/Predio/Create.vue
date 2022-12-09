@@ -14,6 +14,7 @@ import Pagina from '@/Shared/Containers/Pagina.vue';
 import TextAreaInput from '@/Shared/Forms/TextAreaInput.vue';
 import TextInput from '@/Shared/Forms/TextInput.vue';
 import ChaveValor from '@/Shared/Misc/ChaveValor.vue';
+import UltimoCadastro from '@/Shared/Misc/UltimoCadastro.vue';
 import { useTranslationsStore } from '@/Stores/TranslationsStore';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { isEmpty } from 'lodash';
@@ -88,22 +89,15 @@ const cadastrar = () => {
             </form>
         </Container>
 
-        <Container v-if="!isEmpty(ultima_insercao.data)">
-            <div>
-                <div class="text-sm text-primaria-700 dark:text-secundaria-300">
-                    {{ __('Último item cadastrado:') }}
-                </div>
-
-                <component
-                    :class="{
-                        'underline hover:opacity-80': ultima_insercao.data.links.view,
-                    }"
-                    :href="ultima_insercao.data.links.view"
-                    :is="ultima_insercao.data.links.view ? 'InertiaLink' : 'span'"
-                    class="font-bold"
-                    v-html="__('Prédio: :attribute', { attribute: ultima_insercao.data.nome })"
-                />
-            </div>
+        <Container>
+            <UltimoCadastro
+                :href="ultima_insercao.data.links?.view"
+                :texto="
+                    isEmpty(ultima_insercao.data)
+                        ? null
+                        : __('Prédio: :attribute', { attribute: ultima_insercao.data.nome })
+                "
+            />
         </Container>
     </Pagina>
 </template>
