@@ -9,8 +9,8 @@
 
 <script setup>
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
-import { useExclusao } from '@/Composables/useExclusao';
-import { flash } from '@/Composables/useFlash';
+import { useExclusao } from '@/Composables/UseExclusao';
+import { flash } from '@/Composables/UseFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { perPageKey, updatePerPageKey } from '@/keys.js';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';

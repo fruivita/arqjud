@@ -11,7 +11,7 @@
  -->
 <script setup>
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
-import { useExclusao } from '@/Composables/useExclusao';
+import { useExclusao } from '@/Composables/UseExclusao';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { perPageKey, updatePerPageKey } from '@/keys.js';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';

@@ -7,7 +7,7 @@
  -->
 
 <script setup>
-import { flash } from '@/Composables/useFlash';
+import { flash } from '@/Composables/UseFlash';
 import Andar from '@/Models/Andar';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';

@@ -9,8 +9,8 @@
 
 <script setup>
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
-import { useExclusao } from '@/Composables/useExclusao';
-import { flash } from '@/Composables/useFlash';
+import { useExclusao } from '@/Composables/UseExclusao';
+import { flash } from '@/Composables/UseFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { mascaraCNJ, perPageKey, updatePerPageKey } from '@/keys.js';
 import Andar from '@/Models/Andar';
@@ -130,7 +130,10 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                     <div class="grid grid-cols-1 gap-x-3 gap-y-6 xl:grid-cols-2">
                         <ChaveValor
                             :chave="__('Localidade')"
-                            :href="processo.data.volume_caixa.caixa.prateleira.estante.sala.andar.predio.localidade.links.view"
+                            :href="
+                                processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
+                                    .predio.localidade.links.view
+                            "
                             :valor="
                                 processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
                                     .predio.localidade.nome
@@ -140,7 +143,10 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                         <ChaveValor
                             :chave="__('Prédio')"
-                            :href="processo.data.volume_caixa.caixa.prateleira.estante.sala.andar.predio.links.view"
+                            :href="
+                                processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
+                                    .predio.links.view
+                            "
                             :valor="
                                 processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
                                     .predio.nome
@@ -150,7 +156,10 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                         <ChaveValor
                             :chave="__('Andar')"
-                            :href="processo.data.volume_caixa.caixa.prateleira.estante.sala.andar.links.view"
+                            :href="
+                                processo.data.volume_caixa.caixa.prateleira.estante.sala.andar.links
+                                    .view
+                            "
                             :valor="
                                 new Andar(
                                     processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
@@ -161,7 +170,9 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                         <ChaveValor
                             :chave="__('Sala')"
-                            :href="processo.data.volume_caixa.caixa.prateleira.estante.sala.links.view"
+                            :href="
+                                processo.data.volume_caixa.caixa.prateleira.estante.sala.links.view
+                            "
                             :valor="processo.data.volume_caixa.caixa.prateleira.estante.sala.numero"
                             icone="door-closed"
                         />
