@@ -1,7 +1,8 @@
 {
     "name": "fruivita/arqjud",
-    "type": "project",
     "description": "Aplicação para controle de processos judiciais arquivados.",
+    "license": "MIT",
+    "type": "project",
     "keywords": [
         "framework",
         "laravel",
@@ -9,7 +10,6 @@
         "processos",
         "judicial"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Fábio Cassiano",
@@ -45,6 +45,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
         "druc/laravel-langscanner": "^2.0",
+        "ergebnis/composer-normalize": "^2.29",
         "fakerphp/faker": "^1.20",
         "jasonmccreary/laravel-test-assertions": "^2.1",
         "laravel/pint": "^1.2",
@@ -62,6 +63,8 @@
         "spatie/pest-plugin-snapshots": "^1.1",
         "spatie/pest-plugin-test-time": "^1.1"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "App\\": "app/",
@@ -77,13 +80,27 @@
             "Tests\\": "tests/"
         }
     },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "ergebnis/composer-normalize": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
     "scripts": {
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
-        ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -91,21 +108,5 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": []
-        }
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "ergebnis/composer-normalize": true
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
