@@ -393,7 +393,10 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.numeroAntigo">
-                                <Clipboard :copiavel="processo.numero_antigo" />
+                                <Clipboard
+                                    v-if="processo.numero_antigo"
+                                    :copiavel="processo.numero_antigo"
+                                />
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.arquivadoEm">{{
