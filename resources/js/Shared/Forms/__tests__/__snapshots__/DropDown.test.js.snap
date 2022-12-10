@@ -52,6 +52,31 @@ exports[`DropDown > renderiza múltiplas propriedades do objeto respeitando o sn
 </div>"
 `;
 
+exports[`DropDown > renderiza o componente de maneira diversa quando desabilitado respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\">
+  <!--v-if-->
+  <div class=\\"dark:text-primaria-50 relative\\">
+    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 border-dashed w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" disabled=\\"\\">
+      <option value=\\"1\\">bar</option>
+      <option value=\\"2\\">foo</option>
+    </select>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`DropDown > renderiza o componente quando não há opções para o select respeitando o snapshot 1`] = `
+"<div class=\\"w-full space-y-1\\">
+  <!--v-if-->
+  <div class=\\"dark:text-primaria-50 relative\\">
+    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 border-dashed w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" disabled=\\"\\">
+      <option value=\\"-1\\">Nenhum registro encontrado</option>
+    </select>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
 exports[`DropDown > renderiza o label respeitando o snapshot 1`] = `
 "<div class=\\"w-full space-y-1\\"><label for=\\"foo-id\\" class=\\"font-bold\\" dusk=\\"label\\">loren
     <!--v-if-->
@@ -88,31 +113,6 @@ exports[`DropDown > renderiza o ícone respeitando o snapshot 1`] = `
       </svg></div><select id=\\"foo-id\\" class=\\"pl-12 border-primaria-500 bg-primaria-100 ring-primaria-500 w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\">
       <option value=\\"1\\">bar</option>
       <option value=\\"2\\">foo</option>
-    </select>
-  </div>
-  <!--v-if-->
-</div>"
-`;
-
-exports[`DropDown > rendiza o componente de maneira diversa quando desabilitado respeitando o snapshot 1`] = `
-"<div class=\\"w-full space-y-1\\">
-  <!--v-if-->
-  <div class=\\"dark:text-primaria-50 relative\\">
-    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 border-dashed w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" disabled=\\"\\">
-      <option value=\\"1\\">bar</option>
-      <option value=\\"2\\">foo</option>
-    </select>
-  </div>
-  <!--v-if-->
-</div>"
-`;
-
-exports[`DropDown > rendiza o componente quando não há opções para o select respeitando o snapshot 1`] = `
-"<div class=\\"w-full space-y-1\\">
-  <!--v-if-->
-  <div class=\\"dark:text-primaria-50 relative\\">
-    <!--v-if--><select id=\\"foo-id\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 border-dashed w-full rounded-lg border py-2 opacity-100 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" disabled=\\"\\">
-      <option value=\\"-1\\">Nenhum registro encontrado</option>
     </select>
   </div>
   <!--v-if-->

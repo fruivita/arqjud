@@ -7,14 +7,14 @@ exports[`InertiaButtonLink > renderiza o componente com ícone respeitando o sna
   </svg></inertialink>"
 `;
 
-exports[`InertiaButtonLink > renderiza o componente respeitando o snapshot 1`] = `
-"<inertialink class=\\"inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg bg-blue-500 px-4 py-2 text-blue-50 outline-none ring-blue-600 transition duration-300 hover:bg-blue-600 hover:ring-4 focus:bg-blue-600 focus:ring-4\\" href=\\"http://foo.bar\\"><span dusk=\\"texto\\">foo</span>
+exports[`InertiaButtonLink > renderiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot 1`] = `
+"<inertialink class=\\"cursor-not-allowed opacity-50 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg bg-blue-500 px-4 py-2 text-blue-50 outline-none ring-blue-600 transition duration-300 hover:bg-blue-600 hover:ring-4 focus:bg-blue-600 focus:ring-4\\" href=\\"http://foo.bar\\"><span dusk=\\"texto\\">foo</span>
   <!--v-if-->
 </inertialink>"
 `;
 
-exports[`InertiaButtonLink > rendiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot 1`] = `
-"<inertialink class=\\"cursor-not-allowed opacity-50 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg bg-blue-500 px-4 py-2 text-blue-50 outline-none ring-blue-600 transition duration-300 hover:bg-blue-600 hover:ring-4 focus:bg-blue-600 focus:ring-4\\" href=\\"http://foo.bar\\"><span dusk=\\"texto\\">foo</span>
+exports[`InertiaButtonLink > renderiza o componente respeitando o snapshot 1`] = `
+"<inertialink class=\\"inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg bg-blue-500 px-4 py-2 text-blue-50 outline-none ring-blue-600 transition duration-300 hover:bg-blue-600 hover:ring-4 focus:bg-blue-600 focus:ring-4\\" href=\\"http://foo.bar\\"><span dusk=\\"texto\\">foo</span>
   <!--v-if-->
 </inertialink>"
 `;

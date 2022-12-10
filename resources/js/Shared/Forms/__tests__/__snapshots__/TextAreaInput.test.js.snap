@@ -22,6 +22,17 @@ exports[`TextAreaInput > renderiza a mensagem de erro respeitando o snapshot 1`]
 </div>"
 `;
 
+exports[`TextAreaInput > renderiza o componente de maneira diversa quando desabilitado respeitando o snapshot 1`] = `
+"<div class=\\"space-y-1\\">
+  <!--v-if-->
+  <div class=\\"dark:text-primaria-50 relative\\">
+    <!--v-if--><textarea id=\\"123\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 border-dashed w-full rounded-lg border py-2 pr-20 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" disabled=\\"\\" maxlength=\\"10\\" rows=\\"3\\"></textarea>
+    <div class=\\"absolute inset-y-0 right-0 flex items-center pr-3 text-sm\\" style=\\"display: none;\\"><span dusk=\\"contador\\">3</span>/<span dusk=\\"maxlength\\">10</span></div>
+  </div>
+  <!--v-if-->
+</div>"
+`;
+
 exports[`TextAreaInput > renderiza o label respeitando o snapshot 1`] = `
 "<div class=\\"space-y-1\\"><label for=\\"foo-id\\" class=\\"font-bold\\" dusk=\\"label\\">bar
     <!--v-if-->
@@ -52,17 +63,6 @@ exports[`TextAreaInput > renderiza o ícone respeitando o snapshot 1`] = `
         <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
         <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
       </svg></div><textarea id=\\"foo-id\\" class=\\"pl-12 border-primaria-500 bg-primaria-100 ring-primaria-500 w-full rounded-lg border py-2 pr-20 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" maxlength=\\"10\\" rows=\\"3\\"></textarea>
-    <div class=\\"absolute inset-y-0 right-0 flex items-center pr-3 text-sm\\" style=\\"display: none;\\"><span dusk=\\"contador\\">3</span>/<span dusk=\\"maxlength\\">10</span></div>
-  </div>
-  <!--v-if-->
-</div>"
-`;
-
-exports[`TextAreaInput > rendiza o componente de maneira diversa quando desabilitado respeitando o snapshot 1`] = `
-"<div class=\\"space-y-1\\">
-  <!--v-if-->
-  <div class=\\"dark:text-primaria-50 relative\\">
-    <!--v-if--><textarea id=\\"123\\" class=\\"pl-2 border-primaria-500 bg-primaria-100 ring-primaria-500 border-dashed w-full rounded-lg border py-2 pr-20 outline-none transition duration-300 focus:ring disabled:cursor-not-allowed disabled:bg-primaria-50 dark:disabled:bg-secundaria-900\\" disabled=\\"\\" maxlength=\\"10\\" rows=\\"3\\"></textarea>
     <div class=\\"absolute inset-y-0 right-0 flex items-center pr-3 text-sm\\" style=\\"display: none;\\"><span dusk=\\"contador\\">3</span>/<span dusk=\\"maxlength\\">10</span></div>
   </div>
   <!--v-if-->

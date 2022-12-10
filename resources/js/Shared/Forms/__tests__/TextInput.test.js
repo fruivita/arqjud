@@ -93,7 +93,7 @@ describe('TextInput', () => {
         ).toMatchSnapshot();
     });
 
-    test('rendiza o componente de maneira diversa quando desabilitado respeitando o snapshot', () => {
+    test('renderiza o componente de maneira diversa quando desabilitado respeitando o snapshot', () => {
         expect(
             mountFunction({
                 props: {

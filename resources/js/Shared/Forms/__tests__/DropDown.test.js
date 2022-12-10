@@ -153,7 +153,7 @@ describe('DropDown', () => {
         ).toMatchSnapshot();
     });
 
-    test('rendiza o componente de maneira diversa quando desabilitado respeitando o snapshot', () => {
+    test('renderiza o componente de maneira diversa quando desabilitado respeitando o snapshot', () => {
         expect(
             mountFunction({
                 props: {
@@ -168,7 +168,7 @@ describe('DropDown', () => {
         ).toMatchSnapshot();
     });
 
-    test('rendiza o componente quando não há opções para o select respeitando o snapshot', () => {
+    test('renderiza o componente quando não há opções para o select respeitando o snapshot', () => {
         expect(
             mountFunction({
                 props: {

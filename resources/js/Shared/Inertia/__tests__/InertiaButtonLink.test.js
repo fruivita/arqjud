@@ -58,7 +58,7 @@ describe('InertiaButtonLink', () => {
         ).toMatchSnapshot();
     });
 
-    test('rendiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot', () => {
+    test('renderiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot', () => {
         expect(
             mountFunction({
                 props: { href: 'http://foo.bar', texto: 'foo' },

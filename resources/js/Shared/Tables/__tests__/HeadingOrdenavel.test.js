@@ -56,7 +56,7 @@ describe('HeadingOrdenavel', () => {
     );
 
     test.each(ordenacoes)(
-        'rendiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot',
+        'renderiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot',
         (entrada) => {
             expect(
                 mountFunction({

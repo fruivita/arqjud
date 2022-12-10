@@ -40,7 +40,7 @@ describe('Tabela', () => {
         ).toMatchSnapshot();
     });
 
-    test('rendiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot', () => {
+    test('renderiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot', () => {
         expect(
             mountFunction({
                 slots: { header: 'foo', body: 'bar' },
