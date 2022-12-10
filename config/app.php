@@ -228,7 +228,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\FakerServiceProvider::class,
-        App\Providers\BuilderMacroServiceProvider::class,
     ],
 
     /*
