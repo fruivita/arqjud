@@ -14,8 +14,8 @@ use App\Models\Sala;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
 test('lança exception ao tentar criar salas duplicadas, isto é, com mesmo número e andar', function () {

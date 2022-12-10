@@ -4,8 +4,8 @@ namespace App\Http\Resources\Prateleira;
 
 use App\Enums\Policy;
 use App\Http\Resources\Estante\EstanteOnlyResource;
-use App\Models\Prateleira;
 use App\Models\Caixa;
+use App\Models\Prateleira;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

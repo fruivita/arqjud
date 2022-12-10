@@ -7,12 +7,12 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Controllers\Cadastro\VolumeCaixa\VolumeCaixaController;
 use App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest;
 use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Caixa;
+use App\Models\Permissao;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
 use Inertia\Testing\AssertableInertia as Assert;

@@ -8,7 +8,6 @@ use App\Filters\Prateleira\JoinLocalidade;
 use App\Filters\Prateleira\Order;
 use App\Models\Prateleira;
 use MichaelRubel\EnhancedPipeline\Pipeline;
-use Mockery\MockInterface;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 // Caminho feliz

@@ -23,11 +23,9 @@ trait ComFeedback
     public function feedback(mixed $resultado, string $mensagem = null)
     {
         return [
-            'feedback' =>
-
-            $resultado
+            'feedback' => $resultado
                 ? ['sucesso' => $mensagem ?? __('Comando executado com sucesso!')]
-                : ['erro' => $mensagem ?? __('Falha na execução do comando!')]
+                : ['erro' => $mensagem ?? __('Falha na execução do comando!')],
         ];
     }
 }

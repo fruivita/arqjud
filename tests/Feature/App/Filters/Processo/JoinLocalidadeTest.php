@@ -7,11 +7,11 @@
 use App\Filters\Processo\JoinLocalidade;
 use App\Models\Andar;
 use App\Models\Caixa;
-use App\Models\Processo;
 use App\Models\Estante;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\Predio;
+use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\VolumeCaixa;
 use MichaelRubel\EnhancedPipeline\Pipeline;

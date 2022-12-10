@@ -6,8 +6,8 @@
  */
 
 use App\Http\Resources\Estante\EstanteResource;
-use App\Models\Permissao;
 use App\Models\Estante;
+use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {

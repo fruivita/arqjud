@@ -7,16 +7,14 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Controllers\Cadastro\Caixa\CaixaController;
-use App\Http\Requests\Cadastro\Caixa\EditCaixaRequest;
-use App\Http\Requests\Cadastro\Caixa\IndexCaixaRequest;
 use App\Http\Requests\Cadastro\Caixa\PostCaixaRequest;
 use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Models\Caixa;
 use App\Models\Localidade;
+use App\Models\Permissao;
 use App\Models\Prateleira;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
@@ -24,8 +22,6 @@ use App\Pipes\Caixa\SetGPProcessos;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia as Assert;
-use Mockery\MockInterface;
-
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
 use function Pest\Laravel\patch;

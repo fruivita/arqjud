@@ -167,7 +167,7 @@ class Processo extends Model
      * Aplica ao número de informado à mascara a mascara CNJ, V2 ou V1
      * necessária.
      *
-     * @param null|string $processo
+     * @param  null|string  $processo
      * @return null|string processo com máscara ou null
      */
     public static function aplicarMascaraProcesso(string $processo = null)

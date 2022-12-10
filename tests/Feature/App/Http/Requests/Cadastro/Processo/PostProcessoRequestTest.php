@@ -6,8 +6,8 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Requests\Cadastro\Processo\PostProcessoRequest;
+use App\Models\Permissao;
 use App\Models\Processo;
 use App\Rules\NumeroProcesso;
 use App\Rules\NumeroProcessoCNJ;
@@ -66,7 +66,7 @@ test('rules estão definidas no form request para a criação do registro', func
             'string',
             'max:25',
             new NumeroProcessoCNJ(),
-            "unique:processos,numero",
+            'unique:processos,numero',
         ],
 
         'numero_antigo' => [
@@ -74,7 +74,7 @@ test('rules estão definidas no form request para a criação do registro', func
             'nullable',
             'string',
             new NumeroProcesso(),
-            "unique:processos,numero_antigo",
+            'unique:processos,numero_antigo',
         ],
 
         'arquivado_em' => [
@@ -121,7 +121,7 @@ test('rules estão definidas no form request para a atualização do registro', 
             'string',
             'max:25',
             new NumeroProcessoCNJ(),
-            "exists:processos,numero",
+            'exists:processos,numero',
         ],
 
         'numero' => [

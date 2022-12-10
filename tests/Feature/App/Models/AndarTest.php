@@ -9,8 +9,8 @@ use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
 use Illuminate\Database\QueryException;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
 test('lança exception ao tentar criar andares duplicados, isto é, com mesmo numero/apelido e prédio', function () {

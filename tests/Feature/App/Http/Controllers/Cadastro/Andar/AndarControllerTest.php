@@ -8,15 +8,12 @@
  */
 
 use App\Http\Controllers\Cadastro\Andar\AndarController;
-use App\Http\Requests\Cadastro\Andar\EditAndarRequest;
-use App\Http\Requests\Cadastro\Andar\IndexAndarRequest;
 use App\Http\Requests\Cadastro\Andar\PostAndarRequest;
 use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Predio\PredioResource;
 use App\Models\Andar;
 use App\Models\Permissao;
 use App\Models\Predio;
-use App\Models\Sala;
 use Database\Seeders\PerfilSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;

@@ -48,7 +48,7 @@ test('retorna a caixa pai se houver o eager load da propriedade', function () {
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->volume_api
-            + ['caixa' => $caixa_api]
+            + ['caixa' => $caixa_api],
     ]);
 });
 
@@ -57,7 +57,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->volume_api
-            + $this->volume->only('processos_count')
+            + $this->volume->only('processos_count'),
     ]);
 });
 

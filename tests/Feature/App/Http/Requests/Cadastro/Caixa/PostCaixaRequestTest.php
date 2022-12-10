@@ -6,9 +6,9 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Requests\Cadastro\Caixa\PostCaixaRequest;
 use App\Models\Caixa;
+use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {

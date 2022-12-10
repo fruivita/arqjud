@@ -6,8 +6,8 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest;
+use App\Models\Permissao;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
 

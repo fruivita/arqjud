@@ -7,14 +7,12 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Controllers\Cadastro\Estante\EstanteController;
-use App\Http\Requests\Cadastro\Estante\EditEstanteRequest;
-use App\Http\Requests\Cadastro\Estante\IndexEstanteRequest;
 use App\Http\Requests\Cadastro\Estante\PostEstanteRequest;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Sala\SalaResource;
 use App\Models\Estante;
+use App\Models\Permissao;
 use App\Models\Prateleira;
 use App\Models\Sala;
 use Database\Seeders\PerfilSeeder;

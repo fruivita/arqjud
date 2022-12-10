@@ -10,19 +10,16 @@ use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Predio\PostPredioRequest;
 use App\Http\Resources\Andar\AndarCollection;
-use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
-use App\Http\Resources\Predio\PredioOnlyResource;
 use App\Http\Resources\Predio\PredioResource;
 use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
-use Illuminate\Http\Request;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 use Inertia\Inertia;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 class PredioController extends Controller
 {

@@ -8,7 +8,6 @@
 use App\Http\Resources\Processo\ProcessoOnlyResource;
 use App\Models\Processo;
 use Database\Seeders\PerfilSeeder;
-
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
@@ -68,7 +67,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->processo_api
             + $this->processo->only('processos_filho_count')
-            + $this->processo->only('solicitacoes_count')
+            + $this->processo->only('solicitacoes_count'),
     ]);
 });
 

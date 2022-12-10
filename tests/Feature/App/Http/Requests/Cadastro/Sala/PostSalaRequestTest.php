@@ -6,8 +6,8 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Requests\Cadastro\Sala\PostSalaRequest;
+use App\Models\Permissao;
 use App\Models\Sala;
 use Database\Seeders\PerfilSeeder;
 

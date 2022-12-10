@@ -8,8 +8,6 @@
  */
 
 use App\Http\Controllers\Cadastro\Sala\SalaController;
-use App\Http\Requests\Cadastro\Sala\EditSalaRequest;
-use App\Http\Requests\Cadastro\Sala\IndexSalaRequest;
 use App\Http\Requests\Cadastro\Sala\PostSalaRequest;
 use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Sala\SalaResource;

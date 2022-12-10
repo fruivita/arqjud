@@ -52,7 +52,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->caixa_api
-            + $this->caixa->only('volumes_count')
+            + $this->caixa->only('volumes_count'),
     ]);
 });
 

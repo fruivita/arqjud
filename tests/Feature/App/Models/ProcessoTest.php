@@ -15,8 +15,8 @@ use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\VolumeCaixa;
 use Illuminate\Database\QueryException;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
 test('lança exception ao tentar criar processos duplicados, isto é, com mesmo número ou mesmo número antigo', function () {

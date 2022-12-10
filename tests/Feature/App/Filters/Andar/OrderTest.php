@@ -8,7 +8,6 @@ use App\Filters\Andar\JoinLocalidade;
 use App\Filters\Andar\Order;
 use App\Models\Andar;
 use MichaelRubel\EnhancedPipeline\Pipeline;
-use Mockery\MockInterface;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 // Caminho feliz

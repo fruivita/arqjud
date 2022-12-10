@@ -8,7 +8,6 @@ use App\Filters\Predio\JoinLocalidade;
 use App\Filters\Predio\Order;
 use App\Models\Predio;
 use MichaelRubel\EnhancedPipeline\Pipeline;
-use Mockery\MockInterface;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 // Caminho feliz

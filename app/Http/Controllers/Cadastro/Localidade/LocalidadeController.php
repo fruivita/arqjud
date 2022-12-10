@@ -7,19 +7,16 @@ use App\Filters\Localidade\Order;
 use App\Filters\Predio\Order as PredioOrder;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cadastro\Localidade\EditLocalidadeRequest;
 use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
 use App\Http\Resources\Localidade\LocalidadeCollection;
-use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
 use App\Models\Localidade;
 use App\Models\Predio;
-use App\Services\Predio\PesquisarPredio;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 use Inertia\Inertia;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 /**
  * @see https://laravel.com/docs/controllers

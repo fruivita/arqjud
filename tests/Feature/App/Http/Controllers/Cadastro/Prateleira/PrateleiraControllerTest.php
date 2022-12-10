@@ -7,15 +7,12 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Controllers\Cadastro\Prateleira\PrateleiraController;
-use App\Http\Requests\Cadastro\Prateleira\EditPrateleiraRequest;
-use App\Http\Requests\Cadastro\Prateleira\IndexPrateleiraRequest;
 use App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraResource;
-use App\Models\Caixa;
 use App\Models\Estante;
+use App\Models\Permissao;
 use App\Models\Prateleira;
 use Database\Seeders\PerfilSeeder;
 use Inertia\Testing\AssertableInertia as Assert;

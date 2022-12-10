@@ -9,7 +9,6 @@ use App\Http\Resources\Processo\ProcessoResource;
 use App\Models\Permissao;
 use App\Models\Processo;
 use Database\Seeders\PerfilSeeder;
-
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {

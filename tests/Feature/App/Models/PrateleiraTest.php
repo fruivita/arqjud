@@ -13,8 +13,8 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Sala;
 use Illuminate\Database\QueryException;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
 test('lança exception ao tentar criar prateleiras duplicadas, isto é, com mesmo número e estante', function () {
@@ -187,7 +187,6 @@ test('retorna as prateleiras pelo escopo search que busca a partir do início do
     ['aaaa', 2],
     ['bbbb', 3],
 ]);
-
 
 test('retorna as prateleiras pelo escopo search que busca a partir do início do texto no nome da localidade', function (string $termo, int $quantidade) {
     Localidade::factory()

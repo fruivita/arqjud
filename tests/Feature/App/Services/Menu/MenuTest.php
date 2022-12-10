@@ -4,8 +4,8 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Permissao;
 use App\Models\Perfil;
+use App\Models\Permissao;
 use App\Services\Menu\Menu;
 use Database\Seeders\PerfilPermissaoSeeder;
 use Database\Seeders\PerfilSeeder;

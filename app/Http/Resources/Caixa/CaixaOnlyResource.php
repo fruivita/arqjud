@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Caixa;
 
-use App\Http\Resources\Estante\EstanteOnlyResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraOnlyResource;
 use Illuminate\Http\Resources\Json\JsonResource;

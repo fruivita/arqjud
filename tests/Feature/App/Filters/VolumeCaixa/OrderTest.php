@@ -8,7 +8,6 @@ use App\Filters\VolumeCaixa\JoinLocalidade;
 use App\Filters\VolumeCaixa\Order;
 use App\Models\VolumeCaixa;
 use MichaelRubel\EnhancedPipeline\Pipeline;
-use Mockery\MockInterface;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 // Caminho feliz

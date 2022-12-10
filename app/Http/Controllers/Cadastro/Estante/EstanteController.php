@@ -18,9 +18,8 @@ use App\Models\Prateleira;
 use App\Models\Sala;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
-use Illuminate\Http\Request;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 use Inertia\Inertia;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 class EstanteController extends Controller
 {

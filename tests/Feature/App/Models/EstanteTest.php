@@ -14,8 +14,8 @@ use App\Models\Sala;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
 test('lança exception ao tentar criar estantes duplicadas, isto é, com mesmo número', function () {
@@ -166,7 +166,6 @@ test('retorna as estantes pelo escopo search que busca a partir do início do te
     ['aaaa', 2],
     ['bbbb', 3],
 ]);
-
 
 test('retorna as estantes pelo escopo search que busca a partir do início do texto no nome da localidade', function (string $termo, int $quantidade) {
     Localidade::factory()

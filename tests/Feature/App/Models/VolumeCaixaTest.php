@@ -11,12 +11,11 @@ use App\Models\Estante;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\Predio;
-use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\VolumeCaixa;
 use Illuminate\Database\QueryException;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 use Illuminate\Support\Str;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
 test('lança exception ao tentar criar volumes de caixa duplicados, isto é, com mesmo número', function () {

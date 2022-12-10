@@ -6,8 +6,8 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest;
+use App\Models\Permissao;
 use App\Models\Prateleira;
 use Database\Seeders\PerfilSeeder;
 

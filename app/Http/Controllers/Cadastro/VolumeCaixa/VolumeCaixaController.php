@@ -18,9 +18,8 @@ use App\Models\Processo;
 use App\Models\VolumeCaixa;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
-use Illuminate\Http\Request;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 use Inertia\Inertia;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 class VolumeCaixaController extends Controller
 {

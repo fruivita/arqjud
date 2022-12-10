@@ -12,7 +12,6 @@ use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Models\Localidade;
 use App\Models\Permissao;
-use App\Models\Predio;
 use Database\Seeders\PerfilSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;

@@ -18,7 +18,6 @@ use App\Models\Predio;
 use App\Models\Sala;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

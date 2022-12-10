@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Processo;
 
 use App\Enums\Policy;
-use App\Http\Resources\Processo\ProcessoOnlyResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaOnlyResource;
 use App\Models\Processo;
 use Illuminate\Http\Resources\Json\JsonResource;

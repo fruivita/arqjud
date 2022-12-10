@@ -22,7 +22,6 @@ use App\Pipes\Caixa\Atualizar;
 use App\Pipes\Caixa\SetGPProcessos;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

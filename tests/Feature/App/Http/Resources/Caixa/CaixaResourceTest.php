@@ -6,8 +6,8 @@
  */
 
 use App\Http\Resources\Caixa\CaixaResource;
-use App\Models\Permissao;
 use App\Models\Caixa;
+use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {

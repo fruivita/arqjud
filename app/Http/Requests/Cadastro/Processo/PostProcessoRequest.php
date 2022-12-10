@@ -6,9 +6,6 @@ use App\Enums\Policy;
 use App\Models\Processo;
 use App\Rules\NumeroProcesso;
 use App\Rules\NumeroProcessoCNJ;
-use App\Rules\ProcessoAntigoUnique;
-use App\Rules\ProcessoExists;
-use App\Rules\ProcessoUnique;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -62,7 +59,7 @@ class PostProcessoRequest extends FormRequest
                 new NumeroProcessoCNJ(),
                 isset($this->processo)
                     ? "unique:processos,numero,{$this->processo->id}" // PATCH OR PUT
-                    : "unique:processos,numero", // POST
+                    : 'unique:processos,numero', // POST
             ],
 
             'numero_antigo' => [
@@ -72,7 +69,7 @@ class PostProcessoRequest extends FormRequest
                 new NumeroProcesso(),
                 isset($this->processo)
                     ? "unique:processos,numero_antigo,{$this->processo->id}" // PATCH OR PUT
-                    : "unique:processos,numero_antigo", // POST
+                    : 'unique:processos,numero_antigo', // POST
             ],
 
             'arquivado_em' => [

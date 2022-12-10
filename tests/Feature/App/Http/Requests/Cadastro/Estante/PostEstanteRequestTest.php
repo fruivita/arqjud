@@ -6,10 +6,9 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Requests\Cadastro\Estante\PostEstanteRequest;
 use App\Models\Estante;
-use Database\Seeders\LotacaoSeeder;
+use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
