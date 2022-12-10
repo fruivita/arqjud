@@ -7,7 +7,8 @@ use App\Filters\Processo\JoinLocalidade;
 use App\Filters\Processo\Order;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cadastro\Processo\PostProcessoRequest;
+use App\Http\Requests\Cadastro\Processo\StoreProcessoRequest;
+use App\Http\Requests\Cadastro\Processo\UpdateProcessoRequest;
 use App\Http\Resources\Processo\ProcessoCollection;
 use App\Http\Resources\Processo\ProcessoResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
@@ -65,11 +66,11 @@ class ProcessoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Processo\PostProcessoRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Processo\StoreProcessoRequest  $request
      * @param  \App\Models\VolumeCaixa  $volume_caixa
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostProcessoRequest $request, VolumeCaixa $volume_caixa)
+    public function store(StoreProcessoRequest $request, VolumeCaixa $volume_caixa)
     {
         $processo = new Processo();
 
@@ -120,11 +121,11 @@ class ProcessoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Processo\PostProcessoRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Processo\UpdateProcessoRequest  $request
      * @param  \App\Models\Processo  $processo
      * @return \Illuminate\Http\Response
      */
-    public function update(PostProcessoRequest $request, Processo $processo)
+    public function update(UpdateProcessoRequest $request, Processo $processo)
     {
         $processo->numero = $request->input('numero');
         $processo->numero_antigo = $request->input('numero_antigo');

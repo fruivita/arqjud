@@ -8,7 +8,8 @@
  */
 
 use App\Http\Controllers\Cadastro\Sala\SalaController;
-use App\Http\Requests\Cadastro\Sala\PostSalaRequest;
+use App\Http\Requests\Cadastro\Sala\StoreSalaRequest;
+use App\Http\Requests\Cadastro\Sala\UpdateSalaRequest;
 use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Sala\SalaResource;
 use App\Models\Andar;
@@ -58,8 +59,8 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    ['store', PostSalaRequest::class],
-    ['update', PostSalaRequest::class],
+    ['store', StoreSalaRequest::class],
+    ['update', UpdateSalaRequest::class],
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
@@ -73,6 +74,8 @@ test('action index compartilha os dados esperados com a view/componente correto'
             fn (Assert $page) => $page
                 ->component('Cadastro/Sala/Index')
                 ->has('salas.data', 2)
+                ->has('salas.meta.termo')
+                ->has('salas.meta.order')
         );
 });
 
@@ -147,6 +150,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
                 ->component('Cadastro/Sala/Edit')
                 ->where('sala', SalaResource::make($sala)->response()->getData(true))
                 ->has('estantes.data', 3)
+                ->has('estantes.meta.order')
         );
 });
 

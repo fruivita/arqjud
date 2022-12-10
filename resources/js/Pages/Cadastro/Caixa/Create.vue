@@ -39,7 +39,6 @@ const form = useForm({
     complemento: '',
     descricao: '',
     localidade_criadora_id: '',
-    prateleira_id: props.prateleira.data.id,
 });
 
 const cadastrar = () => {

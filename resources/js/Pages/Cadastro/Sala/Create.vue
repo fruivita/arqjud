@@ -30,7 +30,6 @@ const __ = useTranslationsStore().__;
 const form = useForm({
     numero: '',
     descricao: '',
-    andar_id: props.andar.data.id,
 });
 
 const cadastrar = () => {

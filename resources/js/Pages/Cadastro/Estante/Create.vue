@@ -30,7 +30,6 @@ const __ = useTranslationsStore().__;
 const form = useForm({
     numero: '',
     descricao: '',
-    sala_id: props.sala.data.id,
 });
 
 const cadastrar = () => {

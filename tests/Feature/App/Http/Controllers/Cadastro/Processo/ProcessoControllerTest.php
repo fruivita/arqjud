@@ -8,7 +8,8 @@
  */
 
 use App\Http\Controllers\Cadastro\Processo\ProcessoController;
-use App\Http\Requests\Cadastro\Processo\PostProcessoRequest;
+use App\Http\Requests\Cadastro\Processo\StoreProcessoRequest;
+use App\Http\Requests\Cadastro\Processo\UpdateProcessoRequest;
 use App\Http\Resources\Processo\ProcessoResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Permissao;
@@ -56,8 +57,8 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    ['store', PostProcessoRequest::class],
-    ['update', PostProcessoRequest::class],
+    ['store', StoreProcessoRequest::class],
+    ['update', UpdateProcessoRequest::class],
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
@@ -71,6 +72,8 @@ test('action index compartilha os dados esperados com a view/componente correto'
             fn (Assert $page) => $page
                 ->component('Cadastro/Processo/Index')
                 ->has('processos.data', 2)
+                ->has('processos.meta.termo')
+                ->has('processos.meta.order')
         );
 });
 
@@ -173,6 +176,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
                 ->component('Cadastro/Processo/Edit')
                 ->where('processo', ProcessoResource::make($processo)->response()->getData(true))
                 ->has('processos_filho.data', 3)
+                ->has('processos_filho.meta.order')
         );
 });
 

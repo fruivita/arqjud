@@ -8,7 +8,8 @@
  */
 
 use App\Http\Controllers\Cadastro\Andar\AndarController;
-use App\Http\Requests\Cadastro\Andar\PostAndarRequest;
+use App\Http\Requests\Cadastro\Andar\StoreAndarRequest;
+use App\Http\Requests\Cadastro\Andar\UpdateAndarRequest;
 use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Predio\PredioResource;
 use App\Models\Andar;
@@ -56,8 +57,8 @@ test('action do controller usa o form request', function (string $action, string
         $request
     );
 })->with([
-    ['store', PostAndarRequest::class],
-    ['update', PostAndarRequest::class],
+    ['store', StoreAndarRequest::class],
+    ['update', UpdateAndarRequest::class],
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
@@ -71,6 +72,8 @@ test('action index compartilha os dados esperados com a view/componente correto'
             fn (Assert $page) => $page
                 ->component('Cadastro/Andar/Index')
                 ->has('andares.data', 2)
+                ->has('andares.meta.termo')
+                ->has('andares.meta.order')
         );
 });
 
@@ -133,6 +136,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
                 ->component('Cadastro/Andar/Edit')
                 ->where('andar', AndarResource::make($andar)->response()->getData(true))
                 ->has('salas.data', 3)
+                ->has('salas.meta.order')
         );
 });
 

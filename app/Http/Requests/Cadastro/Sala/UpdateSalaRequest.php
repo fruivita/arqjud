@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Cadastro\Prateleira;
+namespace App\Http\Requests\Cadastro\Sala;
 
 use App\Enums\Policy;
-use App\Models\Prateleira;
+use App\Models\Sala;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
  */
-class PostPrateleiraRequest extends FormRequest
+class UpdateSalaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,9 +19,7 @@ class PostPrateleiraRequest extends FormRequest
      */
     public function authorize()
     {
-        return isset($this->prateleira)
-            ? auth()->user()->can(Policy::Update->value, Prateleira::class)  // PATCH OR PUT
-            : auth()->user()->can(Policy::Create->value, Prateleira::class); // POST
+        return auth()->user()->can(Policy::Update->value, Sala::class);
     }
 
     /**
@@ -31,23 +30,14 @@ class PostPrateleiraRequest extends FormRequest
     public function rules()
     {
         return [
-            'estante_id' => [
-                'bail',
-                isset($this->prateleira)
-                    ? 'nullable' // PATCH OR PUT
-                    : 'required', // POST
-                'integer',
-                'exists:estantes,id',
-            ],
-
             'numero' => [
                 'bail',
                 'required',
                 'string',
                 'between:1,50',
-                isset($this->prateleira)
-                    ? "unique:prateleiras,numero,{$this->prateleira->id},id,estante_id,{$this->prateleira->estante_id}" // PATCH OR PUT
-                    : "unique:prateleiras,numero,null,id,estante_id,{$this->estante_id}", // POST
+                Rule::unique('salas', 'numero')
+                    ->where('andar_id', $this->sala->andar_id)
+                    ->ignore($this->sala),
             ],
 
             'descricao' => [
@@ -67,7 +57,6 @@ class PostPrateleiraRequest extends FormRequest
     public function attributes()
     {
         return [
-            'estante_id' => __('Estante'),
             'numero' => __('Número'),
             'descricao' => __('Descrição'),
         ];

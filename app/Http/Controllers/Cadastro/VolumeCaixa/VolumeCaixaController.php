@@ -8,7 +8,8 @@ use App\Filters\Search;
 use App\Filters\VolumeCaixa\JoinLocalidade;
 use App\Filters\VolumeCaixa\Order;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest;
+use App\Http\Requests\Cadastro\VolumeCaixa\StoreVolumeCaixaRequest;
+use App\Http\Requests\Cadastro\VolumeCaixa\UpdateVolumeCaixaRequest;
 use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Processo\ProcessoCollection;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaCollection;
@@ -68,11 +69,11 @@ class VolumeCaixaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest  $request
+     * @param  \App\Http\Requests\Cadastro\VolumeCaixa\StoreVolumeCaixaRequest  $request
      * @param  \App\Models\Caixa  $caixa
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostVolumeCaixaRequest $request, Caixa $caixa)
+    public function store(StoreVolumeCaixaRequest $request, Caixa $caixa)
     {
         $volume_caixa = new VolumeCaixa();
 
@@ -111,11 +112,11 @@ class VolumeCaixaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest  $request
+     * @param  \App\Http\Requests\Cadastro\VolumeCaixa\UpdateVolumeCaixaRequest  $request
      * @param  \App\Models\VolumeCaixa  $volume_caixa
      * @return \Illuminate\Http\Response
      */
-    public function update(PostVolumeCaixaRequest $request, VolumeCaixa $volume_caixa)
+    public function update(UpdateVolumeCaixaRequest $request, VolumeCaixa $volume_caixa)
     {
         $volume_caixa->numero = $request->input('numero');
         $volume_caixa->descricao = $request->input('descricao');

@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Cadastro\Localidade;
+namespace App\Http\Requests\Cadastro\Predio;
 
 use App\Enums\Policy;
-use App\Models\Localidade;
+use App\Models\Predio;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
  */
-class PostLocalidadeRequest extends FormRequest
+class UpdatePredioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,9 +19,7 @@ class PostLocalidadeRequest extends FormRequest
      */
     public function authorize()
     {
-        return isset($this->localidade)
-            ? auth()->user()->can(Policy::Update->value, Localidade::class)  // PATCH OR PUT
-            : auth()->user()->can(Policy::Create->value, Localidade::class); // POST
+        return auth()->user()->can(Policy::Update->value, Predio::class);
     }
 
     /**
@@ -36,9 +35,9 @@ class PostLocalidadeRequest extends FormRequest
                 'required',
                 'string',
                 'between:1,100',
-                isset($this->localidade)
-                    ? "unique:localidades,nome,{$this->localidade->id}" // PATCH OR PUT
-                    : 'unique:localidades,nome', // POST
+                Rule::unique('predios', 'nome')
+                    ->where('localidade_id', $this->predio->localidade_id)
+                    ->ignore($this->predio),
             ],
 
             'descricao' => [

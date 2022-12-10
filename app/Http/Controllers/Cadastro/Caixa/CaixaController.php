@@ -8,7 +8,8 @@ use App\Filters\Caixa\Order;
 use App\Filters\Search;
 use App\Filters\VolumeCaixa\Order as VolumeCaixaOrder;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cadastro\Caixa\PostCaixaRequest;
+use App\Http\Requests\Cadastro\Caixa\StoreCaixaRequest;
+use App\Http\Requests\Cadastro\Caixa\UpdateCaixaRequest;
 use App\Http\Resources\Caixa\CaixaCollection;
 use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
@@ -74,11 +75,11 @@ class CaixaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Caixa\PostCaixaRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Caixa\StoreCaixaRequest  $request
      * @param  \App\Models\Prateleira  $prateleira
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostCaixaRequest $request, Prateleira $prateleira)
+    public function store(StoreCaixaRequest $request, Prateleira $prateleira)
     {
         $caixa = new Caixa();
 
@@ -121,11 +122,11 @@ class CaixaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Caixa\PostCaixaRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Caixa\UpdateCaixaRequest  $request
      * @param  \App\Models\Caixa  $caixa
      * @return \Illuminate\Http\Response
      */
-    public function update(PostCaixaRequest $request, Caixa $caixa)
+    public function update(UpdateCaixaRequest $request, Caixa $caixa)
     {
         $salvo = Pipeline::make()
             ->withTransaction()

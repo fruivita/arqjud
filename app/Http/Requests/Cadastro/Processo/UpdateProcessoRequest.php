@@ -7,11 +7,12 @@ use App\Models\Processo;
 use App\Rules\NumeroProcesso;
 use App\Rules\NumeroProcessoCNJ;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
  */
-class PostProcessoRequest extends FormRequest
+class UpdateProcessoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,9 +21,7 @@ class PostProcessoRequest extends FormRequest
      */
     public function authorize()
     {
-        return isset($this->processo)
-            ? auth()->user()->can(Policy::Update->value, Processo::class)  // PATCH OR PUT
-            : auth()->user()->can(Policy::Create->value, Processo::class); // POST
+        return auth()->user()->can(Policy::Update->value, Processo::class);
     }
 
     /**
@@ -33,22 +32,13 @@ class PostProcessoRequest extends FormRequest
     public function rules()
     {
         return [
-            'volume_caixa_id' => [
-                'bail',
-                isset($this->processo)
-                    ? 'nullable' // PATCH OR PUT
-                    : 'required', // POST
-                'integer',
-                'exists:volumes_caixa,id',
-            ],
-
             'processo_pai_numero' => [
                 'bail',
                 'nullable',
                 'string',
                 'max:25',
                 new NumeroProcessoCNJ(),
-                'exists:processos,numero',
+                Rule::exists('processos', 'numero'),
             ],
 
             'numero' => [
@@ -57,9 +47,8 @@ class PostProcessoRequest extends FormRequest
                 'string',
                 'max:25',
                 new NumeroProcessoCNJ(),
-                isset($this->processo)
-                    ? "unique:processos,numero,{$this->processo->id}" // PATCH OR PUT
-                    : 'unique:processos,numero', // POST
+                Rule::unique('processos', 'numero')
+                    ->ignore($this->processo),
             ],
 
             'numero_antigo' => [
@@ -67,9 +56,8 @@ class PostProcessoRequest extends FormRequest
                 'nullable',
                 'string',
                 new NumeroProcesso(),
-                isset($this->processo)
-                    ? "unique:processos,numero_antigo,{$this->processo->id}" // PATCH OR PUT
-                    : 'unique:processos,numero_antigo', // POST
+                Rule::unique('processos', 'numero_antigo')
+                    ->ignore($this->processo),
             ],
 
             'arquivado_em' => [
@@ -104,7 +92,6 @@ class PostProcessoRequest extends FormRequest
     public function attributes()
     {
         return [
-            'volume_caixa_id' => __('Volume da caixa'),
             'processo_pai_numero' => __('Processo pai'),
             'numero' => __('Número do processo'),
             'numero_antigo' => __('Número antigo do processo'),

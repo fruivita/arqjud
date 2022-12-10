@@ -7,7 +7,8 @@ use App\Filters\Localidade\Order;
 use App\Filters\Predio\Order as PredioOrder;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
+use App\Http\Requests\Cadastro\Localidade\StoreLocalidadeRequest;
+use App\Http\Requests\Cadastro\Localidade\UpdateLocalidadeRequest;
 use App\Http\Resources\Localidade\LocalidadeCollection;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
@@ -68,10 +69,10 @@ class LocalidadeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Localidade\StoreLocalidadeRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostLocalidadeRequest $request)
+    public function store(StoreLocalidadeRequest $request)
     {
         $localidade = new Localidade();
 
@@ -111,11 +112,11 @@ class LocalidadeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Localidade\UpdateLocalidadeRequest  $request
      * @param  \App\Models\Localidade  $localidade
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(PostLocalidadeRequest $request, Localidade $localidade)
+    public function update(UpdateLocalidadeRequest $request, Localidade $localidade)
     {
         $localidade->nome = $request->input('nome');
         $localidade->descricao = $request->input('descricao');

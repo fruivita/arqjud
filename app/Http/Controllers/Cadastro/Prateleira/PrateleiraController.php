@@ -9,7 +9,8 @@ use App\Filters\Prateleira\JoinLocalidade;
 use App\Filters\Prateleira\Order;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest;
+use App\Http\Requests\Cadastro\Prateleira\StorePrateleiraRequest;
+use App\Http\Requests\Cadastro\Prateleira\UpdatePrateleiraRequest;
 use App\Http\Resources\Caixa\CaixaCollection;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraCollection;
@@ -69,11 +70,11 @@ class PrateleiraController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Prateleira\StorePrateleiraRequest  $request
      * @param  \App\Models\Estante  $estante
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostPrateleiraRequest $request, Estante $estante)
+    public function store(StorePrateleiraRequest $request, Estante $estante)
     {
         $prateleira = new Prateleira();
 
@@ -112,11 +113,11 @@ class PrateleiraController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Prateleira\UpdatePrateleiraRequest  $request
      * @param  \App\Models\Prateleira  $prateleira
      * @return \Illuminate\Http\Response
      */
-    public function update(PostPrateleiraRequest $request, Prateleira $prateleira)
+    public function update(UpdatePrateleiraRequest $request, Prateleira $prateleira)
     {
         $prateleira->numero = $request->input('numero');
         $prateleira->descricao = $request->input('descricao');

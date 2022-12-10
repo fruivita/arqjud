@@ -8,7 +8,8 @@ use App\Filters\Andar\Order;
 use App\Filters\Sala\Order as SalaOrder;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cadastro\Andar\PostAndarRequest;
+use App\Http\Requests\Cadastro\Andar\StoreAndarRequest;
+use App\Http\Requests\Cadastro\Andar\UpdateAndarRequest;
 use App\Http\Resources\Andar\AndarCollection;
 use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Predio\PredioResource;
@@ -68,11 +69,11 @@ class AndarController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Andar\PostAndarRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Andar\StoreAndarRequest  $request
      * @param  \App\Models\Predio  $predio
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostAndarRequest $request, Predio $predio)
+    public function store(StoreAndarRequest $request, Predio $predio)
     {
         $andar = new Andar();
 
@@ -112,11 +113,11 @@ class AndarController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Andar\PostAndarRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Andar\UpdateAndarRequest  $request
      * @param  \App\Models\Andar  $andar
      * @return \Illuminate\Http\Response
      */
-    public function update(PostAndarRequest $request, Andar $andar)
+    public function update(UpdateAndarRequest $request, Andar $andar)
     {
         $andar->numero = $request->input('numero');
         $andar->apelido = $request->input('apelido');

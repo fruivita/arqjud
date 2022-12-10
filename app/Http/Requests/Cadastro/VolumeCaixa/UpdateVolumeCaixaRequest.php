@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Cadastro\Sala;
+namespace App\Http\Requests\Cadastro\VolumeCaixa;
 
 use App\Enums\Policy;
-use App\Models\Sala;
+use App\Models\VolumeCaixa;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
  */
-class PostSalaRequest extends FormRequest
+class UpdateVolumeCaixaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,9 +19,7 @@ class PostSalaRequest extends FormRequest
      */
     public function authorize()
     {
-        return isset($this->sala)
-            ? auth()->user()->can(Policy::Update->value, Sala::class)  // PATCH OR PUT
-            : auth()->user()->can(Policy::Create->value, Sala::class); // POST
+        return auth()->user()->can(Policy::Update->value, VolumeCaixa::class);
     }
 
     /**
@@ -31,23 +30,14 @@ class PostSalaRequest extends FormRequest
     public function rules()
     {
         return [
-            'andar_id' => [
-                'bail',
-                isset($this->sala)
-                    ? 'nullable' // PATCH OR PUT
-                    : 'required', // POST
-                'integer',
-                'exists:andares,id',
-            ],
-
             'numero' => [
                 'bail',
                 'required',
-                'string',
-                'between:1,50',
-                isset($this->sala)
-                    ? "unique:salas,numero,{$this->sala->id},id,andar_id,{$this->sala->andar_id}" // PATCH OR PUT
-                    : "unique:salas,numero,null,id,andar_id,{$this->andar_id}", // POST
+                'integer',
+                'between:1,9999',
+                Rule::unique('volumes_caixa', 'numero')
+                    ->where('caixa_id', $this->volume_caixa->caixa_id)
+                    ->ignore($this->volume_caixa),
             ],
 
             'descricao' => [
@@ -67,7 +57,6 @@ class PostSalaRequest extends FormRequest
     public function attributes()
     {
         return [
-            'andar_id' => __('Andar'),
             'numero' => __('Número'),
             'descricao' => __('Descrição'),
         ];

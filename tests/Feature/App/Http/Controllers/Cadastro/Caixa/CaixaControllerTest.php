@@ -8,7 +8,8 @@
  */
 
 use App\Http\Controllers\Cadastro\Caixa\CaixaController;
-use App\Http\Requests\Cadastro\Caixa\PostCaixaRequest;
+use App\Http\Requests\Cadastro\Caixa\StoreCaixaRequest;
+use App\Http\Requests\Cadastro\Caixa\UpdateCaixaRequest;
 use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraResource;
@@ -62,8 +63,8 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    ['store', PostCaixaRequest::class],
-    ['update', PostCaixaRequest::class],
+    ['store', StoreCaixaRequest::class],
+    ['update', UpdateCaixaRequest::class],
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
@@ -77,6 +78,8 @@ test('action index compartilha os dados esperados com a view/componente correto'
             fn (Assert $page) => $page
                 ->component('Cadastro/Caixa/Index')
                 ->has('caixas.data', 2)
+                ->has('caixas.meta.termo')
+                ->has('caixas.meta.order')
         );
 });
 
@@ -146,6 +149,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
                 ->component('Cadastro/Caixa/Edit')
                 ->where('caixa', CaixaResource::make($caixa)->response()->getData(true))
                 ->has('volumes_caixa.data', 3)
+                ->has('volumes_caixa.meta.order')
         );
 });
 

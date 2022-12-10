@@ -8,7 +8,8 @@
  */
 
 use App\Http\Controllers\Cadastro\VolumeCaixa\VolumeCaixaController;
-use App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest;
+use App\Http\Requests\Cadastro\VolumeCaixa\StoreVolumeCaixaRequest;
+use App\Http\Requests\Cadastro\VolumeCaixa\UpdateVolumeCaixaRequest;
 use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Caixa;
@@ -56,8 +57,8 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    ['store', PostVolumeCaixaRequest::class],
-    ['update', PostVolumeCaixaRequest::class],
+    ['store', StoreVolumeCaixaRequest::class],
+    ['update', UpdateVolumeCaixaRequest::class],
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
@@ -71,6 +72,8 @@ test('action index compartilha os dados esperados com a view/componente correto'
             fn (Assert $page) => $page
                 ->component('Cadastro/VolumeCaixa/Index')
                 ->has('volumes.data', 2)
+                ->has('volumes.meta.termo')
+                ->has('volumes.meta.order')
         );
 });
 
@@ -133,6 +136,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
                 ->component('Cadastro/VolumeCaixa/Edit')
                 ->where('volume_caixa', VolumeCaixaResource::make($volume_caixa)->response()->getData(true))
                 ->has('processos.data', 3)
+                ->has('processos.meta.order')
         );
 });
 

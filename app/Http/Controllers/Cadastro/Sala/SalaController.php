@@ -8,7 +8,8 @@ use App\Filters\Sala\JoinLocalidade;
 use App\Filters\Sala\Order;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cadastro\Sala\PostSalaRequest;
+use App\Http\Requests\Cadastro\Sala\StoreSalaRequest;
+use App\Http\Requests\Cadastro\Sala\UpdateSalaRequest;
 use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Estante\EstanteCollection;
 use App\Http\Resources\Sala\SalaCollection;
@@ -68,11 +69,11 @@ class SalaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Sala\PostSalaRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Sala\StoreSalaRequest  $request
      * @param  \App\Models\Andar  $andar
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostSalaRequest $request, Andar $andar)
+    public function store(StoreSalaRequest $request, Andar $andar)
     {
         $salvo = Sala::criar(
             $request->input('numero'),
@@ -110,11 +111,11 @@ class SalaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Sala\PostSalaRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Sala\UpdateSalaRequest  $request
      * @param  \App\Models\Sala  $sala
      * @return \Illuminate\Http\Response
      */
-    public function update(PostSalaRequest $request, Sala $sala)
+    public function update(UpdateSalaRequest $request, Sala $sala)
     {
         $sala->numero = $request->input('numero');
         $sala->descricao = $request->input('descricao');

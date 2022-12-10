@@ -32,7 +32,6 @@ const form = useForm({
     numero: '',
     apelido: '',
     descricao: '',
-    predio_id: props.predio.data.id,
 });
 
 const cadastrar = () => {

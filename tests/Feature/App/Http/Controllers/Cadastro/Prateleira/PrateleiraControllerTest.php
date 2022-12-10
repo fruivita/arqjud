@@ -8,7 +8,8 @@
  */
 
 use App\Http\Controllers\Cadastro\Prateleira\PrateleiraController;
-use App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest;
+use App\Http\Requests\Cadastro\Prateleira\StorePrateleiraRequest;
+use App\Http\Requests\Cadastro\Prateleira\UpdatePrateleiraRequest;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Models\Estante;
@@ -56,8 +57,8 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    ['store', PostPrateleiraRequest::class],
-    ['update', PostPrateleiraRequest::class],
+    ['store', StorePrateleiraRequest::class],
+    ['update', UpdatePrateleiraRequest::class],
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
@@ -71,6 +72,8 @@ test('action index compartilha os dados esperados com a view/componente correto'
             fn (Assert $page) => $page
                 ->component('Cadastro/Prateleira/Index')
                 ->has('prateleiras.data', 2)
+                ->has('prateleiras.meta.termo')
+                ->has('prateleiras.meta.order')
         );
 });
 
@@ -133,6 +136,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
                 ->component('Cadastro/Prateleira/Edit')
                 ->where('prateleira', PrateleiraResource::make($prateleira)->response()->getData(true))
                 ->has('caixas.data', 3)
+                ->has('caixas.meta.order')
         );
 });
 

@@ -8,7 +8,8 @@ use App\Filters\Estante\Order;
 use App\Filters\Prateleira\Order as PrateleiraOrder;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cadastro\Estante\PostEstanteRequest;
+use App\Http\Requests\Cadastro\Estante\StoreEstanteRequest;
+use App\Http\Requests\Cadastro\Estante\UpdateEstanteRequest;
 use App\Http\Resources\Estante\EstanteCollection;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraCollection;
@@ -68,11 +69,11 @@ class EstanteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Estante\PostEstanteRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Estante\StoreEstanteRequest  $request
      * @param  \App\Models\Sala  $sala
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostEstanteRequest $request, Sala $sala)
+    public function store(StoreEstanteRequest $request, Sala $sala)
     {
         $salvo = Estante::criar(
             $request->input('numero'),
@@ -110,11 +111,11 @@ class EstanteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Estante\PostEstanteRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Estante\UpdateEstanteRequest  $request
      * @param  \App\Models\Estante  $estante
      * @return \Illuminate\Http\Response
      */
-    public function update(PostEstanteRequest $request, Estante $estante)
+    public function update(UpdateEstanteRequest $request, Estante $estante)
     {
         $estante->numero = $request->input('numero');
         $estante->descricao = $request->input('descricao');

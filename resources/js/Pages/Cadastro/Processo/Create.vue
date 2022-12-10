@@ -37,7 +37,6 @@ const form = useForm({
     qtd_volumes: '',
     descricao: '',
     processo_pai_numero: '',
-    volume_caixa_id: props.volume_caixa.data.id,
 });
 
 const cadastrar = () => {

@@ -8,7 +8,8 @@
  */
 
 use App\Http\Controllers\Cadastro\Predio\PredioController;
-use App\Http\Requests\Cadastro\Predio\PostPredioRequest;
+use App\Http\Requests\Cadastro\Predio\StorePredioRequest;
+use App\Http\Requests\Cadastro\Predio\UpdatePredioRequest;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioResource;
 use App\Models\Localidade;
@@ -56,8 +57,8 @@ test('action do controller usa o form request', function (string $action, string
         $request
     );
 })->with([
-    ['store', PostPredioRequest::class],
-    ['update', PostPredioRequest::class],
+    ['store', StorePredioRequest::class],
+    ['update', UpdatePredioRequest::class],
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
@@ -71,6 +72,8 @@ test('action index compartilha os dados esperados com a view/componente correto'
             fn (Assert $page) => $page
                 ->component('Cadastro/Predio/Index')
                 ->has('predios.data', 2)
+                ->has('predios.meta.termo')
+                ->has('predios.meta.order')
         );
 });
 
@@ -132,6 +135,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
                 ->component('Cadastro/Predio/Edit')
                 ->where('predio', PredioResource::make($predio)->response()->getData(true))
                 ->has('andares.data', 3)
+                ->has('andares.meta.order')
         );
 });
 

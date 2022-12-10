@@ -8,7 +8,8 @@
  */
 
 use App\Http\Controllers\Cadastro\Localidade\LocalidadeController;
-use App\Http\Requests\Cadastro\Localidade\PostLocalidadeRequest;
+use App\Http\Requests\Cadastro\Localidade\StoreLocalidadeRequest;
+use App\Http\Requests\Cadastro\Localidade\UpdateLocalidadeRequest;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Models\Localidade;
 use App\Models\Permissao;
@@ -57,8 +58,8 @@ test('action do controller usa o form request', function (string $action, string
         $request
     );
 })->with([
-    ['store', PostLocalidadeRequest::class],
-    ['update', PostLocalidadeRequest::class],
+    ['store', StoreLocalidadeRequest::class],
+    ['update', UpdateLocalidadeRequest::class],
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
@@ -71,7 +72,9 @@ test('action index compartilha os dados esperados com a view/componente correto'
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Localidade/Index')
-                ->where('localidades', 2)
+                ->has('localidades.data', 2)
+                ->has('localidades.meta.termo')
+                ->has('localidades.meta.order')
         );
 });
 
@@ -122,6 +125,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
                 ->component('Cadastro/Localidade/Edit')
                 ->where('localidade.data', LocalidadeResource::make($localidade)->resolve())
                 ->has('predios.data', 3)
+                ->has('predios.meta.order')
         );
 });
 

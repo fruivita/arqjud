@@ -8,7 +8,8 @@
  */
 
 use App\Http\Controllers\Cadastro\Estante\EstanteController;
-use App\Http\Requests\Cadastro\Estante\PostEstanteRequest;
+use App\Http\Requests\Cadastro\Estante\StoreEstanteRequest;
+use App\Http\Requests\Cadastro\Estante\UpdateEstanteRequest;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Sala\SalaResource;
 use App\Models\Estante;
@@ -57,8 +58,8 @@ test('action do controller usa o form request', function (string $action, string
         $request
     );
 })->with([
-    ['store', PostEstanteRequest::class],
-    ['update', PostEstanteRequest::class],
+    ['store', StoreEstanteRequest::class],
+    ['update', UpdateEstanteRequest::class],
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
@@ -72,6 +73,8 @@ test('action index compartilha os dados esperados com a view/componente correto'
             fn (Assert $page) => $page
                 ->component('Cadastro/Estante/Index')
                 ->has('estantes.data', 2)
+                ->has('estantes.meta.termo')
+                ->has('estantes.meta.order')
         );
 });
 
@@ -140,6 +143,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
                 ->component('Cadastro/Estante/Edit')
                 ->where('estante', EstanteResource::make($estante)->response()->getData(true))
                 ->has('prateleiras.data', 3)
+                ->has('prateleiras.meta.order')
         );
 });
 

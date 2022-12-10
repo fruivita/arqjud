@@ -8,7 +8,8 @@ use App\Filters\Predio\JoinLocalidade;
 use App\Filters\Predio\Order;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cadastro\Predio\PostPredioRequest;
+use App\Http\Requests\Cadastro\Predio\StorePredioRequest;
+use App\Http\Requests\Cadastro\Predio\UpdatePredioRequest;
 use App\Http\Resources\Andar\AndarCollection;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
@@ -68,11 +69,11 @@ class PredioController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Predio\PostPredioRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Predio\StorePredioRequest  $request
      * @param  \App\Models\Localidade  $localidade
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostPredioRequest $request, Localidade $localidade)
+    public function store(StorePredioRequest $request, Localidade $localidade)
     {
         $predio = new Predio();
 
@@ -111,11 +112,11 @@ class PredioController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Predio\PostPredioRequest  $request
+     * @param  \App\Http\Requests\Cadastro\Predio\UpdatePredioRequest  $request
      * @param  \App\Models\Predio  $predio
      * @return \Illuminate\Http\Response
      */
-    public function update(PostPredioRequest $request, Predio $predio)
+    public function update(UpdatePredioRequest $request, Predio $predio)
     {
         $predio->nome = $request->input('nome');
         $predio->descricao = $request->input('descricao');

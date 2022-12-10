@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Cadastro\VolumeCaixa;
+namespace App\Http\Requests\Cadastro\Andar;
 
 use App\Enums\Policy;
-use App\Models\VolumeCaixa;
+use App\Models\Andar;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
  */
-class PostVolumeCaixaRequest extends FormRequest
+class UpdateAndarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,9 +19,7 @@ class PostVolumeCaixaRequest extends FormRequest
      */
     public function authorize()
     {
-        return isset($this->volume_caixa)
-            ? auth()->user()->can(Policy::Update->value, VolumeCaixa::class)  // PATCH OR PUT
-            : auth()->user()->can(Policy::Create->value, VolumeCaixa::class); // POST
+        return auth()->user()->can(Policy::Update->value, Andar::class);
     }
 
     /**
@@ -31,23 +30,24 @@ class PostVolumeCaixaRequest extends FormRequest
     public function rules()
     {
         return [
-            'caixa_id' => [
-                'bail',
-                isset($this->volume_caixa)
-                    ? 'nullable' // PATCH OR PUT
-                    : 'required', // POST
-                'integer',
-                'exists:caixas,id',
-            ],
-
             'numero' => [
                 'bail',
                 'required',
                 'integer',
-                'between:1,9999',
-                isset($this->volume_caixa)
-                    ? "unique:volumes_caixa,numero,{$this->volume_caixa->id},id,caixa_id,{$this->volume_caixa->caixa_id}" // PATCH OR PUT
-                    : "unique:volumes_caixa,numero,null,id,caixa_id,{$this->caixa_id}", // POST
+                'between:-100,300',
+                Rule::unique('andares', 'numero')
+                    ->where('predio_id', $this->andar->predio_id)
+                    ->ignore($this->andar),
+            ],
+
+            'apelido' => [
+                'bail',
+                'nullable',
+                'string',
+                'between:1,100',
+                Rule::unique('andares', 'apelido')
+                    ->where('predio_id', $this->andar->predio_id)
+                    ->ignore($this->andar),
             ],
 
             'descricao' => [
@@ -67,8 +67,8 @@ class PostVolumeCaixaRequest extends FormRequest
     public function attributes()
     {
         return [
-            'caixa_id' => __('Caixa'),
             'numero' => __('Número'),
+            'apelido' => __('Apelido'),
             'descricao' => __('Descrição'),
         ];
     }

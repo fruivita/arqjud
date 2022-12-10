@@ -29,7 +29,6 @@ const __ = useTranslationsStore().__;
 const form = useForm({
     nome: '',
     descricao: '',
-    localidade_id: props.localidade.data.id,
 });
 
 const cadastrar = () => {

@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Cadastro\Predio;
+namespace App\Http\Requests\Cadastro\Localidade;
 
 use App\Enums\Policy;
-use App\Models\Predio;
+use App\Models\Localidade;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
  */
-class PostPredioRequest extends FormRequest
+class StoreLocalidadeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,9 +19,7 @@ class PostPredioRequest extends FormRequest
      */
     public function authorize()
     {
-        return isset($this->predio)
-            ? auth()->user()->can(Policy::Update->value, Predio::class)  // PATCH OR PUT
-            : auth()->user()->can(Policy::Create->value, Predio::class); // POST
+        return auth()->user()->can(Policy::Create->value, Localidade::class);
     }
 
     /**
@@ -31,23 +30,12 @@ class PostPredioRequest extends FormRequest
     public function rules()
     {
         return [
-            'localidade_id' => [
-                'bail',
-                isset($this->predio)
-                    ? 'nullable' // PATCH OR PUT
-                    : 'required', // POST
-                'integer',
-                'exists:localidades,id',
-            ],
-
             'nome' => [
                 'bail',
                 'required',
                 'string',
                 'between:1,100',
-                isset($this->predio)
-                    ? "unique:predios,nome,{$this->predio->id},id,localidade_id,{$this->predio->localidade_id}" // PATCH OR PUT
-                    : "unique:predios,nome,null,id,localidade_id,{$this->localidade_id}", // POST
+                Rule::unique('localidades', 'nome'),
             ],
 
             'descricao' => [
@@ -67,7 +55,6 @@ class PostPredioRequest extends FormRequest
     public function attributes()
     {
         return [
-            'localidade_id' => __('Localidade'),
             'nome' => __('Nome'),
             'descricao' => __('Descrição'),
         ];
