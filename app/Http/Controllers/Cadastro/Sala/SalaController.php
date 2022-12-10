@@ -14,11 +14,11 @@ use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Estante\EstanteCollection;
 use App\Http\Resources\Sala\SalaCollection;
 use App\Http\Resources\Sala\SalaResource;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Andar;
 use App\Models\Estante;
 use App\Models\Sala;
-use App\Http\Traits\ComFeedback;
-use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

@@ -14,11 +14,11 @@ use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Processo\ProcessoCollection;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaCollection;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Caixa;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
-use App\Http\Traits\ComFeedback;
-use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

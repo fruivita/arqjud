@@ -12,10 +12,10 @@ use App\Http\Requests\Cadastro\Localidade\UpdateLocalidadeRequest;
 use App\Http\Resources\Localidade\LocalidadeCollection;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
-use App\Models\Localidade;
-use App\Models\Predio;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
+use App\Models\Localidade;
+use App\Models\Predio;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

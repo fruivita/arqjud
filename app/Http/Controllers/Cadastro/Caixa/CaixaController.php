@@ -15,12 +15,12 @@ use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaCollection;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\VolumeCaixa;
-use App\Http\Traits\ComFeedback;
-use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

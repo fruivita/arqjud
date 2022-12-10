@@ -15,11 +15,11 @@ use App\Http\Resources\Caixa\CaixaCollection;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraCollection;
 use App\Http\Resources\Prateleira\PrateleiraResource;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Caixa;
 use App\Models\Estante;
 use App\Models\Prateleira;
-use App\Http\Traits\ComFeedback;
-use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

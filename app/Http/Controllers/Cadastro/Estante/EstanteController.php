@@ -14,11 +14,11 @@ use App\Http\Resources\Estante\EstanteCollection;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraCollection;
 use App\Http\Resources\Sala\SalaResource;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Estante;
 use App\Models\Prateleira;
 use App\Models\Sala;
-use App\Http\Traits\ComFeedback;
-use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

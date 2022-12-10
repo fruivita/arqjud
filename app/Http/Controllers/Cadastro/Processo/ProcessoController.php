@@ -12,10 +12,10 @@ use App\Http\Requests\Cadastro\Processo\UpdateProcessoRequest;
 use App\Http\Resources\Processo\ProcessoCollection;
 use App\Http\Resources\Processo\ProcessoResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
-use App\Models\Processo;
-use App\Models\VolumeCaixa;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
+use App\Models\Processo;
+use App\Models\VolumeCaixa;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

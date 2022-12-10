@@ -14,11 +14,11 @@ use App\Http\Resources\Andar\AndarCollection;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
 use App\Http\Resources\Predio\PredioResource;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
-use App\Http\Traits\ComFeedback;
-use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
