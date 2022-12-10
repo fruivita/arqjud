@@ -102,7 +102,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "ergebnis/composer-normalize": true
         }
     },
     "minimum-stability": "dev",
