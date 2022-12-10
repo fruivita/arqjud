@@ -8,7 +8,7 @@
 beforeEach(function () {
     $this->classe = new class
     {
-        use App\Traits\ComFeedback;
+        use App\Http\Traits\ComFeedback;
     };
 });
 

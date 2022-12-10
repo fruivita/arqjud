@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Http\Traits;
 
 /**
  * Mensagem de feedback ao usuário.
