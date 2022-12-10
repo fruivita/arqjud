@@ -26,6 +26,7 @@ describe('ChaveValor', () => {
             chave: { type: String, required: true },
             valor: { type: [Number, String] },
             erro: { type: String },
+            href: { type: String },
         });
     });
 
@@ -57,6 +58,14 @@ describe('ChaveValor', () => {
         expect(
             mountFunction({
                 props: { chave: 'foo', erro: 'bar' },
+            }).html()
+        ).toMatchSnapshot();
+    });
+
+    test('renderiza o link âncora respeitando o snapshot', () => {
+        expect(
+            mountFunction({
+                props: { chave: 'foo', href: 'http://foo.bar' },
             }).html()
         ).toMatchSnapshot();
     });

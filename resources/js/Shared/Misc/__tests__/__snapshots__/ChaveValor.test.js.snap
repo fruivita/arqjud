@@ -1,8 +1,11 @@
 // Vitest Snapshot v1
 
 exports[`ChaveValor > renderiza a mensagem de erro respeitando o snapshot 1`] = `
-"<div class=\\"space-y-1\\"><span class=\\"font-bold\\">foo</span>
-  <p class=\\"flex space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\">
+"<div class=\\"space-y-1\\">
+  <div class=\\"flex items-center space-x-1\\"><span class=\\"font-bold\\">foo</span>
+    <!--v-if-->
+  </div>
+  <p class=\\"flex items-center space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\">
     <!--v-if-->
     <!--v-if-->
   </p>
@@ -11,8 +14,11 @@ exports[`ChaveValor > renderiza a mensagem de erro respeitando o snapshot 1`] = 
 `;
 
 exports[`ChaveValor > renderiza o componente com o valor informado respeitando o snapshot 1`] = `
-"<div class=\\"space-y-1\\"><span class=\\"font-bold\\">foo</span>
-  <p class=\\"flex space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\">
+"<div class=\\"space-y-1\\">
+  <div class=\\"flex items-center space-x-1\\"><span class=\\"font-bold\\">foo</span>
+    <!--v-if-->
+  </div>
+  <p class=\\"flex items-center space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\">
     <!--v-if--><span>bar</span>
   </p>
   <!--v-if-->
@@ -20,8 +26,11 @@ exports[`ChaveValor > renderiza o componente com o valor informado respeitando o
 `;
 
 exports[`ChaveValor > renderiza o componente com o ícone respeitando o snapshot 1`] = `
-"<div class=\\"space-y-1\\"><span class=\\"font-bold\\">foo</span>
-  <p class=\\"flex space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+"<div class=\\"space-y-1\\">
+  <div class=\\"flex items-center space-x-1\\"><span class=\\"font-bold\\">foo</span>
+    <!--v-if-->
+  </div>
+  <p class=\\"flex items-center space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
       <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
       <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
     </svg><span>bar</span></p>
@@ -30,8 +39,27 @@ exports[`ChaveValor > renderiza o componente com o ícone respeitando o snapshot
 `;
 
 exports[`ChaveValor > renderiza o componente respeitando o snapshot 1`] = `
-"<div class=\\"space-y-1\\"><span class=\\"font-bold\\">foo</span>
-  <p class=\\"flex space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\">
+"<div class=\\"space-y-1\\">
+  <div class=\\"flex items-center space-x-1\\"><span class=\\"font-bold\\">foo</span>
+    <!--v-if-->
+  </div>
+  <p class=\\"flex items-center space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\">
+    <!--v-if-->
+    <!--v-if-->
+  </p>
+  <!--v-if-->
+</div>"
+`;
+
+exports[`ChaveValor > renderiza o link âncora respeitando o snapshot 1`] = `
+"<div class=\\"space-y-1\\">
+  <div class=\\"flex items-center space-x-1\\"><span class=\\"font-bold\\">foo</span>
+    <inertialink href=\\"http://foo.bar\\" class=\\"rounded p-1 opacity-50 ring-primaria-500 transition duration-150 hover:opacity-100 dark:ring-secundaria-500\\"><svg class=\\"h-5 w-5\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+        <path d=\\"M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z\\"></path>
+        <path d=\\"M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z\\"></path>
+      </svg></inertialink>
+  </div>
+  <p class=\\"flex items-center space-x-4 rounded-lg border border-dashed border-primaria-500 bg-primaria-50 p-2 transition duration-300 dark:bg-secundaria-900 dark:text-primaria-50\\">
     <!--v-if-->
     <!--v-if-->
   </p>
