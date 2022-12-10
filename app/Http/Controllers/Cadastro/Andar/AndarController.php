@@ -30,7 +30,7 @@ class AndarController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -90,7 +90,7 @@ class AndarController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Andar  $andar
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit(Andar $andar)
     {
@@ -115,7 +115,7 @@ class AndarController extends Controller
      *
      * @param  \App\Http\Requests\Cadastro\Andar\UpdateAndarRequest  $request
      * @param  \App\Models\Andar  $andar
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateAndarRequest $request, Andar $andar)
     {
@@ -132,7 +132,7 @@ class AndarController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Andar  $andar
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Andar $andar)
     {

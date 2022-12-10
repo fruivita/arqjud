@@ -27,7 +27,7 @@ class ProcessoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -98,7 +98,7 @@ class ProcessoController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Processo  $processo
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit(Processo $processo)
     {
@@ -123,7 +123,7 @@ class ProcessoController extends Controller
      *
      * @param  \App\Http\Requests\Cadastro\Processo\UpdateProcessoRequest  $request
      * @param  \App\Models\Processo  $processo
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateProcessoRequest $request, Processo $processo)
     {
@@ -148,7 +148,7 @@ class ProcessoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Processo  $processo
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Processo $processo)
     {

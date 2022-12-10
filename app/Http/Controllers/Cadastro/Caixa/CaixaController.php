@@ -32,7 +32,7 @@ class CaixaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -97,7 +97,7 @@ class CaixaController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Caixa  $caixa
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit(Caixa $caixa)
     {
@@ -122,7 +122,7 @@ class CaixaController extends Controller
      *
      * @param  \App\Http\Requests\Cadastro\Caixa\UpdateCaixaRequest  $request
      * @param  \App\Models\Caixa  $caixa
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateCaixaRequest $request, Caixa $caixa)
     {
@@ -142,7 +142,7 @@ class CaixaController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Caixa  $caixa
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Caixa $caixa)
     {

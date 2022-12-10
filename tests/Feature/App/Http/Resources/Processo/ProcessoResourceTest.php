@@ -68,7 +68,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
     $resource = ProcessoResource::make($this->processo->loadCount(['processosFilho', 'solicitacoes']));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->processo_api
+        'data' => $this->processo_api // @phpstan-ignore-line
             + $this->processo->only('processos_filho_count')
             + $this->processo->only('solicitacoes_count')
             + ['links' => []],

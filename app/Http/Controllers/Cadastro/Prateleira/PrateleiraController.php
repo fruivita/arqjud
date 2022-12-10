@@ -31,7 +31,7 @@ class PrateleiraController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -90,7 +90,7 @@ class PrateleiraController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Prateleira  $prateleira
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit(Prateleira $prateleira)
     {
@@ -115,7 +115,7 @@ class PrateleiraController extends Controller
      *
      * @param  \App\Http\Requests\Cadastro\Prateleira\UpdatePrateleiraRequest  $request
      * @param  \App\Models\Prateleira  $prateleira
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdatePrateleiraRequest $request, Prateleira $prateleira)
     {
@@ -131,7 +131,7 @@ class PrateleiraController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Prateleira  $prateleira
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Prateleira $prateleira)
     {

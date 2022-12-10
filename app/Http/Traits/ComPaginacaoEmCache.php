@@ -97,7 +97,10 @@ trait ComPaginacaoEmCache
      */
     private function preferenciasEmCache()
     {
-        return Cache::get(auth()->user()->username, []);
+        /** @var string */
+        $username = auth()->user()->username;
+
+        return Cache::get($username, []);
     }
 
     /**
@@ -108,9 +111,9 @@ trait ComPaginacaoEmCache
      */
     private function saveCache(array $preferencias)
     {
-        return Cache::forever(
-            auth()->user()->username,
-            $preferencias
-        );
+        /** @var string */
+        $username = auth()->user()->username;
+
+        return Cache::forever($username, $preferencias);
     }
 }

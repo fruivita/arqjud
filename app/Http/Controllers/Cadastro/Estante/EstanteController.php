@@ -30,7 +30,7 @@ class EstanteController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -88,7 +88,7 @@ class EstanteController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Estante  $estante
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit(Estante $estante)
     {
@@ -113,7 +113,7 @@ class EstanteController extends Controller
      *
      * @param  \App\Http\Requests\Cadastro\Estante\UpdateEstanteRequest  $request
      * @param  \App\Models\Estante  $estante
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateEstanteRequest $request, Estante $estante)
     {
@@ -129,7 +129,7 @@ class EstanteController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Estante  $estante
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Estante $estante)
     {

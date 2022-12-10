@@ -89,7 +89,7 @@ class PredioController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Predio  $predio
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit(Predio $predio)
     {
@@ -114,7 +114,7 @@ class PredioController extends Controller
      *
      * @param  \App\Http\Requests\Cadastro\Predio\UpdatePredioRequest  $request
      * @param  \App\Models\Predio  $predio
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdatePredioRequest $request, Predio $predio)
     {
@@ -130,7 +130,7 @@ class PredioController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Predio  $predio
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Predio $predio)
     {

@@ -30,7 +30,7 @@ class SalaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -88,7 +88,7 @@ class SalaController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Sala  $sala
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit(Sala $sala)
     {
@@ -113,7 +113,7 @@ class SalaController extends Controller
      *
      * @param  \App\Http\Requests\Cadastro\Sala\UpdateSalaRequest  $request
      * @param  \App\Models\Sala  $sala
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateSalaRequest $request, Sala $sala)
     {
@@ -129,7 +129,7 @@ class SalaController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Sala  $sala
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Sala $sala)
     {

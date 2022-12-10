@@ -39,7 +39,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::loginView(function () {
-            return view('login');
+            return view('login'); // @phpstan-ignore-line
         });
     }
 }

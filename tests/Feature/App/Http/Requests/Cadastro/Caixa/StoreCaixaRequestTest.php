@@ -52,7 +52,7 @@ test('rules estão definidas no form request para a criação do registro', func
             'min:1',
             Rule::unique('caixas', 'numero')
                 ->where('ano', 2010)
-                ->where('guarda_permanente', true)
+                ->where('guarda_permanente', 1)
                 ->where('localidade_criadora_id', $localidade->id)
                 ->where('prateleira_id', $prateleira->id)
                 ->where('complemento', 'foo'),

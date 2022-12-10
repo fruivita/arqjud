@@ -101,9 +101,9 @@ function login(string $samaccountname = 'foo')
 /**
  * @return \App\Models\Usuario|null
  */
-function usuarioAutenticado()
+function usuarioAutenticado() // @phpstan-ignore-line
 {
-    return auth()->user();
+    return auth()->user(); // @phpstan-ignore-line
 }
 
 /**
@@ -117,7 +117,7 @@ function logout()
 /**
  * Concede a permissão informada ao usuário autenticado.
  *
- * @param  array|string  $slug
+ * @param  array|string  $slugs
  * @return void
  */
 function concederPermissao(mixed $slugs)

@@ -87,7 +87,6 @@ class LocalidadeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Http\Requests\Cadastro\Localidade\EditLocalidadeRequest  $request
      * @param  \App\Models\Localidade  $localidade
      * @return \Inertia\Response
      */
