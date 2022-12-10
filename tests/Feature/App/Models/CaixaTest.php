@@ -11,8 +11,12 @@ use App\Models\Estante;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\Predio;
+use App\Models\Processo;
 use App\Models\Sala;
+use App\Models\VolumeCaixa;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -264,3 +268,102 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
     ['aaaa', 2],
     ['bbbb', 3],
 ]);
+
+test('método atualizar atualiza os dados da caixa', function () {
+    $localidade = Localidade::factory()->create();
+    $caixa = Caixa::factory()->create();
+
+    $caixa->numero = 500;
+    $caixa->ano = 2000;
+    $caixa->guarda_permanente = true;
+    $caixa->complemento = 'foo';
+    $caixa->descricao = 'foo bar';
+    $caixa->localidade_criadora_id = $localidade->id;
+
+    $salvo = $caixa->atualizar();
+
+    $caixa->refresh();
+
+    expect($salvo)->toBeTrue()
+        ->and($caixa->numero)->toBe(500)
+        ->and($caixa->ano)->toBe(2000)
+        ->and($caixa->guarda_permanente)->toBeTrue()
+        ->and($caixa->complemento)->toBe('foo')
+        ->and($caixa->descricao)->toBe('foo bar')
+        ->and($caixa->localidade_criadora_id)->toBe($localidade->id);
+});
+
+test('método atualizar atualiza o status de guarda permanente de todos os processos da caixa', function (bool $gp) {
+    $caixa = Caixa::factory()
+        ->has(VolumeCaixa::factory(2)->hasProcessos(3, ['guarda_permanente' => !$gp]), 'volumes')
+        ->create();
+
+    Processo::factory(2)->create(['guarda_permanente' => !$gp]); // não serão afetados
+
+    $caixa->guarda_permanente = $gp;
+
+    $caixa->atualizar();
+
+    expect(Processo::where('guarda_permanente', $gp)->count())->toBe(6)
+        ->and(Processo::where('guarda_permanente', !$gp)->count())->toBe(2);
+})->with([
+    true,
+    false,
+]);
+
+test('método atualizar está protegido por transaction', function () {
+    $caixa = Caixa::factory()->create();
+
+    $database = DB::spy();
+
+    $salvo = $caixa->atualizar();
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('commit')->once();
+    $database->shouldNotReceive('rollBack');
+
+    expect($salvo)->toBeTrue();
+});
+
+test('método atualizar faz rollBack em caso de falha', function () {
+    $caixa = Caixa::factory()->create();
+    $database = DB::spy();
+    Caixa::updated(fn () => throw new \RuntimeException());
+
+    $caixa->guarda_permanente = !$caixa->guarda_permanente;
+    $salvo = $caixa->atualizar();
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('rollBack')->once();
+    $database->shouldNotReceive('commit');
+
+    expect($salvo)->toBeFalse();
+});
+
+test('alterações não são persistidas devido ao rollBack no método atualizar', function () {
+    $caixa = Caixa::factory()
+        ->has(VolumeCaixa::factory(2)->hasProcessos(3, ['guarda_permanente' => true]), 'volumes')
+        ->create(['guarda_permanente' => true]);
+    Caixa::updated(fn () => throw new \RuntimeException());
+
+    $caixa->guarda_permanente = false;
+    $caixa->atualizar();
+
+    expect(Processo::where('guarda_permanente', true)->count())->toBe(6)
+        ->and(Processo::where('guarda_permanente', false)->count())->toBe(0)
+        ->and(Caixa::where('guarda_permanente', true)->count())->toBe(1)
+        ->and(Caixa::where('guarda_permanente', false)->count())->toBe(0);
+});
+
+test('registra falhas do método atualizar em log', function () {
+    $caixa = Caixa::factory()->create();
+    Caixa::updated(fn () => throw new \RuntimeException());
+    Log::spy();
+
+    $caixa->guarda_permanente = !$caixa->guarda_permanente;
+    $caixa->atualizar();
+
+    Log::shouldHaveReceived('error')
+        ->withArgs(fn ($message) => $message === __('Falha na atualização da caixa'))
+        ->once();
+});

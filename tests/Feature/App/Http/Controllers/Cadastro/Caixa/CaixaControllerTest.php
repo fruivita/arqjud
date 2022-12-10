@@ -19,7 +19,6 @@ use App\Models\Permissao;
 use App\Models\Prateleira;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
-use App\Pipes\Caixa\SetGPProcessos;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -219,34 +218,6 @@ test('atualização está protegida com transação', function () {
 
     $database->shouldHaveReceived('beginTransaction')->once();
     $database->shouldHaveReceived('commit')->once();
-});
-
-test('atualização está protegida com transação e faz o rollback', function () {
-    concederPermissao(Permissao::CAIXA_UPDATE);
-
-    $this->mock(SetGPProcessos::class)
-        ->shouldReceive('handle')
-        ->andThrow(new \RuntimeException());
-
-    $caixa = Caixa::factory()
-        ->has(VolumeCaixa::factory(2)->hasProcessos(3), 'volumes')
-        ->create();
-
-    $dados = [
-        'numero' => 500,
-        'ano' => 2000,
-        'guarda_permanente' => true,
-        'localidade_criadora_id' => Localidade::first()->id,
-    ];
-
-    $database = DB::spy();
-
-    patch(route('cadastro.caixa.update', $caixa), $dados)
-        ->assertRedirect()
-        ->assertSessionHas('feedback.erro');
-
-    $database->shouldHaveReceived('beginTransaction')->once();
-    $database->shouldHaveReceived('rollBack')->once();
 });
 
 test('exclui a caixa informada', function () {

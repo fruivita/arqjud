@@ -19,8 +19,6 @@ use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\VolumeCaixa;
-use App\Pipes\Caixa\Atualizar;
-use App\Pipes\Caixa\SetGPProcessos;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
@@ -128,13 +126,14 @@ class CaixaController extends Controller
      */
     public function update(UpdateCaixaRequest $request, Caixa $caixa)
     {
-        $salvo = Pipeline::make()
-            ->withTransaction()
-            ->send($caixa)
-            ->through([Atualizar::class, SetGPProcessos::class])
-            ->onFailure(function ($data, $exception) {
-                return false;
-            })->thenReturn();
+        $caixa->numero = $request->integer('numero');
+        $caixa->ano = $request->integer('ano');
+        $caixa->guarda_permanente = $request->boolean('guarda_permanente');
+        $caixa->complemento = $request->input('complemento');
+        $caixa->descricao = $request->input('descricao');
+        $caixa->localidade_criadora_id = $request->integer('localidade_criadora_id');
+
+        $salvo = $caixa->atualizar();
 
         return back()->with($this->feedback($salvo));
     }

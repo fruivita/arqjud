@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @see https://laravel.com/docs/9.x/eloquent
@@ -108,5 +110,45 @@ class Caixa extends Model
             ->orWhere('caixas.numero', 'like', $termo)
             ->orWhere('caixas.ano', 'like', $termo)
             ->orWhere('caixas.complemento', 'like', $termo);
+    }
+
+    /**
+     * Atualiza a caixa e altera o status de guarda permanente dos processos de
+     * acordo com o valor definido para a caixa.
+     *
+     * @return bool
+     */
+    public function atualizar()
+    {
+        try {
+            DB::beginTransaction();
+
+            $this->save();
+
+            $volumes_id = $this
+                ->load('volumes')
+                ->volumes
+                ->pluck('id');
+
+            Processo::query()
+                ->whereIn('volume_caixa_id', $volumes_id)
+                ->update(['guarda_permanente' => $this->guarda_permanente]);
+
+            DB::commit();
+
+            return true;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            Log::error(
+                __('Falha na atualização da caixa'),
+                [
+                    'caixa' => $this,
+                    'exception' => $exception,
+                ]
+            );
+
+            return false;
+        }
     }
 }
