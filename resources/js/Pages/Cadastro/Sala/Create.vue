@@ -51,18 +51,21 @@ const cadastrar = () => {
                     <div class="grid grid-cols-1 gap-x-3 gap-y-6 xl:grid-cols-2">
                         <ChaveValor
                             :chave="__('Localidade')"
+                            :href="andar.data.predio.localidade.links.view"
                             :valor="andar.data.predio.localidade.nome"
                             icone="pin-map"
                         />
 
                         <ChaveValor
                             :chave="__('Prédio')"
+                            :href="andar.data.predio.links.view"
                             :valor="andar.data.predio.nome"
                             icone="buildings"
                         />
 
                         <ChaveValor
                             :chave="__('Andar')"
+                            :href="andar.data.links.view"
                             :valor="new Andar(andar.data).numeroExibicao()"
                             icone="layers"
                         />

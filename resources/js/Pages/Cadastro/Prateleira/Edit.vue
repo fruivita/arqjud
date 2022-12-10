@@ -124,30 +124,35 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                     <div class="grid grid-cols-1 gap-x-3 gap-y-6 xl:grid-cols-2">
                         <ChaveValor
                             :chave="__('Localidade')"
+                            :href="prateleira.data.estante.sala.andar.predio.localidade.links.view"
                             :valor="prateleira.data.estante.sala.andar.predio.localidade.nome"
                             icone="pin-map"
                         />
 
                         <ChaveValor
                             :chave="__('Prédio')"
+                            :href="prateleira.data.estante.sala.andar.predio.links.view"
                             :valor="prateleira.data.estante.sala.andar.predio.nome"
                             icone="buildings"
                         />
 
                         <ChaveValor
                             :chave="__('Andar')"
+                            :href="prateleira.data.estante.sala.andar.links.view"
                             :valor="new Andar(prateleira.data.estante.sala.andar).numeroExibicao()"
                             icone="layers"
                         />
 
                         <ChaveValor
                             :chave="__('Sala')"
+                            :href="prateleira.data.estante.sala.links.view"
                             :valor="prateleira.data.estante.sala.numero"
                             icone="door-closed"
                         />
 
                         <ChaveValor
                             :chave="__('Estante')"
+                            :href="prateleira.data.estante.links.view"
                             :valor="prateleira.data.estante.numero"
                             icone="bookshelf"
                         />

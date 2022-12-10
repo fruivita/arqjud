@@ -120,6 +120,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                     <div class="grid grid-cols-1 gap-x-3 gap-y-6 xl:grid-cols-2">
                         <ChaveValor
                             :chave="__('Localidade')"
+                            :href="predio.data.localidade.links.view"
                             :valor="predio.data.localidade.nome"
                             icone="pin-map"
                         />

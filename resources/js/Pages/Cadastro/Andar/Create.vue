@@ -53,12 +53,14 @@ const cadastrar = () => {
                     <div class="grid grid-cols-1 gap-x-3 gap-y-6 xl:grid-cols-2">
                         <ChaveValor
                             :chave="__('Localidade')"
+                            :href="predio.data.localidade.links.view"
                             :valor="predio.data.localidade.nome"
                             icone="pin-map"
                         />
 
                         <ChaveValor
                             :chave="__('Prédio')"
+                            :href="predio.data.links.view"
                             :valor="predio.data.nome"
                             icone="buildings"
                         />

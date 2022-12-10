@@ -126,6 +126,10 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                     <div class="grid grid-cols-1 gap-x-3 gap-y-6 xl:grid-cols-2">
                         <ChaveValor
                             :chave="__('Localidade')"
+                            :href="
+                                volume_caixa.data.caixa.prateleira.estante.sala.andar.predio
+                                    .localidade.links.view
+                            "
                             :valor="
                                 volume_caixa.data.caixa.prateleira.estante.sala.andar.predio
                                     .localidade.nome
@@ -135,6 +139,10 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                         <ChaveValor
                             :chave="__('Prédio')"
+                            :href="
+                                volume_caixa.data.caixa.prateleira.estante.sala.andar.predio.links
+                                    .view
+                            "
                             :valor="
                                 volume_caixa.data.caixa.prateleira.estante.sala.andar.predio.nome
                             "
@@ -143,6 +151,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                         <ChaveValor
                             :chave="__('Andar')"
+                            :href="volume_caixa.data.caixa.prateleira.estante.sala.andar.links.view"
                             :valor="
                                 new Andar(
                                     volume_caixa.data.caixa.prateleira.estante.sala.andar
@@ -153,24 +162,28 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                         <ChaveValor
                             :chave="__('Sala')"
+                            :href="volume_caixa.data.caixa.prateleira.estante.sala.links.view"
                             :valor="volume_caixa.data.caixa.prateleira.estante.sala.numero"
                             icone="door-closed"
                         />
 
                         <ChaveValor
                             :chave="__('Estante')"
+                            :href="volume_caixa.data.caixa.prateleira.estante.links.view"
                             :valor="volume_caixa.data.caixa.prateleira.estante.numero"
                             icone="bookshelf"
                         />
 
                         <ChaveValor
                             :chave="__('Prateleira')"
+                            :href="volume_caixa.data.caixa.prateleira.links.view"
                             :valor="volume_caixa.data.caixa.prateleira.numero"
                             icone="list-nested"
                         />
 
                         <ChaveValor
                             :chave="__('Caixa')"
+                            :href="volume_caixa.data.caixa.links.view"
                             :valor="new Caixa(volume_caixa.data.caixa).numeroExibicao()"
                             icone="box2"
                         />
