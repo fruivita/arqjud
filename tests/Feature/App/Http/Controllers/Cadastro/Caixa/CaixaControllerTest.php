@@ -13,6 +13,8 @@ use App\Http\Requests\Cadastro\Caixa\EditCaixaRequest;
 use App\Http\Requests\Cadastro\Caixa\IndexCaixaRequest;
 use App\Http\Requests\Cadastro\Caixa\PostCaixaRequest;
 use App\Http\Resources\Caixa\CaixaResource;
+use App\Http\Resources\Localidade\LocalidadeOnlyResource;
+use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Prateleira;
@@ -64,7 +66,7 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    // ['store', PostCaixaRequest::class],
+    ['store', PostCaixaRequest::class],
     ['update', PostCaixaRequest::class],
 ]);
 
@@ -82,66 +84,57 @@ test('action index compartilha os dados esperados com a view/componente correto'
         );
 });
 
-// test('action create compartilha os dados esperados com a view/componente correto', function () {
-//     Caixa::factory()->for($this->prateleira)->create();
+test('action create compartilha os dados esperados com a view/componente correto', function () {
+    Caixa::factory()->for($this->prateleira)->create();
 
-//     $this->travel(1)->seconds();
-//     $ultima_caixa_criada = Caixa::factory()->for($this->prateleira)->create();
-//     $ultima_caixa_criada->load('localidadeCriadora');
+    $this->travel(1)->seconds();
+    $ultima_caixa_criada = Caixa::factory()->for($this->prateleira)->create();
+    $ultima_caixa_criada->load('localidadeCriadora');
 
-//     $this->travel(1)->seconds();
-//     // caixa de outra prateleira, será desconsiderada
-//     Caixa::factory()->create();
+    $this->travel(1)->seconds();
+    // caixa de outra prateleira, será desconsiderada
+    Caixa::factory()->create();
 
-//     concederPermissao(Permissao::CaixaCreate);
+    concederPermissao(Permissao::CAIXA_CREATE);
 
-//     get(route('cadastro.caixa.create', $this->prateleira))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Caixa/Create')
-//                 ->where('ultima_insercao', [
-//                     'numero' => $ultima_caixa_criada->numero,
-//                     'ano' => $ultima_caixa_criada->ano,
-//                     'guarda_permanente' => $ultima_caixa_criada->guarda_permanente,
-//                     'descricao' => $ultima_caixa_criada->descricao,
-//                     'localidade_criadora_id' => $ultima_caixa_criada->localidade_criadora_id,
-//                     'localidade_criadora' => $ultima_caixa_criada->localidadeCriadora->only(['id', 'nome']),
-//                 ])
-//                 ->where('prateleira_pai', Prateleira::hierarquiaAscendente()->find($this->prateleira->id)->only(['id', 'numero', 'localidade_nome', 'predio_nome', 'andar_numero', 'andar_apelido', 'sala_numero', 'estante_numero']))
-//                 ->has('localidades', 5)
-//         );
-// });
+    get(route('cadastro.caixa.create', $this->prateleira))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Caixa/Create')
+                ->whereAll([
+                    'ultima_insercao' => CaixaResource::make($ultima_caixa_criada)->response()->getData(true),
+                    'prateleira' => PrateleiraResource::make($this->prateleira->load('estante.sala.andar.predio.localidade'))->response()->getData(true),
+                    'localidades' => LocalidadeOnlyResource::collection(Localidade::all())->response()->getData(true),
+                ])
+        );
+});
 
-// test('cria uma nova caixa', function () {
-//     $localidade = Localidade::factory()->create();
-//     concederPermissao(Permissao::CaixaCreate);
+test('cria uma nova caixa', function () {
+    $localidade = Localidade::factory()->create();
+    concederPermissao(Permissao::CAIXA_CREATE);
 
-//     expect(Caixa::count())->toBe(0);
+    $dados = [
+        'numero' => 10,
+        'ano' => 2020,
+        'guarda_permanente' => true,
+        'complemento' => 'foo',
+        'descricao' => 'foo bar',
+        'localidade_criadora_id' => $localidade->id,
+        'prateleira_id' => $this->prateleira->id,
+    ];
 
-//     post(route('cadastro.caixa.store', $this->prateleira), [
-//         'numero' => 10,
-//         'ano' => 2020,
-//         'guarda_permanente' => true,
-//         'complemento' => 'foo',
-//         'descricao' => 'foo bar',
-//         'localidade_criadora_id' => $localidade->id,
-//         'prateleira_id' => $this->prateleira->id,
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('feedback.sucesso');
+    expect(Caixa::count())->toBe(0);
 
-//     $caixa = Caixa::first();
+    post(route('cadastro.caixa.store', $this->prateleira), $dados)
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     expect(Caixa::count())->toBe(1)
-//         ->and($caixa->numero)->toBe(10)
-//         ->and($caixa->ano)->toBe(2020)
-//         ->and($caixa->guarda_permanente)->toBeTrue()
-//         ->and($caixa->complemento)->toBe('foo')
-//         ->and($caixa->descricao)->toBe('foo bar')
-//         ->and($caixa->localidade_criadora_id)->toBe($localidade->id)
-//         ->and($caixa->prateleira_id)->toBe($this->prateleira->id);
-// });
+    $caixa = Caixa::first();
+
+    expect(Caixa::count())->toBe(1)
+        ->and($caixa->only(array_keys($dados)))->toBe($dados);
+});
 
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::CAIXA_UPDATE);

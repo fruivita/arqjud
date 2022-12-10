@@ -12,6 +12,7 @@ use App\Http\Controllers\Cadastro\Prateleira\PrateleiraController;
 use App\Http\Requests\Cadastro\Prateleira\EditPrateleiraRequest;
 use App\Http\Requests\Cadastro\Prateleira\IndexPrateleiraRequest;
 use App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest;
+use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Models\Caixa;
 use App\Models\Estante;
@@ -58,7 +59,7 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    // ['store', PostPrateleiraRequest::class],
+    ['store', PostPrateleiraRequest::class],
     ['update', PostPrateleiraRequest::class],
 ]);
 
@@ -76,50 +77,50 @@ test('action index compartilha os dados esperados com a view/componente correto'
         );
 });
 
-// test('action create compartilha os dados esperados com a view/componente correto', function () {
-//     Prateleira::factory()->for($this->estante)->create();
+test('action create compartilha os dados esperados com a view/componente correto', function () {
+    Prateleira::factory()->for($this->estante)->create();
 
-//     $this->travel(1)->seconds();
-//     $ultima_prateleira_criada = Prateleira::factory()->for($this->estante)->create();
+    $this->travel(1)->seconds();
+    $ultima_prateleira_criada = Prateleira::factory()->for($this->estante)->create();
 
-//     $this->travel(1)->seconds();
-//     // prateleira de outra estante, será desconsiderada
-//     Prateleira::factory()->create();
+    $this->travel(1)->seconds();
+    // prateleira de outra estante, será desconsiderada
+    Prateleira::factory()->create();
 
-//     concederPermissao(Permissao::PrateleiraCreate);
+    concederPermissao(Permissao::PRATELEIRA_CREATE);
 
-//     get(route('cadastro.prateleira.create', $this->estante))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Prateleira/Create')
-//                 ->where('ultima_insercao', [
-//                     'numero' => $ultima_prateleira_criada->numero,
-//                 ])
-//                 ->where('estante_pai', Estante::hierarquiaAscendente()->find($this->estante->id)->only(['id', 'numero', 'localidade_nome', 'predio_nome', 'andar_numero', 'andar_apelido', 'sala_numero']))
-//         );
-// });
+    get(route('cadastro.prateleira.create', $this->estante))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Prateleira/Create')
+                ->whereAll([
+                    'ultima_insercao.data' => PrateleiraResource::make($ultima_prateleira_criada)->resolve(),
+                    'estante' => EstanteResource::make($this->estante->load('sala.andar.predio.localidade'))->response()->getData(true),
+                ])
+        );
+});
 
-// test('cria uma nova prateleira', function () {
-//     concederPermissao(Permissao::PrateleiraCreate);
+test('cria uma nova prateleira', function () {
+    concederPermissao(Permissao::PRATELEIRA_CREATE);
 
-//     expect(Prateleira::count())->toBe(0);
+    $dados = [
+        'numero' => '10-a',
+        'descricao' => 'foo bar',
+        'estante_id' => $this->estante->id,
+    ];
 
-//     post(route('cadastro.prateleira.store', $this->estante), [
-//         'numero' => '10-a',
-//         'descricao' => 'foo bar',
-//         'estante_id' => $this->estante->id,
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('feedback.sucesso');
+    expect(Prateleira::count())->toBe(0);
 
-//     $prateleira = Prateleira::first();
+    post(route('cadastro.prateleira.store', $this->estante), $dados)
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     expect(Prateleira::count())->toBe(1)
-//         ->and($prateleira->numero)->toBe('10-a')
-//         ->and($prateleira->descricao)->toBe('foo bar')
-//         ->and($prateleira->estante_id)->toBe($this->estante->id);
-// });
+    $prateleira = Prateleira::first();
+
+    expect(Prateleira::count())->toBe(1)
+        ->and($prateleira->only(array_keys($dados)))->toBe($dados);
+});
 
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::PRATELEIRA_UPDATE);

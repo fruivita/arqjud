@@ -12,8 +12,10 @@ use App\Http\Requests\Cadastro\Estante\PostEstanteRequest;
 use App\Http\Resources\Estante\EstanteCollection;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraCollection;
+use App\Http\Resources\Sala\SalaResource;
 use App\Models\Estante;
 use App\Models\Prateleira;
+use App\Models\Sala;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
@@ -51,22 +53,35 @@ class EstanteController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Sala  $sala
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(Sala $sala)
     {
-        //
+        $this->authorize(Policy::Create->value, Estante::class);
+
+        return Inertia::render('Cadastro/Estante/Create', [
+            'ultima_insercao' => fn () => EstanteResource::make($sala->estantes()->latest()->first()),
+            'sala' => fn () => SalaResource::make($sala->load('andar.predio.localidade')),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Cadastro\Estante\PostEstanteRequest  $request
+     * @param  \App\Models\Sala  $sala
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PostEstanteRequest $request, Sala $sala)
     {
-        //
+        $salvo = Estante::criar(
+            $request->input('numero'),
+            $sala,
+            $request->input('descricao')
+        );
+
+        return back()->with($this->feedback($salvo));
     }
 
     /**

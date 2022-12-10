@@ -10,7 +10,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Processo\PostProcessoRequest;
 use App\Http\Resources\Processo\ProcessoCollection;
 use App\Http\Resources\Processo\ProcessoResource;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Processo;
+use App\Models\VolumeCaixa;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
 use Illuminate\Http\Request;
@@ -48,22 +50,48 @@ class ProcessoController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\VolumeCaixa  $volume_caixa
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(VolumeCaixa $volume_caixa)
     {
-        //
+        $this->authorize(Policy::Create->value, Processo::class);
+
+        return Inertia::render('Cadastro/Processo/Create', [
+            'ultima_insercao' => fn () => ProcessoResource::make($volume_caixa->processos()->latest()->first()),
+            'volume_caixa' => fn () => VolumeCaixaResource::make($volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora'])),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Cadastro\Processo\PostProcessoRequest  $request
+     * @param  \App\Models\VolumeCaixa  $volume_caixa
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PostProcessoRequest $request, VolumeCaixa $volume_caixa)
     {
-        //
+        $processo = new Processo();
+
+        $processo->numero = $request->input('numero');
+        $processo->numero_antigo = $request->input('numero_antigo');
+        $processo->arquivado_em = $request->input('arquivado_em');
+        $processo->qtd_volumes = $request->input('qtd_volumes');
+        $processo->descricao = $request->input('descricao');
+        // Assumirá o valor de guarda permanente definido na caixa
+        $volume_caixa->load('caixa');
+        $processo->guarda_permanente = $volume_caixa->caixa->guarda_permanente;
+
+        $request->whenFilled(
+            'processo_pai_numero',
+            fn ($input) => $processo->processo_pai_id = Processo::firstWhere('numero', $input)->id,
+            fn () => $processo->processo_pai_id = null
+        );
+
+        $salvo = $volume_caixa->processos()->save($processo);
+
+        return back()->with($this->feedback($salvo));
     }
 
     /**

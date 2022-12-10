@@ -10,6 +10,7 @@
 use App\Models\Permissao;
 use App\Http\Controllers\Cadastro\VolumeCaixa\VolumeCaixaController;
 use App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest;
+use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Caixa;
 use App\Models\VolumeCaixa;
@@ -55,7 +56,7 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    // ['store', PostVolumeCaixaRequest::class],
+    ['store', PostVolumeCaixaRequest::class],
     ['update', PostVolumeCaixaRequest::class],
 ]);
 
@@ -73,50 +74,50 @@ test('action index compartilha os dados esperados com a view/componente correto'
         );
 });
 
-// test('action create compartilha os dados esperados com a view/componente correto', function () {
-//     VolumeCaixa::factory()->for($this->caixa)->create();
+test('action create compartilha os dados esperados com a view/componente correto', function () {
+    VolumeCaixa::factory()->for($this->caixa)->create();
 
-//     $this->travel(1)->seconds();
-//     $ultimo_volume_caixa_criado = VolumeCaixa::factory()->for($this->caixa)->create();
+    $this->travel(1)->seconds();
+    $ultimo_volume_caixa_criado = VolumeCaixa::factory()->for($this->caixa)->create();
 
-//     $this->travel(1)->seconds();
-//     // volume da caixa de outra caixa, será desconsiderada
-//     VolumeCaixa::factory()->create();
+    $this->travel(1)->seconds();
+    // volume da caixa de outra caixa, será desconsiderada
+    VolumeCaixa::factory()->create();
 
-//     concederPermissao(Permissao::VolumeCaixaCreate);
+    concederPermissao(Permissao::VOLUME_CAIXA_CREATE);
 
-//     get(route('cadastro.volumeCaixa.create', $this->caixa))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/VolumeCaixa/Create')
-//                 ->where('ultima_insercao', [
-//                     'numero' => $ultimo_volume_caixa_criado->numero,
-//                 ])
-//                 ->where('caixa_pai', Caixa::hierarquiaAscendente()->find($this->caixa->id)->only(['id', 'numero', 'ano', 'guarda_permanente', 'complemento', 'localidade_nome', 'predio_nome', 'andar_numero', 'andar_apelido', 'sala_numero', 'estante_numero', 'prateleira_numero', 'caixa_localidade_criadora_nome']))
-//         );
-// });
+    get(route('cadastro.volumeCaixa.create', $this->caixa))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/VolumeCaixa/Create')
+                ->whereAll([
+                    'ultima_insercao.data' => VolumeCaixaResource::make($ultimo_volume_caixa_criado)->resolve(),
+                    'caixa' => CaixaResource::make($this->caixa->load(['localidadeCriadora', 'prateleira.estante.sala.andar.predio.localidade']))->response()->getData(true),
+                ])
+        );
+});
 
-// test('cria um novo volume da caixa', function () {
-//     concederPermissao(Permissao::VolumeCaixaCreate);
+test('cria um novo volume da caixa', function () {
+    concederPermissao(Permissao::VOLUME_CAIXA_CREATE);
 
-//     expect(VolumeCaixa::count())->toBe(0);
+    $dados = [
+        'numero' => 10,
+        'descricao' => 'foo bar',
+        'caixa_id' => $this->caixa->id,
+    ];
 
-//     post(route('cadastro.volumeCaixa.store', $this->caixa), [
-//         'numero' => 10,
-//         'descricao' => 'foo bar',
-//         'caixa_id' => $this->caixa->id,
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('feedback.sucesso');
+    expect(VolumeCaixa::count())->toBe(0);
 
-//     $volume_caixa = VolumeCaixa::first();
+    post(route('cadastro.volumeCaixa.store', $this->caixa), $dados)
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     expect(VolumeCaixa::count())->toBe(1)
-//         ->and($volume_caixa->numero)->toBe(10)
-//         ->and($volume_caixa->descricao)->toBe('foo bar')
-//         ->and($volume_caixa->caixa_id)->toBe($this->caixa->id);
-// });
+    $volume_caixa = VolumeCaixa::first();
+
+    expect(VolumeCaixa::count())->toBe(1)
+        ->and($volume_caixa->only(array_keys($dados)))->toBe($dados);
+});
 
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::VOLUME_CAIXA_UPDATE);

@@ -9,9 +9,11 @@ use App\Filters\VolumeCaixa\JoinLocalidade;
 use App\Filters\VolumeCaixa\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest;
+use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Processo\ProcessoCollection;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaCollection;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
+use App\Models\Caixa;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
 use App\Traits\ComFeedback;
@@ -51,22 +53,36 @@ class VolumeCaixaController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Caixa  $caixa
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(Caixa $caixa)
     {
-        //
+        $this->authorize(Policy::Create->value, VolumeCaixa::class);
+
+        return Inertia::render('Cadastro/VolumeCaixa/Create', [
+            'ultima_insercao' => fn () => VolumeCaixaResource::make($caixa->volumes()->latest()->first()),
+            'caixa' => fn () => CaixaResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Cadastro\VolumeCaixa\PostVolumeCaixaRequest  $request
+     * @param  \App\Models\Caixa  $caixa
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PostVolumeCaixaRequest $request, Caixa $caixa)
     {
-        //
+        $volume_caixa = new VolumeCaixa();
+
+        $volume_caixa->numero = $request->input('numero');
+        $volume_caixa->descricao = $request->input('descricao');
+
+        $salvo = $caixa->volumes()->save($volume_caixa);
+
+        return back()->with($this->feedback($salvo));
     }
 
     /**

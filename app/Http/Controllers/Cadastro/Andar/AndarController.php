@@ -11,8 +11,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Andar\PostAndarRequest;
 use App\Http\Resources\Andar\AndarCollection;
 use App\Http\Resources\Andar\AndarResource;
+use App\Http\Resources\Predio\PredioResource;
 use App\Http\Resources\Sala\SalaCollection;
 use App\Models\Andar;
+use App\Models\Predio;
 use App\Models\Sala;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
@@ -51,22 +53,37 @@ class AndarController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Predio  $predio
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(Predio $predio)
     {
-        //
+        $this->authorize(Policy::Create->value, Andar::class);
+
+        return Inertia::render('Cadastro/Andar/Create', [
+            'ultima_insercao' => fn () => AndarResource::make($predio->andares()->latest()->first()),
+            'predio' => fn () => PredioResource::make($predio->load('localidade')),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Cadastro\Andar\PostAndarRequest  $request
+     * @param  \App\Models\Predio  $predio
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PostAndarRequest $request, Predio $predio)
     {
-        //
+        $andar = new Andar();
+
+        $andar->numero = $request->input('numero');
+        $andar->apelido = $request->input('apelido');
+        $andar->descricao = $request->input('descricao');
+
+        $salvo = $predio->andares()->save($andar);
+
+        return back()->with($this->feedback($salvo));
     }
 
     /**

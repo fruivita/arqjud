@@ -9,9 +9,11 @@ use App\Filters\Sala\Order;
 use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Sala\PostSalaRequest;
+use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Estante\EstanteCollection;
 use App\Http\Resources\Sala\SalaCollection;
 use App\Http\Resources\Sala\SalaResource;
+use App\Models\Andar;
 use App\Models\Estante;
 use App\Models\Sala;
 use App\Traits\ComFeedback;
@@ -51,22 +53,35 @@ class SalaController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Andar  $andar
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(Andar $andar)
     {
-        //
+        $this->authorize(Policy::Create->value, Sala::class);
+
+        return Inertia::render('Cadastro/Sala/Create', [
+            'ultima_insercao' => fn () => SalaResource::make($andar->salas()->latest()->first()),
+            'andar' => fn () => AndarResource::make($andar->load('predio.localidade')),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Cadastro\Sala\PostSalaRequest  $request
+     * @param  \App\Models\Andar  $andar
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PostSalaRequest $request, Andar $andar)
     {
-        //
+        $salvo = Sala::criar(
+            $request->input('numero'),
+            $andar,
+            $request->input('descricao')
+        );
+
+        return back()->with($this->feedback($salvo));
     }
 
     /**

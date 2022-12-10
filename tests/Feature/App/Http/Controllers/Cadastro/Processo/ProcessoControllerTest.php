@@ -13,6 +13,7 @@ use App\Http\Requests\Cadastro\Processo\EditProcessoRequest;
 use App\Http\Requests\Cadastro\Processo\IndexProcessoRequest;
 use App\Http\Requests\Cadastro\Processo\PostProcessoRequest;
 use App\Http\Resources\Processo\ProcessoResource;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
@@ -25,7 +26,7 @@ use function Pest\Laravel\post;
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
-    $this->processo = Processo::factory()->create();
+    $this->volume_caixa = VolumeCaixa::factory()->create();
 
     login();
 });
@@ -46,7 +47,7 @@ test('usuário sem permissão não consegue excluir um processo', function () {
 });
 
 test('usuário sem permissão não consegue exibir formulário de criação do processo', function () {
-    get(route('cadastro.processo.create', $this->processo))->assertForbidden();
+    get(route('cadastro.processo.create', $this->volume_caixa))->assertForbidden();
 });
 
 // Caminho feliz
@@ -57,7 +58,7 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    // ['store', PostProcessoRequest::class],
+    ['store', PostProcessoRequest::class],
     ['update', PostProcessoRequest::class],
 ]);
 
@@ -71,97 +72,94 @@ test('action index compartilha os dados esperados com a view/componente correto'
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Processo/Index')
-                ->has('processos.data', 2 + 1)
+                ->has('processos.data', 2)
         );
 });
 
-// test('action create compartilha os dados esperados com a view/componente correto', function () {
-//     Processo::factory()->for($this->processo)->create();
+test('action create compartilha os dados esperados com a view/componente correto', function () {
+    Processo::factory()->for($this->volume_caixa)->create();
 
-//     $this->travel(1)->seconds();
-//     $ultimo_processo_criado = Processo::factory()->for($this->processo)->create();
+    $this->travel(1)->seconds();
+    $ultimo_processo_criado = Processo::factory()->for($this->volume_caixa)->create();
 
-//     $this->travel(1)->seconds();
-//     // processo de outro volume de caixa, será desconsiderado
-//     Processo::factory()->create();
+    $this->travel(1)->seconds();
+    // processo de outro volume de caixa, será desconsiderado
+    Processo::factory()->create();
 
-//     concederPermissao(Permissao::ProcessoCreate);
+    concederPermissao(Permissao::PROCESSO_CREATE);
 
-//     get(route('cadastro.processo.create', $this->processo))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Processo/Create')
-//                 ->where('ultima_insercao', [
-//                     'numero' => $ultimo_processo_criado->numero,
-//                 ])
-//                 ->where('volume_caixa_pai', VolumeCaixa::hierarquiaAscendente()->find($this->processo->id)->only(['id', 'numero', 'localidade_nome', 'predio_nome', 'andar_numero', 'andar_apelido', 'sala_numero', 'estante_numero', 'prateleira_numero', 'caixa_numero', 'caixa_ano', 'caixa_guarda_permanente', 'caixa_complemento', 'caixa_localidade_criadora_nome']))
-//         );
-// });
+    get(route('cadastro.processo.create', $this->volume_caixa))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Processo/Create')
+                ->whereAll([
+                    'ultima_insercao.data' => ProcessoResource::make($ultimo_processo_criado)->resolve(),
+                    'volume_caixa' => VolumeCaixaResource::make($this->volume_caixa->load(['caixa.localidadeCriadora', 'caixa.prateleira.estante.sala.andar.predio.localidade']))->response()->getData(true),
+                ])
+        );
+});
 
-// test('cria um novo processo com a guarda definida pela caixa', function ($gp) {
-//     concederPermissao(Permissao::ProcessoCreate);
+test('cria um novo processo com a guarda definida pela caixa', function ($gp) {
+    concederPermissao(Permissao::PROCESSO_CREATE);
 
-//     $this->processo->load('caixa');
-//     $this->processo->caixa->guarda_permanente = $gp;
-//     $this->processo->caixa->save();
+    $this->volume_caixa->load('caixa');
+    $this->volume_caixa->caixa->guarda_permanente = $gp;
+    $this->volume_caixa->caixa->save();
 
-//     expect(Processo::count())->toBe(0);
+    expect(Processo::count())->toBe(0);
 
-//     post(route('cadastro.processo.store', $this->processo), [
-//         'numero' => '1357900-66.2022.3.00.3639',
-//         'numero_antigo' => '9352203-94.2022.7.06.2096',
-//         'arquivado_em' => '20-12-2020',
-//         'qtd_volumes' => 10,
-//         'descricao' => 'foo bar',
-//         'volume_caixa_id' => $this->processo->id,
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('feedback.sucesso');
+    post(route('cadastro.processo.store', $this->volume_caixa), [
+        'numero' => '1357900-66.2022.3.00.3639',
+        'numero_antigo' => '9352203-94.2022.7.06.2096',
+        'gp' => $gp,
+        'arquivado_em' => '20-12-2020',
+        'qtd_volumes' => 10,
+        'descricao' => 'foo bar',
+        'volume_caixa_id' => $this->volume_caixa->id,
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     $processo = Processo::first();
+    $processo = Processo::first();
 
-//     expect(Processo::count())->toBe(1)
-//         ->and($processo->numero)->toBe('1357900-66.2022.3.00.3639')
-//         ->and($processo->numero_antigo)->toBe('9352203-94.2022.7.06.2096')
-//         ->and($processo->arquivado_em)->toBe('20-12-2020')
-//         ->and($processo->guarda_permanente)->toBe($gp)
-//         ->and($processo->qtd_volumes)->toBe(10)
-//         ->and($processo->descricao)->toBe('foo bar')
-//         ->and($processo->volume_caixa_id)->toBe($this->processo->id);
-// })->with([
-//     true,
-//     false,
-// ]);
+    expect(Processo::count())->toBe(1)
+        ->and($processo->numero)->toBe('1357900-66.2022.3.00.3639')
+        ->and($processo->numero_antigo)->toBe('9352203-94.2022.7.06.2096')
+        ->and($processo->guarda_permanente)->toBe($gp)
+        ->and($processo->arquivado_em->format('d-m-Y'))->toBe('20-12-2020')
+        ->and($processo->qtd_volumes)->toBe(10)
+        ->and($processo->descricao)->toBe('foo bar')
+        ->and($processo->volume_caixa_id)->toBe($this->volume_caixa->id)
+        ->and($processo->processo_pai_id)->toBeNull();
+})->with([
+    true,
+    false,
+]);
 
-// test('é possível criar o relacionamento com o processo pai ao criar um processo', function () {
-//     concederPermissao(Permissao::ProcessoCreate);
+test('é possível criar o relacionamento com o processo pai ao criar um processo', function () {
+    concederPermissao(Permissao::PROCESSO_CREATE);
 
-//     expect(Processo::count())->toBe(0);
+    expect(Processo::count())->toBe(0);
 
-//     $processo_pai = Processo::factory()->create();
+    $processo_pai = Processo::factory()->create();
 
-//     post(route('cadastro.processo.store', $this->processo), [
-//         'numero' => '1357900-66.2022.3.00.3639',
-//         'processo_pai_numero' => $processo_pai->numero,
-//         'arquivado_em' => '20-12-2020',
-//         'qtd_volumes' => 10,
-//         'volume_caixa_id' => $this->processo->id,
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('feedback.sucesso');
+    post(route('cadastro.processo.store', $this->volume_caixa), [
+        'numero' => '1357900-66.2022.3.00.3639',
+        'processo_pai_numero' => $processo_pai->numero,
+        'arquivado_em' => '20-12-2020',
+        'qtd_volumes' => 10,
+        'volume_caixa_id' => $this->volume_caixa->id,
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     $processo = Processo::firstWhere('numero', '13579006620223003639');
+    $processo = Processo::firstWhere('numero', '13579006620223003639');
 
-//     expect(Processo::count())->toBe(2)
-//         ->and($processo->numero)->toBe('1357900-66.2022.3.00.3639')
-//         ->and($processo->numero_antigo)->toBeNull()
-//         ->and($processo->arquivado_em)->toBe('20-12-2020')
-//         ->and($processo->qtd_volumes)->toBe(10)
-//         ->and($processo->descricao)->toBeNull()
-//         ->and($processo->processo_pai_id)->toBe($processo_pai->id)
-//         ->and($processo->volume_caixa_id)->toBe($this->processo->id);
-// });
+    expect(Processo::count())->toBe(2)
+        ->and($processo->numero)->toBe('1357900-66.2022.3.00.3639')
+        ->and($processo->processo_pai_id)->toBe($processo_pai->id);
+});
 
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::PROCESSO_UPDATE);

@@ -11,6 +11,7 @@ use App\Http\Controllers\Cadastro\Sala\SalaController;
 use App\Http\Requests\Cadastro\Sala\EditSalaRequest;
 use App\Http\Requests\Cadastro\Sala\IndexSalaRequest;
 use App\Http\Requests\Cadastro\Sala\PostSalaRequest;
+use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Sala\SalaResource;
 use App\Models\Andar;
 use App\Models\Estante;
@@ -59,7 +60,7 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    // ['store', PostSalaRequest::class],
+    ['store', PostSalaRequest::class],
     ['update', PostSalaRequest::class],
 ]);
 
@@ -77,62 +78,62 @@ test('action index compartilha os dados esperados com a view/componente correto'
         );
 });
 
-// test('action create compartilha os dados esperados com a view/componente correto', function () {
-//     Sala::factory()->for($this->andar)->create();
+test('action create compartilha os dados esperados com a view/componente correto', function () {
+    Sala::factory()->for($this->andar)->create();
 
-//     $this->travel(1)->seconds();
-//     $ultima_sala_criada = Sala::factory()->for($this->andar)->create();
+    $this->travel(1)->seconds();
+    $ultima_sala_criada = Sala::factory()->for($this->andar)->create();
 
-//     $this->travel(1)->seconds();
-//     // sala de outro andar, será desconsiderada
-//     Sala::factory()->create();
+    $this->travel(1)->seconds();
+    // sala de outro andar, será desconsiderada
+    Sala::factory()->create();
 
-//     concederPermissao(Permissao::SalaCreate);
+    concederPermissao(Permissao::SALA_CREATE);
 
-//     get(route('cadastro.sala.create', $this->andar))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Sala/Create')
-//                 ->where('ultima_insercao', [
-//                     'numero' => $ultima_sala_criada->numero,
-//                 ])
-//                 ->where('andar_pai', Andar::hierarquiaAscendente()->find($this->andar->id)->only(['id', 'numero', 'apelido', 'localidade_nome', 'predio_nome']))
-//         );
-// });
+    get(route('cadastro.sala.create', $this->andar))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Sala/Create')
+                ->whereAll([
+                    'ultima_insercao.data' => SalaResource::make($ultima_sala_criada)->resolve(),
+                    'andar' => AndarResource::make($this->andar->load('predio.localidade'))->response()->getData(true),
+                ])
+        );
+});
 
-// test('cria uma nova sala e junto uma estante e uma prateleira padrão', function () {
-//     concederPermissao(Permissao::SalaCreate);
+test('cria uma nova sala e junto uma estante e uma prateleira padrão', function () {
+    concederPermissao(Permissao::SALA_CREATE);
 
-//     expect(Sala::count())->toBe(0)
-//         ->and(Estante::count())->toBe(0)
-//         ->and(Prateleira::count())->toBe(0);
+    expect(Sala::count())->toBe(0)
+        ->and(Estante::count())->toBe(0)
+        ->and(Prateleira::count())->toBe(0);
 
-//     post(route('cadastro.sala.store', $this->andar), [
-//         'numero' => '10-a',
-//         'descricao' => 'foo bar',
-//         'andar_id' => $this->andar->id,
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('feedback.sucesso');
+    post(route('cadastro.sala.store', $this->andar), [
+        'numero' => '10-a',
+        'descricao' => 'foo bar',
+        'andar_id' => $this->andar->id,
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     $sala = Sala::with('estantes.prateleiras')->first();
-//     $estante = $sala->estantes->first();
-//     $prateleira = $estante->prateleiras->first();
+    $sala = Sala::with('estantes.prateleiras')->first();
+    $estante = $sala->estantes->first();
+    $prateleira = $estante->prateleiras->first();
 
-//     expect(Sala::count())->toBe(1)
-//         ->and(Estante::count())->toBe(1)
-//         ->and(Prateleira::count())->toBe(1)
-//         ->and($sala->numero)->toBe('10-a')
-//         ->and($sala->descricao)->toBe('foo bar')
-//         ->and($sala->andar_id)->toBe($this->andar->id)
-//         ->and($estante->numero)->toBe('0')
-//         ->and($estante->descricao)->toBe(__('Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado'))
-//         ->and($estante->sala_id)->toBe($sala->id)
-//         ->and($prateleira->numero)->toBe('0')
-//         ->and($prateleira->estante_id)->toBe($estante->id)
-//         ->and($prateleira->descricao)->toBe(__('Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado'));
-// });
+    expect(Sala::count())->toBe(1)
+        ->and(Estante::count())->toBe(1)
+        ->and(Prateleira::count())->toBe(1)
+        ->and($sala->numero)->toBe('10-a')
+        ->and($sala->descricao)->toBe('foo bar')
+        ->and($sala->andar_id)->toBe($this->andar->id)
+        ->and($estante->numero)->toBe('0')
+        ->and($estante->descricao)->toBe(__('Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado'))
+        ->and($estante->sala_id)->toBe($sala->id)
+        ->and($prateleira->numero)->toBe('0')
+        ->and($prateleira->estante_id)->toBe($estante->id)
+        ->and($prateleira->descricao)->toBe(__('Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado'));
+});
 
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::SALA_UPDATE);

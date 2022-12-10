@@ -11,8 +11,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Caixa\PostCaixaRequest;
 use App\Http\Resources\Caixa\CaixaCollection;
 use App\Http\Resources\Caixa\CaixaResource;
+use App\Http\Resources\Localidade\LocalidadeOnlyResource;
+use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaCollection;
 use App\Models\Caixa;
+use App\Models\Localidade;
+use App\Models\Prateleira;
 use App\Models\VolumeCaixa;
 use App\Pipes\Caixa\Atualizar;
 use App\Pipes\Caixa\SetGPProcessos;
@@ -53,22 +57,42 @@ class CaixaController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Prateleira  $prateleira
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(Prateleira $prateleira)
     {
-        //
+        $this->authorize(Policy::Create->value, Caixa::class);
+
+        return Inertia::render('Cadastro/Caixa/Create', [
+            'ultima_insercao' => fn () => CaixaResource::make($prateleira->caixas()->with('localidadeCriadora')->latest()->first()),
+            'prateleira' => fn () => PrateleiraResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
+            // @todo melhorar esse limite
+            'localidades' => fn () => LocalidadeOnlyResource::collection(Localidade::limit(10)->get()),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Cadastro\Caixa\PostCaixaRequest  $request
+     * @param  \App\Models\Prateleira  $prateleira
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PostCaixaRequest $request, Prateleira $prateleira)
     {
-        //
+        $caixa = new Caixa();
+
+        $caixa->numero = $request->input('numero');
+        $caixa->ano = $request->input('ano');
+        $caixa->guarda_permanente = $request->input('guarda_permanente');
+        $caixa->complemento = $request->input('complemento');
+        $caixa->descricao = $request->input('descricao');
+        $caixa->localidade_criadora_id = $request->input('localidade_criadora_id');
+
+        $salvo = $prateleira->caixas()->save($caixa);
+
+        return back()->with($this->feedback($salvo));
     }
 
     /**

@@ -12,6 +12,7 @@ use App\Http\Requests\Cadastro\Andar\EditAndarRequest;
 use App\Http\Requests\Cadastro\Andar\IndexAndarRequest;
 use App\Http\Requests\Cadastro\Andar\PostAndarRequest;
 use App\Http\Resources\Andar\AndarResource;
+use App\Http\Resources\Predio\PredioResource;
 use App\Models\Andar;
 use App\Models\Permissao;
 use App\Models\Predio;
@@ -58,7 +59,7 @@ test('action do controller usa o form request', function (string $action, string
         $request
     );
 })->with([
-    // ['store', PostAndarRequest::class],
+    ['store', PostAndarRequest::class],
     ['update', PostAndarRequest::class],
 ]);
 
@@ -76,53 +77,50 @@ test('action index compartilha os dados esperados com a view/componente correto'
         );
 });
 
-// test('action create compartilha os dados esperados com a view/componente correto', function () {
-//     Andar::factory()->for($this->predio)->create();
+test('action create compartilha os dados esperados com a view/componente correto', function () {
+    Andar::factory()->for($this->predio)->create();
 
-//     $this->travel(1)->seconds();
-//     $ultimo_andar_criado = Andar::factory()->for($this->predio)->create();
+    $this->travel(1)->seconds();
+    $ultimo_andar_criado = Andar::factory()->for($this->predio)->create();
 
-//     $this->travel(1)->seconds();
-//     // andar de outro prédio, será desconsiderado
-//     Andar::factory()->create();
+    $this->travel(1)->seconds();
+    // andar de outro prédio, será desconsiderado
+    Andar::factory()->create();
 
-//     concederPermissao(Permissao::AndarCreate);
+    concederPermissao(Permissao::ANDAR_CREATE);
 
-//     get(route('cadastro.andar.create', $this->predio))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Cadastro/Andar/Create')
-//                 ->where('ultima_insercao', [
-//                     'numero' => $ultimo_andar_criado->numero,
-//                     'apelido' => $ultimo_andar_criado->apelido,
-//                 ])
-//                 ->where('predio_pai', Predio::hierarquiaAscendente()->find($this->predio->id)->only(['id', 'nome', 'localidade_nome']))
-//         );
-// });
+    get(route('cadastro.andar.create', $this->predio))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Cadastro/Andar/Create')
+                ->whereAll([
+                    'ultima_insercao.data' => AndarResource::make($ultimo_andar_criado)->resolve(),
+                    'predio' => PredioResource::make($this->predio->load('localidade'))->response()->getData(true),
+                ])
+        );
+});
 
-// test('cria um novo andar', function () {
-//     concederPermissao(Permissao::AndarCreate);
+test('cria um novo andar', function () {
+    concederPermissao(Permissao::ANDAR_CREATE);
 
-//     expect(Andar::count())->toBe(0);
+    $dados = [
+        'numero' => 10,
+        'apelido' => 'foo',
+        'descricao' => 'foo bar',
+        'predio_id' => $this->predio->id,
+    ];
 
-//     post(route('cadastro.andar.store', $this->predio), [
-//         'numero' => 10,
-//         'apelido' => 'foo',
-//         'descricao' => 'foo bar',
-//         'predio_id' => $this->predio->id,
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('feedback.sucesso');
+    expect(Andar::count())->toBe(0);
 
-//     $andar = Andar::first();
+    post(route('cadastro.andar.store', $this->predio), $dados)
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     expect(Andar::count())->toBe(1)
-//         ->and($andar->numero)->toBe(10)
-//         ->and($andar->apelido)->toBe('foo')
-//         ->and($andar->descricao)->toBe('foo bar')
-//         ->and($andar->predio_id)->toBe($this->predio->id);
-// });
+    expect(Andar::count())->toBe(1)
+        ->and(Andar::first()->only(array_keys($dados)))
+        ->toBe($dados);
+});
 
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::ANDAR_UPDATE);

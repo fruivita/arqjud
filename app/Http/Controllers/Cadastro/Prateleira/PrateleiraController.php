@@ -11,9 +11,11 @@ use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest;
 use App\Http\Resources\Caixa\CaixaCollection;
+use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraCollection;
 use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Models\Caixa;
+use App\Models\Estante;
 use App\Models\Prateleira;
 use App\Traits\ComFeedback;
 use App\Traits\ComPaginacaoEmCache;
@@ -52,22 +54,36 @@ class PrateleiraController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Estante  $estante
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(Estante $estante)
     {
-        //
+        $this->authorize(Policy::Create->value, Prateleira::class);
+
+        return Inertia::render('Cadastro/Prateleira/Create', [
+            'ultima_insercao' => fn () => PrateleiraResource::make($estante->prateleiras()->latest()->first()),
+            'estante' => fn () => EstanteResource::make($estante->load('sala.andar.predio.localidade')),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\Cadastro\Prateleira\PostPrateleiraRequest  $request
+     * @param  \App\Models\Estante  $estante
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PostPrateleiraRequest $request, Estante $estante)
     {
-        //
+        $prateleira = new Prateleira();
+
+        $prateleira->numero = $request->input('numero');
+        $prateleira->descricao = $request->input('descricao');
+
+        $salvo = $estante->prateleiras()->save($prateleira);
+
+        return back()->with($this->feedback($salvo));
     }
 
     /**
