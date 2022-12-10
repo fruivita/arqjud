@@ -24,6 +24,7 @@ class LocalidadeResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'nome' => $this->nome,
+                'descricao' => $this->descricao,
                 'predios_count' => $this->whenCounted('predios'),
                 'caixas_criadas_count' => $this->whenCounted('caixasCriadas'),
                 'links' => [

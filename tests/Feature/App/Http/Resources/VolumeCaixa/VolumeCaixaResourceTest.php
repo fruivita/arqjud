@@ -19,6 +19,7 @@ beforeEach(function () {
     $this->volume_api = [
         'id' => $this->volume->id,
         'numero' => $this->volume->numero,
+        'descricao' => $this->volume->descricao,
         'caixa_id' => $this->volume->caixa_id,
     ];
 });
@@ -55,6 +56,7 @@ test('retorna a caixa pai se houver o eager load da propriedade', function () {
         'ano' => $this->volume->caixa->ano,
         'guarda_permanente' => $this->volume->caixa->guarda_permanente ? __('Sim') : __('Não'),
         'complemento' => $this->volume->caixa->complemento,
+        'descricao' => $this->volume->caixa->descricao,
         'prateleira_id' => $this->volume->caixa->prateleira_id,
         'localidade_criadora_id' => $this->volume->caixa->localidade_criadora_id,
     ];

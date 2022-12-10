@@ -28,6 +28,7 @@ class ProcessoResource extends JsonResource
                 'arquivado_em' => $this->arquivado_em->format('d-m-Y'),
                 'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
                 'qtd_volumes' => $this->qtd_volumes,
+                'descricao' => $this->descricao,
                 'volume_caixa_id' => $this->volume_caixa_id,
                 'processo_pai_id' => $this->processo_pai_id,
                 'volume_caixa' => VolumeCaixaOnlyResource::make($this->whenLoaded('volumeCaixa')),

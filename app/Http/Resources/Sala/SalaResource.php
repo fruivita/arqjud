@@ -25,6 +25,7 @@ class SalaResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'numero' => $this->numero,
+                'descricao' => $this->descricao,
                 'andar_id' => $this->andar_id,
                 'andar' => AndarOnlyResource::make($this->whenLoaded('andar')),
                 'estantes_count' => $this->whenCounted('estantes'),

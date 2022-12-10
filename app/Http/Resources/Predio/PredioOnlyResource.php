@@ -22,6 +22,7 @@ class PredioOnlyResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'nome' => $this->nome,
+                'descricao' => $this->descricao,
                 'localidade_id' => $this->localidade_id,
                 'localidade' => LocalidadeOnlyResource::make($this->whenLoaded('localidade')),
                 'andares_count' => $this->whenCounted('andares'),

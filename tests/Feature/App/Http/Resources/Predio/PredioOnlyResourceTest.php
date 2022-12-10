@@ -25,7 +25,7 @@ test('retorna os campos principais do modelo', function () {
     $resource = PredioOnlyResource::make($this->predio);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->predio->only(['id', 'nome', 'localidade_id']),
+        'data' => $this->predio->only(['id', 'nome', 'descricao', 'localidade_id']),
     ]);
 });
 
@@ -33,8 +33,8 @@ test('retorna a localidade pai se houver o eager load da propriedade', function 
     $resource = PredioOnlyResource::make($this->predio->load('localidade'));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->predio->only(['id', 'nome', 'localidade_id'])
-            + ['localidade' => $this->predio->localidade->only(['id', 'nome'])],
+        'data' => $this->predio->only(['id', 'nome', 'descricao', 'localidade_id'])
+            + ['localidade' => $this->predio->localidade->only(['id', 'nome', 'descricao'])],
     ]);
 });
 
@@ -42,7 +42,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
     $resource = PredioOnlyResource::make($this->predio->loadCount('andares'));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->predio->only(['id', 'nome', 'localidade_id', 'andares_count']),
+        'data' => $this->predio->only(['id', 'nome', 'descricao', 'localidade_id', 'andares_count']),
     ]);
 });
 

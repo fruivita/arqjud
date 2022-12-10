@@ -21,6 +21,7 @@ beforeEach(function () {
         'ano' => $this->caixa->ano,
         'guarda_permanente' => $this->caixa->guarda_permanente ? __('Sim') : __('Não'),
         'complemento' => $this->caixa->complemento,
+        'descricao' => $this->caixa->descricao,
         'prateleira_id' => $this->caixa->prateleira_id,
         'localidade_criadora_id' => $this->caixa->localidade_criadora_id,
     ];
@@ -42,8 +43,8 @@ test('retorna a prateleira pai e localidade criadora se houver o eager load da p
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->caixa_api
-            + ['prateleira' => $this->caixa->prateleira->only(['id', 'numero', 'estante_id'])]
-            + ['localidade_criadora' => $this->caixa->localidadeCriadora->only(['id', 'nome'])],
+            + ['prateleira' => $this->caixa->prateleira->only(['id', 'numero', 'descricao', 'estante_id'])]
+            + ['localidade_criadora' => $this->caixa->localidadeCriadora->only(['id', 'nome', 'descricao'])],
     ]);
 });
 

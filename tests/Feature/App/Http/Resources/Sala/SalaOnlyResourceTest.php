@@ -25,7 +25,7 @@ test('retorna os campos principais do modelo', function () {
     $resource = SalaOnlyResource::make($this->sala);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->sala->only(['id', 'numero', 'andar_id']),
+        'data' => $this->sala->only(['id', 'numero', 'descricao', 'andar_id']),
     ]);
 });
 
@@ -33,8 +33,8 @@ test('retorna o andar pai se houver o eager load da propriedade', function () {
     $resource = SalaOnlyResource::make($this->sala->load('andar'));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->sala->only(['id', 'numero', 'andar_id'])
-            + ['andar' => $this->sala->andar->only(['id', 'numero', 'apelido', 'predio_id'])],
+        'data' => $this->sala->only(['id', 'numero', 'descricao', 'andar_id'])
+            + ['andar' => $this->sala->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id'])],
     ]);
 });
 
@@ -42,7 +42,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
     $resource = SalaOnlyResource::make($this->sala->loadCount('estantes'));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->sala->only(['id', 'numero', 'andar_id', 'estantes_count']),
+        'data' => $this->sala->only(['id', 'numero', 'descricao', 'andar_id', 'estantes_count']),
     ]);
 });
 

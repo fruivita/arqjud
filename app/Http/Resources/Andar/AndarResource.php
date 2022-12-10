@@ -26,6 +26,7 @@ class AndarResource extends JsonResource
                 'id' => $this->id,
                 'numero' => $this->numero,
                 'apelido' => $this->apelido,
+                'descricao' => $this->descricao,
                 'predio_id' => $this->predio_id,
                 'predio' => PredioOnlyResource::make($this->whenLoaded('predio')),
                 'salas_count' => $this->whenCounted('salas'),

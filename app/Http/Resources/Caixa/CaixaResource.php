@@ -29,6 +29,7 @@ class CaixaResource extends JsonResource
                 'ano' => $this->ano,
                 'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
                 'complemento' => $this->complemento,
+                'descricao' => $this->descricao,
                 'prateleira_id' => $this->prateleira_id,
                 'localidade_criadora_id' => $this->localidade_criadora_id,
                 'prateleira' => PrateleiraOnlyResource::make($this->whenLoaded('prateleira')),

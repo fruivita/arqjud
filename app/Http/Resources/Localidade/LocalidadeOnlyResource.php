@@ -21,6 +21,7 @@ class LocalidadeOnlyResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'nome' => $this->nome,
+                'descricao' => $this->descricao,
             ]
             : [];
     }

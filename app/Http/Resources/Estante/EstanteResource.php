@@ -25,6 +25,7 @@ class EstanteResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'numero' => $this->numero,
+                'descricao' => $this->descricao,
                 'sala_id' => $this->sala_id,
                 'sala' => SalaOnlyResource::make($this->whenLoaded('sala')),
                 'prateleiras_count' => $this->whenCounted('prateleiras'),

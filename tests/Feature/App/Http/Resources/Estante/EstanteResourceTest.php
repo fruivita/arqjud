@@ -28,7 +28,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
     $resource = EstanteResource::make($this->estante);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->estante->only(['id', 'numero', 'sala_id'])
+        'data' => $this->estante->only(['id', 'numero', 'descricao', 'sala_id'])
             + [
                 'links' => [
                     'view' => route('cadastro.estante.edit', $this->estante),
@@ -44,8 +44,8 @@ test('retorna a sala pai se houver o eager load da propriedade', function () {
     $resource = EstanteResource::make($this->estante->load('sala'));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->estante->only(['id', 'numero', 'sala_id'])
-            + ['sala' => $this->estante->sala->only(['id', 'numero', 'andar_id'])]
+        'data' => $this->estante->only(['id', 'numero', 'descricao', 'sala_id'])
+            + ['sala' => $this->estante->sala->only(['id', 'numero', 'descricao', 'andar_id'])]
             + ['links' => []],
     ]);
 });
@@ -54,7 +54,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
     $resource = EstanteResource::make($this->estante->loadCount('prateleiras'));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->estante->only(['id', 'numero', 'sala_id', 'prateleiras_count'])
+        'data' => $this->estante->only(['id', 'numero', 'descricao', 'sala_id', 'prateleiras_count'])
             + ['links' => []],
     ]);
 });
@@ -63,7 +63,7 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
     $resource = EstanteResource::make($this->estante);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->estante->only(['id', 'numero', 'sala_id'])
+        'data' => $this->estante->only(['id', 'numero', 'descricao', 'sala_id'])
             + ['links' => []],
     ]);
 });

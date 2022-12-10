@@ -28,7 +28,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
     $resource = LocalidadeResource::make($this->localidade);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->localidade->only(['id', 'nome'])
+        'data' => $this->localidade->only(['id', 'nome', 'descricao'])
             + [
                 'links' => [
                     'view' => route('cadastro.localidade.edit', $this->localidade),
@@ -44,7 +44,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
     $resource = LocalidadeResource::make($this->localidade->loadCount(['predios', 'caixasCriadas']));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->localidade->only(['id', 'nome', 'predios_count', 'caixas_criadas_count'])
+        'data' => $this->localidade->only(['id', 'nome', 'descricao', 'predios_count', 'caixas_criadas_count'])
             + ['links' => []],
     ]);
 });
@@ -53,7 +53,7 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
     $resource = LocalidadeResource::make($this->localidade);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->localidade->only(['id', 'nome'])
+        'data' => $this->localidade->only(['id', 'nome', 'descricao'])
             + ['links' => []],
     ]);
 });

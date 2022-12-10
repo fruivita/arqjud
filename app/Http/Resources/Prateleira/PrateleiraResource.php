@@ -25,6 +25,7 @@ class PrateleiraResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'numero' => $this->numero,
+                'descricao' => $this->descricao,
                 'estante_id' => $this->estante_id,
                 'estante' => EstanteOnlyResource::make($this->whenLoaded('estante')),
                 'caixas_count' => $this->whenCounted('caixas'),

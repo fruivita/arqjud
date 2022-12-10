@@ -24,6 +24,7 @@ beforeEach(function () {
         'arquivado_em' => $this->processo->arquivado_em->format('d-m-Y'),
         'guarda_permanente' => $this->processo->guarda_permanente ? __('Sim') : __('Não'),
         'qtd_volumes' => $this->processo->qtd_volumes,
+        'descricao' => $this->processo->descricao,
         'volume_caixa_id' => $this->processo->volume_caixa_id,
         'processo_pai_id' => $this->processo->processo_pai_id,
     ];
@@ -50,13 +51,14 @@ test('retorna o volume da caixa pai e o processo pai se houver o eager load da p
         'arquivado_em' => $this->processo->processoPai->arquivado_em->format('d-m-Y'),
         'guarda_permanente' => $this->processo->processoPai->guarda_permanente ? __('Sim') : __('Não'),
         'qtd_volumes' => $this->processo->processoPai->qtd_volumes,
+        'descricao' => $this->processo->processoPai->descricao,
         'volume_caixa_id' => $this->processo->processoPai->volume_caixa_id,
         'processo_pai_id' => $this->processo->processoPai->processo_pai_id,
     ];
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->processo_api
-            + ['volume_caixa' => $this->processo->volumeCaixa->only(['id', 'numero', 'caixa_id'])]
+            + ['volume_caixa' => $this->processo->volumeCaixa->only(['id', 'numero', 'descricao', 'caixa_id'])]
             + ['processo_pai' => $processo_pai_api],
     ]);
 });

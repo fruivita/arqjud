@@ -25,6 +25,7 @@ class VolumeCaixaResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'numero' => $this->numero,
+                'descricao' => $this->descricao,
                 'caixa_id' => $this->caixa_id,
                 'caixa' => CaixaOnlyResource::make($this->whenLoaded('caixa')),
                 'processos_count' => $this->whenCounted('processos'),
