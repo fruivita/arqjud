@@ -13,6 +13,7 @@ import { useExclusao } from '@/Composables/useExclusao';
 import { flash } from '@/Composables/useFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { perPageKey, updatePerPageKey } from '@/keys.js';
+import Andar from '@/Models/Andar';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -130,7 +131,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                         <ChaveValor
                             :chave="__('Andar')"
-                            :valor="sala.data.andar.apelido ?? sala.data.andar.numero"
+                            :valor="new Andar(sala.data.andar).numeroExibicao()"
                             icone="layers"
                         />
 

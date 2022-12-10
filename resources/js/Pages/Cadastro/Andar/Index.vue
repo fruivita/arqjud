@@ -15,6 +15,7 @@ import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis'
 import { useExclusao } from '@/Composables/useExclusao';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { perPageKey, updatePerPageKey } from '@/keys.js';
+import Andar from '@/Models/Andar';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -175,7 +176,7 @@ watch(perPage, filtrar);
                                         @click="
                                             confirmarExclusao(
                                                 andar.links.delete,
-                                                andar.apelido ?? andar.numero
+                                                new Andar(andar).numeroExibicao()
                                             )
                                         "
                                         especie="perigo"

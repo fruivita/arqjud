@@ -13,6 +13,7 @@ import { useExclusao } from '@/Composables/useExclusao';
 import { flash } from '@/Composables/useFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { perPageKey, updatePerPageKey } from '@/keys.js';
+import Andar from '@/Models/Andar';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -256,7 +257,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                                         @click="
                                             confirmarExclusao(
                                                 andar.links.delete,
-                                                andar.apelido ?? andar.numero
+                                                new Andar(andar).numeroExibicao()
                                             )
                                         "
                                         especie="perigo"
