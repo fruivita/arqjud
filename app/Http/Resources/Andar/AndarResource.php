@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Andar;
 
 use App\Enums\Policy;
-use App\Http\Resources\Predio\PredioOnlyResource;
+use App\Http\Resources\Predio\PredioResource;
 use App\Models\Andar;
 use App\Models\Sala;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -28,7 +28,7 @@ class AndarResource extends JsonResource
                 'apelido' => $this->apelido,
                 'descricao' => $this->descricao,
                 'predio_id' => $this->predio_id,
-                'predio' => PredioOnlyResource::make($this->whenLoaded('predio')),
+                'predio' => PredioResource::make($this->whenLoaded('predio')),
                 'salas_count' => $this->whenCounted('salas'),
                 'links' => [
                     'view' => $this->when(

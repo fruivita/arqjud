@@ -6,6 +6,7 @@
  */
 
 use App\Http\Resources\Estante\EstanteResource;
+use App\Http\Resources\Sala\SalaResource;
 use App\Models\Estante;
 use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
@@ -45,7 +46,7 @@ test('retorna a sala pai se houver o eager load da propriedade', function () {
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->estante->only(['id', 'numero', 'descricao', 'sala_id'])
-            + ['sala' => $this->estante->sala->only(['id', 'numero', 'descricao', 'andar_id'])]
+            + ['sala' => SalaResource::make($this->estante->sala)->resolve()]
             + ['links' => []],
     ]);
 });

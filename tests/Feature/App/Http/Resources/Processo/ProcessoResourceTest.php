@@ -6,6 +6,7 @@
  */
 
 use App\Http\Resources\Processo\ProcessoResource;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Permissao;
 use App\Models\Processo;
 use Database\Seeders\PerfilSeeder;
@@ -55,23 +56,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
 test('retorna o volume da caixa pai e o processo pai se houver o eager load da propriedade', function () {
     $resource = ProcessoResource::make($this->processo->load(['volumeCaixa', 'processoPai']));
-
-    $processo_pai_api = [
-        'id' => $this->processo->processoPai->id,
-        'numero' => $this->processo->processoPai->numero,
-        'numero_antigo' => $this->processo->processoPai->numero_antigo,
-        'arquivado_em' => $this->processo->processoPai->arquivado_em->format('d-m-Y'),
-        'guarda_permanente' => $this->processo->processoPai->guarda_permanente ? __('Sim') : __('Não'),
-        'qtd_volumes' => $this->processo->processoPai->qtd_volumes,
-        'descricao' => $this->processo->processoPai->descricao,
-        'volume_caixa_id' => $this->processo->processoPai->volume_caixa_id,
-        'processo_pai_id' => $this->processo->processoPai->processo_pai_id,
-    ];
-
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->processo_api
-            + ['volume_caixa' => $this->processo->volumeCaixa->only(['id', 'numero', 'descricao', 'caixa_id'])]
-            + ['processo_pai' => $processo_pai_api]
+            + ['volume_caixa' => VolumeCaixaResource::make($this->processo->volumeCaixa)->resolve()]
+            + ['processo_pai' => ProcessoResource::make($this->processo->processoPai)->resolve()]
             + ['links' => []],
     ]);
 });

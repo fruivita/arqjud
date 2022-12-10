@@ -5,6 +5,7 @@
  * @see https://inertiajs.com/testing
  */
 
+use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioResource;
 use App\Models\Permissao;
 use App\Models\Predio;
@@ -45,7 +46,7 @@ test('retorna a localidade pai se houver o eager load da propriedade', function 
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->predio->only(['id', 'nome', 'descricao', 'localidade_id'])
-            + ['localidade' => $this->predio->localidade->only(['id', 'nome', 'descricao'])]
+            + ['localidade' => LocalidadeResource::make($this->predio->localidade)->resolve()]
             + ['links' => []],
     ]);
 });

@@ -6,6 +6,8 @@
  */
 
 use App\Http\Resources\Caixa\CaixaResource;
+use App\Http\Resources\Localidade\LocalidadeResource;
+use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Models\Caixa;
 use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
@@ -56,8 +58,8 @@ test('retorna a prateleira pai e a localidade criadora se houver o eager load da
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->caixa_api
-            + ['prateleira' => $this->caixa->prateleira->only(['id', 'numero', 'descricao', 'estante_id'])]
-            + ['localidade_criadora' => $this->caixa->localidadeCriadora->only(['id', 'nome', 'descricao'])]
+            + ['prateleira' => PrateleiraResource::make($this->caixa->prateleira)->resolve()]
+            + ['localidade_criadora' => LocalidadeResource::make($this->caixa->localidadeCriadora)->resolve()]
             + ['links' => []],
     ]);
 });

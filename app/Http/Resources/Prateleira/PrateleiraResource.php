@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Prateleira;
 
 use App\Enums\Policy;
-use App\Http\Resources\Estante\EstanteOnlyResource;
+use App\Http\Resources\Estante\EstanteResource;
 use App\Models\Caixa;
 use App\Models\Prateleira;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,7 +27,7 @@ class PrateleiraResource extends JsonResource
                 'numero' => $this->numero,
                 'descricao' => $this->descricao,
                 'estante_id' => $this->estante_id,
-                'estante' => EstanteOnlyResource::make($this->whenLoaded('estante')),
+                'estante' => EstanteResource::make($this->whenLoaded('estante')),
                 'caixas_count' => $this->whenCounted('caixas'),
                 'links' => [
                     'view' => $this->when(

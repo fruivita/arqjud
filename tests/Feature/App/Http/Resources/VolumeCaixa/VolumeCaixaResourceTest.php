@@ -5,6 +5,7 @@
  * @see https://inertiajs.com/testing
  */
 
+use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Permissao;
 use App\Models\VolumeCaixa;
@@ -50,20 +51,9 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna a caixa pai se houver o eager load da propriedade', function () {
     $resource = VolumeCaixaResource::make($this->volume->load(['caixa']));
 
-    $caixa_api = [
-        'id' => $this->volume->caixa->id,
-        'numero' => $this->volume->caixa->numero,
-        'ano' => $this->volume->caixa->ano,
-        'guarda_permanente' => $this->volume->caixa->guarda_permanente ? __('Sim') : __('Não'),
-        'complemento' => $this->volume->caixa->complemento,
-        'descricao' => $this->volume->caixa->descricao,
-        'prateleira_id' => $this->volume->caixa->prateleira_id,
-        'localidade_criadora_id' => $this->volume->caixa->localidade_criadora_id,
-    ];
-
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->volume_api
-            + ['caixa' => $caixa_api]
+            + ['caixa' => CaixaResource::make($this->volume->caixa)->resolve()]
             + ['links' => []],
     ]);
 });

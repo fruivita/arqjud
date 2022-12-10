@@ -6,6 +6,7 @@
  */
 
 use App\Http\Resources\Andar\AndarResource;
+use App\Http\Resources\Predio\PredioResource;
 use App\Models\Andar;
 use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
@@ -45,7 +46,7 @@ test('retorna o prédio pai se houver o eager load da propriedade', function () 
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id'])
-            + ['predio' => $this->andar->predio->only(['id', 'nome', 'descricao', 'localidade_id'])]
+            + ['predio' => PredioResource::make($this->andar->predio)->resolve()]
             + ['links' => []],
     ]);
 });

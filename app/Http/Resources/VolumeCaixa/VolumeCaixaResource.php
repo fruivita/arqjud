@@ -3,7 +3,7 @@
 namespace App\Http\Resources\VolumeCaixa;
 
 use App\Enums\Policy;
-use App\Http\Resources\Caixa\CaixaOnlyResource;
+use App\Http\Resources\Caixa\CaixaResource;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,7 +27,7 @@ class VolumeCaixaResource extends JsonResource
                 'numero' => $this->numero,
                 'descricao' => $this->descricao,
                 'caixa_id' => $this->caixa_id,
-                'caixa' => CaixaOnlyResource::make($this->whenLoaded('caixa')),
+                'caixa' => CaixaResource::make($this->whenLoaded('caixa')),
                 'processos_count' => $this->whenCounted('processos'),
                 'links' => [
                     'view' => $this->when(

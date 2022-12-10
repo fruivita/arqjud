@@ -5,6 +5,7 @@
  * @see https://inertiajs.com/testing
  */
 
+use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Models\Permissao;
 use App\Models\Prateleira;
@@ -45,7 +46,7 @@ test('retorna a estante pai se houver o eager load da propriedade', function () 
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->prateleira->only(['id', 'numero', 'descricao', 'estante_id'])
-            + ['estante' => $this->prateleira->estante->only(['id', 'numero', 'descricao', 'sala_id'])]
+            + ['estante' => EstanteResource::make($this->prateleira->estante)->resolve()]
             + ['links' => []],
     ]);
 });

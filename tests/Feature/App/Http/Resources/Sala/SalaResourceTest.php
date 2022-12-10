@@ -5,6 +5,7 @@
  * @see https://inertiajs.com/testing
  */
 
+use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Sala\SalaResource;
 use App\Models\Permissao;
 use App\Models\Sala;
@@ -45,7 +46,7 @@ test('retorna o andar pai se houver o eager load da propriedade', function () {
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->sala->only(['id', 'numero', 'descricao', 'andar_id'])
-            + ['andar' => $this->sala->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id'])]
+            + ['andar' => AndarResource::make($this->sala->andar)->resolve()]
             + ['links' => []],
     ]);
 });

@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Predio;
 
 use App\Enums\Policy;
-use App\Http\Resources\Localidade\LocalidadeOnlyResource;
+use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Models\Andar;
 use App\Models\Predio;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,7 +27,7 @@ class PredioResource extends JsonResource
                 'nome' => $this->nome,
                 'descricao' => $this->descricao,
                 'localidade_id' => $this->localidade_id,
-                'localidade' => LocalidadeOnlyResource::make($this->whenLoaded('localidade')),
+                'localidade' => LocalidadeResource::make($this->whenLoaded('localidade')),
                 'andares_count' => $this->whenCounted('andares'),
                 'links' => [
                     'view' => $this->when(
