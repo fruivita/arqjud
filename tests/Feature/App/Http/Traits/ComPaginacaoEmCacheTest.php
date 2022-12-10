@@ -16,7 +16,7 @@ beforeEach(function () {
 
     $this->classe = new class
     {
-        use App\Traits\ComPaginacaoEmCache;
+        use App\Http\Traits\ComPaginacaoEmCache;
     };
 });
 
@@ -31,8 +31,10 @@ test('se a paginação informada e o cache forem inválidos, a paginação padr�
         'per_page' => ['/' => 66],
     ]);
 
+    request()->merge(['per_page' => 33]);
+
     // 33 é uma opção inexistente
-    expect($this->classe->perPage(33))->toBe($this->classe->paginacaoPadrao());
+    expect($this->classe->perPage())->toBe($this->classe->paginacaoPadrao());
 });
 
 test('se a paginação informada for inválida, mas existir cache válido, o cache será utilizado', function () {
@@ -40,8 +42,10 @@ test('se a paginação informada for inválida, mas existir cache válido, o cac
         'per_page' => ['/' => 50],
     ]);
 
+    request()->merge(['per_page' => 33]);
+
     // 33 é uma opção inexistente
-    expect($this->classe->perPage(33))->toBe(50);
+    expect($this->classe->perPage())->toBe(50);
 });
 
 // Caminho feliz
@@ -54,6 +58,8 @@ test('paginação padrão está definida', function () {
 });
 
 test('sem informar paginação e sem cache, retorna a paginação padrão, isto é, o primeiro item do array de opções', function () {
+    request();
+
     expect($this->classe->perPage())->toBe($this->classe->paginacaoPadrao());
 });
 
@@ -61,6 +67,8 @@ test('sem informar paginação, mas com cache, retorna a paginação em cache', 
     Cache::put('foo', [
         'per_page' => ['/' => 50],
     ]);
+
+    request();
 
     expect($this->classe->perPage())->toBe(50);
 });
@@ -70,14 +78,18 @@ test('se a paginação for informada, ela será utilizada, mesmo que exista cach
         'per_page' => ['/' => 50],
     ]);
 
-    expect($this->classe->perPage(25))->toBe(25);
+    request()->merge(['per_page' => 25]);
+
+    expect($this->classe->perPage())->toBe(25);
 });
 
 test('paginação armazena em cache o valor utilizado', function () {
     Cache::put('foo', [
         'per_page' => ['/' => 50],
     ]);
-    $this->classe->perPage(25);
+
+    request()->merge(['per_page' => 25]);
+    $this->classe->perPage();
 
     expect(Cache::get('foo'))->toBe([
         'per_page' => ['/' => 25],
@@ -88,12 +100,14 @@ test('cache da paginação é individualizado para cada path', function () {
     Cache::put('foo', [
         'per_page' => ['/pathqualquer' => 50],
     ]);
+
+    request()->merge(['per_page' => 25]);
     $this->classe->perPage();
 
     expect(Cache::get('foo'))->toBe([
         'per_page' => [
             '/pathqualquer' => 50,
-            '/' => 10,
+            '/' => 25,
         ],
     ]);
 });

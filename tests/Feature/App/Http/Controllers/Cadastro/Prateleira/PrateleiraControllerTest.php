@@ -189,7 +189,7 @@ test('PrateleiraController usa trait', function () {
     expect(
         collect(class_uses(PrateleiraController::class))
             ->has([
-                \App\Traits\ComPaginacaoEmCache::class,
+                \App\Http\Traits\ComPaginacaoEmCache::class,
                 \App\Traits\ComFeedback::class,
             ])
     )->toBeTrue();

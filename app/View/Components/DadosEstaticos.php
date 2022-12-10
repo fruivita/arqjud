@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Traits\ComPaginacaoEmCache;
+use App\Http\Traits\ComPaginacaoEmCache;
 use Illuminate\View\Component;
 
 /**

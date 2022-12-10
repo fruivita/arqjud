@@ -190,7 +190,7 @@ test('AndarController usa trait', function () {
     expect(
         collect(class_uses(AndarController::class))
             ->has([
-                \App\Traits\ComPaginacaoEmCache::class,
+                \App\Http\Traits\ComPaginacaoEmCache::class,
                 \App\Traits\ComFeedback::class,
             ])
     )->toBeTrue();

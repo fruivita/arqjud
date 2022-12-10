@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Http\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -62,12 +62,11 @@ trait ComPaginacaoEmCache
      * Define e retorna a quantidade de itens por página que deve ser utilizada
      * de acordo com as preferências do usuário para a página visitada.
      *
-     * A preferência do usuário é persistida em cache.
+     * A preferência do usuário é persistida em cache e extraída do request.
      *
-     * @param  int|null  $per_page itens por página
      * @return int
      */
-    public function perPage(int $per_page = null)
+    public function perPage()
     {
         $chave = $this->chave();
         $escolha = $this->paginacaoPadrao();
@@ -75,12 +74,12 @@ trait ComPaginacaoEmCache
         $cached_preferencias = $this->preferenciasEmCache();
         $cached_per_page = Arr::get($cached_preferencias, $chave, null);
 
-        // 1º: Paginação informada é válida? use-a.
-        // 2º: Paginação em cache é válida? use-a.
-        // 3º: Usa a paginação padrão.
-        if (in_array($per_page, $this->opcoes)) {
-            $escolha = $per_page;
+        $request_per_page = request()->integer('per_page');
+        if (in_array($request_per_page, $this->opcoes)) {
+            // Paginação informada no request é válida? use-a em vez da padrão.
+            $escolha = $request_per_page;
         } elseif (in_array($cached_per_page, $this->opcoes)) {
+            // Paginação em cache é válida? use-a em vez da padrão.
             $escolha = $cached_per_page;
         }
 

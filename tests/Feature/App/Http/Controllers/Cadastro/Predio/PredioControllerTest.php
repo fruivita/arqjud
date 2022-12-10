@@ -188,7 +188,7 @@ test('PredioController usa trait', function () {
     expect(
         collect(class_uses(PredioController::class))
             ->has([
-                \App\Traits\ComPaginacaoEmCache::class,
+                \App\Http\Traits\ComPaginacaoEmCache::class,
                 \App\Traits\ComFeedback::class,
             ])
     )->toBeTrue();

@@ -267,7 +267,7 @@ test('CaixaController usa trait', function () {
     expect(
         collect(class_uses(CaixaController::class))
             ->has([
-                \App\Traits\ComPaginacaoEmCache::class,
+                \App\Http\Traits\ComPaginacaoEmCache::class,
                 \App\Traits\ComFeedback::class,
             ])
     )->toBeTrue();

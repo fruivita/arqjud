@@ -238,7 +238,7 @@ test('ProcessoController usa trait', function () {
     expect(
         collect(class_uses(ProcessoController::class))
             ->has([
-                \App\Traits\ComPaginacaoEmCache::class,
+                \App\Http\Traits\ComPaginacaoEmCache::class,
                 \App\Traits\ComFeedback::class,
             ])
     )->toBeTrue();

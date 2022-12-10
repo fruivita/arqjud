@@ -196,7 +196,7 @@ test('EstanteController usa trait', function () {
     expect(
         collect(class_uses(EstanteController::class))
             ->has([
-                \App\Traits\ComPaginacaoEmCache::class,
+                \App\Http\Traits\ComPaginacaoEmCache::class,
                 \App\Traits\ComFeedback::class,
             ])
     )->toBeTrue();

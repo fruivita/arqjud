@@ -203,7 +203,7 @@ test('SalaController usa trait', function () {
     expect(
         collect(class_uses(SalaController::class))
             ->has([
-                \App\Traits\ComPaginacaoEmCache::class,
+                \App\Http\Traits\ComPaginacaoEmCache::class,
                 \App\Traits\ComFeedback::class,
             ])
     )->toBeTrue();
