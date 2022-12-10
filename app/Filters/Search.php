@@ -20,7 +20,7 @@ class Search
      */
     public function handle(Builder $query, Closure $next)
     {
-        $termo = str(request()->query('termo'))->trim();
+        $termo = request()->string('termo')->trim();
 
         if ($termo->length() >= 1) {
             $query->search($termo->toString());

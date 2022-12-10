@@ -17,8 +17,8 @@ use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Caixa;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
-use App\Traits\ComFeedback;
-use App\Traits\ComPaginacaoEmCache;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -42,7 +42,7 @@ class VolumeCaixaController extends Controller
                     ->send(VolumeCaixa::withCount(['processos'])->with(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
                 'order' => request()->query('order'),
@@ -77,7 +77,7 @@ class VolumeCaixaController extends Controller
     {
         $volume_caixa = new VolumeCaixa();
 
-        $volume_caixa->numero = $request->input('numero');
+        $volume_caixa->numero = $request->integer('numero');
         $volume_caixa->descricao = $request->input('descricao');
 
         $salvo = $caixa->volumes()->save($volume_caixa);
@@ -102,7 +102,7 @@ class VolumeCaixaController extends Controller
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($volume_caixa))
                     ->through([ProcessoOrder::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'order' => request()->query('order'),
             ]])->preserveQuery(),
@@ -118,7 +118,7 @@ class VolumeCaixaController extends Controller
      */
     public function update(UpdateVolumeCaixaRequest $request, VolumeCaixa $volume_caixa)
     {
-        $volume_caixa->numero = $request->input('numero');
+        $volume_caixa->numero = $request->integer('numero');
         $volume_caixa->descricao = $request->input('descricao');
 
         $salvo = $volume_caixa->save();

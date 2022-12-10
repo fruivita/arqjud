@@ -17,8 +17,8 @@ use App\Http\Resources\Predio\PredioResource;
 use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
-use App\Traits\ComFeedback;
-use App\Traits\ComPaginacaoEmCache;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -42,7 +42,7 @@ class PredioController extends Controller
                     ->send(Predio::withCount(['andares'])->with('localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
                 'order' => request()->query('order'),
@@ -102,7 +102,7 @@ class PredioController extends Controller
                     ->send(Andar::withCount(['salas'])->whereBelongsTo($predio))
                     ->through([AndarOrder::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'order' => request()->query('order'),
             ]])->preserveQuery(),

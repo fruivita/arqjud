@@ -17,8 +17,8 @@ use App\Http\Resources\Sala\SalaResource;
 use App\Models\Estante;
 use App\Models\Prateleira;
 use App\Models\Sala;
-use App\Traits\ComFeedback;
-use App\Traits\ComPaginacaoEmCache;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -42,7 +42,7 @@ class EstanteController extends Controller
                     ->send(Estante::withCount(['prateleiras'])->with('sala.andar.predio.localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
                 'order' => request()->query('order'),
@@ -101,7 +101,7 @@ class EstanteController extends Controller
                     ->send(Prateleira::withCount(['caixas'])->whereBelongsTo($estante))
                     ->through([PrateleiraOrder::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'order' => request()->query('order'),
             ]])->preserveQuery(),

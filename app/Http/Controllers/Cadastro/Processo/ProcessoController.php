@@ -14,8 +14,8 @@ use App\Http\Resources\Processo\ProcessoResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
-use App\Traits\ComFeedback;
-use App\Traits\ComPaginacaoEmCache;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -39,7 +39,7 @@ class ProcessoController extends Controller
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->with(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
                 'order' => request()->query('order'),
@@ -77,7 +77,7 @@ class ProcessoController extends Controller
         $processo->numero = $request->input('numero');
         $processo->numero_antigo = $request->input('numero_antigo');
         $processo->arquivado_em = $request->input('arquivado_em');
-        $processo->qtd_volumes = $request->input('qtd_volumes');
+        $processo->qtd_volumes = $request->integer('qtd_volumes');
         $processo->descricao = $request->input('descricao');
         // Assumirá o valor de guarda permanente definido na caixa
         $volume_caixa->load('caixa');
@@ -85,7 +85,7 @@ class ProcessoController extends Controller
 
         $request->whenFilled(
             'processo_pai_numero',
-            fn ($input) => $processo->processo_pai_id = Processo::firstWhere('numero', $input)->id,
+            fn (string $input) => $processo->processo_pai_id = Processo::firstWhere('numero', $input)->id,
             fn () => $processo->processo_pai_id = null
         );
 
@@ -111,7 +111,7 @@ class ProcessoController extends Controller
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($processo, 'processoPai'))
                     ->through([Order::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'order' => request()->query('order'),
             ]])->preserveQuery(),
@@ -130,12 +130,12 @@ class ProcessoController extends Controller
         $processo->numero = $request->input('numero');
         $processo->numero_antigo = $request->input('numero_antigo');
         $processo->arquivado_em = $request->input('arquivado_em');
-        $processo->qtd_volumes = $request->input('qtd_volumes');
+        $processo->qtd_volumes = $request->integer('qtd_volumes');
         $processo->descricao = $request->input('descricao');
 
         $request->whenFilled(
             'processo_pai_numero',
-            fn ($input) => $processo->processo_pai_id = Processo::firstWhere('numero', $input)->id,
+            fn (string $input) => $processo->processo_pai_id = Processo::firstWhere('numero', $input)->id,
             fn () => $processo->processo_pai_id = null
         );
 

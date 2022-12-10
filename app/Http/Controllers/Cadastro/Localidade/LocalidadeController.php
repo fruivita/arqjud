@@ -14,8 +14,8 @@ use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
 use App\Models\Localidade;
 use App\Models\Predio;
-use App\Traits\ComFeedback;
-use App\Traits\ComPaginacaoEmCache;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -43,7 +43,7 @@ class LocalidadeController extends Controller
                     ->send(Localidade::withCount(['predios', 'caixasCriadas']))
                     ->through([Order::class, Search::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
                 'order' => request()->query('order'),
@@ -102,7 +102,7 @@ class LocalidadeController extends Controller
                     ->send(Predio::withCount(['andares'])->whereBelongsTo($localidade))
                     ->through([PredioOrder::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'order' => request()->query('order'),
             ]])->preserveQuery(),

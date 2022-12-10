@@ -6,6 +6,7 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Http\Requests\LoginRequest;
 
 /**
  * @see https://laravel.com/docs/9.x/providers
@@ -41,7 +42,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     private function registrarAutenticacao()
     {
-        Fortify::authenticateUsing(function ($request) {
+        Fortify::authenticateUsing(function (LoginRequest $request) {
             $validado = Auth::validate([
                 'samaccountname' => $request->input('username'),
                 'password' => $request->input('password'),

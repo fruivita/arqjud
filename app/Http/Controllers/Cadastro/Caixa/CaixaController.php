@@ -21,8 +21,8 @@ use App\Models\Prateleira;
 use App\Models\VolumeCaixa;
 use App\Pipes\Caixa\Atualizar;
 use App\Pipes\Caixa\SetGPProcessos;
-use App\Traits\ComFeedback;
-use App\Traits\ComPaginacaoEmCache;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -46,7 +46,7 @@ class CaixaController extends Controller
                     ->send(Caixa::withCount(['volumes'])->with(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
                 'order' => request()->query('order'),
@@ -83,12 +83,12 @@ class CaixaController extends Controller
     {
         $caixa = new Caixa();
 
-        $caixa->numero = $request->input('numero');
-        $caixa->ano = $request->input('ano');
-        $caixa->guarda_permanente = $request->input('guarda_permanente');
+        $caixa->numero = $request->integer('numero');
+        $caixa->ano = $request->integer('ano');
+        $caixa->guarda_permanente = $request->boolean('guarda_permanente');
         $caixa->complemento = $request->input('complemento');
         $caixa->descricao = $request->input('descricao');
-        $caixa->localidade_criadora_id = $request->input('localidade_criadora_id');
+        $caixa->localidade_criadora_id = $request->integer('localidade_criadora_id');
 
         $salvo = $prateleira->caixas()->save($caixa);
 
@@ -112,7 +112,7 @@ class CaixaController extends Controller
                     ->send(VolumeCaixa::withCount(['processos'])->whereBelongsTo($caixa))
                     ->through([VolumeCaixaOrder::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'order' => request()->query('order'),
             ]])->preserveQuery(),

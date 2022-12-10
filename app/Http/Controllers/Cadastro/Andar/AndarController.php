@@ -17,8 +17,8 @@ use App\Http\Resources\Sala\SalaCollection;
 use App\Models\Andar;
 use App\Models\Predio;
 use App\Models\Sala;
-use App\Traits\ComFeedback;
-use App\Traits\ComPaginacaoEmCache;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -42,7 +42,7 @@ class AndarController extends Controller
                     ->send(Andar::withCount(['salas'])->with('predio.localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
                 'order' => request()->query('order'),
@@ -77,7 +77,7 @@ class AndarController extends Controller
     {
         $andar = new Andar();
 
-        $andar->numero = $request->input('numero');
+        $andar->numero = $request->integer('numero');
         $andar->apelido = $request->input('apelido');
         $andar->descricao = $request->input('descricao');
 
@@ -103,7 +103,7 @@ class AndarController extends Controller
                     ->send(Sala::withCount(['estantes'])->whereBelongsTo($andar))
                     ->through([SalaOrder::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'order' => request()->query('order'),
             ]])->preserveQuery(),
@@ -119,7 +119,7 @@ class AndarController extends Controller
      */
     public function update(UpdateAndarRequest $request, Andar $andar)
     {
-        $andar->numero = $request->input('numero');
+        $andar->numero = $request->integer('numero');
         $andar->apelido = $request->input('apelido');
         $andar->descricao = $request->input('descricao');
 

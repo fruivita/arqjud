@@ -18,8 +18,8 @@ use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Models\Caixa;
 use App\Models\Estante;
 use App\Models\Prateleira;
-use App\Traits\ComFeedback;
-use App\Traits\ComPaginacaoEmCache;
+use App\Http\Traits\ComFeedback;
+use App\Http\Traits\ComPaginacaoEmCache;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -43,7 +43,7 @@ class PrateleiraController extends Controller
                     ->send(Prateleira::withCount(['caixas'])->with('estante.sala.andar.predio.localidade'))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
                 'order' => request()->query('order'),
@@ -103,7 +103,7 @@ class PrateleiraController extends Controller
                     ->send(Caixa::with(['localidadeCriadora'])->withCount(['volumes'])->whereBelongsTo($prateleira))
                     ->through([JoinLocalidadeCriadora::class, CaixaOrder::class])
                     ->thenReturn()
-                    ->paginate($this->perPage(request()->query('per_page')))
+                    ->paginate($this->perPage())
             )->additional(['meta' => [
                 'order' => request()->query('order'),
             ]])->preserveQuery(),
