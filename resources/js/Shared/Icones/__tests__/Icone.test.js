@@ -62,6 +62,7 @@ describe('Icone', () => {
         ['joystick'],
         ['key'],
         ['layers'],
+        ['link-45deg'],
         ['list'],
         ['list-nested'],
         ['moon-stars'],
