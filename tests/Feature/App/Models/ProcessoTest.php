@@ -13,6 +13,7 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
+use App\Models\Solicitacao;
 use App\Models\VolumeCaixa;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
@@ -118,6 +119,19 @@ test('um processo pode ter várias solicitações', function () {
     $processo = Processo::with('solicitacoes')->first();
 
     expect($processo->solicitacoes)->toHaveCount(3);
+});
+
+test('um processo pode ter várias solicições solicitadas/entregues/devolvidas/ativas (idealmente terá apenas 1 solicitada ou 1 entregue ativa)', function () {
+    $processo = Processo::factory()
+        ->has(Solicitacao::factory()->solicitada(), 'solicitacoes')
+        ->has(Solicitacao::factory(2)->entregue(), 'solicitacoes')
+        ->has(Solicitacao::factory(4)->devolvida(), 'solicitacoes')
+        ->create();
+
+    expect($processo->solicitacoesSolicitadas()->count())->toBe(1)
+        ->and($processo->solicitacoesEntregues()->count())->toBe(2)
+        ->and($processo->solicitacoesDevolvidas()->count())->toBe(4)
+        ->and($processo->solicitacoesAtivas()->count())->toBe(3); // solicitadas + entregues
 });
 
 test('retorna os processos pelo escopo search que busca a partir do início do texto no número, do número antigo e da quantidade de volumes da caixa', function (string $termo, int $quantidade) {

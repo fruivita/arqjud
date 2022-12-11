@@ -105,6 +105,67 @@ class Processo extends Model
     }
 
     /**
+     * Relacionamento processo (1:N) solicitações solicitadas.
+     *
+     * Solicitações solicitadas do processo.
+     *
+     * Nota: no cenário ideal, só haverá uma solicitação ativa. Contudo, visto
+     * que se trata de uma especialização de um relacionamento 1:N, foi mantido
+     * como um relacionamento 1:N.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function solicitacoesSolicitadas()
+    {
+        return $this->solicitacoes()->solicitadas();
+    }
+
+    /**
+     * Relacionamento processo (1:N) solicitações entregues.
+     *
+     * Solicitações entregues do processo.
+     *
+     * Nota: no cenário ideal, só haverá uma entrega ativa. Contudo, visto que
+     * se trata de uma especialização de um relacionamento 1:N, foi mantido
+     * como um relacionamento 1:N.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function solicitacoesEntregues()
+    {
+        return $this->solicitacoes()->entregues();
+    }
+
+    /**
+     * Relacionamento processo (1:N) solicitações devolvidas.
+     *
+     * Solicitações devolvidas do processo.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function solicitacoesDevolvidas()
+    {
+        return $this->solicitacoes()->devolvidas();
+    }
+
+    /**
+     * Relacionamento processo (1:N) solicitações ativas.
+     *
+     * Solicitações ativas são as solicitações solicitadas ou entregues, ou
+     * seja, solicitações não devolvidas.
+     *
+     * Nota: no cenário ideal, só haverá uma solicitações ativa. Contudo, visto
+     * que se trata de uma especialização de um relacionamento 1:N, foi mantido
+     * como um relacionamento 1:N.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function solicitacoesAtivas()
+    {
+        return $this->solicitacoes()->ativas();
+    }
+
+    /**
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
@@ -162,6 +223,8 @@ class Processo extends Model
             })
             ->orWhere('processos.qtd_volumes', 'like', $termo);
     }
+
+
 
     /**
      * Aplica ao número de informado à mascara a mascara CNJ, V2 ou V1
