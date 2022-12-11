@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 // Exceptions
-test('lança exception ao tentar criar solicitação com campo inválido', function ($campo, $valor, $mensagem) {
+test('lança exception ao tentar criar solicitação com campo inválido', function (string $campo, mixed $valor, string $mensagem) {
     expect(
         fn () => Solicitacao::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);
@@ -25,7 +25,7 @@ test('lança exception ao tentar criar solicitação com campo inválido', funct
     ['descricao',        Str::random(256), 'Data too long for column'], // máximo 255 caracteres
 ]);
 
-test('lança exception ao tentar definir relacionamento inválido', function ($campo, $valor, $mensagem) {
+test('lança exception ao tentar definir relacionamento inválido', function (string $campo, mixed $valor, string $mensagem) {
     expect(
         fn () => Solicitacao::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);

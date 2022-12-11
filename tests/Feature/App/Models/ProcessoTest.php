@@ -30,7 +30,7 @@ test('lança exception ao tentar criar processos duplicados, isto é, com mesmo 
     )->toThrow(QueryException::class, 'Duplicate entry');
 });
 
-test('lança exception ao tentar criar processo com campo inválido', function ($campo, $valor, $mensagem) {
+test('lança exception ao tentar criar processo com campo inválido', function (string $campo, mixed $valor, string $mensagem) {
     expect(
         fn () => Processo::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);
@@ -46,7 +46,7 @@ test('lança exception ao tentar criar processo com campo inválido', function (
     ['descricao',         Str::random(256),             'Data too long for column'], // máximo 255 caracteres
 ]);
 
-test('lança exception ao tentar definir relacionamento inválido', function ($campo, $valor, $mensagem) {
+test('lança exception ao tentar definir relacionamento inválido', function (string $campo, mixed $valor, string $mensagem) {
     expect(
         fn () => Processo::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);

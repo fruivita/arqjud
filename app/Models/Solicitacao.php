@@ -175,7 +175,7 @@ class Solicitacao extends Model
     protected function status(): Attribute
     {
         return Attribute::make(
-            get: function ($value, $attributes) {
+            get: function (mixed $value, array $attributes) {
                 if (empty($attributes['entregue_em'])) {
                     return __('solicitada');
                 } elseif (empty($attributes['devolvida_em'])) {

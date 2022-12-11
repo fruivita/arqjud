@@ -8,6 +8,7 @@ use App\Filters\Andar\JoinLocalidade;
 use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 use MichaelRubel\EnhancedPipeline\Pipeline;
@@ -61,7 +62,7 @@ test('andares com apelido null não são consideradas duplicadas', function () {
     Andar::factory()->for($predio)->create(['apelido' => null]);
     Andar::factory()->for($predio)->create(['apelido' => '10']);
 
-    $predio->load(['andares' => function ($query) {
+    $predio->load(['andares' => function (Builder $query) {
         $query->whereNull('apelido');
     }]);
 

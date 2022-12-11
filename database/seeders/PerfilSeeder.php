@@ -26,7 +26,7 @@ class PerfilSeeder extends Seeder
 
         DB::table('perfis')->insert(
             $this->todosPerfis()
-                ->map(function ($item) use ($now) {
+                ->map(function (array $item) use ($now) {
                     $item['created_at'] = $now;
                     $item['updated_at'] = $now;
 

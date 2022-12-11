@@ -29,7 +29,7 @@ test('lança exception ao tentar criar volumes de caixa duplicados, isto é, com
     )->toThrow(QueryException::class, 'Duplicate entry');
 });
 
-test('lança exception ao tentar criar volume de caixa com campo inválido', function ($campo, $valor, $mensagem) {
+test('lança exception ao tentar criar volume de caixa com campo inválido', function (string $campo, mixed $valor, string $mensagem) {
     expect(
         fn () => VolumeCaixa::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);
@@ -40,7 +40,7 @@ test('lança exception ao tentar criar volume de caixa com campo inválido', fun
     ['descricao', Str::random(256), 'Data too long for column'], // máximo 255 caracteres
 ]);
 
-test('lança exception ao tentar definir relacionamento inválido', function ($campo, $valor, $mensagem) {
+test('lança exception ao tentar definir relacionamento inválido', function (string $campo, mixed $valor, string $mensagem) {
     expect(
         fn () => VolumeCaixa::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);

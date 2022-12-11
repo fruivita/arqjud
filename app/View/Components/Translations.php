@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\Component;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Disponibiliza ao frontend as translations Laravel evitando-se que elas sejam
@@ -58,9 +59,9 @@ class Translations extends Component
     {
         return (File::exists(lang_path($locale)))
             ? collect(File::allFiles(lang_path($locale)))
-            ->filter(function ($file) {
+            ->filter(function (SplFileInfo $file) {
                 return $file->getExtension() === 'php';
-            })->flatMap(function ($file) {
+            })->flatMap(function (SplFileInfo $file) {
                 return Arr::dot(File::getRequire($file->getRealPath()));
             })->toArray()
             : [];

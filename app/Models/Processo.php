@@ -217,7 +217,7 @@ class Processo extends Model
             ->orWhere('caixas.ano', 'like', $termo)
             ->orWhere('caixas.complemento', 'like', $termo)
             ->orWhere('volumes_caixa.numero', 'like', $termo)
-            ->when($apenas_numeros, function ($query, $apenas_numeros) {
+            ->when($apenas_numeros, function (Builder $query, string $apenas_numeros) {
                 $query->orWhere('processos.numero', 'like', "{$apenas_numeros}%")
                     ->orWhere('processos.numero_antigo', 'like', "{$apenas_numeros}%");
             })

@@ -28,7 +28,7 @@ test('lança exception ao tentar criar prateleiras duplicadas, isto é, com mesm
     )->toThrow(QueryException::class, 'Duplicate entry');
 });
 
-test('lança exception ao tentar criar prateleira com campo inválido', function ($campo, $valor, $mensagem) {
+test('lança exception ao tentar criar prateleira com campo inválido', function (string $campo, mixed $valor, string $mensagem) {
     expect(
         fn () => Prateleira::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);
@@ -38,7 +38,7 @@ test('lança exception ao tentar criar prateleira com campo inválido', function
     ['descricao', Str::random(256), 'Data too long for column'], // máximo 255 caracteres
 ]);
 
-test('lança exception ao tentar definir relacionamento inválido', function ($campo, $valor, $mensagem) {
+test('lança exception ao tentar definir relacionamento inválido', function (string $campo, mixed $valor, string $mensagem) {
     expect(
         fn () => Prateleira::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);

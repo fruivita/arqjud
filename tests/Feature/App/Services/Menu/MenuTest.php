@@ -64,7 +64,7 @@ test('administrador tem acesso a todos os itens do menu', function () {
         ->and($menu[0]['links'])->toHaveCount(9);
 });
 
-test('identifica o menu ativo corretamente', function ($rota, $menu_ativo) {
+test('identifica o menu ativo corretamente', function (string $rota, string $menu_ativo) {
     $this->seed([PermissaoSeeder::class, PerfilPermissaoSeeder::class]);
     $this->usuario
         ->perfil()->associate(Perfil::firstWhere('slug', Perfil::ADMINISTRADOR))

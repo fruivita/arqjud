@@ -122,7 +122,7 @@ function logout()
  */
 function concederPermissao(mixed $slugs)
 {
-    $permissoes = collect()->wrap($slugs)->map(function ($slug) {
+    $permissoes = collect()->wrap($slugs)->map(function (string $slug) {
         $permissao = Permissao::where('slug', $slug)->firstOr(
             fn () => Permissao::factory()->create(['slug' => $slug])
         );

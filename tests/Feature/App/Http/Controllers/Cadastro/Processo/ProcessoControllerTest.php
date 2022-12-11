@@ -50,7 +50,7 @@ test('usuário sem permissão não consegue exibir formulário de criação do p
 });
 
 // Caminho feliz
-test('action do controller usa o form request', function ($action, $request) {
+test('action do controller usa o form request', function (string $action, string $request) {
     $this->assertActionUsesFormRequest(
         ProcessoController::class,
         $action,
@@ -101,7 +101,7 @@ test('action create compartilha os dados esperados com a view/componente correto
         );
 });
 
-test('cria um novo processo com a guarda definida pela caixa', function ($gp) {
+test('cria um novo processo com a guarda definida pela caixa', function (bool $gp) {
     concederPermissao(Permissao::PROCESSO_CREATE);
 
     $this->volume_caixa->load('caixa');

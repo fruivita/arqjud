@@ -26,7 +26,7 @@ class PermissaoSeeder extends Seeder
 
         DB::table('permissoes')->insert(
             $this->todasPermissoes()
-                ->map(function ($item) use ($agora) {
+                ->map(function (array $item) use ($agora) {
                     $item['created_at'] = $agora;
                     $item['updated_at'] = $agora;
 

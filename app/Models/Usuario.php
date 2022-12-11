@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use FruiVita\Corporativo\Models\Usuario as UsuarioCorporativo;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
@@ -79,7 +80,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     private function permissoes()
     {
         return once(function () {
-            $this->load(['perfil.permissoes' => function ($query) {
+            $this->load(['perfil.permissoes' => function (Builder $query) {
                 $query->select(['slug']);
             }]);
 

@@ -27,7 +27,7 @@ class PerfilPermissaoSeeder extends Seeder
         DB::table('perfil_permissao')->insert(
             $this
                 ->todosPerfisPermissoes()
-                ->map(function ($item) use ($agora) {
+                ->map(function (array $item) use ($agora) {
                     $item['created_at'] = $agora;
                     $item['updated_at'] = $agora;
 
