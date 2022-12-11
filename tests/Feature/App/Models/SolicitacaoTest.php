@@ -161,3 +161,15 @@ test('atributos sujeitos ao cast estão definidos', function () {
         ->and($solicitacao->devolvida_em)->toBeInstanceOf(Carbon::class)
         ->and($solicitacao->por_guia)->toBeBool();
 });
+
+test('escopo CountAll contabiliza as solicitações por tipo', function () {
+    Solicitacao::factory()->solicitada()->create();
+    Solicitacao::factory(2)->entregue()->create();
+    Solicitacao::factory(4)->devolvida()->create();
+
+    $report = Solicitacao::countAll()->toBase()->first();
+
+    expect($report->solicitadas)->toBe(1)
+        ->and($report->entregues)->toBe(2)
+        ->and($report->devolvidas)->toBe(4);
+});

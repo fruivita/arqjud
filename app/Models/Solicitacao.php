@@ -186,4 +186,17 @@ class Solicitacao extends Model
             }
         );
     }
+
+    /**
+     * Permite a contagem dos tipos de solicitações em uma única query.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCountAll($query)
+    {
+        return $query->selectRaw('COUNT(CASE WHEN entregue_em is null THEN 1 END) as solicitadas')
+            ->selectRaw('COUNT(CASE WHEN entregue_em is not null AND devolvida_em is null THEN 1 END) as entregues')
+            ->selectRaw('COUNT(CASE WHEN devolvida_em is not null THEN 1 END) as devolvidas');
+    }
 }
