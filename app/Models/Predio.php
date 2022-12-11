@@ -68,31 +68,5 @@ class Predio extends Model
 
         $query->where('localidades.nome', 'like', $termo)
             ->orWhere('predios.nome', 'like', $termo);
-        // $query->where(function ($query) use ($termo) {
-        //     $query->where('nome', 'like', $termo)
-        //         ->orWhereIn(
-        //             'localidade_id',
-        //             Localidade::query()
-        //                 ->where('nome', 'like', $termo)
-        //                 ->pluck('id')
-        //         );
-        // });
-
-        // $query->whereIn('id', function (Builder $query) use ($termo) {
-        //     $query->select('id')
-        //         ->from(function ($query) use ($termo) {
-        //             $query->select('id')
-        //                 ->from('predios')
-        //                 ->where('nome', 'like', "{$termo}%")
-        //                 ->union(
-        //                     $query->newQuery()
-        //                         ->select('predios.id')
-        //                         ->from('predios')
-        //                         ->join('localidades', 'localidades.id', 'predios.localidade_id')
-        //                         ->where('localidades.nome', 'like', "{$termo}%")
-
-        //                 );
-        //         }, 'matches');
-        // });
     }
 }
