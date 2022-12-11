@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Cargo;
 use App\Models\Lotacao;
 use App\Models\Perfil;
 use App\Models\Usuario;
@@ -51,6 +52,20 @@ class UsuarioFactory extends Factory
         return $this->state(function () {
             return [
                 'nome' => fake()->text(50),
+            ];
+        });
+    }
+
+    /**
+     * Gera um usuário com cargo.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function comCargo()
+    {
+        return $this->state(function () {
+            return [
+                'cargo_id' => Cargo::factory(),
             ];
         });
     }
