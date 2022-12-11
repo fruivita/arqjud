@@ -11,6 +11,7 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
+use App\Models\Solicitacao;
 use App\Models\VolumeCaixa;
 use Illuminate\Support\Facades\Route;
 
@@ -37,8 +38,50 @@ final class Menu implements MenuInterface
     {
         return collect()
             ->when(
+                $this->linksGrupoSolicitacao(),
+                fn ($collection, $links) => $collection->push(['nome' => __('Solicitação de processo'), 'links' => $links])
+            )
+            ->when(
                 $this->linksGrupoCadastro(),
                 fn ($collection, $links) => $collection->push(['nome' => __('Cadastro'), 'links' => $links])
+            )
+            ->toArray();
+    }
+
+    /**
+     * Todas os links do menu do grupo solicitação autorizados para o usuário
+     * autenticado.
+     *
+     * Ex.:
+     * [
+     *      'icone' => 'person',
+     *      'href' => 'http://exemplo.com/algo',
+     *      'texto' => 'Pessoas',
+     *      'ativo' => false/true,
+     * ]
+     *
+     * @return array
+     */
+    private function linksGrupoSolicitacao()
+    {
+        return collect()
+            ->when(
+                auth()->user()->can(Policy::ExternoCreate->value, Solicitacao::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'signpost',
+                    'href' => route('solicitacao.create'),
+                    'texto' => __('Solicitar'),
+                    'ativo' => Route::is('solicitacao.create'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ExternoViewAny->value, Solicitacao::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'signpost-2',
+                    'href' => route('solicitacao.index'),
+                    'texto' => __('Solicitações'),
+                    'ativo' => Route::is('solicitacao.index'),
+                ])
             )
             ->toArray();
     }

@@ -35,6 +35,8 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
         ],
     ]]);
 })->with([
+    [Permissao::SOLICITACAO_EXTERNA_CREATE, fn () => __('Solicitação de processo'), 'signpost', fn () => route('solicitacao.create'), fn () => __('Solicitar')],
+    [Permissao::SOLICITACAO_EXTERNA_VIEW_ANY, fn () => __('Solicitação de processo'), 'signpost-2', fn () => route('solicitacao.index'), fn () => __('Solicitações')],
     [Permissao::LOCALIDADE_VIEW_ANY, fn () => __('Cadastro'), 'pin-map', fn () => route('cadastro.localidade.index'), fn () => __('Localidades')],
     [Permissao::PREDIO_VIEW_ANY, fn () => __('Cadastro'), 'buildings', fn () => route('cadastro.predio.index'), fn () => __('Prédios')],
     [Permissao::ANDAR_VIEW_ANY, fn () => __('Cadastro'), 'layers', fn () => route('cadastro.andar.index'), fn () => __('Andares')],
@@ -60,8 +62,10 @@ test('administrador tem acesso a todos os itens do menu', function () {
 
     $menu = Menu::make()->gerar();
 
-    expect($menu[0]['nome'])->toBe(__('Cadastro'))
-        ->and($menu[0]['links'])->toHaveCount(9);
+    expect($menu[0]['nome'])->toBe(__('Solicitação de processo'))
+        ->and($menu[0]['links'])->toHaveCount(2)
+        ->and($menu[1]['nome'])->toBe(__('Cadastro'))
+        ->and($menu[1]['links'])->toHaveCount(9);
 });
 
 test('identifica o menu ativo corretamente', function (string $rota, string $menu_ativo) {
@@ -80,7 +84,8 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
     expect($menu)->toHaveCount(1)
         ->and($menu->first()['href'])->toBe(route($menu_ativo));
 })->with([
-    ['cadastro.localidade.index', 'cadastro.localidade.index'],
+    ['solicitacao.index', 'solicitacao.index'],
+    ['solicitacao.create', 'solicitacao.create'],
     ['cadastro.predio.index', 'cadastro.predio.index'],
     ['cadastro.andar.index', 'cadastro.andar.index'],
     ['cadastro.sala.index', 'cadastro.sala.index'],
