@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,16 @@ class Solicitacao extends Model
      * {@inheritdoc}
      */
     protected $table = 'solicitacoes';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $casts = [
+        'solicitada_em' => 'datetime',
+        'entregue_em' => 'datetime',
+        'devolvida_em' => 'datetime',
+        'por_guia' => 'boolean',
+    ];
 
     /**
      * Relacionamento solicitação (N:1) processo.
@@ -107,5 +118,72 @@ class Solicitacao extends Model
     public function guia()
     {
         return $this->belongsTo(Guia::class, 'guia_id', 'id');
+    }
+
+    /**
+     * Solicitações solicitadas.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSolicitadas($query)
+    {
+        return $query->whereNull(['entregue_em', 'devolvida_em']);
+    }
+
+    /**
+     * Solicitações já entregues ao solicitante.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeEntregues($query)
+    {
+        return $query
+            ->whereNotNull('entregue_em')
+            ->whereNull('devolvida_em');
+    }
+
+    /**
+     * Solicitações devolvidas pelo solicitante ao arquivo.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDevolvidas($query)
+    {
+        return $query->whereNotNull(['entregue_em', 'devolvida_em']);
+    }
+
+    /**
+     * Solicitações ativas, isto é, solicitações solicitadas ou entregues mas
+     * ainda não devolvidas ao arquivo.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAtivas($query)
+    {
+        return $query->whereNull('devolvida_em');
+    }
+
+    /**
+     * Status da solicitação.
+     *
+     * @return  \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value, $attributes) {
+                if (empty($attributes['entregue_em'])) {
+                    return __('solicitada');
+                } elseif (empty($attributes['devolvida_em'])) {
+                    return __('entregue');
+                } else {
+                    return __('devolvida');
+                }
+            }
+        );
     }
 }
