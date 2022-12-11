@@ -6,18 +6,11 @@
  */
 
 use App\Http\Resources\Estante\EstanteOnlyResource;
+use App\Http\Resources\Sala\SalaOnlyResource;
 use App\Models\Estante;
-use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
-    $this->seed([PerfilSeeder::class]);
-    login();
-
     $this->estante = Estante::factory()->create();
-});
-
-afterEach(function () {
-    logout();
 });
 
 // Caminho feliz
@@ -34,7 +27,7 @@ test('retorna a sala pai se houver o eager load da propriedade', function () {
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->estante->only(['id', 'numero', 'descricao', 'sala_id'])
-            + ['sala' => $this->estante->sala->only(['id', 'numero', 'descricao', 'andar_id'])],
+            + ['sala' => SalaOnlyResource::make($this->estante->sala)->resolve()],
     ]);
 });
 

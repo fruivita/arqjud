@@ -6,14 +6,12 @@
  */
 
 use App\Http\Resources\Processo\ProcessoOnlyResource;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaOnlyResource;
 use App\Models\Processo;
-use Database\Seeders\PerfilSeeder;
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
     testTime()->freeze();
-    $this->seed([PerfilSeeder::class]);
-    login();
 
     $this->processo = Processo::factory()->for(Processo::factory(), 'processoPai')->create();
 
@@ -28,10 +26,6 @@ beforeEach(function () {
         'volume_caixa_id' => $this->processo->volume_caixa_id,
         'processo_pai_id' => $this->processo->processo_pai_id,
     ];
-});
-
-afterEach(function () {
-    logout();
 });
 
 // Caminho feliz
@@ -58,7 +52,7 @@ test('retorna o volume da caixa pai e o processo pai se houver o eager load da p
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->processo_api
-            + ['volume_caixa' => $this->processo->volumeCaixa->only(['id', 'numero', 'descricao', 'caixa_id'])]
+            + ['volume_caixa' => VolumeCaixaOnlyResource::make($this->processo->volumeCaixa)->resolve()]
             + ['processo_pai' => $processo_pai_api],
     ]);
 });

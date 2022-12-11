@@ -5,19 +5,13 @@
  * @see https://inertiajs.com/testing
  */
 
+use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Predio\PredioOnlyResource;
 use App\Models\Predio;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
-    $this->seed([PerfilSeeder::class]);
-    login();
-
     $this->predio = Predio::factory()->create();
-});
-
-afterEach(function () {
-    logout();
 });
 
 // Caminho feliz
@@ -34,7 +28,7 @@ test('retorna a localidade pai se houver o eager load da propriedade', function 
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->predio->only(['id', 'nome', 'descricao', 'localidade_id'])
-            + ['localidade' => $this->predio->localidade->only(['id', 'nome', 'descricao'])],
+            + ['localidade' => LocalidadeOnlyResource::make($this->predio->localidade)->resolve()],
     ]);
 });
 

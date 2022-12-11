@@ -7,12 +7,8 @@
 
 use App\Http\Resources\VolumeCaixa\VolumeCaixaOnlyResource;
 use App\Models\VolumeCaixa;
-use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
-    $this->seed([PerfilSeeder::class]);
-    login();
-
     $this->volume = VolumeCaixa::factory()->create();
 
     $this->volume_api = [
@@ -21,10 +17,6 @@ beforeEach(function () {
         'descricao' => $this->volume->descricao,
         'caixa_id' => $this->volume->caixa_id,
     ];
-});
-
-afterEach(function () {
-    logout();
 });
 
 // Caminho feliz

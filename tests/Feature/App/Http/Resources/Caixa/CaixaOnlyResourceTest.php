@@ -6,13 +6,11 @@
  */
 
 use App\Http\Resources\Caixa\CaixaOnlyResource;
+use App\Http\Resources\Localidade\LocalidadeOnlyResource;
+use App\Http\Resources\Prateleira\PrateleiraOnlyResource;
 use App\Models\Caixa;
-use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
-    $this->seed([PerfilSeeder::class]);
-    login();
-
     $this->caixa = Caixa::factory()->create();
 
     $this->caixa_api = [
@@ -27,10 +25,6 @@ beforeEach(function () {
     ];
 });
 
-afterEach(function () {
-    logout();
-});
-
 // Caminho feliz
 test('retorna os campos principais do modelo', function () {
     $resource = CaixaOnlyResource::make($this->caixa);
@@ -43,8 +37,8 @@ test('retorna a prateleira pai e localidade criadora se houver o eager load da p
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->caixa_api
-            + ['prateleira' => $this->caixa->prateleira->only(['id', 'numero', 'descricao', 'estante_id'])]
-            + ['localidade_criadora' => $this->caixa->localidadeCriadora->only(['id', 'nome', 'descricao'])],
+            + ['prateleira' => PrateleiraOnlyResource::make($this->caixa->prateleira)->resolve()]
+            + ['localidade_criadora' => LocalidadeOnlyResource::make($this->caixa->localidadeCriadora)->resolve()],
     ]);
 });
 

@@ -6,18 +6,11 @@
  */
 
 use App\Http\Resources\Andar\AndarOnlyResource;
+use App\Http\Resources\Predio\PredioOnlyResource;
 use App\Models\Andar;
-use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
-    $this->seed([PerfilSeeder::class]);
-    login();
-
     $this->andar = Andar::factory()->create();
-});
-
-afterEach(function () {
-    logout();
 });
 
 // Caminho feliz
@@ -34,7 +27,7 @@ test('retorna o prédio pai se houver o eager load da propriedade', function () 
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id'])
-            + ['predio' => $this->andar->predio->only(['id', 'nome', 'descricao', 'localidade_id'])],
+            + ['predio' => PredioOnlyResource::make($this->andar->predio)->resolve()],
     ]);
 });
 

@@ -5,19 +5,12 @@
  * @see https://inertiajs.com/testing
  */
 
+use App\Http\Resources\Estante\EstanteOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraOnlyResource;
 use App\Models\Prateleira;
-use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
-    $this->seed([PerfilSeeder::class]);
-    login();
-
     $this->prateleira = Prateleira::factory()->create();
-});
-
-afterEach(function () {
-    logout();
 });
 
 // Caminho feliz
@@ -34,7 +27,7 @@ test('retorna a estante pai se houver o eager load da propriedade', function () 
 
     expect($resource->response()->getData(true))->toBe([
         'data' => $this->prateleira->only(['id', 'numero', 'descricao', 'estante_id'])
-            + ['estante' => $this->prateleira->estante->only(['id', 'numero', 'descricao', 'sala_id'])],
+            + ['estante' => EstanteOnlyResource::make($this->prateleira->estante)->resolve()],
     ]);
 });
 

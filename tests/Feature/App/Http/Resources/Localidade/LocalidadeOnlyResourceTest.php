@@ -7,17 +7,9 @@
 
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Models\Localidade;
-use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
-    $this->seed([PerfilSeeder::class]);
-    login();
-
     $this->localidade = Localidade::factory()->create();
-});
-
-afterEach(function () {
-    logout();
 });
 
 // Caminho feliz
