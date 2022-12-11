@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Processo;
 
+use App\Http\Resources\Solicitacao\SolicitacaoOnlyResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaOnlyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -31,6 +32,8 @@ class ProcessoOnlyResource extends JsonResource
                 'processo_pai_id' => $this->processo_pai_id,
                 'volume_caixa' => VolumeCaixaOnlyResource::make($this->whenLoaded('volumeCaixa')),
                 'processo_pai' => ProcessoOnlyResource::make($this->whenLoaded('processoPai')),
+                'processos_filho' => ProcessoOnlyResource::collection($this->whenLoaded('processosFilho')),
+                'solicitacao_ativa' => SolicitacaoOnlyResource::collection($this->whenLoaded('solicitacoesAtivas')),
                 'processos_filho_count' => $this->whenCounted('processosFilho'),
                 'solicitacoes_count' => $this->whenCounted('solicitacoes'),
             ]
