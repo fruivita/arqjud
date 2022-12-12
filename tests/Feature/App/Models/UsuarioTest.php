@@ -6,6 +6,7 @@
 
 use App\Models\Perfil;
 use App\Models\Permissao;
+use App\Models\Solicitacao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Database\QueryException;
@@ -114,6 +115,38 @@ test('um usuário pode ter um perfil antigo', function () {
     $usuario = Usuario::with(['perfilAntigo'])->first();
 
     expect($usuario->perfilAntigo)->toBeInstanceOf(Perfil::class);
+});
+
+test('um usuário pode criar várias solicitações de processo', function () {
+    Usuario::factory()->hasSolicitacoesSolicitadas(3)->create();
+
+    $usuario = Usuario::with('solicitacoesSolicitadas')->first();
+
+    expect($usuario->solicitacoesSolicitadas)->toHaveCount(3);
+});
+
+test('um usuário pode recebedor de várias solicitações de processo', function () {
+    Usuario::factory()->hasSolicitacoesRecebidas(3)->create();
+
+    $usuario = Usuario::with('solicitacoesRecebidas')->first();
+
+    expect($usuario->solicitacoesRecebidas)->toHaveCount(3);
+});
+
+test('um usuário pode ser o remetente de várias solicitações de processo', function () {
+    Usuario::factory()->hasSolicitacoesRemetidas(3)->create();
+
+    $usuario = Usuario::with('solicitacoesRemetidas')->first();
+
+    expect($usuario->solicitacoesRemetidas)->toHaveCount(3);
+});
+
+test('um usuário pode rearquivar várias solicitações de processo', function () {
+    Usuario::factory()->hasSolicitacoesRearquivadas(3)->create();
+
+    $usuario = Usuario::with('solicitacoesRearquivadas')->first();
+
+    expect($usuario->solicitacoesRearquivadas)->toHaveCount(3);
 });
 
 test('usuário pode delegar seu perfil para diversos outros', function () {

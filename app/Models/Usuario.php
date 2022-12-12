@@ -73,6 +73,54 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     }
 
     /**
+     * Relacionamento usuário (solicitante) (1:N) solicitações.
+     *
+     * Solicitações de processo solicitadas pelo usuário.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function solicitacoesSolicitadas()
+    {
+        return $this->hasMany(Solicitacao::class, 'solicitante_id', 'id');
+    }
+
+    /**
+     * Relacionamento usuário (recebedor) (1:N) solicitações.
+     *
+     * Solicitações de processo entregues ao usuário.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function solicitacoesRecebidas()
+    {
+        return $this->hasMany(Solicitacao::class, 'recebedor_id', 'id');
+    }
+
+    /**
+     * Relacionamento usuário (remetente) (1:N) solicitações.
+     *
+     * Solicitações de processo remetidas pelo usuário.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function solicitacoesRemetidas()
+    {
+        return $this->hasMany(Solicitacao::class, 'remetente_id', 'id');
+    }
+
+    /**
+     * Relacionamento usuário (rearquivador) (1:N) solicitações.
+     *
+     * Solicitações de processo rearquivadas pelo usuário.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function solicitacoesRearquivadas()
+    {
+        return $this->hasMany(Solicitacao::class, 'rearquivador_id', 'id');
+    }
+
+    /**
      * Slug de todas as permissões do usuário.
      *
      * @return \Illuminate\Support\Collection
