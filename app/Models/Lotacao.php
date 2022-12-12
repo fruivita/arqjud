@@ -9,5 +9,15 @@ use FruiVita\Corporativo\Models\Lotacao as LotacaoCorporativo;
  */
 class Lotacao extends LotacaoCorporativo
 {
-    //
+    /**
+     * Relacionamento lotação destinatária (1:N) solicitações.
+     *
+     * Solicitações de processo destinados à lotação.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function solicitacoes()
+    {
+        return $this->hasMany(Solicitacao::class, 'lotacao_destinataria_id', 'id');
+    }
 }
