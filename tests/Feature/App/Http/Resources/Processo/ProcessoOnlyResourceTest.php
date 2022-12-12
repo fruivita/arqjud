@@ -52,18 +52,3 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 test('retorna o resource vazio se o modelo for nulo', function () {
     expect(ProcessoOnlyResource::make(null)->resolve())->toBeEmpty();
 });
-
-function processoApi(Processo $processo)
-{
-    return [
-        'id' => $processo->id,
-        'numero' => $processo->numero,
-        'numero_antigo' => $processo->numero_antigo,
-        'arquivado_em' => $processo->arquivado_em->format('d-m-Y'),
-        'guarda_permanente' => $processo->guarda_permanente ? __('Sim') : __('Não'),
-        'qtd_volumes' => $processo->qtd_volumes,
-        'descricao' => $processo->descricao,
-        'volume_caixa_id' => $processo->volume_caixa_id,
-        'processo_pai_id' => $processo->processo_pai_id,
-    ];
-}

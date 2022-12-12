@@ -18,18 +18,6 @@ beforeEach(function () {
     login();
 
     $this->processo = Processo::factory()->for(Processo::factory(), 'processoPai')->create();
-
-    $this->processo_api = [
-        'id' => $this->processo->id,
-        'numero' => $this->processo->numero,
-        'numero_antigo' => $this->processo->numero_antigo,
-        'arquivado_em' => $this->processo->arquivado_em->format('d-m-Y'),
-        'guarda_permanente' => $this->processo->guarda_permanente ? __('Sim') : __('Não'),
-        'qtd_volumes' => $this->processo->qtd_volumes,
-        'descricao' => $this->processo->descricao,
-        'volume_caixa_id' => $this->processo->volume_caixa_id,
-        'processo_pai_id' => $this->processo->processo_pai_id,
-    ];
 });
 
 afterEach(function () {
@@ -43,7 +31,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
     $resource = ProcessoResource::make($this->processo);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->processo_api
+        'data' => processoApi($this->processo)
             + [
                 'links' => [
                     'view' => route('cadastro.processo.edit', $this->processo),
@@ -57,7 +45,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna o volume da caixa pai e o processo pai se houver o eager load da propriedade', function () {
     $resource = ProcessoResource::make($this->processo->load(['volumeCaixa', 'processoPai']));
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->processo_api
+        'data' => processoApi($this->processo)
             + ['volume_caixa' => VolumeCaixaResource::make($this->processo->volumeCaixa)->resolve()]
             + ['processo_pai' => ProcessoResource::make($this->processo->processoPai)->resolve()]
             + ['links' => []],
@@ -68,7 +56,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
     $resource = ProcessoResource::make($this->processo->loadCount(['processosFilho', 'solicitacoes']));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->processo_api // @phpstan-ignore-line
+        'data' => processoApi($this->processo) // @phpstan-ignore-line
             + $this->processo->only('processos_filho_count')
             + $this->processo->only('solicitacoes_count')
             + ['links' => []],
@@ -79,7 +67,7 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
     $resource = ProcessoResource::make($this->processo);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->processo_api
+        'data' => processoApi($this->processo)
             + ['links' => []],
     ]);
 });

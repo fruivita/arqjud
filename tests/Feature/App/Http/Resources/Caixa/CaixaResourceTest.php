@@ -17,17 +17,6 @@ beforeEach(function () {
     login();
 
     $this->caixa = Caixa::factory()->create();
-
-    $this->caixa_api = [
-        'id' => $this->caixa->id,
-        'numero' => $this->caixa->numero,
-        'ano' => $this->caixa->ano,
-        'guarda_permanente' => $this->caixa->guarda_permanente ? __('Sim') : __('Não'),
-        'complemento' => $this->caixa->complemento,
-        'descricao' => $this->caixa->descricao,
-        'prateleira_id' => $this->caixa->prateleira_id,
-        'localidade_criadora_id' => $this->caixa->localidade_criadora_id,
-    ];
 });
 
 afterEach(function () {
@@ -41,7 +30,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
     $resource = CaixaResource::make($this->caixa);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->caixa_api
+        'data' => caixaApi($this->caixa)
             + [
                 'links' => [
                     'view' => route('cadastro.caixa.edit', $this->caixa),
@@ -57,7 +46,7 @@ test('retorna a prateleira pai e a localidade criadora se houver o eager load da
     $resource = CaixaResource::make($this->caixa->load(['prateleira', 'localidadeCriadora']));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->caixa_api
+        'data' => caixaApi($this->caixa)
             + ['prateleira' => PrateleiraResource::make($this->caixa->prateleira)->resolve()]
             + ['localidade_criadora' => LocalidadeResource::make($this->caixa->localidadeCriadora)->resolve()]
             + ['links' => []],
@@ -68,7 +57,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
     $resource = CaixaResource::make($this->caixa->loadCount('volumes'));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->caixa_api
+        'data' => caixaApi($this->caixa)
             + $this->caixa->only('volumes_count')
             + ['links' => []],
     ]);
@@ -78,7 +67,7 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
     $resource = CaixaResource::make($this->caixa);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->caixa_api
+        'data' => caixaApi($this->caixa)
             + ['links' => []],
     ]);
 });

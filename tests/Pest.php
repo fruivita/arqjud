@@ -1,7 +1,12 @@
 <?php
 
+use App\Models\Caixa;
 use App\Models\Lotacao;
 use App\Models\Permissao;
+use App\Models\Processo;
+use App\Models\Solicitacao;
+use App\Models\Usuario;
+use App\Models\VolumeCaixa;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use JMac\Testing\Traits\AdditionalAssertions;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
@@ -149,4 +154,111 @@ function revogaPermissao(string $slug)
         ->perfil
         ->permissoes()
         ->detach(Permissao::firstWhere('slug', $slug)->id);
+}
+
+
+// Helpers APIs
+/**
+ * @param \App\Models\Lotacao|\FruiVita\Corporativo\Models\Lotacao $lotacao
+ * @return array<string, mixed>
+ */
+function lotacaoApi(mixed $lotacao)
+{
+    return [
+        'id' => $lotacao->id,
+        'nome' => $lotacao->nome,
+        'sigla' => mb_strtoupper($lotacao->sigla),
+        'lotacao_pai_id' => $lotacao->lotacao_pai_id,
+    ];
+}
+
+/**
+ * @param \App\Models\Caixa $caixa
+ * @return array<string, mixed>
+ */
+function caixaApi(Caixa $caixa)
+{
+    return [
+        'id' => $caixa->id,
+        'numero' => $caixa->numero,
+        'ano' => $caixa->ano,
+        'guarda_permanente' => $caixa->guarda_permanente ? __('Sim') : __('Não'),
+        'complemento' => $caixa->complemento,
+        'descricao' => $caixa->descricao,
+        'prateleira_id' => $caixa->prateleira_id,
+        'localidade_criadora_id' => $caixa->localidade_criadora_id,
+    ];
+}
+
+/**
+ * @param \App\Models\Processo $processo
+ * @return array<string, mixed>
+ */
+function processoApi(Processo $processo)
+{
+    return [
+        'id' => $processo->id,
+        'numero' => $processo->numero,
+        'numero_antigo' => $processo->numero_antigo,
+        'arquivado_em' => $processo->arquivado_em->format('d-m-Y'),
+        'guarda_permanente' => $processo->guarda_permanente ? __('Sim') : __('Não'),
+        'qtd_volumes' => $processo->qtd_volumes,
+        'descricao' => $processo->descricao,
+        'volume_caixa_id' => $processo->volume_caixa_id,
+        'processo_pai_id' => $processo->processo_pai_id,
+    ];
+}
+
+/**
+ * @param \App\Models\Solicitacao $solicitacao
+ * @return array<string, mixed>
+ */
+function solicitacaoApi(Solicitacao $solicitacao)
+{
+    return [
+        'id' => $solicitacao->id,
+        'solicitada_em' => $solicitacao->solicitada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+        'entregue_em' => $solicitacao->entregue_em?->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+        'devolvida_em' => $solicitacao->devolvida_em?->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+        'por_guia' => $solicitacao->por_guia,
+        'descricao' => $solicitacao->descricao,
+        'status' => $solicitacao->status,
+        'processo_id' => $solicitacao->processo_id,
+        'solicitante_id' => $solicitacao->solicitante_id,
+        'recebedor_id' => $solicitacao->recebedor_id,
+        'remetente_id' => $solicitacao->remetente_id,
+        'rearquivador_id' => $solicitacao->rearquivador_id,
+        'lotacao_destinataria_id' => $solicitacao->lotacao_destinataria_id,
+        'guia_id' => $solicitacao->guia_id,
+    ];
+}
+
+/**
+ * @param \App\Models\Usuario $usuario
+ * @return array<string, mixed>
+ */
+function usuarioApi(Usuario $usuario)
+{
+    return [
+        'id' => $usuario->id,
+        'matricula' => $usuario->matricula,
+        'sigla' => $usuario->username,
+        'nome' => $usuario->nome,
+        'lotacao_id' => $usuario->lotacao_id,
+        'cargo_id' => $usuario->cargo_id,
+    ];
+}
+
+/**
+ * @param \App\Models\VolumeCaixa $volume
+ * @return array<string, mixed>
+ */
+function volumeApi(VolumeCaixa $volume)
+{
+    return [
+        'id' => $volume->id,
+        'numero' => $volume->numero,
+        'descricao' => $volume->descricao,
+        'caixa_id' => $volume->caixa_id,
+    ];
 }

@@ -12,15 +12,6 @@ use App\Models\Usuario;
 
 beforeEach(function () {
     $this->usuario = Usuario::factory()->comCargo()->create();
-
-    $this->usuario_api = [
-        'id' => $this->usuario->id,
-        'matricula' => $this->usuario->matricula,
-        'sigla' => $this->usuario->username,
-        'nome' => $this->usuario->nome,
-        'lotacao_id' => $this->usuario->lotacao_id,
-        'cargo_id' => $this->usuario->cargo_id,
-    ];
 });
 
 // Caminho feliz
@@ -28,7 +19,7 @@ test('retorna os campos principais do modelo', function () {
     $resource = UsuarioOnlyResource::make($this->usuario);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->usuario_api,
+        'data' => usuarioApi($this->usuario),
     ]);
 });
 
@@ -36,8 +27,8 @@ test('retorna o cargo e a lotação pai se houver o eager load da propriedade', 
     $resource = UsuarioOnlyResource::make($this->usuario->load('cargo', 'lotacao'));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->usuario_api
-            + ['lotacao' => LotacaoOnlyResource::make($this->usuario->lotacao)->resolve()]
+        'data' => usuarioApi($this->usuario)
+            + ['lotacao' => lotacaoApi($this->usuario->lotacao)]
             + ['cargo' => CargoOnlyResource::make($this->usuario->cargo)->resolve()],
     ]);
 });

@@ -16,13 +16,6 @@ beforeEach(function () {
     login();
 
     $this->volume = VolumeCaixa::factory()->create();
-
-    $this->volume_api = [
-        'id' => $this->volume->id,
-        'numero' => $this->volume->numero,
-        'descricao' => $this->volume->descricao,
-        'caixa_id' => $this->volume->caixa_id,
-    ];
 });
 
 afterEach(function () {
@@ -36,7 +29,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
     $resource = VolumeCaixaResource::make($this->volume);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->volume_api
+        'data' => volumeApi($this->volume)
             + [
                 'links' => [
                     'view' => route('cadastro.volumeCaixa.edit', $this->volume),
@@ -52,7 +45,7 @@ test('retorna a caixa pai se houver o eager load da propriedade', function () {
     $resource = VolumeCaixaResource::make($this->volume->load(['caixa']));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->volume_api
+        'data' => volumeApi($this->volume)
             + ['caixa' => CaixaResource::make($this->volume->caixa)->resolve()]
             + ['links' => []],
     ]);
@@ -62,7 +55,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
     $resource = VolumeCaixaResource::make($this->volume->loadCount('processos'));
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->volume_api
+        'data' => volumeApi($this->volume)
             + $this->volume->only('processos_count')
             + ['links' => []],
     ]);
@@ -72,7 +65,7 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
     $resource = VolumeCaixaResource::make($this->volume);
 
     expect($resource->response()->getData(true))->toBe([
-        'data' => $this->volume_api
+        'data' => volumeApi($this->volume)
             + ['links' => []],
     ]);
 });
