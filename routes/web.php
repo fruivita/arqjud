@@ -11,6 +11,7 @@ use App\Http\Controllers\Cadastro\Processo\ProcessoController;
 use App\Http\Controllers\Cadastro\Sala\SalaController;
 use App\Http\Controllers\Cadastro\VolumeCaixa\VolumeCaixaController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Solicitacao\SolicitacaoController as SolicitacaoExternaController;
 use App\Models\Andar;
 use App\Models\Caixa;
 use App\Models\Estante;
@@ -19,6 +20,7 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
+use App\Models\Solicitacao;
 use App\Models\VolumeCaixa;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -47,7 +49,14 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('home')->name('home.')->group(function () {
         Route::get('/', [HomeController::class, 'show'])->name('show');
-        Route::post('/', [HomeController::class, 'show']);
+        Route::post('/', [HomeController::class, 'show'])->can(Policy::View->value, Processo::class);
+    });
+
+    Route::prefix('solicitacao')->name('solicitacao.')->group(function () {
+        Route::get('/', [SolicitacaoExternaController::class, 'index'])->name('index')->can(Policy::ExternoViewAny->value, Solicitacao::class);
+        Route::get('create', [SolicitacaoExternaController::class, 'create'])->name('create')->can(Policy::ExternoCreate->value, Solicitacao::class);
+        Route::post('create', [SolicitacaoExternaController::class, 'store'])->name('store')->can(Policy::ExternoCreate->value, Solicitacao::class);
+        Route::delete('{solicitacao}', [SolicitacaoExternaController::class, 'destroy'])->name('destroy')->can(Policy::ExternoDelete->value, 'solicitacao');
     });
 
     Route::prefix('cadastro')->name('cadastro.')->group(function () {
