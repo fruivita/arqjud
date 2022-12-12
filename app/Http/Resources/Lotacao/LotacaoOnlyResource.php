@@ -21,7 +21,7 @@ class LotacaoOnlyResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'nome' => $this->nome,
-                'sigla' => $this->sigla,
+                'sigla' => str($this->sigla)->upper(),
                 'lotacao_pai_id' => $this->lotacao_pai_id,
                 'lotacao_pai' => LotacaoOnlyResource::make($this->whenLoaded('lotacaoPai')),
             ]
