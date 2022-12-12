@@ -4,6 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Filters\Solicitacao\JoinAll;
 use App\Models\Guia;
 use App\Models\Lotacao;
 use App\Models\Processo;
@@ -12,6 +13,7 @@ use App\Models\Usuario;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
 test('lança exception ao tentar criar solicitação com campo inválido', function (string $campo, mixed $valor, string $mensagem) {
@@ -173,3 +175,114 @@ test('escopo CountAll contabiliza as solicitações por tipo', function () {
         ->and($report->entregues)->toBe(2)
         ->and($report->devolvidas)->toBe(4);
 });
+
+test('escopo orderByStatus ordena solicitadas, entregues e devolvidas', function () {
+    $devolvida = Solicitacao::factory()->devolvida()->create();
+    $entregue = Solicitacao::factory()->entregue()->create();
+    $solicitada = Solicitacao::factory()->solicitada()->create();
+
+    $ordenados = Solicitacao::orderByStatus()->get();
+
+    $primeiro = $ordenados->get(0);
+    $segundo = $ordenados->get(1);
+    $terceiro = $ordenados->get(2);
+
+    expect($primeiro['id'])->toBe($solicitada->id)
+        ->and($segundo['id'])->toBe($entregue->id)
+        ->and($terceiro['id'])->toBe($devolvida->id);
+});
+
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto no username ou nome do solicitante', function (string $termo, int $quantidade) {
+    Usuario::factory()->hasSolicitacoesSolicitadas(2)->create(['username' => 'aaaabbbb', 'nome' => 'eeeeffff']);
+    Usuario::factory()->hasSolicitacoesSolicitadas(3)->create(['username' => 'ccccdddd', 'nome' => 'gggghhhh']);
+
+    $query = Pipeline::make()
+        ->send(Solicitacao::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['aaaa', 2],
+    ['gggg', 3],
+]);
+
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto no username ou nome do recebedor', function (string $termo, int $quantidade) {
+    Usuario::factory()->hasSolicitacoesRecebidas(2)->create(['username' => 'aaaabbbb', 'nome' => 'eeeeffff']);
+    Usuario::factory()->hasSolicitacoesRecebidas(3)->create(['username' => 'ccccdddd', 'nome' => 'gggghhhh']);
+
+    $query = Pipeline::make()
+        ->send(Solicitacao::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['aaaa', 2],
+    ['gggg', 3],
+]);
+
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto no username ou nome do remetente', function (string $termo, int $quantidade) {
+    Usuario::factory()->hasSolicitacoesRemetidas(2)->create(['username' => 'aaaabbbb', 'nome' => 'eeeeffff']);
+    Usuario::factory()->hasSolicitacoesRemetidas(3)->create(['username' => 'ccccdddd', 'nome' => 'gggghhhh']);
+
+    $query = Pipeline::make()
+        ->send(Solicitacao::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['aaaa', 2],
+    ['gggg', 3],
+]);
+
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto no username ou nome do rearquivador', function (string $termo, int $quantidade) {
+    Usuario::factory()->hasSolicitacoesRearquivadas(2)->create(['username' => 'aaaabbbb', 'nome' => 'eeeeffff']);
+    Usuario::factory()->hasSolicitacoesRearquivadas(3)->create(['username' => 'ccccdddd', 'nome' => 'gggghhhh']);
+
+    $query = Pipeline::make()
+        ->send(Solicitacao::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['aaaa', 2],
+    ['gggg', 3],
+]);
+
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto na sigla ou nome da lotação destinatária', function (string $termo, int $quantidade) {
+    Lotacao::factory()->hasSolicitacoes(2)->create(['sigla' => 'aaaabbbb', 'nome' => 'eeeeffff']);
+    Lotacao::factory()->hasSolicitacoes(3)->create(['sigla' => 'ccccdddd', 'nome' => 'gggghhhh']);
+
+    $query = Pipeline::make()
+        ->send(Solicitacao::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['aaaa', 2],
+    ['gggg', 3],
+]);
+
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto no número ou número antigo do processo considenrado a parte numérica', function (string $termo, int $quantidade) {
+    Processo::factory()->hasSolicitacoes(2)->create(['numero' => '99999999', 'numero_antigo' => '55555555']);
+    Processo::factory()->hasSolicitacoes(3)->create(['numero' => '77778888', 'numero_antigo' => '44444444']);
+
+    $query = Pipeline::make()
+        ->send(Solicitacao::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['ab99999bc', 2], // 99999
+    ['ab4ab4444ab', 3], // 44444
+]);

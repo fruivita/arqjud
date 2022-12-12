@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -198,5 +199,59 @@ class Solicitacao extends Model
         return $query->selectRaw('COUNT(CASE WHEN entregue_em is null THEN 1 END) as solicitadas')
             ->selectRaw('COUNT(CASE WHEN entregue_em is not null AND devolvida_em is null THEN 1 END) as entregues')
             ->selectRaw('COUNT(CASE WHEN devolvida_em is not null THEN 1 END) as devolvidas');
+    }
+
+    /**
+     * Ordena as solicitações com base em seu status.
+     *
+     * 1º Solicitadas;
+     * 2º Entregues;
+     * 3º Devolvidas.
+     *
+     * Em todos os casos,
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @see https://learnsql.com/blog/how-to-order-rows-with-nulls/
+     */
+    public function scopeOrderByStatus($query)
+    {
+        $query
+            ->orderByRaw('devolvida_em IS NOT NULL')
+            ->orderBy('devolvida_em', 'desc')
+            ->orderByRaw('entregue_em IS NOT NULL')
+            ->orderBy('entregue_em', 'desc')
+            ->orderBy('solicitada_em', 'desc');
+    }
+
+    /**
+     * Pesquisa utilizando o termo informado com o operador like no seguinte
+     * formato: `termo%`
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $termo
+     * @return void
+     */
+    public function scopeSearch(Builder $query, string $termo = null)
+    {
+        $termo = "{$termo}%";
+        $apenas_numeros = apenasNumeros($termo);
+
+        $query
+            ->where('solicitantes.username', 'like', $termo)
+            ->orWhere('solicitantes.nome', 'like', $termo)
+            ->orWhere('recebedores.username', 'like', $termo)
+            ->orWhere('recebedores.nome', 'like', $termo)
+            ->orWhere('remetentes.username', 'like', $termo)
+            ->orWhere('remetentes.nome', 'like', $termo)
+            ->orWhere('rearquivadores.username', 'like', $termo)
+            ->orWhere('rearquivadores.nome', 'like', $termo)
+            ->orWhere('destinatarias.sigla', 'like', $termo)
+            ->orWhere('destinatarias.nome', 'like', $termo)
+            ->when($apenas_numeros, function (Builder $query, string $apenas_numeros) {
+                $query->orWhere('processos.numero', 'like', "{$apenas_numeros}%")
+                    ->orWhere('processos.numero_antigo', 'like', "{$apenas_numeros}%");
+            });
     }
 }
