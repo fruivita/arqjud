@@ -53,18 +53,6 @@ class Sala extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * Pressupõe join com as tabelas:
-     * - Localidades;
-     * - Prédios;
-     * - Andares.
-     *
-     * Colunas pesquisadas:
-     * - nome da localidade;
-     * - nome do prédio;
-     * - número do andar;
-     * - apelido do andar;
-     * - número da sala.
-     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string|null  $termo
      * @return void

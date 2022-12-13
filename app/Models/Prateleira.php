@@ -47,22 +47,6 @@ class Prateleira extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * Pressupõe join com as tabelas:
-     * - Localidades;
-     * - Prédios;
-     * - Andares;
-     * - Salas;
-     * - Estantes.
-     *
-     * Colunas pesquisadas:
-     * - nome da localidade;
-     * - nome do prédio;
-     * - número do andar;
-     * - apelido do andar;
-     * - número da sala;
-     * - número da estante;
-     * - número da prateleira.
-     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string|null  $termo
      * @return void

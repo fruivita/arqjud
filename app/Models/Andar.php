@@ -51,16 +51,6 @@ class Andar extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * Pressupõe join com as tabelas:
-     * - Localidades;
-     * - Prédios.
-     *
-     * Colunas pesquisadas:
-     * - nome da localidade;
-     * - nome do prédio;
-     * - número do andar;
-     * - apelido do andar.
-     *
      * @param  \Illuminate\Database\Query\Builder  $query
      * @param  string|null  $termo
      * @return void

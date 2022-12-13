@@ -11,12 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
 class JoinLocalidade
 {
     /**
-     * Aplica por pipe o join das tabelas:
-     * - localidades;
-     * - prédios;
-     * - andares;
-     * - salas;
-     * - estantes.
+     * Aplica por pipe o join de todas as tabelas pais relacionadas às
+     * estantes.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  \Closure  $next

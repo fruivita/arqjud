@@ -49,29 +49,6 @@ class VolumeCaixa extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * Pressupõe join com as tabelas:
-     * - Localidades;
-     * - Prédios;
-     * - Andares;
-     * - Salas;
-     * - Estantes;
-     * - Prateleiras;
-     * - Criadoras (Localidades criadoras das caixas).
-     *
-     * Colunas pesquisadas:
-     * - nome da localidade;
-     * - nome do prédio;
-     * - número do andar;
-     * - apelido do andar;
-     * - número da sala;
-     * - número da estante;
-     * - número da prateleira;
-     * - nome da localidade criadora da caixa;
-     * - número da caixa;
-     * - ano da caixa;
-     * - complemento da caixa;
-     * - número do volume da caixa;
-     *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string|null  $termo
      * @return void
