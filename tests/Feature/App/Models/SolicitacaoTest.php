@@ -4,12 +4,12 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Filters\Solicitacao\JoinAll;
 use App\Models\Guia;
 use App\Models\Lotacao;
 use App\Models\Processo;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
+use App\Pipes\Solicitacao\JoinAll;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;

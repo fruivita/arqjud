@@ -3,11 +3,6 @@
 namespace App\Http\Controllers\Cadastro\Prateleira;
 
 use App\Enums\Policy;
-use App\Filters\Caixa\JoinLocalidadeCriadora;
-use App\Filters\Caixa\Order as CaixaOrder;
-use App\Filters\Prateleira\JoinLocalidade;
-use App\Filters\Prateleira\Order;
-use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Prateleira\StorePrateleiraRequest;
 use App\Http\Requests\Cadastro\Prateleira\UpdatePrateleiraRequest;
@@ -20,6 +15,11 @@ use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Caixa;
 use App\Models\Estante;
 use App\Models\Prateleira;
+use App\Pipes\Caixa\JoinLocalidadeCriadora;
+use App\Pipes\Caixa\Order as CaixaOrder;
+use App\Pipes\Prateleira\JoinLocalidade;
+use App\Pipes\Prateleira\Order;
+use App\Pipes\Search;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

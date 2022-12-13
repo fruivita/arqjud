@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Cadastro\VolumeCaixa;
 
 use App\Enums\Policy;
-use App\Filters\Processo\Order as ProcessoOrder;
-use App\Filters\Search;
-use App\Filters\VolumeCaixa\JoinLocalidade;
-use App\Filters\VolumeCaixa\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\VolumeCaixa\StoreVolumeCaixaRequest;
 use App\Http\Requests\Cadastro\VolumeCaixa\UpdateVolumeCaixaRequest;
@@ -19,6 +15,10 @@ use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Caixa;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
+use App\Pipes\Processo\Order as ProcessoOrder;
+use App\Pipes\Search;
+use App\Pipes\VolumeCaixa\JoinLocalidade;
+use App\Pipes\VolumeCaixa\Order;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Cadastro\Localidade;
 
 use App\Enums\Policy;
-use App\Filters\Localidade\Order;
-use App\Filters\Predio\Order as PredioOrder;
-use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Localidade\StoreLocalidadeRequest;
 use App\Http\Requests\Cadastro\Localidade\UpdateLocalidadeRequest;
@@ -16,6 +13,9 @@ use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Localidade;
 use App\Models\Predio;
+use App\Pipes\Localidade\Order;
+use App\Pipes\Predio\Order as PredioOrder;
+use App\Pipes\Search;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

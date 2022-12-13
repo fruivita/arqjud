@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Cadastro\Processo;
 
 use App\Enums\Policy;
-use App\Filters\Processo\JoinLocalidade;
-use App\Filters\Processo\Order;
-use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Processo\StoreProcessoRequest;
 use App\Http\Requests\Cadastro\Processo\UpdateProcessoRequest;
@@ -16,6 +13,9 @@ use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Processo;
 use App\Models\VolumeCaixa;
+use App\Pipes\Processo\JoinLocalidade;
+use App\Pipes\Processo\Order;
+use App\Pipes\Search;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

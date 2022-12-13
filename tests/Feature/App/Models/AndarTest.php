@@ -4,10 +4,10 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Filters\Andar\JoinLocalidade;
 use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
+use App\Pipes\Andar\JoinLocalidade;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;

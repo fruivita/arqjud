@@ -4,13 +4,13 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Filters\Sala\JoinLocalidade;
 use App\Models\Andar;
 use App\Models\Estante;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Sala;
+use App\Pipes\Sala\JoinLocalidade;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

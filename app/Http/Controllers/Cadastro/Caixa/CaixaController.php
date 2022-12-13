@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Cadastro\Caixa;
 
 use App\Enums\Policy;
-use App\Filters\Caixa\JoinLocalidade;
-use App\Filters\Caixa\Order;
-use App\Filters\Search;
-use App\Filters\VolumeCaixa\Order as VolumeCaixaOrder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Caixa\StoreCaixaRequest;
 use App\Http\Requests\Cadastro\Caixa\UpdateCaixaRequest;
@@ -21,6 +17,10 @@ use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\VolumeCaixa;
+use App\Pipes\Caixa\JoinLocalidade;
+use App\Pipes\Caixa\Order;
+use App\Pipes\Search;
+use App\Pipes\VolumeCaixa\Order as VolumeCaixaOrder;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

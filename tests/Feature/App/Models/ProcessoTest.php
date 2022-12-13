@@ -4,7 +4,6 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Filters\Processo\JoinLocalidade;
 use App\Models\Andar;
 use App\Models\Caixa;
 use App\Models\Estante;
@@ -15,6 +14,7 @@ use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\Solicitacao;
 use App\Models\VolumeCaixa;
+use App\Pipes\Processo\JoinLocalidade;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 use MichaelRubel\EnhancedPipeline\Pipeline;

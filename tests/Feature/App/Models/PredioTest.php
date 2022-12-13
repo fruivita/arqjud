@@ -4,9 +4,9 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Filters\Predio\JoinLocalidade;
 use App\Models\Localidade;
 use App\Models\Predio;
+use App\Pipes\Predio\JoinLocalidade;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 use MichaelRubel\EnhancedPipeline\Pipeline;

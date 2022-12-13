@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Solicitacao;
 
 use App\Enums\Policy;
-use App\Filters\Search;
-use App\Filters\Solicitacao\JoinAll;
-use App\Filters\Solicitacao\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Lotacao\LotacaoOnlyResource;
 use App\Http\Resources\Solicitacao\CounterResource;
@@ -14,6 +11,9 @@ use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Lotacao;
 use App\Models\Solicitacao;
+use App\Pipes\Search;
+use App\Pipes\Solicitacao\JoinAll;
+use App\Pipes\Solicitacao\Order;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

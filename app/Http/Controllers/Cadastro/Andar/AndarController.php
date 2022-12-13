@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Cadastro\Andar;
 
 use App\Enums\Policy;
-use App\Filters\Andar\JoinLocalidade;
-use App\Filters\Andar\Order;
-use App\Filters\Sala\Order as SalaOrder;
-use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Andar\StoreAndarRequest;
 use App\Http\Requests\Cadastro\Andar\UpdateAndarRequest;
@@ -19,6 +15,10 @@ use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Andar;
 use App\Models\Predio;
 use App\Models\Sala;
+use App\Pipes\Andar\JoinLocalidade;
+use App\Pipes\Andar\Order;
+use App\Pipes\Sala\Order as SalaOrder;
+use App\Pipes\Search;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Cadastro\Predio;
 
 use App\Enums\Policy;
-use App\Filters\Andar\Order as AndarOrder;
-use App\Filters\Predio\JoinLocalidade;
-use App\Filters\Predio\Order;
-use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Predio\StorePredioRequest;
 use App\Http\Requests\Cadastro\Predio\UpdatePredioRequest;
@@ -19,6 +15,10 @@ use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Andar;
 use App\Models\Localidade;
 use App\Models\Predio;
+use App\Pipes\Andar\Order as AndarOrder;
+use App\Pipes\Predio\JoinLocalidade;
+use App\Pipes\Predio\Order;
+use App\Pipes\Search;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

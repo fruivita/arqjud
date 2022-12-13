@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Cadastro\Sala;
 
 use App\Enums\Policy;
-use App\Filters\Estante\Order as EstanteOrder;
-use App\Filters\Sala\JoinLocalidade;
-use App\Filters\Sala\Order;
-use App\Filters\Search;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Sala\StoreSalaRequest;
 use App\Http\Requests\Cadastro\Sala\UpdateSalaRequest;
@@ -19,6 +15,10 @@ use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Andar;
 use App\Models\Estante;
 use App\Models\Sala;
+use App\Pipes\Estante\Order as EstanteOrder;
+use App\Pipes\Sala\JoinLocalidade;
+use App\Pipes\Sala\Order;
+use App\Pipes\Search;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
