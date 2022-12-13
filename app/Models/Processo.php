@@ -178,23 +178,25 @@ class Processo extends Model
         $termo = "{$termo}%";
         $apenas_numeros = apenasNumeros($termo);
 
-        $query->where('localidades.nome', 'like', $termo)
-            ->orWhere('predios.nome', 'like', $termo)
-            ->orWhere('andares.numero', 'like', $termo)
-            ->orWhere('andares.apelido', 'like', $termo)
-            ->orWhere('salas.numero', 'like', $termo)
-            ->orWhere('estantes.numero', 'like', $termo)
-            ->orWhere('prateleiras.numero', 'like', $termo)
-            ->orWhere('criadoras.nome', 'like', $termo)
-            ->orWhere('caixas.numero', 'like', $termo)
-            ->orWhere('caixas.ano', 'like', $termo)
-            ->orWhere('caixas.complemento', 'like', $termo)
-            ->orWhere('volumes_caixa.numero', 'like', $termo)
-            ->when($apenas_numeros, function (Builder $query, string $apenas_numeros) {
-                $query->orWhere('processos.numero', 'like', "{$apenas_numeros}%")
-                    ->orWhere('processos.numero_antigo', 'like', "{$apenas_numeros}%");
-            })
-            ->orWhere('processos.qtd_volumes', 'like', $termo);
+        $query->where(function (Builder $query) use ($termo, $apenas_numeros) {
+            $query->where('localidades.nome', 'like', $termo)
+                ->orWhere('predios.nome', 'like', $termo)
+                ->orWhere('andares.numero', 'like', $termo)
+                ->orWhere('andares.apelido', 'like', $termo)
+                ->orWhere('salas.numero', 'like', $termo)
+                ->orWhere('estantes.numero', 'like', $termo)
+                ->orWhere('prateleiras.numero', 'like', $termo)
+                ->orWhere('criadoras.nome', 'like', $termo)
+                ->orWhere('caixas.numero', 'like', $termo)
+                ->orWhere('caixas.ano', 'like', $termo)
+                ->orWhere('caixas.complemento', 'like', $termo)
+                ->orWhere('volumes_caixa.numero', 'like', $termo)
+                ->when($apenas_numeros, function (Builder $query, string $apenas_numeros) {
+                    $query->orWhere('processos.numero', 'like', "{$apenas_numeros}%")
+                        ->orWhere('processos.numero_antigo', 'like', "{$apenas_numeros}%");
+                })
+                ->orWhere('processos.qtd_volumes', 'like', $termo);
+        });
     }
 
     /**

@@ -238,20 +238,21 @@ class Solicitacao extends Model
         $termo = "{$termo}%";
         $apenas_numeros = apenasNumeros($termo);
 
-        $query
-            ->where('solicitantes.username', 'like', $termo)
-            ->orWhere('solicitantes.nome', 'like', $termo)
-            ->orWhere('recebedores.username', 'like', $termo)
-            ->orWhere('recebedores.nome', 'like', $termo)
-            ->orWhere('remetentes.username', 'like', $termo)
-            ->orWhere('remetentes.nome', 'like', $termo)
-            ->orWhere('rearquivadores.username', 'like', $termo)
-            ->orWhere('rearquivadores.nome', 'like', $termo)
-            ->orWhere('destinatarias.sigla', 'like', $termo)
-            ->orWhere('destinatarias.nome', 'like', $termo)
-            ->when($apenas_numeros, function (Builder $query, string $apenas_numeros) {
-                $query->orWhere('processos.numero', 'like', "{$apenas_numeros}%")
-                    ->orWhere('processos.numero_antigo', 'like', "{$apenas_numeros}%");
-            });
+        $query->where(function (Builder $query) use ($termo, $apenas_numeros) {
+            $query->where('solicitantes.username', 'like', $termo)
+                ->orWhere('solicitantes.nome', 'like', $termo)
+                ->orWhere('recebedores.username', 'like', $termo)
+                ->orWhere('recebedores.nome', 'like', $termo)
+                ->orWhere('remetentes.username', 'like', $termo)
+                ->orWhere('remetentes.nome', 'like', $termo)
+                ->orWhere('rearquivadores.username', 'like', $termo)
+                ->orWhere('rearquivadores.nome', 'like', $termo)
+                ->orWhere('destinatarias.sigla', 'like', $termo)
+                ->orWhere('destinatarias.nome', 'like', $termo)
+                ->when($apenas_numeros, function (Builder $query, string $apenas_numeros) {
+                    $query->orWhere('processos.numero', 'like', "{$apenas_numeros}%")
+                        ->orWhere('processos.numero_antigo', 'like', "{$apenas_numeros}%");
+                });
+        });
     }
 }

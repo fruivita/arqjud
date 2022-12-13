@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -51,7 +51,7 @@ class Predio extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string|null  $termo
      * @return void
      */
@@ -59,7 +59,9 @@ class Predio extends Model
     {
         $termo = "{$termo}%";
 
-        $query->where('localidades.nome', 'like', $termo)
-            ->orWhere('predios.nome', 'like', $termo);
+        $query->where(function (Builder $query) use ($termo) {
+            $query->where('localidades.nome', 'like', $termo)
+                ->orWhere('predios.nome', 'like', $termo);
+        });
     }
 }

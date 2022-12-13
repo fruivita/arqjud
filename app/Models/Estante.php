@@ -57,12 +57,14 @@ class Estante extends Model
     {
         $termo = "{$termo}%";
 
-        $query->where('localidades.nome', 'like', $termo)
-            ->orWhere('predios.nome', 'like', $termo)
-            ->orWhere('andares.numero', 'like', $termo)
-            ->orWhere('andares.apelido', 'like', $termo)
-            ->orWhere('salas.numero', 'like', $termo)
-            ->orWhere('estantes.numero', 'like', $termo);
+        $query->where(function (Builder $query) use ($termo) {
+            $query->where('localidades.nome', 'like', $termo)
+                ->orWhere('predios.nome', 'like', $termo)
+                ->orWhere('andares.numero', 'like', $termo)
+                ->orWhere('andares.apelido', 'like', $termo)
+                ->orWhere('salas.numero', 'like', $termo)
+                ->orWhere('estantes.numero', 'like', $termo);
+        });
     }
 
     /**
