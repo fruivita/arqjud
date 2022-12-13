@@ -18,8 +18,10 @@ use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
 /**
- * @see https://laravel.com/docs/controllers
- * @see https://inertiajs.com/server-side-setup
+ * @see https://laravel.com/docs/9.x/controllers
+ * @see https://laravel.com/docs/9.x/requests
+ * @see https://laravel.com/docs/9.x/responses
+ * @see https://inertiajs.com/
  */
 class SolicitacaoController extends Controller
 {
@@ -70,9 +72,7 @@ class SolicitacaoController extends Controller
         $this->authorize(Policy::ExternoCreate->value, Solicitacao::class);
 
         return Inertia::render('Solicitacao/Create', [
-            'lotacao' => fn () => LotacaoOnlyResource::make(
-                Lotacao::find(auth()->user()->lotacao_id)
-            ),
+            'lotacao' => fn () => LotacaoOnlyResource::make(auth()->user()->lotacao),
         ]);
     }
 

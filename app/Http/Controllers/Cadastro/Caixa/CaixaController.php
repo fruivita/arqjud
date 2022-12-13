@@ -24,6 +24,12 @@ use App\Pipes\VolumeCaixa\Order as VolumeCaixaOrder;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
+/**
+ * @see https://laravel.com/docs/9.x/controllers
+ * @see https://laravel.com/docs/9.x/requests
+ * @see https://laravel.com/docs/9.x/responses
+ * @see https://inertiajs.com/
+ */
 class CaixaController extends Controller
 {
     use ComFeedback;
