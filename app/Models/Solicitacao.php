@@ -125,22 +125,22 @@ class Solicitacao extends Model
      * Solicitações solicitadas.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return void
      */
     public function scopeSolicitadas($query)
     {
-        return $query->whereNull(['entregue_em', 'devolvida_em']);
+        $query->whereNull(['entregue_em', 'devolvida_em']);
     }
 
     /**
      * Solicitações já entregues ao solicitante.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return void
      */
     public function scopeEntregues($query)
     {
-        return $query
+        $query
             ->whereNotNull('entregue_em')
             ->whereNull('devolvida_em');
     }
@@ -149,11 +149,11 @@ class Solicitacao extends Model
      * Solicitações devolvidas pelo solicitante ao arquivo.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return void
      */
     public function scopeDevolvidas($query)
     {
-        return $query->whereNotNull(['entregue_em', 'devolvida_em']);
+        $query->whereNotNull(['entregue_em', 'devolvida_em']);
     }
 
     /**
@@ -161,11 +161,11 @@ class Solicitacao extends Model
      * ainda não devolvidas ao arquivo.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return void
      */
     public function scopeAtivas($query)
     {
-        return $query->whereNull('devolvida_em');
+        $query->whereNull('devolvida_em');
     }
 
     /**
@@ -192,11 +192,11 @@ class Solicitacao extends Model
      * Permite a contagem dos tipos de solicitações em uma única query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return void
      */
     public function scopeCountAll($query)
     {
-        return $query->selectRaw('COUNT(CASE WHEN entregue_em is null THEN 1 END) as solicitadas')
+        $query->selectRaw('COUNT(CASE WHEN entregue_em is null THEN 1 END) as solicitadas')
             ->selectRaw('COUNT(CASE WHEN entregue_em is not null AND devolvida_em is null THEN 1 END) as entregues')
             ->selectRaw('COUNT(CASE WHEN devolvida_em is not null THEN 1 END) as devolvidas');
     }
@@ -211,7 +211,7 @@ class Solicitacao extends Model
      * Em todos os casos,
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return void
      *
      * @see https://learnsql.com/blog/how-to-order-rows-with-nulls/
      */

@@ -36,7 +36,7 @@ class SolicitacaoController extends Controller
      */
     public function index()
     {
-        auth()->user()->loadMissing('lotacao');
+        auth()->user()->loadMissing('lotacao'); // @phpstan-ignore-line
 
         return Inertia::render('Solicitacao/Index', [
             'solicitacoes' => fn () => SolicitacaoCollection::make(
@@ -52,7 +52,7 @@ class SolicitacaoController extends Controller
                 'lotacao_destinataria' => LotacaoOnlyResource::make(auth()->user()->lotacao),
                 'count' => CounterResource::make(
                     Solicitacao::countAll()
-                        ->whereBelongsTo(auth()->user()->lotacao, 'lotacaoDestinataria')
+                        ->whereBelongsTo(auth()->user()->lotacao, 'lotacaoDestinataria') // @phpstan-ignore-line
                         ->toBase()
                         ->first()
                 ),

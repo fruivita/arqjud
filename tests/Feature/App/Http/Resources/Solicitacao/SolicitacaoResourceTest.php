@@ -10,6 +10,7 @@ use App\Http\Resources\Solicitacao\SolicitacaoResource;
 use App\Http\Resources\Usuario\UsuarioOnlyResource;
 use App\Models\Permissao;
 use App\Models\Solicitacao;
+use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);

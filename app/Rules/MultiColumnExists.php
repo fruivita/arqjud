@@ -23,7 +23,7 @@ class MultiColumnExists implements InvokableRule
     /**
      * Colunas que serão verificadas.
      *
-     * @var string
+     * @var array<int, string>
      */
     private $colunas;
 
