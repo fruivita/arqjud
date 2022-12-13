@@ -8,8 +8,8 @@
  */
 
 use App\Http\Controllers\Solicitacao\SolicitacaoController;
-use App\Models\Permissao;
 use App\Models\Lotacao;
+use App\Models\Permissao;
 use App\Models\Solicitacao;
 use Database\Seeders\PerfilSeeder;
 use Inertia\Testing\AssertableInertia as Assert;

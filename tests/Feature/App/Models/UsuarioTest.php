@@ -6,7 +6,6 @@
 
 use App\Models\Perfil;
 use App\Models\Permissao;
-use App\Models\Solicitacao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Database\QueryException;

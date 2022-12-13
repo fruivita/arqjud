@@ -224,8 +224,6 @@ class Processo extends Model
             ->orWhere('processos.qtd_volumes', 'like', $termo);
     }
 
-
-
     /**
      * Aplica ao número de informado à mascara a mascara CNJ, V2 ou V1
      * necessária.

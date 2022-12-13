@@ -156,10 +156,9 @@ function revogaPermissao(string $slug)
         ->detach(Permissao::firstWhere('slug', $slug)->id);
 }
 
-
 // Helpers APIs
 /**
- * @param \App\Models\Lotacao|\FruiVita\Corporativo\Models\Lotacao $lotacao
+ * @param  \App\Models\Lotacao|\FruiVita\Corporativo\Models\Lotacao  $lotacao
  * @return array<string, mixed>
  */
 function lotacaoApi(mixed $lotacao)
@@ -173,7 +172,7 @@ function lotacaoApi(mixed $lotacao)
 }
 
 /**
- * @param \App\Models\Caixa $caixa
+ * @param  \App\Models\Caixa  $caixa
  * @return array<string, mixed>
  */
 function caixaApi(Caixa $caixa)
@@ -191,7 +190,7 @@ function caixaApi(Caixa $caixa)
 }
 
 /**
- * @param \App\Models\Processo $processo
+ * @param  \App\Models\Processo  $processo
  * @return array<string, mixed>
  */
 function processoApi(Processo $processo)
@@ -210,7 +209,7 @@ function processoApi(Processo $processo)
 }
 
 /**
- * @param \App\Models\Solicitacao $solicitacao
+ * @param  \App\Models\Solicitacao  $solicitacao
  * @return array<string, mixed>
  */
 function solicitacaoApi(Solicitacao $solicitacao)
@@ -234,7 +233,7 @@ function solicitacaoApi(Solicitacao $solicitacao)
 }
 
 /**
- * @param \App\Models\Usuario $usuario
+ * @param  \App\Models\Usuario  $usuario
  * @return array<string, mixed>
  */
 function usuarioApi(Usuario $usuario)
@@ -250,7 +249,7 @@ function usuarioApi(Usuario $usuario)
 }
 
 /**
- * @param \App\Models\VolumeCaixa $volume
+ * @param  \App\Models\VolumeCaixa  $volume
  * @return array<string, mixed>
  */
 function volumeApi(VolumeCaixa $volume)

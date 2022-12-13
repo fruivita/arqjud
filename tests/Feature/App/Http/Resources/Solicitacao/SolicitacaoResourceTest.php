@@ -13,7 +13,7 @@ use App\Models\Solicitacao;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
-    $usuario =  login();
+    $usuario = login();
 
     $this->solicitacao = Solicitacao::factory()->solicitada()->create(['lotacao_destinataria_id' => $usuario->lotacao_id]);
 });

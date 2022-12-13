@@ -20,7 +20,7 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Http\Requests\ShowProcessoHomeRequest  $request
+     * @param  \App\Http\Requests\ShowProcessoHomeRequest  $request
      * @return \Inertia\Response
      */
     public function show(ShowProcessoHomeRequest $request)
@@ -79,8 +79,8 @@ class HomeController extends Controller
                     })
                     ->when(auth()->user()->can(Policy::ExternoCreate->value, Solicitacao::class), function (Collection $collection) {
                         return $collection->put('create', route('solicitacao.create'));
-                    })->toArray()
-            ])
+                    })->toArray(),
+            ]),
         ]);
     }
 }

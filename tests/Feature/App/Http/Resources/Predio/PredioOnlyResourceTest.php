@@ -8,7 +8,6 @@
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Predio\PredioOnlyResource;
 use App\Models\Predio;
-use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
     $this->predio = Predio::factory()->create();

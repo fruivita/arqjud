@@ -31,6 +31,7 @@ class SolicitacaoController extends Controller
      *
      * Apenas as solicitação de processo da própria lotação do usuário
      * autenticado.
+     *
      * @return \Inertia\Response
      */
     public function index()

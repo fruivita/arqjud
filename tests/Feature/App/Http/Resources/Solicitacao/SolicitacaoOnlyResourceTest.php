@@ -32,7 +32,7 @@ test('retorna o processo, o solicitante, o recebedor, o remetente, o rearquivado
             + ['recebedor' => UsuarioOnlyResource::make($this->solicitacao->recebedor)->resolve()]
             + ['remetente' => UsuarioOnlyResource::make($this->solicitacao->remetente)->resolve()]
             + ['rearquivador' => UsuarioOnlyResource::make($this->solicitacao->rearquivador)->resolve()]
-            + ['lotacao_destinataria' => lotacaoApi($this->solicitacao->lotacaoDestinataria)]
+            + ['lotacao_destinataria' => lotacaoApi($this->solicitacao->lotacaoDestinataria)],
     ]);
 });
 

@@ -28,8 +28,8 @@ class MultiColumnExists implements InvokableRule
     private $colunas;
 
     /**
-     * @param string $tabela
-     * @param array<int, string> $colunas
+     * @param  string  $tabela
+     * @param  array<int, string>  $colunas
      * @return void
      */
     public function __construct(string $tabela, array $colunas)
@@ -37,6 +37,7 @@ class MultiColumnExists implements InvokableRule
         $this->tabela = $tabela;
         $this->colunas = $colunas;
     }
+
     /**
      * Run the validation rule.
      *

@@ -7,9 +7,9 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Models\Permissao;
 use App\Http\Controllers\HomeController;
 use App\Http\Requests\ShowProcessoHomeRequest;
+use App\Models\Permissao;
 use App\Models\Processo;
 use App\Models\Solicitacao;
 use Database\Seeders\PerfilSeeder;
@@ -67,7 +67,7 @@ test('action show compartilha os dados esperados com a view/componente correto p
                         'links' => [
                             'create' => route('solicitacao.create'),
                             'view_any' => route('solicitacao.index'),
-                        ]
+                        ],
                     ],
                 ])
         );
@@ -91,7 +91,7 @@ test('action show compartilha os dados esperados com a view/componente correto p
                             'entregues' => 2,
                             'devolvidas' => 4,
                         ],
-                        'links' => []
+                        'links' => [],
                     ],
                 ])
         );
@@ -124,7 +124,7 @@ test('pesquisa e retorna o processo detalhado e sua solicitação ativa', functi
                 ->component('Home/HomeProcesso')
                 ->whereAll([
                     'processo.data.id' => $processo->id,
-                    'processo.data.solicitacao_ativa.0.id' => $Solicitacao->id
+                    'processo.data.solicitacao_ativa.0.id' => $Solicitacao->id,
                 ])
         );
 });

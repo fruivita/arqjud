@@ -6,7 +6,6 @@
  */
 
 use App\Http\Resources\Cargo\CargoOnlyResource;
-use App\Http\Resources\Lotacao\LotacaoOnlyResource;
 use App\Http\Resources\Usuario\UsuarioOnlyResource;
 use App\Models\Usuario;
 
