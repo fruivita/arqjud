@@ -1,5 +1,6 @@
 <!--
-    View para listagem das solicitações para usuários externos ao arquivo.
+    View para listagem das solicitações de processo da lotação do próprio
+    usuário autenticado.
 
     Notar que:
     - As preferências de exibição são armazenadas no cache do navegador.
