@@ -22,6 +22,7 @@ describe('Cell', () => {
     test('propriedades estão definidas', () => {
         expect(Cell.props).toMatchObject({
             erro: { type: String, default: '' },
+            tooltip: { type: String },
         });
     });
 
@@ -38,6 +39,15 @@ describe('Cell', () => {
             mountFunction({
                 slots: { default: 'foo' },
                 props: { erro: 'bar' },
+            }).html()
+        ).toMatchSnapshot();
+    });
+
+    test('renderiza o componente tooltip respeitando o snapshot', () => {
+        expect(
+            mountFunction({
+                slots: { default: 'foo' },
+                props: { erro: 'bar', tooltip: 'baz' },
             }).html()
         ).toMatchSnapshot();
     });
