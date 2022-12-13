@@ -334,7 +334,9 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                                         @click="
                                             confirmarExclusao(
                                                 caixa.links.delete,
-                                                new Caixa(caixa).numeroExibicao()
+                                                __('Exclusão da caixa :attribute', {
+                                                    attribute: new Caixa(caixa).numeroExibicao(),
+                                                })
                                             )
                                         "
                                         especie="perigo"

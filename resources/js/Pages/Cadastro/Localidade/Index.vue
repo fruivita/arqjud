@@ -171,7 +171,9 @@ watch(perPage, filtrar);
                                         @click="
                                             confirmarExclusao(
                                                 localidade.links.delete,
-                                                localidade.nome
+                                                __('Exclusão da localidade :attribute', {
+                                                    attribute: localidade.nome,
+                                                })
                                             )
                                         "
                                         especie="perigo"

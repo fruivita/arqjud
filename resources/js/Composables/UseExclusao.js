@@ -10,12 +10,10 @@
 
 import { flash } from '@/Composables/UseFlash';
 import { exibirModalKey, fecharModalKey } from '@/keys.js';
-import { useTranslationsStore } from '@/Stores/TranslationsStore';
 import { Inertia } from '@inertiajs/inertia';
 import { provide, readonly, ref } from 'vue';
 
 export const useExclusao = () => {
-    const __ = useTranslationsStore().__;
     const item = ref('');
     const exibirModal = ref(false);
     const urlDelete = ref('');
@@ -24,11 +22,11 @@ export const useExclusao = () => {
     provide(exibirModalKey, readonly(exibirModal));
     provide(fecharModalKey, fecharModal);
 
-    const titulo = () => __('Excluir :attribute', { attribute: item.value });
-    const confirmarExclusao = (url, valor) => {
+    const titulo = () => item.value;
+    const confirmarExclusao = (url, titulo) => {
         exibirModal.value = true;
         urlDelete.value = url;
-        item.value = valor;
+        item.value = titulo;
     };
 
     const excluir = () => {

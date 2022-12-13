@@ -343,7 +343,12 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                                     <ButtonIcone
                                         v-if="volume.links.delete"
                                         @click="
-                                            confirmarExclusao(volume.links.delete, volume.numero)
+                                            confirmarExclusao(
+                                                volume.links.delete,
+                                                __('Exclusão do volume :attribute', {
+                                                    attribute: volume.numero,
+                                                })
+                                            )
                                         "
                                         especie="perigo"
                                         icone="trash"

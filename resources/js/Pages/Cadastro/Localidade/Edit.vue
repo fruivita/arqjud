@@ -234,7 +234,14 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                                     <ButtonIcone
                                         v-if="predio.links.delete"
-                                        @click="confirmarExclusao(predio.links.delete, predio.nome)"
+                                        @click="
+                                            confirmarExclusao(
+                                                predio.links.delete,
+                                                __('Exclusão do predio :attribute', {
+                                                    attribute: predio.nome,
+                                                })
+                                            )
+                                        "
                                         especie="perigo"
                                         icone="trash"
                                     />

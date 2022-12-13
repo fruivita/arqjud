@@ -303,9 +303,10 @@ watch(perPage, filtrar);
                                         @click="
                                             confirmarExclusao(
                                                 solicitacao.links.externo_delete,
-                                                __('solicitação do processo :attribute', {
-                                                    attribute: solicitacao.processo.numero,
-                                                })
+                                                __(
+                                                    'Exclusão da solicitação do processo :attribute',
+                                                    { attribute: solicitacao.processo.numero }
+                                                )
                                             )
                                         "
                                         especie="perigo"

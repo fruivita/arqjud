@@ -392,7 +392,9 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                                         @click="
                                             confirmarExclusao(
                                                 processo.links.delete,
-                                                processo.numero
+                                                __('Exclusão do processo :attribute', {
+                                                    attribute: processo.numero,
+                                                })
                                             )
                                         "
                                         especie="perigo"

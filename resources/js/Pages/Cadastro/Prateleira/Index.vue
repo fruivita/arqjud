@@ -225,7 +225,9 @@ watch(perPage, filtrar);
                                         @click="
                                             confirmarExclusao(
                                                 prateleira.links.delete,
-                                                prateleira.numero
+                                                __('Exclusão da prateleira :attribute', {
+                                                    attribute: prateleira.numero,
+                                                })
                                             )
                                         "
                                         especie="perigo"

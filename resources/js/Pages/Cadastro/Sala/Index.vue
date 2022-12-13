@@ -192,7 +192,14 @@ watch(perPage, filtrar);
 
                                     <ButtonIcone
                                         v-if="sala.links.delete"
-                                        @click="confirmarExclusao(sala.links.delete, sala.numero)"
+                                        @click="
+                                            confirmarExclusao(
+                                                sala.links.delete,
+                                                __('Exclusão da sala :attribute', {
+                                                    attribute: sala.numero,
+                                                })
+                                            )
+                                        "
                                         especie="perigo"
                                         icone="trash"
                                     />

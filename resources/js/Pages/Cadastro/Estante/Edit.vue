@@ -271,7 +271,9 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                                         @click="
                                             confirmarExclusao(
                                                 prateleira.links.delete,
-                                                prateleira.numero
+                                                __('Exclusão da prateleira :attribute', {
+                                                    attribute: prateleira.numero,
+                                                })
                                             )
                                         "
                                         especie="perigo"

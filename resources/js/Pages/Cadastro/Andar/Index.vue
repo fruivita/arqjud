@@ -176,7 +176,9 @@ watch(perPage, filtrar);
                                         @click="
                                             confirmarExclusao(
                                                 andar.links.delete,
-                                                new Andar(andar).numeroExibicao()
+                                                __('Exclusão do andar :attribute', {
+                                                    attribute: new Andar(andar).numeroExibicao(),
+                                                })
                                             )
                                         "
                                         especie="perigo"

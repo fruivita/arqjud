@@ -205,7 +205,7 @@ watch(perPage, filtrar);
                                     <ButtonIcone
                                         v-if="estante.links.delete"
                                         @click="
-                                            confirmarExclusao(estante.links.delete, estante.numero)
+                                            confirmarExclusao(estante.links.delete, __('Exclusão da estante :attribute', {attribute: estante.numero}))
                                         "
                                         especie="perigo"
                                         icone="trash"
