@@ -1,0 +1,22 @@
+// Vitest Snapshot v1
+
+exports[`Card > renderiza o componente das espécies específicas respeitando o snapshot 1`] = `
+"<div class=\\"bg-green-500 p-3 text-green-50 flex flex-col items-center justify-center space-y-3 rounded-lg\\">
+  <h3 class=\\"font-mono text-2xl font-bold\\">foo</h3>
+  <p class=\\"bg-green-700 rounded-full px-3 text-5xl\\">bar</p>
+</div>"
+`;
+
+exports[`Card > renderiza o componente das espécies específicas respeitando o snapshot 2`] = `
+"<div class=\\"bg-yellow-500 p-3 text-yellow-50 flex flex-col items-center justify-center space-y-3 rounded-lg\\">
+  <h3 class=\\"font-mono text-2xl font-bold\\">foo</h3>
+  <p class=\\"bg-yellow-700 rounded-full px-3 text-5xl\\">bar</p>
+</div>"
+`;
+
+exports[`Card > renderiza o componente das espécies específicas respeitando o snapshot 3`] = `
+"<div class=\\"bg-red-500 p-3 text-red-50 flex flex-col items-center justify-center space-y-3 rounded-lg\\">
+  <h3 class=\\"font-mono text-2xl font-bold\\">foo</h3>
+  <p class=\\"bg-red-700 rounded-full px-3 text-5xl\\">bar</p>
+</div>"
+`;
