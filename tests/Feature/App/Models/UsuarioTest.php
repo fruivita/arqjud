@@ -9,6 +9,7 @@ use App\Models\Permissao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Database\QueryException;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 
 beforeEach(function () {
@@ -180,4 +181,22 @@ test('método possuiPermissao() informa se o usuário possui determinada permiss
     expect(usuarioAutenticado()->possuiPermissao(Permissao::ANDAR_CREATE))->toBeFalse();
 
     logout();
+});
+
+test('escopo operadores retorna todos os usuários do perfil operador', function () {
+    $administrador = Perfil::firstWhere('slug', Perfil::ADMINISTRADOR);
+    $operador = Perfil::firstWhere('slug', Perfil::OPERADOR);
+
+    Usuario::factory()->for($administrador, 'perfil')->create();
+    Usuario::factory(2)->for($operador, 'perfil')->create();
+
+    expect(Usuario::count())->toBe(3)
+        ->and(Usuario::operadores()->count())->toBe(2);
+});
+
+test('routeNotificationForMail retorna a rota de notificação para o usuário', function () {
+    $usuario = Usuario::factory()->make();
+
+    expect($usuario->routeNotificationForMail(new Notification()))
+        ->toBe($usuario->email);
 });

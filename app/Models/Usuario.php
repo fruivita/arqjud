@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use FruiVita\Corporativo\Models\Usuario as UsuarioCorporativo;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 
@@ -149,5 +151,27 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
         return $this
             ->permissoes()
             ->contains($slug);
+    }
+
+    /**
+     * Usuários com o perfil operador.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOperadores($query)
+    {
+        return $query->whereRelation('perfil', 'slug', '=', Perfil::OPERADOR);
+    }
+
+    /**
+     * Route notifications for the mail channel.
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return array|string
+     */
+    public function routeNotificationForMail(Notification $notification)
+    {
+        return $this->email;
     }
 }
