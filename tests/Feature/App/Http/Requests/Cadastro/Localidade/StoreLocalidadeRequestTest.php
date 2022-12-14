@@ -16,7 +16,7 @@ beforeEach(function () {
 });
 
 // Autorização
-test('na criação, usuário sem autorização não cria o resquest', function () {
+test('na criação, usuário sem autorização não cria o request', function () {
     $this->seed([PerfilSeeder::class]);
 
     login();
@@ -51,7 +51,7 @@ test('attributes estão definidas no form request', function () {
     ], $this->request->attributes());
 });
 
-test('na criação, usuário autorizado pode criar o resquest', function () {
+test('na criação, usuário autorizado pode criar o request', function () {
     $this->seed([PerfilSeeder::class]);
 
     login();
