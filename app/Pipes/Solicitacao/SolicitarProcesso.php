@@ -8,7 +8,7 @@ use App\Models\Solicitacao;
 /**
  * @see https://www.youtube.com/watch?v=FByQN_d876c
  */
-class CriarSolicitacao
+class SolicitarProcesso
 {
     /**
      * Cria por pipe a solicitação dos processos

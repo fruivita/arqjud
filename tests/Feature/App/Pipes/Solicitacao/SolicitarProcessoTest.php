@@ -4,31 +4,28 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Events\ProcessoSolicitadoPeloUsuario;
 use App\Models\Processo;
-use App\Models\Solicitacao;
 use App\Models\Usuario;
-use App\Pipes\Solicitacao\CriarSolicitacao;
-use Illuminate\Support\Facades\Event;
+use App\Pipes\Solicitacao\SolicitarProcesso;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
 use function Spatie\PestPluginTestTime\testTime;
 
 // Caminho feliz
-test('pipe CriarSolicitacao cria as solicitações de processos no status solicitadas', function () {
+test('pipe SolicitarProcesso cria as solicitações de processos no status solicitadas', function () {
     testTime()->freeze();
 
     $processo = Processo::factory()->create();
     $processos = Processo::factory(2)->create();
 
-    $solicitacao = new stdClass();
+    $solicitacao = new \stdClass();
     $solicitacao->processos = $processos->pluck('numero')->transform('apenasNumeros')->toArray();
     $solicitacao->solicitante = Usuario::factory()->create();
 
     Pipeline::make()
         ->withTransaction()
         ->send($solicitacao)
-        ->through([CriarSolicitacao::class])
+        ->through([SolicitarProcesso::class])
         ->thenReturn();
 
     $this
@@ -68,4 +65,4 @@ test('pipe CriarSolicitacao cria as solicitações de processos no status solici
         ->assertDatabaseMissing('solicitacoes', [
             'processo_id' => $processo->id,
         ]);
-})->only();
+});
