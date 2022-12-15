@@ -13,7 +13,6 @@ use Database\Seeders\PerfilSeeder;
 use Illuminate\Notifications\SendQueuedNotifications;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
-
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {

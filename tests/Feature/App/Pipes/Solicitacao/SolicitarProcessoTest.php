@@ -8,7 +8,6 @@ use App\Models\Processo;
 use App\Models\Usuario;
 use App\Pipes\Solicitacao\SolicitarProcesso;
 use MichaelRubel\EnhancedPipeline\Pipeline;
-
 use function Spatie\PestPluginTestTime\testTime;
 
 // Caminho feliz

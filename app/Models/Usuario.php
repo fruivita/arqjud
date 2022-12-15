@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use FruiVita\Corporativo\Models\Usuario as UsuarioCorporativo;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;

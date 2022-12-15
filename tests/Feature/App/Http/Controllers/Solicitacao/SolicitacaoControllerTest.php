@@ -10,17 +10,14 @@
 use App\Http\Controllers\Solicitacao\SolicitacaoController;
 use App\Http\Requests\Solicitacao\StoreSolicitacaoRequest;
 use App\Jobs\NotificarOperadoresSolicitacao;
-use App\Models\Lotacao;
 use App\Models\Permissao;
 use App\Models\Processo;
 use App\Models\Solicitacao;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
-use function Pest\Laravel\mock;
 use function Pest\Laravel\post;
 
 beforeEach(function () {
