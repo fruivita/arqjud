@@ -63,7 +63,7 @@ parameters:
     -
       message: '#Call to an undefined static method Illuminate\\Support\\Facades\\[a-zA-Z]+::should[Not]*HaveReceived\(\)#'
       path: tests/*
-    - '#Call to an undefined method LdapRecord\\Models\\ActiveDirectory\\User::[can]+\(\)#'
+    - '#Call to an undefined method LdapRecord\\Models\\ActiveDirectory\\User::[can\|loadMissing]+\(\)#'
     - '#Call to an undefined method Faker\\Generator::numeroProcesso[CNJ\|V1\|V2]+\(\)#'
     - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder.*[search]+\(\)#'
 
