@@ -206,14 +206,14 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
         <Container class="space-y-3">
             <div
                 :class="{
-                    'md:justify-between': andar.data.links.create_sala,
-                    'md:justify-end': !andar.data.links.create_sala,
+                    'md:justify-between': andar.data.links.sala.create,
+                    'md:justify-end': !andar.data.links.sala.create,
                 }"
                 class="flex flex-col space-y-3 md:flex-row md:items-start"
             >
                 <InertiaButtonLink
-                    v-if="andar.data.links.create_sala"
-                    :href="andar.data.links.create_sala"
+                    v-if="andar.data.links.sala.create"
+                    :href="andar.data.links.sala.create"
                     :texto="__('Nova sala')"
                     icone="plus-circle"
                 />

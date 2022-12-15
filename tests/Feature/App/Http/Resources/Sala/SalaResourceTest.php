@@ -35,7 +35,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                     'view' => route('cadastro.sala.edit', $this->sala),
                     'update' => route('cadastro.sala.update', $this->sala),
                     'delete' => route('cadastro.sala.destroy', $this->sala),
-                    'create_estante' => route('cadastro.estante.create', $this->sala),
+                    'estante' => [
+                        'create' => route('cadastro.estante.create', $this->sala),
+                        'store' => route('cadastro.estante.store', $this->sala),
+                    ],
                 ],
             ],
     ]);

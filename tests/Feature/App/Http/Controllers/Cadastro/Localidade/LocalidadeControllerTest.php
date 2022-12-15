@@ -94,7 +94,7 @@ test('action create compartilha os dados esperados com a view/componente correto
                 ->component('Cadastro/Localidade/Create')
                 ->whereAll([
                     'ultima_insercao.data' => LocalidadeResource::make($ultima_localidade_criada)->resolve(),
-                    'links' => ['create' => route('cadastro.localidade.store')],
+                    'links' => ['store' => route('cadastro.localidade.store')],
                 ])
         );
 });

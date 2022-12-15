@@ -34,7 +34,7 @@ const form = useForm({
 });
 
 const cadastrar = () => {
-    form.post(props.caixa.data.links.create_volume, {
+    form.post(props.caixa.data.links.volume.store, {
         onSuccess: () => {
             form.reset();
             flash();

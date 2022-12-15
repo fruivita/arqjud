@@ -35,7 +35,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                     'view' => route('cadastro.volume-caixa.edit', $this->volume),
                     'update' => route('cadastro.volume-caixa.update', $this->volume),
                     'delete' => route('cadastro.volume-caixa.destroy', $this->volume),
-                    'create_processo' => route('cadastro.processo.create', $this->volume),
+                    'processo' => [
+                        'create' => route('cadastro.processo.create', $this->volume),
+                        'store' => route('cadastro.processo.store', $this->volume),
+                    ],
                 ],
             ],
     ]);

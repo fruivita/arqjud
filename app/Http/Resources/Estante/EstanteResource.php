@@ -32,19 +32,22 @@ class EstanteResource extends JsonResource
                 'links' => [
                     'view' => $this->when(
                         $request->user()->can(Policy::ViewOrUpdate->value, Estante::class),
-                        fn () => route('cadastro.estante.edit', $this->id),
+                        route('cadastro.estante.edit', $this->id),
                     ),
                     'update' => $this->when(
                         $request->user()->can(Policy::Update->value, Estante::class),
-                        fn () => route('cadastro.estante.update', $this->id),
+                        route('cadastro.estante.update', $this->id),
                     ),
                     'delete' => $this->when(
                         $request->user()->can(Policy::Delete->value, $this->resource),
-                        fn () => route('cadastro.estante.destroy', $this->id),
+                        route('cadastro.estante.destroy', $this->id),
                     ),
-                    'create_prateleira' => $this->when(
+                    'prateleira' => $this->when(
                         $request->user()->can(Policy::Create->value, Prateleira::class),
-                        fn () => route('cadastro.prateleira.create', $this->id),
+                        [
+                            'create' => route('cadastro.prateleira.create', $this->id),
+                            'store' => route('cadastro.prateleira.store', $this->id),
+                        ],
                     ),
                 ],
             ]

@@ -32,19 +32,22 @@ class PredioResource extends JsonResource
                 'links' => [
                     'view' => $this->when(
                         $request->user()->can(Policy::ViewOrUpdate->value, Predio::class),
-                        fn () => route('cadastro.predio.edit', $this->id),
+                        route('cadastro.predio.edit', $this->id),
                     ),
                     'update' => $this->when(
                         $request->user()->can(Policy::Update->value, Predio::class),
-                        fn () => route('cadastro.predio.update', $this->id),
+                        route('cadastro.predio.update', $this->id),
                     ),
                     'delete' => $this->when(
                         $request->user()->can(Policy::Delete->value, $this->resource),
-                        fn () => route('cadastro.predio.destroy', $this->id),
+                        route('cadastro.predio.destroy', $this->id),
                     ),
-                    'create_andar' => $this->when(
+                    'andar' => $this->when(
                         $request->user()->can(Policy::Create->value, Andar::class),
-                        fn () => route('cadastro.andar.create', $this->id),
+                        [
+                            'create' => route('cadastro.andar.create', $this->id),
+                            'store' => route('cadastro.andar.store', $this->id),
+                        ]
                     ),
                 ],
             ]

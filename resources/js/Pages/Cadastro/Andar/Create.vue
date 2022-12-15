@@ -35,7 +35,7 @@ const form = useForm({
 });
 
 const cadastrar = () => {
-    form.post(props.predio.data.links.create_andar, {
+    form.post(props.predio.data.links.andar.store, {
         onSuccess: () => {
             form.reset();
             flash();

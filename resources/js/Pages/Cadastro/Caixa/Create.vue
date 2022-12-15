@@ -42,7 +42,7 @@ const form = useForm({
 });
 
 const cadastrar = () => {
-    form.post(props.prateleira.data.links.create_caixa, {
+    form.post(props.prateleira.data.links.caixa.store, {
         onSuccess: () => {
             form.reset();
             flash();

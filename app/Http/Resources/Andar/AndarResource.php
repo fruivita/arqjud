@@ -33,19 +33,22 @@ class AndarResource extends JsonResource
                 'links' => [
                     'view' => $this->when(
                         $request->user()->can(Policy::ViewOrUpdate->value, Andar::class),
-                        fn () => route('cadastro.andar.edit', $this->id),
+                        route('cadastro.andar.edit', $this->id),
                     ),
                     'update' => $this->when(
                         $request->user()->can(Policy::Update->value, Andar::class),
-                        fn () => route('cadastro.andar.update', $this->id),
+                        route('cadastro.andar.update', $this->id),
                     ),
                     'delete' => $this->when(
                         $request->user()->can(Policy::Delete->value, $this->resource),
-                        fn () => route('cadastro.andar.destroy', $this->id),
+                        route('cadastro.andar.destroy', $this->id),
                     ),
-                    'create_sala' => $this->when(
+                    'sala' => $this->when(
                         $request->user()->can(Policy::Create->value, Sala::class),
-                        fn () => route('cadastro.sala.create', $this->id),
+                        [
+                            'create' => route('cadastro.sala.create', $this->id),
+                            'store' => route('cadastro.sala.store', $this->id),
+                        ],
                     ),
                 ],
             ]

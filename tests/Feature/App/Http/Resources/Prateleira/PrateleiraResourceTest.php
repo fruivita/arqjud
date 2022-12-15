@@ -35,7 +35,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                     'view' => route('cadastro.prateleira.edit', $this->prateleira),
                     'update' => route('cadastro.prateleira.update', $this->prateleira),
                     'delete' => route('cadastro.prateleira.destroy', $this->prateleira),
-                    'create_caixa' => route('cadastro.caixa.create', $this->prateleira),
+                    'caixa' => [
+                        'create' => route('cadastro.caixa.create', $this->prateleira),
+                        'store' => route('cadastro.caixa.store', $this->prateleira),
+                    ],
                 ],
             ],
     ]);

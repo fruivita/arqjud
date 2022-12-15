@@ -35,7 +35,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                     'view' => route('cadastro.andar.edit', $this->andar),
                     'update' => route('cadastro.andar.update', $this->andar),
                     'delete' => route('cadastro.andar.destroy', $this->andar),
-                    'create_sala' => route('cadastro.sala.create', $this->andar),
+                    'sala' => [
+                        'create' => route('cadastro.sala.create', $this->andar),
+                        'store' => route('cadastro.sala.store', $this->andar),
+                    ],
                 ],
             ],
     ]);

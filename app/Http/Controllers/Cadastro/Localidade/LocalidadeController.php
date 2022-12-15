@@ -64,7 +64,7 @@ class LocalidadeController extends Controller
 
         return Inertia::render('Cadastro/Localidade/Create', [
             'ultima_insercao' => fn () => LocalidadeResource::make(Localidade::latest()->first()),
-            'links' => fn () => ['create' => route('cadastro.localidade.store')],
+            'links' => fn () => ['store' => route('cadastro.localidade.store')],
         ]);
     }
 

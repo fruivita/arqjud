@@ -33,7 +33,7 @@ const form = useForm({
 });
 
 const cadastrar = () => {
-    form.post(props.sala.data.links.create_estante, {
+    form.post(props.sala.data.links.estante.store, {
         onSuccess: () => {
             form.reset();
             flash();

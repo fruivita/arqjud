@@ -32,7 +32,7 @@ const form = useForm({
 });
 
 const cadastrar = () => {
-    form.post(props.localidade.data.links.create_predio, {
+    form.post(props.localidade.data.links.predio.store, {
         onSuccess: () => {
             form.reset();
             flash();

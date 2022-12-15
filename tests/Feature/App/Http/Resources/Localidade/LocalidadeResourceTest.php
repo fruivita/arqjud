@@ -34,7 +34,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                     'view' => route('cadastro.localidade.edit', $this->localidade),
                     'update' => route('cadastro.localidade.update', $this->localidade),
                     'delete' => route('cadastro.localidade.destroy', $this->localidade),
-                    'create_predio' => route('cadastro.predio.create', $this->localidade),
+                    'predio' => [
+                        'create' => route('cadastro.predio.create', $this->localidade),
+                        'store' => route('cadastro.predio.store', $this->localidade),
+                    ],
                 ],
             ],
     ]);

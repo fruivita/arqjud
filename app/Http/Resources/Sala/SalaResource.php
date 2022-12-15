@@ -32,19 +32,22 @@ class SalaResource extends JsonResource
                 'links' => [
                     'view' => $this->when(
                         $request->user()->can(Policy::ViewOrUpdate->value, Sala::class),
-                        fn () => route('cadastro.sala.edit', $this->id),
+                        route('cadastro.sala.edit', $this->id),
                     ),
                     'update' => $this->when(
                         $request->user()->can(Policy::Update->value, Sala::class),
-                        fn () => route('cadastro.sala.update', $this->id),
+                        route('cadastro.sala.update', $this->id),
                     ),
                     'delete' => $this->when(
                         $request->user()->can(Policy::Delete->value, $this->resource),
-                        fn () => route('cadastro.sala.destroy', $this->id),
+                        route('cadastro.sala.destroy', $this->id),
                     ),
-                    'create_estante' => $this->when(
+                    'estante' => $this->when(
                         $request->user()->can(Policy::Create->value, Estante::class),
-                        fn () => route('cadastro.estante.create', $this->id),
+                        [
+                            'create' => route('cadastro.estante.create', $this->id),
+                            'store' => route('cadastro.estante.store', $this->id),
+                        ],
                     ),
                 ],
             ]

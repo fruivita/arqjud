@@ -31,7 +31,7 @@ const form = useForm({
 });
 
 const cadastrar = () => {
-    form.post(props.links.create, {
+    form.post(props.links.store, {
         onSuccess: () => {
             form.reset();
             flash();

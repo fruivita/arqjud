@@ -33,7 +33,7 @@ const form = useForm({
 });
 
 const cadastrar = () => {
-    form.post(props.estante.data.links.create_prateleira, {
+    form.post(props.estante.data.links.prateleira.store, {
         onSuccess: () => {
             form.reset();
             flash();

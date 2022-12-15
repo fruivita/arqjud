@@ -30,19 +30,22 @@ class LocalidadeResource extends JsonResource
                 'links' => [
                     'view' => $this->when(
                         $request->user()->can(Policy::ViewOrUpdate->value, Localidade::class),
-                        fn () => route('cadastro.localidade.edit', $this->id),
+                        route('cadastro.localidade.edit', $this->id),
                     ),
                     'update' => $this->when(
                         $request->user()->can(Policy::Update->value, Localidade::class),
-                        fn () => route('cadastro.localidade.update', $this->id),
+                        route('cadastro.localidade.update', $this->id),
                     ),
                     'delete' => $this->when(
                         $request->user()->can(Policy::Delete->value, $this->resource),
-                        fn () => route('cadastro.localidade.destroy', $this->id),
+                        route('cadastro.localidade.destroy', $this->id),
                     ),
-                    'create_predio' => $this->when(
+                    'predio' => $this->when(
                         $request->user()->can(Policy::Create->value, Predio::class),
-                        fn () => route('cadastro.predio.create', $this->id),
+                        [
+                            'create' => route('cadastro.predio.create', $this->id),
+                            'store' => route('cadastro.predio.store', $this->id),
+                        ]
                     ),
                 ],
             ]

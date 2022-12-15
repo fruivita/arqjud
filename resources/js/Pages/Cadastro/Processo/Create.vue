@@ -40,7 +40,7 @@ const form = useForm({
 });
 
 const cadastrar = () => {
-    form.post(props.volume_caixa.data.links.create_processo, {
+    form.post(props.volume_caixa.data.links.processo.store, {
         onSuccess: () => {
             form.reset();
             flash();
