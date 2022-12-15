@@ -30,7 +30,11 @@ class NotificarOperadoresSolicitacao implements ShouldQueue, ShouldBeUnique
      */
     public $tries = 5;
 
-
+    /**
+     * Número de segundos de espera antes de tentar executar novamente o job.
+     *
+     * @var int[]
+     */
     public $backoff = [60, 300];
 
     /**
