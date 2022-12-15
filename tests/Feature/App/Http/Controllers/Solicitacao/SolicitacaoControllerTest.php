@@ -8,20 +8,26 @@
  */
 
 use App\Http\Controllers\Solicitacao\SolicitacaoController;
+use App\Http\Requests\Solicitacao\StoreSolicitacaoRequest;
+use App\Jobs\NotificarOperadoresSolicitacao;
 use App\Models\Lotacao;
 use App\Models\Permissao;
+use App\Models\Processo;
 use App\Models\Solicitacao;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
+use function Pest\Laravel\mock;
+use function Pest\Laravel\post;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
     $this->usuario = login();
-
-    $this->lotacao = Lotacao::find($this->usuario->lotacao_id);
+    $this->usuario->loadMissing('lotacao');
 });
 
 afterEach(function () {
@@ -39,20 +45,20 @@ test('usuário sem permissão não consegue excluir uma solicitação', function
     expect(Solicitacao::where('id', $solicitacao->id)->exists())->toBeTrue();
 });
 
-// test('usuário sem permissão não consegue exibir formulário de criação da solicitação', function () {
-//     get(route('solicitacao.create'))->assertForbidden();
-// });
+test('usuário sem permissão não consegue exibir formulário de solicitação de processo', function () {
+    get(route('solicitacao.create'))->assertForbidden();
+});
 
 // Caminho feliz
-// test('action do controller usa o form request', function (string $action, string $request) {
-//     $this->assertActionUsesFormRequest(
-//         SolicitacaoController::class,
-//         $action,
-//         $request
-//     );
-// })->with([
-//     ['store', StoreRemessaRequest::class],
-// ]);
+test('action do controller usa o form request', function (string $action, string $request) {
+    $this->assertActionUsesFormRequest(
+        SolicitacaoController::class,
+        $action,
+        $request
+    );
+})->with([
+    ['store', StoreSolicitacaoRequest::class],
+]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     Solicitacao::factory(1)->create();
@@ -78,87 +84,92 @@ test('action index compartilha os dados esperados com a view/componente correto'
         );
 });
 
-// test('action create compartilha os dados esperados com a view/componente correto', function () {
-//     concederPermissao(Permissao::ExternoRemessaCreate);
+test('action create compartilha os dados esperados com a view/componente correto', function () {
+    concederPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE);
 
-//     get(route('solicitacao.create'))
-//         ->assertOk()
-//         ->assertInertia(
-//             fn (Assert $page) => $page
-//                 ->component('Remessa/Create')
-//                 ->where('lotacao', $this->lotacao->only(['sigla', 'nome']))
-//         );
-// });
+    get(route('solicitacao.create'))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('Solicitacao/Create')
+                ->where('lotacao.data', lotacaoApi($this->usuario->lotacao))
+                ->where('links', [
+                    'search' => route('api.solicitacao.processo.show'),
+                    'store' => route('solicitacao.store'),
+                ])
+        );
+});
 
-// test('cria uma nova remessa no status solicitada destinada à lotação do usuário autenticado, bem como por ele solicitada', function () {
-//     $processo_1 = Processo::factory()->create();
-//     $processo_2 = Processo::factory()->create();
-//     $processo_3 = Processo::factory()->create();
+test('cria uma nova solicitação de processos status solicitada destinada à lotação do usuário autenticado, bem como por ele solicitada', function () {
+    $processo_1 = Processo::factory()->create();
+    $processo_2 = Processo::factory()->create();
+    $processo_3 = Processo::factory()->create();
 
-//     concederPermissao(Permissao::ExternoRemessaCreate);
+    concederPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE);
 
-//     $this->assertDatabaseCount('remessas', 0);
+    $this->assertDatabaseCount('solicitacoes', 0);
 
-//     post(route('solicitacao.store'), [
-//         'processos' => [['numero' => $processo_1->numero], ['numero' => $processo_3->numero]],
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    post(route('solicitacao.store'), [
+        'processos' => [['numero' => $processo_1->numero], ['numero' => $processo_3->numero]],
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     $this
-//         ->assertDatabaseCount('remessas', 2)
-//         ->assertDatabaseHas('remessas', [
-//             'processo_id' => $processo_1->id,
-//             'solicitante_id' => $this->usuario->id,
-//             'recebedor_id' => null,
-//             'remetente_id' => null,
-//             'rearquivador_id' => null,
-//             'lotacao_destinataria_id' => $this->usuario->lotacao_id,
-//             'guia_id' => null,
-//             'solicitada_em' => now(),
-//             'entregue_em' => null,
-//             'devolvida_em' => null,
-//             'remessa_por_guia' => false,
-//             'descricao' => null,
-//             'created_at' => now(),
-//             'updated_at' => now(),
-//         ])
-//         ->assertDatabaseHas('remessas', [
-//             'processo_id' => $processo_3->id,
-//             'solicitante_id' => $this->usuario->id,
-//             'recebedor_id' => null,
-//             'remetente_id' => null,
-//             'rearquivador_id' => null,
-//             'lotacao_destinataria_id' => $this->usuario->lotacao_id,
-//             'guia_id' => null,
-//             'solicitada_em' => now(),
-//             'entregue_em' => null,
-//             'devolvida_em' => null,
-//             'remessa_por_guia' => false,
-//             'descricao' => null,
-//             'created_at' => now(),
-//             'updated_at' => now(),
-//         ])
-//         ->assertDatabaseMissing('remessas', [
-//             'processo_id' => $processo_2->id,
-//         ]);
-// });
+    $this
+        ->assertDatabaseCount('solicitacoes', 2)
+        ->assertDatabaseHas('solicitacoes', [
+            'processo_id' => $processo_1->id,
+            'solicitante_id' => $this->usuario->id,
+            'recebedor_id' => null,
+            'remetente_id' => null,
+            'rearquivador_id' => null,
+            'lotacao_destinataria_id' => $this->usuario->lotacao_id,
+            'guia_id' => null,
+            'solicitada_em' => now(),
+            'entregue_em' => null,
+            'devolvida_em' => null,
+            'por_guia' => false,
+            'descricao' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ])
+        ->assertDatabaseHas('solicitacoes', [
+            'processo_id' => $processo_3->id,
+            'solicitante_id' => $this->usuario->id,
+            'recebedor_id' => null,
+            'remetente_id' => null,
+            'rearquivador_id' => null,
+            'lotacao_destinataria_id' => $this->usuario->lotacao_id,
+            'guia_id' => null,
+            'solicitada_em' => now(),
+            'entregue_em' => null,
+            'devolvida_em' => null,
+            'por_guia' => false,
+            'descricao' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ])
+        ->assertDatabaseMissing('solicitacoes', [
+            'processo_id' => $processo_2->id,
+        ]);
+});
 
-// test('dispara o evento RemessaSolicitadaPeloUsuario quando o usuário solicita uma nova remessa', function () {
-//     Event::fake();
+test('dispara o job NotificarOperadoresSolicitacao quando o usuário faz a solicitação de processos', function () {
+    Bus::fake();
 
-//     $processos = Processo::factory(3)->create();
+    $processos = Processo::factory(3)->create();
 
-//     concederPermissao(Permissao::ExternoRemessaCreate);
+    concederPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE);
 
-//     post(route('solicitacao.store'), [
-//         'processos' => $processos->map(fn ($processo) => $processo->only('numero')),
-//     ])
-//         ->assertRedirect()
-//         ->assertSessionHas('sucesso');
+    post(route('solicitacao.store'), [
+        'processos' => $processos->map(fn ($processo) => $processo->only('numero')),
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
 
-//     Event::assertDispatchedTimes(RemessaSolicitadaPeloUsuario::class, 1);
-// });
+    Bus::assertNotDispatchedSync(NotificarOperadoresSolicitacao::class);
+    Bus::assertDispatchedTimes(NotificarOperadoresSolicitacao::class, 1);
+});
 
 test('exclui a solicitação informada', function () {
     $solicitacao = Solicitacao::factory()->solicitada()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);

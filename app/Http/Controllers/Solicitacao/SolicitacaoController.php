@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Solicitacao;
 
 use App\Enums\Policy;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Solicitacao\StoreSolicitacaoRequest;
 use App\Http\Resources\Lotacao\LotacaoOnlyResource;
 use App\Http\Resources\Solicitacao\CounterResource;
 use App\Http\Resources\Solicitacao\SolicitacaoCollection;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
-use App\Models\Lotacao;
 use App\Models\Solicitacao;
 use App\Pipes\Search;
+use App\Pipes\Solicitacao\SolicitarProcesso;
 use App\Pipes\Solicitacao\JoinAll;
+use App\Pipes\Solicitacao\NotificarOperadoresSolicitacao;
 use App\Pipes\Solicitacao\Order;
+use Illuminate\Support\Arr;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -73,28 +76,38 @@ class SolicitacaoController extends Controller
 
         return Inertia::render('Solicitacao/Create', [
             'lotacao' => fn () => LotacaoOnlyResource::make(auth()->user()->lotacao),
+            'links' => fn () => [
+                'search' => route('api.solicitacao.processo.show'),
+                'store' => route('solicitacao.store'),
+            ],
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Remessa\StoreRemessaRequest  $request
+     * @param  \App\Http\Requests\Solicitacao\StoreSolicitacaoRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store()
+    public function store(StoreSolicitacaoRequest $request)
     {
-        // $processos = Arr::pluck($request->input('processos'), 'numero');
+        auth()->user()->loadMissing('lotacao');
+        throw_if(!auth()->user()->lotacao, new \UnexpectedValueException(__('Usuário sem lotação')));
 
-        // $salvo = SolicitarRemessa::make()->solicitar(
-        //     $processos,
-        //     intval(auth()->user()->id),
-        //     intval(auth()->user()->lotacao_id),
-        // );
+        $solicitacao = new \stdClass();
+        $solicitacao->processos = Arr::pluck($request->input('processos'), 'numero');
+        $solicitacao->solicitante = auth()->user();
+        $solicitacao->destino = auth()->user()->lotacao;
 
-        // RemessaSolicitadaPeloUsuario::dispatchIf($salvo, $processos);
+        $salvo = Pipeline::make()
+            ->withTransaction()
+            ->send($solicitacao)
+            ->through([
+                SolicitarProcesso::class,
+                NotificarOperadoresSolicitacao::class,
+            ])->thenReturn();
 
-        // return back()->with(...$this->feedback($salvo));
+        return back()->with($this->feedback($salvo));
     }
 
     /**
