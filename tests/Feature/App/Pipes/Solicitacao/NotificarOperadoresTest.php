@@ -11,9 +11,12 @@ use App\Pipes\Solicitacao\NotificarOperadores;
 use Illuminate\Support\Facades\Event;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
+use function Spatie\PestPluginTestTime\testTime;
+
 // Caminho feliz
 test('pipe NotificarOperadores dispara evento ProcessoSolicitadoPeloUsuario para notificar operadores', function () {
     Event::fake();
+    testTime()->freeze();
 
     $processos = Processo::factory(3)
         ->create()
