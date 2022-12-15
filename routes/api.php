@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\Solicitacao\ProcessoDisponivelController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->name('api.')->group(function () {
+    Route::prefix('solicitacao')->name('solicitacao.')->group(function () {
+        Route::prefix('processo')->name('processo.')->group(function () {
+            Route::post('/', [ProcessoDisponivelController::class, 'show'])->name('show');
+        });
+    });
 });
