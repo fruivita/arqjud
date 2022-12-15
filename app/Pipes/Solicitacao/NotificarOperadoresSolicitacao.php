@@ -2,15 +2,16 @@
 
 namespace App\Pipes\Solicitacao;
 
-use App\Events\ProcessoSolicitadoPeloUsuario;
+use App\Enums\Queue;
+use App\Jobs\NotificarOperadoresSolicitacao as JobNotificarOperadoresSolicitacao;
 
 /**
  * @see https://www.youtube.com/watch?v=FByQN_d876c
  */
-class NotificarOperadores
+class NotificarOperadoresSolicitacao
 {
     /**
-     * Dispara evento responsável por notificar os usuários de perfil operador
+     * Dispara o job responsável por notificar os usuários de perfil operador
      * acerca da solicitação de processos feita pelo usuário.
      *
      * @param  \stdClass  $query
@@ -19,7 +20,7 @@ class NotificarOperadores
      */
     public function handle(\stdClass $solicitacao, \Closure $next)
     {
-        ProcessoSolicitadoPeloUsuario::dispatch($solicitacao);
+        JobNotificarOperadoresSolicitacao::dispatch($solicitacao)->onQueue(Queue::Baixa->value);
 
         return $next($solicitacao);
     }
