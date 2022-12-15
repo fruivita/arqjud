@@ -40,13 +40,13 @@ test('usuário sem permissão não consegue excluir um volume de caixa', functio
 
     expect(VolumeCaixa::where('id', $id_volume_caixa)->exists())->toBeTrue();
 
-    delete(route('cadastro.volumeCaixa.destroy', $id_volume_caixa))->assertForbidden();
+    delete(route('cadastro.volume-caixa.destroy', $id_volume_caixa))->assertForbidden();
 
     expect(VolumeCaixa::where('id', $id_volume_caixa)->exists())->toBeTrue();
 });
 
 test('usuário sem permissão não consegue exibir formulário de criação do volume da caixa', function () {
-    get(route('cadastro.volumeCaixa.create', $this->caixa))->assertForbidden();
+    get(route('cadastro.volume-caixa.create', $this->caixa))->assertForbidden();
 });
 
 // Caminho feliz
@@ -66,7 +66,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 
     concederPermissao(Permissao::VOLUME_CAIXA_VIEW_ANY);
 
-    get(route('cadastro.volumeCaixa.index'))
+    get(route('cadastro.volume-caixa.index'))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
@@ -89,7 +89,7 @@ test('action create compartilha os dados esperados com a view/componente correto
 
     concederPermissao(Permissao::VOLUME_CAIXA_CREATE);
 
-    get(route('cadastro.volumeCaixa.create', $this->caixa))
+    get(route('cadastro.volume-caixa.create', $this->caixa))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
@@ -112,7 +112,7 @@ test('cria um novo volume da caixa', function () {
 
     expect(VolumeCaixa::count())->toBe(0);
 
-    post(route('cadastro.volumeCaixa.store', $this->caixa), $dados)
+    post(route('cadastro.volume-caixa.store', $this->caixa), $dados)
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
@@ -129,7 +129,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 
     $volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora']);
 
-    get(route('cadastro.volumeCaixa.edit', $volume_caixa))
+    get(route('cadastro.volume-caixa.edit', $volume_caixa))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
@@ -145,7 +145,7 @@ test('action edit também é executável com permissão de visualização', func
 
     $volume_caixa = VolumeCaixa::factory()->create();
 
-    get(route('cadastro.volumeCaixa.edit', $volume_caixa))
+    get(route('cadastro.volume-caixa.edit', $volume_caixa))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page->component('Cadastro/VolumeCaixa/Edit')
@@ -162,7 +162,7 @@ test('atualiza um volume da caixa', function () {
         'descricao' => 'foo bar',
     ];
 
-    patch(route('cadastro.volumeCaixa.update', $volume_caixa), $dados)
+    patch(route('cadastro.volume-caixa.update', $volume_caixa), $dados)
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
@@ -178,7 +178,7 @@ test('exclui o volume da caixa informada', function () {
 
     expect(VolumeCaixa::where('id', $id_volume_caixa)->exists())->toBeTrue();
 
-    delete(route('cadastro.volumeCaixa.destroy', $id_volume_caixa))
+    delete(route('cadastro.volume-caixa.destroy', $id_volume_caixa))
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 

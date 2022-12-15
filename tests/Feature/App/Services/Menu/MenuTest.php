@@ -44,7 +44,7 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
     [Permissao::ESTANTE_VIEW_ANY, fn () => __('Cadastro'), 'bookshelf', fn () => route('cadastro.estante.index'), fn () => __('Estantes')],
     [Permissao::PRATELEIRA_VIEW_ANY, fn () => __('Cadastro'), 'list-nested', fn () => route('cadastro.prateleira.index'), fn () => __('Prateleiras')],
     [Permissao::CAIXA_VIEW_ANY, fn () => __('Cadastro'), 'box2', fn () => route('cadastro.caixa.index'), fn () => __('Caixas')],
-    [Permissao::VOLUME_CAIXA_VIEW_ANY, fn () => __('Cadastro'), 'boxes', fn () => route('cadastro.volumeCaixa.index'), fn () => __('Volumes das caixas')],
+    [Permissao::VOLUME_CAIXA_VIEW_ANY, fn () => __('Cadastro'), 'boxes', fn () => route('cadastro.volume-caixa.index'), fn () => __('Volumes das caixas')],
     [Permissao::PROCESSO_VIEW_ANY, fn () => __('Cadastro'), 'journal-bookmark', fn () => route('cadastro.processo.index'), fn () => __('Processos')],
 ]);
 
@@ -92,6 +92,6 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
     ['cadastro.estante.index', 'cadastro.estante.index'],
     ['cadastro.prateleira.index', 'cadastro.prateleira.index'],
     ['cadastro.caixa.index', 'cadastro.caixa.index'],
-    ['cadastro.volumeCaixa.index', 'cadastro.volumeCaixa.index'],
+    ['cadastro.volume-caixa.index', 'cadastro.volume-caixa.index'],
     ['cadastro.processo.index', 'cadastro.processo.index'],
 ]);

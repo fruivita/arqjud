@@ -50,7 +50,7 @@ class CaixaResource extends JsonResource
                     ),
                     'create_volume' => $this->when(
                         $request->user()->can(Policy::Create->value, VolumeCaixa::class),
-                        fn () => route('cadastro.volumeCaixa.create', $this->id),
+                        fn () => route('cadastro.volume-caixa.create', $this->id),
                     ),
                 ],
             ]

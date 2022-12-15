@@ -59,6 +59,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('{solicitacao}', [SolicitacaoExternaController::class, 'destroy'])->name('destroy')->can(Policy::ExternoDelete->value, 'solicitacao');
     });
 
+    Route::prefix('atendimento')->name('atendimento.')->group(function () {
+        Route::prefix('processo')->name('processo.')->group(function () {
+        });
+    });
+
     Route::prefix('cadastro')->name('cadastro.')->group(function () {
         Route::prefix('localidade')->name('localidade.')->group(function () {
             Route::get('/', [LocalidadeController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Localidade::class);
@@ -123,7 +128,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('{caixa}', [CaixaController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'caixa');
         });
 
-        Route::prefix('volumeCaixa')->name('volumeCaixa.')->group(function () {
+        Route::prefix('volume-caixa')->name('volume-caixa.')->group(function () {
             Route::get('/', [VolumeCaixaController::class, 'index'])->name('index')->can(Policy::ViewAny->value, VolumeCaixa::class);
             Route::get('caixa/{caixa}/create', [VolumeCaixaController::class, 'create'])->name('create')->can(Policy::Create->value, VolumeCaixa::class);
             Route::post('caixa/{caixa}/create', [VolumeCaixaController::class, 'store'])->name('store')->can(Policy::Create->value, VolumeCaixa::class);

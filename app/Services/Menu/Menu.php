@@ -170,9 +170,9 @@ final class Menu implements MenuInterface
                 auth()->user()->can(Policy::ViewAny->value, VolumeCaixa::class),
                 fn ($collection) => $collection->push([
                     'icone' => 'boxes',
-                    'href' => route('cadastro.volumeCaixa.index'),
+                    'href' => route('cadastro.volume-caixa.index'),
                     'texto' => __('Volumes das caixas'),
-                    'ativo' => Route::is('cadastro.volumeCaixa.*'),
+                    'ativo' => Route::is('cadastro.volume-caixa.*'),
                 ])
             )
             ->when(

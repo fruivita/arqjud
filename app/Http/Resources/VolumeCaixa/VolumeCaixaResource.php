@@ -32,15 +32,15 @@ class VolumeCaixaResource extends JsonResource
                 'links' => [
                     'view' => $this->when(
                         $request->user()->can(Policy::ViewOrUpdate->value, VolumeCaixa::class),
-                        fn () => route('cadastro.volumeCaixa.edit', $this->id),
+                        fn () => route('cadastro.volume-caixa.edit', $this->id),
                     ),
                     'update' => $this->when(
                         $request->user()->can(Policy::Update->value, VolumeCaixa::class),
-                        fn () => route('cadastro.volumeCaixa.update', $this->id),
+                        fn () => route('cadastro.volume-caixa.update', $this->id),
                     ),
                     'delete' => $this->when(
                         $request->user()->can(Policy::Delete->value, $this->resource),
-                        fn () => route('cadastro.volumeCaixa.destroy', $this->id),
+                        fn () => route('cadastro.volume-caixa.destroy', $this->id),
                     ),
                     'create_processo' => $this->when(
                         $request->user()->can(Policy::Create->value, Processo::class),
