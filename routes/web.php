@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('solicitacao')->name('solicitacao.')->group(function () {
         Route::get('/', [SolicitacaoExternaController::class, 'index'])->name('index')->can(Policy::ExternoViewAny->value, Solicitacao::class);
         Route::get('create', [SolicitacaoExternaController::class, 'create'])->name('create')->can(Policy::ExternoCreate->value, Solicitacao::class);
-        Route::post('create', [SolicitacaoExternaController::class, 'store'])->name('store')->can(Policy::ExternoCreate->value, Solicitacao::class);
+        Route::post('/', [SolicitacaoExternaController::class, 'store'])->name('store')->can(Policy::ExternoCreate->value, Solicitacao::class);
         Route::delete('{solicitacao}', [SolicitacaoExternaController::class, 'destroy'])->name('destroy')->can(Policy::ExternoDelete->value, 'solicitacao');
     });
 
