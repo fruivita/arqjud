@@ -47,6 +47,6 @@ test('pipe NotificarOperadoresSolicitacao envia o job para a querue de prioridad
         ->through([NotificarOperadoresSolicitacao::class])
         ->thenReturn();
 
-    Queue::assertPushedOn(EnumsQueue::Baixa->value, JobNotificarOperadoresSolicitacao::class);
+    Queue::assertPushedOn(EnumsQueue::Media->value, JobNotificarOperadoresSolicitacao::class);
     Queue::assertPushed(JobNotificarOperadoresSolicitacao::class, 1);
 });

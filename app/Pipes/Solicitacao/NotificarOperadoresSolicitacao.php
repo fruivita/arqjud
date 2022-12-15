@@ -20,7 +20,7 @@ class NotificarOperadoresSolicitacao
      */
     public function handle(\stdClass $solicitacao, \Closure $next)
     {
-        JobNotificarOperadoresSolicitacao::dispatch($solicitacao)->onQueue(Queue::Baixa->value);
+        JobNotificarOperadoresSolicitacao::dispatch($solicitacao)->onQueue(Queue::Media->value);
 
         return $next($solicitacao);
     }
