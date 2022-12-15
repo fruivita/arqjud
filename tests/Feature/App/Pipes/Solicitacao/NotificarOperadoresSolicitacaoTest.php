@@ -35,7 +35,7 @@ test('pipe NotificarOperadoresSolicitacao cria o job NotificarOperadoresSolicita
         ->through([NotificarOperadoresSolicitacao::class])
         ->thenReturn();
 
-    Bus::assertNotDispatchedSync(JobNotificarOperadoresSolicitacao::class, 1);
+    Bus::assertNotDispatchedSync(JobNotificarOperadoresSolicitacao::class, 1); // @phpstan-ignore-line
 });
 
 test('pipe NotificarOperadoresSolicitacao envia o job para a querue de prioridade baixa', function () {

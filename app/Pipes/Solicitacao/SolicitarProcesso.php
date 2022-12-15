@@ -13,7 +13,7 @@ class SolicitarProcesso
     /**
      * Cria por pipe a solicitação dos processos
      *
-     * @param  \stdClass  $query
+     * @param  \stdClass  $solicitacao
      * @param  \Closure  $next
      * @return \stdClass
      */
