@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
+ * @see https://www.aaronsaray.com/2022/be-careful-with-prepareforvalidation
  */
 class ShowProcessoDisponivelRequest extends FormRequest
 {
@@ -63,8 +64,12 @@ class ShowProcessoDisponivelRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->merge([
-            'numero' => apenasNumeros($this->numero),
-        ]);
+        $merge = [];
+
+        if ($this->has('numero')) {
+            $merge['numero'] = apenasNumeros($this->get('numero'));
+        }
+
+        $this->merge($merge);
     }
 }

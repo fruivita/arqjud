@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
+ * @see https://www.aaronsaray.com/2022/be-careful-with-prepareforvalidation
  */
 class StoreSolicitacaoRequest extends FormRequest
 {
@@ -64,7 +65,7 @@ class StoreSolicitacaoRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $merge = collect($this->processos)
+        $merge = collect($this->get('processos'))
             ->map(function ($item) {
                 return ['numero' => apenasNumeros(Arr::get($item, 'numero'))];
             })->toArray();

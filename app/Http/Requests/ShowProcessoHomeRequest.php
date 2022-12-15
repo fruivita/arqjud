@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
+ * @see https://www.aaronsaray.com/2022/be-careful-with-prepareforvalidation
  */
 class ShowProcessoHomeRequest extends FormRequest
 {
@@ -59,8 +60,12 @@ class ShowProcessoHomeRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->merge([
-            'termo' => apenasNumeros($this->termo),
-        ]);
+        $merge = [];
+
+        if ($this->has('termo')) {
+            $merge['termo'] = apenasNumeros($this->get('termo'));
+        }
+
+        $this->merge($merge);
     }
 }

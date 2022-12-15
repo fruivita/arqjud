@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
+ * @see https://www.aaronsaray.com/2022/be-careful-with-prepareforvalidation
  */
 class StoreProcessoRequest extends FormRequest
 {
@@ -106,10 +107,18 @@ class StoreProcessoRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->merge([
-            'processo_pai_numero' => apenasNumeros($this->processo_pai_numero),
-            'numero' => apenasNumeros($this->numero),
-            'numero_antigo' => apenasNumeros($this->numero_antigo),
-        ]);
+        $merge = [];
+
+        if ($this->has('processo_pai_numero')) {
+            $merge['processo_pai_numero'] = apenasNumeros($this->get('processo_pai_numero'));
+        }
+        if ($this->has('numero')) {
+            $merge['numero'] = apenasNumeros($this->get('numero'));
+        }
+        if ($this->has('numero_antigo')) {
+            $merge['numero_antigo'] = apenasNumeros($this->get('numero_antigo'));
+        }
+
+        $this->merge($merge);
     }
 }
