@@ -91,7 +91,7 @@ class ProcessoController extends Controller
 
         $request->whenFilled(
             'processo_pai_numero',
-            fn (string $input) => $processo->processo_pai_id = Processo::firstWhere('numero', $input)->id,
+            fn (string $input) => $processo->processo_pai_id = Processo::where('numero', $input)->firstOrFail()->id,
             fn () => $processo->processo_pai_id = null
         );
 
@@ -141,7 +141,7 @@ class ProcessoController extends Controller
 
         $request->whenFilled(
             'processo_pai_numero',
-            fn (string $input) => $processo->processo_pai_id = Processo::firstWhere('numero', $input)->id,
+            fn (string $input) => $processo->processo_pai_id = Processo::where('numero', $input)->firstOrFail()->id,
             fn () => $processo->processo_pai_id = null
         );
 

@@ -25,7 +25,7 @@ class ProcessoDisponivelController extends Controller
     {
         return response()->json([
             'processo' => ProcessoOnlyResource::make(
-                Processo::firstWhere('numero', $request->input('numero'))
+                Processo::where('numero', $request->input('numero'))->firstOrFail()
             ),
         ]);
     }
