@@ -45,6 +45,10 @@ final class Menu implements MenuInterface
                 $this->linksGrupoCadastro(),
                 fn ($collection, $links) => $collection->push(['nome' => __('Cadastro'), 'links' => $links])
             )
+            ->when(
+                $this->linksGrupoMovimentacao(),
+                fn ($collection, $links) => $collection->push(['nome' => __('Movimentação'), 'links' => $links])
+            )
             ->toArray();
     }
 
@@ -182,6 +186,35 @@ final class Menu implements MenuInterface
                     'href' => route('cadastro.processo.index'),
                     'texto' => __('Processos'),
                     'ativo' => Route::is('cadastro.processo.*'),
+                ])
+            )
+            ->toArray();
+    }
+
+    /**
+     * Todas os links do menu do grupo movimentação autorizados para o usuário
+     * autenticado.
+     *
+     * Ex.:
+     * [
+     *      'icone' => 'person',
+     *      'href' => 'http://exemplo.com/algo',
+     *      'texto' => 'Pessoas',
+     *      'ativo' => false/true,
+     * ]
+     *
+     * @return array
+     */
+    private function linksGrupoMovimentacao()
+    {
+        return collect()
+            ->when(
+                auth()->user()->can(Policy::MoverProcessoCreate->value),
+                fn ($collection) => $collection->push([
+                    'icone' => 'boxes',
+                    'href' => route('movimentacao.entre-caixas.create'),
+                    'texto' => __('Entre caixas'),
+                    'ativo' => Route::is('movimentacao.entre-caixas.*'),
                 ])
             )
             ->toArray();
