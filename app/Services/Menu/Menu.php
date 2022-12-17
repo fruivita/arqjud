@@ -39,15 +39,15 @@ final class Menu implements MenuInterface
         return collect()
             ->when(
                 $this->linksGrupoSolicitacao(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Solicitação de processo'), 'links' => $links])
+                fn ($collection, $links) => $collection->push(['nome' => __('Solicitações de processos'), 'links' => $links])
             )
             ->when(
                 $this->linksGrupoCadastro(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Cadastro'), 'links' => $links])
+                fn ($collection, $links) => $collection->push(['nome' => __('Cadastros'), 'links' => $links])
             )
             ->when(
                 $this->linksGrupoMovimentacao(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Movimentação'), 'links' => $links])
+                fn ($collection, $links) => $collection->push(['nome' => __('Movimentações'), 'links' => $links])
             )
             ->toArray();
     }
