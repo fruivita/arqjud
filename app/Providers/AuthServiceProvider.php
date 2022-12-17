@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Enums\Policy;
+use App\Policies\MoverProcessoPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 
@@ -32,7 +34,18 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+        $this->registrarGates();
         $this->registrarAutenticacao();
+    }
+
+    /**
+     * Registra todos os gates de verificação.
+     *
+     * @return void
+     */
+    private function registrarGates()
+    {
+        Gate::define(Policy::MoverProcessoCreate->value, [MoverProcessoPolicy::class, Policy::Create->value]);
     }
 
     /**
