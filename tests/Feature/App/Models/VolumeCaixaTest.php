@@ -10,6 +10,7 @@ use App\Models\Estante;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\Predio;
+use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\VolumeCaixa;
 use App\Pipes\VolumeCaixa\JoinLocalidade;
@@ -279,4 +280,32 @@ test('retorna os volumes das caixa pelo escopo search que busca a partir do iní
     ['', 5],
     ['aaaa', 2],
     ['bbbb', 3],
+]);
+
+test('moverProcessos move os processos informados para determinado volume da caixa e altera o status de guarda dos processos para o status da caixa pai', function (bool $gp) {
+    $caixa = Caixa::factory()->create(['guarda_permanente' => $gp]);
+    $volume = VolumeCaixa::factory()->for($caixa, 'caixa')->create();
+    $processo_1 = Processo::factory()->create(['guarda_permanente' => $gp]);
+    $processo_2 = Processo::factory()->create(['guarda_permanente' => !$gp]);
+    $processo_3 = Processo::factory()->create(['guarda_permanente' => !$gp]);
+
+    $afetados = $volume->moverProcessos([
+        apenasNumeros($processo_1->numero),
+        apenasNumeros($processo_2->numero),
+    ]);
+
+    $processo_1->refresh();
+    $processo_2->refresh();
+    $processo_3->refresh();
+
+    expect($afetados)->toBe(2)
+        ->and($processo_1->volume_caixa_id)->toBe($volume->id)
+        ->and($processo_1->guarda_permanente)->toBe($gp)
+        ->and($processo_2->volume_caixa_id)->toBe($volume->id)
+        ->and($processo_1->guarda_permanente)->toBe($gp)
+        ->and($processo_3->volume_caixa_id)->not->toBe($volume->id)
+        ->and($processo_3->guarda_permanente)->toBe(!$gp);
+})->with([
+    true,
+    false,
 ]);

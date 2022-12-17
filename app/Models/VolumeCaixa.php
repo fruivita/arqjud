@@ -72,4 +72,25 @@ class VolumeCaixa extends Model
                 ->orWhere('volumes_caixa.numero', 'like', $termo);
         });
     }
+
+    /**
+     * Move os processos informados para o volume da caixa instanciado.
+     *
+     * Todos os processos movidos assumirão o status de guarda permanente
+     * definido na caixa de destino.
+     *
+     * @param  string[]  $numeros número dos processos
+     * @return int quantidade de registros afetados ou falso boolean zero se
+     * não houver nenhuma alteração.
+     */
+    public function moverProcessos(array $numeros)
+    {
+        $this->loadMissing('caixa');
+
+        return Processo::whereIn('numero', $numeros)
+            ->update([
+                'guarda_permanente' => $this->caixa->guarda_permanente,
+                'volume_caixa_id' => $this->id,
+            ]);
+    }
 }
