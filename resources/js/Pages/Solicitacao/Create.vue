@@ -38,16 +38,18 @@ const status = useStatusRequisicaoStore();
 
 const formProcesso = useForm({ numero: '' });
 
-const formSolicitacao = useForm({
+const formSolicitarProcessos = useForm({
     processos: [],
 });
 
 // exibe todos os processos ou apenas alguns (últimos X adicionados)
 const exibirTodos = ref(false);
 
-// processos em exibição na view de acordo com a prp exibirTodos
+// processos em exibição na view de acordo com o valor de exibirTodos
 const processos = computed(() =>
-    exibirTodos.value ? formSolicitacao.processos : slice(formSolicitacao.processos, 0, 3)
+    exibirTodos.value
+        ? formSolicitarProcessos.processos
+        : slice(formSolicitarProcessos.processos, 0, 3)
 );
 
 const addProcesso = async () => {
@@ -66,7 +68,7 @@ const addProcesso = async () => {
     status.setStatus(true);
     formProcesso.clearErrors();
 
-    if (find(formSolicitacao.processos, { numero: formProcesso.numero })) {
+    if (find(formSolicitarProcessos.processos, { numero: formProcesso.numero })) {
         formProcesso.setError('numero', __('Processo já informado.'));
 
         status.setStatus(false);
@@ -77,7 +79,7 @@ const addProcesso = async () => {
     await axios
         .post(props.links.search, formProcesso)
         .then(function (resposta) {
-            formSolicitacao.processos.unshift(pick(resposta.data.processo, ['numero']));
+            formSolicitarProcessos.processos.unshift(pick(resposta.data.processo, ['numero']));
             formProcesso.reset();
         })
         .catch(function (erro) {
@@ -99,13 +101,13 @@ const addProcesso = async () => {
 };
 
 const removeProcesso = (numero) => {
-    remove(formSolicitacao.processos, (p) => p.numero == numero);
+    remove(formSolicitarProcessos.processos, (p) => p.numero == numero);
 };
 
 const solicitarProcessos = () => {
-    formSolicitacao.clearErrors();
+    formSolicitarProcessos.clearErrors();
 
-    formSolicitacao.post(props.links.store, {
+    formSolicitarProcessos.post(props.links.store, {
         preserveScroll: true,
         onSuccess: () => {
             viewReset();
@@ -116,7 +118,7 @@ const solicitarProcessos = () => {
 
 const viewReset = () => {
     formProcesso.reset();
-    formSolicitacao.reset();
+    formSolicitarProcessos.reset();
     exibirTodos.value = false;
 };
 </script>
@@ -156,7 +158,7 @@ const viewReset = () => {
                     <Heading
                         :texto="
                             __('Processos que serão solicitados: :attribute', {
-                                attribute: formSolicitacao.processos.length,
+                                attribute: formSolicitarProcessos.processos.length,
                             })
                         "
                     />
@@ -167,7 +169,9 @@ const viewReset = () => {
                 <template #body>
                     <template v-if="processos.length">
                         <Row v-for="(processo, indice) in processos" :key="processo.numero">
-                            <Cell :erro="formSolicitacao.errors[`processos.${indice}.numero`]">
+                            <Cell
+                                :erro="formSolicitarProcessos.errors[`processos.${indice}.numero`]"
+                            >
                                 {{ processo.numero }}
                             </Cell>
 
@@ -191,7 +195,7 @@ const viewReset = () => {
 
             <div class="mt-3 flex justify-end space-x-3">
                 <button
-                    v-show="formSolicitacao.processos.length > 3"
+                    v-show="formSolicitarProcessos.processos.length > 3"
                     @click="exibirTodos = !exibirTodos"
                     class="hover:underline focus:underline"
                 >
@@ -201,7 +205,7 @@ const viewReset = () => {
                 </button>
 
                 <ButtonText
-                    v-show="formSolicitacao.processos.length >= 1"
+                    v-show="formSolicitarProcessos.processos.length >= 1"
                     :texto="__('Solicitar processo')"
                     @click="solicitarProcessos"
                     dusk="submit"
