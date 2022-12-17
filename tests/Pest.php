@@ -7,6 +7,7 @@ use App\Models\Processo;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
 use App\Models\VolumeCaixa;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use JMac\Testing\Traits\AdditionalAssertions;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
@@ -260,4 +261,15 @@ function volumeApi(VolumeCaixa $volume)
         'descricao' => $volume->descricao,
         'caixa_id' => $volume->caixa_id,
     ];
+}
+
+/**
+ * @param  \Illuminate\Database\Eloquent\Collection
+ * @return array<string, mixed>
+ */
+function volumesApi(Collection $volumes)
+{
+    return $volumes
+        ->map(fn (VolumeCaixa $volume) => volumeApi($volume))
+        ->toArray();
 }
