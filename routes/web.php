@@ -11,6 +11,7 @@ use App\Http\Controllers\Cadastro\Processo\ProcessoController;
 use App\Http\Controllers\Cadastro\Sala\SalaController;
 use App\Http\Controllers\Cadastro\VolumeCaixa\VolumeCaixaController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Movimentacao\MoveProcessoEntreCaixaController;
 use App\Http\Controllers\Solicitacao\SolicitacaoController as SolicitacaoExternaController;
 use App\Models\Andar;
 use App\Models\Caixa;
@@ -61,6 +62,13 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('atendimento')->name('atendimento.')->group(function () {
         Route::prefix('processo')->name('processo.')->group(function () {
+        });
+    });
+
+    Route::prefix('movimentacao')->name('movimentacao.')->group(function () {
+        Route::prefix('entre-caixas')->name('entre-caixas.')->group(function () {
+            Route::get('create', [MoveProcessoEntreCaixaController::class, 'create'])->name('create')->can(Policy::MoverProcessoCreate->value);
+            Route::post('/', [MoveProcessoEntreCaixaController::class, 'store'])->name('store')->can(Policy::MoverProcessoCreate->value);
         });
     });
 
