@@ -6,6 +6,7 @@ use App\Enums\Policy;
 use App\Models\Andar;
 use App\Models\Caixa;
 use App\Models\Estante;
+use App\Models\Guia;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\Predio;
@@ -49,11 +50,15 @@ final class Menu implements MenuInterface
                 $this->linksGrupoMovimentacao(),
                 fn ($collection, $links) => $collection->push(['nome' => __('Movimentações'), 'links' => $links])
             )
+            ->when(
+                $this->linksGrupoAtendimento(),
+                fn ($collection, $links) => $collection->push(['nome' => __('Atendimentos'), 'links' => $links])
+            )
             ->toArray();
     }
 
     /**
-     * Todas os links do menu do grupo solicitação autorizados para o usuário
+     * Todas os links do menu do grupo solicitações autorizados para o usuário
      * autenticado.
      *
      * Ex.:
@@ -91,7 +96,7 @@ final class Menu implements MenuInterface
     }
 
     /**
-     * Todas os links do menu do grupo cadastro autorizados para o usuário
+     * Todas os links do menu do grupo cadastros autorizados para o usuário
      * autenticado.
      *
      * Ex.:
@@ -192,7 +197,7 @@ final class Menu implements MenuInterface
     }
 
     /**
-     * Todas os links do menu do grupo movimentação autorizados para o usuário
+     * Todas os links do menu do grupo movimentações autorizados para o usuário
      * autenticado.
      *
      * Ex.:
@@ -215,6 +220,35 @@ final class Menu implements MenuInterface
                     'href' => route('movimentacao.entre-caixas.create'),
                     'texto' => __('Entre caixas'),
                     'ativo' => Route::is('movimentacao.entre-caixas.*'),
+                ])
+            )
+            ->toArray();
+    }
+
+    /**
+     * Todas os links do menu do grupo atendimentos autorizados para o usuário
+     * autenticado.
+     *
+     * Ex.:
+     * [
+     *      'icone' => 'person',
+     *      'href' => 'http://exemplo.com/algo',
+     *      'texto' => 'Pessoas',
+     *      'ativo' => false/true,
+     * ]
+     *
+     * @return array
+     */
+    private function linksGrupoAtendimento()
+    {
+        return collect()
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Guia::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'files',
+                    'href' => route('atendimento.guia.index'),
+                    'texto' => __('Guias'),
+                    'ativo' => Route::is('atendimento.guia.*'),
                 ])
             )
             ->toArray();
