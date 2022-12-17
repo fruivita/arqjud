@@ -8,7 +8,7 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
-import { mascaraCNJ } from '@/keys.js';
+import { mascaraCNJ, maxViewItems } from '@/keys.js';
 import Lotacao from '@/Models/Lotacao';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
@@ -49,7 +49,7 @@ const exibirTodos = ref(false);
 const processos = computed(() =>
     exibirTodos.value
         ? formSolicitarProcessos.processos
-        : slice(formSolicitarProcessos.processos, 0, 3)
+        : slice(formSolicitarProcessos.processos, 0, maxViewItems)
 );
 
 const addProcesso = async () => {
@@ -195,7 +195,7 @@ const viewReset = () => {
 
             <div class="mt-3 flex justify-end space-x-3">
                 <button
-                    v-show="formSolicitarProcessos.processos.length > 3"
+                    v-show="formSolicitarProcessos.processos.length > maxViewItems"
                     @click="exibirTodos = !exibirTodos"
                     class="hover:underline focus:underline"
                 >

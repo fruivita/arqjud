@@ -9,3 +9,4 @@ export const updatePerPageKey = Symbol();
 export const exibirModalKey = Symbol();
 export const fecharModalKey = Symbol();
 export const mascaraCNJ = '#######-##.####.#.##.####';
+export const maxViewItems = 3;

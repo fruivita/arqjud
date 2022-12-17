@@ -8,7 +8,7 @@
 
 <script setup>
 import { flash } from '@/Composables/useFlash';
-import { mascaraCNJ } from '@/keys.js';
+import { mascaraCNJ, maxViewItems } from '@/keys.js';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
@@ -64,7 +64,9 @@ const exibirTodos = ref(false);
 
 // processos em exibição na view de acordo com o valor de exibirTodos
 const processos = computed(() =>
-    exibirTodos.value ? formMoverProcessos.processos : slice(formMoverProcessos.processos, 0, 3)
+    exibirTodos.value
+        ? formMoverProcessos.processos
+        : slice(formMoverProcessos.processos, 0, maxViewItems)
 );
 
 const addProcesso = async () => {
@@ -253,7 +255,7 @@ const viewReset = () => {
             </Tabela>
 
             <button
-                v-show="formMoverProcessos.processos.length > 3"
+                v-show="formMoverProcessos.processos.length > maxViewItems"
                 @click="exibirTodos = !exibirTodos"
                 class="p-3 hover:underline focus:underline"
             >
