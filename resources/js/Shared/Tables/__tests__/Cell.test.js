@@ -22,7 +22,7 @@ describe('Cell', () => {
     test('propriedades estão definidas', () => {
         expect(Cell.props).toMatchObject({
             erro: { type: String, default: '' },
-            tooltip: { type: String },
+            tooltip: { type: [Array, String] },
         });
     });
 
