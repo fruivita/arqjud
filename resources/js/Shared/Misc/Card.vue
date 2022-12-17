@@ -9,7 +9,7 @@
 <script setup>
 const props = defineProps({
     titulo: { type: String, required: true },
-    texto: { type: String, required: true },
+    texto: { type: [Number, String], required: true },
     especie: {
         type: String,
         default: 'info',

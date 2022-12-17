@@ -33,7 +33,7 @@ describe('Card', () => {
         expect(Card.props).toMatchObject({
             titulo: { type: String, required: true },
             especie: { type: String, default: 'info' },
-            texto: { type: String, required: true },
+            texto: { type: [Number, String], required: true },
         });
     });
 
