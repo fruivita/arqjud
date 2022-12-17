@@ -270,6 +270,6 @@ function volumeApi(VolumeCaixa $volume)
 function volumesApi(Collection $volumes)
 {
     return $volumes
-        ->map(fn (VolumeCaixa $volume) => $volume) // @phpstan-ignore-line
+        ->map(fn (VolumeCaixa $volume) => volumeApi($volume)) // @phpstan-ignore-line
         ->toArray();
 }
