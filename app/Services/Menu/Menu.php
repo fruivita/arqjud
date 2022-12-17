@@ -39,20 +39,49 @@ final class Menu implements MenuInterface
     {
         return collect()
             ->when(
-                $this->linksGrupoSolicitacao(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Solicitações de processos'), 'links' => $links])
+                $this->linksGrupoAtendimento(),
+                fn ($collection, $links) => $collection->push(['nome' => __('Atendimentos'), 'links' => $links])
             )
             ->when(
-                $this->linksGrupoCadastro(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Cadastros'), 'links' => $links])
+                $this->linksGrupoSolicitacao(),
+                fn ($collection, $links) => $collection->push(['nome' => __('Solicitações de processos'), 'links' => $links])
             )
             ->when(
                 $this->linksGrupoMovimentacao(),
                 fn ($collection, $links) => $collection->push(['nome' => __('Movimentações'), 'links' => $links])
             )
             ->when(
-                $this->linksGrupoAtendimento(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Atendimentos'), 'links' => $links])
+                $this->linksGrupoCadastro(),
+                fn ($collection, $links) => $collection->push(['nome' => __('Cadastros'), 'links' => $links])
+            )
+            ->toArray();
+    }
+
+    /**
+     * Todas os links do menu do grupo atendimentos autorizados para o usuário
+     * autenticado.
+     *
+     * Ex.:
+     * [
+     *      'icone' => 'person',
+     *      'href' => 'http://exemplo.com/algo',
+     *      'texto' => 'Pessoas',
+     *      'ativo' => false/true,
+     * ]
+     *
+     * @return array
+     */
+    private function linksGrupoAtendimento()
+    {
+        return collect()
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Guia::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'files',
+                    'href' => route('atendimento.guia.index'),
+                    'texto' => __('Guias'),
+                    'ativo' => Route::is('atendimento.guia.*'),
+                ])
             )
             ->toArray();
     }
@@ -90,6 +119,35 @@ final class Menu implements MenuInterface
                     'href' => route('solicitacao.index'),
                     'texto' => __('Solicitações'),
                     'ativo' => Route::is('solicitacao.index'),
+                ])
+            )
+            ->toArray();
+    }
+
+    /**
+     * Todas os links do menu do grupo movimentações autorizados para o usuário
+     * autenticado.
+     *
+     * Ex.:
+     * [
+     *      'icone' => 'person',
+     *      'href' => 'http://exemplo.com/algo',
+     *      'texto' => 'Pessoas',
+     *      'ativo' => false/true,
+     * ]
+     *
+     * @return array
+     */
+    private function linksGrupoMovimentacao()
+    {
+        return collect()
+            ->when(
+                auth()->user()->can(Policy::MoverProcessoCreate->value),
+                fn ($collection) => $collection->push([
+                    'icone' => 'boxes',
+                    'href' => route('movimentacao.entre-caixas.create'),
+                    'texto' => __('Entre caixas'),
+                    'ativo' => Route::is('movimentacao.entre-caixas.*'),
                 ])
             )
             ->toArray();
@@ -191,64 +249,6 @@ final class Menu implements MenuInterface
                     'href' => route('cadastro.processo.index'),
                     'texto' => __('Processos'),
                     'ativo' => Route::is('cadastro.processo.*'),
-                ])
-            )
-            ->toArray();
-    }
-
-    /**
-     * Todas os links do menu do grupo movimentações autorizados para o usuário
-     * autenticado.
-     *
-     * Ex.:
-     * [
-     *      'icone' => 'person',
-     *      'href' => 'http://exemplo.com/algo',
-     *      'texto' => 'Pessoas',
-     *      'ativo' => false/true,
-     * ]
-     *
-     * @return array
-     */
-    private function linksGrupoMovimentacao()
-    {
-        return collect()
-            ->when(
-                auth()->user()->can(Policy::MoverProcessoCreate->value),
-                fn ($collection) => $collection->push([
-                    'icone' => 'boxes',
-                    'href' => route('movimentacao.entre-caixas.create'),
-                    'texto' => __('Entre caixas'),
-                    'ativo' => Route::is('movimentacao.entre-caixas.*'),
-                ])
-            )
-            ->toArray();
-    }
-
-    /**
-     * Todas os links do menu do grupo atendimentos autorizados para o usuário
-     * autenticado.
-     *
-     * Ex.:
-     * [
-     *      'icone' => 'person',
-     *      'href' => 'http://exemplo.com/algo',
-     *      'texto' => 'Pessoas',
-     *      'ativo' => false/true,
-     * ]
-     *
-     * @return array
-     */
-    private function linksGrupoAtendimento()
-    {
-        return collect()
-            ->when(
-                auth()->user()->can(Policy::ViewAny->value, Guia::class),
-                fn ($collection) => $collection->push([
-                    'icone' => 'files',
-                    'href' => route('atendimento.guia.index'),
-                    'texto' => __('Guias'),
-                    'ativo' => Route::is('atendimento.guia.*'),
                 ])
             )
             ->toArray();
