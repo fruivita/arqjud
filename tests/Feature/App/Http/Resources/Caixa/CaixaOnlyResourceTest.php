@@ -9,6 +9,7 @@ use App\Http\Resources\Caixa\CaixaOnlyResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraOnlyResource;
 use App\Models\Caixa;
+use App\Models\VolumeCaixa;
 
 beforeEach(function () {
     $this->caixa = Caixa::factory()->create();
@@ -28,6 +29,17 @@ test('retorna a prateleira pai e localidade criadora se houver o eager load da p
         'data' => caixaApi($this->caixa)
             + ['prateleira' => PrateleiraOnlyResource::make($this->caixa->prateleira)->resolve()]
             + ['localidade_criadora' => LocalidadeOnlyResource::make($this->caixa->localidadeCriadora)->resolve()],
+    ]);
+});
+
+test('retorna os modelos filhos se houver o eager load da propriedade', function () {
+    VolumeCaixa::factory(2)->for($this->caixa, 'caixa')->create();
+
+    $resource = CaixaOnlyResource::make($this->caixa->load('volumes'));
+
+    expect($resource->response()->getData(true))->toBe([
+        'data' => caixaApi($this->caixa)
+            + ['volumes' => volumesApi($this->caixa->volumes)],
     ]);
 });
 
