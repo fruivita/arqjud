@@ -20,7 +20,7 @@ class ProcessoController extends Controller
         return [
             'processo' => ProcessoOnlyResource::make(
                 Processo::where('numero', $request->input('numero'))->firstOrFail()
-            )
+            ),
         ];
     }
 }
