@@ -17,7 +17,7 @@ class CaixaController extends Controller
      */
     public function show(ShowCaixaRequest $request)
     {
-        return [
+        return response()->json([
             'caixa' => CaixaOnlyResource::make(
                 Caixa::with('volumes')
                     ->where('numero', $request->integer('numero'))
@@ -35,6 +35,6 @@ class CaixaController extends Controller
                     )
                     ->firstOrFail()
             ),
-        ];
+        ]);
     }
 }

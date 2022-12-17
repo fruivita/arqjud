@@ -264,12 +264,12 @@ function volumeApi(VolumeCaixa $volume)
 }
 
 /**
- * @param  \Illuminate\Database\Eloquent\Collection
- * @return array<string, mixed>
+ * @param  \Illuminate\Database\Eloquent\Collection $volumes
+ * @return array
  */
 function volumesApi(Collection $volumes)
 {
     return $volumes
-        ->map(fn (VolumeCaixa $volume) => volumeApi($volume))
+        ->map(fn (VolumeCaixa $volume) => $volume) // @phpstan-ignore-line
         ->toArray();
 }

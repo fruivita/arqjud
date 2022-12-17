@@ -17,10 +17,10 @@ class ProcessoController extends Controller
      */
     public function show(ShowProcessoRequest $request)
     {
-        return [
+        return response()->json([
             'processo' => ProcessoOnlyResource::make(
                 Processo::where('numero', $request->input('numero'))->firstOrFail()
             ),
-        ];
+        ]);
     }
 }
