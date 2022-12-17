@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Caixa;
+use App\Models\Guia;
 use App\Models\Lotacao;
 use App\Models\Permissao;
 use App\Models\Processo;
@@ -272,4 +273,35 @@ function volumesApi(Collection $volumes)
     return $volumes
         ->map(fn (VolumeCaixa $volume) => volumeApi($volume)) // @phpstan-ignore-line
         ->toArray();
+}
+
+/**
+ * @param  \App\Models\VolumeCaixa  $guia
+ * @return array
+ */
+function guiaApi(Guia $guia)
+{
+    return [
+        'id' => $guia->id,
+        'numero' => $guia->numero,
+        'ano' => $guia->ano,
+        'gerada_em' => $guia->gerada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+        'remetente' => [
+            'username' => $guia->remetente['username'],
+            'nome' => $guia->remetente['nome'],
+        ],
+        'recebedor' => [
+            'username' => $guia->recebedor['username'],
+            'nome' => $guia->recebedor['nome'],
+        ],
+        'lotacao_destinataria' => [
+            'sigla' => str($guia->lotacao_destinataria['sigla'])->upper()->toString(),
+            'nome' => $guia->lotacao_destinataria['nome'],
+        ],
+        'processos' => $guia->processos->transform(function ($processo) {
+            $processo['numero'] = mascara($processo['numero'], Processo::MASCARA_CNJ);
+
+            return $processo;
+        })->toArray(),
+    ];
 }
