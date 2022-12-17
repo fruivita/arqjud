@@ -264,7 +264,7 @@ function volumeApi(VolumeCaixa $volume)
 }
 
 /**
- * @param  \Illuminate\Database\Eloquent\Collection $volumes
+ * @param  \Illuminate\Database\Eloquent\Collection  $volumes
  * @return array
  */
 function volumesApi(Collection $volumes)
