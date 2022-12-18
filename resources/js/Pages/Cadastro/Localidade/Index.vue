@@ -9,6 +9,7 @@
     @see https://inertiajs.com/
     @see https://www.thisdot.co/blog/provide-inject-api-with-vue-3
  -->
+
 <script setup>
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
 import { useExclusao } from '@/Composables/UseExclusao';
@@ -93,13 +94,13 @@ watch(perPage, filtrar);
         <Container class="space-y-3">
             <div
                 :class="{
-                    'md:justify-between': localidades.links?.create,
-                    'md:justify-end': !localidades.links?.create,
+                    'md:justify-between': localidades.links.create,
+                    'md:justify-end': !localidades.links.create,
                 }"
                 class="flex flex-col space-y-3 md:flex-row md:items-start"
             >
                 <InertiaButtonLink
-                    v-if="localidades.links?.create"
+                    v-if="localidades.links.create"
                     :href="localidades.links.create"
                     :texto="__('Nova localidade')"
                     icone="plus-circle"
