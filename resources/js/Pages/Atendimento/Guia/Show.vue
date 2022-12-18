@@ -9,6 +9,7 @@
 <script setup>
 import { mascaraCNJ } from '@/keys.js';
 import Lotacao from '@/Models/Lotacao.js';
+import Usuario from '@/Models/Usuario.js';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
 import LinkButtonText from '@/Shared/Links/LinkButtonText.vue';
@@ -47,19 +48,19 @@ const __ = useTranslationsStore().__;
 
                     <ChaveValor
                         :chave="__('Solicitante')"
-                        :valor="guia.data.solicitante.nome ?? guia.data.solicitante.username"
+                        :valor="new Usuario(guia.data.solicitante).nomeExibicao()"
                         icone="person"
                     />
 
                     <ChaveValor
                         :chave="__('Remetente')"
-                        :valor="guia.data.remetente.nome ?? guia.data.remetente.username"
+                        :valor="new Usuario(guia.data.remetente).nomeExibicao()"
                         icone="person"
                     />
 
                     <ChaveValor
                         :chave="__('Recebedor')"
-                        :valor="guia.data.recebedor.nome ?? guia.data.recebedor.username"
+                        :valor="new Usuario(guia.data.recebedor).nomeExibicao()"
                         icone="person"
                     />
 
