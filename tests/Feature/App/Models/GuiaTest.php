@@ -5,8 +5,10 @@
  */
 
 use App\Models\Guia;
+use App\Pipes\Search;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
 test('lança exception ao tentar criar guias duplicadas, isto é, com mesmo ano e número', function () {
@@ -67,3 +69,22 @@ test('gera o próximo número da guia (MAX + 1) de acordo com o ano informado', 
         ->and(Guia::proximoNumero())->toBe(201)
         ->and(Guia::proximoNumero(2000))->toBe(1);
 });
+
+test('retorna as guias pelo escopo search que busca a partir do início do texto no número e no ano', function (string $termo, int $quantidade) {
+    Guia::factory()->create(['numero' => 99999999, 'ano' => 55555]);
+    Guia::factory()->create(['numero' => 77778888, 'ano' => 44444]);
+    Guia::factory()->create(['numero' => 77777777, 'ano' => 33333]);
+    Guia::factory()->create(['numero' => 66666666, 'ano' => 33332]);
+
+    $query = Pipeline::make()
+        ->send(Guia::query())
+        ->through([Search::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 4],
+    [99999, 1],
+    [3333, 2],
+    [777888, 0],
+]);

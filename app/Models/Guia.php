@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,5 +52,23 @@ class Guia extends Model
     public static function proximoNumero(int $ano = null)
     {
         return intval(Guia::where('ano', $ano ?? now()->year)->max('numero')) + 1;
+    }
+
+    /**
+     * Pesquisa utilizando o termo informado com o operador like no seguinte
+     * formato: `termo%`
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $termo
+     * @return void
+     */
+    public function scopeSearch(Builder $query, string $termo = null)
+    {
+        $termo = "{$termo}%";
+
+        $query->where(function (Builder $query) use ($termo) {
+            $query->where('numero', 'like', $termo)
+                ->orWhere('ano', 'like', $termo);
+        });
     }
 }
