@@ -72,7 +72,7 @@ test('usuário com permissão consegue gerar a guia em PDF', function () {
         ->assertHeader('Content-Disposition', 'inline; filename="guia.pdf"');
 });
 
-test('RemessaController usa trait', function () {
+test('GuiaController usa trait', function () {
     expect(
         collect(class_uses(GuiaController::class))
             ->has([
