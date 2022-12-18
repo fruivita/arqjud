@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Policy;
+use App\Http\Controllers\Atendimento\GuiaController;
 use App\Http\Controllers\Cadastro\Andar\AndarController;
 use App\Http\Controllers\Cadastro\Caixa\CaixaController;
 use App\Http\Controllers\Cadastro\Estante\EstanteController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Solicitacao\SolicitacaoController as SolicitacaoExterna
 use App\Models\Andar;
 use App\Models\Caixa;
 use App\Models\Estante;
+use App\Models\Guia;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\Predio;
@@ -61,7 +63,10 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('atendimento')->name('atendimento.')->group(function () {
-        Route::prefix('processo')->name('processo.')->group(function () {
+        Route::prefix('guia')->name('guia.')->group(function () {
+            Route::get('/', [GuiaController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Guia::class);
+            Route::get('{guia}', [GuiaController::class, 'show'])->name('show')->can(Policy::View->value, Guia::class);
+            Route::get('pdf/{guia}', [GuiaController::class, 'pdf'])->name('pdf')->can(Policy::View->value, Guia::class);
         });
     });
 
