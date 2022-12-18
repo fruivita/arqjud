@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Solicitacao;
 
+use App\Enums\Policy;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
@@ -24,6 +25,12 @@ class SolicitacaoCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return ['data' => $this->collection];
+        return [
+            'data' => $this->collection,
+            'links' => $this->when(
+                $request->user()->can(Policy::Create->value, Solicitacao::class),
+                ['create' => route('solicitacao.create')]
+            ),
+        ];
     }
 }

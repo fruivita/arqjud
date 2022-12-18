@@ -22,6 +22,7 @@ import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
 import CheckBox from '@/Shared/Forms/CheckBox.vue';
 import Pesquisa from '@/Shared/Forms/Pesquisa.vue';
+import InertiaButtonLink from '@/Shared/Inertia/InertiaButtonLink.vue';
 import Card from '@/Shared/Misc/Card.vue';
 import ModalConfirmacao from '@/Shared/Modals/ModalConfirmacao.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
@@ -125,32 +126,53 @@ watch(perPage, filtrar);
         </form>
 
         <Container class="space-y-3">
-            <Preferencia>
-                <CheckBox v-model="elementosVisiveis.status" :label="__('Status')" />
-
-                <CheckBox v-model="elementosVisiveis.processo" :label="__('Processo')" />
-
-                <CheckBox
-                    v-model="elementosVisiveis.lotacaoDestinataria"
-                    :label="__('Lotação destinatária')"
+            <div
+                :class="{
+                    'md:justify-between': solicitacoes.links.create,
+                    'md:justify-end': !solicitacoes.links.create,
+                }"
+                class="flex flex-col space-y-3 md:flex-row md:items-start"
+            >
+                <InertiaButtonLink
+                    v-if="solicitacoes.links.create"
+                    :href="solicitacoes.links.create"
+                    :texto="__('Solicitar processo')"
+                    icone="plus-circle"
                 />
 
-                <CheckBox v-model="elementosVisiveis.solicitante" :label="__('Solicitante')" />
+                <Preferencia>
+                    <CheckBox v-model="elementosVisiveis.status" :label="__('Status')" />
 
-                <CheckBox v-model="elementosVisiveis.solicitadaEm" :label="__('Solicitada em')" />
+                    <CheckBox v-model="elementosVisiveis.processo" :label="__('Processo')" />
 
-                <CheckBox v-model="elementosVisiveis.remetente" :label="__('Remetente')" />
+                    <CheckBox
+                        v-model="elementosVisiveis.lotacaoDestinataria"
+                        :label="__('Lotação destinatária')"
+                    />
 
-                <CheckBox v-model="elementosVisiveis.recebedor" :label="__('Recebedor')" />
+                    <CheckBox v-model="elementosVisiveis.solicitante" :label="__('Solicitante')" />
 
-                <CheckBox v-model="elementosVisiveis.entregueEm" :label="__('Entregue em')" />
+                    <CheckBox
+                        v-model="elementosVisiveis.solicitadaEm"
+                        :label="__('Solicitada em')"
+                    />
 
-                <CheckBox v-model="elementosVisiveis.rearquivador" :label="__('Rearquivada por')" />
+                    <CheckBox v-model="elementosVisiveis.remetente" :label="__('Remetente')" />
 
-                <CheckBox v-model="elementosVisiveis.devolvidaEm" :label="__('Devolvida em')" />
+                    <CheckBox v-model="elementosVisiveis.recebedor" :label="__('Recebedor')" />
 
-                <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
-            </Preferencia>
+                    <CheckBox v-model="elementosVisiveis.entregueEm" :label="__('Entregue em')" />
+
+                    <CheckBox
+                        v-model="elementosVisiveis.rearquivador"
+                        :label="__('Rearquivada por')"
+                    />
+
+                    <CheckBox v-model="elementosVisiveis.devolvidaEm" :label="__('Devolvida em')" />
+
+                    <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
+                </Preferencia>
+            </div>
 
             <Tabela>
                 <template #header>
