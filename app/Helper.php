@@ -1,5 +1,9 @@
 <?php
 
+use Barryvdh\DomPDF\PDF;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+
 if (!function_exists('ascOrDesc')) {
     /**
      * Determina o valor que deve ser utilizado na ordenção das queries de
@@ -59,5 +63,96 @@ if (!function_exists('apenasNumeros')) {
         $numeros = str($valor)->replaceMatches('/[^0-9]++/', '')->toString();
 
         return $numeros ?: null;
+    }
+}
+
+if (!function_exists('dataCompleta')) {
+    /**
+     * Converte a data informada no formato para assinatura de documentos.
+     *
+     * Ex.: Segunda-feira, 10 de agosto de 2020
+     *
+     * @param  \Illuminate\Support\Carbon  $data
+     * @return string
+     */
+    function dataCompleta(Carbon $data)
+    {
+        $dia_semana = str(diaDaSemana($data->dayOfWeek))->ucfirst()->toString();
+        $mes = mes($data->month);
+
+        return "{$dia_semana}, {$data->day} de {$mes} de {$data->year}";
+    }
+}
+
+if (!function_exists('diaDaSemana')) {
+    /**
+     * Dia da semana por extenso para o número informado.
+     *
+     * Ex.: 0 - domingo, ..., 6 - sábado
+     *
+     * @param  int  $numero
+     * @return string
+     */
+    function diaDaSemana(int $numero)
+    {
+        return Arr::get([
+            'domingo',
+            'segunda-feira',
+            'terça-feira',
+            'quarta-feira',
+            'quinta-feira',
+            'sexta-feira',
+            'sábado',
+        ], $numero);
+    }
+}
+
+if (!function_exists('mes')) {
+    /**
+     * Mês por extenso para o número informado.
+     *
+     * Ex.: 1 - janeiro, ..., 12 - dezembro.
+     *
+     * @param  int  $numero
+     * @return string
+     */
+    function mes(int $numero)
+    {
+        return Arr::get([
+            'janeiro',
+            'fevereiro',
+            'março',
+            'abril',
+            'maio',
+            'junho',
+            'julho',
+            'agosto',
+            'setembro',
+            'outubro',
+            'novembro',
+            'dezembro',
+        ], $numero - 1);
+    }
+}
+
+if (!function_exists('injetarTotalPagina')) {
+    /**
+     * Substitui o placeholder predefinido com o número total de páginas em
+     * todo o documento.
+     *
+     * @param  \Barryvdh\DomPDF\PDF  $dompdf
+     * @return void
+     */
+    function injetarTotalPagina(PDF $dompdf)
+    {
+        /** @var \Dompdf\Adapter\CPDF $canvas */
+        $canvas = $dompdf->getCanvas();
+        $pdf = $canvas->get_cpdf();
+
+        foreach ($pdf->objects as &$o) {
+            if ($o['t'] === 'contents') {
+                $o['c'] = str_replace('^TP^', (string) $canvas->get_page_count(), $o['c']);
+            }
+        }
     }
 }
