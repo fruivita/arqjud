@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Solicitacao;
 
 use App\Enums\Policy;
+use App\Models\Solicitacao;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
