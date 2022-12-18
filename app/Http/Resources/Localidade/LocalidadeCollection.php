@@ -30,7 +30,7 @@ class LocalidadeCollection extends ResourceCollection
             'data' => $this->collection,
             'links' => $this->when(
                 $request->user()->can(Policy::Create->value, Localidade::class),
-                fn () => ['create' => route('cadastro.localidade.create')]
+                ['create' => route('cadastro.localidade.create')]
             ),
         ];
     }
