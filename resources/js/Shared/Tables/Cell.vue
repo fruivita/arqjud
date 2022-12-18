@@ -11,7 +11,6 @@ import Tooltip from '@/Shared/Misc/Tooltip.vue';
 
 defineProps({
     erro: { type: String, default: '' },
-    tooltip: { type: String },
     tooltip: { type: [Array, String] },
 });
 </script>
