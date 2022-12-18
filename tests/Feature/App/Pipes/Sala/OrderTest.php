@@ -47,7 +47,7 @@ test('ordena pelo número', function () {
 test('todos os métodos de ordenação disponíveis são acionados', function (string $campo) {
     $this->partialMock(Order::class)
         ->shouldAllowMockingProtectedMethods()
-        ->shouldReceive(str()->camel($campo))
+        ->shouldReceive(str($campo)->camel())
         ->withSomeOfArgs('desc')
         ->once();
 

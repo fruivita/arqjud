@@ -26,11 +26,11 @@ class Order
     public function handle(Builder $query, Closure $next)
     {
         collect(request()->query('order'))
-            ->filter(fn (string $direcao, string $coluna) => (method_exists($this, str()->camel($coluna))))
+            ->filter(fn (string $direcao, string $coluna) => (method_exists($this, str($coluna)->camel())))
             ->whenNotEmpty(
                 function (Collection $collection) use ($query) {
                     $collection->each(function (string $direcao, string $coluna) use ($query) {
-                        $coluna = str()->camel($coluna);
+                        $coluna = str($coluna)->camel();
 
                         if (method_exists($this, $coluna)) {
                             $this->{$coluna}($query, $direcao);
