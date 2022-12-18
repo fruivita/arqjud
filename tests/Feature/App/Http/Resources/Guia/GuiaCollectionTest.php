@@ -7,6 +7,7 @@
 
 use App\Http\Resources\Guia\GuiaCollection;
 use App\Http\Resources\Guia\GuiaResource;
+use App\Models\Guia;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {

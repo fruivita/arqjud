@@ -276,7 +276,7 @@ function volumesApi(Collection $volumes)
 }
 
 /**
- * @param  \App\Models\VolumeCaixa  $guia
+ * @param  \App\Models\Guia  $guia
  * @return array
  */
 function guiaApi(Guia $guia)
