@@ -47,6 +47,7 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     numero: true,
     ano: true,
     gerada_em: true,
+    solicitante: true,
     remetente: true,
     recebedor: true,
     lotacao_destinataria: true,
@@ -96,6 +97,8 @@ watch(perPage, filtrar);
 
                 <CheckBox v-model="elementosVisiveis.gerada_em" :label="__('Gerada em')" />
 
+                <CheckBox v-model="elementosVisiveis.solicitante" :label="__('Solicitante')" />
+
                 <CheckBox v-model="elementosVisiveis.remetente" :label="__('Remetente')" />
 
                 <CheckBox v-model="elementosVisiveis.recebedor" :label="__('Recebedor')" />
@@ -133,6 +136,8 @@ watch(perPage, filtrar);
                         @ordenar="(direcao) => mudarOrdenacao('gerada_em', direcao)"
                     />
 
+                    <Heading v-show="elementosVisiveis.solicitante" :texto="__('Solicitante')" />
+
                     <Heading v-show="elementosVisiveis.remetente" :texto="__('Remetente')" />
 
                     <Heading v-show="elementosVisiveis.recebedor" :texto="__('Recebedor')" />
@@ -155,6 +160,13 @@ watch(perPage, filtrar);
                             <Cell v-show="elementosVisiveis.ano">{{ guia.ano }}</Cell>
 
                             <Cell v-show="elementosVisiveis.gerada_em">{{ guia.gerada_em }}</Cell>
+
+                            <Cell
+                                v-show="elementosVisiveis.solicitante"
+                                :tooltip="guia.solicitante.nome"
+                            >
+                                {{ guia.solicitante.username }}
+                            </Cell>
 
                             <Cell
                                 v-show="elementosVisiveis.remetente"

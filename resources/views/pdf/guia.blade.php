@@ -12,6 +12,8 @@
     <div class="content">
         <p>{{ __('Número: :attribute', ['attribute' => "{$guia->numero}/{$guia->ano}"]) }}</p>
 
+        <p>{{ __('Solicitante: :attribute', ['attribute' => $guia->solicitante['nome'] ?? $guia->solicitante['username']]) }}</p>
+
         <p>{{ __('Remetente: :attribute', ['attribute' => $guia->remetente['nome'] ?? $guia->remetente['username']]) }}</p>
 
         <p>{{ __('Lotação destinatária: :attribute1 - :attribute2', [ 'attribute1' => str($guia->lotacao_destinataria['sigla'])->upper(), 'attribute2' => $guia->lotacao_destinataria['nome']]) }}</p>

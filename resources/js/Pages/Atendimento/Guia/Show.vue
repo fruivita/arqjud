@@ -46,6 +46,12 @@ const __ = useTranslationsStore().__;
                     />
 
                     <ChaveValor
+                        :chave="__('Solicitante')"
+                        :valor="guia.data.solicitante.nome ?? guia.data.solicitante.username"
+                        icone="person"
+                    />
+
+                    <ChaveValor
                         :chave="__('Remetente')"
                         :valor="guia.data.remetente.nome ?? guia.data.remetente.username"
                         icone="person"

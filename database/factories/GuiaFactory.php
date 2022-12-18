@@ -26,6 +26,10 @@ class GuiaFactory extends Factory
         return [
             'numero' => fake()->unique()->numberBetween(1, 99999),
             'ano' => fake()->numberBetween(1900, 2020),
+            'solicitante' => [
+                'username' => fake()->firstName(),
+                'nome' => fake()->name(),
+            ],
             'remetente' => [
                 'username' => fake()->firstName(),
                 'nome' => fake()->name(),

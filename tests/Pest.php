@@ -286,6 +286,10 @@ function guiaApi(Guia $guia)
         'numero' => $guia->numero,
         'ano' => $guia->ano,
         'gerada_em' => $guia->gerada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+        'solicitante' => [
+            'username' => $guia->solicitante['username'],
+            'nome' => $guia->solicitante['nome'],
+        ],
         'remetente' => [
             'username' => $guia->remetente['username'],
             'nome' => $guia->remetente['nome'],

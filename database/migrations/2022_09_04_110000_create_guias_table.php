@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedInteger('numero');
             $table->unsignedSmallInteger('ano');
             $table->dateTime('gerada_em');
+            $table->jsonb('solicitante');
             $table->jsonb('remetente');
             $table->jsonb('recebedor');
             $table->jsonb('lotacao_destinataria');
