@@ -251,13 +251,13 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
         <Container class="space-y-3">
             <div
                 :class="{
-                    'md:justify-between': volume_caixa.data.links.processo.create,
-                    'md:justify-end': !volume_caixa.data.links.processo.create,
+                    'md:justify-between': volume_caixa.data.links.processo?.create,
+                    'md:justify-end': !volume_caixa.data.links.processo?.create,
                 }"
                 class="flex flex-col space-y-3 md:flex-row md:items-start"
             >
                 <InertiaButtonLink
-                    v-if="volume_caixa.data.links.processo.create"
+                    v-if="volume_caixa.data.links.processo?.create"
                     :href="volume_caixa.data.links.processo.create"
                     :texto="__('Novo processo')"
                     icone="plus-circle"
