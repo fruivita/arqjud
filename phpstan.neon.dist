@@ -52,6 +52,8 @@ parameters:
   - App\Http\Resources\Usuario\UsuarioOnlyResource
   - App\Http\Resources\Solicitacao\SolicitacaoOnlyResource
   - App\Http\Resources\Solicitacao\SolicitacaoResource
+  - App\Http\Resources\Guia\GuiaOnlyResource
+  - App\Http\Resources\Guia\GuiaResource
   - FruiVita\Corporativo\Models\Lotacao
   - LdapRecord\Models\ActiveDirectory\User
 
