@@ -30,7 +30,7 @@ class Order
             ->whenNotEmpty(
                 function (Collection $collection) use ($query) {
                     $collection->each(function (string $direcao, string $coluna) use ($query) {
-                        $coluna = str($coluna)->camel();
+                        $coluna = str()->camel($coluna);
 
                         if (method_exists($this, $coluna)) {
                             $this->{$coluna}($query, $direcao);

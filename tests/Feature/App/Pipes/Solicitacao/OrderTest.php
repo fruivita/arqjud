@@ -52,7 +52,7 @@ test('ordena pela data de solicitação', function () {
 test('todos os métodos de ordenação disponíveis são acionados', function (string $campo) {
     $this->partialMock(Order::class)
         ->shouldAllowMockingProtectedMethods()
-        ->shouldReceive(str($campo)->camel())
+        ->shouldReceive(str()->camel($campo))
         ->withSomeOfArgs('desc')
         ->once();
 
