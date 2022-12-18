@@ -196,9 +196,9 @@ watch(perPage, filtrar);
 
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.solicitante"
-                        :ordenacao="ordenacoes.solicitante_sigla"
+                        :ordenacao="ordenacoes.solicitante_username"
                         :texto="__('Solicitante')"
-                        @ordenar="(direcao) => mudarOrdenacao('solicitante_sigla', direcao)"
+                        @ordenar="(direcao) => mudarOrdenacao('solicitante_username', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -210,16 +210,16 @@ watch(perPage, filtrar);
 
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.remetente"
-                        :ordenacao="ordenacoes.remetente_sigla"
+                        :ordenacao="ordenacoes.remetente_username"
                         :texto="__('Remetente')"
-                        @ordenar="(direcao) => mudarOrdenacao('remetente_sigla', direcao)"
+                        @ordenar="(direcao) => mudarOrdenacao('remetente_username', direcao)"
                     />
 
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.recebedor"
-                        :ordenacao="ordenacoes.recebedor_sigla"
+                        :ordenacao="ordenacoes.recebedor_username"
                         :texto="__('Recebedor')"
-                        @ordenar="(direcao) => mudarOrdenacao('recebedor_sigla', direcao)"
+                        @ordenar="(direcao) => mudarOrdenacao('recebedor_username', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -231,9 +231,9 @@ watch(perPage, filtrar);
 
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.rearquivador"
-                        :ordenacao="ordenacoes.rearquivador_sigla"
+                        :ordenacao="ordenacoes.rearquivador_username"
                         :texto="__('Rearquivada por')"
-                        @ordenar="(direcao) => mudarOrdenacao('rearquivador_sigla', direcao)"
+                        @ordenar="(direcao) => mudarOrdenacao('rearquivador_username', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -283,7 +283,7 @@ watch(perPage, filtrar);
                                 v-show="elementosVisiveis.solicitante"
                                 :tooltip="solicitacao.solicitante.nome"
                             >
-                                {{ solicitacao.solicitante.sigla }}
+                                {{ solicitacao.solicitante.username }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.solicitadaEm">
@@ -294,14 +294,14 @@ watch(perPage, filtrar);
                                 v-show="elementosVisiveis.remetente"
                                 :tooltip="solicitacao.remetente?.nome"
                             >
-                                {{ solicitacao.remetente?.sigla }}
+                                {{ solicitacao.remetente?.username }}
                             </Cell>
 
                             <Cell
                                 v-show="elementosVisiveis.recebedor"
                                 :tooltip="solicitacao.recebedor?.nome"
                             >
-                                {{ solicitacao.recebedor?.sigla }}
+                                {{ solicitacao.recebedor?.username }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.entregueEm">
@@ -312,7 +312,7 @@ watch(perPage, filtrar);
                                 v-show="elementosVisiveis.rearquivador"
                                 :tooltip="solicitacao.rearquivador?.nome"
                             >
-                                {{ solicitacao.rearquivador?.sigla }}
+                                {{ solicitacao.rearquivador?.username }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.devolvidaEm">

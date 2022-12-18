@@ -68,10 +68,10 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
     'devolvida_em',
     'por_guia',
     'processo_numero',
-    'solicitante_sigla',
-    'recebedor_sigla',
-    'remetente_sigla',
-    'rearquivador_sigla',
+    'solicitante_username',
+    'recebedor_username',
+    'remetente_username',
+    'rearquivador_username',
     'lotacao_destinataria_sigla',
 ]);
 
@@ -82,10 +82,10 @@ test('todas as ordenações possíveis no request da solicitação', function ()
         'devolvida_em' => 'asc',
         'por_guia' => 'asc',
         'processo_numero' => 'desc',
-        'solicitante_sigla' => 'desc',
-        'recebedor_sigla' => 'desc',
-        'remetente_sigla' => 'desc',
-        'rearquivador_sigla' => 'desc',
+        'solicitante_username' => 'desc',
+        'recebedor_username' => 'desc',
+        'remetente_username' => 'desc',
+        'rearquivador_username' => 'desc',
         'lotacao_destinataria_sigla' => 'desc',
     ]]);
 

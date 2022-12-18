@@ -243,7 +243,7 @@ function usuarioApi(Usuario $usuario)
     return [
         'id' => $usuario->id,
         'matricula' => $usuario->matricula,
-        'sigla' => $usuario->username,
+        'username' => $usuario->username,
         'nome' => $usuario->nome,
         'lotacao_id' => $usuario->lotacao_id,
         'cargo_id' => $usuario->cargo_id,

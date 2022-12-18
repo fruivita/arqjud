@@ -23,7 +23,7 @@ class UsuarioOnlyResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'matricula' => $this->matricula,
-                'sigla' => $this->username,
+                'username' => $this->username,
                 'nome' => $this->nome,
                 'lotacao_id' => $this->lotacao_id,
                 'cargo_id' => $this->cargo_id,

@@ -16,7 +16,7 @@ class Usuario {
      * @return {String}
      */
     nomeExibicao() {
-        return isEmpty(this.nome) ? this.sigla : this.nome;
+        return isEmpty(this.nome) ? this.username : this.nome;
     }
 }
 

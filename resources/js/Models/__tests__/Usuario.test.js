@@ -12,16 +12,16 @@ import { describe, expect, test } from 'vitest';
 describe('Usuario', () => {
     test('retorna o nome do usuário para exibição', () => {
         const usuario = new Usuario({
-            sigla: 'foo',
+            username: 'foo',
             nome: 'bar',
         });
 
         expect(usuario.nomeExibicao()).toBe('bar');
     });
 
-    test('se não houver nome, usará a sigla como nomde de exibição', () => {
+    test('se não houver nome, usará a username como nome de exibição', () => {
         const usuario = new Usuario({
-            sigla: 'foo',
+            username: 'foo',
             nome: '',
         });
 

@@ -119,13 +119,13 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pela sigla do solicitante.
+     * Aplica a ordenação pela username do solicitante.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
-    protected function solicitanteSigla(Builder $query, string $direcao)
+    protected function solicitanteUsername(Builder $query, string $direcao)
     {
         $direcao = ascOrDesc($direcao);
 
@@ -133,13 +133,13 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pela sigla do recebedor.
+     * Aplica a ordenação pela username do recebedor.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
-    protected function recebedorSigla(Builder $query, string $direcao)
+    protected function recebedorUsername(Builder $query, string $direcao)
     {
         $direcao = ascOrDesc($direcao);
 
@@ -147,13 +147,13 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pela sigla do remetente.
+     * Aplica a ordenação pela username do remetente.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
-    protected function remetenteSigla(Builder $query, string $direcao)
+    protected function remetenteUsername(Builder $query, string $direcao)
     {
         $direcao = ascOrDesc($direcao);
 
@@ -161,13 +161,13 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pela sigla do rearquivador.
+     * Aplica a ordenação pela username do rearquivador.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
-    protected function rearquivadorSigla(Builder $query, string $direcao)
+    protected function rearquivadorUsername(Builder $query, string $direcao)
     {
         $direcao = ascOrDesc($direcao);
 
