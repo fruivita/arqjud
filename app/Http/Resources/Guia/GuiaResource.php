@@ -38,7 +38,7 @@ class GuiaResource extends JsonResource
                         'view' => route('atendimento.guia.show', $this->id),
                         'pdf' => route('atendimento.guia.pdf', $this->id),
                     ]
-                )
+                ),
             ]
             : [];
     }
