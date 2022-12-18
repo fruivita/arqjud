@@ -1,0 +1,2 @@
+- 'select * from `guias` order by `numero` asc, `ano` asc, `gerada_em` desc, `id` desc'
+- {  }
