@@ -75,6 +75,15 @@ final class Menu implements MenuInterface
     {
         return collect()
             ->when(
+                auth()->user()->can(Policy::Update->value, Solicitacao::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'cart',
+                    'href' => route('atendimento.entregar-processo.create'),
+                    'texto' => __('Entregar processos'),
+                    'ativo' => Route::is('atendimento.entregar-processo.*'),
+                ])
+            )
+            ->when(
                 auth()->user()->can(Policy::ViewAny->value, Guia::class),
                 fn ($collection) => $collection->push([
                     'icone' => 'files',

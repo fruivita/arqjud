@@ -50,6 +50,19 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
     [Permissao::PROCESSO_VIEW_ANY, fn () => __('Cadastros'), 'journal-bookmark', fn () => route('cadastro.processo.index'), fn () => __('Processos')],
 ]);
 
+test('menu é gerado de acordo com as permissões do usuário, inclusive se a permissão habilitar mais de 2 itens do menu', function () {
+    concederPermissao(Permissao::SOLICITACAO_UPDATE);
+
+    $menu = Menu::make()->gerar();
+
+    expect($menu)->toBe([[
+        'nome' => __('Atendimentos'),
+        'links' => [
+            ['icone' => 'cart', 'href' => route('atendimento.entregar-processo.create'), 'texto' => __('Entregar processos'), 'ativo' => false],
+        ],
+    ]]);
+});
+
 test('sem permissão, o menu não possui nenhum item', function () {
     $menu = Menu::make()->gerar();
 
@@ -65,7 +78,7 @@ test('administrador tem acesso a todos os itens do menu', function () {
     $menu = Menu::make()->gerar();
 
     expect($menu[0]['nome'])->toBe(__('Atendimentos'))
-        ->and($menu[0]['links'])->toHaveCount(1)
+        ->and($menu[0]['links'])->toHaveCount(2)
         ->and($menu[1]['nome'])->toBe(__('Solicitações de processos'))
         ->and($menu[1]['links'])->toHaveCount(2)
         ->and($menu[2]['nome'])->toBe(__('Movimentações'))
@@ -91,6 +104,7 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
         ->and($menu->first()['href'])->toBe(route($menu_ativo));
 })->with([
     ['atendimento.guia.index', 'atendimento.guia.index'],
+    ['atendimento.entregar-processo.create', 'atendimento.entregar-processo.create'],
     ['solicitacao.index', 'solicitacao.index'],
     ['solicitacao.create', 'solicitacao.create'],
     ['movimentacao.entre-caixas.create', 'movimentacao.entre-caixas.create'],
