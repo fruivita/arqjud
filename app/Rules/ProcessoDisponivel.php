@@ -27,7 +27,7 @@ class ProcessoDisponivel implements InvokableRule
             ->firstWhere('numero', apenasNumeros($value));
 
         if (!$processo) {
-            $fail('validation.solicitacao.ativa')->translate();
+            $fail('validation.solicitacao.indisponivel')->translate();
         }
     }
 }
