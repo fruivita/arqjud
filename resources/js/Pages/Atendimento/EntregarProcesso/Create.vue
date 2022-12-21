@@ -7,7 +7,7 @@
  -->
 
 <script setup>
-import { flash } from '@/Composables/useFlash';
+import { flash } from '@/Composables/UseFlash';
 import Lotacao from '@/Models/Lotacao';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
