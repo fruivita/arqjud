@@ -2,7 +2,6 @@
 
 namespace App\Pipes\Solicitacao;
 
-use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
@@ -23,7 +22,7 @@ class Order
      * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function handle(Builder $query, Closure $next)
+    public function handle(Builder $query, \Closure $next)
     {
         collect(request()->query('order'))
             ->filter(fn (string $direcao, string $coluna) => (method_exists($this, str($coluna)->camel())))

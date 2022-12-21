@@ -2,7 +2,6 @@
 
 namespace App\Pipes\Andar;
 
-use Closure;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -18,7 +17,7 @@ class JoinLocalidade
      * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function handle(Builder $query, Closure $next)
+    public function handle(Builder $query, \Closure $next)
     {
         $query
             ->join('predios', 'predios.id', 'andares.predio_id')

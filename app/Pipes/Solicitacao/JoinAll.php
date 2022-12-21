@@ -2,7 +2,6 @@
 
 namespace App\Pipes\Solicitacao;
 
-use Closure;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -17,7 +16,7 @@ class JoinAll
      * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function handle(Builder $query, Closure $next)
+    public function handle(Builder $query, \Closure $next)
     {
         $query
             ->join('processos', 'solicitacoes.processo_id', 'processos.id')

@@ -2,7 +2,6 @@
 
 namespace App\Pipes;
 
-use Closure;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -20,7 +19,7 @@ abstract class OrderBase
      * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function handle(Builder $query, Closure $next)
+    public function handle(Builder $query, \Closure $next)
     {
         collect(request()->query('order'))
             ->filter()

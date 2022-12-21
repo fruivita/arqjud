@@ -2,7 +2,6 @@
 
 namespace App\Pipes\VolumeCaixa;
 
-use Closure;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -18,7 +17,7 @@ class JoinLocalidade
      * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function handle(Builder $query, Closure $next)
+    public function handle(Builder $query, \Closure $next)
     {
         $query
             ->join('caixas', 'caixas.id', 'volumes_caixa.caixa_id')

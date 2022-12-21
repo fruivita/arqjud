@@ -2,7 +2,6 @@
 
 namespace App\Pipes;
 
-use Closure;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -18,7 +17,7 @@ class Search
      * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function handle(Builder $query, Closure $next)
+    public function handle(Builder $query, \Closure $next)
     {
         $termo = request()->string('termo')->trim();
 
