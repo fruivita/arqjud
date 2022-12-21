@@ -22,8 +22,9 @@ class GerarGuiaRemessa
     public function handle(\stdClass $entrega, \Closure $next)
     {
         $entrega->recebedor = Usuario::firstWhere('username', $entrega->recebedor);
+        $entrega->remetente = auth()->user();
 
-        $entrega->guia = $this->criarGuia($entrega->solicitacoes, $entrega->recebedor);
+        $entrega->guia = $this->criarGuia($entrega->solicitacoes, $entrega->recebedor, $entrega->remetente);
 
         return $next($entrega);
     }
@@ -33,9 +34,10 @@ class GerarGuiaRemessa
      *
      * @param \Illuminate\Support\Collection|array $solicitacoes
      * @param \App\Models\Usuario $recebedor
+     * @param \App\Models\Usuario $remetente
      * @return \App\Models\Guia
      */
-    private function criarGuia(mixed $solicitacoes, Usuario $recebedor)
+    private function criarGuia(mixed $solicitacoes, Usuario $recebedor, Usuario $remetente)
     {
         $solicitacoes = Solicitacao::with(['processo', 'solicitante'])->whereIn('id', $solicitacoes)->lazy();
         $recebedor->loadMissing('lotacao');
@@ -46,7 +48,7 @@ class GerarGuiaRemessa
         $guia->numero = Guia::proximoNumero();
         $guia->ano = $now->year;
         $guia->gerada_em = $now;
-        $guia->remetente = auth()->user()->only(['username', 'nome']);
+        $guia->remetente = $remetente->only(['username', 'nome']);
         $guia->recebedor = $recebedor->only(['username', 'nome']);
         $guia->lotacao_destinataria = $recebedor->lotacao->only(['nome', 'sigla']);
         $guia->processos = $solicitacoes->map(function (Solicitacao $solicitacao) {
@@ -54,8 +56,8 @@ class GerarGuiaRemessa
                 'numero' => apenasNumeros($solicitacao->processo->numero),
                 'qtd_volumes' => $solicitacao->processo->qtd_volumes,
                 'solicitante' => [
-                    'username' => fake()->firstName(),
-                    'nome' => fake()->name(),
+                    'username' => $solicitacao->solicitante->username,
+                    'nome' => $solicitacao->solicitante->nome,
                 ],
             ];
         });
