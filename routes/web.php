@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Policy;
+use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
 use App\Http\Controllers\Cadastro\Andar\AndarController;
 use App\Http\Controllers\Cadastro\Caixa\CaixaController;
@@ -55,19 +56,24 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [HomeController::class, 'show'])->can(Policy::View->value, Processo::class);
     });
 
-    Route::prefix('solicitacao')->name('solicitacao.')->group(function () {
-        Route::get('/', [SolicitacaoExternaController::class, 'index'])->name('index')->can(Policy::ExternoViewAny->value, Solicitacao::class);
-        Route::get('create', [SolicitacaoExternaController::class, 'create'])->name('create')->can(Policy::ExternoCreate->value, Solicitacao::class);
-        Route::post('/', [SolicitacaoExternaController::class, 'store'])->name('store')->can(Policy::ExternoCreate->value, Solicitacao::class);
-        Route::delete('{solicitacao}', [SolicitacaoExternaController::class, 'destroy'])->name('destroy')->can(Policy::ExternoDelete->value, 'solicitacao');
-    });
-
     Route::prefix('atendimento')->name('atendimento.')->group(function () {
+        Route::prefix('entregar-processo')->name('entregar-processo.')->group(function () {
+            Route::get('create', [EntregarProcessoController::class, 'create'])->name('create')->can(Policy::Update->value, Solicitacao::class);
+            Route::post('/', [EntregarProcessoController::class, 'store'])->name('store')->can(Policy::Update->value, Solicitacao::class);
+        });
+
         Route::prefix('guia')->name('guia.')->group(function () {
             Route::get('/', [GuiaController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Guia::class);
             Route::get('{guia}', [GuiaController::class, 'show'])->name('show')->can(Policy::View->value, Guia::class);
             Route::get('pdf/{guia}', [GuiaController::class, 'pdf'])->name('pdf')->can(Policy::View->value, Guia::class);
         });
+    });
+
+    Route::prefix('solicitacao')->name('solicitacao.')->group(function () {
+        Route::get('/', [SolicitacaoExternaController::class, 'index'])->name('index')->can(Policy::ExternoViewAny->value, Solicitacao::class);
+        Route::get('create', [SolicitacaoExternaController::class, 'create'])->name('create')->can(Policy::ExternoCreate->value, Solicitacao::class);
+        Route::post('/', [SolicitacaoExternaController::class, 'store'])->name('store')->can(Policy::ExternoCreate->value, Solicitacao::class);
+        Route::delete('{solicitacao}', [SolicitacaoExternaController::class, 'destroy'])->name('destroy')->can(Policy::ExternoDelete->value, 'solicitacao');
     });
 
     Route::prefix('movimentacao')->name('movimentacao.')->group(function () {
