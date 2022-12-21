@@ -55,3 +55,15 @@ test('processo sem solicitação pode ser movimentado, pois localizado dentro do
     '02393484420224003909',
     '0239348-44.2022.4.00.3909', // máscara é irrelevante
 ]);
+
+test('mensagem de falha de validação está definida', function () {
+    $processo = Processo::factory()->create();
+    Solicitacao::factory()->for($processo, 'processo')->entregue()->create();
+
+    $validator = Validator::make(['numero' => $processo->numero], [
+        'numero' => [new ProcessoMovimentavel()],
+    ]);
+
+    expect($validator->passes())->toBeFalse()
+        ->and($validator->errors()->first())->toBe(__('validation.movimentacao'));
+});
