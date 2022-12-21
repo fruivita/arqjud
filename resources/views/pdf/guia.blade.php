@@ -10,7 +10,7 @@
 
 @section('conteudo')
     <div class="content">
-        <p>{{ __('Número: :attribute', ['attribute' => "{$guia->numero}/{$guia->ano}"]) }}</p>
+        <p>{{ __('Número: :attribute', ['attribute' => $guia->paraHumano]) }}</p>
 
         <p>{{ __('Solicitante: :attribute', ['attribute' => $guia->solicitante['nome'] ?? $guia->solicitante['username']]) }}</p>
 

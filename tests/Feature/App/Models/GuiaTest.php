@@ -70,6 +70,12 @@ test('gera o próximo número da guia (MAX + 1) de acordo com o ano informado', 
         ->and(Guia::proximoNumero(2000))->toBe(1);
 });
 
+test('paraHumano retorna o número da guia formatado para exibição', function () {
+    $guia = Guia::factory()->create();
+
+    expect($guia->paraHumano)->toBe("{$guia->numero}/{$guia->ano}");
+});
+
 test('retorna as guias pelo escopo search que busca a partir do início do texto no número e no ano', function (string $termo, int $quantidade) {
     Guia::factory()->create(['numero' => 99999999, 'ano' => 55555]);
     Guia::factory()->create(['numero' => 77778888, 'ano' => 44444]);

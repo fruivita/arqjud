@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -71,5 +72,19 @@ class Guia extends Model
             $query->where('numero', 'like', $termo)
                 ->orWhere('ano', 'like', $termo);
         });
+    }
+
+    /**
+     * Get número da guia em formato humano.
+     *
+     * Ex.: 15/2020
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function paraHumano(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => "{$attributes['numero']}/{$attributes['ano']}"
+        );
     }
 }
