@@ -22,6 +22,11 @@ class ProcessoEntregue extends Notification implements ShouldQueue
     public $detalhes;
 
     /**
+     * @var array
+     */
+    public $email_terceiros;
+
+    /**
      * Create a new message instance.
      *
      * @param  string  $guia_numero número da guia de remessa

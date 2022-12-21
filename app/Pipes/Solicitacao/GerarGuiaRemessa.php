@@ -34,10 +34,10 @@ class GerarGuiaRemessa
      *
      * @param  \Illuminate\Support\Collection|array  $solicitacoes
      * @param  \App\Models\Usuario  $recebedor
-     * @param  \App\Models\Usuario  $remetente
+     * @param  \App\Models\Usuario|\LdapRecord\Models\ActiveDirectory\User  $remetente
      * @return \App\Models\Guia
      */
-    private function criarGuia(mixed $solicitacoes, Usuario $recebedor, Usuario $remetente)
+    private function criarGuia(mixed $solicitacoes, Usuario $recebedor, mixed $remetente)
     {
         $solicitacoes = Solicitacao::with(['processo', 'solicitante'])->whereIn('id', $solicitacoes)->lazy();
         $recebedor->loadMissing('lotacao');

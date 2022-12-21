@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 // Caminho feliz
 test('identifica credenciais inválidas', function () {
-    Auth::partialMock()
+    Auth::partialMock() // @phpstan-ignore-line
         ->shouldReceive('validate')
         ->once()
         ->andReturnFalse();
@@ -23,7 +23,7 @@ test('identifica credenciais inválidas', function () {
 });
 
 test('identifica credenciais válidas', function () {
-    Auth::partialMock()
+    Auth::partialMock() // @phpstan-ignore-line
         ->shouldReceive('validate')
         ->once()
         ->andReturnTrue();
@@ -36,7 +36,7 @@ test('identifica credenciais válidas', function () {
 });
 
 test('mensagem de falha de validação está definida', function () {
-    Auth::partialMock()
+    Auth::partialMock() // @phpstan-ignore-line
         ->shouldReceive('validate')
         ->once()
         ->andReturnFalse();

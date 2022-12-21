@@ -32,7 +32,7 @@ test('job NotificarEntrega envia notificação ao usuário recebedor', function 
 
     NotificarEntrega::dispatchSync($this->entrega);
 
-    Notification::assertTimesSent(1, ProcessoEntregue::class);
+    Notification::assertTimesSent(1, ProcessoEntregue::class); // @phpstan-ignore-line
     Notification::assertSentTo($this->entrega->recebedor, ProcessoEntregue::class);
 });
 

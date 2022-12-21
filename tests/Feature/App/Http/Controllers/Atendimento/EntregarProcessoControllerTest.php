@@ -142,7 +142,7 @@ test('entrega de processo gera a guia de remessa dos processos solicitados', fun
         ->and($guia->remetente)->toMatchArray($this->usuario->only(['nome', 'username']))
         ->and($guia->recebedor)->toMatchArray($recebedor->only(['nome', 'username']))
         ->and($guia->lotacao_destinataria)->toMatchArray($recebedor->lotacao->only(['nome', 'sigla']))
-        ->and($guia->processos)->toMatchArray($processos);
+        ->and($guia->processos)->toMatchArray($processos->toArray());
 });
 
 test('dispara o job NotificarEntrega quando o usuário faz a entrega dos processos solicitados', function () {
