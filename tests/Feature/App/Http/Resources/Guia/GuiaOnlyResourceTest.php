@@ -16,9 +16,7 @@ beforeEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = GuiaOnlyResource::make($this->guia);
 
-    expect($resource->response()->getData(true))->toBe([
-        'data' => guiaApi($this->guia),
-    ]);
+    expect(data_get($resource->response()->getData(true), 'data'))->toMatchArray(guiaApi($this->guia));
 });
 
 test('retorna o resource vazio se o modelo for nulo', function () {

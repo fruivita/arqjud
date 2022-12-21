@@ -28,7 +28,6 @@ class GuiaResource extends JsonResource
                 'numero' => $this->numero,
                 'ano' => $this->ano,
                 'gerada_em' => $this->gerada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                'solicitante' => $this->solicitante,
                 'remetente' => $this->remetente,
                 'recebedor' => $this->recebedor,
                 'lotacao_destinataria' => $this->lotacao_destinataria,
