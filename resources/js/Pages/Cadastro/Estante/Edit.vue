@@ -12,7 +12,7 @@ import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis'
 import { useExclusao } from '@/Composables/UseExclusao';
 import { flash } from '@/Composables/UseFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
-import { perPageKey, updatePerPageKey } from '@/keys.js';
+import { perPageKey, updatePerPageKey } from '@/keys';
 import Andar from '@/Models/Andar';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';

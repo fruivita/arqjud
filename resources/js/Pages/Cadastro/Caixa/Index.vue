@@ -14,7 +14,7 @@
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
 import { useExclusao } from '@/Composables/UseExclusao';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
-import { perPageKey, updatePerPageKey } from '@/keys.js';
+import { perPageKey, updatePerPageKey } from '@/keys';
 import Caixa from '@/Models/Caixa';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';

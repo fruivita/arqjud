@@ -9,7 +9,7 @@
  */
 
 import { flash } from '@/Composables/UseFlash';
-import { exibirModalKey, fecharModalKey } from '@/keys.js';
+import { exibirModalKey, fecharModalKey } from '@/keys';
 import { Inertia } from '@inertiajs/inertia';
 import { provide, readonly, ref } from 'vue';
 

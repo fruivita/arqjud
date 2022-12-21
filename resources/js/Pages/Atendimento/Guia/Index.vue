@@ -13,7 +13,7 @@
 <script setup>
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
-import { perPageKey, updatePerPageKey } from '@/keys.js';
+import { perPageKey, updatePerPageKey } from '@/keys';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
 import CheckBox from '@/Shared/Forms/CheckBox.vue';

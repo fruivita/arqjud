@@ -6,7 +6,7 @@
  * @link https://vitest.dev/
  */
 
-import { perPageKey, updatePerPageKey } from '@/keys.js';
+import { perPageKey, updatePerPageKey } from '@/keys';
 import PorPagina from '@/Shared/Tables/PorPagina.vue';
 import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';

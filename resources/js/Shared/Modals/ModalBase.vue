@@ -8,7 +8,7 @@
  -->
 
 <script setup>
-import { exibirModalKey, fecharModalKey } from '@/keys.js';
+import { exibirModalKey, fecharModalKey } from '@/keys';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import { useTranslationsStore } from '@/Stores/TranslationsStore';
 import { onClickOutside } from '@vueuse/core';

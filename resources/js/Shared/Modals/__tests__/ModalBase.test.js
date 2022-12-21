@@ -6,7 +6,7 @@
  * @link https://vitest.dev/
  */
 
-import { exibirModalKey, fecharModalKey } from '@/keys.js';
+import { exibirModalKey, fecharModalKey } from '@/keys';
 import ModalBase from '@/Shared/Modals/ModalBase.vue';
 import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';

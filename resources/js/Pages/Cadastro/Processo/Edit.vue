@@ -12,7 +12,7 @@ import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis'
 import { useExclusao } from '@/Composables/UseExclusao';
 import { flash } from '@/Composables/UseFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
-import { mascaraCNJ, perPageKey, updatePerPageKey } from '@/keys.js';
+import { mascaraCNJ, perPageKey, updatePerPageKey } from '@/keys';
 import Andar from '@/Models/Andar';
 import Caixa from '@/Models/Caixa';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';

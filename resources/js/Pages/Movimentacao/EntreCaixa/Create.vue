@@ -8,7 +8,7 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
-import { mascaraCNJ, maxViewItems } from '@/keys.js';
+import { mascaraCNJ, maxViewItems } from '@/keys';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';

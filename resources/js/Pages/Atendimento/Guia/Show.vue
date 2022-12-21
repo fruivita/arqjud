@@ -7,9 +7,9 @@
  -->
 
 <script setup>
-import { mascaraCNJ } from '@/keys.js';
-import Lotacao from '@/Models/Lotacao.js';
-import Usuario from '@/Models/Usuario.js';
+import { mascaraCNJ } from '@/keys';
+import Lotacao from '@/Models/Lotacao';
+import Usuario from '@/Models/Usuario';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
 import LinkButtonText from '@/Shared/Links/LinkButtonText.vue';

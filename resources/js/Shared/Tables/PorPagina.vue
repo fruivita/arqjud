@@ -8,7 +8,7 @@
  -->
 
 <script setup>
-import { perPageKey, updatePerPageKey } from '@/keys.js';
+import { perPageKey, updatePerPageKey } from '@/keys';
 import { useDadosEstaticosStore } from '@/Stores/DadosEstaticosStore';
 import { useTranslationsStore } from '@/Stores/TranslationsStore';
 import { computed, inject } from 'vue';

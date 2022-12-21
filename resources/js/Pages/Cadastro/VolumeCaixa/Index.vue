@@ -14,7 +14,7 @@
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
 import { useExclusao } from '@/Composables/UseExclusao';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
-import { perPageKey, updatePerPageKey } from '@/keys.js';
+import { perPageKey, updatePerPageKey } from '@/keys';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -309,7 +309,12 @@ watch(perPage, filtrar);
                                     <ButtonIcone
                                         v-if="volume.links.delete"
                                         @click="
-                                            confirmarExclusao(volume.links.delete, __('Exclusão do volume :attribute', {attribute: volume.numero}))
+                                            confirmarExclusao(
+                                                volume.links.delete,
+                                                __('Exclusão do volume :attribute', {
+                                                    attribute: volume.numero,
+                                                })
+                                            )
                                         "
                                         especie="perigo"
                                         icone="trash"
