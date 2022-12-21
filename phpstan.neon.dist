@@ -29,6 +29,7 @@ parameters:
   - App\Models\VolumeCaixa
   - App\Models\Processo
   - App\Models\Solicitacao
+  - App\Models\Guia
   - App\Http\Resources\Localidade\LocalidadeOnlyResource
   - App\Http\Resources\Localidade\LocalidadeResource
   - App\Http\Resources\Predio\PredioOnlyResource
