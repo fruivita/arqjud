@@ -78,7 +78,7 @@ class ProcessoEntregue extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->when($this->email_terceiros, fn (MailMessage $mail) => $mail->bcc($this->email_terceiros))
+            ->when(!empty($this->email_terceiros), fn (MailMessage $mail) => $mail->bcc($this->email_terceiros))
             ->subject(__('Processos solicitados entregues'))
             ->markdown('emails.solicitacoes.entregue', ['detalhes' => $this->detalhes]);
     }
