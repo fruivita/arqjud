@@ -23,14 +23,14 @@ beforeEach(function () {
 
 // Autorização
 test('usuário sem autenticação não consegue os dados das solicitações de processo para entrega por meio da API JSON', function () {
-    $this->postJson(route('api.solicitacao.recebedor.show'), ['recebedor' => $this->recebedor->username])
+    $this->postJson(route('api.solicitacao.entregas-autorizadas.show'), ['recebedor' => $this->recebedor->username])
         ->assertUnauthorized();
 });
 
 test('usuário sem autorização não consegue os dados das solicitações de processo para entrega por meio da API JSON', function () {
     login();
 
-    $this->postJson(route('api.solicitacao.recebedor.show'), ['recebedor' => $this->recebedor->username])
+    $this->postJson(route('api.solicitacao.entregas-autorizadas.show'), ['recebedor' => $this->recebedor->username])
         ->assertForbidden();
 });
 
@@ -53,7 +53,7 @@ test('usuário autorizado consegue os dados das solicitações de processo para 
     $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $this->recebedor->lotacao_id]);
     Solicitacao::factory(3)->solicitada()->create();
 
-    $response = $this->postJson(route('api.solicitacao.recebedor.show'), ['recebedor' => $this->recebedor->username]);
+    $response = $this->postJson(route('api.solicitacao.entregas-autorizadas.show'), ['recebedor' => $this->recebedor->username]);
 
     $response
         ->assertOk()

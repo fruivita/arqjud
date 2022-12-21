@@ -33,7 +33,7 @@ class EntregarProcessoController extends Controller
 
         return Inertia::render('Atendimento/EntregarProcesso/Create', [
             'links' => fn () => [
-                'solicitacoes' => route('api.solicitacao.recebedor.show'),
+                'solicitacoes' => route('api.solicitacao.entregas-autorizadas.show'),
                 'imprimir_ultima_guia' => function () {
                     $guia = Guia::select('id')->latest()->first();
 

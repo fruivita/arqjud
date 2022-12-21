@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
             Route::post('/', [ProcessoDisponivelController::class, 'show'])->name('show');
         });
 
-        Route::prefix('recebedor')->name('recebedor.')->group(function () {
+        Route::prefix('entregas-autorizadas')->name('entregas-autorizadas.')->group(function () {
             Route::post('/', [AutorizadaParaRecebedorController::class, 'show'])->name('show');
         });
     });

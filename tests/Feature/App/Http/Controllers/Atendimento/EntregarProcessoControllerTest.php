@@ -62,7 +62,7 @@ test('action create compartilha os dados esperados com a view/componente correto
                 ->component('Atendimento/EntregarProcesso/Create')
                 ->whereAll([
                     'links' => [
-                        'solicitacoes' => route('api.solicitacao.recebedor.show'),
+                        'solicitacoes' => route('api.solicitacao.entregas-autorizadas.show'),
                         'imprimir_ultima_guia' => route('atendimento.guia.pdf', $guia->id),
                         'entregar' => route('atendimento.entregar-processo.store'),
                     ],
