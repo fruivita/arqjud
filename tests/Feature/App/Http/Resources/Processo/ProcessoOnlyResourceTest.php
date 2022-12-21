@@ -24,13 +24,13 @@ beforeEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = ProcessoOnlyResource::make($this->processo);
 
-    expect($resource->response()->getData(true))->toBe(['data' => processoApi($this->processo)]);
+    expect($resource->response()->getData(true))->toMatchArray(['data' => processoApi($this->processo)]);
 });
 
 test('retorna o volume da caixa pai, o processo pai, os processos filhos e a solicitação ativa se houver o eager load da propriedade', function () {
     $resource = ProcessoOnlyResource::make($this->processo->load(['volumeCaixa', 'processoPai', 'processosFilho', 'solicitacoesAtivas']));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => processoApi($this->processo)
             + ['volume_caixa' => VolumeCaixaOnlyResource::make($this->processo->volumeCaixa)->resolve()]
             + ['processo_pai' => ProcessoOnlyResource::make($this->processo->processoPai)->resolve()]
@@ -42,7 +42,7 @@ test('retorna o volume da caixa pai, o processo pai, os processos filhos e a sol
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = ProcessoOnlyResource::make($this->processo->loadCount(['processosFilho', 'solicitacoes']));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => processoApi($this->processo)
             + $this->processo->only('processos_filho_count')
             + $this->processo->only('solicitacoes_count'),

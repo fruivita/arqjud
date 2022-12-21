@@ -21,7 +21,7 @@ test('sem ordenação válida no request, ordena pelo ID desc', function (string
         ->through([Order::class])
         ->thenReturn()->pluck('id');
 
-    expect($localidades->toArray())->toBe([2, 1]);
+    expect($localidades->toArray())->toMatchArray([2, 1]);
 })->with([
     ['', ''],
     ['foo', 'asc'],
@@ -38,7 +38,7 @@ test('ordena pelo nome', function () {
         ->through([Order::class])
         ->thenReturn()->pluck('id');
 
-    expect($localidades->toArray())->toBe([1, 2]);
+    expect($localidades->toArray())->toMatchArray([1, 2]);
 });
 
 test('ordena pela quantidade de prédios filhos', function () {
@@ -52,7 +52,7 @@ test('ordena pela quantidade de prédios filhos', function () {
         ->through([Order::class])
         ->thenReturn()->pluck('id');
 
-    expect($localidades->toArray())->toBe([1, 2]);
+    expect($localidades->toArray())->toMatchArray([1, 2]);
 });
 
 test('com todas as ordenações específicas na localidade', function () {

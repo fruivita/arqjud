@@ -16,13 +16,13 @@ beforeEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = VolumeCaixaOnlyResource::make($this->volume);
 
-    expect($resource->response()->getData(true))->toBe(['data' => volumeApi($this->volume)]);
+    expect($resource->response()->getData(true))->toMatchArray(['data' => volumeApi($this->volume)]);
 });
 
 test('retorna a caixa pai se houver o eager load da propriedade', function () {
     $resource = VolumeCaixaOnlyResource::make($this->volume->load(['caixa']));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => volumeApi($this->volume) + ['caixa' => caixaApi($this->volume->caixa)],
     ]);
 });
@@ -30,7 +30,7 @@ test('retorna a caixa pai se houver o eager load da propriedade', function () {
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = VolumeCaixaOnlyResource::make($this->volume->loadCount('processos'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => volumeApi($this->volume) + $this->volume->only('processos_count'),
     ]);
 });

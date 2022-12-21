@@ -16,7 +16,7 @@ beforeEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = LocalidadeOnlyResource::make($this->localidade);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->localidade->only(['id', 'nome', 'descricao']),
     ]);
 });

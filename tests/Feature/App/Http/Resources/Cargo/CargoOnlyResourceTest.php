@@ -16,7 +16,7 @@ beforeEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = CargoOnlyResource::make($this->cargo);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->cargo->only(['id', 'nome']),
     ]);
 });

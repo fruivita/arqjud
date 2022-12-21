@@ -158,9 +158,9 @@ test('notificação ProcessoEntregue possui canais, toArray e queues definidas',
 
     $notificacao = new ProcessoEntregue(...$this->dados);
 
-    expect($notificacao->via($notificado))->toBe(['mail'])
+    expect($notificacao->via($notificado))->toMatchArray(['mail'])
         ->and($notificacao->toArray($notificado))->toBe($this->dados)
-        ->and($notificacao->viaQueues())->toBe(['mail' => EQueue::Baixa->value]);
+        ->and($notificacao->viaQueues())->toMatchArray(['mail' => EQueue::Baixa->value]);
 });
 
 test('notificação ProcessoEntregue analisa corretamente se o email deve, por fim, ser enviado', function () {

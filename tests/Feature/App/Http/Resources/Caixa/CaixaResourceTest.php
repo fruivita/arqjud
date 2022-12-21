@@ -29,7 +29,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
     $resource = CaixaResource::make($this->caixa);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => caixaApi($this->caixa)
             + [
                 'links' => [
@@ -48,7 +48,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna a prateleira pai e a localidade criadora se houver o eager load da propriedade', function () {
     $resource = CaixaResource::make($this->caixa->load(['prateleira', 'localidadeCriadora']));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => caixaApi($this->caixa)
             + ['prateleira' => PrateleiraResource::make($this->caixa->prateleira)->resolve()]
             + ['localidade_criadora' => LocalidadeResource::make($this->caixa->localidadeCriadora)->resolve()]
@@ -59,7 +59,7 @@ test('retorna a prateleira pai e a localidade criadora se houver o eager load da
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = CaixaResource::make($this->caixa->loadCount('volumes'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => caixaApi($this->caixa)
             + $this->caixa->only('volumes_count')
             + ['links' => []],
@@ -69,7 +69,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {
     $resource = CaixaResource::make($this->caixa);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => caixaApi($this->caixa)
             + ['links' => []],
     ]);

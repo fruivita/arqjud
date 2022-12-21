@@ -19,13 +19,13 @@ beforeEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = CaixaOnlyResource::make($this->caixa);
 
-    expect($resource->response()->getData(true))->toBe(['data' => caixaApi($this->caixa)]);
+    expect($resource->response()->getData(true))->toMatchArray(['data' => caixaApi($this->caixa)]);
 });
 
 test('retorna a prateleira pai e localidade criadora se houver o eager load da propriedade', function () {
     $resource = CaixaOnlyResource::make($this->caixa->load(['prateleira', 'localidadeCriadora']));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => caixaApi($this->caixa)
             + ['prateleira' => PrateleiraOnlyResource::make($this->caixa->prateleira)->resolve()]
             + ['localidade_criadora' => LocalidadeOnlyResource::make($this->caixa->localidadeCriadora)->resolve()],
@@ -37,7 +37,7 @@ test('retorna os modelos filhos se houver o eager load da propriedade', function
 
     $resource = CaixaOnlyResource::make($this->caixa->load('volumes'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => caixaApi($this->caixa)
             + ['volumes' => volumesApi($this->caixa->volumes)],
     ]);
@@ -46,7 +46,7 @@ test('retorna os modelos filhos se houver o eager load da propriedade', function
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = CaixaOnlyResource::make($this->caixa->loadCount('volumes'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => caixaApi($this->caixa)
             + $this->caixa->only('volumes_count'),
     ]);

@@ -17,7 +17,7 @@ beforeEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = UsuarioOnlyResource::make($this->usuario);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => usuarioApi($this->usuario),
     ]);
 });
@@ -25,7 +25,7 @@ test('retorna os campos principais do modelo', function () {
 test('retorna o cargo e a lotação pai se houver o eager load da propriedade', function () {
     $resource = UsuarioOnlyResource::make($this->usuario->load('cargo', 'lotacao'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => usuarioApi($this->usuario)
             + ['lotacao' => lotacaoApi($this->usuario->lotacao)]
             + ['cargo' => CargoOnlyResource::make($this->usuario->cargo)->resolve()],

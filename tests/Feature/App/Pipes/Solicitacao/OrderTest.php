@@ -24,7 +24,7 @@ test('sem ordenação válida no request, ordena pelo status', function (string 
         ->thenReturn()
         ->pluck('id');
 
-    expect($solicitacoes->toArray())->toBe([
+    expect($solicitacoes->toArray())->toMatchArray([
         $solicitada->id,
         $entregue->id,
         $devolvida->id,
@@ -46,7 +46,7 @@ test('ordena pela data de solicitação', function () {
         ->thenReturn()
         ->pluck('id');
 
-    expect($solicitacoes->toArray())->toBe([1, 2]);
+    expect($solicitacoes->toArray())->toMatchArray([1, 2]);
 });
 
 test('todos os métodos de ordenação disponíveis são acionados', function (string $campo) {

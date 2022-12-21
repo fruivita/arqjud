@@ -23,7 +23,7 @@ test('sem ordenação válida no request, ordena pelo ID desc', function (string
         ->thenReturn()
         ->pluck('id');
 
-    expect($predios->toArray())->toBe([2, 1]);
+    expect($predios->toArray())->toMatchArray([2, 1]);
 })->with([
     ['', ''],
     ['foo', 'asc'],
@@ -41,7 +41,7 @@ test('ordena pelo nome', function () {
         ->thenReturn()
         ->pluck('id');
 
-    expect($predios->toArray())->toBe([1, 2]);
+    expect($predios->toArray())->toMatchArray([1, 2]);
 });
 
 test('todos os métodos de ordenação disponíveis são acionados', function (string $campo) {

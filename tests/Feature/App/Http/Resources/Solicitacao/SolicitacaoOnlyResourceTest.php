@@ -17,7 +17,7 @@ beforeEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = SolicitacaoOnlyResource::make($this->solicitacao);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => solicitacaoApi($this->solicitacao),
     ]);
 });
@@ -25,7 +25,7 @@ test('retorna os campos principais do modelo', function () {
 test('retorna o processo, o solicitante, o recebedor, o remetente, o rearquivador e a lotação destinatária se houver o eager load da propriedade', function () {
     $resource = SolicitacaoOnlyResource::make($this->solicitacao->load('processo', 'solicitante', 'recebedor', 'remetente', 'rearquivador', 'lotacaoDestinataria'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => solicitacaoApi($this->solicitacao)
             + ['processo' => processoApi($this->solicitacao->processo)]
             + ['solicitante' => UsuarioOnlyResource::make($this->solicitacao->solicitante)->resolve()]

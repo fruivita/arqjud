@@ -31,7 +31,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
     $dados = $resource->response()->getData(true);
 
     expect($dados['data'])->toHaveCount($this->solicitacoes->count())
-        ->and($dados['links'])->toBe(['create' => route('solicitacao.create')]);
+        ->and($dados['links'])->toMatchArray(['create' => route('solicitacao.create')]);
 });
 
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {

@@ -17,7 +17,7 @@ test('retorna os campos principais do resource', function () {
 
     $resource = CounterResource::make($objeto);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => [
             'solicitadas' => 5,
             'entregues' => 10,
@@ -31,7 +31,7 @@ test('retorna as propriedades como null se inexistentes', function () {
 
     $resource = CounterResource::make($objeto);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => [
             'solicitadas' => null,
             'entregues' => null,

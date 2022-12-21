@@ -28,7 +28,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
     $resource = AndarResource::make($this->andar);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id'])
             + [
                 'links' => [
@@ -47,7 +47,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna o prédio pai se houver o eager load da propriedade', function () {
     $resource = AndarResource::make($this->andar->load('predio'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id'])
             + ['predio' => PredioResource::make($this->andar->predio)->resolve()]
             + ['links' => []],
@@ -57,7 +57,7 @@ test('retorna o prédio pai se houver o eager load da propriedade', function () 
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = AndarResource::make($this->andar->loadCount('salas'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id', 'salas_count'])
             + ['links' => []],
     ]);
@@ -66,7 +66,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {
     $resource = AndarResource::make($this->andar);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id'])
             + ['links' => []],
     ]);

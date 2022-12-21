@@ -50,7 +50,7 @@ test('se a paginação informada for inválida, mas existir cache válido, o cac
 
 // Caminho feliz
 test('opções de paginação estão definidas', function () {
-    expect($this->classe->getOpcoes())->toBe([10, 25, 50, 100]);
+    expect($this->classe->getOpcoes())->toMatchArray([10, 25, 50, 100]);
 });
 
 test('paginação padrão está definida', function () {
@@ -91,7 +91,7 @@ test('paginação armazena em cache o valor utilizado', function () {
     request()->merge(['per_page' => 25]);
     $this->classe->perPage();
 
-    expect(Cache::get('foo'))->toBe([
+    expect(Cache::get('foo'))->toMatchArray([
         'per_page' => ['/' => 25],
     ]);
 });
@@ -104,7 +104,7 @@ test('cache da paginação é individualizado para cada path', function () {
     request()->merge(['per_page' => 25]);
     $this->classe->perPage();
 
-    expect(Cache::get('foo'))->toBe([
+    expect(Cache::get('foo'))->toMatchArray([
         'per_page' => [
             '/pathqualquer' => 50,
             '/' => 25,

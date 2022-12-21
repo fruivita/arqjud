@@ -27,7 +27,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
     $resource = GuiaResource::make($this->guia);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => guiaApi($this->guia)
             + [
                 'links' => [
@@ -41,7 +41,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {
     $resource = GuiaResource::make($this->guia);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => guiaApi($this->guia),
     ]);
 });

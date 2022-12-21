@@ -17,7 +17,7 @@ beforeEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = AndarOnlyResource::make($this->andar);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id']),
     ]);
 });
@@ -25,7 +25,7 @@ test('retorna os campos principais do modelo', function () {
 test('retorna o prédio pai se houver o eager load da propriedade', function () {
     $resource = AndarOnlyResource::make($this->andar->load('predio'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id'])
             + ['predio' => PredioOnlyResource::make($this->andar->predio)->resolve()],
     ]);
@@ -34,7 +34,7 @@ test('retorna o prédio pai se houver o eager load da propriedade', function () 
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = AndarOnlyResource::make($this->andar->loadCount('salas'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->andar->only(['id', 'numero', 'apelido', 'descricao', 'predio_id', 'salas_count']),
     ]);
 });

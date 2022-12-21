@@ -101,9 +101,9 @@ test('notificação ProcessoSolicitado possui canais, toArray e queues definidas
 
     $notificacao = new ProcessoSolicitado(...$this->dados);
 
-    expect($notificacao->via($notificado))->toBe(['mail'])
+    expect($notificacao->via($notificado))->toMatchArray(['mail'])
         ->and($notificacao->toArray($notificado))->toBe($this->dados)
-        ->and($notificacao->viaQueues())->toBe(['mail' => EQueue::Baixa->value]);
+        ->and($notificacao->viaQueues())->toMatchArray(['mail' => EQueue::Baixa->value]);
 });
 
 test('notificação ProcessoSolicitado analisa corretamente se o email deve, por fim, ser enviado', function () {

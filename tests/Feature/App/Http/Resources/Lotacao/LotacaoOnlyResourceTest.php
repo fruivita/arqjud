@@ -16,7 +16,7 @@ beforeEach(function () {
 test('retorna os campos principais do modelo', function () {
     $resource = LotacaoOnlyResource::make($this->lotacao);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => lotacaoApi($this->lotacao),
     ]);
 });
@@ -24,7 +24,7 @@ test('retorna os campos principais do modelo', function () {
 test('retorna a lotação pai se houver o eager load da propriedade', function () {
     $resource = LotacaoOnlyResource::make($this->lotacao->load('lotacaoPai'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => lotacaoApi($this->lotacao)
             + ['lotacao_pai' => lotacaoApi($this->lotacao->lotacaoPai)],
     ]);

@@ -28,7 +28,7 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
 
     $menu = Menu::make()->gerar();
 
-    expect($menu)->toBe([[
+    expect($menu)->toMatchArray([[
         'nome' => $grupo,
         'links' => [
             ['icone' => $icone, 'href' => $href, 'texto' => $texto, 'ativo' => false],
@@ -55,7 +55,7 @@ test('menu é gerado de acordo com as permissões do usuário, inclusive se a pe
 
     $menu = Menu::make()->gerar();
 
-    expect($menu)->toBe([[
+    expect($menu)->toMatchArray([[
         'nome' => __('Atendimentos'),
         'links' => [
             ['icone' => 'cart', 'href' => route('atendimento.entregar-processo.create'), 'texto' => __('Entregar processos'), 'ativo' => false],

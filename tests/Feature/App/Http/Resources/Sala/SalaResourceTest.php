@@ -28,7 +28,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
     $resource = SalaResource::make($this->sala);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->sala->only(['id', 'numero', 'descricao', 'andar_id'])
             + [
                 'links' => [
@@ -47,7 +47,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna o andar pai se houver o eager load da propriedade', function () {
     $resource = SalaResource::make($this->sala->load('andar'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->sala->only(['id', 'numero', 'descricao', 'andar_id'])
             + ['andar' => AndarResource::make($this->sala->andar)->resolve()]
             + ['links' => []],
@@ -57,7 +57,7 @@ test('retorna o andar pai se houver o eager load da propriedade', function () {
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = SalaResource::make($this->sala->loadCount('estantes'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->sala->only(['id', 'numero', 'descricao', 'andar_id', 'estantes_count'])
             + ['links' => []],
     ]);
@@ -66,7 +66,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {
     $resource = SalaResource::make($this->sala);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->sala->only(['id', 'numero', 'descricao', 'andar_id'])
             + ['links' => []],
     ]);

@@ -28,7 +28,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
     $resource = PrateleiraResource::make($this->prateleira);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->prateleira->only(['id', 'numero', 'descricao', 'estante_id'])
             + [
                 'links' => [
@@ -47,7 +47,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna a estante pai se houver o eager load da propriedade', function () {
     $resource = PrateleiraResource::make($this->prateleira->load('estante'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->prateleira->only(['id', 'numero', 'descricao', 'estante_id'])
             + ['estante' => EstanteResource::make($this->prateleira->estante)->resolve()]
             + ['links' => []],
@@ -57,7 +57,7 @@ test('retorna a estante pai se houver o eager load da propriedade', function () 
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
     $resource = PrateleiraResource::make($this->prateleira->loadCount('caixas'));
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->prateleira->only(['id', 'numero', 'descricao', 'estante_id', 'caixas_count'])
             + ['links' => []],
     ]);
@@ -66,7 +66,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {
     $resource = PrateleiraResource::make($this->prateleira);
 
-    expect($resource->response()->getData(true))->toBe([
+    expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->prateleira->only(['id', 'numero', 'descricao', 'estante_id'])
             + ['links' => []],
     ]);

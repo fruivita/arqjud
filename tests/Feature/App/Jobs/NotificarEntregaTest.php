@@ -54,7 +54,7 @@ test('job NotificarEntrega cria a notificação com todos os parâmetros e canal
                 'por_guia' => $this->entrega->por_guia,
                 'url' => route('solicitacao.index'),
                 'email_terceiros' => $this->entrega->email_terceiros,
-            ])->and($channels)->toBe(['mail']);
+            ])->and($channels)->toMatchArray(['mail']);
 
             return true;
         }

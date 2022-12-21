@@ -109,7 +109,7 @@ test('perfil administrador possui suas permissões iniciais definidas', function
         ->permissoes
         ->pluck('slug');
 
-    expect($permissoes->toArray())->toBe([
+    expect($permissoes->toArray())->toMatchArray([
         Permissao::CONFIGURACAO_VIEW,
         Permissao::CONFIGURACAO_UPDATE,
         Permissao::DELEGACAO_VIEW_ANY,

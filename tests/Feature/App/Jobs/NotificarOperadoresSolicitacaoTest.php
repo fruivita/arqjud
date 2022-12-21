@@ -48,13 +48,13 @@ test('job NotificarOperadoresSolicitacao cria a notificação com todos os parâ
         $this->operadores,
         ProcessoSolicitado::class,
         function (ProcessoSolicitado $notification, $channels) {
-            expect($notification->toArray(null))->toBe([
+            expect($notification->toArray(null))->toMatchArray([
                 'processos' => $this->solicitacao->processos,
                 'solicitante' => $this->solicitacao->solicitante->nome,
                 'lotacao_destinataria' => $this->solicitacao->solicitante->lotacao->nome,
                 'solicitada_em' => now()->tz(config('app.tz'))->format('d-m-Y H:i:s'),
                 'url' => 'rota',
-            ])->and($channels)->toBe(['mail']);
+            ])->and($channels)->toMatchArray(['mail']);
 
             return true;
         }
