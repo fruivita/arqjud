@@ -58,7 +58,7 @@ test('action do controller usa o form request', function (string $action, string
 ]);
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
-    Solicitacao::factory(1)->create();
+    Solicitacao::factory()->create();
     Solicitacao::factory(2)->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
 
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_VIEW_ANY);
