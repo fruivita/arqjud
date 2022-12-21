@@ -20,6 +20,7 @@ import CheckBox from '@/Shared/Forms/CheckBox.vue';
 import Pesquisa from '@/Shared/Forms/Pesquisa.vue';
 import InertiaButtonIconeLink from '@/Shared/Inertia/InertiaButtonIconeLink.vue';
 import LinkButtonIcone from '@/Shared/Links/LinkButtonIcone.vue';
+import Tooltip from '@/Shared/Misc/Tooltip.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
 import Heading from '@/Shared/Tables/Heading.vue';
 import HeadingOrdenavel from '@/Shared/Tables/HeadingOrdenavel.vue';
@@ -31,7 +32,7 @@ import { useTranslationsStore } from '@/Stores/TranslationsStore';
 import { Inertia } from '@inertiajs/inertia';
 import { usePage } from '@inertiajs/inertia-vue3';
 import { useLocalStorage } from '@vueuse/core';
-import { map, merge, pickBy } from 'lodash';
+import { isEmpty, map, merge, pickBy } from 'lodash';
 import { computed, provide, readonly, ref, watch } from 'vue';
 const props = defineProps({
     guias: { type: Object },
@@ -47,7 +48,6 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     numero: true,
     ano: true,
     gerada_em: true,
-    solicitante: true,
     remetente: true,
     recebedor: true,
     lotacao_destinataria: true,
@@ -97,8 +97,6 @@ watch(perPage, filtrar);
 
                 <CheckBox v-model="elementosVisiveis.gerada_em" :label="__('Gerada em')" />
 
-                <CheckBox v-model="elementosVisiveis.solicitante" :label="__('Solicitante')" />
-
                 <CheckBox v-model="elementosVisiveis.remetente" :label="__('Remetente')" />
 
                 <CheckBox v-model="elementosVisiveis.recebedor" :label="__('Recebedor')" />
@@ -136,8 +134,6 @@ watch(perPage, filtrar);
                         @ordenar="(direcao) => mudarOrdenacao('gerada_em', direcao)"
                     />
 
-                    <Heading v-show="elementosVisiveis.solicitante" :texto="__('Solicitante')" />
-
                     <Heading v-show="elementosVisiveis.remetente" :texto="__('Remetente')" />
 
                     <Heading v-show="elementosVisiveis.recebedor" :texto="__('Recebedor')" />
@@ -161,39 +157,44 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.gerada_em">{{ guia.gerada_em }}</Cell>
 
-                            <Cell
-                                v-show="elementosVisiveis.solicitante"
-                                :tooltip="guia.solicitante.nome"
-                            >
-                                {{ guia.solicitante.username }}
+                            <Cell v-show="elementosVisiveis.remetente">
+                                <span>{{ guia.remetente.username }}</span>
+
+                                <Tooltip
+                                    v-if="guia.remetente.nome"
+                                    :texto="guia.remetente.nome"
+                                    class="ml-1"
+                                />
                             </Cell>
 
-                            <Cell
-                                v-show="elementosVisiveis.remetente"
-                                :tooltip="guia.remetente.nome"
-                            >
-                                {{ guia.remetente.username }}
+                            <Cell v-show="elementosVisiveis.recebedor">
+                                <span>{{ guia.recebedor.username }}</span>
+
+                                <Tooltip
+                                    v-if="guia.recebedor.nome"
+                                    :texto="guia.recebedor.nome"
+                                    class="ml-1"
+                                />
                             </Cell>
 
-                            <Cell
-                                v-show="elementosVisiveis.recebedor"
-                                :tooltip="guia.recebedor.nome"
-                            >
-                                {{ guia.recebedor.username }}
+                            <Cell v-show="elementosVisiveis.lotacao_destinataria">
+                                <span>{{ guia.lotacao_destinataria.sigla }}</span>
+
+                                <Tooltip
+                                    v-if="guia.lotacao_destinataria.nome"
+                                    :texto="guia.lotacao_destinataria.nome"
+                                    class="ml-1"
+                                />
                             </Cell>
 
-                            <Cell
-                                v-show="elementosVisiveis.lotacao_destinataria"
-                                :tooltip="guia.lotacao_destinataria.nome"
-                            >
-                                {{ guia.lotacao_destinataria.sigla }}
-                            </Cell>
+                            <Cell v-show="elementosVisiveis.processos">
+                                <span>{{ guia.processos.length }}</span>
 
-                            <Cell
-                                v-show="elementosVisiveis.processos"
-                                :tooltip="map(guia.processos, 'numero')"
-                            >
-                                {{ guia.processos.length }}
+                                <Tooltip
+                                    v-if="!isEmpty(guia.processos)"
+                                    :texto="map(guia.processos, 'numero')"
+                                    class="ml-1"
+                                />
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.acao" class="w-10">

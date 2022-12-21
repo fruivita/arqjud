@@ -24,6 +24,7 @@ import CheckBox from '@/Shared/Forms/CheckBox.vue';
 import Pesquisa from '@/Shared/Forms/Pesquisa.vue';
 import InertiaButtonLink from '@/Shared/Inertia/InertiaButtonLink.vue';
 import Card from '@/Shared/Misc/Card.vue';
+import Tooltip from '@/Shared/Misc/Tooltip.vue';
 import ModalConfirmacao from '@/Shared/Modals/ModalConfirmacao.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
 import Heading from '@/Shared/Tables/Heading.vue';
@@ -265,54 +266,72 @@ watch(perPage, filtrar);
                                 </span>
                             </Cell>
 
-                            <Cell
-                                v-show="elementosVisiveis.processo"
-                                :tooltip="solicitacao.processo.numero_antigo"
-                            >
-                                {{ solicitacao.processo.numero }}
+                            <Cell v-show="elementosVisiveis.processo">
+                                <span>{{ solicitacao.processo.numero }}</span>
+
+                                <Tooltip
+                                    v-if="solicitacao.processo.numero_antigo"
+                                    :texto="solicitacao.processo.numero_antigo"
+                                    class="ml-1"
+                                />
                             </Cell>
 
-                            <Cell
-                                v-show="elementosVisiveis.lotacaoDestinataria"
-                                :tooltip="solicitacao.lotacao_destinataria.nome"
-                            >
-                                {{ solicitacao.lotacao_destinataria.sigla }}
+                            <Cell v-show="elementosVisiveis.lotacaoDestinataria">
+                                <span>{{ solicitacao.lotacao_destinataria.sigla }}</span>
+
+                                <Tooltip
+                                    v-if="solicitacao.lotacao_destinataria.nome"
+                                    :texto="solicitacao.lotacao_destinataria.nome"
+                                    class="ml-1"
+                                />
                             </Cell>
 
-                            <Cell
-                                v-show="elementosVisiveis.solicitante"
-                                :tooltip="solicitacao.solicitante.nome"
-                            >
-                                {{ solicitacao.solicitante.username }}
+                            <Cell v-show="elementosVisiveis.solicitante">
+                                <span>{{ solicitacao.solicitante.username }}</span>
+
+                                <Tooltip
+                                    v-if="solicitacao.solicitante.nome"
+                                    :texto="solicitacao.solicitante.nome"
+                                    class="ml-1"
+                                />
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.solicitadaEm">
                                 {{ solicitacao.solicitada_em }}
                             </Cell>
 
-                            <Cell
-                                v-show="elementosVisiveis.remetente"
-                                :tooltip="solicitacao.remetente?.nome"
-                            >
-                                {{ solicitacao.remetente?.username }}
+                            <Cell v-show="elementosVisiveis.remetente">
+                                <span>{{ solicitacao.remetente?.username }}</span>
+
+                                <Tooltip
+                                    v-if="solicitacao.remetente?.nome"
+                                    :texto="solicitacao.remetente.nome"
+                                    class="ml-1"
+                                />
                             </Cell>
 
-                            <Cell
-                                v-show="elementosVisiveis.recebedor"
-                                :tooltip="solicitacao.recebedor?.nome"
-                            >
-                                {{ solicitacao.recebedor?.username }}
+                            <Cell v-show="elementosVisiveis.recebedor">
+                                <span>{{ solicitacao.recebedor?.username }}</span>
+
+                                <Tooltip
+                                    v-if="solicitacao.recebedor?.nome"
+                                    :texto="solicitacao.recebedor.nome"
+                                    class="ml-1"
+                                />
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.entregueEm">
                                 {{ solicitacao.entregue_em }}
                             </Cell>
 
-                            <Cell
-                                v-show="elementosVisiveis.rearquivador"
-                                :tooltip="solicitacao.rearquivador?.nome"
-                            >
-                                {{ solicitacao.rearquivador?.username }}
+                            <Cell v-show="elementosVisiveis.rearquivador">
+                                <span>{{ solicitacao.rearquivador?.username }}</span>
+
+                                <Tooltip
+                                    v-if="solicitacao.rearquivador?.nome"
+                                    :texto="solicitacao.rearquivador.nome"
+                                    class="ml-1"
+                                />
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.devolvidaEm">

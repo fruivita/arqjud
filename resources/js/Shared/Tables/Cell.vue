@@ -7,11 +7,8 @@
  -->
 
 <script setup>
-import Tooltip from '@/Shared/Misc/Tooltip.vue';
-
 defineProps({
     erro: { type: String, default: '' },
-    tooltip: { type: [Array, String] },
 });
 </script>
 
@@ -19,8 +16,6 @@ defineProps({
     <td class="p-3" dusk="slot">
         <div class="flex items-center justify-center">
             <slot></slot>
-
-            <Tooltip v-if="tooltip" :texto="tooltip" class="ml-1" />
         </div>
 
         <span v-if="erro" class="block text-sm font-bold text-red-500">{{ erro }}</span>

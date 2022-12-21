@@ -17,6 +17,7 @@ import Pagina from '@/Shared/Containers/Pagina.vue';
 import CheckBox from '@/Shared/Forms/CheckBox.vue';
 import MensagemErro from '@/Shared/Forms/MensagemErro.vue';
 import TextInput from '@/Shared/Forms/TextInput.vue';
+import Tooltip from '@/Shared/Misc/Tooltip.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
 import Heading from '@/Shared/Tables/Heading.vue';
 import Row from '@/Shared/Tables/Row.vue';
@@ -252,12 +253,24 @@ const entregarRemessas = () => {
 
                                     <Cell>{{ solicitacao.solicitada_em }}</Cell>
 
-                                    <Cell :tooltip="solicitacao.solicitante.nome">
-                                        {{ solicitacao.solicitante.username }}
+                                    <Cell>
+                                        <span>{{ solicitacao.solicitante.username }}</span>
+
+                                        <Tooltip
+                                            v-if="solicitacao.solicitante.nome"
+                                            :texto="solicitacao.solicitante.nome"
+                                            class="ml-1"
+                                        />
                                     </Cell>
 
-                                    <Cell :tooltip="solicitacao.lotacao_destinataria.nome">
-                                        {{ solicitacao.lotacao_destinataria.sigla }}
+                                    <Cell>
+                                        <span>{{ solicitacao.lotacao_destinataria.sigla }}</span>
+
+                                        <Tooltip
+                                            v-if="solicitacao.lotacao_destinataria.nome"
+                                            :texto="solicitacao.lotacao_destinataria.nome"
+                                            class="ml-1"
+                                        />
                                     </Cell>
                                 </Row>
                             </template>
