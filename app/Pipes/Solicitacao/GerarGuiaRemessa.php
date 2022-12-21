@@ -32,9 +32,9 @@ class GerarGuiaRemessa
     /**
      * Cria uma guia de remessa de processos e a persiste no banco de dados.
      *
-     * @param \Illuminate\Support\Collection|array $solicitacoes
-     * @param \App\Models\Usuario $recebedor
-     * @param \App\Models\Usuario $remetente
+     * @param  \Illuminate\Support\Collection|array  $solicitacoes
+     * @param  \App\Models\Usuario  $recebedor
+     * @param  \App\Models\Usuario  $remetente
      * @return \App\Models\Guia
      */
     private function criarGuia(mixed $solicitacoes, Usuario $recebedor, Usuario $remetente)

@@ -7,7 +7,6 @@
 use App\Enums\Queue as EQueue;
 use App\Jobs\NotificarEntrega;
 use App\Models\Guia;
-use App\Models\Perfil;
 use App\Models\Usuario;
 use App\Notifications\ProcessoEntregue;
 use Database\Seeders\PerfilSeeder;

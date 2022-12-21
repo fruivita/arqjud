@@ -13,17 +13,18 @@ use Illuminate\Support\Facades\Auth;
 class PasswordValido implements InvokableRule
 {
     /**
-     * @var string $username
+     * @var string
      */
     private $username;
 
     /**
-     * @param string|null $username
+     * @param  string|null  $username
      */
     public function __construct(string $username = null)
     {
         $this->username = $username;
     }
+
     /**
      * Run the validation rule.
      *

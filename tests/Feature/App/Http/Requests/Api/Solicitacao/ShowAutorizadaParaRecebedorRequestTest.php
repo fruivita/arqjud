@@ -8,8 +8,6 @@
 
 use App\Http\Requests\Api\Solicitacao\ShowAutorizadaParaRecebedorRequest;
 use App\Models\Permissao;
-use App\Rules\NumeroProcessoCNJ;
-use App\Rules\ProcessoDisponivel;
 use App\Rules\RecebedorHabilitado;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Validation\Rule;

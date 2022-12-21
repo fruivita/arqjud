@@ -10,21 +10,13 @@
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Requests\Atendimento\StoreEntregarProcessoRequest;
 use App\Jobs\NotificarEntrega;
-use App\Jobs\NotificarOperadoresSolicitacao;
 use App\Models\Guia;
 use App\Models\Permissao;
-use App\Models\Processo;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Inertia\Testing\AssertableInertia as Assert;
-use LdapRecord\Laravel\Testing\DirectoryEmulator;
-use LdapRecord\Models\ActiveDirectory\User;
-use Mockery\MockInterface;
-
-use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 use function Spatie\PestPluginTestTime\testTime;
@@ -73,7 +65,7 @@ test('action create compartilha os dados esperados com a view/componente correto
                         'solicitacoes' => route('api.solicitacao.recebedor.show'),
                         'imprimir_ultima_guia' => route('atendimento.guia.pdf', $guia->id),
                         'entregar' => route('atendimento.entregar-processo.store'),
-                    ]
+                    ],
                 ])
         );
 });
@@ -130,6 +122,7 @@ test('entrega de processo gera a guia de remessa dos processos solicitados', fun
 
     $processos = $solicitacoes->map(function (Solicitacao $solicitacao) {
         $solicitacao->loadMissing(['processo', 'solicitante']);
+
         return [
             'numero' => apenasNumeros($solicitacao->processo->numero),
             'qtd_volumes' => $solicitacao->processo->qtd_volumes,

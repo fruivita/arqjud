@@ -4,8 +4,8 @@ namespace App\Http\Requests\Atendimento;
 
 use App\Enums\Policy;
 use App\Models\Solicitacao;
-use App\Rules\RecebedorHabilitado;
 use App\Rules\PasswordValido;
+use App\Rules\RecebedorHabilitado;
 use App\Rules\SolicitacaoEntregavel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

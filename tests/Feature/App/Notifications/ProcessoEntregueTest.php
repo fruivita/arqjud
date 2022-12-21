@@ -34,7 +34,7 @@ beforeEach(function () {
                     'username' => 'loren',
                     'nome' => '',
                 ],
-            ]
+            ],
         ],
         'recebedor' => 'ipson dolor',
         'lotacao_destinataria' => 'lot foo',

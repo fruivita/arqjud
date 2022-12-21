@@ -60,7 +60,7 @@ class GuiaFactory extends Factory
                 'solicitante' => [
                     'username' => fake()->firstName(),
                     'nome' => fake()->name(),
-                ]
+                ],
             ];
         }
 
