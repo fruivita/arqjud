@@ -26,7 +26,6 @@ class Guia extends Model
      */
     protected $casts = [
         'gerada_em' => 'datetime',
-        'solicitante' => AsArrayObject::class,
         'remetente' => AsArrayObject::class,
         'recebedor' => AsArrayObject::class,
         'lotacao_destinataria' => AsArrayObject::class,
