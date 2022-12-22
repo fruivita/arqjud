@@ -23,16 +23,12 @@ const { copy, copied, isSupported } = useClipboard({
 </script>
 
 <template>
-    <div class="flex items-center space-y-1">
-        <span>{{ copiavel }}</span>
-
-        <button
-            v-if="isSupported"
-            :disabled="copied"
-            @click="copy()"
-            class="rounded p-1 opacity-50 ring-primaria-500 transition duration-150 hover:opacity-100 dark:ring-secundaria-500"
-        >
-            <Icone :nome="copied ? 'check-circle' : 'clipboard'" class="h-4 w-4" />
-        </button>
-    </div>
+    <button
+        v-if="isSupported"
+        :disabled="copied"
+        @click="copy()"
+        class="rounded p-1 opacity-50 ring-primaria-500 transition duration-150 hover:opacity-100 dark:ring-secundaria-500"
+    >
+        <Icone :nome="copied ? 'check-circle' : 'clipboard'" class="h-4 w-4" />
+    </button>
 </template>
