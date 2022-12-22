@@ -24,6 +24,7 @@ import CheckBox from '@/Shared/Forms/CheckBox.vue';
 import Pesquisa from '@/Shared/Forms/Pesquisa.vue';
 import InertiaButtonLink from '@/Shared/Inertia/InertiaButtonLink.vue';
 import Card from '@/Shared/Misc/Card.vue';
+import Clipboard from '@/Shared/Misc/Clipboard.vue';
 import Tooltip from '@/Shared/Misc/Tooltip.vue';
 import ModalConfirmacao from '@/Shared/Modals/ModalConfirmacao.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
@@ -268,6 +269,8 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.processo">
                                 <span>{{ solicitacao.processo.numero }}</span>
+
+                                <Clipboard :copiavel="solicitacao.processo.numero" class="ml-1" />
 
                                 <Tooltip
                                     v-if="solicitacao.processo.numero_antigo"

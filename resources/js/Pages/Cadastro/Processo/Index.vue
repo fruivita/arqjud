@@ -319,89 +319,103 @@ watch(perPage, filtrar);
                     <template v-if="processos.data.length">
                         <Row v-for="processo in processos.data" :key="processo.id">
                             <Cell v-show="elementosVisiveis.processo">
-                                <Clipboard :copiavel="processo.numero" />
+                                <span>{{ processo.numero }}</span>
+
+                                <Clipboard :copiavel="processo.numero" class="ml-1" />
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.numeroAntigo">
+                                <span>{{ processo.numero_antigo }}</span>
+
                                 <Clipboard
                                     v-if="processo.numero_antigo"
                                     :copiavel="processo.numero_antigo"
+                                    class="ml-1"
                                 />
                             </Cell>
 
-                            <Cell v-show="elementosVisiveis.arquivadoEm">{{
-                                processo.arquivado_em
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.arquivadoEm">
+                                {{ processo.arquivado_em }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.guardaPermanente">{{
-                                processo.guarda_permanente
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.guardaPermanente">
+                                {{ processo.guarda_permanente }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.qtdVolumes">{{
-                                processo.qtd_volumes
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.qtdVolumes">
+                                {{ processo.qtd_volumes }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.processosFilho">{{
-                                processo.processos_filho_count
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.processosFilho">
+                                {{ processo.processos_filho_count }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.solicitacoes">{{
-                                processo.solicitacoes_count
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.solicitacoes">
+                                {{ processo.solicitacoes_count }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.localidade">{{
-                                processo.volume_caixa.caixa.prateleira.estante.sala.andar.predio
-                                    .localidade.nome
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.localidade">
+                                {{
+                                    processo.volume_caixa.caixa.prateleira.estante.sala.andar.predio
+                                        .localidade.nome
+                                }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.predio">{{
-                                processo.volume_caixa.caixa.prateleira.estante.sala.andar.predio
-                                    .nome
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.predio">
+                                {{
+                                    processo.volume_caixa.caixa.prateleira.estante.sala.andar.predio
+                                        .nome
+                                }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.andarNumero">{{
-                                processo.volume_caixa.caixa.prateleira.estante.sala.andar.numero
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.andarNumero">
+                                {{
+                                    processo.volume_caixa.caixa.prateleira.estante.sala.andar.numero
+                                }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.andarApelido">{{
-                                processo.volume_caixa.caixa.prateleira.estante.sala.andar.apelido
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.andarApelido">
+                                {{
+                                    processo.volume_caixa.caixa.prateleira.estante.sala.andar
+                                        .apelido
+                                }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.sala">{{
-                                processo.volume_caixa.caixa.prateleira.estante.sala.numero
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.sala">
+                                {{ processo.volume_caixa.caixa.prateleira.estante.sala.numero }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.estante">{{
-                                processo.volume_caixa.caixa.prateleira.estante.numero
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.estante">
+                                {{ processo.volume_caixa.caixa.prateleira.estante.numero }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.prateleira">{{
-                                processo.volume_caixa.caixa.prateleira.numero
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.prateleira">
+                                {{ processo.volume_caixa.caixa.prateleira.numero }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.caixa">{{
-                                processo.volume_caixa.caixa.numero
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.caixa">
+                                {{ processo.volume_caixa.caixa.numero }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.caixaAno">{{
-                                processo.volume_caixa.caixa.ano
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.caixaAno">
+                                {{ processo.volume_caixa.caixa.ano }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.caixaGuardaPermanente">{{
-                                processo.volume_caixa.caixa.guarda_permanente
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.caixaGuardaPermanente">
+                                {{ processo.volume_caixa.caixa.guarda_permanente }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.caixaLocalidadeCriadora">{{
-                                processo.volume_caixa.caixa.localidade_criadora.nome
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.caixaLocalidadeCriadora">
+                                {{ processo.volume_caixa.caixa.localidade_criadora.nome }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.caixaComplemento">{{
-                                processo.volume_caixa.caixa.complemento
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.caixaComplemento">
+                                {{ processo.volume_caixa.caixa.complemento }}
+                            </Cell>
 
-                            <Cell v-show="elementosVisiveis.volumeCaixa">{{
-                                processo.volume_caixa.numero
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.volumeCaixa">
+                                {{ processo.volume_caixa.numero }}
+                            </Cell>
 
                             <Cell v-show="elementosVisiveis.acao" class="w-10">
                                 <div class="flex space-x-3">

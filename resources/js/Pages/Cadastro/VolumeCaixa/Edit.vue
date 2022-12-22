@@ -349,13 +349,18 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                     <template v-if="processos.data.length">
                         <Row v-for="processo in processos.data" :key="processo.id">
                             <Cell v-show="elementosVisiveis.processo">
-                                <Clipboard :copiavel="processo.numero" />
+                                <span>{{ processo.numero }}</span>
+
+                                <Clipboard :copiavel="processo.numero" class="ml-1" />
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.numeroAntigo">
+                                <span>{{ processo.numero_antigo }}</span>
+
                                 <Clipboard
                                     v-if="processo.numero_antigo"
                                     :copiavel="processo.numero_antigo"
+                                    class="ml-1"
                                 />
                             </Cell>
 

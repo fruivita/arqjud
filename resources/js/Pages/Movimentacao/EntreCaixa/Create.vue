@@ -19,6 +19,7 @@ import DropDown from '@/Shared/Forms/DropDown.vue';
 import NumeroInput from '@/Shared/Forms/NumeroInput.vue';
 import TextInput from '@/Shared/Forms/TextInput.vue';
 import Clipboard from '@/Shared/Misc/Clipboard.vue';
+import Tooltip from '@/Shared/Misc/Tooltip.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
 import Heading from '@/Shared/Tables/Heading.vue';
 import Row from '@/Shared/Tables/Row.vue';
@@ -97,7 +98,7 @@ const addProcesso = async () => {
         .post(props.links.search.processo, formProcesso)
         .then(function (resposta) {
             formMoverProcessos.processos.unshift(
-                pick(resposta.data.processo, ['numero', 'guarda_permanente'])
+                pick(resposta.data.processo, ['numero', 'guarda_permanente', 'numero_antigo'])
             );
             formProcesso.reset();
         })
@@ -231,7 +232,15 @@ const viewReset = () => {
                     <template v-if="processos.length">
                         <Row v-for="(processo, indice) in processos" :key="processo.numero">
                             <Cell :erro="formMoverProcessos.errors[`processos.${indice}.numero`]">
-                                <Clipboard :copiavel="processo.numero" />
+                                <span>{{ processo.numero }}</span>
+
+                                <Clipboard :copiavel="processo.numero" class="ml-1" />
+
+                                <Tooltip
+                                    v-if="processo.numero_antigo"
+                                    :texto="processo.numero_antigo"
+                                    class="ml-1"
+                                />
                             </Cell>
 
                             <Cell>{{ processo.guarda_permanente }}</Cell>

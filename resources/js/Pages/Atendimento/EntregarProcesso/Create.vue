@@ -17,6 +17,7 @@ import Pagina from '@/Shared/Containers/Pagina.vue';
 import CheckBox from '@/Shared/Forms/CheckBox.vue';
 import MensagemErro from '@/Shared/Forms/MensagemErro.vue';
 import TextInput from '@/Shared/Forms/TextInput.vue';
+import Clipboard from '@/Shared/Misc/Clipboard.vue';
 import Tooltip from '@/Shared/Misc/Tooltip.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
 import Heading from '@/Shared/Tables/Heading.vue';
@@ -245,7 +246,20 @@ const entregarRemessas = () => {
                                         />
                                     </Cell>
 
-                                    <Cell>{{ solicitacao.processo.numero }}</Cell>
+                                    <Cell>
+                                        <span>{{ solicitacao.processo.numero }}</span>
+
+                                        <Clipboard
+                                            :copiavel="solicitacao.processo.numero"
+                                            class="ml-1"
+                                        />
+
+                                        <Tooltip
+                                            v-if="solicitacao.processo.numero_antigo"
+                                            :texto="solicitacao.processo.numero_antigo"
+                                            class="ml-1"
+                                        />
+                                    </Cell>
 
                                     <Cell>{{ solicitacao.processo.qtd_volumes }}</Cell>
 
@@ -278,7 +292,7 @@ const entregarRemessas = () => {
                             <template v-else>
                                 <Row>
                                     <Cell colspan="7">
-                                        {{ __('Nenhum processo solicitado para entrega!') }}
+                                        {{ __('Nenhum processo disponível para entrega!') }}
                                     </Cell>
                                 </Row>
                             </template>
