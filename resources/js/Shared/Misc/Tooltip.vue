@@ -96,7 +96,7 @@ onClickOutside(floatingRef, () => {
             @click="click"
             @mouseover="mouveover"
             @mouseout="mouseout"
-            class="rounded p-1 outline-none ring-primaria-500 hover:ring-2 focus:ring-2 dark:ring-secundaria-500"
+            class="rounded p-1 opacity-50 ring-primaria-500 transition duration-150 hover:opacity-100 dark:ring-secundaria-500"
             dusk="toggle"
             type="button"
         >
