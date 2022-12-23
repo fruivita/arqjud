@@ -5,8 +5,8 @@
  * @see https://inertiajs.com/testing
  */
 
-use App\Http\Resources\Caixa\CaixaResource;
-use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
+use App\Http\Resources\Caixa\CaixaEditResource;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaEditResource;
 use App\Models\Permissao;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
@@ -26,7 +26,7 @@ afterEach(function () {
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
     concederPermissao([Permissao::PROCESSO_CREATE, Permissao::VOLUME_CAIXA_DELETE, Permissao::VOLUME_CAIXA_VIEW, Permissao::VOLUME_CAIXA_UPDATE]);
 
-    $resource = VolumeCaixaResource::make($this->volume);
+    $resource = VolumeCaixaEditResource::make($this->volume);
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => volumeApi($this->volume)
@@ -34,7 +34,6 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                 'links' => [
                     'view' => route('cadastro.volume-caixa.edit', $this->volume),
                     'update' => route('cadastro.volume-caixa.update', $this->volume),
-                    'delete' => route('cadastro.volume-caixa.destroy', $this->volume),
                     'processo' => [
                         'create' => route('cadastro.processo.create', $this->volume),
                         'store' => route('cadastro.processo.store', $this->volume),
@@ -45,17 +44,17 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 });
 
 test('retorna a caixa pai se houver o eager load da propriedade', function () {
-    $resource = VolumeCaixaResource::make($this->volume->load(['caixa']));
+    $resource = VolumeCaixaEditResource::make($this->volume->load(['caixa']));
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => volumeApi($this->volume)
-            + ['caixa' => CaixaResource::make($this->volume->caixa)->resolve()]
+            + ['caixa' => CaixaEditResource::make($this->volume->caixa)->resolve()]
             + ['links' => []],
     ]);
 });
 
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
-    $resource = VolumeCaixaResource::make($this->volume->loadCount('processos'));
+    $resource = VolumeCaixaEditResource::make($this->volume->loadCount('processos'));
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => volumeApi($this->volume)
@@ -65,7 +64,7 @@ test('retorna a quantidade de filhos se houver o eager load da propriedade', fun
 });
 
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {
-    $resource = VolumeCaixaResource::make($this->volume);
+    $resource = VolumeCaixaEditResource::make($this->volume);
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => volumeApi($this->volume)
@@ -74,5 +73,5 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
 });
 
 test('retorna o resource vazio se o modelo for nulo', function () {
-    expect(VolumeCaixaResource::make(null)->resolve())->toBeEmpty();
+    expect(VolumeCaixaEditResource::make(null)->resolve())->toBeEmpty();
 });
