@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Estante\StoreEstanteRequest;
 use App\Http\Requests\Cadastro\Estante\UpdateEstanteRequest;
 use App\Http\Resources\Estante\EstanteCollection;
+use App\Http\Resources\Estante\EstanteEditResource;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraCollection;
+use App\Http\Resources\Sala\SalaEditResource;
 use App\Http\Resources\Sala\SalaResource;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
@@ -67,8 +69,8 @@ class EstanteController extends Controller
         $this->authorize(Policy::Create->value, Estante::class);
 
         return Inertia::render('Cadastro/Estante/Create', [
-            'ultima_insercao' => fn () => EstanteResource::make($sala->estantes()->latest()->first()),
-            'sala' => fn () => SalaResource::make($sala->load('andar.predio.localidade')),
+            'ultima_insercao' => fn () => EstanteEditResource::make($sala->estantes()->latest()->first()),
+            'sala' => fn () => SalaEditResource::make($sala->load('andar.predio.localidade')),
         ]);
     }
 
@@ -101,7 +103,7 @@ class EstanteController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Estante::class);
 
         return Inertia::render('Cadastro/Estante/Edit', [
-            'estante' => fn () => EstanteResource::make($estante->load('sala.andar.predio.localidade')),
+            'estante' => fn () => EstanteEditResource::make($estante->load('sala.andar.predio.localidade')),
             'prateleiras' => fn () => PrateleiraCollection::make(
                 Pipeline::make()
                     ->send(Prateleira::withCount(['caixas'])->whereBelongsTo($estante))

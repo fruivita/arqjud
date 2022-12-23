@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Localidade\StoreLocalidadeRequest;
 use App\Http\Requests\Cadastro\Localidade\UpdateLocalidadeRequest;
 use App\Http\Resources\Localidade\LocalidadeCollection;
+use App\Http\Resources\Localidade\LocalidadeEditResource;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
 use App\Http\Traits\ComFeedback;
@@ -63,7 +64,7 @@ class LocalidadeController extends Controller
         $this->authorize(Policy::Create->value, Localidade::class);
 
         return Inertia::render('Cadastro/Localidade/Create', [
-            'ultima_insercao' => fn () => LocalidadeResource::make(Localidade::latest()->first()),
+            'ultima_insercao' => fn () => LocalidadeEditResource::make(Localidade::latest()->first()),
             'links' => fn () => ['store' => route('cadastro.localidade.store')],
         ]);
     }
@@ -97,7 +98,7 @@ class LocalidadeController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Localidade::class);
 
         return Inertia::render('Cadastro/Localidade/Edit', [
-            'localidade' => fn () => LocalidadeResource::make($localidade),
+            'localidade' => fn () => LocalidadeEditResource::make($localidade),
             'predios' => fn () => PredioCollection::make(
                 Pipeline::make()
                     ->send(Predio::withCount(['andares'])->whereBelongsTo($localidade))

@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Predio\StorePredioRequest;
 use App\Http\Requests\Cadastro\Predio\UpdatePredioRequest;
 use App\Http\Resources\Andar\AndarCollection;
+use App\Http\Resources\Localidade\LocalidadeEditResource;
 use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
+use App\Http\Resources\Predio\PredioEditResource;
 use App\Http\Resources\Predio\PredioResource;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
@@ -67,8 +69,8 @@ class PredioController extends Controller
         $this->authorize(Policy::Create->value, Predio::class);
 
         return Inertia::render('Cadastro/Predio/Create', [
-            'ultima_insercao' => fn () => PredioResource::make($localidade->predios()->latest()->first()),
-            'localidade' => fn () => LocalidadeResource::make($localidade),
+            'ultima_insercao' => fn () => PredioEditResource::make($localidade->predios()->latest()->first()),
+            'localidade' => fn () => LocalidadeEditResource::make($localidade),
         ]);
     }
 
@@ -102,7 +104,7 @@ class PredioController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Predio::class);
 
         return Inertia::render('Cadastro/Predio/Edit', [
-            'predio' => fn () => PredioResource::make($predio->load('localidade')),
+            'predio' => fn () => PredioEditResource::make($predio->load('localidade')),
             'andares' => fn () => AndarCollection::make(
                 Pipeline::make()
                     ->send(Andar::withCount(['salas'])->whereBelongsTo($predio))

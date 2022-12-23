@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Processo\StoreProcessoRequest;
 use App\Http\Requests\Cadastro\Processo\UpdateProcessoRequest;
 use App\Http\Resources\Processo\ProcessoCollection;
+use App\Http\Resources\Processo\ProcessoEditResource;
 use App\Http\Resources\Processo\ProcessoResource;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaEditResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
@@ -64,8 +66,8 @@ class ProcessoController extends Controller
         $this->authorize(Policy::Create->value, Processo::class);
 
         return Inertia::render('Cadastro/Processo/Create', [
-            'ultima_insercao' => fn () => ProcessoResource::make($volume_caixa->processos()->latest()->first()),
-            'volume_caixa' => fn () => VolumeCaixaResource::make($volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora'])),
+            'ultima_insercao' => fn () => ProcessoEditResource::make($volume_caixa->processos()->latest()->first()),
+            'volume_caixa' => fn () => VolumeCaixaEditResource::make($volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora'])),
         ]);
     }
 
@@ -111,7 +113,7 @@ class ProcessoController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Processo::class);
 
         return Inertia::render('Cadastro/Processo/Edit', [
-            'processo' => fn () => ProcessoResource::make($processo->load(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora', 'processoPai'])),
+            'processo' => fn () => ProcessoEditResource::make($processo->load(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora', 'processoPai'])),
             'processos_filho' => fn () => ProcessoCollection::make(
                 Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($processo, 'processoPai'))

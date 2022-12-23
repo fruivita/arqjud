@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Andar\StoreAndarRequest;
 use App\Http\Requests\Cadastro\Andar\UpdateAndarRequest;
 use App\Http\Resources\Andar\AndarCollection;
+use App\Http\Resources\Andar\AndarEditResource;
 use App\Http\Resources\Andar\AndarResource;
+use App\Http\Resources\Predio\PredioEditResource;
 use App\Http\Resources\Predio\PredioResource;
 use App\Http\Resources\Sala\SalaCollection;
 use App\Http\Traits\ComFeedback;
@@ -67,8 +69,8 @@ class AndarController extends Controller
         $this->authorize(Policy::Create->value, Andar::class);
 
         return Inertia::render('Cadastro/Andar/Create', [
-            'ultima_insercao' => fn () => AndarResource::make($predio->andares()->latest()->first()),
-            'predio' => fn () => PredioResource::make($predio->load('localidade')),
+            'ultima_insercao' => fn () => AndarEditResource::make($predio->andares()->latest()->first()),
+            'predio' => fn () => PredioEditResource::make($predio->load('localidade')),
         ]);
     }
 
@@ -103,7 +105,7 @@ class AndarController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Andar::class);
 
         return Inertia::render('Cadastro/Andar/Edit', [
-            'andar' => fn () => AndarResource::make($andar->load('predio.localidade')),
+            'andar' => fn () => AndarEditResource::make($andar->load('predio.localidade')),
             'salas' => fn () => SalaCollection::make(
                 Pipeline::make()
                     ->send(Sala::withCount(['estantes'])->whereBelongsTo($andar))

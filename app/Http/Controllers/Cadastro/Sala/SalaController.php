@@ -6,9 +6,11 @@ use App\Enums\Policy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Sala\StoreSalaRequest;
 use App\Http\Requests\Cadastro\Sala\UpdateSalaRequest;
+use App\Http\Resources\Andar\AndarEditResource;
 use App\Http\Resources\Andar\AndarResource;
 use App\Http\Resources\Estante\EstanteCollection;
 use App\Http\Resources\Sala\SalaCollection;
+use App\Http\Resources\Sala\SalaEditResource;
 use App\Http\Resources\Sala\SalaResource;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
@@ -67,8 +69,8 @@ class SalaController extends Controller
         $this->authorize(Policy::Create->value, Sala::class);
 
         return Inertia::render('Cadastro/Sala/Create', [
-            'ultima_insercao' => fn () => SalaResource::make($andar->salas()->latest()->first()),
-            'andar' => fn () => AndarResource::make($andar->load('predio.localidade')),
+            'ultima_insercao' => fn () => SalaEditResource::make($andar->salas()->latest()->first()),
+            'andar' => fn () => AndarEditResource::make($andar->load('predio.localidade')),
         ]);
     }
 
@@ -101,7 +103,7 @@ class SalaController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Sala::class);
 
         return Inertia::render('Cadastro/Sala/Edit', [
-            'sala' => fn () => SalaResource::make($sala->load('andar.predio.localidade')),
+            'sala' => fn () => SalaEditResource::make($sala->load('andar.predio.localidade')),
             'estantes' => fn () => EstanteCollection::make(
                 Pipeline::make()
                     ->send(Estante::withCount(['prateleiras'])->whereBelongsTo($sala))

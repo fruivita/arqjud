@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Caixa\StoreCaixaRequest;
 use App\Http\Requests\Cadastro\Caixa\UpdateCaixaRequest;
 use App\Http\Resources\Caixa\CaixaCollection;
+use App\Http\Resources\Caixa\CaixaEditResource;
 use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
+use App\Http\Resources\Prateleira\PrateleiraEditResource;
 use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaCollection;
 use App\Http\Traits\ComFeedback;
@@ -69,8 +71,8 @@ class CaixaController extends Controller
         $this->authorize(Policy::Create->value, Caixa::class);
 
         return Inertia::render('Cadastro/Caixa/Create', [
-            'ultima_insercao' => fn () => CaixaResource::make($prateleira->caixas()->with('localidadeCriadora')->latest()->first()),
-            'prateleira' => fn () => PrateleiraResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
+            'ultima_insercao' => fn () => CaixaEditResource::make($prateleira->caixas()->with('localidadeCriadora')->latest()->first()),
+            'prateleira' => fn () => PrateleiraEditResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
             // @todo melhorar esse limite
             'localidades' => fn () => LocalidadeOnlyResource::collection(Localidade::limit(10)->get()),
         ]);
@@ -110,7 +112,7 @@ class CaixaController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Caixa::class);
 
         return Inertia::render('Cadastro/Caixa/Edit', [
-            'caixa' => fn () => CaixaResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
+            'caixa' => fn () => CaixaEditResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
             'volumes_caixa' => fn () => VolumeCaixaCollection::make(
                 Pipeline::make()
                     ->send(VolumeCaixa::withCount(['processos'])->whereBelongsTo($caixa))

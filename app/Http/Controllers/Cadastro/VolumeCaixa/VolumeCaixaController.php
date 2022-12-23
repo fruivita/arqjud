@@ -6,9 +6,11 @@ use App\Enums\Policy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\VolumeCaixa\StoreVolumeCaixaRequest;
 use App\Http\Requests\Cadastro\VolumeCaixa\UpdateVolumeCaixaRequest;
+use App\Http\Resources\Caixa\CaixaEditResource;
 use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Processo\ProcessoCollection;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaCollection;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaEditResource;
 use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
@@ -67,8 +69,8 @@ class VolumeCaixaController extends Controller
         $this->authorize(Policy::Create->value, VolumeCaixa::class);
 
         return Inertia::render('Cadastro/VolumeCaixa/Create', [
-            'ultima_insercao' => fn () => VolumeCaixaResource::make($caixa->volumes()->latest()->first()),
-            'caixa' => fn () => CaixaResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
+            'ultima_insercao' => fn () => VolumeCaixaEditResource::make($caixa->volumes()->latest()->first()),
+            'caixa' => fn () => CaixaEditResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
         ]);
     }
 
@@ -102,7 +104,7 @@ class VolumeCaixaController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, VolumeCaixa::class);
 
         return Inertia::render('Cadastro/VolumeCaixa/Edit', [
-            'volume_caixa' => fn () => VolumeCaixaResource::make($volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora'])),
+            'volume_caixa' => fn () => VolumeCaixaEditResource::make($volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora'])),
             'processos' => fn () => ProcessoCollection::make(
                 Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($volume_caixa))

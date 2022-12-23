@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Prateleira\StorePrateleiraRequest;
 use App\Http\Requests\Cadastro\Prateleira\UpdatePrateleiraRequest;
 use App\Http\Resources\Caixa\CaixaCollection;
+use App\Http\Resources\Estante\EstanteEditResource;
 use App\Http\Resources\Estante\EstanteResource;
 use App\Http\Resources\Prateleira\PrateleiraCollection;
+use App\Http\Resources\Prateleira\PrateleiraEditResource;
 use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
@@ -68,8 +70,8 @@ class PrateleiraController extends Controller
         $this->authorize(Policy::Create->value, Prateleira::class);
 
         return Inertia::render('Cadastro/Prateleira/Create', [
-            'ultima_insercao' => fn () => PrateleiraResource::make($estante->prateleiras()->latest()->first()),
-            'estante' => fn () => EstanteResource::make($estante->load('sala.andar.predio.localidade')),
+            'ultima_insercao' => fn () => PrateleiraEditResource::make($estante->prateleiras()->latest()->first()),
+            'estante' => fn () => EstanteEditResource::make($estante->load('sala.andar.predio.localidade')),
         ]);
     }
 
@@ -103,7 +105,7 @@ class PrateleiraController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Prateleira::class);
 
         return Inertia::render('Cadastro/Prateleira/Edit', [
-            'prateleira' => fn () => PrateleiraResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
+            'prateleira' => fn () => PrateleiraEditResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
             'caixas' => fn () => CaixaCollection::make(
                 Pipeline::make()
                     ->send(Caixa::with(['localidadeCriadora'])->withCount(['volumes'])->whereBelongsTo($prateleira))
