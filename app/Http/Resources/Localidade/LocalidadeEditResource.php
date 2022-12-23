@@ -4,6 +4,7 @@ namespace App\Http\Resources\Localidade;
 
 use App\Enums\Policy;
 use App\Models\Localidade;
+use App\Models\Predio;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

@@ -6,6 +6,7 @@ use App\Enums\Policy;
 use App\Http\Resources\Localidade\LocalidadeEditResource;
 use App\Http\Resources\Prateleira\PrateleiraEditResource;
 use App\Models\Caixa;
+use App\Models\VolumeCaixa;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
