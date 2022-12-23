@@ -31,22 +31,31 @@ parameters:
   - App\Models\Solicitacao
   - App\Models\Guia
   - App\Http\Resources\Localidade\LocalidadeOnlyResource
+  - App\Http\Resources\Localidade\LocalidadeEditResource
   - App\Http\Resources\Localidade\LocalidadeResource
   - App\Http\Resources\Predio\PredioOnlyResource
+  - App\Http\Resources\Predio\PredioEditResource
   - App\Http\Resources\Predio\PredioResource
   - App\Http\Resources\Andar\AndarOnlyResource
+  - App\Http\Resources\Andar\AndarEditResource
   - App\Http\Resources\Andar\AndarResource
   - App\Http\Resources\Sala\SalaOnlyResource
+  - App\Http\Resources\Sala\SalaEditResource
   - App\Http\Resources\Sala\SalaResource
   - App\Http\Resources\Caixa\CaixaOnlyResource
+  - App\Http\Resources\Caixa\CaixaEditResource
   - App\Http\Resources\Caixa\CaixaResource
   - App\Http\Resources\Estante\EstanteOnlyResource
+  - App\Http\Resources\Estante\EstanteEditResource
   - App\Http\Resources\Estante\EstanteResource
   - App\Http\Resources\Prateleira\PrateleiraOnlyResource
+  - App\Http\Resources\Prateleira\PrateleiraEditResource
   - App\Http\Resources\Prateleira\PrateleiraResource
   - App\Http\Resources\VolumeCaixa\VolumeCaixaOnlyResource
+  - App\Http\Resources\VolumeCaixa\VolumeCaixaEditResource
   - App\Http\Resources\VolumeCaixa\VolumeCaixaResource
   - App\Http\Resources\Processo\ProcessoOnlyResource
+  - App\Http\Resources\Processo\ProcessoEditResource
   - App\Http\Resources\Processo\ProcessoResource
   - App\Http\Resources\Cargo\CargoOnlyResource
   - App\Http\Resources\Lotacao\LotacaoOnlyResource
