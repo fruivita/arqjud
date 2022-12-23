@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Estante;
 
 use App\Enums\Policy;
-use App\Http\Resources\Sala\SalaResource;
+use App\Http\Resources\Sala\SalaEditResource;
 use App\Models\Estante;
 use App\Models\Prateleira;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,7 +27,7 @@ class EstanteResource extends JsonResource
                 'numero' => $this->numero,
                 'descricao' => $this->descricao,
                 'sala_id' => $this->sala_id,
-                'sala' => SalaResource::make($this->whenLoaded('sala')),
+                'sala' => SalaEditResource::make($this->whenLoaded('sala')),
                 'prateleiras_count' => $this->whenCounted('prateleiras'),
                 'links' => [
                     'view' => $this->when(

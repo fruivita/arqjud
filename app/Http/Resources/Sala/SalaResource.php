@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Sala;
 
 use App\Enums\Policy;
-use App\Http\Resources\Andar\AndarResource;
+use App\Http\Resources\Andar\AndarEditResource;
 use App\Models\Estante;
 use App\Models\Sala;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,7 +27,7 @@ class SalaResource extends JsonResource
                 'numero' => $this->numero,
                 'descricao' => $this->descricao,
                 'andar_id' => $this->andar_id,
-                'andar' => AndarResource::make($this->whenLoaded('andar')),
+                'andar' => AndarEditResource::make($this->whenLoaded('andar')),
                 'estantes_count' => $this->whenCounted('estantes'),
                 'links' => [
                     'view' => $this->when(

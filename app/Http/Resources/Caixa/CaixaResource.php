@@ -3,8 +3,8 @@
 namespace App\Http\Resources\Caixa;
 
 use App\Enums\Policy;
-use App\Http\Resources\Localidade\LocalidadeResource;
-use App\Http\Resources\Prateleira\PrateleiraResource;
+use App\Http\Resources\Localidade\LocalidadeEditResource;
+use App\Http\Resources\Prateleira\PrateleiraEditResource;
 use App\Models\Caixa;
 use App\Models\VolumeCaixa;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -32,8 +32,8 @@ class CaixaResource extends JsonResource
                 'descricao' => $this->descricao,
                 'prateleira_id' => $this->prateleira_id,
                 'localidade_criadora_id' => $this->localidade_criadora_id,
-                'prateleira' => PrateleiraResource::make($this->whenLoaded('prateleira')),
-                'localidade_criadora' => LocalidadeResource::make($this->whenLoaded('localidadeCriadora')),
+                'prateleira' => PrateleiraEditResource::make($this->whenLoaded('prateleira')),
+                'localidade_criadora' => LocalidadeEditResource::make($this->whenLoaded('localidadeCriadora')),
                 'volumes_count' => $this->whenCounted('volumes'),
                 'links' => [
                     'view' => $this->when(

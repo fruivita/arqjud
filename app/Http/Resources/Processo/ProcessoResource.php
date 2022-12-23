@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Processo;
 
 use App\Enums\Policy;
-use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
+use App\Http\Resources\VolumeCaixa\VolumeCaixaEditResource;
 use App\Models\Processo;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -31,7 +31,7 @@ class ProcessoResource extends JsonResource
                 'descricao' => $this->descricao,
                 'volume_caixa_id' => $this->volume_caixa_id,
                 'processo_pai_id' => $this->processo_pai_id,
-                'volume_caixa' => VolumeCaixaResource::make($this->whenLoaded('volumeCaixa')),
+                'volume_caixa' => VolumeCaixaEditResource::make($this->whenLoaded('volumeCaixa')),
                 'processo_pai' => ProcessoResource::make($this->whenLoaded('processoPai')),
                 'processos_filho_count' => $this->whenCounted('processosFilho'),
                 'solicitacoes_count' => $this->whenCounted('solicitacoes'),
