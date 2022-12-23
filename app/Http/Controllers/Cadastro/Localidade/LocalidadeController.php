@@ -8,7 +8,6 @@ use App\Http\Requests\Cadastro\Localidade\StoreLocalidadeRequest;
 use App\Http\Requests\Cadastro\Localidade\UpdateLocalidadeRequest;
 use App\Http\Resources\Localidade\LocalidadeCollection;
 use App\Http\Resources\Localidade\LocalidadeEditResource;
-use App\Http\Resources\Localidade\LocalidadeResource;
 use App\Http\Resources\Predio\PredioCollection;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
