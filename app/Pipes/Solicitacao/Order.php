@@ -118,7 +118,7 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pela username do solicitante.
+     * Aplica a ordenação pelo username do solicitante.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
@@ -132,7 +132,7 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pela username do recebedor.
+     * Aplica a ordenação pelo username do recebedor.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
@@ -146,7 +146,7 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pela username do remetente.
+     * Aplica a ordenação pelo username do remetente.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
@@ -160,7 +160,7 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pela username do rearquivador.
+     * Aplica a ordenação pelo username do rearquivador.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
