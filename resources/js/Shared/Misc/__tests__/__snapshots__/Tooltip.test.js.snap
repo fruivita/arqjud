@@ -5,7 +5,7 @@ exports[`Tooltip > exibe o tooltip ao clicar no botão respeitando o snapshot 1`
       <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
       <path d=\\"m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
     </svg></button>
-  <div class=\\"absolute top-0 left-0 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"\\"><span>foo</span>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"\\"><span>foo</span>
     <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
   </div>
 </div>"
@@ -16,7 +16,7 @@ exports[`Tooltip > renderiza o componente com ícone específico respeitando o s
       <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
       <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
     </svg></button>
-  <div class=\\"absolute top-0 left-0 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
     <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
   </div>
 </div>"
@@ -27,7 +27,7 @@ exports[`Tooltip > renderiza o componente default respeitando o snapshot 1`] = `
       <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
       <path d=\\"m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
     </svg></button>
-  <div class=\\"absolute top-0 left-0 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
     <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
   </div>
 </div>"
@@ -38,7 +38,7 @@ exports[`Tooltip > renderiza o componente informando um array de textos respeita
       <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
       <path d=\\"m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
     </svg></button>
-  <div class=\\"absolute top-0 left-0 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span class=\\"block\\">foo</span><span class=\\"block\\">bar</span><span class=\\"block\\">baz</span>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span class=\\"block\\">foo</span><span class=\\"block\\">bar</span><span class=\\"block\\">baz</span>
     <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
   </div>
 </div>"
@@ -49,7 +49,7 @@ exports[`Tooltip > renderiza o componente nas posições específicas respeitand
       <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
       <path d=\\"m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
     </svg></button>
-  <div class=\\"absolute top-0 left-0 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
     <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
   </div>
 </div>"
@@ -60,7 +60,7 @@ exports[`Tooltip > renderiza o componente nas posições específicas respeitand
       <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
       <path d=\\"m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
     </svg></button>
-  <div class=\\"absolute top-0 left-0 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
     <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
   </div>
 </div>"
@@ -71,7 +71,7 @@ exports[`Tooltip > renderiza o componente nas posições específicas respeitand
       <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
       <path d=\\"m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
     </svg></button>
-  <div class=\\"absolute top-0 left-0 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
     <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
   </div>
 </div>"
@@ -82,7 +82,7 @@ exports[`Tooltip > renderiza o componente nas posições específicas respeitand
       <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
       <path d=\\"m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
     </svg></button>
-  <div class=\\"absolute top-0 left-0 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"tooltip\\" style=\\"display: none;\\"><span>foo</span>
     <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
   </div>
 </div>"

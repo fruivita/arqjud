@@ -106,7 +106,7 @@ onClickOutside(floatingRef, () => {
         <div
             v-show="exibirTooltip"
             ref="floatingRef"
-            class="absolute top-0 left-0 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50"
+            class="absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50"
             dusk="tooltip"
         >
             <template v-if="isArray(texto)">
