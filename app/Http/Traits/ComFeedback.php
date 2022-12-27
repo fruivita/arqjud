@@ -24,8 +24,8 @@ trait ComFeedback
     {
         return [
             'feedback' => $resultado
-                ? ['sucesso' => $mensagem ?? __('Comando executado com sucesso!')]
-                : ['erro' => $mensagem ?? __('Falha na execução do comando!')],
+                ? ['sucesso' => $mensagem ?: __('Comando executado com sucesso!')]
+                : ['erro' => $mensagem ?: __('Falha na execução do comando!')],
         ];
     }
 }

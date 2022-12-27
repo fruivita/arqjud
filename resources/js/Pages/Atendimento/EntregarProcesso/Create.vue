@@ -8,7 +8,6 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
-import Lotacao from '@/Models/Lotacao';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
@@ -193,11 +192,15 @@ const entregarRemessas = () => {
 
                 <div v-if="recebedor.lotacao_id >= 0">
                     <p :class="{ 'text-red-500': formEntregarProcessos.errors.recebedor }">
-                        <span>Nome: {{ recebedor.nome ?? __('Sem nome cadastrado') }}</span>
+                        {{ __('Nome: :attribute', { attribute: recebedor.nome }) }}
                     </p>
 
                     <p :class="{ 'text-red-500': recebedor.lotacao_id == 0 }">
-                        <span> Lotação: {{ new Lotacao(recebedor.lotacao).nomeExibicao() }} </span>
+                        {{
+                            __('Lotação: :attribute', {
+                                attribute: new Lotacao(recebedor.lotacao).nomeExibicao(),
+                            })
+                        }}
                     </p>
                 </div>
 

@@ -12,7 +12,7 @@
     <div class="content">
         <p>{{ __('Número: :attribute', ['attribute' => $guia->paraHumano]) }}</p>
 
-        <p>{{ __('Remetente: :attribute', ['attribute' => $guia->remetente['nome'] ?? $guia->remetente['username']]) }}</p>
+        <p>{{ __('Remetente: :attribute', ['attribute' => $guia->remetente['nome']]) }}</p>
 
         <p>{{ __('Lotação destinatária: :attribute1 - :attribute2', [ 'attribute1' => str($guia->lotacao_destinataria['sigla'])->upper(), 'attribute2' => $guia->lotacao_destinataria['nome']]) }}</p>
 
@@ -49,7 +49,7 @@
             <hr>
 
             <p style="text-align: center">
-                {{ __('Recebedor(a): :attribute', ['attribute' => $guia->recebedor['nome'] ?? $guia->recebedor['username']]) }}
+                {{ __('Recebedor(a): :attribute', ['attribute' => $guia->recebedor['nome']]) }}
             </p>
 
             <p style="text-align: center">

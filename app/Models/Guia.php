@@ -52,7 +52,7 @@ class Guia extends Model
      */
     public static function proximoNumero(int $ano = null)
     {
-        return intval(Guia::where('ano', $ano ?? now()->year)->max('numero')) + 1;
+        return intval(Guia::where('ano', $ano ?: now()->year)->max('numero')) + 1;
     }
 
     /**

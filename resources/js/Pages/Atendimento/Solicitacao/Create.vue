@@ -204,13 +204,7 @@ const viewReset = () => {
                 </form>
 
                 <div v-if="solicitante">
-                    <p>
-                        {{
-                            __('Nome: :attribute', {
-                                attribute: solicitante.nome ?? __('Sem nome cadastrado'),
-                            })
-                        }}
-                    </p>
+                    <p>{{ __('Nome: :attribute', { attribute: solicitante.nome }) }}</p>
 
                     <p>
                         {{

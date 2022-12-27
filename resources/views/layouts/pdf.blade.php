@@ -153,7 +153,7 @@
         <p>
             {{ __('Documento impresso em :attribute1 por :attribute2', [
                 'attribute1' => now()->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                'attribute2' => auth()->user()->nome ?? auth()->user()->username,
+                'attribute2' => auth()->user()->nome,
             ]) }}
         </p>
 
