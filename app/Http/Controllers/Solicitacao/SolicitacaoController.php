@@ -10,6 +10,7 @@ use App\Http\Resources\Solicitacao\CounterResource;
 use App\Http\Resources\Solicitacao\SolicitacaoCollection;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
+use App\Models\Lotacao;
 use App\Models\Solicitacao;
 use App\Pipes\Search;
 use App\Pipes\Solicitacao\JoinAll;
@@ -41,7 +42,7 @@ class SolicitacaoController extends Controller
      */
     public function index()
     {
-        auth()->user()->loadMissing('lotacao'); // @phpstan-ignore-line
+        $lotacao = Lotacao::findOrFail(auth()->user()->lotacao_id);
 
         return Inertia::render('Solicitacao/Index', [
             'solicitacoes' => fn () => SolicitacaoCollection::make(
@@ -49,15 +50,15 @@ class SolicitacaoController extends Controller
                     ->send(Solicitacao::select('solicitacoes.*')->with(['processo', 'solicitante', 'recebedor', 'remetente', 'rearquivador', 'lotacaoDestinataria']))
                     ->through([JoinAll::class, Order::class, Search::class])
                     ->thenReturn()
-                    ->whereBelongsTo(auth()->user()->lotacao, 'lotacaoDestinataria')
+                    ->whereBelongsTo($lotacao, 'lotacaoDestinataria')
                     ->paginate($this->perPage())
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
                 'order' => request()->query('order'),
-                'lotacao_destinataria' => LotacaoOnlyResource::make(auth()->user()->lotacao),
+                'lotacao_destinataria' => LotacaoOnlyResource::make($lotacao),
                 'count' => CounterResource::make(
                     Solicitacao::countAll()
-                        ->whereBelongsTo(auth()->user()->lotacao, 'lotacaoDestinataria') // @phpstan-ignore-line
+                        ->whereBelongsTo($lotacao, 'lotacaoDestinataria')
                         ->toBase()
                         ->first()
                 ),
@@ -91,13 +92,10 @@ class SolicitacaoController extends Controller
      */
     public function store(StoreSolicitacaoRequest $request)
     {
-        auth()->user()->loadMissing('lotacao');
-        throw_if(!auth()->user()->lotacao, new \UnexpectedValueException(__('Usuário sem lotação')));
-
         $solicitacao = new \stdClass();
         $solicitacao->processos = Arr::pluck($request->input('processos'), 'numero');
         $solicitacao->solicitante = auth()->user();
-        $solicitacao->destino = auth()->user()->lotacao;
+        $solicitacao->destino = Lotacao::query()->findOrFail(auth()->user()->lotacao_id);
 
         $salvo = Pipeline::make()
             ->withTransaction()
