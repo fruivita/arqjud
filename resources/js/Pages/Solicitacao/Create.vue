@@ -16,6 +16,8 @@ import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
 import TextInput from '@/Shared/Forms/TextInput.vue';
 import ChaveValor from '@/Shared/Misc/ChaveValor.vue';
+import Clipboard from '@/Shared/Misc/Clipboard.vue';
+import Tooltip from '@/Shared/Misc/Tooltip.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
 import Heading from '@/Shared/Tables/Heading.vue';
 import Row from '@/Shared/Tables/Row.vue';
@@ -79,7 +81,9 @@ const addProcesso = async () => {
     await axios
         .post(props.links.search, formProcesso)
         .then(function (resposta) {
-            formSolicitarProcessos.processos.unshift(pick(resposta.data.processo, ['numero']));
+            formSolicitarProcessos.processos.unshift(
+                pick(resposta.data.processo, ['numero', 'numero_antigo'])
+            );
             formProcesso.reset();
         })
         .catch(function (erro) {
@@ -172,7 +176,15 @@ const viewReset = () => {
                             <Cell
                                 :erro="formSolicitarProcessos.errors[`processos.${indice}.numero`]"
                             >
-                                {{ processo.numero }}
+                                <span>{{ processo.numero }}</span>
+
+                                <Clipboard :copiavel="processo.numero" class="ml-1" />
+
+                                <Tooltip
+                                    v-if="processo.numero_antigo"
+                                    :texto="processo.numero_antigo"
+                                    class="ml-1"
+                                />
                             </Cell>
 
                             <Cell>
