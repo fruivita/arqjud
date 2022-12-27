@@ -22,7 +22,7 @@ class ShowProcessoDisponivelRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can(Policy::ExternoCreate->value, Solicitacao::class);
+        return auth()->user()->canany([Policy::ExternoCreate->value, Policy::Create->value], Solicitacao::class);
     }
 
     /**

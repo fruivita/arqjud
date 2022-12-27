@@ -46,12 +46,15 @@ test('attributes estão definidas no form request', function () {
     ], $this->request->attributes());
 });
 
-test('usuário autorizado pode criar o request', function () {
+test('usuário autorizado pode criar o request', function (string $permissao) {
     $this->seed([PerfilSeeder::class]);
 
     login();
 
-    concederPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE);
+    concederPermissao($permissao);
 
     expect($this->request->authorize())->toBeTrue();
-});
+})->with([
+    Permissao::SOLICITACAO_EXTERNA_CREATE,
+    Permissao::SOLICITACAO_CREATE,
+]);
