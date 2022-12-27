@@ -27,7 +27,7 @@ test('na criação, usuário sem autorização não cria o request', function ()
 });
 
 // Caminho feliz
-test('rules estão definidas no form request para a criação do registro', function () {
+test('rules estão definidas no form request', function () {
     $prateleira = Prateleira::factory()->create();
     $localidade = Localidade::factory()->create();
 

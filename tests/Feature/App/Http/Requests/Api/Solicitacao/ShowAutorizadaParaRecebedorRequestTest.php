@@ -25,7 +25,7 @@ test('usuário sem autorização não cria o request', function () {
     expect($this->request->authorize())->toBeFalse();
 });
 
-test('rules estão definidas no form request para a exibição do processo disponível para solicitação', function () {
+test('rules estão definidas no form request', function () {
     $this->assertExactValidationRules([
         'recebedor' => [
             'bail',

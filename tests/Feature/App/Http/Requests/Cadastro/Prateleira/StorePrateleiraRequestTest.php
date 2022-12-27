@@ -26,7 +26,7 @@ test('na criação, usuário sem autorização não cria o request', function ()
 });
 
 // Caminho feliz
-test('rules estão definidas no form request para a criação do registro', function () {
+test('rules estão definidas no form request', function () {
     $estante = Estante::factory()->create();
 
     $this->request->estante = $estante;

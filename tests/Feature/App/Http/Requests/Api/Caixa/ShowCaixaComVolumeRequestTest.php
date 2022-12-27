@@ -18,7 +18,7 @@ test('request dispensa autorização específica', function () {
     expect($this->request->authorize())->toBeTrue();
 });
 
-test('rules estão definidas no form request para a exibição da caixa e seus volumes', function ($complemento) {
+test('rules estão definidas no form request', function ($complemento) {
     $this->request->localidade_criadora_id = 10;
     $this->request->ano = 2000;
     $this->request->guarda_permanente = 1;

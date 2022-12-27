@@ -30,7 +30,7 @@ test('na atualização, usuário sem autorização não cria o request', functio
 });
 
 // Caminho feliz
-test('rules estão definidas no form request para a atualização do registro', function () {
+test('rules estão definidas no form request', function () {
     $this->assertExactValidationRules([
         'numero' => [
             'bail',

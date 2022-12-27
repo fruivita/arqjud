@@ -19,7 +19,7 @@ test('request dispensa autorização específica', function () {
     expect($this->request->authorize())->toBeTrue();
 });
 
-test('rules estão definidas no form request para a exibição do processo', function () {
+test('rules estão definidas no form request', function () {
     $this->assertExactValidationRules([
         'numero' => [
             'bail',
