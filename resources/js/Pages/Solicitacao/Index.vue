@@ -130,14 +130,14 @@ watch(perPage, filtrar);
         <Container class="space-y-3">
             <div
                 :class="{
-                    'md:justify-between': solicitacoes.links.create,
-                    'md:justify-end': !solicitacoes.links.create,
+                    'md:justify-between': solicitacoes.links.externo_create,
+                    'md:justify-end': !solicitacoes.links.externo_create,
                 }"
                 class="flex flex-col space-y-3 md:flex-row md:items-start"
             >
                 <InertiaButtonLink
-                    v-if="solicitacoes.links.create"
-                    :href="solicitacoes.links.create"
+                    v-if="solicitacoes.links.externo_create"
+                    :href="solicitacoes.links.externo_create"
                     :texto="__('Solicitar processo')"
                     icone="plus-circle"
                 />

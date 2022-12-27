@@ -24,14 +24,17 @@ afterEach(function () {
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
-    concederPermissao([Permissao::SOLICITACAO_CREATE]);
+    concederPermissao([Permissao::SOLICITACAO_CREATE, Permissao::SOLICITACAO_EXTERNA_CREATE]);
 
     $resource = SolicitacaoCollection::make($this->solicitacoes);
 
     $dados = $resource->response()->getData(true);
 
     expect($dados['data'])->toHaveCount($this->solicitacoes->count())
-        ->and($dados['links'])->toMatchArray(['create' => route('solicitacao.create')]);
+        ->and($dados['links'])->toMatchArray([
+            'create' => route('atendimento.solicitacao.create'),
+            'externo_create' => route('solicitacao.create'),
+        ]);
 });
 
 test('retorna apenas os campos principais se não houver rota autorizada para o modelo', function () {
@@ -39,9 +42,7 @@ test('retorna apenas os campos principais se não houver rota autorizada para o 
 
     $dados = $resource->response()->getData(true);
 
-    expect($dados)
-        ->toHaveKey('data')
-        ->not->toHaveKey('links');
+    expect($dados['links'])->toBeEmpty();
 });
 
 test('collection resolve o resource correto', function () {

@@ -28,10 +28,16 @@ class SolicitacaoCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
-            'links' => $this->when(
-                $request->user()->can(Policy::Create->value, Solicitacao::class),
-                ['create' => route('solicitacao.create')]
-            ),
+            'links' => [
+                'create' => $this->when(
+                    $request->user()->can(Policy::Create->value, Solicitacao::class),
+                    route('atendimento.solicitacao.create')
+                ),
+                'externo_create' => $this->when(
+                    $request->user()->can(Policy::ExternoCreate->value, Solicitacao::class),
+                    route('solicitacao.create')
+                ),
+            ],
         ];
     }
 }
