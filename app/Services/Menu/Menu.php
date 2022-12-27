@@ -75,6 +75,15 @@ final class Menu implements MenuInterface
     {
         return collect()
             ->when(
+                auth()->user()->can(Policy::ViewAny->value, Solicitacao::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'signpost-2',
+                    'href' => route('atendimento.solicitacao.index'),
+                    'texto' => __('Solicitações'),
+                    'ativo' => Route::is('atendimento.solicitacao.index'),
+                ])
+            )
+            ->when(
                 auth()->user()->can(Policy::Update->value, Solicitacao::class),
                 fn ($collection) => $collection->push([
                     'icone' => 'cart',
