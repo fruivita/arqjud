@@ -54,7 +54,7 @@ class NotificarSolicitanteSolicitacao implements ShouldQueue, ShouldBeUnique
     /**
      * Destino dos processos solicitados.
      *
-     * @var \App\Models\Lotaçcao
+     * @var \App\Models\Lotacao
      */
     private Lotacao $destino;
 
