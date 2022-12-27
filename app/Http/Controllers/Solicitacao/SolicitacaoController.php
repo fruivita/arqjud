@@ -13,7 +13,7 @@ use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Solicitacao;
 use App\Pipes\Search;
 use App\Pipes\Solicitacao\JoinAll;
-use App\Pipes\Solicitacao\NotificarOperadoresSolicitacao;
+use App\Pipes\Solicitacao\NotificarOperadores;
 use App\Pipes\Solicitacao\Order;
 use App\Pipes\Solicitacao\SolicitarProcesso;
 use Illuminate\Support\Arr;
@@ -104,7 +104,7 @@ class SolicitacaoController extends Controller
             ->send($solicitacao)
             ->through([
                 SolicitarProcesso::class,
-                NotificarOperadoresSolicitacao::class,
+                NotificarOperadores::class,
             ])->thenReturn();
 
         return back()->with($this->feedback($salvo));

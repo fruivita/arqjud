@@ -5,11 +5,11 @@
  */
 
 use App\Enums\Queue as EnumsQueue;
-use App\Jobs\NotificarOperadoresSolicitacao as JobNotificarOperadoresSolicitacao;
+use App\Jobs\NotificarOperadoresSolicitacao;
 use App\Models\Lotacao;
 use App\Models\Processo;
 use App\Models\Usuario;
-use App\Pipes\Solicitacao\NotificarOperadoresSolicitacao;
+use App\Pipes\Solicitacao\NotificarOperadores;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
 use MichaelRubel\EnhancedPipeline\Pipeline;
@@ -28,27 +28,27 @@ beforeEach(function () {
 });
 
 // Caminho feliz
-test('pipe NotificarOperadoresSolicitacao cria o job NotificarOperadoresSolicitacao para notificar os operadores', function () {
+test('pipe NotificarOperadores cria o job NotificarOperadoresSolicitacao para notificar os operadores', function () {
     Bus::fake();
 
     Pipeline::make()
         ->withTransaction()
         ->send($this->solicitacao)
-        ->through([NotificarOperadoresSolicitacao::class])
+        ->through([NotificarOperadores::class])
         ->thenReturn();
 
-    Bus::assertNotDispatchedSync(JobNotificarOperadoresSolicitacao::class, 1); // @phpstan-ignore-line
+    Bus::assertNotDispatchedSync(NotificarOperadoresSolicitacao::class, 1); // @phpstan-ignore-line
 });
 
-test('pipe NotificarOperadoresSolicitacao envia o job para a querue de prioridade baixa', function () {
+test('pipe NotificarOperadores envia o job para a querue de prioridade baixa', function () {
     Queue::fake();
 
     Pipeline::make()
         ->withTransaction()
         ->send($this->solicitacao)
-        ->through([NotificarOperadoresSolicitacao::class])
+        ->through([NotificarOperadores::class])
         ->thenReturn();
 
-    Queue::assertPushedOn(EnumsQueue::Media->value, JobNotificarOperadoresSolicitacao::class);
-    Queue::assertPushed(JobNotificarOperadoresSolicitacao::class, 1);
+    Queue::assertPushedOn(EnumsQueue::Media->value, NotificarOperadoresSolicitacao::class);
+    Queue::assertPushed(NotificarOperadoresSolicitacao::class, 1);
 });

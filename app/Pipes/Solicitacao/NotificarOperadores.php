@@ -3,12 +3,12 @@
 namespace App\Pipes\Solicitacao;
 
 use App\Enums\Queue;
-use App\Jobs\NotificarOperadoresSolicitacao as JobNotificarOperadoresSolicitacao;
+use App\Jobs\NotificarOperadoresSolicitacao;
 
 /**
  * @see https://www.youtube.com/watch?v=FByQN_d876c
  */
-class NotificarOperadoresSolicitacao
+class NotificarOperadores
 {
     /**
      * Dispara o job responsável por notificar os usuários de perfil operador
@@ -20,7 +20,7 @@ class NotificarOperadoresSolicitacao
      */
     public function handle(\stdClass $solicitacao, \Closure $next)
     {
-        JobNotificarOperadoresSolicitacao::dispatch($solicitacao)->onQueue(Queue::Media->value);
+        NotificarOperadoresSolicitacao::dispatch($solicitacao)->onQueue(Queue::Media->value);
 
         return $next($solicitacao);
     }
