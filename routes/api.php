@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Caixa\CaixaController;
 use App\Http\Controllers\Api\Processo\ProcessoController;
 use App\Http\Controllers\Api\Solicitacao\AutorizadaParaRecebedorController;
 use App\Http\Controllers\Api\Solicitacao\ProcessoDisponivelController;
+use App\Http\Controllers\Api\Solicitacao\SolicitanteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,10 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
     });
 
     Route::prefix('solicitacao')->name('solicitacao.')->group(function () {
+        Route::prefix('solicitante')->name('solicitante.')->group(function () {
+            Route::post('/', [SolicitanteController::class, 'show'])->name('show');
+        });
+
         Route::prefix('processo')->name('processo.')->group(function () {
             Route::post('/', [ProcessoDisponivelController::class, 'show'])->name('show');
         });
