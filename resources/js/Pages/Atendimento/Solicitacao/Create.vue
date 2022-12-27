@@ -173,6 +173,7 @@ const viewReset = () => {
     formSolicitante.reset();
     formProcesso.reset();
     formSolicitarProcessos.reset();
+    solicitante.value = '';
     exibirTodos.value = false;
 };
 </script>

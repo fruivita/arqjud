@@ -184,11 +184,11 @@ const moverProcessos = () => {
 };
 
 const viewReset = () => {
-    formMoverProcessos.reset();
-    formCaixaDestino.reset();
     formProcesso.reset();
-    caixaDestino.value = '';
+    formCaixaDestino.reset();
+    formMoverProcessos.reset();
     exibirTodos.value = false;
+    caixaDestino.value = '';
 };
 </script>
 

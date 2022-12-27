@@ -144,10 +144,19 @@ const entregarRemessas = () => {
     formEntregarProcessos.post(props.links.entregar, {
         preserveScroll: true,
         onSuccess: () => {
-            // viewReset();
+            viewReset();
             flash();
         },
     });
+};
+
+const viewReset = () => {
+    formRecebedor.reset();
+    formEntregarProcessos.reset();
+    formEmail.reset();
+    recebedor.value = '';
+    solicitacoes.value = [];
+    exibirTodos.value = false;
 };
 </script>
 
