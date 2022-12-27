@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\Solicitacao;
 
 use App\Enums\Policy;
 use App\Models\Solicitacao;
-use App\Rules\RecebedorHabilitado;
+use App\Rules\UsuarioHabilitado;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -37,7 +37,7 @@ class ShowAutorizadaParaRecebedorRequest extends FormRequest
                 'string',
                 'between:1,20',
                 Rule::exists('usuarios', 'username'),
-                new RecebedorHabilitado(),
+                new UsuarioHabilitado(),
             ],
         ];
     }

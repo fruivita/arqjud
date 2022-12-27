@@ -5,7 +5,7 @@ namespace App\Http\Requests\Atendimento;
 use App\Enums\Policy;
 use App\Models\Solicitacao;
 use App\Rules\PasswordValido;
-use App\Rules\RecebedorHabilitado;
+use App\Rules\UsuarioHabilitado;
 use App\Rules\SolicitacaoEntregavel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -39,7 +39,7 @@ class StoreEntregarProcessoRequest extends FormRequest
                 'string',
                 'between:1,20',
                 Rule::exists('usuarios', 'username'),
-                new RecebedorHabilitado(),
+                new UsuarioHabilitado(),
             ],
 
             'por_guia' => ['boolean'],

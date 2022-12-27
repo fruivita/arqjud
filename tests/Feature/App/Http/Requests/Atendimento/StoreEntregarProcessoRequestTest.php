@@ -9,7 +9,7 @@
 use App\Http\Requests\Atendimento\StoreEntregarProcessoRequest;
 use App\Models\Permissao;
 use App\Rules\PasswordValido;
-use App\Rules\RecebedorHabilitado;
+use App\Rules\UsuarioHabilitado;
 use App\Rules\SolicitacaoEntregavel;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Validation\Rule;
@@ -39,7 +39,7 @@ test('rules estão definidas no form request', function () {
             'string',
             'between:1,20',
             Rule::exists('usuarios', 'username'),
-            new RecebedorHabilitado(),
+            new UsuarioHabilitado(),
         ],
 
         'por_guia' => ['boolean'],

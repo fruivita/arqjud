@@ -8,7 +8,7 @@
 
 use App\Http\Requests\Api\Solicitacao\ShowSolicitanteRequest;
 use App\Models\Permissao;
-use App\Rules\RecebedorHabilitado;
+use App\Rules\UsuarioHabilitado;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Validation\Rule;
 
@@ -33,7 +33,7 @@ test('rules estão definidas no form request', function () {
             'string',
             'between:1,20',
             Rule::exists('usuarios', 'username'),
-            new RecebedorHabilitado(),
+            new UsuarioHabilitado(),
         ],
     ], $this->request->rules());
 });
