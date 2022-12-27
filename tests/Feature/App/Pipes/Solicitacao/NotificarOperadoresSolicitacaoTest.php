@@ -6,6 +6,7 @@
 
 use App\Enums\Queue as EnumsQueue;
 use App\Jobs\NotificarOperadoresSolicitacao as JobNotificarOperadoresSolicitacao;
+use App\Models\Lotacao;
 use App\Models\Processo;
 use App\Models\Usuario;
 use App\Pipes\Solicitacao\NotificarOperadoresSolicitacao;
@@ -23,6 +24,7 @@ beforeEach(function () {
     $this->solicitacao = new stdClass();
     $this->solicitacao->processos = $processos;
     $this->solicitacao->solicitante = Usuario::factory()->create();
+    $this->solicitacao->destino = Lotacao::factory()->create();
 });
 
 // Caminho feliz

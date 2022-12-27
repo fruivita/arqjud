@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Lotacao;
 use App\Models\Usuario;
 use App\Notifications\ProcessoSolicitado;
 use Illuminate\Bus\Queueable;
@@ -52,6 +53,13 @@ class NotificarOperadoresSolicitacao implements ShouldQueue, ShouldBeUnique
     private Usuario $solicitante;
 
     /**
+     * Destino dos processos solicitados.
+     *
+     * @var \App\Models\Lotaçcao
+     */
+    private Lotacao $destino;
+
+    /**
      * Data e hora da solicitação
      *
      * @var \Illuminate\Support\Carbon
@@ -68,6 +76,7 @@ class NotificarOperadoresSolicitacao implements ShouldQueue, ShouldBeUnique
     {
         $this->processos = $solicitacao->processos;
         $this->solicitante = $solicitacao->solicitante->withoutRelations();
+        $this->destino = $solicitacao->destino->withoutRelations();
         $this->solicitada_em = now();
     }
 
@@ -85,10 +94,9 @@ class NotificarOperadoresSolicitacao implements ShouldQueue, ShouldBeUnique
             new ProcessoSolicitado(
                 $this->processos,
                 $this->solicitante->nome ?? $this->solicitante->username,
-                $this->solicitante->lotacao->nome ?? $this->solicitante->lotacao->sigla,
+                $this->destino->nome ?? $this->destino->sigla,
                 $this->solicitada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                // @todo add rota de visualização das solicitações
-                'rota'
+                route('atendimento.solicitacao.index')
             )
         );
     }

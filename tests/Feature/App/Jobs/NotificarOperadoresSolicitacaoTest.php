@@ -6,6 +6,7 @@
 
 use App\Enums\Queue as EQueue;
 use App\Jobs\NotificarOperadoresSolicitacao;
+use App\Models\Lotacao;
 use App\Models\Perfil;
 use App\Models\Usuario;
 use App\Notifications\ProcessoSolicitado;
@@ -25,6 +26,7 @@ beforeEach(function () {
     $this->solicitacao = new \stdClass();
     $this->solicitacao->processos = ['1111', '2222'];
     $this->solicitacao->solicitante = Usuario::factory()->comNome()->create();
+    $this->solicitacao->destino = Lotacao::factory()->create();
 });
 
 // Caminho feliz
@@ -51,9 +53,9 @@ test('job NotificarOperadoresSolicitacao cria a notificação com todos os parâ
             expect($notification->toArray(null))->toMatchArray([
                 'processos' => $this->solicitacao->processos,
                 'solicitante' => $this->solicitacao->solicitante->nome,
-                'lotacao_destinataria' => $this->solicitacao->solicitante->lotacao->nome,
+                'lotacao_destinataria' => $this->solicitacao->destino->nome,
                 'solicitada_em' => now()->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                'url' => 'rota',
+                'url' => route('atendimento.solicitacao.index'),
             ])->and($channels)->toMatchArray(['mail']);
 
             return true;
