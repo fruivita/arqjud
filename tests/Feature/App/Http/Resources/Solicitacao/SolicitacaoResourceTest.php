@@ -25,7 +25,7 @@ afterEach(function () {
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
-    concederPermissao([Permissao::SOLICITACAO_EXTERNA_DELETE]);
+    concederPermissao([Permissao::SOLICITACAO_EXTERNA_DELETE, Permissao::SOLICITACAO_DELETE]);
 
     $resource = SolicitacaoResource::make($this->solicitacao);
 
@@ -33,6 +33,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
         'data' => solicitacaoApi($this->solicitacao)
             + [
                 'links' => [
+                    'delete' => route('atendimento.solicitacao.destroy', $this->solicitacao),
                     'externo_delete' => route('solicitacao.destroy', $this->solicitacao),
                 ],
             ],

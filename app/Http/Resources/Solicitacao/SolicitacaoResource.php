@@ -44,6 +44,10 @@ class SolicitacaoResource extends JsonResource
                 'rearquivador' => UsuarioOnlyResource::make($this->whenLoaded('rearquivador')),
                 'lotacao_destinataria' => LotacaoOnlyResource::make($this->whenLoaded('lotacaoDestinataria')),
                 'links' => [
+                    'delete' => $this->when(
+                        $request->user()->can(Policy::Delete->value, $this->resource),
+                        route('atendimento.solicitacao.destroy', $this->id),
+                    ),
                     'externo_delete' => $this->when(
                         $request->user()->can(Policy::ExternoDelete->value, $this->resource),
                         route('solicitacao.destroy', $this->id),
