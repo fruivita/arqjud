@@ -21,7 +21,7 @@ beforeEach(function () {
 
     $this->solicitacao = new \stdClass();
     $this->solicitacao->processos = ['1111', '2222'];
-    $this->solicitacao->solicitante = Usuario::factory()->comNome()->create();
+    $this->solicitacao->solicitante = Usuario::factory()->create();
     $this->solicitacao->destino = Lotacao::factory()->create();
 });
 

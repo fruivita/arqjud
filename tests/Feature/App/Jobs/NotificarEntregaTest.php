@@ -20,7 +20,7 @@ beforeEach(function () {
     testTime()->freeze();
 
     $this->entrega = new \stdClass();
-    $this->entrega->recebedor = Usuario::factory()->comNome()->create();
+    $this->entrega->recebedor = Usuario::factory()->create();
     $this->entrega->guia = Guia::factory()->create();
     $this->entrega->por_guia = true;
     $this->entrega->email_terceiros = ['foo@bar.com', 'bar@taz.com'];

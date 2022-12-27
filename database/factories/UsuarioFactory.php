@@ -30,6 +30,7 @@ class UsuarioFactory extends Factory
         return array_merge(
             (new UsuarioCorporativoFactory())->definition(),
             [
+                'nome' => fake()->text(50),
                 'username' => fake()->unique()->text(20),
                 'password' => null,
                 'guid' => fake()->unique()->uuid(),
@@ -40,20 +41,6 @@ class UsuarioFactory extends Factory
                 'antigo_perfil_id' => null,
             ]
         );
-    }
-
-    /**
-     * Gera um usuário com o campo nome obrigatoriamente preenchido.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function comNome()
-    {
-        return $this->state(function () {
-            return [
-                'nome' => fake()->text(50),
-            ];
-        });
     }
 
     /**

@@ -34,10 +34,10 @@ class SolicitacaoFactory extends Factory
             'por_guia' => fake()->boolean(),
             'descricao' => fake()->optional()->sentence(),
             'processo_id' => Processo::factory(),
-            'solicitante_id' => Usuario::factory()->comNome(),
-            'recebedor_id' => Usuario::factory()->comNome(),
-            'remetente_id' => Usuario::factory()->comNome(),
-            'rearquivador_id' => Usuario::factory()->comNome(),
+            'solicitante_id' => Usuario::factory(),
+            'recebedor_id' => Usuario::factory(),
+            'remetente_id' => Usuario::factory(),
+            'rearquivador_id' => Usuario::factory(),
             'lotacao_destinataria_id' => Lotacao::factory(),
             'guia_id' => Guia::factory(),
         ];
@@ -57,7 +57,7 @@ class SolicitacaoFactory extends Factory
                 'entregue_em' => null,
                 'devolvida_em' => null,
                 'por_guia' => false,
-                'solicitante_id' => Usuario::factory()->comNome()->for($lotacao, 'lotacao'),
+                'solicitante_id' => Usuario::factory()->for($lotacao, 'lotacao'),
                 'recebedor_id' => null,
                 'remetente_id' => null,
                 'rearquivador_id' => null,
@@ -79,8 +79,8 @@ class SolicitacaoFactory extends Factory
 
             return [
                 'devolvida_em' => null,
-                'solicitante_id' => Usuario::factory()->comNome()->for($lotacao, 'lotacao'),
-                'recebedor_id' => Usuario::factory()->comNome()->for($lotacao, 'lotacao'),
+                'solicitante_id' => Usuario::factory()->for($lotacao, 'lotacao'),
+                'recebedor_id' => Usuario::factory()->for($lotacao, 'lotacao'),
                 'rearquivador_id' => null,
                 'lotacao_destinataria_id' => $lotacao->id,
             ];
@@ -98,8 +98,8 @@ class SolicitacaoFactory extends Factory
             $lotacao = Lotacao::factory()->create();
 
             return [
-                'solicitante_id' => Usuario::factory()->comNome()->for($lotacao, 'lotacao'),
-                'recebedor_id' => Usuario::factory()->comNome()->for($lotacao, 'lotacao'),
+                'solicitante_id' => Usuario::factory()->for($lotacao, 'lotacao'),
+                'recebedor_id' => Usuario::factory()->for($lotacao, 'lotacao'),
                 'lotacao_destinataria_id' => $lotacao->id,
             ];
         });
