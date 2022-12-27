@@ -3,6 +3,7 @@
 use App\Enums\Policy;
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
+use App\Http\Controllers\Atendimento\SolicitacaoController;
 use App\Http\Controllers\Cadastro\Andar\AndarController;
 use App\Http\Controllers\Cadastro\Caixa\CaixaController;
 use App\Http\Controllers\Cadastro\Estante\EstanteController;
@@ -57,6 +58,13 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('atendimento')->name('atendimento.')->group(function () {
+        Route::prefix('solicitacao')->name('solicitacao.')->group(function () {
+            Route::get('/', [SolicitacaoController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Solicitacao::class);
+            Route::get('create', [SolicitacaoController::class, 'create'])->name('create')->can(Policy::Create->value, Solicitacao::class);
+            Route::post('/', [SolicitacaoController::class, 'store'])->name('store')->can(Policy::Create->value, Solicitacao::class);
+            Route::delete('{solicitacao}', [SolicitacaoController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'solicitacao');
+        });
+
         Route::prefix('entregar-processo')->name('entregar-processo.')->group(function () {
             Route::get('create', [EntregarProcessoController::class, 'create'])->name('create')->can(Policy::Update->value, Solicitacao::class);
             Route::post('/', [EntregarProcessoController::class, 'store'])->name('store')->can(Policy::Update->value, Solicitacao::class);
