@@ -7,7 +7,6 @@
 use App\Enums\Queue as EQueue;
 use App\Jobs\NotificarSolicitanteSolicitacao;
 use App\Models\Lotacao;
-use App\Models\Perfil;
 use App\Models\Usuario;
 use App\Notifications\ProcessoSolicitado;
 use Database\Seeders\PerfilSeeder;

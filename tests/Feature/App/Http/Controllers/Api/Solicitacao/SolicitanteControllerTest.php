@@ -6,12 +6,9 @@
  */
 
 use App\Http\Controllers\Api\Solicitacao\SolicitanteController;
-use App\Http\Requests\Api\Solicitacao\ShowAutorizadaParaRecebedorRequest;
 use App\Http\Requests\Api\Solicitacao\ShowSolicitanteRequest;
-use App\Http\Resources\Solicitacao\SolicitacaoOnlyResource;
 use App\Http\Resources\Usuario\UsuarioOnlyResource;
 use App\Models\Permissao;
-use App\Models\Solicitacao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Testing\Fluent\AssertableJson;
