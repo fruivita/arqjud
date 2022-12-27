@@ -28,7 +28,7 @@ class SolicitarProcesso
                 return [
                     'processo_id' => $processo->id,
                     'solicitante_id' => $solicitacao->solicitante->id,
-                    'lotacao_destinataria_id' => $solicitacao->solicitante->lotacao_id,
+                    'lotacao_destinataria_id' => $solicitacao->destino->id,
                     'solicitada_em' => $now,
                     'por_guia' => false,
                     'created_at' => $now,

@@ -4,6 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Models\Lotacao;
 use App\Models\Processo;
 use App\Models\Usuario;
 use App\Pipes\Solicitacao\SolicitarProcesso;
@@ -20,6 +21,7 @@ test('pipe SolicitarProcesso cria as solicitações de processos no status solic
     $solicitacao = new \stdClass();
     $solicitacao->processos = $processos->pluck('numero')->transform('apenasNumeros')->toArray();
     $solicitacao->solicitante = Usuario::factory()->create();
+    $solicitacao->destino = Lotacao::factory()->create();
 
     Pipeline::make()
         ->withTransaction()
@@ -35,7 +37,7 @@ test('pipe SolicitarProcesso cria as solicitações de processos no status solic
             'recebedor_id' => null,
             'remetente_id' => null,
             'rearquivador_id' => null,
-            'lotacao_destinataria_id' => $solicitacao->solicitante->lotacao_id,
+            'lotacao_destinataria_id' => $solicitacao->destino->id,
             'guia_id' => null,
             'solicitada_em' => now(),
             'entregue_em' => null,
@@ -51,7 +53,7 @@ test('pipe SolicitarProcesso cria as solicitações de processos no status solic
             'recebedor_id' => null,
             'remetente_id' => null,
             'rearquivador_id' => null,
-            'lotacao_destinataria_id' => $solicitacao->solicitante->lotacao_id,
+            'lotacao_destinataria_id' => $solicitacao->destino->id,
             'guia_id' => null,
             'solicitada_em' => now(),
             'entregue_em' => null,
