@@ -94,3 +94,114 @@ test('retorna as guias pelo escopo search que busca a partir do início do texto
     [3333, 2],
     [777888, 0],
 ]);
+
+test('retorna as guias pelo escopo search que busca na coluna JSON remetente case Insensitive', function (string $termo, int $quantidade) {
+    Guia::factory()->create([
+        'remetente' => [
+            'username' => 'Foo',
+            'nome' => 'Bar gaz',
+        ],
+    ]);
+
+    Guia::factory()->create([
+        'remetente' => [
+            'username' => 'Baz',
+            'nome' => 'bar Taz',
+        ],
+    ]);
+
+    Guia::factory()->create([
+        'remetente' => [
+            'username' => 'Loren',
+            'nome' => 'foo Ipson',
+        ],
+    ]);
+
+    $query = Pipeline::make()
+        ->send(Guia::query())
+        ->through([Search::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['bar', 2],
+    ['BAR', 2],
+    ['foo', 2],
+    ['FOO', 2],
+    ['Loren', 1],
+    ['Bar Gaz', 1],
+]);
+
+test('retorna as guias pelo escopo search que busca na coluna JSON recebedor case Insensitive', function (string $termo, int $quantidade) {
+    Guia::factory()->create([
+        'recebedor' => [
+            'username' => 'Foo',
+            'nome' => 'Bar gaz',
+        ],
+    ]);
+
+    Guia::factory()->create([
+        'recebedor' => [
+            'username' => 'Baz',
+            'nome' => 'bar Taz',
+        ],
+    ]);
+
+    Guia::factory()->create([
+        'recebedor' => [
+            'username' => 'Loren',
+            'nome' => 'foo Ipson',
+        ],
+    ]);
+
+    $query = Pipeline::make()
+        ->send(Guia::query())
+        ->through([Search::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['bar', 2],
+    ['BAR', 2],
+    ['foo', 2],
+    ['FOO', 2],
+    ['Loren', 1],
+    ['Bar Gaz', 1],
+]);
+
+test('retorna as guias pelo escopo search que busca na coluna JSON lotação destinatária case Insensitive', function (string $termo, int $quantidade) {
+    Guia::factory()->create([
+        'lotacao_destinataria' => [
+            'sigla' => 'Foo',
+            'nome' => 'Bar gaz',
+        ],
+    ]);
+
+    Guia::factory()->create([
+        'lotacao_destinataria' => [
+            'sigla' => 'Baz',
+            'nome' => 'bar Taz',
+        ],
+    ]);
+
+    Guia::factory()->create([
+        'lotacao_destinataria' => [
+            'sigla' => 'Loren',
+            'nome' => 'foo Ipson',
+        ],
+    ]);
+
+    $query = Pipeline::make()
+        ->send(Guia::query())
+        ->through([Search::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['bar', 2],
+    ['BAR', 2],
+    ['foo', 2],
+    ['FOO', 2],
+    ['Loren', 1],
+    ['Bar Gaz', 1],
+]);

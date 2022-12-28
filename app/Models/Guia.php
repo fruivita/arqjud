@@ -68,8 +68,16 @@ class Guia extends Model
         $termo = "{$termo}%";
 
         $query->where(function (Builder $query) use ($termo) {
+            $lower = str()->lower($termo);
+
             $query->where('numero', 'like', $termo)
-                ->orWhere('ano', 'like', $termo);
+                ->orWhere('ano', 'like', $termo)
+                ->orWhere('remetente_username', 'like', $lower)
+                ->orWhere('remetente_nome', 'like', $lower)
+                ->orWhere('recebedor_username', 'like', $lower)
+                ->orWhere('recebedor_nome', 'like', $lower)
+                ->orWhere('lotacao_destinataria_sigla', 'like', $lower)
+                ->orWhere('lotacao_destinataria_nome', 'like', $lower);
         });
     }
 
