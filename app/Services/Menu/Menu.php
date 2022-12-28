@@ -84,6 +84,15 @@ final class Menu implements MenuInterface
                 ])
             )
             ->when(
+                auth()->user()->can(Policy::Create->value, Solicitacao::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'signpost',
+                    'href' => route('atendimento.solicitacao.create'),
+                    'texto' => __('Solicitar processo'),
+                    'ativo' => Route::is('atendimento.solicitacao.create'),
+                ])
+            )
+            ->when(
                 auth()->user()->can(Policy::Update->value, Solicitacao::class),
                 fn ($collection) => $collection->push([
                     'icone' => 'cart',
