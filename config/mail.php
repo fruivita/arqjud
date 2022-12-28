@@ -96,6 +96,8 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'allways_to' => env('MAIL_ALLWAYS_TO', 'allways@example.com'),
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
