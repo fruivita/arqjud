@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Bus;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
-use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);

@@ -12,7 +12,6 @@ use Database\Seeders\PerfilPermissaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Database\Seeders\PermissaoSeeder;
 use Illuminate\Support\Facades\Auth;
-
 use function Pest\Laravel\get;
 
 beforeEach(function () {

@@ -4,7 +4,6 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Guia;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
 use App\Pipes\Solicitacao\EfetivarDevolucao;

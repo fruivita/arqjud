@@ -6,7 +6,6 @@
 
 use App\Enums\Queue as EQueue;
 use App\Jobs\NotificarSolicitanteDevolucao;
-use App\Models\Lotacao;
 use App\Models\Usuario;
 use App\Notifications\ProcessoDevolvido;
 use Database\Seeders\PerfilSeeder;
