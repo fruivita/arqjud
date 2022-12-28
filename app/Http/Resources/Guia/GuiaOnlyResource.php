@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Guia;
 
-use App\Models\Processo;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

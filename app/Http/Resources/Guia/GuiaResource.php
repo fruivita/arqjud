@@ -4,7 +4,6 @@ namespace App\Http\Resources\Guia;
 
 use App\Enums\Policy;
 use App\Models\Guia;
-use App\Models\Processo;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
