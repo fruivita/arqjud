@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Processo;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -45,6 +46,51 @@ if (!function_exists('mascara')) {
             $mascara->replace('#', '%s')->toString(),
             ...str_split($valor)
         );
+    }
+}
+
+if (!function_exists('cnj')) {
+    /**
+     * Aplica a máscara CNJ no número informado.
+     *
+     * Exemplo: 11111111111111111111 retornará 1111111-11.1111.1.11.1111
+     *
+     * @param  string  $valor
+     * @return string
+     */
+    function cnj(string $valor)
+    {
+        return mascara($valor, Processo::MASCARA_CNJ);
+    }
+}
+
+if (!function_exists('v1')) {
+    /**
+     * Aplica a máscara v1 (processo de 10 digitos) no número informado.
+     *
+     * Exemplo: 1111111111 retornará 11.1111111-1
+     *
+     * @param  string  $valor
+     * @return string
+     */
+    function v1(string $valor)
+    {
+        return mascara($valor, Processo::MASCARA_V1);
+    }
+}
+
+if (!function_exists('v2')) {
+    /**
+     * Aplica a máscara v2 (processo de 15 digitos) no número informado.
+     *
+     * Exemplo: 111111111111111 retornará 1111.11.11.111111-1
+     *
+     * @param  string  $valor
+     * @return string
+     */
+    function v2(string $valor)
+    {
+        return mascara($valor, Processo::MASCARA_V2);
     }
 }
 

@@ -7,13 +7,37 @@
 use Illuminate\Support\Carbon;
 
 // Inválido
-test('helper mascara() não aplica a máscara informada se ela for compatível com a string', function () {
+test('helper mascara() não aplica a máscara informada se ela for incompatível com a string', function () {
     expect(mascara('123456789', '##.##-'))->toBe('123456789');
+});
+
+test('helper cnj() não aplica a máscara se o valor for incompatível', function () {
+    expect(cnj('111111'))->toBe('111111');
+});
+
+test('helper v1() não aplica a máscara se o valor for incompatível', function () {
+    expect(v1('111111'))->toBe('111111');
+});
+
+test('helper v2() não aplica a máscara se o valor for incompatível', function () {
+    expect(v2('111111'))->toBe('111111');
 });
 
 // Caminho feliz
 test('helper mascara() aplica a máscara informada na string se ela for compatível', function () {
     expect(mascara('123456789', '##.##-###/##'))->toBe('12.34-567/89');
+});
+
+test('helper cnj() aplica a máscara informada na string se ela for compatível', function () {
+    expect(cnj('11111111111111111111'))->toBe('1111111-11.1111.1.11.1111');
+});
+
+test('helper v1() aplica a máscara informada na string se ela for compatível', function () {
+    expect(v1('1111111111'))->toBe('11.1111111-1');
+});
+
+test('helper v2() aplica a máscara informada na string se ela for compatível', function () {
+    expect(v2('111111111111111'))->toBe('1111.11.11.111111-1');
 });
 
 test('helper ascOrDesc() retorna a ordenação a que deve ser utilizada sendo desc a ordenação padrão', function () {
