@@ -10,7 +10,7 @@ use App\Rules\ProcessoDisponivel;
 use Illuminate\Support\Facades\Validator;
 
 // Caminho feliz
-test('processo já solicitada está indisponível para nova solicitação', function () {
+test('processo já solicitado está indisponível para nova solicitação', function () {
     $processo = Processo::factory()->create();
     Solicitacao::factory()->for($processo, 'processo')->solicitada()->create();
 
