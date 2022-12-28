@@ -20,7 +20,7 @@
 </x-mail::table>
 
 @foreach ($detalhes->get('processos') as $processo)
-- {{ $processo }}
+- {{ cnj($processo) }}
 @endforeach
 
 <x-mail::button :url="$detalhes->get('url')" color="success">
