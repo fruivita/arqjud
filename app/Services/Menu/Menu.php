@@ -94,12 +94,20 @@ final class Menu implements MenuInterface
             )
             ->when(
                 auth()->user()->can(Policy::Update->value, Solicitacao::class),
-                fn ($collection) => $collection->push([
-                    'icone' => 'cart',
-                    'href' => route('atendimento.entregar-processo.create'),
-                    'texto' => __('Entregar processos'),
-                    'ativo' => Route::is('atendimento.entregar-processo.*'),
-                ])
+                fn ($collection) => $collection->push(
+                    [
+                        'icone' => 'cart',
+                        'href' => route('atendimento.entregar-processo.create'),
+                        'texto' => __('Entregar processos'),
+                        'ativo' => Route::is('atendimento.entregar-processo.*'),
+                    ],
+                    [
+                        'icone' => 'safe',
+                        'href' => route('atendimento.devolver-processo.create'),
+                        'texto' => __('Devolver processos'),
+                        'ativo' => Route::is('atendimento.devolver-processo.*'),
+                    ]
+                )
             )
             ->when(
                 auth()->user()->can(Policy::ViewAny->value, Guia::class),

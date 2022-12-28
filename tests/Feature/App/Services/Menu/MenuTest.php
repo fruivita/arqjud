@@ -6,16 +6,24 @@
 
 use App\Models\Perfil;
 use App\Models\Permissao;
+use App\Models\Usuario;
 use App\Services\Menu\Menu;
 use Database\Seeders\PerfilPermissaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Database\Seeders\PermissaoSeeder;
+use Illuminate\Support\Facades\Auth;
+
 use function Pest\Laravel\get;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
-    $this->usuario = login();
+    $this->usuario = Usuario::factory()->create();
+    Auth::login($this->usuario);
+});
+
+afterEach(function () {
+    Auth::logout();
 });
 
 // Caminho feliz
@@ -61,6 +69,7 @@ test('menu é gerado de acordo com as permissões do usuário, inclusive se a pe
         'nome' => __('Atendimentos'),
         'links' => [
             ['icone' => 'cart', 'href' => route('atendimento.entregar-processo.create'), 'texto' => __('Entregar processos'), 'ativo' => false],
+            ['icone' => 'safe', 'href' => route('atendimento.devolver-processo.create'), 'texto' => __('Devolver processos'), 'ativo' => false],
         ],
     ]]);
 });
@@ -80,7 +89,7 @@ test('administrador tem acesso a todos os itens do menu', function () {
     $menu = Menu::make()->gerar();
 
     expect($menu[0]['nome'])->toBe(__('Atendimentos'))
-        ->and($menu[0]['links'])->toHaveCount(4)
+        ->and($menu[0]['links'])->toHaveCount(5)
         ->and($menu[1]['nome'])->toBe(__('Solicitações de processos'))
         ->and($menu[1]['links'])->toHaveCount(2)
         ->and($menu[2]['nome'])->toBe(__('Movimentações'))
@@ -107,8 +116,9 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
 })->with([
     ['atendimento.solicitar-processo.index', 'atendimento.solicitar-processo.index'],
     ['atendimento.solicitar-processo.create', 'atendimento.solicitar-processo.create'],
-    ['atendimento.guia.index', 'atendimento.guia.index'],
     ['atendimento.entregar-processo.create', 'atendimento.entregar-processo.create'],
+    ['atendimento.devolver-processo.create', 'atendimento.devolver-processo.create'],
+    ['atendimento.guia.index', 'atendimento.guia.index'],
     ['solicitacao.index', 'solicitacao.index'],
     ['solicitacao.create', 'solicitacao.create'],
     ['movimentacao.entre-caixas.create', 'movimentacao.entre-caixas.create'],
