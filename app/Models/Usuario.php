@@ -173,4 +173,28 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     {
         return $this->email;
     }
+
+    /**
+     * Determinada se o usuário está habilitado a interagir com a remessa de
+     * processos, isto é, se possui todos as propriedades mínimas.
+     *
+     * O usuário é considerado habilitado quando presentes, validamente, as
+     * propriedades abaixo:
+     * - Nome;
+     * - Matrícula;
+     * - Username;
+     * - Email;
+     * - Lotação.
+     *
+     * @return bool
+     */
+    public function habilitado()
+    {
+        return
+            !empty($this->nome)
+            && !empty($this->matricula)
+            && !empty($this->username)
+            && !empty($this->email)
+            && $this->lotacao_id >= 1;
+    }
 }
