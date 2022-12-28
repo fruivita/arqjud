@@ -26,7 +26,7 @@ beforeEach(function () {
 });
 
 // Caminho feliz
-test('job NotificarSolicitanteSolicitacao envia notificação a ao solicitante', function () {
+test('job NotificarSolicitanteSolicitacao envia notificação ao solicitante', function () {
     Notification::fake();
 
     NotificarSolicitanteSolicitacao::dispatchSync($this->solicitacao);
