@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Models\Usuario;
 use Illuminate\Contracts\Validation\InvokableRule;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Verifica se o usuário está habilitado no fluxo de remessa dos processos.
@@ -30,18 +31,13 @@ class UsuarioHabilitado implements InvokableRule
     public function __invoke($attribute, $value, $fail)
     {
         $usuario = Usuario::query()
-            ->where('username', $value)
-            ->whereNotNull('matricula')
-            ->whereNot('matricula', '')
-            ->whereNotNull('email')
-            ->whereNot('email', '')
-            ->whereNotNull('nome')
-            ->whereNot('nome', '')
-            ->whereNotNull('lotacao_id')
-            ->where('lotacao_id', '>', 0)
-            ->first();
+            ->when(
+                is_numeric($value),
+                fn (Builder $builder) => $builder->where('id', $value),
+                fn (Builder $builder) => $builder->where('username', $value)
+            )->first();
 
-        if (empty($usuario)) {
+        if (empty($usuario) || $usuario->habilitado() !== true) {
             $fail('validation.habilitado')->translate();
         }
     }
