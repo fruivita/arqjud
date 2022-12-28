@@ -8,6 +8,7 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
+import Lotacao from '@/Models/Lotacao';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
@@ -156,7 +157,6 @@ const viewReset = () => {
     formEmail.reset();
     recebedor.value = '';
     solicitacoes.value = [];
-    exibirTodos.value = false;
 };
 </script>
 
