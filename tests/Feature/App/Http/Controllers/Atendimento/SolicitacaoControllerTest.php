@@ -42,13 +42,13 @@ test('usuário sem permissão não consegue excluir uma solicitação', function
 
     expect(Solicitacao::where('id', $solicitacao->id)->exists())->toBeTrue();
 
-    delete(route('atendimento.solicitacao.destroy', $solicitacao))->assertForbidden();
+    delete(route('atendimento.solicitar-processo.destroy', $solicitacao))->assertForbidden();
 
     expect(Solicitacao::where('id', $solicitacao->id)->exists())->toBeTrue();
 });
 
 test('usuário sem permissão não consegue exibir formulário de solicitação de processo', function () {
-    get(route('atendimento.solicitacao.create'))->assertForbidden();
+    get(route('atendimento.solicitar-processo.create'))->assertForbidden();
 });
 
 // Caminho feliz
@@ -69,7 +69,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 
     concederPermissao([Permissao::SOLICITACAO_VIEW_ANY, Permissao::SOLICITACAO_CREATE]);
 
-    get(route('atendimento.solicitacao.index'))
+    get(route('atendimento.solicitar-processo.index'))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
@@ -88,7 +88,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
 test('action create compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::SOLICITACAO_CREATE);
 
-    get(route('atendimento.solicitacao.create'))
+    get(route('atendimento.solicitar-processo.create'))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
@@ -96,7 +96,7 @@ test('action create compartilha os dados esperados com a view/componente correto
                 ->where('links', [
                     'solicitante' => route('api.solicitacao.solicitante.show'),
                     'processo' => route('api.solicitacao.processo.show'),
-                    'store' => route('atendimento.solicitacao.store'),
+                    'store' => route('atendimento.solicitar-processo.store'),
                 ])
         );
 });
@@ -111,7 +111,7 @@ test('cria uma nova solicitação de processos status solicitada destinada à lo
 
     $this->assertDatabaseCount('solicitacoes', 0);
 
-    post(route('atendimento.solicitacao.store'), [
+    post(route('atendimento.solicitar-processo.store'), [
         'processos' => [['numero' => $processo_1->numero], ['numero' => $processo_3->numero]],
         'solicitante_id' => $this->solicitante->id,
         'destino_id' => $this->destino->id,
@@ -165,7 +165,7 @@ test('dispara o job NotificarSolicitanteSolicitacao quando o usuário faz a soli
 
     concederPermissao(Permissao::SOLICITACAO_CREATE);
 
-    post(route('atendimento.solicitacao.store'), [
+    post(route('atendimento.solicitar-processo.store'), [
         'processos' => $processos->map(fn ($processo) => $processo->only('numero')),
         'solicitante_id' => $this->solicitante->id,
         'destino_id' => $this->destino->id,
@@ -184,7 +184,7 @@ test('exclui a solicitação informada', function () {
 
     expect(Solicitacao::where('id', $solicitacao->id)->exists())->toBeTrue();
 
-    delete(route('atendimento.solicitacao.destroy', $solicitacao))
+    delete(route('atendimento.solicitar-processo.destroy', $solicitacao))
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 

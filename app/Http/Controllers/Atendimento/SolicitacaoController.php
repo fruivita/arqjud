@@ -67,7 +67,7 @@ class SolicitacaoController extends Controller
             'links' => fn () => [
                 'solicitante' => route('api.solicitacao.solicitante.show'),
                 'processo' => route('api.solicitacao.processo.show'),
-                'store' => route('atendimento.solicitacao.store'),
+                'store' => route('atendimento.solicitar-processo.store'),
             ],
         ]);
     }

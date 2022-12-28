@@ -46,7 +46,7 @@ class SolicitacaoResource extends JsonResource
                 'links' => [
                     'delete' => $this->when(
                         $request->user()->can(Policy::Delete->value, $this->resource),
-                        route('atendimento.solicitacao.destroy', $this->id),
+                        route('atendimento.solicitar-processo.destroy', $this->id),
                     ),
                     'externo_delete' => $this->when(
                         $request->user()->can(Policy::ExternoDelete->value, $this->resource),

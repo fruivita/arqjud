@@ -55,7 +55,7 @@ test('job NotificarOperadoresSolicitacao cria a notificação com todos os parâ
                 'solicitante' => $this->solicitacao->solicitante->nome,
                 'lotacao_destinataria' => $this->solicitacao->destino->nome,
                 'solicitada_em' => now()->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                'url' => route('atendimento.solicitacao.index'),
+                'url' => route('atendimento.solicitar-processo.index'),
             ])->and($channels)->toMatchArray(['mail']);
 
             return true;

@@ -35,8 +35,8 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
         ],
     ]]);
 })->with([
-    [Permissao::SOLICITACAO_VIEW_ANY, fn () => __('Atendimentos'), 'signpost-2', fn () => route('atendimento.solicitacao.index'), fn () => __('Solicitações')],
-    [Permissao::SOLICITACAO_CREATE, fn () => __('Atendimentos'), 'signpost', fn () => route('atendimento.solicitacao.create'), fn () => __('Solicitar processo')],
+    [Permissao::SOLICITACAO_VIEW_ANY, fn () => __('Atendimentos'), 'signpost-2', fn () => route('atendimento.solicitar-processo.index'), fn () => __('Solicitações')],
+    [Permissao::SOLICITACAO_CREATE, fn () => __('Atendimentos'), 'signpost', fn () => route('atendimento.solicitar-processo.create'), fn () => __('Solicitar processo')],
     [Permissao::GUIA_VIEW_ANY, fn () => __('Atendimentos'), 'files', fn () => route('atendimento.guia.index'), fn () => __('Guias')],
     [Permissao::SOLICITACAO_EXTERNA_CREATE, fn () => __('Solicitações de processos'), 'signpost', fn () => route('solicitacao.create'), fn () => __('Solicitar')],
     [Permissao::SOLICITACAO_EXTERNA_VIEW_ANY, fn () => __('Solicitações de processos'), 'signpost-2', fn () => route('solicitacao.index'), fn () => __('Solicitações')],
@@ -105,8 +105,8 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
     expect($menu)->toHaveCount(1)
         ->and($menu->first()['href'])->toBe(route($menu_ativo));
 })->with([
-    ['atendimento.solicitacao.index', 'atendimento.solicitacao.index'],
-    ['atendimento.solicitacao.create', 'atendimento.solicitacao.create'],
+    ['atendimento.solicitar-processo.index', 'atendimento.solicitar-processo.index'],
+    ['atendimento.solicitar-processo.create', 'atendimento.solicitar-processo.create'],
     ['atendimento.guia.index', 'atendimento.guia.index'],
     ['atendimento.entregar-processo.create', 'atendimento.entregar-processo.create'],
     ['solicitacao.index', 'solicitacao.index'],

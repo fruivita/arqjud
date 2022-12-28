@@ -32,7 +32,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 
     expect($dados['data'])->toHaveCount($this->solicitacoes->count())
         ->and($dados['links'])->toMatchArray([
-            'create' => route('atendimento.solicitacao.create'),
+            'create' => route('atendimento.solicitar-processo.create'),
             'externo_create' => route('solicitacao.create'),
         ]);
 });

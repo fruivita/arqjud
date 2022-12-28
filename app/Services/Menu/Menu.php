@@ -78,18 +78,18 @@ final class Menu implements MenuInterface
                 auth()->user()->can(Policy::ViewAny->value, Solicitacao::class),
                 fn ($collection) => $collection->push([
                     'icone' => 'signpost-2',
-                    'href' => route('atendimento.solicitacao.index'),
+                    'href' => route('atendimento.solicitar-processo.index'),
                     'texto' => __('Solicitações'),
-                    'ativo' => Route::is('atendimento.solicitacao.index'),
+                    'ativo' => Route::is('atendimento.solicitar-processo.index'),
                 ])
             )
             ->when(
                 auth()->user()->can(Policy::Create->value, Solicitacao::class),
                 fn ($collection) => $collection->push([
                     'icone' => 'signpost',
-                    'href' => route('atendimento.solicitacao.create'),
+                    'href' => route('atendimento.solicitar-processo.create'),
                     'texto' => __('Solicitar processo'),
-                    'ativo' => Route::is('atendimento.solicitacao.create'),
+                    'ativo' => Route::is('atendimento.solicitar-processo.create'),
                 ])
             )
             ->when(

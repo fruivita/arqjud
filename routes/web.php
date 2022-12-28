@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('atendimento')->name('atendimento.')->group(function () {
-        Route::prefix('solicitacao')->name('solicitacao.')->group(function () {
+        Route::prefix('solicitar-processo')->name('solicitar-processo.')->group(function () {
             Route::get('/', [SolicitacaoController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Solicitacao::class);
             Route::get('create', [SolicitacaoController::class, 'create'])->name('create')->can(Policy::Create->value, Solicitacao::class);
             Route::post('/', [SolicitacaoController::class, 'store'])->name('store')->can(Policy::Create->value, Solicitacao::class);

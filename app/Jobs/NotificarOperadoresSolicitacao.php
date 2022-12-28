@@ -96,7 +96,7 @@ class NotificarOperadoresSolicitacao implements ShouldQueue, ShouldBeUnique
                 $this->solicitante->nome ?: $this->solicitante->username,
                 $this->destino->nome ?: $this->destino->sigla,
                 $this->solicitada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                route('atendimento.solicitacao.index')
+                route('atendimento.solicitar-processo.index')
             )
         );
     }

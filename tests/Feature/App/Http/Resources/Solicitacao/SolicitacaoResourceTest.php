@@ -33,7 +33,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
         'data' => solicitacaoApi($this->solicitacao)
             + [
                 'links' => [
-                    'delete' => route('atendimento.solicitacao.destroy', $this->solicitacao),
+                    'delete' => route('atendimento.solicitar-processo.destroy', $this->solicitacao),
                     'externo_delete' => route('solicitacao.destroy', $this->solicitacao),
                 ],
             ],
