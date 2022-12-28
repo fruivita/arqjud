@@ -54,7 +54,7 @@ class GuiaResource extends JsonResource
             $this->lotacao_destinataria['sigla'] = str($this->lotacao_destinataria['sigla'])->upper();
 
             $this->processos->transform(function ($processo) {
-                $processo['numero'] = mascara($processo['numero'], Processo::MASCARA_CNJ);
+                $processo['numero'] = cnj($processo['numero']);
 
                 return $processo;
             });

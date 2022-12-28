@@ -299,7 +299,7 @@ function guiaApi(Guia $guia)
             'nome' => $guia->lotacao_destinataria['nome'],
         ],
         'processos' => $guia->processos->transform(function ($processo) {
-            $processo['numero'] = mascara($processo['numero'], Processo::MASCARA_CNJ);
+            $processo['numero'] = cnj($processo['numero']);
 
             return $processo;
         })->toArray(),

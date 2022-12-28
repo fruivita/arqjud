@@ -30,7 +30,7 @@
             <tbody>
                 @forelse ($guia->processos ?? [] as $processo)
                     <tr>
-                        <td>{{ mascara($processo['numero'], \App\Models\Processo::MASCARA_CNJ) }}</td>
+                        <td>{{ cnj($processo['numero']) }}</td>
 
                         <td>{{ $processo['qtd_volumes'] }}</td>
 

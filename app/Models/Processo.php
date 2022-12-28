@@ -212,15 +212,15 @@ class Processo extends Model
 
         switch (str($processo)->length()) {
             case 20:
-                $processo = mascara($processo, self::MASCARA_CNJ);
+                $processo = cnj($processo);
                 break;
 
             case 15:
-                $processo = mascara($processo, self::MASCARA_V2);
+                $processo = v2($processo);
                 break;
 
             case 10:
-                $processo = mascara($processo, self::MASCARA_V1);
+                $processo = v1($processo);
                 break;
         }
 
