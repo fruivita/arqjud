@@ -58,7 +58,7 @@ class Translations extends Component
     private function phpTranslations(string $locale)
     {
         return (File::exists(lang_path($locale)))
-            ? collect(File::allFiles(lang_path($locale)))
+            ? collect(File::allFiles(lang_path($locale))) // @phpstan-ignore-line
             ->filter(function (SplFileInfo $file) {
                 return $file->getExtension() === 'php';
             })->flatMap(function (SplFileInfo $file) {
