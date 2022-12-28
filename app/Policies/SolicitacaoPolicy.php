@@ -24,7 +24,8 @@ class SolicitacaoPolicy
      */
     public function viewAny(Usuario $usuario)
     {
-        return $usuario->possuiPermissao(Permissao::SOLICITACAO_VIEW_ANY);
+        return $usuario->possuiPermissao(Permissao::SOLICITACAO_VIEW_ANY)
+            && $usuario->habilitado();
     }
 
     /**
@@ -38,7 +39,7 @@ class SolicitacaoPolicy
     public function externoViewAny(Usuario $usuario)
     {
         return $usuario->possuiPermissao(Permissao::SOLICITACAO_EXTERNA_VIEW_ANY)
-            && $usuario->lotacao_id >= 1;
+            && $usuario->habilitado();
     }
 
     /**
@@ -51,7 +52,8 @@ class SolicitacaoPolicy
      */
     public function create(Usuario $usuario)
     {
-        return $usuario->possuiPermissao(Permissao::SOLICITACAO_CREATE);
+        return $usuario->possuiPermissao(Permissao::SOLICITACAO_CREATE)
+            && $usuario->habilitado();
     }
 
     /**
@@ -66,7 +68,7 @@ class SolicitacaoPolicy
     public function externoCreate(Usuario $usuario)
     {
         return $usuario->possuiPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE)
-            && $usuario->lotacao_id >= 1;
+            && $usuario->habilitado();
     }
 
     /**
@@ -79,7 +81,8 @@ class SolicitacaoPolicy
      */
     public function update(Usuario $usuario)
     {
-        return $usuario->possuiPermissao(Permissao::SOLICITACAO_UPDATE);
+        return $usuario->possuiPermissao(Permissao::SOLICITACAO_UPDATE)
+            && $usuario->habilitado();
     }
 
     /**
@@ -95,6 +98,7 @@ class SolicitacaoPolicy
     public function delete(Usuario $usuario, Solicitacao $solicitacao)
     {
         return $usuario->possuiPermissao(Permissao::SOLICITACAO_DELETE)
+            && $usuario->habilitado()
             && is_null($solicitacao->entregue_em);
     }
 
@@ -112,6 +116,7 @@ class SolicitacaoPolicy
     public function externoDelete(Usuario $usuario, Solicitacao $solicitacao)
     {
         return ($usuario->possuiPermissao(Permissao::SOLICITACAO_EXTERNA_DELETE)
+            && $usuario->habilitado()
             && $solicitacao->lotacao_destinataria_id === $usuario->lotacao_id)
             && is_null($solicitacao->entregue_em);
     }
