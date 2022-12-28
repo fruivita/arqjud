@@ -8,9 +8,12 @@
 
 use App\Http\Requests\Atendimento\StoreSolicitacaoRequest;
 use App\Models\Permissao;
+use App\Models\Usuario;
 use App\Rules\NumeroProcessoCNJ;
 use App\Rules\ProcessoDisponivel;
+use App\Rules\UsuarioHabilitado;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 beforeEach(function () {
@@ -21,7 +24,7 @@ beforeEach(function () {
 test('usuário sem autorização não cria o request', function () {
     $this->seed([PerfilSeeder::class]);
 
-    login();
+    Auth::login(Usuario::factory()->create());
 
     expect($this->request->authorize())->toBeFalse();
 });
@@ -33,14 +36,15 @@ test('rules estão definidas no form request', function () {
             'bail',
             'required',
             'integer',
-            'exists:usuarios,id',
+            Rule::exists('usuarios', 'id'),
+            new UsuarioHabilitado(),
         ],
         'destino_id' => [
             'bail',
             'required',
             'integer',
             'min:1',
-            'exists:lotacoes,id',
+            Rule::exists('lotacoes', 'id'),
         ],
         'processos.*.numero' => [
             'bail',
@@ -65,7 +69,7 @@ test('attributes estão definidas no form request', function () {
 test('usuário autorizado pode criar o request', function () {
     $this->seed([PerfilSeeder::class]);
 
-    login();
+    Auth::login(Usuario::factory()->create());
 
     concederPermissao(Permissao::SOLICITACAO_CREATE);
 

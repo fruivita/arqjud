@@ -6,6 +6,7 @@ use App\Enums\Policy;
 use App\Models\Solicitacao;
 use App\Rules\NumeroProcessoCNJ;
 use App\Rules\ProcessoDisponivel;
+use App\Rules\UsuarioHabilitado;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
@@ -38,7 +39,8 @@ class StoreSolicitacaoRequest extends FormRequest
                 'bail',
                 'required',
                 'integer',
-                'exists:usuarios,id',
+                Rule::exists('usuarios', 'id'),
+                new UsuarioHabilitado(),
             ],
 
             'destino_id' => [
@@ -46,7 +48,7 @@ class StoreSolicitacaoRequest extends FormRequest
                 'required',
                 'integer',
                 'min:1',
-                'exists:lotacoes,id',
+                Rule::exists('lotacoes', 'id'),
             ],
 
             'processos.*.numero' => [
