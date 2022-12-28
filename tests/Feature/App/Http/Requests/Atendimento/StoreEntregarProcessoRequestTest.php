@@ -9,8 +9,8 @@
 use App\Http\Requests\Atendimento\StoreEntregarProcessoRequest;
 use App\Models\Permissao;
 use App\Rules\PasswordValido;
-use App\Rules\UsuarioHabilitado;
 use App\Rules\SolicitacaoEntregavel;
+use App\Rules\UsuarioHabilitado;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Validation\Rule;
 
