@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Policy;
+use App\Http\Controllers\Atendimento\DevolverProcessoController;
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
 use App\Http\Controllers\Atendimento\SolicitacaoController;
@@ -68,6 +69,11 @@ Route::middleware('auth')->group(function () {
         Route::prefix('entregar-processo')->name('entregar-processo.')->group(function () {
             Route::get('create', [EntregarProcessoController::class, 'create'])->name('create')->can(Policy::Update->value, Solicitacao::class);
             Route::post('/', [EntregarProcessoController::class, 'store'])->name('store')->can(Policy::Update->value, Solicitacao::class);
+        });
+
+        Route::prefix('devolver-processo')->name('devolver-processo.')->group(function () {
+            Route::get('create', [DevolverProcessoController::class, 'create'])->name('create')->can(Policy::Update->value, Solicitacao::class);
+            Route::post('/', [DevolverProcessoController::class, 'store'])->name('store')->can(Policy::Update->value, Solicitacao::class);
         });
 
         Route::prefix('guia')->name('guia.')->group(function () {
