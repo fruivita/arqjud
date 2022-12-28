@@ -13,7 +13,7 @@ use MichaelRubel\EnhancedPipeline\Pipeline;
 use function Spatie\PestPluginTestTime\testTime;
 
 // Caminho feliz
-test('pipe EfetivarEntrega cria as solicitações de processos no status solicitadas', function () {
+test('pipe EfetivarEntrega atualiza as solicitações para o status entregues', function () {
     $this->seed([PerfilSeeder::class]);
 
     login();
