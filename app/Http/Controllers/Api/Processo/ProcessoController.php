@@ -7,6 +7,12 @@ use App\Http\Requests\Api\Processo\ShowProcessoRequest;
 use App\Http\Resources\Processo\ProcessoOnlyResource;
 use App\Models\Processo;
 
+/**
+ * @see https://laravel.com/docs/9.x/controllers
+ * @see https://laravel.com/docs/9.x/requests
+ * @see https://laravel.com/docs/9.x/responses
+ * @see https://inertiajs.com/
+ */
 class ProcessoController extends Controller
 {
     /**

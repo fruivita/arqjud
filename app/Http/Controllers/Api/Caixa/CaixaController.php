@@ -7,6 +7,12 @@ use App\Http\Requests\Api\Caixa\ShowCaixaRequest;
 use App\Http\Resources\Caixa\CaixaOnlyResource;
 use App\Models\Caixa;
 
+/**
+ * @see https://laravel.com/docs/9.x/controllers
+ * @see https://laravel.com/docs/9.x/requests
+ * @see https://laravel.com/docs/9.x/responses
+ * @see https://inertiajs.com/
+ */
 class CaixaController extends Controller
 {
     /**
