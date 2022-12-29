@@ -6,6 +6,7 @@ use App\Enums\Policy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Atendimento\StoreDevolverProcessoRequest;
 use App\Http\Traits\ComFeedback;
+use App\Models\Solicitacao;
 use App\Pipes\Solicitacao\EfetivarDevolucao;
 use App\Pipes\Solicitacao\NotificarDevolucao;
 use Inertia\Inertia;

@@ -30,6 +30,7 @@ class UsuarioHabilitado implements InvokableRule
      */
     public function __invoke($attribute, $value, $fail)
     {
+        /** @var \App\Models\Usuario|null */
         $usuario = Usuario::query()
             ->when(
                 is_numeric($value),
