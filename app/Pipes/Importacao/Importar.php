@@ -4,7 +4,6 @@ namespace App\Pipes\Importacao;
 
 use App\Enums\Queue;
 use App\Jobs\ImportarDadosRH;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @see https://www.youtube.com/watch?v=FByQN_d876c

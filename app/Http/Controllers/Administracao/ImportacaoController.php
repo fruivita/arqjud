@@ -3,25 +3,10 @@
 namespace App\Http\Controllers\Administracao;
 
 use App\Enums\Policy;
-use App\Enums\Queue;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Atendimento\StoreSolicitacaoRequest;
-use App\Http\Resources\Solicitacao\CounterResource;
-use App\Http\Resources\Solicitacao\SolicitacaoCollection;
 use App\Http\Traits\ComFeedback;
-use App\Http\Traits\ComPaginacaoEmCache;
-use App\Jobs\ImportarDadosRH;
-use App\Models\Lotacao;
-use App\Models\Solicitacao;
-use App\Models\Usuario;
 use App\Pipes\Importacao\Importar;
-use App\Pipes\Search;
-use App\Pipes\Solicitacao\JoinAll;
-use App\Pipes\Solicitacao\NotificarSolicitante;
-use App\Pipes\Solicitacao\Order;
-use App\Pipes\Solicitacao\SolicitarProcesso;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
