@@ -54,21 +54,14 @@ final class Menu implements MenuInterface
                 $this->linksGrupoCadastro(),
                 fn ($collection, $links) => $collection->push(['nome' => __('Cadastros'), 'links' => $links])
             )
+            ->when(
+                $this->linksGrupoAdministracao(),
+                fn ($collection, $links) => $collection->push(['nome' => __('Administração'), 'links' => $links])
+            )
             ->toArray();
     }
 
     /**
-     * Todas os links do menu do grupo atendimentos autorizados para o usuário
-     * autenticado.
-     *
-     * Ex.:
-     * [
-     *      'icone' => 'person',
-     *      'href' => 'http://exemplo.com/algo',
-     *      'texto' => 'Pessoas',
-     *      'ativo' => false/true,
-     * ]
-     *
      * @return array
      */
     private function linksGrupoAtendimento()
@@ -122,17 +115,6 @@ final class Menu implements MenuInterface
     }
 
     /**
-     * Todas os links do menu do grupo solicitações autorizados para o usuário
-     * autenticado.
-     *
-     * Ex.:
-     * [
-     *      'icone' => 'person',
-     *      'href' => 'http://exemplo.com/algo',
-     *      'texto' => 'Pessoas',
-     *      'ativo' => false/true,
-     * ]
-     *
      * @return array
      */
     private function linksGrupoSolicitacao()
@@ -160,17 +142,6 @@ final class Menu implements MenuInterface
     }
 
     /**
-     * Todas os links do menu do grupo movimentações autorizados para o usuário
-     * autenticado.
-     *
-     * Ex.:
-     * [
-     *      'icone' => 'person',
-     *      'href' => 'http://exemplo.com/algo',
-     *      'texto' => 'Pessoas',
-     *      'ativo' => false/true,
-     * ]
-     *
      * @return array
      */
     private function linksGrupoMovimentacao()
@@ -189,17 +160,6 @@ final class Menu implements MenuInterface
     }
 
     /**
-     * Todas os links do menu do grupo cadastros autorizados para o usuário
-     * autenticado.
-     *
-     * Ex.:
-     * [
-     *      'icone' => 'person',
-     *      'href' => 'http://exemplo.com/algo',
-     *      'texto' => 'Pessoas',
-     *      'ativo' => false/true,
-     * ]
-     *
      * @return array
      */
     private function linksGrupoCadastro()
@@ -284,6 +244,24 @@ final class Menu implements MenuInterface
                     'href' => route('cadastro.processo.index'),
                     'texto' => __('Processos'),
                     'ativo' => Route::is('cadastro.processo.*'),
+                ])
+            )
+            ->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    private function linksGrupoAdministracao()
+    {
+        return collect()
+            ->when(
+                auth()->user()->can(Policy::ImportacaoCreate->value),
+                fn ($collection) => $collection->push([
+                    'icone' => 'usb-drive',
+                    'href' => route('administracao.importacao.create'),
+                    'texto' => __('Importar dados'),
+                    'ativo' => Route::is('administracao.importacao.*'),
                 ])
             )
             ->toArray();

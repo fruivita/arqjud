@@ -57,6 +57,7 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
     [Permissao::CAIXA_VIEW_ANY, fn () => __('Cadastros'), 'box2', fn () => route('cadastro.caixa.index'), fn () => __('Caixas')],
     [Permissao::VOLUME_CAIXA_VIEW_ANY, fn () => __('Cadastros'), 'boxes', fn () => route('cadastro.volume-caixa.index'), fn () => __('Volumes das caixas')],
     [Permissao::PROCESSO_VIEW_ANY, fn () => __('Cadastros'), 'journal-bookmark', fn () => route('cadastro.processo.index'), fn () => __('Processos')],
+    [Permissao::IMPORTACAO_CREATE, fn () => __('Administração'), 'usb-drive', fn () => route('administracao.importacao.create'), fn () => __('Importar dados')],
 ]);
 
 test('menu é gerado de acordo com as permissões do usuário, inclusive se a permissão habilitar mais de 2 itens do menu', function () {
@@ -94,7 +95,9 @@ test('administrador tem acesso a todos os itens do menu', function () {
         ->and($menu[2]['nome'])->toBe(__('Movimentações'))
         ->and($menu[2]['links'])->toHaveCount(1)
         ->and($menu[3]['nome'])->toBe(__('Cadastros'))
-        ->and($menu[3]['links'])->toHaveCount(9);
+        ->and($menu[3]['links'])->toHaveCount(9)
+        ->and($menu[4]['nome'])->toBe(__('Administração'))
+        ->and($menu[4]['links'])->toHaveCount(1);
 });
 
 test('identifica o menu ativo corretamente', function (string $rota, string $menu_ativo) {
@@ -129,4 +132,5 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
     ['cadastro.caixa.index', 'cadastro.caixa.index'],
     ['cadastro.volume-caixa.index', 'cadastro.volume-caixa.index'],
     ['cadastro.processo.index', 'cadastro.processo.index'],
+    ['administracao.importacao.create', 'administracao.importacao.create'],
 ]);
