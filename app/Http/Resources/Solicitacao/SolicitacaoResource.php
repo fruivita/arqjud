@@ -45,11 +45,11 @@ class SolicitacaoResource extends JsonResource
                 'lotacao_destinataria' => LotacaoOnlyResource::make($this->whenLoaded('lotacaoDestinataria')),
                 'links' => [
                     'delete' => $this->when(
-                        $request->user()->can(Policy::Delete->value, $this->resource),
+                        auth()->user()->can(Policy::Delete->value, $this->resource),
                         route('atendimento.solicitar-processo.destroy', $this->id),
                     ),
                     'externo_delete' => $this->when(
-                        $request->user()->can(Policy::ExternoDelete->value, $this->resource),
+                        auth()->user()->can(Policy::ExternoDelete->value, $this->resource),
                         route('solicitacao.destroy', $this->id),
                     ),
                 ],

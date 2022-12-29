@@ -37,11 +37,11 @@ class ProcessoEditResource extends JsonResource
                 'solicitacoes_count' => $this->whenCounted('solicitacoes'),
                 'links' => [
                     'view' => $this->when(
-                        $request->user()->can(Policy::ViewOrUpdate->value, Processo::class),
+                        auth()->user()->can(Policy::ViewOrUpdate->value, Processo::class),
                         route('cadastro.processo.edit', $this->id),
                     ),
                     'update' => $this->when(
-                        $request->user()->can(Policy::Update->value, Processo::class),
+                        auth()->user()->can(Policy::Update->value, Processo::class),
                         route('cadastro.processo.update', $this->id),
                     ),
                 ],

@@ -31,15 +31,15 @@ class PredioEditResource extends JsonResource
                 'andares_count' => $this->whenCounted('andares'),
                 'links' => [
                     'view' => $this->when(
-                        $request->user()->can(Policy::ViewOrUpdate->value, Predio::class),
+                        auth()->user()->can(Policy::ViewOrUpdate->value, Predio::class),
                         route('cadastro.predio.edit', $this->id),
                     ),
                     'update' => $this->when(
-                        $request->user()->can(Policy::Update->value, Predio::class),
+                        auth()->user()->can(Policy::Update->value, Predio::class),
                         route('cadastro.predio.update', $this->id),
                     ),
                     'andar' => $this->when(
-                        $request->user()->can(Policy::Create->value, Andar::class),
+                        auth()->user()->can(Policy::Create->value, Andar::class),
                         [
                             'create' => route('cadastro.andar.create', $this->id),
                             'store' => route('cadastro.andar.store', $this->id),

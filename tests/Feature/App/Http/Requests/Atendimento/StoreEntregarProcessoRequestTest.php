@@ -8,21 +8,27 @@
 
 use App\Http\Requests\Atendimento\StoreEntregarProcessoRequest;
 use App\Models\Permissao;
+use App\Models\Usuario;
 use App\Rules\PasswordValido;
 use App\Rules\SolicitacaoEntregavel;
 use App\Rules\UsuarioHabilitado;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 beforeEach(function () {
     $this->request = new StoreEntregarProcessoRequest();
 });
 
+afterEach(function () {
+    logout();
+});
+
 // Autorização
 test('usuário sem autorização não cria o request', function () {
     $this->seed([PerfilSeeder::class]);
 
-    login();
+    Auth::login(Usuario::factory()->create());
 
     expect($this->request->authorize())->toBeFalse();
 });
@@ -78,7 +84,7 @@ test('attributes estão definidas no form request', function () {
 test('usuário autorizado pode criar o request', function () {
     $this->seed([PerfilSeeder::class]);
 
-    login();
+    Auth::login(Usuario::factory()->create());
 
     concederPermissao(Permissao::SOLICITACAO_UPDATE);
 

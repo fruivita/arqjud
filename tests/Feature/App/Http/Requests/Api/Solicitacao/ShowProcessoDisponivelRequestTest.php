@@ -8,20 +8,26 @@
 
 use App\Http\Requests\Api\Solicitacao\ShowProcessoDisponivelRequest;
 use App\Models\Permissao;
+use App\Models\Usuario;
 use App\Rules\NumeroProcessoCNJ;
 use App\Rules\ProcessoDisponivel;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 beforeEach(function () {
     $this->request = new ShowProcessoDisponivelRequest();
 });
 
+afterEach(function () {
+    logout();
+});
+
 // Caminho feliz
 test('usuário sem autorização não cria o request', function () {
     $this->seed([PerfilSeeder::class]);
 
-    login();
+    Auth::login(Usuario::factory()->create());
 
     expect($this->request->authorize())->toBeFalse();
 });
@@ -49,7 +55,7 @@ test('attributes estão definidas no form request', function () {
 test('usuário autorizado pode criar o request', function (string $permissao) {
     $this->seed([PerfilSeeder::class]);
 
-    login();
+    Auth::login(Usuario::factory()->create());
 
     concederPermissao($permissao);
 

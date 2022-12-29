@@ -32,7 +32,7 @@ class GuiaResource extends JsonResource
                 'lotacao_destinataria' => $this->lotacao_destinataria,
                 'processos' => $this->processos,
                 'links' => $this->when(
-                    $request->user()->can(Policy::View->value, Guia::class),
+                    auth()->user()->can(Policy::View->value, Guia::class),
                     [
                         'view' => route('atendimento.guia.show', $this->id),
                         'pdf' => route('atendimento.guia.pdf', $this->id),

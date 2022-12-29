@@ -32,15 +32,15 @@ class AndarEditResource extends JsonResource
                 'salas_count' => $this->whenCounted('salas'),
                 'links' => [
                     'view' => $this->when(
-                        $request->user()->can(Policy::ViewOrUpdate->value, Andar::class),
+                        auth()->user()->can(Policy::ViewOrUpdate->value, Andar::class),
                         route('cadastro.andar.edit', $this->id),
                     ),
                     'update' => $this->when(
-                        $request->user()->can(Policy::Update->value, Andar::class),
+                        auth()->user()->can(Policy::Update->value, Andar::class),
                         route('cadastro.andar.update', $this->id),
                     ),
                     'sala' => $this->when(
-                        $request->user()->can(Policy::Create->value, Sala::class),
+                        auth()->user()->can(Policy::Create->value, Sala::class),
                         [
                             'create' => route('cadastro.sala.create', $this->id),
                             'store' => route('cadastro.sala.store', $this->id),

@@ -9,11 +9,15 @@ use App\Http\Resources\Solicitacao\SolicitacaoCollection;
 use App\Http\Resources\Solicitacao\SolicitacaoResource;
 use App\Models\Permissao;
 use App\Models\Solicitacao;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
-    login();
+
+    $this->usuario = Usuario::factory()->create();
+    Auth::login($this->usuario);
 
     $this->solicitacoes = Solicitacao::factory(2)->create();
 });

@@ -31,15 +31,15 @@ class SalaEditResource extends JsonResource
                 'estantes_count' => $this->whenCounted('estantes'),
                 'links' => [
                     'view' => $this->when(
-                        $request->user()->can(Policy::ViewOrUpdate->value, Sala::class),
+                        auth()->user()->can(Policy::ViewOrUpdate->value, Sala::class),
                         route('cadastro.sala.edit', $this->id),
                     ),
                     'update' => $this->when(
-                        $request->user()->can(Policy::Update->value, Sala::class),
+                        auth()->user()->can(Policy::Update->value, Sala::class),
                         route('cadastro.sala.update', $this->id),
                     ),
                     'estante' => $this->when(
-                        $request->user()->can(Policy::Create->value, Estante::class),
+                        auth()->user()->can(Policy::Create->value, Estante::class),
                         [
                             'create' => route('cadastro.estante.create', $this->id),
                             'store' => route('cadastro.estante.store', $this->id),

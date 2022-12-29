@@ -29,19 +29,19 @@ class LocalidadeResource extends JsonResource
                 'caixas_criadas_count' => $this->whenCounted('caixasCriadas'),
                 'links' => [
                     'view' => $this->when(
-                        $request->user()->can(Policy::ViewOrUpdate->value, Localidade::class),
+                        auth()->user()->can(Policy::ViewOrUpdate->value, Localidade::class),
                         route('cadastro.localidade.edit', $this->id),
                     ),
                     'update' => $this->when(
-                        $request->user()->can(Policy::Update->value, Localidade::class),
+                        auth()->user()->can(Policy::Update->value, Localidade::class),
                         route('cadastro.localidade.update', $this->id),
                     ),
                     'delete' => $this->when(
-                        $request->user()->can(Policy::Delete->value, $this->resource),
+                        auth()->user()->can(Policy::Delete->value, $this->resource),
                         route('cadastro.localidade.destroy', $this->id),
                     ),
                     'predio' => $this->when(
-                        $request->user()->can(Policy::Create->value, Predio::class),
+                        auth()->user()->can(Policy::Create->value, Predio::class),
                         [
                             'create' => route('cadastro.predio.create', $this->id),
                             'store' => route('cadastro.predio.store', $this->id),

@@ -37,19 +37,19 @@ class CaixaResource extends JsonResource
                 'volumes_count' => $this->whenCounted('volumes'),
                 'links' => [
                     'view' => $this->when(
-                        $request->user()->can(Policy::ViewOrUpdate->value, Caixa::class),
+                        auth()->user()->can(Policy::ViewOrUpdate->value, Caixa::class),
                         route('cadastro.caixa.edit', $this->id),
                     ),
                     'update' => $this->when(
-                        $request->user()->can(Policy::Update->value, Caixa::class),
+                        auth()->user()->can(Policy::Update->value, Caixa::class),
                         route('cadastro.caixa.update', $this->id),
                     ),
                     'delete' => $this->when(
-                        $request->user()->can(Policy::Delete->value, $this->resource),
+                        auth()->user()->can(Policy::Delete->value, $this->resource),
                         route('cadastro.caixa.destroy', $this->id),
                     ),
                     'volume' => $this->when(
-                        $request->user()->can(Policy::Create->value, VolumeCaixa::class),
+                        auth()->user()->can(Policy::Create->value, VolumeCaixa::class),
                         [
                             'create' => route('cadastro.volume-caixa.create', $this->id),
                             'store' => route('cadastro.volume-caixa.store', $this->id),

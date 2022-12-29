@@ -203,26 +203,26 @@ test('routeNotificationForMail retorna a rota de notificação para o usuário',
 
 test('usuário sem nome, username, email e matrícula ou com lotação inválida é considerado com cadastro incompleto', function () {
     $usuario = new Usuario();
-    expect($usuario->cadastroCompleto())->toBeFalse();
+    expect($usuario->habilitado())->toBeFalse();
 
     $usuario->nome = 'foo';
-    expect($usuario->cadastroCompleto())->toBeFalse();
+    expect($usuario->habilitado())->toBeFalse();
 
     $usuario->username = 'bar';
-    expect($usuario->cadastroCompleto())->toBeFalse();
+    expect($usuario->habilitado())->toBeFalse();
 
     $usuario->email = 'baz@baz.baz';
-    expect($usuario->cadastroCompleto())->toBeFalse();
+    expect($usuario->habilitado())->toBeFalse();
 
     $usuario->matricula = '123';
-    expect($usuario->cadastroCompleto())->toBeFalse();
+    expect($usuario->habilitado())->toBeFalse();
 
     $usuario->lotacao_id = 0;
-    expect($usuario->cadastroCompleto())->toBeFalse();
+    expect($usuario->habilitado())->toBeFalse();
 
     $usuario->lotacao_id = -1;
-    expect($usuario->cadastroCompleto())->toBeFalse();
+    expect($usuario->habilitado())->toBeFalse();
 
     $usuario->lotacao_id = 1;
-    expect($usuario->cadastroCompleto())->toBeTrue();
+    expect($usuario->habilitado())->toBeTrue();
 });

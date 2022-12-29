@@ -9,7 +9,9 @@ use App\Http\Controllers\Api\Solicitacao\ProcessoDisponivelController;
 use App\Http\Requests\Api\Solicitacao\ShowProcessoDisponivelRequest;
 use App\Models\Permissao;
 use App\Models\Processo;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 beforeEach(function () {
@@ -25,10 +27,12 @@ test('usuário sem autenticação não consegue os dados do processo para solici
 });
 
 test('usuário sem autorização não consegue os dados do processo para solicitação por meio da API JSON', function () {
-    login();
+    Auth::login(Usuario::factory()->create());
 
     $this->postJson(route('api.solicitacao.processo.show'), ['processo' => $this->processo->numero])
         ->assertForbidden();
+
+    logout();
 });
 
 // Caminho feliz
@@ -43,7 +47,7 @@ test('action do controller usa o form request', function (string $action, string
 ]);
 
 test('usuário autorizado consegue os dados de um processo para solicitação por meio da API JSON', function () {
-    login();
+    Auth::login(Usuario::factory()->create());
 
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE);
 
@@ -54,4 +58,6 @@ test('usuário autorizado consegue os dados de um processo para solicitação po
         ->assertJson(
             fn (AssertableJson $json) => $json->where('processo', processoApi($this->processo))
         );
+
+    logout();
 });

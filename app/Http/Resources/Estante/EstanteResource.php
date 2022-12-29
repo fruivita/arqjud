@@ -31,19 +31,19 @@ class EstanteResource extends JsonResource
                 'prateleiras_count' => $this->whenCounted('prateleiras'),
                 'links' => [
                     'view' => $this->when(
-                        $request->user()->can(Policy::ViewOrUpdate->value, Estante::class),
+                        auth()->user()->can(Policy::ViewOrUpdate->value, Estante::class),
                         route('cadastro.estante.edit', $this->id),
                     ),
                     'update' => $this->when(
-                        $request->user()->can(Policy::Update->value, Estante::class),
+                        auth()->user()->can(Policy::Update->value, Estante::class),
                         route('cadastro.estante.update', $this->id),
                     ),
                     'delete' => $this->when(
-                        $request->user()->can(Policy::Delete->value, $this->resource),
+                        auth()->user()->can(Policy::Delete->value, $this->resource),
                         route('cadastro.estante.destroy', $this->id),
                     ),
                     'prateleira' => $this->when(
-                        $request->user()->can(Policy::Create->value, Prateleira::class),
+                        auth()->user()->can(Policy::Create->value, Prateleira::class),
                         [
                             'create' => route('cadastro.prateleira.create', $this->id),
                             'store' => route('cadastro.prateleira.store', $this->id),

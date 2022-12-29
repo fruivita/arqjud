@@ -15,6 +15,7 @@ use App\Models\Permissao;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
@@ -24,7 +25,8 @@ use function Spatie\PestPluginTestTime\testTime;
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
-    $this->usuario = login();
+    $this->usuario = Usuario::factory()->create();
+    Auth::login($this->usuario);
 });
 
 afterEach(function () {

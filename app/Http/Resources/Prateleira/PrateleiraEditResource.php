@@ -31,15 +31,15 @@ class PrateleiraEditResource extends JsonResource
                 'caixas_count' => $this->whenCounted('caixas'),
                 'links' => [
                     'view' => $this->when(
-                        $request->user()->can(Policy::ViewOrUpdate->value, Prateleira::class),
+                        auth()->user()->can(Policy::ViewOrUpdate->value, Prateleira::class),
                         route('cadastro.prateleira.edit', $this->id),
                     ),
                     'update' => $this->when(
-                        $request->user()->can(Policy::Update->value, Prateleira::class),
+                        auth()->user()->can(Policy::Update->value, Prateleira::class),
                         route('cadastro.prateleira.update', $this->id),
                     ),
                     'caixa' => $this->when(
-                        $request->user()->can(Policy::Create->value, Caixa::class),
+                        auth()->user()->can(Policy::Create->value, Caixa::class),
                         [
                             'create' => route('cadastro.caixa.create', $this->id),
                             'store' => route('cadastro.caixa.store', $this->id),

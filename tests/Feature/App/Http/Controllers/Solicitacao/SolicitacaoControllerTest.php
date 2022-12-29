@@ -13,18 +13,22 @@ use App\Jobs\NotificarOperadoresSolicitacao;
 use App\Models\Permissao;
 use App\Models\Processo;
 use App\Models\Solicitacao;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
+use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
-    $this->usuario = login();
+    $this->usuario = Usuario::factory()->create();
     $this->usuario->loadMissing('lotacao');
+    Auth::login($this->usuario);
 });
 
 afterEach(function () {
@@ -105,6 +109,8 @@ test('cria uma nova solicitação de processos status solicitada destinada à lo
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE);
 
     $this->assertDatabaseCount('solicitacoes', 0);
+
+    testTime()->freeze();
 
     post(route('solicitacao.store'), [
         'processos' => [['numero' => $processo_1->numero], ['numero' => $processo_3->numero]],

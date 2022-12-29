@@ -31,15 +31,15 @@ class VolumeCaixaEditResource extends JsonResource
                 'processos_count' => $this->whenCounted('processos'),
                 'links' => [
                     'view' => $this->when(
-                        $request->user()->can(Policy::ViewOrUpdate->value, VolumeCaixa::class),
+                        auth()->user()->can(Policy::ViewOrUpdate->value, VolumeCaixa::class),
                         route('cadastro.volume-caixa.edit', $this->id),
                     ),
                     'update' => $this->when(
-                        $request->user()->can(Policy::Update->value, VolumeCaixa::class),
+                        auth()->user()->can(Policy::Update->value, VolumeCaixa::class),
                         route('cadastro.volume-caixa.update', $this->id),
                     ),
                     'processo' => $this->when(
-                        $request->user()->can(Policy::Create->value, Processo::class),
+                        auth()->user()->can(Policy::Create->value, Processo::class),
                         [
                             'create' => route('cadastro.processo.create', $this->id),
                             'store' => route('cadastro.processo.store', $this->id),

@@ -10,11 +10,15 @@ use App\Http\Resources\Solicitacao\SolicitacaoResource;
 use App\Http\Resources\Usuario\UsuarioOnlyResource;
 use App\Models\Permissao;
 use App\Models\Solicitacao;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
-    $usuario = login();
+
+    $usuario = Usuario::factory()->create();
+    Auth::login($usuario);
 
     $this->solicitacao = Solicitacao::factory()->solicitada()->create(['lotacao_destinataria_id' => $usuario->lotacao_id]);
 });
