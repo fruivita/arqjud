@@ -8,8 +8,14 @@
  */
 
 import TheMenu from '@/Shared/Menus/TheMenu.vue';
+import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+
+vi.stubGlobal('_dados', {
+    app_nome: 'Foo',
+    orgao_sigla: 'BAZ',
+});
 
 vi.mock('@inertiajs/inertia-vue3', () => ({
     __esModule: true,
@@ -48,6 +54,8 @@ vi.mock('@inertiajs/inertia-vue3', () => ({
                             ],
                         },
                     ],
+                    home: 'http://home.foo',
+                    logout: 'http://logout.foo',
                 },
             },
         },
@@ -57,6 +65,8 @@ vi.mock('@inertiajs/inertia-vue3', () => ({
 let mountFunction;
 
 beforeEach(() => {
+    createTestingPinia({ stubActions: false });
+
     mountFunction = (options = {}) => {
         return mount(TheMenu, { ...options });
     };
