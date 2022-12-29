@@ -51,6 +51,7 @@ describe('Icone', () => {
         ['dash-circle'],
         ['diagram-3'],
         ['door-closed'],
+        ['door-open'],
         ['envelope'],
         ['eye'],
         ['files'],
