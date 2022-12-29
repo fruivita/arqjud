@@ -48,6 +48,8 @@ class HandleInertiaRequests extends Middleware
                 ? [
                     'user' => ['username' => auth()->user()->username],
                     'menu' => Menu::make()->gerar(),
+                    'home' => route('home.show'),
+                    'logout' => route('logout'),
                 ]
                 : null,
 

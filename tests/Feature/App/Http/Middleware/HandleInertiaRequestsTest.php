@@ -28,6 +28,8 @@ test('dados básicos compartilhados com autenticação estão definidos', functi
         ->assertInertia(
             fn (Assert $page) => $page
                 ->where('auth.user.username', 'foo')
+                ->where('auth.home', route('home.show'))
+                ->where('auth.logout', route('logout'))
                 ->has('auth.menu', 0)
                 ->has('flash', null)
         );
