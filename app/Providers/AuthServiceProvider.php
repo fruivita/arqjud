@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Enums\Policy;
+use App\Policies\ImportacaoPolicy;
 use App\Policies\MoverProcessoPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +47,7 @@ class AuthServiceProvider extends ServiceProvider
     private function registrarGates()
     {
         Gate::define(Policy::MoverProcessoCreate->value, [MoverProcessoPolicy::class, Policy::Create->value]);
+        Gate::define(Policy::ImportacaoCreate->value, [ImportacaoPolicy::class, Policy::Create->value]);
     }
 
     /**
