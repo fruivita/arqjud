@@ -45,8 +45,8 @@ class Importar
      */
     protected function rh()
     {
-        return ImportarDadosRH::dispatch()->onQueue(Queue::Baixa->value)
-            ? true
-            : false;
+        ImportarDadosRH::dispatch()->onQueue(Queue::Baixa->value);
+
+        return true;
     }
 }
