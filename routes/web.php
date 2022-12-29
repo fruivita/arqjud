@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Policy;
+use App\Http\Controllers\Administracao\ImportacaoController;
 use App\Http\Controllers\Atendimento\DevolverProcessoController;
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
@@ -177,6 +178,13 @@ Route::middleware('auth')->group(function () {
             Route::get('{processo}/edit', [ProcessoController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Processo::class);
             Route::patch('{processo}', [ProcessoController::class, 'update'])->name('update')->can(Policy::Update->value, Processo::class);
             Route::delete('{processo}', [ProcessoController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'processo');
+        });
+    });
+
+    Route::prefix('administracao')->name('administracao.')->group(function () {
+        Route::prefix('importacao')->name('importacao.')->group(function () {
+            Route::get('create', [ImportacaoController::class, 'create'])->name('create')->can(Policy::ImportacaoCreate->value);
+            Route::post('/', [ImportacaoController::class, 'store'])->name('store')->can(Policy::ImportacaoCreate->value);
         });
     });
 });
