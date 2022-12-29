@@ -22,6 +22,7 @@ test('pipe SolicitarProcesso cria as solicitações de processos no status solic
     $solicitacao->processos = $processos->pluck('numero')->transform('apenasNumeros')->toArray();
     $solicitacao->solicitante = Usuario::factory()->create();
     $solicitacao->destino = Lotacao::factory()->create();
+    $solicitacao->solicitada_em = now();
 
     Pipeline::make()
         ->withTransaction()
@@ -39,13 +40,13 @@ test('pipe SolicitarProcesso cria as solicitações de processos no status solic
             'rearquivador_id' => null,
             'lotacao_destinataria_id' => $solicitacao->destino->id,
             'guia_id' => null,
-            'solicitada_em' => now(),
+            'solicitada_em' => $solicitacao->solicitada_em,
             'entregue_em' => null,
             'devolvida_em' => null,
             'por_guia' => false,
             'descricao' => null,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => $solicitacao->solicitada_em,
+            'updated_at' => $solicitacao->solicitada_em,
         ])
         ->assertDatabaseHas('solicitacoes', [
             'processo_id' => $processos->get(1)->id,
@@ -55,13 +56,13 @@ test('pipe SolicitarProcesso cria as solicitações de processos no status solic
             'rearquivador_id' => null,
             'lotacao_destinataria_id' => $solicitacao->destino->id,
             'guia_id' => null,
-            'solicitada_em' => now(),
+            'solicitada_em' => $solicitacao->solicitada_em,
             'entregue_em' => null,
             'devolvida_em' => null,
             'por_guia' => false,
             'descricao' => null,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => $solicitacao->solicitada_em,
+            'updated_at' => $solicitacao->solicitada_em,
         ])
         ->assertDatabaseMissing('solicitacoes', [
             'processo_id' => $processo->id,

@@ -19,20 +19,20 @@ class SolicitarProcesso
      */
     public function handle(\stdClass $solicitacao, \Closure $next)
     {
+        $solicitacao->solicitada_em = now();
+
         $solicitacoes = Processo::query()
             ->whereIn('numero', $solicitacao->processos)
             ->lazy()
             ->map(function (Processo $processo) use ($solicitacao) {
-                $now = now();
-
                 return [
                     'processo_id' => $processo->id,
                     'solicitante_id' => $solicitacao->solicitante->id,
                     'lotacao_destinataria_id' => $solicitacao->destino->id,
-                    'solicitada_em' => $now,
+                    'solicitada_em' => $solicitacao->solicitada_em,
                     'por_guia' => false,
-                    'created_at' => $now,
-                    'updated_at' => $now,
+                    'created_at' => $solicitacao->solicitada_em,
+                    'updated_at' => $solicitacao->solicitada_em,
                 ];
             });
 

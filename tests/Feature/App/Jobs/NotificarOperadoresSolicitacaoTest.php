@@ -27,6 +27,7 @@ beforeEach(function () {
     $this->solicitacao->processos = ['1111', '2222'];
     $this->solicitacao->solicitante = Usuario::factory()->create();
     $this->solicitacao->destino = Lotacao::factory()->create();
+    $this->solicitacao->solicitada_em = now();
 });
 
 // Caminho feliz

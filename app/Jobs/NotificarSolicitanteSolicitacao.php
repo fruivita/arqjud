@@ -76,7 +76,7 @@ class NotificarSolicitanteSolicitacao implements ShouldQueue, ShouldBeUnique
         $this->processos = $solicitacao->processos;
         $this->solicitante = $solicitacao->solicitante->withoutRelations();
         $this->destino = $solicitacao->destino->withoutRelations();
-        $this->solicitada_em = now();
+        $this->solicitada_em = $solicitacao->solicitada_em;
     }
 
     /**
