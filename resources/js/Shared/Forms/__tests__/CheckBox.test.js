@@ -30,14 +30,14 @@ describe('CheckBox', () => {
             id: { type: String },
             label: { type: String, required: true },
             disabled: { type: Boolean, default: false },
-            modelValue: { type: Boolean, required: true },
+            checked: { type: Boolean, required: true },
         });
     });
 
     test('renderiza o componente respeitando o snapshot', () => {
         expect(
             mountFunction({
-                props: { label: 'foo', modelValue: false },
+                props: { label: 'foo', checked: false },
             }).html()
         ).toMatchSnapshot();
     });
@@ -45,7 +45,7 @@ describe('CheckBox', () => {
     test('renderiza o componente desabilitado respeitando o snapshot', () => {
         expect(
             mountFunction({
-                props: { label: 'foo', disabled: true, modelValue: false },
+                props: { label: 'foo', disabled: true, checked: false },
             }).html()
         ).toMatchSnapshot();
     });
@@ -56,50 +56,34 @@ describe('CheckBox', () => {
                 props: {
                     id: '123',
                     label: 'foo',
-                    modelValue: true,
+                    checked: true,
                     extra: 'loren',
                 },
             }).html()
         ).toMatchSnapshot();
     });
 
-    test('atualiza o v-model ao alterar o valor do elemento', async () => {
-        const parent = mount({
-            data: () => {
-                return { foo: false };
-            },
-            template: '<div> <CheckBox v-model="foo" label="foo" /> </div>',
-            components: { CheckBox: CheckBox },
-        });
-
-        const input = parent.find('input');
-
-        await input.trigger('click');
-
-        expect(parent.vm.foo).toBe(true);
-    });
-
     test('dispara o evento onClick se o componente estiver habilitado', () => {
         const wrapper = mountFunction({
-            props: { label: 'foo', disabled: false, modelValue: false },
+            props: { label: 'foo', disabled: false, checked: false },
         });
 
         const event = { target: { checked: true } };
 
         wrapper.vm.onClick(event);
 
-        expect(wrapper.emitted()['update:modelValue'][0]).toEqual([true]);
+        expect(wrapper.emitted()['update:checked'][0]).toEqual([true]);
     });
 
     test('não dispara o evento onClick se o componente estiver desabilitado', () => {
         const wrapper = mountFunction({
-            props: { label: 'foo', disabled: true, modelValue: false },
+            props: { label: 'foo', disabled: true, checked: false },
         });
 
         const event = { target: { checked: true } };
 
         wrapper.vm.onClick(event);
 
-        expect(wrapper.emitted()['update:modelValue']).toBeFalsy();
+        expect(wrapper.emitted()['update:checked']).toBeFalsy();
     });
 });
