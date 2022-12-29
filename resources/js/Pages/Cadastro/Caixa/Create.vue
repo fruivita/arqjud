@@ -145,7 +145,7 @@ const cadastrar = () => {
                         />
 
                         <CheckBox
-                            v-model="form.guarda_permanente"
+                            v-model:checked="form.guarda_permanente"
                             :label="__('Guarda Permanente')"
                         />
                     </div>

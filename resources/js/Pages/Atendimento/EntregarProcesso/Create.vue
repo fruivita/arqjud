@@ -391,7 +391,7 @@ const viewReset = () => {
                     <div>
                         <CheckBox
                             @click="clickPorGuia"
-                            v-model="formEntregarProcessos.por_guia"
+                            v-model:checked="formEntregarProcessos.por_guia"
                             :label="__('Entrega por guia')"
                         />
 

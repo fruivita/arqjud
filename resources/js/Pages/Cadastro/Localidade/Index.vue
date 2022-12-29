@@ -107,16 +107,22 @@ watch(perPage, filtrar);
                 />
 
                 <Preferencia>
-                    <CheckBox v-model="elementosVisiveis.localidade" :label="__('Localidades')" />
-
-                    <CheckBox v-model="elementosVisiveis.predios" :label="__('Qtd prédios')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.localidade"
+                        :label="__('Localidades')"
+                    />
 
                     <CheckBox
-                        v-model="elementosVisiveis.caixas"
+                        v-model:checked="elementosVisiveis.predios"
+                        :label="__('Qtd prédios')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.caixas"
                         :label="__('Qtd caixas criadas')"
                     />
 
-                    <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 

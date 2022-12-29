@@ -143,36 +143,54 @@ watch(perPage, filtrar);
                 />
 
                 <Preferencia>
-                    <CheckBox v-model="elementosVisiveis.status" :label="__('Status')" />
-
-                    <CheckBox v-model="elementosVisiveis.processo" :label="__('Processo')" />
+                    <CheckBox v-model:checked="elementosVisiveis.status" :label="__('Status')" />
 
                     <CheckBox
-                        v-model="elementosVisiveis.lotacaoDestinataria"
+                        v-model:checked="elementosVisiveis.processo"
+                        :label="__('Processo')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.lotacaoDestinataria"
                         :label="__('Lotação destinatária')"
                     />
 
-                    <CheckBox v-model="elementosVisiveis.solicitante" :label="__('Solicitante')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.solicitante"
+                        :label="__('Solicitante')"
+                    />
 
                     <CheckBox
-                        v-model="elementosVisiveis.solicitadaEm"
+                        v-model:checked="elementosVisiveis.solicitadaEm"
                         :label="__('Solicitada em')"
                     />
 
-                    <CheckBox v-model="elementosVisiveis.remetente" :label="__('Remetente')" />
-
-                    <CheckBox v-model="elementosVisiveis.recebedor" :label="__('Recebedor')" />
-
-                    <CheckBox v-model="elementosVisiveis.entregueEm" :label="__('Entregue em')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.remetente"
+                        :label="__('Remetente')"
+                    />
 
                     <CheckBox
-                        v-model="elementosVisiveis.rearquivador"
+                        v-model:checked="elementosVisiveis.recebedor"
+                        :label="__('Recebedor')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.entregueEm"
+                        :label="__('Entregue em')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.rearquivador"
                         :label="__('Rearquivada por')"
                     />
 
-                    <CheckBox v-model="elementosVisiveis.devolvidaEm" :label="__('Devolvida em')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.devolvidaEm"
+                        :label="__('Devolvida em')"
+                    />
 
-                    <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 

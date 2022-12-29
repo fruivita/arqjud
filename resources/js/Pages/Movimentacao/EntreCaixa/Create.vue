@@ -337,7 +337,7 @@ const viewReset = () => {
                                     class="flex flex-col justify-between space-y-3 space-x-0 md:flex-row md:space-x-3 md:space-y-0"
                                 >
                                     <CheckBox
-                                        v-model="formCaixaDestino.guarda_permanente"
+                                        v-model:checked="formCaixaDestino.guarda_permanente"
                                         :label="__('Guarda Permanente')"
                                     />
 

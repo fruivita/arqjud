@@ -232,22 +232,31 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                 />
 
                 <Preferencia>
-                    <CheckBox v-model="elementosVisiveis.caixa" :label="__('Caixa')" />
+                    <CheckBox v-model:checked="elementosVisiveis.caixa" :label="__('Caixa')" />
 
-                    <CheckBox v-model="elementosVisiveis.ano" :label="__('Ano')" />
-
-                    <CheckBox v-model="elementosVisiveis.guardaPermanente" :label="__('GP')" />
+                    <CheckBox v-model:checked="elementosVisiveis.ano" :label="__('Ano')" />
 
                     <CheckBox
-                        v-model="elementosVisiveis.localidadeCriadora"
+                        v-model:checked="elementosVisiveis.guardaPermanente"
+                        :label="__('GP')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.localidadeCriadora"
                         :label="__('Localidade criadora')"
                     />
 
-                    <CheckBox v-model="elementosVisiveis.complemento" :label="__('Complemento')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.complemento"
+                        :label="__('Complemento')"
+                    />
 
-                    <CheckBox v-model="elementosVisiveis.volumes" :label="__('Qtd volumes')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.volumes"
+                        :label="__('Qtd volumes')"
+                    />
 
-                    <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 

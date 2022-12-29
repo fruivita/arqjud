@@ -91,24 +91,27 @@ watch(perPage, filtrar);
 
         <Container class="space-y-3">
             <Preferencia>
-                <CheckBox v-model="elementosVisiveis.numero" :label="__('Número')" />
+                <CheckBox v-model:checked="elementosVisiveis.numero" :label="__('Número')" />
 
-                <CheckBox v-model="elementosVisiveis.ano" :label="__('Ano')" />
+                <CheckBox v-model:checked="elementosVisiveis.ano" :label="__('Ano')" />
 
-                <CheckBox v-model="elementosVisiveis.gerada_em" :label="__('Gerada em')" />
+                <CheckBox v-model:checked="elementosVisiveis.gerada_em" :label="__('Gerada em')" />
 
-                <CheckBox v-model="elementosVisiveis.remetente" :label="__('Remetente')" />
+                <CheckBox v-model:checked="elementosVisiveis.remetente" :label="__('Remetente')" />
 
-                <CheckBox v-model="elementosVisiveis.recebedor" :label="__('Recebedor')" />
+                <CheckBox v-model:checked="elementosVisiveis.recebedor" :label="__('Recebedor')" />
 
                 <CheckBox
-                    v-model="elementosVisiveis.lotacao_destinataria"
+                    v-model:checked="elementosVisiveis.lotacao_destinataria"
                     :label="__('Lotação destinatária')"
                 />
 
-                <CheckBox v-model="elementosVisiveis.processos" :label="__('Qtd processos')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.processos"
+                    :label="__('Qtd processos')"
+                />
 
-                <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
+                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
 
             <Tabela>

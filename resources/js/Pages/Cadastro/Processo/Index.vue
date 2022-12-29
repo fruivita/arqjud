@@ -110,59 +110,74 @@ watch(perPage, filtrar);
 
         <Container class="space-y-3">
             <Preferencia>
-                <CheckBox v-model="elementosVisiveis.processo" :label="__('Processo')" />
-
-                <CheckBox v-model="elementosVisiveis.numeroAntigo" :label="__('Número antigo')" />
-
-                <CheckBox v-model="elementosVisiveis.arquivadoEm" :label="__('Arquivado em')" />
-
-                <CheckBox v-model="elementosVisiveis.guardaPermanente" :label="__('GP')" />
-
-                <CheckBox v-model="elementosVisiveis.qtdVolumes" :label="__('Volumes')" />
+                <CheckBox v-model:checked="elementosVisiveis.processo" :label="__('Processo')" />
 
                 <CheckBox
-                    v-model="elementosVisiveis.processosFilho"
+                    v-model:checked="elementosVisiveis.numeroAntigo"
+                    :label="__('Número antigo')"
+                />
+
+                <CheckBox
+                    v-model:checked="elementosVisiveis.arquivadoEm"
+                    :label="__('Arquivado em')"
+                />
+
+                <CheckBox v-model:checked="elementosVisiveis.guardaPermanente" :label="__('GP')" />
+
+                <CheckBox v-model:checked="elementosVisiveis.qtdVolumes" :label="__('Volumes')" />
+
+                <CheckBox
+                    v-model:checked="elementosVisiveis.processosFilho"
                     :label="__('Qtd proc filho')"
                 />
 
                 <CheckBox
-                    v-model="elementosVisiveis.solicitacoes"
+                    v-model:checked="elementosVisiveis.solicitacoes"
                     :label="__('Qtd solicitações')"
                 />
 
-                <CheckBox v-model="elementosVisiveis.localidade" :label="__('Localidade')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.localidade"
+                    :label="__('Localidade')"
+                />
 
-                <CheckBox v-model="elementosVisiveis.predio" :label="__('Prédio')" />
+                <CheckBox v-model:checked="elementosVisiveis.predio" :label="__('Prédio')" />
 
-                <CheckBox v-model="elementosVisiveis.andarNumero" :label="__('Andar')" />
+                <CheckBox v-model:checked="elementosVisiveis.andarNumero" :label="__('Andar')" />
 
-                <CheckBox v-model="elementosVisiveis.andarApelido" :label="__('Apelido')" />
+                <CheckBox v-model:checked="elementosVisiveis.andarApelido" :label="__('Apelido')" />
 
-                <CheckBox v-model="elementosVisiveis.sala" :label="__('Sala')" />
+                <CheckBox v-model:checked="elementosVisiveis.sala" :label="__('Sala')" />
 
-                <CheckBox v-model="elementosVisiveis.estante" :label="__('Estante')" />
-
-                <CheckBox v-model="elementosVisiveis.prateleira" :label="__('Prateleira')" />
-
-                <CheckBox v-model="elementosVisiveis.caixa" :label="__('Caixa')" />
-
-                <CheckBox v-model="elementosVisiveis.caixaAno" :label="__('Ano')" />
+                <CheckBox v-model:checked="elementosVisiveis.estante" :label="__('Estante')" />
 
                 <CheckBox
-                    v-model="elementosVisiveis.caixaGuardaPermanente"
+                    v-model:checked="elementosVisiveis.prateleira"
+                    :label="__('Prateleira')"
+                />
+
+                <CheckBox v-model:checked="elementosVisiveis.caixa" :label="__('Caixa')" />
+
+                <CheckBox v-model:checked="elementosVisiveis.caixaAno" :label="__('Ano')" />
+
+                <CheckBox
+                    v-model:checked="elementosVisiveis.caixaGuardaPermanente"
                     :label="__('GP (caixa)')"
                 />
 
                 <CheckBox
-                    v-model="elementosVisiveis.caixaLocalidadeCriadora"
+                    v-model:checked="elementosVisiveis.caixaLocalidadeCriadora"
                     :label="__('Localidade criadora')"
                 />
 
-                <CheckBox v-model="elementosVisiveis.caixaComplemento" :label="__('Complemento')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.caixaComplemento"
+                    :label="__('Complemento')"
+                />
 
-                <CheckBox v-model="elementosVisiveis.volumeCaixa" :label="__('Volume')" />
+                <CheckBox v-model:checked="elementosVisiveis.volumeCaixa" :label="__('Volume')" />
 
-                <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
+                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
 
             <Tabela>

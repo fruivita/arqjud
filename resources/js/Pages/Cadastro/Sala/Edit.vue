@@ -213,14 +213,14 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                 />
 
                 <Preferencia>
-                    <CheckBox v-model="elementosVisiveis.estante" :label="__('Estante')" />
+                    <CheckBox v-model:checked="elementosVisiveis.estante" :label="__('Estante')" />
 
                     <CheckBox
-                        v-model="elementosVisiveis.prateleiras"
+                        v-model:checked="elementosVisiveis.prateleiras"
                         :label="__('Qtd prateleiras')"
                     />
 
-                    <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 

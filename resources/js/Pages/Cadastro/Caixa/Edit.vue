@@ -218,7 +218,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         />
 
                         <CheckBox
-                            v-model="form.guarda_permanente"
+                            v-model:checked="form.guarda_permanente"
                             :disabled="!modoEdicao"
                             :label="__('Guarda Permanente')"
                         />
@@ -296,11 +296,17 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                 />
 
                 <Preferencia>
-                    <CheckBox v-model="elementosVisiveis.volumeCaixa" :label="__('Volume')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.volumeCaixa"
+                        :label="__('Volume')"
+                    />
 
-                    <CheckBox v-model="elementosVisiveis.processos" :label="__('Qtd processos')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.processos"
+                        :label="__('Qtd processos')"
+                    />
 
-                    <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 

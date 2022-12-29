@@ -323,30 +323,30 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
         <Container class="space-y-3">
             <div class="flex flex-col space-y-3 md:flex-row md:items-start md:justify-end">
                 <Preferencia>
-                    <CheckBox v-model="elementosVisiveis.processo" :label="__('Processo')" />
+                    <CheckBox v-model:checked="elementosVisiveis.processo" :label="__('Processo')" />
 
                     <CheckBox
-                        v-model="elementosVisiveis.numeroAntigo"
+                        v-model:checked="elementosVisiveis.numeroAntigo"
                         :label="__('Número antigo')"
                     />
 
-                    <CheckBox v-model="elementosVisiveis.arquivadoEm" :label="__('Arquivado em')" />
+                    <CheckBox v-model:checked="elementosVisiveis.arquivadoEm" :label="__('Arquivado em')" />
 
-                    <CheckBox v-model="elementosVisiveis.guardaPermanente" :label="__('GP')" />
+                    <CheckBox v-model:checked="elementosVisiveis.guardaPermanente" :label="__('GP')" />
 
-                    <CheckBox v-model="elementosVisiveis.qtdVolumes" :label="__('Volumes')" />
+                    <CheckBox v-model:checked="elementosVisiveis.qtdVolumes" :label="__('Volumes')" />
 
                     <CheckBox
-                        v-model="elementosVisiveis.processosFilho"
+                        v-model:checked="elementosVisiveis.processosFilho"
                         :label="__('Qtd proc filho')"
                     />
 
                     <CheckBox
-                        v-model="elementosVisiveis.solicitacoes"
+                        v-model:checked="elementosVisiveis.solicitacoes"
                         :label="__('Qtd solicitações')"
                     />
 
-                    <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 

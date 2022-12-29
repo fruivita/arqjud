@@ -81,11 +81,20 @@ const colspan = computed(() => countElementosVisiveis(elementosVisiveis));
                 </div>
 
                 <Preferencia>
-                    <CheckBox v-model="elementosVisiveis.processos" :label="__('Processos')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.processos"
+                        :label="__('Processos')"
+                    />
 
-                    <CheckBox v-model="elementosVisiveis.qtd_volumes" :label="__('Volumes')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.qtd_volumes"
+                        :label="__('Volumes')"
+                    />
 
-                    <CheckBox v-model="elementosVisiveis.solicitante" :label="__('Solicitante')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.solicitante"
+                        :label="__('Solicitante')"
+                    />
                 </Preferencia>
 
                 <Tabela>

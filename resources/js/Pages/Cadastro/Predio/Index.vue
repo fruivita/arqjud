@@ -92,13 +92,16 @@ watch(perPage, filtrar);
 
         <Container class="space-y-3">
             <Preferencia>
-                <CheckBox v-model="elementosVisiveis.predio" :label="__('Prédio')" />
+                <CheckBox v-model:checked="elementosVisiveis.predio" :label="__('Prédio')" />
 
-                <CheckBox v-model="elementosVisiveis.andares" :label="__('Qtd andares')" />
+                <CheckBox v-model:checked="elementosVisiveis.andares" :label="__('Qtd andares')" />
 
-                <CheckBox v-model="elementosVisiveis.localidade" :label="__('Localidade')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.localidade"
+                    :label="__('Localidade')"
+                />
 
-                <CheckBox v-model="elementosVisiveis.acao" :label="__('Ações')" />
+                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
 
             <Tabela>

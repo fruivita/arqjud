@@ -65,11 +65,17 @@ const solicitacao_ativa = computed(() => first(props.processo.data.solicitacao_a
             </form>
 
             <Preferencia v-if="!isEmpty(processo.data)">
-                <CheckBox v-model="elementosVisiveis.processo" :label="__('Processo')" />
+                <CheckBox v-model:checked="elementosVisiveis.processo" :label="__('Processo')" />
 
-                <CheckBox v-model="elementosVisiveis.localizacao" :label="__('Localização')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.localizacao"
+                    :label="__('Localização')"
+                />
 
-                <CheckBox v-model="elementosVisiveis.solicitacao" :label="__('Solicitação')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.solicitacao"
+                    :label="__('Solicitação')"
+                />
             </Preferencia>
 
             <Alerta v-if="!isEmpty(processo.data) && solicitacao_ativa?.entregue_em">
