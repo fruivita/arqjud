@@ -603,6 +603,20 @@ defineProps({
     </svg>
 
     <svg
+        v-else-if="nome === 'play-circle'"
+        :class="class"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+
+        <path
+            d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"
+        />
+    </svg>
+
+    <svg
         v-else-if="nome === 'plus-circle'"
         :class="class"
         fill="currentColor"
@@ -772,6 +786,18 @@ defineProps({
     >
         <path
             d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
+        />
+    </svg>
+
+    <svg
+        v-else-if="nome === 'usb-drive'"
+        :class="class"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path
+            d="M6 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4H6v-4ZM7 1v1h1V1H7Zm2 0v1h1V1H9ZM6 5a1 1 0 0 0-1 1v8.5A1.5 1.5 0 0 0 6.5 16h4a1.5 1.5 0 0 0 1.5-1.5V6a1 1 0 0 0-1-1H6Zm0 1h5v8.5a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V6Z"
         />
     </svg>
 

@@ -71,6 +71,7 @@ describe('Icone', () => {
         ['pencil-square'],
         ['person'],
         ['pin-map'],
+        ['play-circle'],
         ['plus-circle'],
         ['printer'],
         ['question-circle'],
@@ -84,6 +85,7 @@ describe('Icone', () => {
         ['tag'],
         ['trash'],
         ['three-dots-vertical'],
+        ['usb-drive'],
         ['x-circle'],
     ];
 
