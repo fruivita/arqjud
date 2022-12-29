@@ -54,10 +54,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Arquivo corporativo
+    | Arquivo corporativo (Recursos Humanos)
     |--------------------------------------------------------------------------
     |
-    | Caminho completo para o arquivo com a estrutura corporativa do órgão.
+    | Caminho completo para o arquivo com a estrutura corporativa (RH) do
+    | órgão.
     |
     */
     'arquivo_corporativo' => env('ARQUIVO_CORPORATIVO'),
