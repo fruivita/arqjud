@@ -246,7 +246,7 @@ function usuarioApi(Usuario $usuario)
         'username' => $usuario->username,
         'nome' => $usuario->nome,
         'email' => $usuario->email,
-        'status' => $usuario->habilitado(),
+        'status' => $usuario->habilitado() ? __('completo') : __('incompleto'),
         'funcao_confianca_id' => $usuario->funcao_confianca_id,
         'perfil_id' => $usuario->perfil_id,
         'perfil_concedido_por' => $usuario->perfil_concedido_por,
