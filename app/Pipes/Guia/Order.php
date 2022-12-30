@@ -39,7 +39,7 @@ class Order extends OrderBase
     }
 
     /**
-     * Aplica a ordenação pelo data de geração da guia.
+     * Aplica a ordenação pela data de geração da guia.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc

@@ -47,7 +47,7 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pelo data de solicitação do processo.
+     * Aplica a ordenação pela data de solicitação do processo.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
@@ -61,7 +61,7 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pelo data de entrega do processo.
+     * Aplica a ordenação pela data de entrega do processo.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
@@ -75,7 +75,7 @@ class Order
     }
 
     /**
-     * Aplica a ordenação pelo data de devolução do processo.
+     * Aplica a ordenação pela data de devolução do processo.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
