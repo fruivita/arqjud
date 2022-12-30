@@ -22,7 +22,7 @@ test('retorna os campos principais do modelo', function () {
     ]);
 });
 
-test('retorna o cargo e a lotação pai se houver o eager load da propriedade', function () {
+test('retorna o relacionamento se houver o eager load da propriedade', function () {
     $usuario = Usuario::factory()->completo()->create();
     $resource = UsuarioOnlyResource::make($usuario->load(['cargo', 'lotacao', 'funcaoConfianca', 'perfil', 'delegante', 'perfilAntigo']));
 
