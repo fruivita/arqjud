@@ -30,18 +30,18 @@ test('usuário sem permissão não pode visualizar um usuário', function () {
 });
 
 test('usuário sem permissão não pode atualizar um usuário', function () {
-    expect(Auth::user()->can(Policy::Update->value, $this->usuario))->toBeFalse();
+    expect(Auth::user()->can(Policy::Update->value, Usuario::class))->toBeFalse();
 });
 
 test('usuário sem permissão não pode visualizar ou atualizar um usuário', function () {
-    expect(Auth::user()->can(Policy::ViewOrUpdate->value, $this->usuario))->toBeFalse();
+    expect(Auth::user()->can(Policy::ViewOrUpdate->value, Usuario::class))->toBeFalse();
 });
 
 test('usuário sem perfil não pode atualizar um usuário', function () {
     $this->usuario->perfil_id = null;
     $this->usuario->save();
 
-    expect(Auth::user()->can(Policy::Update->value, $this->usuario))->toBeFalse();
+    expect(Auth::user()->can(Policy::Update->value, Usuario::class))->toBeFalse();
 });
 
 // Caminho feliz
@@ -60,17 +60,17 @@ test('usuário com permissão pode visualizar um usuário', function () {
 test('usuário com permissão e perfil pode atualizar um usuário', function () {
     concederPermissao(Permissao::USUARIO_UPDATE);
 
-    expect(Auth::user()->can(Policy::Update->value, $this->usuario))->toBeTrue();
+    expect(Auth::user()->can(Policy::Update->value, Usuario::class))->toBeTrue();
 });
 
 test('usuário com permissão pode visualizar um usuário por meio da policy viewOrUpdate', function () {
     concederPermissao(Permissao::USUARIO_VIEW);
 
-    expect(Auth::user()->can(Policy::ViewOrUpdate->value, $this->usuario))->toBeTrue();
+    expect(Auth::user()->can(Policy::ViewOrUpdate->value, Usuario::class))->toBeTrue();
 });
 
 test('usuário com permissão e perfil pode atualizar um usuário por meio da policy viewOrUpdate', function () {
     concederPermissao(Permissao::USUARIO_UPDATE);
 
-    expect(Auth::user()->can(Policy::ViewOrUpdate->value, $this->usuario))->toBeTrue();
+    expect(Auth::user()->can(Policy::ViewOrUpdate->value, Usuario::class))->toBeTrue();
 });
