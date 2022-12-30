@@ -245,6 +245,12 @@ function usuarioApi(Usuario $usuario)
         'matricula' => $usuario->matricula,
         'username' => $usuario->username,
         'nome' => $usuario->nome,
+        'email' => $usuario->email,
+        'status' => $usuario->habilitado(),
+        'funcao_confianca_id' => $usuario->funcao_confianca_id,
+        'perfil_id' => $usuario->perfil_id,
+        'perfil_concedido_por' => $usuario->perfil_concedido_por,
+        'antigo_perfil_id' => $usuario->antigo_perfil_id,
         'lotacao_id' => $usuario->lotacao_id,
         'cargo_id' => $usuario->cargo_id,
     ];
