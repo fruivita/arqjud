@@ -224,6 +224,11 @@ class PermissaoSeeder extends Seeder
                 'descricao' => 'Permissão para visualizar todos os usuários cadastrados.',
             ],
             [
+                'nome' => 'Usuário: Visualizar',
+                'slug' => Permissao::USUARIO_VIEW,
+                'descricao' => 'Permissão para visualizar em detalhes os usuários cadastrados.',
+            ],
+            [
                 'nome' => 'Usuário: Atualizar',
                 'slug' => Permissao::USUARIO_UPDATE,
                 'descricao' => 'Permissão para atualizar os usuários cadastrados.',

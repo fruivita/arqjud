@@ -85,6 +85,7 @@ class PerfilPermissaoSeeder extends Seeder
             Permissao::PERFIL_VIEW,
             Permissao::PERFIL_UPDATE,
             Permissao::USUARIO_VIEW_ANY,
+            Permissao::USUARIO_VIEW,
             Permissao::USUARIO_UPDATE,
             Permissao::LOCALIDADE_VIEW_ANY,
             Permissao::LOCALIDADE_VIEW,
