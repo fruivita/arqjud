@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Cargo;
+use App\Models\FuncaoConfianca;
 use App\Models\Lotacao;
 use App\Models\Perfil;
 use App\Models\Usuario;
@@ -53,6 +54,24 @@ class UsuarioFactory extends Factory
         return $this->state(function () {
             return [
                 'cargo_id' => Cargo::factory(),
+            ];
+        });
+    }
+
+    /**
+     * Gera um usuário com todos os atributos opções definidos.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function completo()
+    {
+        return $this->state(function () {
+            return [
+                'cargo_id' => Cargo::factory(),
+                'lotacao_id' => Lotacao::factory(),
+                'funcao_confianca_id' => FuncaoConfianca::factory(),
+                'perfil_concedido_por' => Usuario::factory(),
+                'antigo_perfil_id' => Perfil::factory(),
             ];
         });
     }
