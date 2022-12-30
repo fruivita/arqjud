@@ -4,13 +4,18 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Models\Cargo;
+use App\Models\FuncaoConfianca;
+use App\Models\Lotacao;
 use App\Models\Perfil;
 use App\Models\Permissao;
 use App\Models\Usuario;
+use App\Pipes\Usuario\JoinAll;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Database\QueryException;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
@@ -226,3 +231,128 @@ test('usuário sem nome, username, email e matrícula ou com lotação inválida
     $usuario->lotacao_id = 1;
     expect($usuario->habilitado())->toBeTrue();
 });
+
+test('retorna os usuários pelo escopo search que busca a partir do início do texto no nome, matrícula, username ou email do usuário', function (string $termo, int $quantidade) {
+    Usuario::factory()->create([
+        'nome' => 'eeeeffff',
+        'matricula' => '111111',
+        'username' => 'aaaabbbb',
+        'email' => 'foo@bar.com',
+    ]);
+    Usuario::factory()->create([
+        'nome' => 'gggghhhh',
+        'matricula' => '111222',
+        'username' => 'ccccdddd',
+        'email' => 'taz@bar.com',
+    ]);
+
+    $query = Pipeline::make()
+        ->send(Usuario::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 2],
+    ['eeee', 1],
+    ['111', 2],
+    ['cccc', 1],
+    ['foo', 1],
+    ['bar', 0],
+]);
+
+test('retorna os usuários pelo escopo search que busca a partir do início do texto na sigla ou nome da lotação', function (string $termo, int $quantidade) {
+    Usuario::factory(2)->for(Lotacao::factory(['sigla' => 'aaaabbbb', 'nome' => 'eeeeffff']), 'lotacao')->create();
+    Usuario::factory(3)->for(Lotacao::factory(['sigla' => 'ccccdddd', 'nome' => 'gggghhhh']), 'lotacao')->create();
+
+    $query = Pipeline::make()
+        ->send(Usuario::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['aaaa', 2],
+    ['gggg', 3],
+]);
+
+test('retorna os usuários pelo escopo search que busca a partir do início do texto no nome do cargo', function (string $termo, int $quantidade) {
+    Usuario::factory(2)->for(Cargo::factory(['nome' => 'eeeeffff']), 'cargo')->create();
+    Usuario::factory(3)->for(Cargo::factory(['nome' => 'gggghhhh']), 'cargo')->create();
+
+    $query = Pipeline::make()
+        ->send(Usuario::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['eeee', 2],
+    ['gggg', 3],
+]);
+
+test('retorna os usuários pelo escopo search que busca a partir do início do texto no nome da função de confiança', function (string $termo, int $quantidade) {
+    Usuario::factory(2)->for(FuncaoConfianca::factory(['nome' => 'eeeeffff']), 'funcaoConfianca')->create();
+    Usuario::factory(3)->for(FuncaoConfianca::factory(['nome' => 'gggghhhh']), 'funcaoConfianca')->create();
+
+    $query = Pipeline::make()
+        ->send(Usuario::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['eeee', 2],
+    ['gggg', 3],
+]);
+
+test('retorna os usuários pelo escopo search que busca a partir do início do texto no nome do perfil', function (string $termo, int $quantidade) {
+    Perfil::factory()->hasUsuarios(2)->create(['nome' => 'eeeeffff']);
+    Perfil::factory()->hasUsuarios(3)->create(['nome' => 'gggghhhh']);
+
+    $query = Pipeline::make()
+        ->send(Usuario::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['eeee', 2],
+    ['gggg', 3],
+]);
+
+test('retorna os usuários pelo escopo search que busca a partir do início do texto no username ou nome do usuário delegante', function (string $termo, int $quantidade) {
+    Usuario::factory()->hasDelegados(2)->create(['username' => 'aaaabbbb', 'nome' => 'eeeeffff']);
+    Usuario::factory()->hasDelegados(3)->create(['username' => 'ccccdddd', 'nome' => 'gggghhhh']);
+
+    $query = Pipeline::make()
+        ->send(Usuario::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 7],
+    ['aaaa', 3],
+    ['gggg', 4],
+]);
+
+test('retorna os usuários pelo escopo search que busca a partir do início do texto no nome do perfil antigo', function (string $termo, int $quantidade) {
+    Usuario::factory(2)->for(Perfil::factory(['nome' => 'eeeeffff']), 'perfilAntigo')->create();
+    Usuario::factory(3)->for(Perfil::factory(['nome' => 'gggghhhh']), 'perfilAntigo')->create();
+
+    $query = Pipeline::make()
+        ->send(Usuario::query())
+        ->through([JoinAll::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['eeee', 2],
+    ['gggg', 3],
+]);

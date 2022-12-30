@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use FruiVita\Corporativo\Models\Usuario as UsuarioCorporativo;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
@@ -196,5 +197,33 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
             && !empty($this->username)
             && !empty($this->email)
             && $this->lotacao_id >= 1;
+    }
+
+    /**
+     * Pesquisa utilizando o termo informado com o operador like no seguinte
+     * formato: `termo%`
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $termo
+     * @return void
+     */
+    public function scopeSearch(Builder $query, string $termo = null)
+    {
+        $termo = "{$termo}%";
+
+        $query->where(function (Builder $query) use ($termo) {
+            $query->where('usuarios.nome', 'like', $termo)
+                ->orWhere('usuarios.matricula', 'like', $termo)
+                ->orWhere('usuarios.username', 'like', $termo)
+                ->orWhere('usuarios.email', 'like', $termo)
+                ->orWhere('lotacoes.sigla', 'like', $termo)
+                ->orWhere('lotacoes.nome', 'like', $termo)
+                ->orWhere('cargos.nome', 'like', $termo)
+                ->orWhere('funcoes_confianca.nome', 'like', $termo)
+                ->orWhere('perfis.nome', 'like', $termo)
+                ->orWhere('delegantes.username', 'like', $termo)
+                ->orWhere('delegantes.nome', 'like', $termo)
+                ->orWhere('perfis_antigos.nome', 'like', $termo);
+        });
     }
 }
