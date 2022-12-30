@@ -6,29 +6,34 @@
  */
 
 use App\Http\Resources\Cargo\CargoOnlyResource;
+use App\Http\Resources\Funcao\FuncaoOnlyResource;
+use App\Http\Resources\Perfil\PerfilOnlyResource;
 use App\Http\Resources\Usuario\UsuarioOnlyResource;
 use App\Models\Usuario;
 
-beforeEach(function () {
-    $this->usuario = Usuario::factory()->comCargo()->create();
-});
-
 // Caminho feliz
 test('retorna os campos principais do modelo', function () {
-    $resource = UsuarioOnlyResource::make($this->usuario);
+    $usuario = Usuario::factory()->create();
+
+    $resource = UsuarioOnlyResource::make($usuario);
 
     expect($resource->response()->getData(true))->toMatchArray([
-        'data' => usuarioApi($this->usuario),
+        'data' => usuarioApi($usuario),
     ]);
 });
 
 test('retorna o cargo e a lotação pai se houver o eager load da propriedade', function () {
-    $resource = UsuarioOnlyResource::make($this->usuario->load('cargo', 'lotacao'));
+    $usuario = Usuario::factory()->completo()->create();
+    $resource = UsuarioOnlyResource::make($usuario->load(['cargo', 'lotacao', 'funcaoConfianca', 'perfil', 'delegante', 'perfilAntigo']));
 
     expect($resource->response()->getData(true))->toMatchArray([
-        'data' => usuarioApi($this->usuario)
-            + ['lotacao' => lotacaoApi($this->usuario->lotacao)]
-            + ['cargo' => CargoOnlyResource::make($this->usuario->cargo)->resolve()],
+        'data' => usuarioApi($usuario)
+            + ['lotacao' => lotacaoApi($usuario->lotacao)]
+            + ['cargo' => CargoOnlyResource::make($usuario->cargo)->resolve()]
+            + ['funcao' => FuncaoOnlyResource::make($usuario->funcaoConfianca)->resolve()]
+            + ['perfil' => PerfilOnlyResource::make($usuario->perfil)->resolve()]
+            + ['delegante' => UsuarioOnlyResource::make($usuario->delegante)->resolve()]
+            + ['perfil_antigo' => PerfilOnlyResource::make($usuario->perfilAntigo)->resolve()],
     ]);
 });
 
