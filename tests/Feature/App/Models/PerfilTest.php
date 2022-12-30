@@ -205,3 +205,15 @@ test('retorna os perfis disponíveis para atribuição utilizando o escopo defin
 
     expect($disponiveis)->toMatchArray($perfis);
 });
+
+test('perfis estão na ordem hierarquica correta', function () {
+    // perfil com maior poder possui maiores permissões na aplicação
+    $this->seed([PerfilSeeder::class]);
+
+    $perfis = Perfil::all();
+
+    expect($perfis->firstWhere('slug', Perfil::ADMINISTRADOR)->poder)->toBeGreaterThan($perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->poder)
+        ->and($perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->poder)->toBeGreaterThan($perfis->firstWhere('slug', Perfil::OPERADOR)->poder)
+        ->and($perfis->firstWhere('slug', Perfil::OPERADOR)->poder)->toBeGreaterThan($perfis->firstWhere('slug', Perfil::OBSERVADOR)->poder)
+        ->and($perfis->firstWhere('slug', Perfil::OBSERVADOR)->poder)->toBeGreaterThan($perfis->firstWhere('slug', Perfil::PADRAO)->poder);
+});
