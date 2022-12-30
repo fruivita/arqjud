@@ -13,6 +13,7 @@ use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\Solicitacao;
+use App\Models\Usuario;
 use App\Models\VolumeCaixa;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,10 @@ final class Menu implements MenuInterface
             ->when(
                 $this->linksGrupoCadastro(),
                 fn ($collection, $links) => $collection->push(['nome' => __('Cadastros'), 'links' => $links])
+            )
+            ->when(
+                $this->linksGrupoAutorizacao(),
+                fn ($collection, $links) => $collection->push(['nome' => __('Autorizações'), 'links' => $links])
             )
             ->when(
                 $this->linksGrupoAdministracao(),
@@ -244,6 +249,24 @@ final class Menu implements MenuInterface
                     'href' => route('cadastro.processo.index'),
                     'texto' => __('Processos'),
                     'ativo' => Route::is('cadastro.processo.*'),
+                ])
+            )
+            ->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    private function linksGrupoAutorizacao()
+    {
+        return collect()
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Usuario::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'people',
+                    'href' => route('autorizacao.usuario.index'),
+                    'texto' => __('Usuários'),
+                    'ativo' => Route::is('autorizacao.usuario.*'),
                 ])
             )
             ->toArray();
