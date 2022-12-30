@@ -6,10 +6,12 @@
 
 use App\Models\Perfil;
 use App\Models\Permissao;
+use App\Models\Usuario;
 use Database\Seeders\PerfilPermissaoSeeder;
 use Database\Seeders\PerfilSeeder;
 use Database\Seeders\PermissaoSeeder;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -186,4 +188,20 @@ test('perfil administrador possui suas permissões iniciais definidas', function
         Permissao::GUIA_VIEW_ANY,
         Permissao::GUIA_VIEW,
     ]);
+});
+
+test('retorna os perfis disponíveis para atribuição utilizando o escopo definido', function () {
+    $this->seed([PerfilSeeder::class]);
+
+    $perfil = Perfil::firstWhere('slug', Perfil::GERENTE_NEGOCIO);
+
+    $perfis = Perfil::where('poder', '<=', $perfil->poder)->pluck('id');
+
+    $usuario = Usuario::factory()->for($perfil, 'perfil')->create();
+
+    Auth::login($usuario);
+
+    $disponiveis = Perfil::disponiveisParaAtribuicao()->pluck('id');
+
+    expect($disponiveis)->toMatchArray($perfis);
 });

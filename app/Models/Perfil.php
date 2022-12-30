@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -46,5 +47,22 @@ class Perfil extends Model
     public function usuarios()
     {
         return $this->hasMany(Usuario::class, 'perfil_id', 'id');
+    }
+
+    /**
+     * Perfis disponíveis para atribuir a outro usuário.
+     *
+     * Os perfis disponíveis dependem do perfil do usuário autenticado, visto
+     * que ele só pode atribuir a outro, perfis de igual ou menor autorizações.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return void
+     */
+    public function scopeDisponiveisParaAtribuicao(Builder $query)
+    {
+        auth()->user()->loadMissing('perfil');
+
+        $query->where('poder', '<=', auth()->user()->perfil->poder);
     }
 }
