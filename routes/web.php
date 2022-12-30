@@ -6,6 +6,7 @@ use App\Http\Controllers\Atendimento\DevolverProcessoController;
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
 use App\Http\Controllers\Atendimento\SolicitacaoController;
+use App\Http\Controllers\Autorizacao\UsuarioController;
 use App\Http\Controllers\Cadastro\Andar\AndarController;
 use App\Http\Controllers\Cadastro\Caixa\CaixaController;
 use App\Http\Controllers\Cadastro\Estante\EstanteController;
@@ -28,6 +29,7 @@ use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\Solicitacao;
+use App\Models\Usuario;
 use App\Models\VolumeCaixa;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -185,6 +187,14 @@ Route::middleware('auth')->group(function () {
         Route::prefix('importacao')->name('importacao.')->group(function () {
             Route::get('create', [ImportacaoController::class, 'create'])->name('create')->can(Policy::ImportacaoCreate->value);
             Route::post('/', [ImportacaoController::class, 'store'])->name('store')->can(Policy::ImportacaoCreate->value);
+        });
+    });
+
+    Route::prefix('autorizacao')->name('autorizacao.')->group(function () {
+        Route::prefix('usuario')->name('usuario.')->group(function () {
+            Route::get('/', [UsuarioController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Usuario::class);
+            Route::get('{usuario}/edit', [UsuarioController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Usuario::class);
+            Route::patch('{usuario}', [UsuarioController::class, 'update'])->name('update')->can(Policy::Update->value, Usuario::class);
         });
     });
 });
