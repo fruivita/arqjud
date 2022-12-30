@@ -66,6 +66,7 @@ test('slugs das permissões estão definidas', function () {
         ->and(Permissao::PERFIL_VIEW)->toBe('perfil_view')
         ->and(Permissao::PERFIL_UPDATE)->toBe('perfil_update')
         ->and(Permissao::USUARIO_VIEW_ANY)->toBe('usuario_view_any')
+        ->and(Permissao::USUARIO_VIEW)->toBe('usuario_view')
         ->and(Permissao::USUARIO_UPDATE)->toBe('usuario_update')
         ->and(Permissao::LOCALIDADE_VIEW_ANY)->toBe('localidade_view_any')
         ->and(Permissao::LOCALIDADE_VIEW)->toBe('localidade_view')
