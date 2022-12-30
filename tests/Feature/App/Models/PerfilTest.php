@@ -190,7 +190,7 @@ test('perfil administrador possui suas permissões iniciais definidas', function
     ]);
 });
 
-test('retorna os perfis disponíveis para atribuição utilizando o escopo definido', function () {
+test('retorna os perfis disponíveis para atribuição utilizando o escopo disponiveisParaAtribuicao', function () {
     $this->seed([PerfilSeeder::class]);
 
     $perfil = Perfil::firstWhere('slug', Perfil::GERENTE_NEGOCIO);
