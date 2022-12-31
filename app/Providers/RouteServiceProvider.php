@@ -36,6 +36,8 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        Route::pattern('log', 'arqjud(-\d{4}-\d{2}-\d{2})?.log');
     }
 
     /**
