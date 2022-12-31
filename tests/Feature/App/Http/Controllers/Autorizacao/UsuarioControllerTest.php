@@ -110,7 +110,7 @@ test('atualiza um usuário e remove suas delegações', function () {
     ]);
 
     patch(route('autorizacao.usuario.update', $usuario), [
-        'perfil_id' => $perfis->firstWhere('slug', Perfil::OPERADOR)->id
+        'perfil_id' => $perfis->firstWhere('slug', Perfil::OPERADOR)->id,
     ])
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');

@@ -23,6 +23,7 @@ class AlterarPerfil
      * @param  \Closure  $next
      * @param  int  $perfil id do perfil final do usuário
      * @return \App\Models\Usuario
+     *
      * @throws \RuntimeException
      */
     public function handle(Usuario $usuario, \Closure $next, int $perfil)

@@ -55,8 +55,7 @@ class Perfil extends Model
      * Os perfis disponíveis dependem do perfil do usuário autenticado, visto
      * que ele só pode atribuir a outro, perfis de igual ou menor autorizações.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return void
      */
     public function scopeDisponiveisParaAtribuicao(Builder $query)

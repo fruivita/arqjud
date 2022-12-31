@@ -16,8 +16,7 @@ class UsuarioPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\Usuario $usuario
-     *
+     * @param  \App\Models\Usuario  $usuario
      * @return bool|\Illuminate\Auth\Access\Response
      */
     public function viewAny(Usuario $usuario)
@@ -39,7 +38,7 @@ class UsuarioPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\Usuario $usuario
+     * @param  \App\Models\Usuario  $usuario
      * @return bool|\Illuminate\Auth\Access\Response
      */
     public function update(Usuario $usuario)
@@ -51,8 +50,7 @@ class UsuarioPolicy
     /**
      * Determina se o usuário pode visualizar ou atualizar um modelo.
      *
-     * @param \App\Models\Usuario $usuario
-     *
+     * @param  \App\Models\Usuario  $usuario
      * @return bool|\Illuminate\Auth\Access\Response
      */
     public function viewOrUpdate(Usuario $usuario)
