@@ -28,7 +28,7 @@ class UsuarioOnlyResource extends JsonResource
                 'username' => $this->username,
                 'nome' => $this->nome,
                 'email' => $this->email,
-                'status' => $this->habilitado() ? __('completo') : __('incompleto'),
+                'status' => $this->habilitado() ? __('completo') : __('incompleto'), // @phpstan-ignore-line
                 'lotacao_id' => $this->lotacao_id,
                 'cargo_id' => $this->cargo_id,
                 'funcao_confianca_id' => $this->funcao_confianca_id,

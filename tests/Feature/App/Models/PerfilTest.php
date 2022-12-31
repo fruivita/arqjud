@@ -203,7 +203,7 @@ test('retorna os perfis disponíveis para atribuição utilizando o escopo dispo
 
     $disponiveis = Perfil::disponiveisParaAtribuicao()->pluck('id');
 
-    expect($disponiveis)->toMatchArray($perfis);
+    expect($disponiveis)->toMatchArray($perfis->toArray());
 });
 
 test('perfis estão na ordem hierarquica correta', function () {
