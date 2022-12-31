@@ -20,7 +20,7 @@ const ultimo = computed(() => props.meta.links.length - 1);
 </script>
 
 <template>
-    <div class="flex items-end justify-between space-x-3 p-3">
+    <div class="flex items-end justify-between space-x-3">
         <div>
             <p class="text-sm font-bold">
                 <span dusk="from">{{ meta.from }}</span>
