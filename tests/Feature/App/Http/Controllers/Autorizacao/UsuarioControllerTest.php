@@ -99,6 +99,7 @@ test('atualiza um usuário e remove suas delegações', function () {
     $perfis = Perfil::all();
 
     $this->usuario->perfil_id = $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id;
+    $this->usuario->save();
     concederPermissao(Permissao::USUARIO_UPDATE);
 
     $usuario = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::PADRAO)->id]);
