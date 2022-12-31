@@ -34,6 +34,7 @@ import { usePage } from '@inertiajs/inertia-vue3';
 import { useLocalStorage } from '@vueuse/core';
 import { isEmpty, map, merge, pickBy } from 'lodash';
 import { computed, provide, readonly, ref, watch } from 'vue';
+
 const props = defineProps({
     guias: { type: Object },
 });
