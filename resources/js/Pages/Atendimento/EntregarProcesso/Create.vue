@@ -352,7 +352,7 @@ const viewReset = () => {
                         </form>
 
                         <template v-if="formEntregarProcessos.email_terceiros.length >= 1">
-                            <div class="flex flex-wrap justify-between">
+                            <div class="flex flex-wrap justify-between gap-3">
                                 <div
                                     class="py-1"
                                     v-for="(email, indice) in formEntregarProcessos.email_terceiros"
