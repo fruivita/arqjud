@@ -2,6 +2,7 @@
 
 use App\Enums\Policy;
 use App\Http\Controllers\Administracao\ImportacaoController;
+use App\Http\Controllers\Administracao\LogController;
 use App\Http\Controllers\Atendimento\DevolverProcessoController;
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
@@ -183,18 +184,25 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::prefix('administracao')->name('administracao.')->group(function () {
-        Route::prefix('importacao')->name('importacao.')->group(function () {
-            Route::get('create', [ImportacaoController::class, 'create'])->name('create')->can(Policy::ImportacaoCreate->value);
-            Route::post('/', [ImportacaoController::class, 'store'])->name('store')->can(Policy::ImportacaoCreate->value);
-        });
-    });
-
     Route::prefix('autorizacao')->name('autorizacao.')->group(function () {
         Route::prefix('usuario')->name('usuario.')->group(function () {
             Route::get('/', [UsuarioController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Usuario::class);
             Route::get('{usuario}/edit', [UsuarioController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Usuario::class);
             Route::patch('{usuario}', [UsuarioController::class, 'update'])->name('update')->can(Policy::Update->value, Usuario::class);
+        });
+    });
+
+    Route::prefix('administracao')->name('administracao.')->group(function () {
+        Route::prefix('importacao')->name('importacao.')->group(function () {
+            Route::get('create', [ImportacaoController::class, 'create'])->name('create')->can(Policy::ImportacaoCreate->value);
+            Route::post('/', [ImportacaoController::class, 'store'])->name('store')->can(Policy::ImportacaoCreate->value);
+        });
+
+        Route::prefix('log')->name('log.')->group(function () {
+            Route::get('/', [LogController::class, 'index'])->name('index')->can(Policy::LogViewAny->value);
+            Route::get('{log}/edit', [LogController::class, 'show'])->name('show')->can(Policy::LogView->value);
+            Route::get('{log}/download', [LogController::class, 'download'])->name('download')->can(Policy::LogView->value);
+            Route::delete('{log}', [LogController::class, 'destroy'])->name('destroy')->can(Policy::LogDelete->value);
         });
     });
 });
