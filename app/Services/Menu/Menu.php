@@ -287,6 +287,15 @@ final class Menu implements MenuInterface
                     'ativo' => Route::is('administracao.importacao.*'),
                 ])
             )
+            ->when(
+                auth()->user()->can(Policy::LogViewAny->value),
+                fn ($collection) => $collection->push([
+                    'icone' => 'file-earmark-text',
+                    'href' => route('administracao.log.index'),
+                    'texto' => __('Logs de funcionamento'),
+                    'ativo' => Route::is('administracao.log.*'),
+                ])
+            )
             ->toArray();
     }
 }

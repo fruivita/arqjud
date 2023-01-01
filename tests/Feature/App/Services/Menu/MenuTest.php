@@ -59,6 +59,7 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
     [Permissao::PROCESSO_VIEW_ANY, fn () => __('Cadastros'), 'journal-bookmark', fn () => route('cadastro.processo.index'), fn () => __('Processos')],
     [Permissao::USUARIO_VIEW_ANY, fn () => __('Autorizações'), 'people', fn () => route('autorizacao.usuario.index'), fn () => __('Usuários')],
     [Permissao::IMPORTACAO_CREATE, fn () => __('Administração'), 'usb-drive', fn () => route('administracao.importacao.create'), fn () => __('Importar dados')],
+    [Permissao::LOG_VIEW_ANY, fn () => __('Administração'), 'file-earmark-text', fn () => route('administracao.log.index'), fn () => __('Logs de funcionamento')],
 ]);
 
 test('menu é gerado de acordo com as permissões do usuário, inclusive se a permissão habilitar mais de 2 itens do menu', function () {
@@ -100,7 +101,7 @@ test('administrador tem acesso a todos os itens do menu', function () {
         ->and($menu[4]['nome'])->toBe(__('Autorizações'))
         ->and($menu[4]['links'])->toHaveCount(1)
         ->and($menu[5]['nome'])->toBe(__('Administração'))
-        ->and($menu[5]['links'])->toHaveCount(1);
+        ->and($menu[5]['links'])->toHaveCount(2);
 });
 
 test('identifica o menu ativo corretamente', function (string $rota, string $menu_ativo) {
@@ -137,4 +138,5 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
     ['cadastro.processo.index', 'cadastro.processo.index'],
     ['autorizacao.usuario.index', 'autorizacao.usuario.index'],
     ['administracao.importacao.create', 'administracao.importacao.create'],
+    ['administracao.log.index', 'administracao.log.index'],
 ]);
