@@ -34,7 +34,7 @@ class LogResource extends JsonResource
                         auth()->user()->can(Policy::LogDelete->value),
                         route('administracao.log.destroy', $this->getFilename())
                     ),
-                ]
+                ],
             ]
             : [];
     }

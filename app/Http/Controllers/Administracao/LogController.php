@@ -71,8 +71,8 @@ class LogController extends Controller
                         auth()->user()->can(Policy::LogDelete->value),
                         fn (Collection $collection) => $collection->put('delete', route('administracao.log.destroy', $log)),
                     )
-                    ->toArray()
-            ]])->preserveQuery()
+                    ->toArray(),
+            ]])->preserveQuery(),
         ]);
     }
 
@@ -105,7 +105,7 @@ class LogController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  string $log
+     * @param  string  $log
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $log)

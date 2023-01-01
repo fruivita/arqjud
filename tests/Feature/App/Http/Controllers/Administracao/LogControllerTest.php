@@ -13,7 +13,6 @@ use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
-
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
 
@@ -100,7 +99,6 @@ test('action delete exclui o arquivo de log informado', function () {
     $this->storage->assertMissing($this->filenames[0]);
     $this->storage->assertExists($this->filenames[1]);
 });
-
 
 test('LogController usa trait', function () {
     expect(

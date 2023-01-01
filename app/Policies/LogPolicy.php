@@ -38,8 +38,7 @@ class LogPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\Usuario $usuario
-     *
+     * @param  \App\Models\Usuario  $usuario
      * @return bool|\Illuminate\Auth\Access\Response
      */
     public function delete(Usuario $usuario)
