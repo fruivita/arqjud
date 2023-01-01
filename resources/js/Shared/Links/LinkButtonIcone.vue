@@ -20,7 +20,7 @@ const status = useStatusRequisicaoStore();
 <template>
     <a
         :class="{
-            'cursor-not-allowed opacity-50': status.processando,
+            'pointer-events-none opacity-50': status.processando,
         }"
         :href="href"
         class="transform-gpu rounded bg-blue-500 p-2 text-white outline-none transition duration-300 hover:bg-blue-600 hover:ring-4 hover:ring-blue-900 focus:bg-blue-600 focus:ring-4 focus:ring-blue-900"

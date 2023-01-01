@@ -38,10 +38,10 @@ const status = useStatusRequisicaoStore();
                 especie === 'alerta',
             'bg-red-500 text-red-50 ring-red-600 hover:bg-red-600 focus:bg-red-600':
                 especie === 'perigo',
+            'pointer-events-none opacity-50': status.processando,
         }"
         :href="href"
-        class="inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50"
-        :disabled="status.processando"
+        class="inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4"
     >
         <span dusk="texto">{{ texto }}</span>
 
