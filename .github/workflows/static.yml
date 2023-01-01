@@ -36,7 +36,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --prefer-stable --no-interaction --no-progress
+        run: composer update --prefer-stable --no-interaction --no-progress
 
       - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse --ansi --memory-limit 1G --error-format=github --debug
@@ -60,7 +60,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --prefer-stable --no-interaction --no-progress
+        run: composer update --prefer-stable --no-interaction --no-progress
 
       - name: Run Laravel PINT
         run: ./vendor/bin/pint
