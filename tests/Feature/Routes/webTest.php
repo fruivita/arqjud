@@ -8,6 +8,7 @@
  */
 
 use App\Models\Permissao;
+use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use function Pest\Laravel\delete;
