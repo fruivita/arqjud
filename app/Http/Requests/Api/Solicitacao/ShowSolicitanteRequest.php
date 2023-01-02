@@ -10,7 +10,6 @@ use Illuminate\Validation\Rule;
 
 /**
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
- * @see https://www.aaronsaray.com/2022/be-careful-with-prepareforvalidation
  */
 class ShowSolicitanteRequest extends FormRequest
 {
