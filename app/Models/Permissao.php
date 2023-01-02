@@ -50,7 +50,11 @@ class Permissao extends Model
 
     const PERFIL_VIEW = 'perfil_view';
 
+    const PERFIL_CREATE = 'perfil_create';
+
     const PERFIL_UPDATE = 'perfil_update';
+
+    const PERFIL_DELETE = 'perfil_delete';
 
     const USUARIO_VIEW_ANY = 'usuario_view_any';
 
