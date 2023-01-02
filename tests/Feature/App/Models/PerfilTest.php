@@ -14,6 +14,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
 test('lança exception ao tentar criar perfis duplicados, isto é, com mesmo nome ou slug', function (string $campo, mixed $valor) {
@@ -225,3 +226,26 @@ test('perfis estão na ordem hierarquica correta', function () {
         ->and($perfis->firstWhere('slug', Perfil::OPERADOR)->poder)->toBeGreaterThan($perfis->firstWhere('slug', Perfil::OBSERVADOR)->poder)
         ->and($perfis->firstWhere('slug', Perfil::OBSERVADOR)->poder)->toBeGreaterThan($perfis->firstWhere('slug', Perfil::PADRAO)->poder);
 });
+
+test('retorna os perfis pelo escopo search que busca a partir do início do texto no nome, slug ou poder', function (string $termo, int $quantidade) {
+    Perfil::factory()->create([
+        'nome' => 'eeeeffff',
+        'poder' => '11111',
+        'slug' => 'aaaabbbb',
+    ]);
+    Perfil::factory()->create([
+        'nome' => 'gggghhhh',
+        'poder' => '11122',
+        'slug' => 'ccccdddd',
+    ]);
+
+    $query = Perfil::query();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 2],
+    ['eeee', 1],
+    ['111', 2],
+    ['cccc', 1],
+    ['bar', 0],
+]);

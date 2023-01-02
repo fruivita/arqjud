@@ -74,4 +74,23 @@ class Perfil extends Model
 
         $query->where('poder', '<=', auth()->user()->perfil->poder); // @phpstan-ignore-line
     }
+
+    /**
+     * Pesquisa utilizando o termo informado com o operador like no seguinte
+     * formato: `termo%`
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $termo
+     * @return void
+     */
+    public function scopeSearch(Builder $query, string $termo = null)
+    {
+        $termo = "{$termo}%";
+
+        $query->where(function (Builder $query) use ($termo) {
+            $query->where('nome', 'like', $termo)
+                ->orWhere('slug', 'like', $termo)
+                ->orWhere('poder', 'like', $termo);
+        });
+    }
 }
