@@ -27,7 +27,6 @@ afterEach(function () {
 test('usuário sem autorização não cria o request', function () {
     $this->seed([PerfilSeeder::class]);
 
-    // Auth::login(Usuario::factory()->create());
     login();
 
     expect($this->request->authorize())->toBeFalse();
