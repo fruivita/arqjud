@@ -1,0 +1,2 @@
+- 'select * from `permissoes` order by `nome` asc, `slug` asc, `id` desc'
+- {  }
