@@ -27,7 +27,7 @@ class PermissaoFactory extends Factory
 
         return [
             'nome' => $nome,
-            'slug' => str($nome)->replace(' ', '-')->toString(),
+            'slug' => str($nome)->slug()->toString(),
             'descricao' => fake()->optional()->sentence(),
         ];
     }
