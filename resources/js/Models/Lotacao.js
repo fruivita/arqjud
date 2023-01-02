@@ -14,7 +14,17 @@ class Lotacao {
      * @return {String}
      */
     nomeExibicao() {
-        return `${this.sigla} - ${this.nome}`;
+        let exibir = '';
+
+        if (this.sigla) {
+            exibir = this.sigla;
+        }
+
+        if (this.nome) {
+            exibir = exibir ? `${exibir} - ${this.nome}` : this.nome;
+        }
+
+        return exibir;
     }
 }
 

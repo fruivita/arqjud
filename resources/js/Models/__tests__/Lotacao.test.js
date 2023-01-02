@@ -18,4 +18,22 @@ describe('Lotacao', () => {
 
         expect(lotacao.nomeExibicao()).toBe('foo - bar');
     });
+
+    test('retorna o nome da lotação para exibição sem o nome', () => {
+        const lotacao = new Lotacao({ sigla: 'foo' });
+
+        expect(lotacao.nomeExibicao()).toBe('foo');
+    });
+
+    test('retorna o nome da lotação para exibição sem a sigla', () => {
+        const lotacao = new Lotacao({ nome: 'bar' });
+
+        expect(lotacao.nomeExibicao()).toBe('bar');
+    });
+
+    test('retorna o nome da lotação vazio se não houver nome nem sigla', () => {
+        const lotacao = new Lotacao({});
+
+        expect(lotacao.nomeExibicao()).toBe('');
+    });
 });
