@@ -21,7 +21,7 @@ afterEach(function () {
 });
 
 // Proibido
-test('usuário sem permissão não pode listar as perfis', function () {
+test('usuário sem permissão não pode listar os perfis', function () {
     expect(Auth::user()->can(Policy::ViewAny->value, Perfil::class))->toBeFalse();
 });
 
