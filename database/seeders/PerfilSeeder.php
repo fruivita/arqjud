@@ -69,7 +69,7 @@ class PerfilSeeder extends Seeder
             [
                 'nome' => 'Padrão',
                 'slug' => Perfil::PADRAO,
-                'poder' => 1999,
+                'poder' => 1000,
                 'descricao' => 'Perfil com acesso apenas às funções mínimas.',
             ],
         ]);
