@@ -9,15 +9,15 @@ use App\Http\Resources\Perfil\PerfilOnlyResource;
 use App\Models\Perfil;
 
 beforeEach(function () {
-    $this->funcao = Perfil::factory()->create();
+    $this->perfil = Perfil::factory()->create();
 });
 
 // Caminho feliz
 test('retorna os campos principais do modelo', function () {
-    $resource = PerfilOnlyResource::make($this->funcao);
+    $resource = PerfilOnlyResource::make($this->perfil);
 
     expect($resource->response()->getData(true))->toMatchArray([
-        'data' => $this->funcao->only(['id', 'nome', 'slug', 'poder', 'descricao']),
+        'data' => $this->perfil->only(['id', 'nome', 'slug', 'poder', 'descricao']),
     ]);
 });
 
