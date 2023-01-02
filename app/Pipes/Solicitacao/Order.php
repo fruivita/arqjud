@@ -2,6 +2,7 @@
 
 namespace App\Pipes\Solicitacao;
 
+use App\Pipes\OrderBase;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
@@ -10,7 +11,7 @@ use Illuminate\Support\Collection;
  *
  * @see https://www.youtube.com/watch?v=FByQN_d876c
  */
-class Order
+class Order extends OrderBase
 {
     /**
      * Aplica por pipe ordenação à query caso haja na query string do request
@@ -41,7 +42,7 @@ class Order
                 }
             );
 
-        $query->orderBy('id', 'desc');
+        $query->orderBy($this->column, 'desc');
 
         return $next($query);
     }
