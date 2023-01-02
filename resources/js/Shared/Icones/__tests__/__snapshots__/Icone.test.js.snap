@@ -293,153 +293,159 @@ exports[`Icone > renderiza o componente respeitando o snapshot 45`] = `
 
 exports[`Icone > renderiza o componente respeitando o snapshot 46`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
-  <path d=\\"M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z\\"></path>
+  <path d=\\"M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM5.5 4.002h2.962C10.045 4.002 11 5.104 11 6.586c0 1.494-.967 2.578-2.55 2.578H6.784V12H5.5V4.002Zm2.77 4.072c.893 0 1.419-.545 1.419-1.488s-.526-1.482-1.42-1.482H6.778v2.97H8.27Z\\"></path>
 </svg>"
 `;
 
 exports[`Icone > renderiza o componente respeitando o snapshot 47`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
-  <path d=\\"m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z\\"></path>
+  <path d=\\"M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z\\"></path>
 </svg>"
 `;
 
 exports[`Icone > renderiza o componente respeitando o snapshot 48`] = `
+"<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+  <path d=\\"m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z\\"></path>
+</svg>"
+`;
+
+exports[`Icone > renderiza o componente respeitando o snapshot 49`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z\\"></path>
   <path fill-rule=\\"evenodd\\" d=\\"M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 49`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 50`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 50`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 51`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 51`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 52`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 52`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 53`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5ZM9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8Zm1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Z\\"></path>
   <path d=\\"M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2ZM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96c.026-.163.04-.33.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1.006 1.006 0 0 1 1 12V4Z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 53`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 54`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path fill-rule=\\"evenodd\\" d=\\"M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z\\"></path>
   <path fill-rule=\\"evenodd\\" d=\\"M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 54`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 55`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
   <path d=\\"M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 55`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 56`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
   <path d=\\"M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 56`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 57`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z\\"></path>
   <path d=\\"M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 57`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 58`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
   <path d=\\"M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 58`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 59`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 9 7.558V11a1 1 0 0 0 1 1h2Zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 3 7.558V11a1 1 0 0 0 1 1h2Z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 59`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 60`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M1 1.5A1.5 1.5 0 0 1 2.5 0h12A1.5 1.5 0 0 1 16 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 1 14.5V13H.5a.5.5 0 0 1 0-1H1V8.5H.5a.5.5 0 0 1 0-1H1V4H.5a.5.5 0 0 1 0-1H1V1.5zM2.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h12a.5.5 0 0 0 .5-.5v-13a.5.5 0 0 0-.5-.5h-12z\\"></path>
   <path d=\\"M13.5 6a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zM4.828 4.464a.5.5 0 0 1 .708 0l1.09 1.09a3.003 3.003 0 0 1 3.476 0l1.09-1.09a.5.5 0 1 1 .707.708l-1.09 1.09c.74 1.037.74 2.44 0 3.476l1.09 1.09a.5.5 0 1 1-.707.708l-1.09-1.09a3.002 3.002 0 0 1-3.476 0l-1.09 1.09a.5.5 0 1 1-.708-.708l1.09-1.09a3.003 3.003 0 0 1 0-3.476l-1.09-1.09a.5.5 0 0 1 0-.708zM6.95 6.586a2 2 0 1 0 2.828 2.828A2 2 0 0 0 6.95 6.586z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 60`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 61`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 61`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 62`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 62`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 63`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M7 1.414V4H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h5v6h2v-6h3.532a1 1 0 0 0 .768-.36l1.933-2.32a.5.5 0 0 0 0-.64L13.3 4.36a1 1 0 0 0-.768-.36H9V1.414a1 1 0 0 0-2 0zM12.532 5l1.666 2-1.666 2H2V5h10.532z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 63`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 64`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M7 1.414V2H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h5v1H2.5a1 1 0 0 0-.8.4L.725 8.7a.5.5 0 0 0 0 .6l.975 1.3a1 1 0 0 0 .8.4H7v5h2v-5h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H9V6h4.5a1 1 0 0 0 .8-.4l.975-1.3a.5.5 0 0 0 0-.6L14.3 2.4a1 1 0 0 0-.8-.4H9v-.586a1 1 0 0 0-2 0zM13.5 3l.75 1-.75 1H2V3h11.5zm.5 5v2H2.5l-.75-1 .75-1H14z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 64`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 65`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M7 2.5a.5.5 0 0 0-.939-.24l-6 11A.5.5 0 0 0 .5 14h6a.5.5 0 0 0 .5-.5v-11zm2.376-.484a.5.5 0 0 1 .563.245l6 11A.5.5 0 0 1 15.5 14h-6a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .376-.484zM10 4.46V13h4.658L10 4.46z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 65`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 66`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z\\"></path>
   <path d=\\"M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 66`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 67`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z\\"></path>
   <path fill-rule=\\"evenodd\\" d=\\"M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 67`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 68`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 68`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 69`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M6 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4H6v-4ZM7 1v1h1V1H7Zm2 0v1h1V1H9ZM6 5a1 1 0 0 0-1 1v8.5A1.5 1.5 0 0 0 6.5 16h4a1.5 1.5 0 0 0 1.5-1.5V6a1 1 0 0 0-1-1H6Zm0 1h5v8.5a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V6Z\\"></path>
 </svg>"
 `;
 
-exports[`Icone > renderiza o componente respeitando o snapshot 69`] = `
+exports[`Icone > renderiza o componente respeitando o snapshot 70`] = `
 "<svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
   <path d=\\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\\"></path>
   <path d=\\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\\"></path>

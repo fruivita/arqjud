@@ -73,6 +73,7 @@ describe('Icone', () => {
         ['list'],
         ['list-nested'],
         ['moon-stars'],
+        ['p-circle'],
         ['paperclip'],
         ['pen'],
         ['pencil-square'],
