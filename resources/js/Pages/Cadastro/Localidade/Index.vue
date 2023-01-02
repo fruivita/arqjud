@@ -109,7 +109,7 @@ watch(perPage, filtrar);
                 <Preferencia>
                     <CheckBox
                         v-model:checked="elementosVisiveis.localidade"
-                        :label="__('Localidades')"
+                        :label="__('Localidade')"
                     />
 
                     <CheckBox
@@ -131,7 +131,7 @@ watch(perPage, filtrar);
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.localidade"
                         :ordenacao="ordenacoes.nome"
-                        :texto="__('Localidades')"
+                        :texto="__('Localidade')"
                         @ordenar="(direcao) => mudarOrdenacao('nome', direcao)"
                     />
 
