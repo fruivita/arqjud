@@ -10,6 +10,13 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class OrderBase
 {
     /**
+     * Ordenação padrão.
+     *
+     * @var string
+     */
+    protected $column = 'id';
+
+    /**
      * Aplica por pipe ordenação à query caso haja na query string do request
      * a chave `order` válida.
      *
@@ -31,7 +38,7 @@ abstract class OrderBase
                 }
             });
 
-        $query->orderBy('id', 'desc');
+        $query->orderBy($this->column, 'desc');
 
         return $next($query);
     }
