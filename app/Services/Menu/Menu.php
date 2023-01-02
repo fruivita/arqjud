@@ -8,6 +8,7 @@ use App\Models\Caixa;
 use App\Models\Estante;
 use App\Models\Guia;
 use App\Models\Localidade;
+use App\Models\Perfil;
 use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Processo;
@@ -278,6 +279,15 @@ final class Menu implements MenuInterface
     private function linksGrupoAdministracao()
     {
         return collect()
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Perfil::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'award',
+                    'href' => route('administracao.perfil.index'),
+                    'texto' => __('Perfis'),
+                    'ativo' => Route::is('administracao.perfil.*'),
+                ])
+            )
             ->when(
                 auth()->user()->can(Policy::ImportacaoCreate->value),
                 fn ($collection) => $collection->push([
