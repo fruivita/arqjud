@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('nome', 50)->unique();
             $table->string('slug', 50)->unique();
             // quanto maior o poder, maior é o nível hierárquico do perfil
-            $table->unsignedSmallInteger('poder');
+            $table->unsignedSmallInteger('poder')->unique();
             $table->string('descricao', 255)->nullable();
             $table->timestamps();
         });
