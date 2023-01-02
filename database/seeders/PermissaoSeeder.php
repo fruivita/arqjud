@@ -205,9 +205,19 @@ class PermissaoSeeder extends Seeder
                 'descricao' => 'Permissão para visualizar em detalhes os perfis cadastrados.',
             ],
             [
+                'nome' => 'Perfil: Criar',
+                'slug' => Permissao::PERFIL_CREATE,
+                'descricao' => 'Permissão para criar os perfis.',
+            ],
+            [
                 'nome' => 'Perfil: Atualizar',
                 'slug' => Permissao::PERFIL_UPDATE,
                 'descricao' => 'Permissão para atualizar os perfis cadastrados.',
+            ],
+            [
+                'nome' => 'Perfil: Excluir',
+                'slug' => Permissao::PERFIL_DELETE,
+                'descricao' => 'Permissão para excluir os perfis cadastradas.',
             ],
         ]);
     }
