@@ -3,6 +3,8 @@
 namespace App\Http\Resources\Permissao;
 
 use App\Enums\Policy;
+use App\Http\Resources\Perfil\PerfilOnlyResource;
+use App\Models\Perfil;
 use App\Models\Permissao;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,6 +27,7 @@ class PermissaoResource extends JsonResource
                 'nome' => $this->nome,
                 'slug' => $this->slug,
                 'descricao' => $this->descricao,
+                'perfis' => PerfilOnlyResource::collection($this->whenLoaded('Perfis')),
                 'links' => [
                     'view' => $this->when(
                         auth()->user()->can(Policy::ViewOrUpdate->value, Permissao::class),
