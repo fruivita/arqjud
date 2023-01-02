@@ -14,8 +14,6 @@ class Importar
      * Executa por pipe a importação dos dados solicitados caso as importações
      * solicitadas sejam permitidas.
      *
-     * Em qualquer caso, aplica ordenação desc pelo ID.
-     *
      * @param  \stdClass  $importacao
      * @param  \Closure  $next
      * @return \stdClass
