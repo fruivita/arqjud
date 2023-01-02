@@ -15,7 +15,7 @@ defineProps({
         type: String,
         default: 'acao',
         validator(value) {
-            return ['acao', 'alerta', 'perigo'].includes(value);
+            return ['acao', 'alerta', 'perigo', 'padrao'].includes(value);
         },
     },
     type: {
@@ -31,6 +31,8 @@ defineProps({
 <template>
     <button
         :class="{
+            'bg-green-500 hover:bg-green-600 hover:ring-green-900 focus:bg-green-600 focus:ring-green-900':
+                especie === 'padrao',
             'bg-blue-500 hover:bg-blue-600 hover:ring-blue-900 focus:bg-blue-600 focus:ring-blue-900':
                 especie === 'acao',
             'bg-yellow-600 hover:bg-yellow-700 hover:ring-yellow-900 focus:bg-yellow-700 focus:ring-yellow-900':

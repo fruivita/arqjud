@@ -21,7 +21,7 @@ beforeEach(() => {
 describe('ButtonIcone', () => {
     // Caminho feliz
     const types = ['button', 'submit'];
-    const especies = ['acao', 'alerta', 'perigo'];
+    const especies = ['acao', 'alerta', 'perigo', 'padrao'];
 
     test('aceita apenas os types definidos', () => {
         const validator = ButtonIcone.props.type.validator;
