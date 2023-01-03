@@ -45,7 +45,7 @@ class UsuarioResource extends JsonResource
                 'perfil_antigo' => PerfilOnlyResource::make($this->whenLoaded('perfilAntigo')),
                 'links' => [
                     'view' => $this->when(
-                        auth()->user()->can(Policy::ViewOrUpdate->value, Usuario::class),
+                        auth()->user()->can(Policy::ViewOrUpdate->value, $this->resource),
                         route('autorizacao.usuario.edit', $this->id),
                     ),
                     'update' => $this->when(

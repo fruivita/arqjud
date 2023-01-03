@@ -62,7 +62,7 @@ class UsuarioController extends Controller
      */
     public function edit(Usuario $usuario)
     {
-        $this->authorize(Policy::ViewOrUpdate->value, Usuario::class);
+        $this->authorize(Policy::ViewOrUpdate->value, $usuario);
 
         return Inertia::render('Autorizacao/Usuario/Edit', [
             'usuario' => fn () => UsuarioResource::make(

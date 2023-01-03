@@ -54,10 +54,10 @@ class UsuarioPolicy
      * Determina se o usuário pode visualizar ou atualizar um modelo.
      *
      * @param  \App\Models\Usuario  $usuario
-     * @param  \App\Models\Usuario|null  $em_edicao
+     * @param  \App\Models\Usuario  $em_edicao
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function viewOrUpdate(Usuario $usuario, Usuario $em_edicao = null)
+    public function viewOrUpdate(Usuario $usuario, Usuario $em_edicao)
     {
         return
             $this->view($usuario)

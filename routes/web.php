@@ -191,7 +191,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('autorizacao')->name('autorizacao.')->group(function () {
         Route::prefix('usuario')->name('usuario.')->group(function () {
             Route::get('/', [UsuarioController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Usuario::class);
-            Route::get('{usuario}/edit', [UsuarioController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Usuario::class);
+            Route::get('{usuario}/edit', [UsuarioController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, 'usuario');
             Route::patch('{usuario}', [UsuarioController::class, 'update'])->name('update')->can(Policy::Update->value, 'usuario');
         });
     });
