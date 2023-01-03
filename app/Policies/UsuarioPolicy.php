@@ -45,7 +45,9 @@ class UsuarioPolicy
     public function update(Usuario $usuario, Usuario $em_edicao)
     {
         return
+            //Não pode atualizar a si mesmo
             $usuario->id != $em_edicao->id
+            // usuário autenticado deve possuir um perfil válido
             && $usuario->perfil_id >= 1
             && $usuario->possuiPermissao(Permissao::USUARIO_UPDATE);
     }
