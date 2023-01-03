@@ -31,6 +31,7 @@ parameters:
   - App\Models\Solicitacao
   - App\Models\Guia
   - App\Models\Perfil
+  - App\Models\Permissao
   - App\Http\Resources\Localidade\LocalidadeOnlyResource
   - App\Http\Resources\Localidade\LocalidadeEditResource
   - App\Http\Resources\Localidade\LocalidadeResource
@@ -72,6 +73,7 @@ parameters:
   - App\Http\Resources\Perfil\PerfilResource
   - App\Http\Resources\Perfil\PerfilEditResource
   - App\Http\Resources\Permissao\PermissaoResource
+  - App\Http\Resources\Permissao\PermissaoOnlyResource
   - FruiVita\Corporativo\Models\Lotacao
   - LdapRecord\Models\ActiveDirectory\User
 
