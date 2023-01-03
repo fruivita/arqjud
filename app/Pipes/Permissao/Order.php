@@ -11,6 +11,11 @@ use Illuminate\Database\Eloquent\Builder;
 class Order extends OrderBase
 {
     /**
+     * {@inheritdoc}
+     */
+    protected $direction = 'asc';
+
+    /**
      * Aplica a ordenação por nome da permissão.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

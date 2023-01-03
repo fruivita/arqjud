@@ -10,9 +10,9 @@ use MichaelRubel\EnhancedPipeline\Pipeline;
 use function Spatie\Snapshots\assertMatchesSnapshot;
 
 // Caminho feliz
-test('sem ordenação válida no request, ordena pelo id desc', function (string $coluna, string $direcao) {
-    Permissao::factory()->create(['id' => 1]);
+test('sem ordenação válida no request, ordena pelo id asc', function (string $coluna, string $direcao) {
     Permissao::factory()->create(['id' => 2]);
+    Permissao::factory()->create(['id' => 1]);
 
     request()->merge(['order' => [$coluna, $direcao]]);
 
@@ -21,7 +21,7 @@ test('sem ordenação válida no request, ordena pelo id desc', function (string
         ->through([Order::class])
         ->thenReturn()->pluck('id');
 
-    expect($perfis->toArray())->toMatchArray([2, 1]);
+    expect($perfis->toArray())->toMatchArray([1, 2]);
 })->with([
     ['', ''],
     ['foo', 'asc'],
