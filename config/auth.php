@@ -63,12 +63,16 @@ return [
         'users' => [
             'driver' => 'ldap',
             'model' => \LdapRecord\Models\ActiveDirectory\User::class,
-            'rules' => [], 'database' => [
+            'rules' => [],
+            'database' => [
                 'model' => \App\Models\Usuario::class,
                 'sync_attributes' => [
                     'nome' => 'cn',
                     'username' => 'samaccountname',
                     \App\Ldap\PerfilAttributeHandler::class,
+                ],
+                'sync_existing' => [
+                    'username' => 'samaccountname',
                 ],
             ],
         ],
