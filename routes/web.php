@@ -3,6 +3,7 @@
 use App\Enums\Policy;
 use App\Http\Controllers\Administracao\ImportacaoController;
 use App\Http\Controllers\Administracao\LogController;
+use App\Http\Controllers\Administracao\PerfilController;
 use App\Http\Controllers\Atendimento\DevolverProcessoController;
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
@@ -25,6 +26,8 @@ use App\Models\Caixa;
 use App\Models\Estante;
 use App\Models\Guia;
 use App\Models\Localidade;
+use App\Models\Perfil;
+use App\Models\Permissao;
 use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Processo;
@@ -193,6 +196,23 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('administracao')->name('administracao.')->group(function () {
+        Route::prefix('perfil')->name('perfil.')->group(function () {
+            Route::get('/', [PerfilController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Perfil::class);
+            Route::get('create', [PerfilController::class, 'create'])->name('create')->can(Policy::Create->value, Perfil::class);
+            Route::post('/', [PerfilController::class, 'store'])->name('store')->can(Policy::Create->value, Perfil::class);
+            Route::get('{perfil}/edit', [PerfilController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Perfil::class);
+            Route::patch('{perfil}', [PerfilController::class, 'update'])->name('update')->can(Policy::Update->value, Perfil::class);
+            Route::delete('{perfil}', [PerfilController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'perfil');
+        });
+
+        Route::prefix('permissao')->name('permissao.')->group(function () {
+            Route::get('/', [PermissaoController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Permissao::class);
+            Route::get('create', [PermissaoController::class, 'create'])->name('create')->can(Policy::Create->value, Permissao::class);
+            Route::post('/', [PermissaoController::class, 'store'])->name('store')->can(Policy::Create->value, Permissao::class);
+            Route::get('{permissao}/edit', [PermissaoController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Permissao::class);
+            Route::patch('{permissao}', [PermissaoController::class, 'update'])->name('update')->can(Policy::Update->value, Permissao::class);
+        });
+
         Route::prefix('importacao')->name('importacao.')->group(function () {
             Route::get('create', [ImportacaoController::class, 'create'])->name('create')->can(Policy::ImportacaoCreate->value);
             Route::post('/', [ImportacaoController::class, 'store'])->name('store')->can(Policy::ImportacaoCreate->value);
