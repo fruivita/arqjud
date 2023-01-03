@@ -120,7 +120,7 @@ test('atualiza um usuário e remove suas delegações', function () {
     $delegado->refresh();
 
     expect($usuario->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::OPERADOR)->id)
-        ->and($usuario->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::OPERADOR)->id)
+        ->and($delegado->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::OPERADOR)->id)
         ->and($usuario->perfil_concedido_por)->toBeNull()
         ->and($usuario->antigo_perfil_id)->toBeNull();
 });
