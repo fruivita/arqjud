@@ -7,7 +7,6 @@ use App\Http\Resources\Cargo\CargoOnlyResource;
 use App\Http\Resources\Funcao\FuncaoOnlyResource;
 use App\Http\Resources\Lotacao\LotacaoOnlyResource;
 use App\Http\Resources\Perfil\PerfilOnlyResource;
-use App\Models\Usuario;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

@@ -255,7 +255,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
      *
      * Usuário sem perfil é sempre considerado inferior.
      *
-     * @param \App\Models\Usuario $usuario
+     * @param  \App\Models\Usuario  $usuario
      * @return bool
      */
     public function perfilSuperior(Usuario $usuario)
@@ -271,8 +271,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     /**
      * Delega o perfil para o usuário informado.
      *
-     * @param \App\Models\Usuario $delegado
-     *
+     * @param  \App\Models\Usuario  $delegado
      * @return bool
      */
     public function delegar(Usuario $delegado)
