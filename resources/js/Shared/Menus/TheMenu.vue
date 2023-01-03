@@ -49,15 +49,6 @@ const logout = () => {
                 </InertiaLink>
             </header>
 
-            <button
-                @click="logout"
-                class="flex w-full items-center justify-between rounded border-primaria-700 bg-primaria-100 p-2 text-left font-extrabold outline-none transition hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600"
-            >
-                <span>{{ __('Sair da aplicação') }}</span>
-
-                <Icone nome="door-open" class="h-6 w-6" />
-            </button>
-
             <MenuGrupo
                 v-for="(grupo, indiceGrupo) in grupos"
                 :key="`menu-grupo-${indiceGrupo}`"
@@ -72,6 +63,15 @@ const logout = () => {
                     :texto="link.texto"
                 />
             </MenuGrupo>
+
+            <button
+                @click="logout"
+                class="flex w-full items-center justify-between rounded border-primaria-700 bg-primaria-100 p-2 text-left font-extrabold outline-none transition hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600"
+            >
+                <span>{{ __('Sair da aplicação') }}</span>
+
+                <Icone nome="door-open" class="h-6 w-6" />
+            </button>
         </nav>
     </Transition>
 </template>
