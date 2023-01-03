@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Enums\Policy;
+use App\Policies\DelegacaoPolicy;
 use App\Policies\ImportacaoPolicy;
 use App\Policies\LogPolicy;
 use App\Policies\MoverProcessoPolicy;
@@ -52,6 +53,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define(Policy::LogViewAny->value, [LogPolicy::class, Policy::ViewAny->value]);
         Gate::define(Policy::LogView->value, [LogPolicy::class, Policy::View->value]);
         Gate::define(Policy::LogDelete->value, [LogPolicy::class, Policy::Delete->value]);
+        Gate::define(Policy::DelegacaoCreate->value, [DelegacaoPolicy::class, Policy::Create->value]);
+        Gate::define(Policy::DelegacaoDelete->value, [DelegacaoPolicy::class, Policy::Delete->value]);
     }
 
     /**
