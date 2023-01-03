@@ -30,6 +30,7 @@ parameters:
   - App\Models\Processo
   - App\Models\Solicitacao
   - App\Models\Guia
+  - App\Models\Perfil
   - App\Http\Resources\Localidade\LocalidadeOnlyResource
   - App\Http\Resources\Localidade\LocalidadeEditResource
   - App\Http\Resources\Localidade\LocalidadeResource
@@ -68,6 +69,9 @@ parameters:
   - App\Http\Resources\Perfil\PerfilOnlyResource
   - App\Http\Resources\Usuario\UsuarioOnlyResource
   - App\Http\Resources\Usuario\UsuarioResource
+  - App\Http\Resources\Perfil\PerfilResource
+  - App\Http\Resources\Perfil\PerfilEditResource
+  - App\Http\Resources\Permissao\PermissaoResource
   - FruiVita\Corporativo\Models\Lotacao
   - LdapRecord\Models\ActiveDirectory\User
 
