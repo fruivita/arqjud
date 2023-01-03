@@ -4,6 +4,7 @@ use App\Enums\Policy;
 use App\Http\Controllers\Administracao\ImportacaoController;
 use App\Http\Controllers\Administracao\LogController;
 use App\Http\Controllers\Administracao\PerfilController;
+use App\Http\Controllers\Administracao\PermissaoController;
 use App\Http\Controllers\Atendimento\DevolverProcessoController;
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
