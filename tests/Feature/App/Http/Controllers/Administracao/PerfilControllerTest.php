@@ -133,7 +133,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
             fn (Assert $page) => $page
                 ->component('Administracao/Perfil/Edit')
                 ->where('perfil.data', PerfilEditResource::make($perfil)->resolve())
-                ->has('permissoes.data', 3 + 1) //todos os perfis serão retornados
+                ->has('permissoes.data', 3 + 1) //todos as permissões serão retornados
                 ->has('permissoes.meta.order')
         );
 });
