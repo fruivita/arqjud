@@ -97,6 +97,7 @@ describe('Icone', () => {
         ['trash'],
         ['three-dots-vertical'],
         ['usb-drive'],
+        ['vector-pen'],
         ['x-circle'],
     ];
 
