@@ -16,7 +16,6 @@ use Database\Seeders\PerfilSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 use function Pest\Laravel\patch;
-use function Pest\Laravel\post;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
