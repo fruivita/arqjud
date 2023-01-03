@@ -11,7 +11,6 @@ use App\Http\Controllers\Administracao\PerfilController;
 use App\Http\Requests\Administracao\StorePerfilRequest;
 use App\Http\Requests\Administracao\UpdatePerfilRequest;
 use App\Http\Resources\Perfil\PerfilEditResource;
-use App\Http\Resources\Perfil\PerfilResource;
 use App\Models\Perfil;
 use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;

@@ -4,7 +4,6 @@ namespace App\Http\Resources\Permissao;
 
 use App\Enums\Policy;
 use App\Http\Resources\Perfil\PerfilOnlyResource;
-use App\Models\Perfil;
 use App\Models\Permissao;
 use Illuminate\Http\Resources\Json\JsonResource;
 

@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources\Permissao;
 
-use App\Enums\Policy;
-use App\Models\Permissao;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**

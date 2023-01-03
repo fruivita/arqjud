@@ -14,7 +14,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
 test('lança exception ao tentar criar perfis duplicados, isto é, com mesmo nome ou slug', function (string $campo, mixed $valor) {

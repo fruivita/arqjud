@@ -8,11 +8,7 @@
 
 use App\Http\Requests\Administracao\StorePerfilRequest;
 use App\Models\Permissao;
-use App\Models\Usuario;
-use App\Rules\NumeroProcessoCNJ;
-use App\Rules\ProcessoDisponivel;
 use Database\Seeders\PerfilSeeder;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 beforeEach(function () {

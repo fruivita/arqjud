@@ -6,7 +6,6 @@
  */
 
 use App\Http\Resources\Perfil\PerfilOnlyResource;
-use App\Http\Resources\Perfil\PerfilResource;
 use App\Http\Resources\Permissao\PermissaoResource;
 use App\Models\Perfil;
 use App\Models\Permissao;
@@ -48,7 +47,7 @@ test('retorna os relacionamentos se houver o eager load da propriedade', functio
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->permissao->only(['id', 'nome', 'slug', 'descricao'])
             + ['perfis' => data_get(PerfilOnlyResource::collection($perfis)->response()->getData(true), 'data')]
-            + ['links' => []]
+            + ['links' => []],
     ]);
 });
 
