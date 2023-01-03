@@ -28,7 +28,7 @@ class PerfilFactory extends Factory
         return [
             'nome' => $nome,
             'slug' => str($nome)->slug()->toString(),
-            'poder' => fake()->numberBetween(1001, 9998),
+            'poder' => fake()->unique()->numberBetween(1001, 9998),
             'descricao' => fake()->optional()->sentence(),
         ];
     }
