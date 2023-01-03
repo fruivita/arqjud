@@ -51,7 +51,7 @@ class StorePerfilRequest extends FormRequest
                 'bail',
                 'required',
                 'integer',
-                'between:1001,9998',
+                'between:1001,9998', // 1000 (Padrão) e 9999 (Administrador)
                 Rule::unique('perfis', 'poder'),
             ],
 
