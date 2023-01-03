@@ -17,6 +17,13 @@ abstract class OrderBase
     protected $column = 'id';
 
     /**
+     * Direção padrão.
+     *
+     * @var string
+     */
+    protected $direction = 'desc';
+
+    /**
      * Aplica por pipe ordenação à query caso haja na query string do request
      * a chave `order` válida.
      *
@@ -38,7 +45,7 @@ abstract class OrderBase
                 }
             });
 
-        $query->orderBy($this->column, 'desc');
+        $query->orderBy($this->column, $this->direction);
 
         return $next($query);
     }
