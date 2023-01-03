@@ -49,7 +49,7 @@ class UsuarioResource extends JsonResource
                         route('autorizacao.usuario.edit', $this->id),
                     ),
                     'update' => $this->when(
-                        auth()->user()->can(Policy::Update->value, Usuario::class),
+                        auth()->user()->can(Policy::Update->value, $this->resource),
                         route('autorizacao.usuario.update', $this->id),
                     ),
                 ],

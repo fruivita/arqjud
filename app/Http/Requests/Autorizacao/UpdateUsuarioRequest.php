@@ -19,7 +19,7 @@ class UpdateUsuarioRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can(Policy::Update->value, Usuario::class);
+        return auth()->user()->can(Policy::Update->value, $this->usuario);
     }
 
     /**

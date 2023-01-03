@@ -39,11 +39,14 @@ class UsuarioPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\Usuario  $usuario
+     * @param  \App\Models\Usuario  $em_edicao
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function update(Usuario $usuario)
+    public function update(Usuario $usuario, Usuario $em_edicao)
     {
-        return $usuario->perfil_id >= 1
+        return
+            $usuario->id != $em_edicao->id
+            && $usuario->perfil_id >= 1
             && $usuario->possuiPermissao(Permissao::USUARIO_UPDATE);
     }
 
@@ -51,12 +54,13 @@ class UsuarioPolicy
      * Determina se o usuário pode visualizar ou atualizar um modelo.
      *
      * @param  \App\Models\Usuario  $usuario
+     * @param  \App\Models\Usuario|null  $em_edicao
      * @return bool|\Illuminate\Auth\Access\Response
      */
-    public function viewOrUpdate(Usuario $usuario)
+    public function viewOrUpdate(Usuario $usuario, Usuario $em_edicao = null)
     {
         return
             $this->view($usuario)
-            || $this->update($usuario);
+            || $this->update($usuario, $em_edicao);
     }
 }

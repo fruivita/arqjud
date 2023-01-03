@@ -15,6 +15,8 @@ use Illuminate\Validation\Rule;
 
 beforeEach(function () {
     $this->request = new UpdateUsuarioRequest();
+
+    $this->request->usuario = Usuario::factory()->create();
 });
 
 // Autorização
@@ -22,6 +24,18 @@ test('usuário sem autorização não cria o request', function () {
     $this->seed([PerfilSeeder::class]);
 
     Auth::login(Usuario::factory()->create());
+
+    expect($this->request->authorize())->toBeFalse();
+});
+
+test('usuário mesmo com autorização, não cria o request para si mesmo', function () {
+    $this->seed([PerfilSeeder::class]);
+
+    Auth::login(Usuario::factory()->create());
+
+    concederPermissao(Permissao::USUARIO_UPDATE);
+
+    $this->request->usuario = Auth::user();
 
     expect($this->request->authorize())->toBeFalse();
 });
