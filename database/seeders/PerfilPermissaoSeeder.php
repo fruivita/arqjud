@@ -69,8 +69,8 @@ class PerfilPermissaoSeeder extends Seeder
         return Permissao::whereIn('slug', [
             Permissao::CONFIGURACAO_VIEW,
             Permissao::CONFIGURACAO_UPDATE,
-            Permissao::DELEGACAO_VIEW_ANY,
             Permissao::DELEGACAO_CREATE,
+            Permissao::DELEGACAO_DELETE,
             Permissao::IMPORTACAO_CREATE,
             Permissao::LOG_VIEW_ANY,
             Permissao::LOG_VIEW,

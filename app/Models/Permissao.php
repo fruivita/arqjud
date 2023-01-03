@@ -23,9 +23,9 @@ class Permissao extends Model
 
     const CONFIGURACAO_UPDATE = 'configuracao_update';
 
-    const DELEGACAO_VIEW_ANY = 'delegacao_view_any';
-
     const DELEGACAO_CREATE = 'delegacao_create';
+
+    const DELEGACAO_DELETE = 'delegacao_delete';
 
     const IMPORTACAO_CREATE = 'importacao_create';
 

@@ -90,14 +90,14 @@ class PermissaoSeeder extends Seeder
     {
         return LazyCollection::make([
             [
-                'nome' => 'Delegação: Visualizar todas',
-                'slug' => Permissao::DELEGACAO_VIEW_ANY,
-                'descricao' => 'Permissão para visualizar todas as delegações da lotação.',
-            ],
-            [
                 'nome' => 'Delegação: Criar',
                 'slug' => Permissao::DELEGACAO_CREATE,
                 'descricao' => 'Permissão para delegar o perfil (e suas permissões) para outro usuário de mesma lotação.',
+            ],
+            [
+                'nome' => 'Delegação: Excluir',
+                'slug' => Permissao::DELEGACAO_DELETE,
+                'descricao' => 'Permissão para remover uma delegação de perfil (e suas permissões) de qualquer usuário.',
             ],
         ]);
     }
