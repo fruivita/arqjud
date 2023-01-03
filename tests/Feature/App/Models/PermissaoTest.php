@@ -134,3 +134,23 @@ test('uma permissão pode ser usada em muitos perfis', function () {
 
     expect($permissao->perfis)->toHaveCount(3);
 });
+
+test('retorna as permissões pelo escopo search que busca a partir do início do texto no nome ou slug', function (string $termo, int $quantidade) {
+    Permissao::factory()->create([
+        'nome' => 'eeeeffff',
+        'slug' => 'aaaabbbb',
+    ]);
+    Permissao::factory()->create([
+        'nome' => 'gggghhhh',
+        'slug' => 'ccccdddd',
+    ]);
+
+    $query = Permissao::query();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 2],
+    ['eeee', 1],
+    ['cccc', 1],
+    ['bar', 0],
+]);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -180,5 +181,23 @@ class Permissao extends Model
     public function perfis()
     {
         return $this->belongsToMany(Perfil::class, 'perfil_permissao', 'permissao_id', 'perfil_id')->withTimestamps();
+    }
+
+    /**
+     * Pesquisa utilizando o termo informado com o operador like no seguinte
+     * formato: `termo%`
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|null  $termo
+     * @return void
+     */
+    public function scopeSearch(Builder $query, string $termo = null)
+    {
+        $termo = "{$termo}%";
+
+        $query->where(function (Builder $query) use ($termo) {
+            $query->where('nome', 'like', $termo)
+                ->orWhere('slug', 'like', $termo);
+        });
     }
 }
