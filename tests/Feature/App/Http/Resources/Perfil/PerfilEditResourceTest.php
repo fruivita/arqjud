@@ -6,6 +6,7 @@
  */
 
 use App\Http\Resources\Perfil\PerfilEditResource;
+use App\Http\Resources\Permissao\PermissaoOnlyResource;
 use App\Models\Perfil;
 use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
@@ -35,6 +36,18 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                     'update' => route('administracao.perfil.update', $this->perfil),
                 ],
             ],
+    ]);
+});
+
+test('retorna os relacionamentos se houver o eager load da propriedade', function () {
+    $permissoes = Permissao::factory(2)->create();
+    $this->perfil->permissoes()->attach($permissoes->pluck('id'));
+    $resource = PerfilEditResource::make($this->perfil->load('permissoes'));
+
+    expect($resource->response()->getData(true))->toMatchArray([
+        'data' => $this->perfil->only(['id', 'nome', 'slug', 'poder', 'descricao'])
+            + ['permissoes' => data_get(PermissaoOnlyResource::collection($permissoes)->response()->getData(true), 'data')]
+            + ['links' => []],
     ]);
 });
 

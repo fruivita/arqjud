@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Perfil;
 
 use App\Enums\Policy;
+use App\Http\Resources\Permissao\PermissaoOnlyResource;
 use App\Models\Perfil;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,6 +29,7 @@ class PerfilEditResource extends JsonResource
                 'descricao' => $this->descricao,
                 'usuarios_count' => $this->whenCounted('usuarios'),
                 'delegados_count' => $this->whenCounted('delegados'),
+                'permissoes' => PermissaoOnlyResource::collection($this->whenLoaded('permissoes')),
                 'links' => [
                     'view' => $this->when(
                         auth()->user()->can(Policy::ViewOrUpdate->value, Perfil::class),
