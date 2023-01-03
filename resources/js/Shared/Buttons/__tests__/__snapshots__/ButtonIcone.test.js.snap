@@ -1,42 +1,49 @@
 // Vitest Snapshot v1
 
 exports[`ButtonIcone > renderiza o componente com os types específicos respeitando o snapshot 1`] = `
-"<button class=\\"bg-blue-500 hover:bg-blue-600 hover:ring-blue-900 focus:bg-blue-600 focus:ring-blue-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+"<button class=\\"bg-blue-500 hover:bg-blue-600 hover:ring-blue-900 focus:bg-blue-600 focus:ring-blue-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
     <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
     <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
   </svg></button>"
 `;
 
 exports[`ButtonIcone > renderiza o componente com os types específicos respeitando o snapshot 2`] = `
-"<button class=\\"bg-blue-500 hover:bg-blue-600 hover:ring-blue-900 focus:bg-blue-600 focus:ring-blue-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4\\" type=\\"submit\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+"<button class=\\"bg-blue-500 hover:bg-blue-600 hover:ring-blue-900 focus:bg-blue-600 focus:ring-blue-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" type=\\"submit\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
     <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
     <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
   </svg></button>"
 `;
 
 exports[`ButtonIcone > renderiza o componente das espécies específicas respeitando o snapshot 1`] = `
-"<button class=\\"bg-blue-500 hover:bg-blue-600 hover:ring-blue-900 focus:bg-blue-600 focus:ring-blue-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+"<button class=\\"bg-blue-500 hover:bg-blue-600 hover:ring-blue-900 focus:bg-blue-600 focus:ring-blue-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
     <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
     <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
   </svg></button>"
 `;
 
 exports[`ButtonIcone > renderiza o componente das espécies específicas respeitando o snapshot 2`] = `
-"<button class=\\"bg-yellow-600 hover:bg-yellow-700 hover:ring-yellow-900 focus:bg-yellow-700 focus:ring-yellow-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+"<button class=\\"bg-yellow-600 hover:bg-yellow-700 hover:ring-yellow-900 focus:bg-yellow-700 focus:ring-yellow-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
     <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
     <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
   </svg></button>"
 `;
 
 exports[`ButtonIcone > renderiza o componente das espécies específicas respeitando o snapshot 3`] = `
-"<button class=\\"bg-red-500 hover:bg-red-600 hover:ring-red-900 focus:bg-red-600 focus:ring-red-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+"<button class=\\"bg-red-500 hover:bg-red-600 hover:ring-red-900 focus:bg-red-600 focus:ring-red-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
     <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
     <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
   </svg></button>"
 `;
 
 exports[`ButtonIcone > renderiza o componente das espécies específicas respeitando o snapshot 4`] = `
-"<button class=\\"bg-green-500 hover:bg-green-600 hover:ring-green-900 focus:bg-green-600 focus:ring-green-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+"<button class=\\"bg-green-500 hover:bg-green-600 hover:ring-green-900 focus:bg-green-600 focus:ring-green-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+    <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
+    <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
+  </svg></button>"
+`;
+
+exports[`ButtonIcone > renderiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot 1`] = `
+"<button class=\\"bg-blue-500 hover:bg-blue-600 hover:ring-blue-900 focus:bg-blue-600 focus:ring-blue-900 transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" disabled=\\"\\" type=\\"button\\" icone=\\"person\\"><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
     <path d=\\"M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z\\"></path>
     <path d=\\"M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\\"></path>
   </svg></button>"

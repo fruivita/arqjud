@@ -8,6 +8,7 @@
 
 <script setup>
 import Icone from '@/Shared/Icones/Icone.vue';
+import { useStatusRequisicaoStore } from '@/Stores/StatusRequisicaoStore';
 
 defineProps({
     icone: { type: String, required: true },
@@ -26,6 +27,8 @@ defineProps({
         },
     },
 });
+
+const status = useStatusRequisicaoStore();
 </script>
 
 <template>
@@ -40,8 +43,9 @@ defineProps({
             'bg-red-500 hover:bg-red-600 hover:ring-red-900 focus:bg-red-600 focus:ring-red-900':
                 especie === 'perigo',
         }"
+        :disabled="status.processando"
         :type="type"
-        class="transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4"
+        class="transform-gpu rounded p-2 text-white outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50"
         icone="person"
     >
         <Icone :nome="icone" />

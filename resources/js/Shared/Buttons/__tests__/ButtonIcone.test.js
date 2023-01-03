@@ -7,12 +7,21 @@
  */
 
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
+import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, test } from 'vitest';
 
 let mountFunction;
+let pinia;
 
 beforeEach(() => {
+    pinia = (options = {}) =>
+        createTestingPinia({
+            initialState: {
+                StatusRequisicaoStore: { ...options },
+            },
+        });
+
     mountFunction = (options = {}) => {
         return mount(ButtonIcone, { ...options });
     };
@@ -51,6 +60,9 @@ describe('ButtonIcone', () => {
             expect(
                 mountFunction({
                     props: { icone: 'key', type: type },
+                    global: {
+                        plugins: [pinia({ processando: false })],
+                    },
                 }).html()
             ).toMatchSnapshot();
         }
@@ -62,8 +74,22 @@ describe('ButtonIcone', () => {
             expect(
                 mountFunction({
                     props: { icone: 'key', especie: especie },
+                    global: {
+                        plugins: [pinia({ processando: false })],
+                    },
                 }).html()
             ).toMatchSnapshot();
         }
     );
+
+    test('renderiza o componente de maneira diversa enquanto a página se carrega respeitando o snapshot', () => {
+        expect(
+            mountFunction({
+                props: { icone: 'key' },
+                global: {
+                    plugins: [pinia({ processando: true })],
+                },
+            }).html()
+        ).toMatchSnapshot();
+    });
 });
