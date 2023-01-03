@@ -22,13 +22,7 @@ class RevogarDelegacoes
         $usuario
             ->delegados()
             ->get()
-            ->each(function (Usuario $delegado) {
-                $delegado
-                    ->perfil()->associate($delegado->antigo_perfil_id)
-                    ->perfilAntigo()->dissociate()
-                    ->delegante()->dissociate()
-                    ->save();
-            });
+            ->each(fn (Usuario $delegado) => $delegado->revogaDelegacao());
 
         return $next($usuario);
     }
