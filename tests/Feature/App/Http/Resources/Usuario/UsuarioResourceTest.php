@@ -40,6 +40,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                 'links' => [
                     'view' => route('autorizacao.usuario.edit', $this->usuario),
                     'update' => route('autorizacao.usuario.update', $this->usuario),
+                    'delegacao' => null,
                 ],
             ],
     ]);
@@ -56,7 +57,7 @@ test('retorna o relacionamento se houver o eager load da propriedade e sem os li
             + ['perfil' => PerfilOnlyResource::make($this->usuario->perfil)->resolve()]
             + ['delegante' => UsuarioOnlyResource::make($this->usuario->delegante)->resolve()]
             + ['perfil_antigo' => PerfilOnlyResource::make($this->usuario->perfilAntigo)->resolve()]
-            + ['links' => []],
+            + ['links' => ['delegacao' => null]],
     ]);
 });
 

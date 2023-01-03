@@ -52,6 +52,13 @@ class UsuarioResource extends JsonResource
                         auth()->user()->can(Policy::Update->value, $this->resource),
                         route('autorizacao.usuario.update', $this->id),
                     ),
+                    'delegacao' => $this->when(
+                        auth()->user()->can(Policy::DelegacaoCreate->value, $this->resource),
+                        ['tipo' => 'delegar', 'url' => route('autorizacao.delegacao.store', $this->id)],
+                        auth()->user()->can(Policy::DelegacaoDelete->value, $this->resource)
+                            ? ['tipo' => 'revogar', 'url' => route('autorizacao.delegacao.destroy', $this->id)]
+                            : null
+                    ),
                 ],
             ]
             : [];
