@@ -42,7 +42,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna os relacionamentos se houver o eager load da propriedade', function () {
     $perfis = Perfil::all();
     $this->permissao->perfis()->attach($perfis->pluck('id'));
-    $resource = PermissaoResource::make($this->permissao->load('Perfis'));
+    $resource = PermissaoResource::make($this->permissao->load('perfis'));
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => $this->permissao->only(['id', 'nome', 'slug', 'descricao'])

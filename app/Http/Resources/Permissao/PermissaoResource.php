@@ -26,7 +26,7 @@ class PermissaoResource extends JsonResource
                 'nome' => $this->nome,
                 'slug' => $this->slug,
                 'descricao' => $this->descricao,
-                'perfis' => PerfilOnlyResource::collection($this->whenLoaded('Perfis')),
+                'perfis' => PerfilOnlyResource::collection($this->whenLoaded('perfis')),
                 'links' => [
                     'view' => $this->when(
                         auth()->user()->can(Policy::ViewOrUpdate->value, Permissao::class),

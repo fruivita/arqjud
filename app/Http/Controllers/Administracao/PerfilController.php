@@ -102,7 +102,7 @@ class PerfilController extends Controller
             'perfil' => fn () => PerfilEditResource::make($perfil),
             'permissoes' => fn () => PermissaoCollection::make(
                 Pipeline::make()
-                    ->send(Permissao::with(['Perfis' => fn ($query) => $query->select(['id'])->where('perfis.id', $perfil->id)]))
+                    ->send(Permissao::with(['perfis' => fn ($query) => $query->select(['id'])->where('perfis.id', $perfil->id)]))
                     ->through([PermissaoOrder::class])
                     ->thenReturn()
                     ->paginate($this->perPage())

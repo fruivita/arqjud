@@ -190,7 +190,7 @@ test('faz o toggle da permissão se ela for informada sem alterar os demais atri
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
-    $perfil_depois = Perfil::with('Permissoes')->find($perfil_antes->id);
+    $perfil_depois = Perfil::with('permissoes')->find($perfil_antes->id);
 
     expect($perfil_depois->nome)->toBe($perfil_antes->nome)
         ->and($perfil_depois->slug)->toBe($perfil_antes->slug)
