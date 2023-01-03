@@ -356,3 +356,20 @@ test('retorna os usuários pelo escopo search que busca a partir do início do t
     ['eeee', 2],
     ['gggg', 3],
 ]);
+
+test('método perfilSuperior identifica como perfil superior caso o outro não tenha perfil', function () {
+    $usuario = Usuario::factory()->create();
+    $outro = Usuario::factory()->create(['perfil_id' => null]);
+
+    expect($usuario->perfilSuperior($outro))->toBeTrue();
+});
+
+test('método perfilSuperior identifica se o perfil de um usuário é superior ao do outro com base no poder do perfil', function (string $poder, bool $esperado) {
+    $usuario = Usuario::factory()->for(Perfil::factory(['poder' => $poder]), 'perfil')->create();
+    $outro = Usuario::factory()->for(Perfil::factory(['poder' => 500]), 'perfil')->create();
+
+    expect($usuario->perfilSuperior($outro))->toBe($esperado);
+})->with([
+    [499, false],
+    [501, true],
+]);

@@ -226,4 +226,23 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
                 ->orWhere('perfis_antigos.nome', 'like', $termo);
         });
     }
+
+    /**
+     * Verifica se o perfil do usuário possuir maior poder que o do usuário
+     * informado.
+     *
+     * Usuário sem perfil é sempre considerado inferior.
+     *
+     * @param \App\Models\Usuario $usuario
+     * @return bool
+     */
+    public function perfilSuperior(Usuario $usuario)
+    {
+        $this->loadMissing('perfil');
+        $usuario->loadMissing('perfil');
+
+        return
+            empty($usuario->perfil)
+            || $this->perfil->poder > $usuario->perfil->poder;
+    }
 }
