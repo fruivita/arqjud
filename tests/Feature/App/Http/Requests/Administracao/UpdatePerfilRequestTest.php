@@ -71,7 +71,7 @@ test('attributes estão definidas no form request', function () {
         'nome' => __('Nome'),
         'slug' => __('Slug'),
         'descricao' => __('Descrição'),
-        'perfil_id' => __('Perfil'),
+        'permissao_id' => __('Permissão'),
     ], $this->request->attributes());
 });
 

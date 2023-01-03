@@ -76,7 +76,7 @@ class UpdatePerfilRequest extends FormRequest
             'nome' => __('Nome'),
             'slug' => __('Slug'),
             'descricao' => __('Descrição'),
-            'perfil_id' => __('Perfil'),
+            'permissao_id' => __('Permissão'),
         ];
     }
 
