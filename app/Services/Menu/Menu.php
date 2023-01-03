@@ -9,6 +9,7 @@ use App\Models\Estante;
 use App\Models\Guia;
 use App\Models\Localidade;
 use App\Models\Perfil;
+use App\Models\Permissao;
 use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Processo;
@@ -286,6 +287,15 @@ final class Menu implements MenuInterface
                     'href' => route('administracao.perfil.index'),
                     'texto' => __('Perfis'),
                     'ativo' => Route::is('administracao.perfil.*'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Permissao::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'vector-pen',
+                    'href' => route('administracao.permissao.index'),
+                    'texto' => __('Permissões'),
+                    'ativo' => Route::is('administracao.permissao.*'),
                 ])
             )
             ->when(
