@@ -22,7 +22,7 @@ class RevogarDelegacoes
         $usuario
             ->delegados()
             ->get()
-            ->each(fn (Usuario $delegado) => $delegado->revogaDelegacao());
+            ->each(fn (Usuario $delegado) => $delegado->revogarDelegacao());
 
         return $next($usuario);
     }
