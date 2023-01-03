@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Movimentacao;
 
 use App\Enums\Policy;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Movimentacao\PostMoveProcessoEntreCaixaRequest;
+use App\Http\Requests\Movimentacao\StoreMoveProcessoEntreCaixaRequest;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Traits\ComFeedback;
 use App\Models\Localidade;
@@ -45,10 +45,10 @@ class MoveProcessoEntreCaixaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Movimentacao\PostMoveProcessoEntreCaixaRequest  $request
+     * @param  \App\Http\Requests\Movimentacao\StoreMoveProcessoEntreCaixaRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostMoveProcessoEntreCaixaRequest $request)
+    public function store(StoreMoveProcessoEntreCaixaRequest $request)
     {
         $destino = VolumeCaixa::findOrFail($request->integer('volume_id'));
 

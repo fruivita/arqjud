@@ -8,7 +8,7 @@
  */
 
 use App\Http\Controllers\Movimentacao\MoveProcessoEntreCaixaController;
-use App\Http\Requests\Movimentacao\PostMoveProcessoEntreCaixaRequest;
+use App\Http\Requests\Movimentacao\StoreMoveProcessoEntreCaixaRequest;
 use App\Models\Localidade;
 use App\Models\Permissao;
 use App\Models\Processo;
@@ -57,7 +57,7 @@ test('action do controller usa o form request', function ($action, $request) {
         $request
     );
 })->with([
-    ['store', PostMoveProcessoEntreCaixaRequest::class],
+    ['store', StoreMoveProcessoEntreCaixaRequest::class],
 ]);
 
 test('action create compartilha os dados esperados com a view/componente correto', function () {

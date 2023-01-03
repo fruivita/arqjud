@@ -6,7 +6,7 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Http\Requests\Movimentacao\PostMoveProcessoEntreCaixaRequest;
+use App\Http\Requests\Movimentacao\StoreMoveProcessoEntreCaixaRequest;
 use App\Models\Permissao;
 use App\Rules\NumeroProcessoCNJ;
 use App\Rules\ProcessoMovimentavel;
@@ -14,7 +14,7 @@ use Database\Seeders\PerfilSeeder;
 use Illuminate\Validation\Rule;
 
 beforeEach(function () {
-    $this->request = new PostMoveProcessoEntreCaixaRequest();
+    $this->request = new StoreMoveProcessoEntreCaixaRequest();
 });
 
 // Autorização
