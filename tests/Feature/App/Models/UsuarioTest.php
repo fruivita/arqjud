@@ -373,3 +373,68 @@ test('método perfilSuperior identifica se o perfil de um usuário é superior a
     [499, false],
     [501, true],
 ]);
+
+test('método perfilDelegado identifica se o perfil do usuário é delegado', function () {
+    $usuario = Usuario::factory()->create();
+
+    expect($usuario->perfilDelegado())->toBeFalse();
+
+    $usuario->perfil_concedido_por = Usuario::factory()->create()->id;
+    $usuario->antigo_perfil_id = Perfil::factory()->create()->id;
+    $usuario->save();
+
+    expect($usuario->perfilDelegado())->toBeTrue();
+});
+
+test('método perfilOriginal identifica se o perfil do usuário é original, isto é, não obtido por delegação', function () {
+    $usuario = Usuario::factory()->create([
+        'perfil_concedido_por' => Usuario::factory()->create()->id,
+        'antigo_perfil_id' => Perfil::factory()->create()->id,
+    ]);
+
+    expect($usuario->perfilOriginal())->toBeFalse();
+
+    $usuario->perfil_concedido_por = null;
+    $usuario->antigo_perfil_id = null;
+    $usuario->save();
+
+    expect($usuario->perfilOriginal())->toBeTrue();
+});
+
+test('método delegar concede ao usuário informado o mesmo perfil do usuário autenticado e salva seu antigo perfil', function () {
+    $perfis = Perfil::all();
+    $delegante = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id]);
+
+    $delegado = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::OBSERVADOR)->id]);
+
+    $delegante->delegar($delegado);
+
+    $delegado->refresh();
+
+    expect($delegado->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id)
+        ->and($delegado->perfil_concedido_por)->toBe($delegante->id)
+        ->and($delegado->antigo_perfil_id)->toBe($perfis->firstWhere('slug', Perfil::OBSERVADOR)->id);
+});
+
+test('método revogarDelegacao revoga o perfil do usuário, retornando-o ao seu perfil antigo', function () {
+    $perfis = Perfil::all();
+    $delegante = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id]);
+
+    $delegado = Usuario::factory()->create([
+        'perfil_id' => $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id,
+        'perfil_concedido_por' => $delegante->id,
+        'antigo_perfil_id' => $perfis->firstWhere('slug', Perfil::OBSERVADOR)->id,
+    ]);
+
+    $delegado->revogarDelegacao();
+
+    $delegante->refresh();
+    $delegado->refresh();
+
+    expect($delegante->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id)
+        ->and($delegante->perfil_concedido_por)->toBeNull()
+        ->and($delegante->perfil_concedido_por)->toBeNull()
+        ->and($delegado->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::OBSERVADOR)->id)
+        ->and($delegado->perfil_concedido_por)->toBeNull()
+        ->and($delegado->perfil_concedido_por)->toBeNull();
+});

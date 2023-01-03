@@ -200,6 +200,28 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     }
 
     /**
+     * Determinada se o perfil do usuário foi obtido por delegação.
+     *
+     * @return bool
+     */
+    public function perfilDelegado()
+    {
+        return !empty($this->perfil_concedido_por)
+            && !empty($this->antigo_perfil_id);
+    }
+
+    /**
+     * Determinada se o perfil do usuário foi originalmente concedido.
+     *
+     * @return bool
+     */
+    public function perfilOriginal()
+    {
+        return empty($this->perfil_concedido_por)
+            && empty($this->antigo_perfil_id);
+    }
+
+    /**
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
@@ -244,5 +266,41 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
         return
             empty($usuario->perfil)
             || $this->perfil->poder > $usuario->perfil->poder;
+    }
+
+    /**
+     * Delega o perfil para o usuário informado.
+     *
+     * @param \App\Models\Usuario $delegado
+     *
+     * @return bool
+     */
+    public function delegar(Usuario $delegado)
+    {
+        $delegado
+            ->delegante()
+            ->associate($this);
+        $delegado
+            ->perfilAntigo()
+            ->associate($delegado->perfil);
+        $delegado
+            ->perfil()
+            ->associate($this->perfil);
+
+        return $delegado->save();
+    }
+
+    /**
+     * Revoga a delegação e restaura o perfil antigo do usuário.
+     *
+     * @return bool
+     */
+    public function revogarDelegacao()
+    {
+        return $this
+            ->perfil()->associate($this->antigo_perfil_id)
+            ->perfilAntigo()->dissociate()
+            ->delegante()->dissociate()
+            ->save();
     }
 }
