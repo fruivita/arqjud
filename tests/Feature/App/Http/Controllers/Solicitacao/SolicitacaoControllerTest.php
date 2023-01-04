@@ -213,7 +213,7 @@ test('solicitação de processo está protegida por transaction', function () {
     $database = DB::spy();
 
     (new SolicitacaoController())->store(new StoreSolicitacaoRequest([
-        'processos' => $processos->map(fn ($processo) => ['numero' => apenasNumeros($processo->numero)])
+        'processos' => $processos->map(fn ($processo) => ['numero' => apenasNumeros($processo->numero)]),
     ]));
 
     $database->shouldHaveReceived('beginTransaction')->once();
