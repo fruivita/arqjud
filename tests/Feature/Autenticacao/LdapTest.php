@@ -99,7 +99,7 @@ test('usuário autenticado é compartilhado com as views', function () {
 /**
  * @see https://ldaprecord.com/docs/laravel/v2/auth/database/importing/#password-synchronization
  */
-test('username e nome são sincronizados no banco de dados', function () {
+test('username é sincronizado no banco de dados', function () {
     expect(Usuario::count())->toBe(0);
 
     login();
@@ -108,7 +108,6 @@ test('username e nome são sincronizados no banco de dados', function () {
 
     expect(Usuario::count())->toBe(1)
         ->and($usuario->username)->toBe('foo')
-        ->and($usuario->nome)->toBe('foo')
         ->and(!empty($usuario->password))->toBeTrue();
 
     logout();

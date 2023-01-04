@@ -67,7 +67,6 @@ return [
             'database' => [
                 'model' => \App\Models\Usuario::class,
                 'sync_attributes' => [
-                    'nome' => 'cn',
                     'username' => 'samaccountname',
                     \App\Ldap\PerfilAttributeHandler::class,
                 ],

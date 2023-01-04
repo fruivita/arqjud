@@ -71,7 +71,6 @@ function actingAs(string $samaccountname)
     $fake_ldap = DirectoryEmulator::setup('ldap');
 
     $usuario_ldap = User::create([
-        'cn' => $samaccountname,
         'samaccountname' => $samaccountname,
         'objectguid' => faker()->uuid(),
     ]);
