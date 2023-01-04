@@ -63,6 +63,10 @@ class Permissao extends Model
 
     const USUARIO_UPDATE = 'usuario_update';
 
+    const LOTACAO_VIEW_ANY = 'lotacao_view_any';
+
+    const LOTACAO_UPDATE = 'lotacao_update';
+
     const LOCALIDADE_VIEW_ANY = 'localidade_view_any';
 
     const LOCALIDADE_VIEW = 'localidade_view';
