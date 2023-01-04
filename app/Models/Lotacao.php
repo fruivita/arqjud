@@ -10,6 +10,13 @@ use FruiVita\Corporativo\Models\Lotacao as LotacaoCorporativo;
 class Lotacao extends LotacaoCorporativo
 {
     /**
+     * {@inheritdoc}
+     */
+    protected $casts = [
+        'por_guia' => 'boolean',
+    ];
+
+    /**
      * Relacionamento lotação destinatária (1:N) solicitações.
      *
      * Solicitações de processo destinados à lotação.
