@@ -30,8 +30,7 @@ class MoveProcessoEntreCaixaController extends Controller
         $this->authorize(Policy::MoverProcessoCreate->value);
 
         return Inertia::render('Movimentacao/EntreCaixa/Create', [
-            // @todo corriger o limit
-            'localidades' => fn () => LocalidadeOnlyResource::collection(Localidade::select(['id', 'nome'])->limit(2000)->get()),
+            'localidades' => fn () => LocalidadeOnlyResource::collection(Localidade::all()),
             'links' => fn () => [
                 'search' => [
                     'processo' => route('api.processo.show'),

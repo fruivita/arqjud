@@ -71,8 +71,7 @@ class CaixaController extends Controller
         return Inertia::render('Cadastro/Caixa/Create', [
             'ultima_insercao' => fn () => CaixaEditResource::make($prateleira->caixas()->with('localidadeCriadora')->latest()->first()),
             'prateleira' => fn () => PrateleiraEditResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
-            // @todo melhorar esse limite
-            'localidades' => fn () => LocalidadeOnlyResource::collection(Localidade::limit(10)->get()),
+            'localidades' => fn () => LocalidadeOnlyResource::collection(Localidade::all()),
         ]);
     }
 
