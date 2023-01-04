@@ -9,12 +9,14 @@
 
 use App\Http\Controllers\Atendimento\SolicitacaoController;
 use App\Http\Requests\Atendimento\StoreSolicitacaoRequest;
+use App\Jobs\NotificarSolicitanteCancelamento;
 use App\Jobs\NotificarSolicitanteSolicitacao;
 use App\Models\Lotacao;
 use App\Models\Permissao;
 use App\Models\Processo;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
+use App\Pipes\Solicitacao\NotificarCancelamento;
 use App\Pipes\Solicitacao\NotificarSolicitante;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
@@ -242,6 +244,61 @@ test('exclui a solicitação informada', function () {
         ->assertSessionHas('feedback.sucesso');
 
     expect(Solicitacao::where('id', $solicitacao->id)->exists())->toBeFalse();
+});
+
+test('dispara o job NotificarSolicitanteCancelamento quando o operador exclui uma solicitação', function () {
+    Bus::fake();
+
+    $solicitacao = Solicitacao::factory()->solicitada()->create();
+
+    concederPermissao(Permissao::SOLICITACAO_DELETE);
+
+    delete(route('atendimento.solicitar-processo.destroy', $solicitacao))
+        ->assertRedirect()
+        ->assertSessionHas('feedback.sucesso');
+
+    Bus::assertNotDispatchedSync(NotificarSolicitanteCancelamento::class);
+    Bus::assertDispatchedTimes(NotificarSolicitanteCancelamento::class, 1);
+});
+
+test('registra o log em caso de falha na exclusão da solicitação de processo', function () {
+    $solicitacao = Solicitacao::factory()->solicitada()->create();
+
+    concederPermissao(Permissao::SOLICITACAO_DELETE);
+
+    $this->partialMock(NotificarCancelamento::class)
+        ->shouldReceive('handle')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    Log::spy();
+
+    delete(route('atendimento.solicitar-processo.destroy', $solicitacao))
+        ->assertRedirect()
+        ->assertSessionHas('feedback.erro');
+
+    Log::shouldHaveReceived('critical')
+        ->withArgs(fn ($message) => $message === __('Falha ao excluir solicitação'))
+        ->once();
+});
+
+test('exclusão da solicitação de processo está protegida por transaction', function () {
+    $solicitacao = Solicitacao::factory()->solicitada()->create();
+
+    concederPermissao(Permissao::SOLICITACAO_DELETE);
+
+    $this->partialMock(NotificarCancelamento::class)
+        ->shouldReceive('handle')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    $database = DB::spy();
+
+    (new SolicitacaoController())->destroy($solicitacao);
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('rollBack')->once();
+    $database->shouldNotReceive('commit');
 });
 
 test('SolicitacaoController usa trait', function () {

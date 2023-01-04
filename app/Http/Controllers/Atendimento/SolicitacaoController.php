@@ -13,7 +13,9 @@ use App\Models\Lotacao;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
 use App\Pipes\Search;
+use App\Pipes\Solicitacao\ExcluirSolicitacao;
 use App\Pipes\Solicitacao\JoinAll;
+use App\Pipes\Solicitacao\NotificarCancelamento;
 use App\Pipes\Solicitacao\NotificarSolicitante;
 use App\Pipes\Solicitacao\Order;
 use App\Pipes\Solicitacao\SolicitarProcesso;
@@ -115,7 +117,24 @@ class SolicitacaoController extends Controller
     {
         $this->authorize(Policy::Delete->value, $solicitacao);
 
-        $excluido = $solicitacao->delete();
+        $std = new \stdClass();
+        $std->model = $solicitacao;
+
+        $excluido = Pipeline::make()
+            ->withTransaction()
+            ->send($std)
+            ->through([
+                ExcluirSolicitacao::class,
+                NotificarCancelamento::class,
+            ])->onFailure(function (mixed $dados, \Throwable $exception) {
+                Log::critical(__('Falha ao excluir solicitação'), [
+                    'dados' => $dados,
+                    'exception' => $exception,
+                ]);
+
+                return false;
+            })
+            ->then(fn () => true);
 
         return back()->with($this->feedback($excluido));
     }
