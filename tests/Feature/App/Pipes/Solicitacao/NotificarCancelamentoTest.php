@@ -25,7 +25,7 @@ beforeEach(function () {
 });
 
 // Caminho feliz
-test('pipe NotificarCancelamento cria o job NotificarSolicitanteCancelamento para notificar os operadores', function () {
+test('pipe NotificarCancelamento cria o job NotificarSolicitanteCancelamento para notificar o solicitante', function () {
     Bus::fake();
 
     Pipeline::make()
