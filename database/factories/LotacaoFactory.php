@@ -26,7 +26,10 @@ class LotacaoFactory extends Factory
     {
         return
             // sobrescreve a regra de geração do id
-            ['id' => fake()->unique()->numberBetween(int1: 1)]
+            [
+                'id' => fake()->unique()->numberBetween(int1: 1),
+                'administravel' => fake()->boolean(10),
+            ]
             + (new LotacaoCorporativoFactory())->definition();
     }
 }

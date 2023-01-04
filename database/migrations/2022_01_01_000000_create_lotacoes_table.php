@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('lotacao_pai')->nullable();
             $table->string('nome', 255);
             $table->string('sigla', 50);
+            $table->boolean('administravel')->default(false);
             $table->timestamps();
 
             $table->primary('id');
