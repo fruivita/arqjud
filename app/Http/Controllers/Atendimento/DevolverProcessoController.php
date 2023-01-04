@@ -9,6 +9,7 @@ use App\Http\Traits\ComFeedback;
 use App\Models\Solicitacao;
 use App\Pipes\Solicitacao\EfetivarDevolucao;
 use App\Pipes\Solicitacao\NotificarDevolucao;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -53,7 +54,16 @@ class DevolverProcessoController extends Controller
             ->through([
                 EfetivarDevolucao::class,
                 NotificarDevolucao::class,
-            ])->thenReturn();
+            ])
+            ->onFailure(function (mixed $dados, \Throwable $exception) {
+                Log::critical(__('Falha ao devolver o processo'), [
+                    'dados' => $dados,
+                    'exception' => $exception,
+                ]);
+
+                return false;
+            })
+            ->then(fn () => true);
 
         return back()->with($this->feedback($salvo));
     }

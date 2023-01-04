@@ -14,12 +14,15 @@ test('sem importação válida, não há importação', function () {
     $stdClass = new \stdClass;
     $stdClass->importacoes = ['foo'];
 
-    $importacao = Pipeline::make()
+    $this->partialMock(Importar::class)
+        ->shouldAllowMockingProtectedMethods()
+        ->shouldReceive('rh')
+        ->never();
+
+    Pipeline::make()
         ->send($stdClass)
         ->through([Importar::class])
         ->thenReturn();
-
-    expect($importacao->importado)->toBeFalse();
 });
 
 test('com importação válida, dispara o job ImportarDadosRH', function () {
@@ -28,12 +31,10 @@ test('com importação válida, dispara o job ImportarDadosRH', function () {
 
     Bus::fake();
 
-    $importacao = Pipeline::make()
+    Pipeline::make()
         ->send($stdClass)
         ->through([Importar::class])
         ->thenReturn();
-
-    expect($importacao->importado)->toBeTrue();
 
     Bus::assertNotDispatchedSync(ImportarDadosRH::class);
     Bus::assertDispatchedTimes(ImportarDadosRH::class, 1);

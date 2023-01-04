@@ -20,15 +20,13 @@ class Importar
      */
     public function handle(\stdClass $importacao, \Closure $next)
     {
-        $importacao->importado = false;
-
         collect($importacao->importacoes)
             ->filter()
-            ->each(function (string $importar) use ($importacao) {
+            ->each(function (string $importar) {
                 $importar = str()->camel($importar);
 
                 if (method_exists($this, $importar)) {
-                    $importacao->importado = $this->{$importar}();
+                    $this->{$importar}();
                 }
             });
 
@@ -39,12 +37,10 @@ class Importar
      * Dispara o job para a importação do arquivo corporativo, isto é, dos
      * dados de recursos humanos.
      *
-     * @return bool
+     * @return void
      */
     protected function rh()
     {
         ImportarDadosRH::dispatch()->onQueue(Queue::Baixa->value);
-
-        return true;
     }
 }

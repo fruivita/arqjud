@@ -15,9 +15,12 @@ use App\Models\Permissao;
 use App\Models\Processo;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
+use App\Pipes\Solicitacao\NotificarSolicitante;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
@@ -177,6 +180,54 @@ test('dispara o job NotificarSolicitanteSolicitacao quando o usuário faz a soli
 
     Bus::assertNotDispatchedSync(NotificarSolicitanteSolicitacao::class);
     Bus::assertDispatchedTimes(NotificarSolicitanteSolicitacao::class, 1);
+});
+
+test('registra o log em caso de falha na solicitação de processos', function () {
+    concederPermissao(Permissao::SOLICITACAO_CREATE);
+
+    $processos = Processo::factory(3)->create();
+
+    $this->partialMock(NotificarSolicitante::class)
+        ->shouldReceive('handle')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    Log::spy();
+
+    post(route('atendimento.solicitar-processo.store'), [
+        'processos' => $processos->map(fn ($processo) => $processo->only('numero')),
+        'solicitante_id' => $this->solicitante->id,
+        'destino_id' => $this->destino->id,
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.erro');
+
+    Log::shouldHaveReceived('critical')
+        ->withArgs(fn ($message) => $message === __('Falha ao solicitar o processo'))
+        ->once();
+});
+
+test('solicitação de processo está protegida por transaction', function () {
+    concederPermissao(Permissao::SOLICITACAO_CREATE);
+
+    $processos = Processo::factory(3)->create();
+
+    $this->partialMock(NotificarSolicitante::class)
+        ->shouldReceive('handle')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    $database = DB::spy();
+
+    (new SolicitacaoController())->store(new StoreSolicitacaoRequest([
+        'processos' => $processos->map(fn ($processo) => ['numero' => apenasNumeros($processo->numero)]),
+        'solicitante_id' => $this->solicitante->id,
+        'destino_id' => $this->destino->id,
+    ]));
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('rollBack')->once();
+    $database->shouldNotReceive('commit');
 });
 
 test('exclui a solicitação informada', function () {

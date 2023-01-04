@@ -14,9 +14,12 @@ use App\Models\Guia;
 use App\Models\Permissao;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
+use App\Pipes\Solicitacao\NotificarEntrega as PipeNotificarEntrega;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
@@ -166,6 +169,58 @@ test('dispara o job NotificarEntrega quando o usuário faz a entrega dos process
 
     Bus::assertNotDispatchedSync(NotificarEntrega::class);
     Bus::assertDispatchedTimes(NotificarEntrega::class, 1);
+});
+
+test('registra o log em caso de falha na entrega dos processos solicitados', function () {
+    concederPermissao(Permissao::SOLICITACAO_UPDATE);
+
+    $recebedor = Usuario::factory()->create();
+    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $recebedor->lotacao_id]);
+
+    $this->partialMock(PipeNotificarEntrega::class)
+        ->shouldReceive('handle')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    Log::spy();
+
+    post(route('atendimento.entregar-processo.store'), [
+        'recebedor' => $recebedor->username,
+        'por_guia' => true,
+        'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
+        'email_terceiros' => [],
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.erro');
+
+    Log::shouldHaveReceived('critical')
+        ->withArgs(fn ($message) => $message === __('Falha entregar o processo'))
+        ->once();
+});
+
+test('entrega dos processos solicitados está protegida por transaction', function () {
+    concederPermissao(Permissao::SOLICITACAO_UPDATE);
+
+    $recebedor = Usuario::factory()->create();
+    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $recebedor->lotacao_id]);
+
+    $this->partialMock(PipeNotificarEntrega::class)
+        ->shouldReceive('handle')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    $database = DB::spy();
+
+    (new EntregarProcessoController())->store(new StoreEntregarProcessoRequest([
+        'recebedor' => $recebedor->username,
+        'por_guia' => true,
+        'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
+        'email_terceiros' => [],
+    ]));
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('rollBack')->once();
+    $database->shouldNotReceive('commit');
 });
 
 test('EntregarProcessoController usa trait', function () {

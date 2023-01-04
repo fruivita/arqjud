@@ -10,8 +10,11 @@
 use App\Http\Controllers\Administracao\ImportacaoController;
 use App\Jobs\ImportarDadosRH;
 use App\Models\Permissao;
+use App\Pipes\Importacao\Importar;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
@@ -56,12 +59,52 @@ test('dispara o job ImportarDadosRH quando o usuário solicita a importação fo
 
     concederPermissao(Permissao::IMPORTACAO_CREATE);
 
-    post(route('administracao.importacao.store', ['importacoes' => ['rh']]))
+    post(route('administracao.importacao.store'), ['importacoes' => ['rh']])
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
 
     Bus::assertNotDispatchedSync(ImportarDadosRH::class);
     Bus::assertDispatchedTimes(ImportarDadosRH::class, 1);
+});
+
+test('registra o log em caso de falha na importação', function () {
+    concederPermissao(Permissao::IMPORTACAO_CREATE);
+
+    $this->partialMock(Importar::class)
+        ->shouldAllowMockingProtectedMethods()
+        ->shouldReceive('rh')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    Log::spy();
+
+    post(route('administracao.importacao.store'), ['importacoes' => ['rh']])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.erro');
+
+    Log::shouldHaveReceived('critical')
+        ->withArgs(fn ($message) => $message === __('Falha ao executar a importação'))
+        ->once();
+});
+
+test('importação está protegida por transaction', function () {
+    concederPermissao(Permissao::IMPORTACAO_CREATE);
+
+    $this->partialMock(Importar::class)
+        ->shouldAllowMockingProtectedMethods()
+        ->shouldReceive('rh')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    $database = DB::spy();
+
+    post(route('administracao.importacao.store'), ['importacoes' => ['rh']])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.erro');
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('rollBack')->once();
+    $database->shouldNotReceive('commit');
 });
 
 test('ImportacaoController usa trait', function () {

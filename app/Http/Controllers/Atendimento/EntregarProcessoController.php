@@ -11,6 +11,7 @@ use App\Models\Solicitacao;
 use App\Pipes\Solicitacao\EfetivarEntrega;
 use App\Pipes\Solicitacao\GerarGuiaRemessa;
 use App\Pipes\Solicitacao\NotificarEntrega;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -67,7 +68,15 @@ class EntregarProcessoController extends Controller
                 GerarGuiaRemessa::class,
                 EfetivarEntrega::class,
                 NotificarEntrega::class,
-            ])->thenReturn();
+            ])->onFailure(function (mixed $dados, \Throwable $exception) {
+                Log::critical(__('Falha entregar o processo'), [
+                    'dados' => $dados,
+                    'exception' => $exception,
+                ]);
+
+                return false;
+            })
+            ->then(fn () => true);
 
         return back()->with($this->feedback($salvo));
     }

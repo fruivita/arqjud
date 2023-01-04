@@ -18,6 +18,7 @@ use App\Pipes\Solicitacao\NotificarSolicitante;
 use App\Pipes\Solicitacao\Order;
 use App\Pipes\Solicitacao\SolicitarProcesso;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -91,7 +92,15 @@ class SolicitacaoController extends Controller
             ->through([
                 SolicitarProcesso::class,
                 NotificarSolicitante::class,
-            ])->thenReturn();
+            ])->onFailure(function (mixed $dados, \Throwable $exception) {
+                Log::critical(__('Falha ao solicitar o processo'), [
+                    'dados' => $dados,
+                    'exception' => $exception,
+                ]);
+
+                return false;
+            })
+            ->then(fn () => true);
 
         return back()->with($this->feedback($salvo));
     }

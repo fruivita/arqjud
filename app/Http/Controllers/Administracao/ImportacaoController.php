@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Traits\ComFeedback;
 use App\Pipes\Importacao\Importar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -48,16 +49,24 @@ class ImportacaoController extends Controller
         $importacao = new \stdClass();
         $importacao->importacoes = $request->input('importacoes');
 
-        $obj = Pipeline::make()
+        $salvo = Pipeline::make()
             ->withTransaction()
             ->send($importacao)
             ->through([Importar::class])
-            ->thenReturn();
+            ->onFailure(function (mixed $dados, \Throwable $exception) {
+                Log::critical(__('Falha ao executar a importação'), [
+                    'dados' => $dados,
+                    'exception' => $exception,
+                ]);
 
-        $feedback = $obj->importado
+                return false;
+            })
+            ->then(fn () => true);
+
+        $feedback = $salvo
             ? __('Importação foi escalonada para execução. Em breve os dados estarão disponíveis.')
             : null;
 
-        return back()->with($this->feedback($obj->importado, $feedback));
+        return back()->with($this->feedback($salvo, $feedback));
     }
 }

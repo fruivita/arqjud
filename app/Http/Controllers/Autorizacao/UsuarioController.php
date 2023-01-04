@@ -17,6 +17,7 @@ use App\Pipes\Usuario\AlterarPerfil;
 use App\Pipes\Usuario\JoinAll;
 use App\Pipes\Usuario\Order;
 use App\Pipes\Usuario\RevogarDelegacoes;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -87,8 +88,14 @@ class UsuarioController extends Controller
             ->through([
                 AlterarPerfil::class . ':' . $request->integer('perfil_id'),
                 RevogarDelegacoes::class,
-            ])
-            ->onFailure(fn () => false)
+            ])->onFailure(function (mixed $dados, \Throwable $exception) {
+                Log::critical(__('Falha ao atualizar o usuário'), [
+                    'dados' => $dados,
+                    'exception' => $exception,
+                ]);
+
+                return false;
+            })
             ->then(fn () => true);
 
         return back()->with($this->feedback($salvo));

@@ -13,9 +13,12 @@ use App\Jobs\NotificarSolicitanteDevolucao;
 use App\Models\Permissao;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
+use App\Pipes\Solicitacao\NotificarDevolucao;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
@@ -95,6 +98,50 @@ test('dispara o job NotificarSolicitanteDevolucao quando o usuário faz a devolu
 
     Bus::assertNotDispatchedSync(NotificarSolicitanteDevolucao::class);
     Bus::assertDispatchedTimes(NotificarSolicitanteDevolucao::class, 1);
+});
+
+test('registra o log em caso de falha na devolução do processo ao arquivo', function () {
+    concederPermissao(Permissao::SOLICITACAO_UPDATE);
+
+    $solicitacao = Solicitacao::factory()->entregue()->create();
+
+    $this->partialMock(NotificarDevolucao::class)
+        ->shouldReceive('handle')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    Log::spy();
+
+    post(route('atendimento.devolver-processo.store'), [
+        'numero' => $solicitacao->processo->numero,
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.erro');
+
+    Log::shouldHaveReceived('critical')
+        ->withArgs(fn ($message) => $message === __('Falha ao devolver o processo'))
+        ->once();
+});
+
+test('devolução do processo ao arquivo está protegida por transaction', function () {
+    concederPermissao(Permissao::SOLICITACAO_UPDATE);
+
+    $solicitacao = Solicitacao::factory()->entregue()->create();
+
+    $this->partialMock(NotificarDevolucao::class)
+        ->shouldReceive('handle')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    $database = DB::spy();
+
+    (new DevolverProcessoController())->store(new StoreDevolverProcessoRequest([
+        'numero' => apenasNumeros($solicitacao->processo->numero),
+    ]));
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('rollBack')->once();
+    $database->shouldNotReceive('commit');
 });
 
 test('DevolverProcessoController usa trait', function () {

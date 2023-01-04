@@ -14,9 +14,12 @@ use App\Models\Permissao;
 use App\Models\Processo;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
+use App\Pipes\Solicitacao\NotificarOperadores;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
@@ -172,6 +175,50 @@ test('dispara o job NotificarOperadoresSolicitacao quando o usuário faz a solic
 
     Bus::assertNotDispatchedSync(NotificarOperadoresSolicitacao::class);
     Bus::assertDispatchedTimes(NotificarOperadoresSolicitacao::class, 1);
+});
+
+test('registra o log em caso de falha na solicitação de processos', function () {
+    concederPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE);
+
+    $processos = Processo::factory(3)->create();
+
+    $this->partialMock(NotificarOperadores::class)
+        ->shouldReceive('handle')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    Log::spy();
+
+    post(route('solicitacao.store'), [
+        'processos' => $processos->map(fn ($processo) => $processo->only('numero')),
+    ])
+        ->assertRedirect()
+        ->assertSessionHas('feedback.erro');
+
+    Log::shouldHaveReceived('critical')
+        ->withArgs(fn ($message) => $message === __('Falha ao solicitar o processo'))
+        ->once();
+});
+
+test('solicitação de processo está protegida por transaction', function () {
+    concederPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE);
+
+    $processos = Processo::factory(3)->create();
+
+    $this->partialMock(NotificarOperadores::class)
+        ->shouldReceive('handle')
+        ->andThrow(\Exception::class)
+        ->once();
+
+    $database = DB::spy();
+
+    (new SolicitacaoController())->store(new StoreSolicitacaoRequest([
+        'processos' => $processos->map(fn ($processo) => ['numero' => apenasNumeros($processo->numero)])
+    ]));
+
+    $database->shouldHaveReceived('beginTransaction')->once();
+    $database->shouldHaveReceived('rollBack')->once();
+    $database->shouldNotReceive('commit');
 });
 
 test('exclui a solicitação informada', function () {
