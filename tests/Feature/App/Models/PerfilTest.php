@@ -142,6 +142,8 @@ test('perfil administrador possui suas permissões iniciais definidas', function
         Permissao::USUARIO_VIEW_ANY,
         Permissao::USUARIO_VIEW,
         Permissao::USUARIO_UPDATE,
+        Permissao::LOTACAO_VIEW_ANY,
+        Permissao::LOTACAO_UPDATE,
         Permissao::LOCALIDADE_VIEW_ANY,
         Permissao::LOCALIDADE_VIEW,
         Permissao::LOCALIDADE_CREATE,

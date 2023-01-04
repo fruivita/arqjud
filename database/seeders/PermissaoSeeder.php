@@ -49,6 +49,7 @@ class PermissaoSeeder extends Seeder
             ->concat($this->permissoesPermissao())
             ->concat($this->permissoesPerfil())
             ->concat($this->permissoesUsuario())
+            ->concat($this->permissoesLotacao())
             ->concat($this->permissoesLocalidade())
             ->concat($this->permissoesPredio())
             ->concat($this->permissoesAndar())
@@ -242,6 +243,25 @@ class PermissaoSeeder extends Seeder
                 'nome' => 'Usuário: Atualizar',
                 'slug' => Permissao::USUARIO_UPDATE,
                 'descricao' => 'Permissão para atualizar os usuários cadastrados.',
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
+    private function permissoesLotacao()
+    {
+        return LazyCollection::make([
+            [
+                'nome' => 'Lotação: Visualizar todas',
+                'slug' => Permissao::LOTACAO_VIEW_ANY,
+                'descricao' => 'Permissão para visualizar todas as lotações cadastradas.',
+            ],
+            [
+                'nome' => 'Lotação: Atualizar',
+                'slug' => Permissao::LOTACAO_UPDATE,
+                'descricao' => 'Permissão para atualizar as lotações cadastradas.',
             ],
         ]);
     }
