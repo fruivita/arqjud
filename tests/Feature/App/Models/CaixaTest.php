@@ -40,16 +40,16 @@ test('lança exception ao tentar criar caixa com campo inválido', function (str
         fn () => Caixa::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);
 })->with([
-    ['numero',            -1,               'Out of range'],              // min 0
-    ['numero',            4294967296,       'Out of range'],              // max 4294967295
-    ['numero',            'foo',            'Incorrect integer value'],   // não conversível em inteiro
-    ['ano',               -1,               'Out of range value'],        // min 0
-    ['ano',               65536,            'Out of range value'],        // max 65536
-    ['ano',               'foo',            'Incorrect integer value'],   // não conversível em inteiro
-    ['guarda_permanente', 'foo',            'Incorrect integer value'],   // não conversível em boolean
-    ['guarda_permanente', null,             'cannot be null'],            // obrigatório
-    ['complemento',       Str::random(51),  'Data too long for column'],  // máximo 50 caracteres
-    ['descricao',         Str::random(256), 'Data too long for column'],  // máximo 255 caracteres
+    ['numero',            -1,               'Out of range'],             // min 0
+    ['numero',            4294967296,       'Out of range'],             // max 4294967295
+    ['numero',            'foo',            'Incorrect integer value'],  // não conversível em inteiro
+    ['ano',               -1,               'Out of range value'],       // min 0
+    ['ano',               65536,            'Out of range value'],       // max 65536
+    ['ano',               'foo',            'Incorrect integer value'],  // não conversível em inteiro
+    ['guarda_permanente', 'foo',            'Incorrect integer value'],  // não conversível em boolean
+    ['guarda_permanente', null,             'cannot be null'],           // obrigatório
+    ['complemento',       Str::random(51),  'Data too long for column'], // máximo 50 caracteres
+    ['descricao',         Str::random(256), 'Data too long for column'], // máximo 255 caracteres
 ]);
 
 test('lança exception ao tentar definir relacionamento inválido', function (string $campo, mixed $valor, string $mensagem) {
