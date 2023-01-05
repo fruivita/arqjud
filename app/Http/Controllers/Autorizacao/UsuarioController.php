@@ -13,10 +13,8 @@ use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Perfil;
 use App\Models\Usuario;
 use App\Pipes\Search;
-use App\Pipes\Usuario\AlterarPerfil;
 use App\Pipes\Usuario\JoinAll;
 use App\Pipes\Usuario\Order;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 

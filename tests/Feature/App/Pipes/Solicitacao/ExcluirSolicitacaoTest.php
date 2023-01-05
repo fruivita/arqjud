@@ -4,9 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
-use App\Models\Guia;
 use App\Models\Solicitacao;
-use App\Models\Usuario;
 use App\Pipes\Solicitacao\ExcluirSolicitacao;
 use Database\Seeders\PerfilSeeder;
 use MichaelRubel\EnhancedPipeline\Pipeline;

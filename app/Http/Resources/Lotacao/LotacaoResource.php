@@ -4,7 +4,6 @@ namespace App\Http\Resources\Lotacao;
 
 use App\Enums\Policy;
 use App\Models\Lotacao;
-use App\Models\Predio;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

@@ -8,7 +8,6 @@
 use App\Http\Resources\Cargo\CargoOnlyResource;
 use App\Http\Resources\Funcao\FuncaoOnlyResource;
 use App\Http\Resources\Perfil\PerfilOnlyResource;
-use App\Http\Resources\Usuario\UsuarioOnlyResource;
 use App\Http\Resources\Usuario\UsuarioResource;
 use App\Models\Permissao;
 use App\Models\Usuario;

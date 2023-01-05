@@ -7,7 +7,6 @@
 use App\Enums\Queue as EnumsQueue;
 use App\Jobs\NotificarSolicitanteCancelamento;
 use App\Models\Lotacao;
-use App\Models\Solicitacao;
 use App\Models\Usuario;
 use App\Pipes\Solicitacao\NotificarCancelamento;
 use Illuminate\Support\Facades\Bus;

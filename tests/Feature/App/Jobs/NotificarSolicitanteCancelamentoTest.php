@@ -6,7 +6,6 @@
 
 use App\Enums\Queue as EQueue;
 use App\Jobs\NotificarSolicitanteCancelamento;
-use App\Models\Guia;
 use App\Models\Lotacao;
 use App\Models\Usuario;
 use App\Notifications\SolicitacaoCancelada;
