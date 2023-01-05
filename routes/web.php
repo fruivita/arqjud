@@ -3,6 +3,7 @@
 use App\Enums\Policy;
 use App\Http\Controllers\Administracao\ImportacaoController;
 use App\Http\Controllers\Administracao\LogController;
+use App\Http\Controllers\Administracao\LotacaoController;
 use App\Http\Controllers\Administracao\PerfilController;
 use App\Http\Controllers\Administracao\PermissaoController;
 use App\Http\Controllers\Atendimento\DevolverProcessoController;
@@ -28,6 +29,7 @@ use App\Models\Caixa;
 use App\Models\Estante;
 use App\Models\Guia;
 use App\Models\Localidade;
+use App\Models\Lotacao;
 use App\Models\Perfil;
 use App\Models\Permissao;
 use App\Models\Prateleira;
@@ -218,6 +220,11 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [PermissaoController::class, 'store'])->name('store')->can(Policy::Create->value, Permissao::class);
             Route::get('{permissao}/edit', [PermissaoController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Permissao::class);
             Route::patch('{permissao}', [PermissaoController::class, 'update'])->name('update')->can(Policy::Update->value, Permissao::class);
+        });
+
+        Route::prefix('lotacao')->name('lotacao.')->group(function () {
+            Route::get('/', [LotacaoController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Lotacao::class);
+            Route::patch('{lotacao}', [LotacaoController::class, 'update'])->name('update')->can(Policy::Update->value, Lotacao::class);
         });
 
         Route::prefix('importacao')->name('importacao.')->group(function () {
