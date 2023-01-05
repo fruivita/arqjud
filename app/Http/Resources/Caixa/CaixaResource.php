@@ -27,7 +27,7 @@ class CaixaResource extends JsonResource
                 'id' => $this->id,
                 'numero' => $this->numero,
                 'ano' => $this->ano,
-                'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
+                'guarda_permanente' => $this->guarda_permanente,
                 'complemento' => $this->complemento,
                 'descricao' => $this->descricao,
                 'prateleira_id' => $this->prateleira_id,

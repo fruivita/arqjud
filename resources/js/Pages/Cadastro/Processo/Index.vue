@@ -15,6 +15,8 @@ import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis'
 import { useExclusao } from '@/Composables/UseExclusao';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { perPageKey, updatePerPageKey } from '@/keys';
+import Caixa from '@/Models/Caixa';
+import Processo from '@/Models/Processo';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -354,7 +356,7 @@ watch(perPage, filtrar);
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.guardaPermanente">
-                                {{ processo.guarda_permanente }}
+                                {{ new Processo(processo).gp() }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.qtdVolumes">
@@ -417,7 +419,7 @@ watch(perPage, filtrar);
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.caixaGuardaPermanente">
-                                {{ processo.volume_caixa.caixa.guarda_permanente }}
+                                {{ new Caixa(processo.volume_caixa.caixa).gp() }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.caixaLocalidadeCriadora">

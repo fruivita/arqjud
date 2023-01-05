@@ -116,7 +116,7 @@ const solicitacao_ativa = computed(() => first(props.processo.data.solicitacao_a
 
                     <ChaveValor
                         :chave="__('Guarda permanente')"
-                        :valor="processo.data.guarda_permanente"
+                        :valor="new Processo(processo.data).gp()"
                         icone="safe"
                     />
 

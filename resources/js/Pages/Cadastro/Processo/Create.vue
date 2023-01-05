@@ -186,7 +186,7 @@ const cadastrar = () => {
 
                         <ChaveValor
                             :chave="__('Guarda permanente')"
-                            :valor="volume_caixa.data.caixa.guarda_permanente"
+                            :valor="new Caixa(volume_caixa.data.caixa).gp()"
                             icone="safe"
                         />
                     </div>

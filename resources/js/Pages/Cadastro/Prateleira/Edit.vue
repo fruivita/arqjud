@@ -315,7 +315,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             <Cell v-show="elementosVisiveis.ano">{{ caixa.ano }}</Cell>
 
                             <Cell v-show="elementosVisiveis.guardaPermanente">{{
-                                caixa.guarda_permanente
+                                new Caixa(caixa).gp()
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.localidadeCriadora">{{

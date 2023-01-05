@@ -9,6 +9,7 @@
 <script setup>
 import { flash } from '@/Composables/UseFlash';
 import Lotacao from '@/Models/Lotacao';
+import Processo from '@/Models/Processo';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
@@ -275,7 +276,7 @@ const viewReset = () => {
 
                                     <Cell>{{ solicitacao.processo.qtd_volumes }}</Cell>
 
-                                    <Cell>{{ solicitacao.processo.guarda_permanente }}</Cell>
+                                    <Cell>{{ new Processo(solicitacao.processo).gp() }}</Cell>
 
                                     <Cell>{{ solicitacao.solicitada_em }}</Cell>
 

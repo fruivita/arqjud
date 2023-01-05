@@ -9,6 +9,7 @@
 <script setup>
 import { flash } from '@/Composables/UseFlash';
 import { mascaraCNJ, maxViewItems } from '@/keys';
+import Processo from '@/Models/Processo';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
@@ -243,7 +244,7 @@ const viewReset = () => {
                                 />
                             </Cell>
 
-                            <Cell>{{ processo.guarda_permanente }}</Cell>
+                            <Cell>{{ new Processo(processo).gp() }}</Cell>
 
                             <Cell>
                                 <ButtonIcone

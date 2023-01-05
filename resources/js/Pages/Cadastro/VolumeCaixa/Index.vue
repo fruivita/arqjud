@@ -15,6 +15,7 @@ import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis'
 import { useExclusao } from '@/Composables/UseExclusao';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { perPageKey, updatePerPageKey } from '@/keys';
+import Caixa from '@/Models/Caixa';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -105,9 +106,15 @@ watch(perPage, filtrar);
             <Preferencia>
                 <CheckBox v-model:checked="elementosVisiveis.volume" :label="__('Volume')" />
 
-                <CheckBox v-model:checked="elementosVisiveis.processos" :label="__('Qtd processos')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.processos"
+                    :label="__('Qtd processos')"
+                />
 
-                <CheckBox v-model:checked="elementosVisiveis.localidade" :label="__('Localidade')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.localidade"
+                    :label="__('Localidade')"
+                />
 
                 <CheckBox v-model:checked="elementosVisiveis.predio" :label="__('Prédio')" />
 
@@ -119,20 +126,29 @@ watch(perPage, filtrar);
 
                 <CheckBox v-model:checked="elementosVisiveis.estante" :label="__('Estante')" />
 
-                <CheckBox v-model:checked="elementosVisiveis.prateleira" :label="__('Prateleira')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.prateleira"
+                    :label="__('Prateleira')"
+                />
 
                 <CheckBox v-model:checked="elementosVisiveis.caixa" :label="__('Caixa')" />
 
                 <CheckBox v-model:checked="elementosVisiveis.caixaAno" :label="__('Ano')" />
 
-                <CheckBox v-model:checked="elementosVisiveis.caixaGuardaPermanente" :label="__('GP')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.caixaGuardaPermanente"
+                    :label="__('GP')"
+                />
 
                 <CheckBox
                     v-model:checked="elementosVisiveis.caixaLocalidadeCriadora"
                     :label="__('Localidade criadora')"
                 />
 
-                <CheckBox v-model:checked="elementosVisiveis.caixaComplemento" :label="__('Complemento')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.caixaComplemento"
+                    :label="__('Complemento')"
+                />
 
                 <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
@@ -287,7 +303,7 @@ watch(perPage, filtrar);
                             <Cell v-show="elementosVisiveis.caixaAno">{{ volume.caixa.ano }}</Cell>
 
                             <Cell v-show="elementosVisiveis.caixaGuardaPermanente">{{
-                                volume.caixa.guarda_permanente
+                                new Caixa(volume.caixa).gp()
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.caixaLocalidadeCriadora">{{

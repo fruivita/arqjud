@@ -15,6 +15,7 @@ import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { mascaraCNJ, perPageKey, updatePerPageKey } from '@/keys';
 import Andar from '@/Models/Andar';
 import Caixa from '@/Models/Caixa';
+import Processo from '@/Models/Processo';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -269,7 +270,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                         <ChaveValor
                             :chave="__('Guarda permanente')"
-                            :valor="processo.data.guarda_permanente"
+                            :valor="new Processo(processo.data).gp()"
                             icone="safe"
                         />
                     </div>
@@ -323,18 +324,30 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
         <Container class="space-y-3">
             <div class="flex flex-col space-y-3 md:flex-row md:items-start md:justify-end">
                 <Preferencia>
-                    <CheckBox v-model:checked="elementosVisiveis.processo" :label="__('Processo')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.processo"
+                        :label="__('Processo')"
+                    />
 
                     <CheckBox
                         v-model:checked="elementosVisiveis.numeroAntigo"
                         :label="__('Número antigo')"
                     />
 
-                    <CheckBox v-model:checked="elementosVisiveis.arquivadoEm" :label="__('Arquivado em')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.arquivadoEm"
+                        :label="__('Arquivado em')"
+                    />
 
-                    <CheckBox v-model:checked="elementosVisiveis.guardaPermanente" :label="__('GP')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.guardaPermanente"
+                        :label="__('GP')"
+                    />
 
-                    <CheckBox v-model:checked="elementosVisiveis.qtdVolumes" :label="__('Volumes')" />
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.qtdVolumes"
+                        :label="__('Volumes')"
+                    />
 
                     <CheckBox
                         v-model:checked="elementosVisiveis.processosFilho"
@@ -428,7 +441,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.guardaPermanente">{{
-                                processo.guarda_permanente
+                                new Processo(processo).gp()
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.qtdVolumes">{{

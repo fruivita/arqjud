@@ -2,7 +2,7 @@
  * Encapsulamento de funcionalidades relativas à caixa pra uso no client side.
  */
 
-import { toLower } from 'lodash';
+import { useTranslationsStore } from '@/Stores/TranslationsStore';
 
 class Caixa {
     constructor(attributes = {}) {
@@ -15,7 +15,7 @@ class Caixa {
      * @return {String}
      */
     numeroExibicao() {
-        let texto = `${this.numero}/${this.ano}/GP:${this.guarda_permanente}`;
+        let texto = `${this.numero}/${this.ano}/GP:${this.gp()}`;
 
         if (this.localidade_criadora) {
             texto = `${texto}/${this.localidade_criadora.nome}`;
@@ -29,12 +29,14 @@ class Caixa {
     }
 
     /**
-     * Caixa de guarda permanente?
+     * String para exibição se a caixa é de guarda permanente.
      *
-     * @return {Boolean}
+     * @return {String}
      */
     gp() {
-        return toLower(this.guarda_permanente) === 'sim' ? true : false;
+        const __ = useTranslationsStore().__;
+
+        return this.guarda_permanente ? __('Sim') : __('Não');
     }
 }
 

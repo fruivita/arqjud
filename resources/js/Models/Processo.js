@@ -23,6 +23,17 @@ class Processo {
             ? new Lotacao(this.solicitacao_ativa.lotacao_destinataria).nomeExibicao()
             : __('No arquivo');
     }
+
+    /**
+     * String para exibição se o processo é de guarda permanente.
+     *
+     * @return {String}
+     */
+    gp() {
+        const __ = useTranslationsStore().__;
+
+        return this.guarda_permanente ? __('Sim') : __('Não');
+    }
 }
 
 export default Processo;

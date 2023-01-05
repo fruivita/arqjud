@@ -25,7 +25,7 @@ class ProcessoOnlyResource extends JsonResource
                 'numero' => $this->numero,
                 'numero_antigo' => $this->numero_antigo,
                 'arquivado_em' => $this->arquivado_em->format('d-m-Y'),
-                'guarda_permanente' => $this->guarda_permanente ? __('Sim') : __('Não'),
+                'guarda_permanente' => $this->guarda_permanente,
                 'qtd_volumes' => $this->qtd_volumes,
                 'descricao' => $this->descricao,
                 'volume_caixa_id' => $this->volume_caixa_id,

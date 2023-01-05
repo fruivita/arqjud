@@ -14,7 +14,6 @@ import { flash } from '@/Composables/UseFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { perPageKey, updatePerPageKey } from '@/keys';
 import Andar from '@/Models/Andar';
-import Caixa from '@/Models/Caixa';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
@@ -56,7 +55,7 @@ const form = useForm({
     numero: props.caixa.data.numero,
     numero: props.caixa.data.numero,
     ano: props.caixa.data.ano,
-    guarda_permanente: new Caixa(props.caixa.data).gp(),
+    guarda_permanente: props.caixa.data.guarda_permanente,
     complemento: props.caixa.data.complemento ?? '',
     descricao: props.caixa.data.descricao ?? '',
 });

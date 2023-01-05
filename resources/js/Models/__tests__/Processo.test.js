@@ -7,12 +7,15 @@
  */
 
 import Processo from '@/Models/Processo';
+import { useTranslationsStore } from '@/Stores/TranslationsStore';
 import { createPinia, setActivePinia } from 'pinia';
 import { describe, expect, test } from 'vitest';
 
 setActivePinia(createPinia());
 
 describe('Processo', () => {
+    const __ = useTranslationsStore().__;
+
     test('retorna a lotação do processo pronta para exibição', () => {
         const processo = new Processo({
             solicitacao_ativa: {
@@ -44,5 +47,21 @@ describe('Processo', () => {
         });
 
         expect(processo.localizacao()).toBe('No arquivo');
+    });
+
+    test('retorna o texto se o processo é de guarda_permanente', () => {
+        const processo = new Processo({
+            guarda_permanente: true,
+        });
+
+        expect(processo.gp()).toBe(__('Sim'));
+    });
+
+    test('retorna o texto se o processo não é de guarda_permanente', () => {
+        const processo = new Processo({
+            guarda_permanente: false,
+        });
+
+        expect(processo.gp()).toBe(__('Não'));
     });
 });
