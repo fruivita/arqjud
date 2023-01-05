@@ -14,7 +14,7 @@ class Lotacao extends LotacaoCorporativo
      * {@inheritdoc}
      */
     protected $casts = [
-        'por_guia' => 'boolean',
+        'administravel' => 'boolean',
     ];
 
     /**
