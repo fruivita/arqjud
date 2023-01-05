@@ -5,6 +5,7 @@
  */
 
 use App\Enums\Policy;
+use App\Models\Lotacao;
 use App\Models\Permissao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
@@ -12,8 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
+    \Spatie\Once\Cache::getInstance()->disable();
 
-    $this->usuario = login();
+    $this->usuario = Usuario::factory()->create();
+
+    Auth::login($this->usuario);
 });
 
 afterEach(function () {
@@ -32,13 +36,17 @@ test('usuário sem permissão não pode visualizar um usuário', function () {
 });
 
 test('usuário sem permissão não pode atualizar um usuário', function () {
-    $usuario = Usuario::factory()->create();
+    $usuario = Usuario::factory()
+        ->for(Lotacao::factory(['administravel' => true]), 'lotacao')
+        ->create();
 
     expect(Auth::user()->can(Policy::Update->value, $usuario))->toBeFalse();
 });
 
 test('usuário sem permissão não pode visualizar ou atualizar um usuário', function () {
-    $usuario = Usuario::factory()->create();
+    $usuario = Usuario::factory()
+        ->for(Lotacao::factory(['administravel' => true]), 'lotacao')
+        ->create();
 
     expect(Auth::user()->can(Policy::ViewOrUpdate->value, $usuario))->toBeFalse();
 });
@@ -46,10 +54,22 @@ test('usuário sem permissão não pode visualizar ou atualizar um usuário', fu
 test('usuário sem perfil não pode atualizar um usuário', function () {
     concederPermissao(Permissao::USUARIO_UPDATE);
 
-    $usuario = Usuario::factory()->create();
+    $usuario = Usuario::factory()
+        ->for(Lotacao::factory(['administravel' => true]), 'lotacao')
+        ->create();
 
     $this->usuario->perfil_id = null;
     $this->usuario->save();
+
+    expect(Auth::user()->can(Policy::Update->value, $usuario))->toBeFalse();
+});
+
+test('usuário de lotação não administrável não pode pode ter seu perfil atualizado', function () {
+    concederPermissao(Permissao::USUARIO_UPDATE);
+
+    $usuario = Usuario::factory()
+        ->for(Lotacao::factory(['administravel' => false]), 'lotacao')
+        ->create();
 
     expect(Auth::user()->can(Policy::Update->value, $usuario))->toBeFalse();
 });
@@ -78,7 +98,9 @@ test('usuário com permissão pode visualizar um usuário', function () {
 test('usuário com permissão e perfil pode atualizar outro usuário', function () {
     concederPermissao(Permissao::USUARIO_UPDATE);
 
-    $usuario = Usuario::factory()->create();
+    $usuario = Usuario::factory()
+        ->for(Lotacao::factory(['administravel' => true]), 'lotacao')
+        ->create();
 
     expect(Auth::user()->can(Policy::Update->value, $usuario))->toBeTrue();
 });
@@ -100,7 +122,9 @@ test('usuário com permissão pode visualizar um usuário por meio da policy vie
 test('usuário com permissão e perfil pode atualizar outro usuário por meio da policy viewOrUpdate', function () {
     concederPermissao(Permissao::USUARIO_UPDATE);
 
-    $usuario = Usuario::factory()->create();
+    $usuario = Usuario::factory()
+        ->for(Lotacao::factory(['administravel' => true]), 'lotacao')
+        ->create();
 
     expect(Auth::user()->can(Policy::ViewOrUpdate->value, $usuario))->toBeTrue();
 });

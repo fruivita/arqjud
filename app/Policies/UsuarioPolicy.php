@@ -49,7 +49,8 @@ class UsuarioPolicy
             $usuario->id != $em_edicao->id
             // usuário autenticado deve possuir um perfil válido
             && $usuario->perfil_id >= 1
-            && $usuario->possuiPermissao(Permissao::USUARIO_UPDATE);
+            && $usuario->possuiPermissao(Permissao::USUARIO_UPDATE)
+            && $em_edicao->pertenceLotacaoAdministravel();
     }
 
     /**
