@@ -26,8 +26,10 @@ class LotacaoResource extends JsonResource
                 'nome' => $this->nome,
                 'sigla' => str($this->sigla)->upper(),
                 'administravel' => $this->administravel,
-                'lotacao_pai_id' => $this->lotacao_pai_id,
+                'usuarios_count' => $this->whenCounted('usuarios'),
+                'lotacao_pai_id' => $this->lotacao_pai,
                 'lotacao_pai' => LotacaoOnlyResource::make($this->whenLoaded('lotacaoPai')),
+                'usuarios_count' => $this->whenCounted('usuarios'),
                 'links' => [
                     'update' => $this->when(
                         auth()->user()->can(Policy::Update->value, Lotacao::class),

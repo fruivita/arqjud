@@ -8,6 +8,7 @@
 use App\Http\Resources\Lotacao\LotacaoResource;
 use App\Models\Lotacao;
 use App\Models\Permissao;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
@@ -40,11 +41,14 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 test('retorna os elementos relacionados se houver o eager load da propriedade', function () {
     $lotacaoPai = Lotacao::factory()->create();
     $this->lotacao->lotacaoPai()->associate($lotacaoPai)->save();
-    $resource = LotacaoResource::make($this->lotacao->load(['lotacaoPai']));
+    Usuario::factory(3)->for($this->lotacao, 'lotacao')->create();
+
+    $resource = LotacaoResource::make($this->lotacao->loadCount('usuarios')->load(['lotacaoPai']));
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => lotacaoApi($this->lotacao)
             + ['lotacao_pai' => lotacaoApi($lotacaoPai)]
+            + ['usuarios_count' => 3]
             + ['links' => []],
     ]);
 });
