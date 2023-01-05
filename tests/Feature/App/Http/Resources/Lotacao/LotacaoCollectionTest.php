@@ -8,7 +8,6 @@
 use App\Http\Resources\Lotacao\LotacaoCollection;
 use App\Http\Resources\Lotacao\LotacaoResource;
 use App\Models\Lotacao;
-use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
