@@ -169,7 +169,7 @@ function lotacaoApi(mixed $lotacao)
         'nome' => $lotacao->nome,
         'sigla' => mb_strtoupper($lotacao->sigla),
         'administravel' => $lotacao->administravel,
-        'lotacao_pai_id' => $lotacao->lotacao_pai_id,
+        'lotacao_pai_id' => $lotacao->lotacao_pai,
     ];
 }
 

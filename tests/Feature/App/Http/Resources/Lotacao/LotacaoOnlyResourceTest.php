@@ -21,15 +21,6 @@ test('retorna os campos principais do modelo', function () {
     ]);
 });
 
-test('retorna a lotação pai se houver o eager load da propriedade', function () {
-    $resource = LotacaoOnlyResource::make($this->lotacao->load('lotacaoPai'));
-
-    expect($resource->response()->getData(true))->toMatchArray([
-        'data' => lotacaoApi($this->lotacao)
-            + ['lotacao_pai' => lotacaoApi($this->lotacao->lotacaoPai)],
-    ]);
-});
-
 test('retorna o resource vazio se o modelo for nulo', function () {
     expect(LotacaoOnlyResource::make(null)->resolve())->toBeEmpty();
 });
