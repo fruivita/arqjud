@@ -40,10 +40,10 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
 });
 
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
-    $resource = PerfilResource::make($this->perfil->loadCount(['usuarios', 'delegados']));
+    $resource = PerfilResource::make($this->perfil->loadCount(['usuarios']));
 
     expect($resource->response()->getData(true))->toMatchArray([
-        'data' => $this->perfil->only(['id', 'nome', 'slug', 'poder', 'descricao', 'usuarios_count', 'delegados_count'])
+        'data' => $this->perfil->only(['id', 'nome', 'slug', 'poder', 'descricao', 'usuarios_count'])
             + ['links' => []],
     ]);
 });

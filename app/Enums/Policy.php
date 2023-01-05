@@ -22,8 +22,6 @@ enum Policy: string
     case ExternoViewAny = 'externoViewAny';
     case ExternoCreate = 'externoCreate';
     case ExternoDelete = 'externoDelete';
-    case DelegacaoCreate = 'delegacaoCreate';
-    case DelegacaoDelete = 'delegacaoDelete';
     case ImportacaoCreate = 'importacaoCreate';
     case LogViewAny = 'logViewAny';
     case LogView = 'logView';

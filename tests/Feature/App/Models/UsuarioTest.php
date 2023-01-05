@@ -61,8 +61,6 @@ test('lança exception ao tentar definir relacionamento inválido', function (st
     )->toThrow(QueryException::class, $mensagem);
 })->with([
     ['perfil_id',            99999999, 'Cannot add or update a child row'], // não existente
-    ['perfil_concedido_por', 99999999, 'Cannot add or update a child row'], // não existente
-    ['antigo_perfil_id',     99999999, 'Cannot add or update a child row'], // não existente
 ]);
 
 // Caminho feliz
@@ -85,8 +83,6 @@ test('relacionamentos opcionais estão definidos', function () {
         'cargo_id' => null,
         'funcao_confianca_id' => null,
         'perfil_id' => null,
-        'perfil_concedido_por' => null,
-        'antigo_perfil_id' => null,
     ]);
 
     expect(Usuario::count())->toBe(1);
@@ -112,14 +108,6 @@ test('um usuário possui um perfil', function () {
     $usuario = Usuario::with(['perfil'])->first();
 
     expect($usuario->perfil)->toBeInstanceOf(Perfil::class);
-});
-
-test('um usuário pode ter um perfil antigo', function () {
-    Usuario::factory()->for(Perfil::factory(), 'perfilAntigo')->create();
-
-    $usuario = Usuario::with(['perfilAntigo'])->first();
-
-    expect($usuario->perfilAntigo)->toBeInstanceOf(Perfil::class);
 });
 
 test('um usuário pode criar várias solicitações de processo', function () {
@@ -152,22 +140,6 @@ test('um usuário pode rearquivar várias solicitações de processo', function 
     $usuario = Usuario::with('solicitacoesRearquivadas')->first();
 
     expect($usuario->solicitacoesRearquivadas)->toHaveCount(3);
-});
-
-test('usuário pode delegar seu perfil para diversos outros', function () {
-    $delegante = Usuario::factory()->hasDelegados(3)->create();
-
-    $delegante->loadCount('delegados');
-
-    expect($delegante->delegados_count)->toBe(3);
-});
-
-test('usuário delegante só há um', function () {
-    $delegado = Usuario::factory()->for(Usuario::factory(), 'delegante')->create();
-
-    $delegado->load('delegante');
-
-    expect($delegado->delegante)->toBeInstanceOf(Usuario::class);
 });
 
 test('método possuiPermissao() informa se o usuário possui determinada permissão', function () {
@@ -325,38 +297,6 @@ test('retorna os usuários pelo escopo search que busca a partir do início do t
     ['gggg', 3],
 ]);
 
-test('retorna os usuários pelo escopo search que busca a partir do início do texto no username ou nome do usuário delegante', function (string $termo, int $quantidade) {
-    Usuario::factory()->hasDelegados(2)->create(['username' => 'aaaabbbb', 'nome' => 'eeeeffff']);
-    Usuario::factory()->hasDelegados(3)->create(['username' => 'ccccdddd', 'nome' => 'gggghhhh']);
-
-    $query = Pipeline::make()
-        ->send(Usuario::query())
-        ->through([JoinAll::class])
-        ->thenReturn();
-
-    expect($query->search($termo)->count())->toBe($quantidade);
-})->with([
-    ['', 7],
-    ['aaaa', 3],
-    ['gggg', 4],
-]);
-
-test('retorna os usuários pelo escopo search que busca a partir do início do texto no nome do perfil antigo', function (string $termo, int $quantidade) {
-    Usuario::factory(2)->for(Perfil::factory(['nome' => 'eeeeffff']), 'perfilAntigo')->create();
-    Usuario::factory(3)->for(Perfil::factory(['nome' => 'gggghhhh']), 'perfilAntigo')->create();
-
-    $query = Pipeline::make()
-        ->send(Usuario::query())
-        ->through([JoinAll::class])
-        ->thenReturn();
-
-    expect($query->search($termo)->count())->toBe($quantidade);
-})->with([
-    ['', 5],
-    ['eeee', 2],
-    ['gggg', 3],
-]);
-
 test('método perfilSuperior identifica como perfil superior caso o outro não tenha perfil', function () {
     $usuario = Usuario::factory()->create();
     $outro = Usuario::factory()->create(['perfil_id' => null]);
@@ -373,68 +313,3 @@ test('método perfilSuperior identifica se o perfil de um usuário é superior a
     [499, false],
     [501, true],
 ]);
-
-test('método perfilDelegado identifica se o perfil do usuário é delegado', function () {
-    $usuario = Usuario::factory()->create();
-
-    expect($usuario->perfilDelegado())->toBeFalse();
-
-    $usuario->perfil_concedido_por = Usuario::factory()->create()->id;
-    $usuario->antigo_perfil_id = Perfil::factory()->create()->id;
-    $usuario->save();
-
-    expect($usuario->perfilDelegado())->toBeTrue();
-});
-
-test('método perfilOriginal identifica se o perfil do usuário é original, isto é, não obtido por delegação', function () {
-    $usuario = Usuario::factory()->create([
-        'perfil_concedido_por' => Usuario::factory()->create()->id,
-        'antigo_perfil_id' => Perfil::factory()->create()->id,
-    ]);
-
-    expect($usuario->perfilOriginal())->toBeFalse();
-
-    $usuario->perfil_concedido_por = null;
-    $usuario->antigo_perfil_id = null;
-    $usuario->save();
-
-    expect($usuario->perfilOriginal())->toBeTrue();
-});
-
-test('método delegar concede ao usuário informado o mesmo perfil do usuário autenticado e salva seu antigo perfil', function () {
-    $perfis = Perfil::all();
-    $delegante = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id]);
-
-    $delegado = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::OBSERVADOR)->id]);
-
-    $delegante->delegar($delegado);
-
-    $delegado->refresh();
-
-    expect($delegado->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id)
-        ->and($delegado->perfil_concedido_por)->toBe($delegante->id)
-        ->and($delegado->antigo_perfil_id)->toBe($perfis->firstWhere('slug', Perfil::OBSERVADOR)->id);
-});
-
-test('método revogarDelegacao revoga o perfil do usuário, retornando-o ao seu perfil antigo', function () {
-    $perfis = Perfil::all();
-    $delegante = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id]);
-
-    $delegado = Usuario::factory()->create([
-        'perfil_id' => $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id,
-        'perfil_concedido_por' => $delegante->id,
-        'antigo_perfil_id' => $perfis->firstWhere('slug', Perfil::OBSERVADOR)->id,
-    ]);
-
-    $delegado->revogarDelegacao();
-
-    $delegante->refresh();
-    $delegado->refresh();
-
-    expect($delegante->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id)
-        ->and($delegante->perfil_concedido_por)->toBeNull()
-        ->and($delegante->perfil_concedido_por)->toBeNull()
-        ->and($delegado->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::OBSERVADOR)->id)
-        ->and($delegado->perfil_concedido_por)->toBeNull()
-        ->and($delegado->perfil_concedido_por)->toBeNull();
-});

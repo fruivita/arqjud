@@ -40,14 +40,13 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                 'links' => [
                     'view' => route('autorizacao.usuario.edit', $this->usuario),
                     'update' => route('autorizacao.usuario.update', $this->usuario),
-                    'delegacao' => null,
                 ],
             ],
     ]);
 });
 
 test('retorna o relacionamento se houver o eager load da propriedade e sem os links se não houver rota autorizada', function () {
-    $resource = UsuarioResource::make($this->usuario->load(['lotacao', 'cargo', 'funcaoConfianca', 'perfil', 'delegante', 'perfilAntigo']));
+    $resource = UsuarioResource::make($this->usuario->load(['lotacao', 'cargo', 'funcaoConfianca', 'perfil']));
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => usuarioApi($this->usuario)
@@ -55,9 +54,7 @@ test('retorna o relacionamento se houver o eager load da propriedade e sem os li
             + ['cargo' => CargoOnlyResource::make($this->usuario->cargo)->resolve()]
             + ['funcao' => FuncaoOnlyResource::make($this->usuario->funcaoConfianca)->resolve()]
             + ['perfil' => PerfilOnlyResource::make($this->usuario->perfil)->resolve()]
-            + ['delegante' => UsuarioOnlyResource::make($this->usuario->delegante)->resolve()]
-            + ['perfil_antigo' => PerfilOnlyResource::make($this->usuario->perfilAntigo)->resolve()]
-            + ['links' => ['delegacao' => null]],
+            + ['links' => []],
     ]);
 });
 

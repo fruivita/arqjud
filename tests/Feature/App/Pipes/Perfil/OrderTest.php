@@ -61,7 +61,6 @@ test('com todas as ordenações específicas no perfil', function () {
         'slug' => 'asc',
         'poder' => 'asc',
         'usuarios_count' => 'desc',
-        'delegados_count' => 'desc',
     ]]);
 
     $query = Pipeline::make()

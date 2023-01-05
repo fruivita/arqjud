@@ -28,7 +28,6 @@ class PerfilEditResource extends JsonResource
                 'poder' => $this->poder,
                 'descricao' => $this->descricao,
                 'usuarios_count' => $this->whenCounted('usuarios'),
-                'delegados_count' => $this->whenCounted('delegados'),
                 'permissoes' => PermissaoOnlyResource::collection($this->whenLoaded('permissoes')),
                 'links' => [
                     'view' => $this->when(

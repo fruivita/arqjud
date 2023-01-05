@@ -16,7 +16,6 @@ use App\Pipes\Search;
 use App\Pipes\Usuario\AlterarPerfil;
 use App\Pipes\Usuario\JoinAll;
 use App\Pipes\Usuario\Order;
-use App\Pipes\Usuario\RevogarDelegacoes;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
@@ -44,7 +43,7 @@ class UsuarioController extends Controller
         return Inertia::render('Autorizacao/Usuario/Index', [
             'usuarios' => fn () => UsuarioCollection::make(
                 Pipeline::make()
-                    ->send(Usuario::select('usuarios.*')->with(['lotacao', 'cargo', 'funcaoConfianca', 'perfil', 'perfilAntigo', 'delegante']))
+                    ->send(Usuario::select('usuarios.*')->with(['lotacao', 'cargo', 'funcaoConfianca', 'perfil']))
                     ->through([JoinAll::class, Order::class, Search::class])
                     ->thenReturn()
                     ->paginate($this->perPage())
@@ -67,7 +66,7 @@ class UsuarioController extends Controller
 
         return Inertia::render('Autorizacao/Usuario/Edit', [
             'usuario' => fn () => UsuarioResource::make(
-                $usuario->load(['lotacao', 'cargo', 'funcaoConfianca', 'perfil', 'perfilAntigo', 'delegante'])
+                $usuario->load(['lotacao', 'cargo', 'funcaoConfianca', 'perfil'])
             ),
             'perfis' => fn () => PerfilOnlyResource::collection(Perfil::disponiveisParaAtribuicao()->orderBy('poder', 'desc')->get()),
         ]);
@@ -82,21 +81,10 @@ class UsuarioController extends Controller
      */
     public function update(UpdateUsuarioRequest $request, Usuario $usuario)
     {
-        $salvo = Pipeline::make()
-            ->withTransaction()
-            ->send($usuario)
-            ->through([
-                AlterarPerfil::class . ':' . $request->integer('perfil_id'),
-                RevogarDelegacoes::class,
-            ])->onFailure(function (mixed $dados, \Throwable $exception) {
-                Log::critical(__('Falha ao atualizar o usuário'), [
-                    'dados' => $dados,
-                    'exception' => $exception,
-                ]);
-
-                return false;
-            })
-            ->then(fn () => true);
+        $salvo = $usuario
+            ->perfil()
+            ->associate($request->integer('perfil_id'))
+            ->save();
 
         return back()->with($this->feedback($salvo));
     }

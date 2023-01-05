@@ -65,30 +65,3 @@ test('join da tabela perfis', function () {
 
     expect($usuario->first())->toBe($perfil->nome);
 });
-
-test('join da tabela usuários delegantes', function () {
-    $delegante = Usuario::factory()
-        ->hasDelegados(Usuario::factory())
-        ->create();
-
-    $usuario = Pipeline::make()
-        ->send(Usuario::query())
-        ->through([JoinAll::class])
-        ->thenReturn()
-        ->pluck('delegantes.username');
-
-    expect($usuario->filter()->first())->toBe($delegante->username);
-});
-
-test('join da tabela perfis perfis_antigos', function () {
-    $perfil_antigo = Perfil::factory()->create();
-    Usuario::factory()->for($perfil_antigo, 'perfilAntigo')->create();
-
-    $usuario = Pipeline::make()
-        ->send(Usuario::query())
-        ->through([JoinAll::class])
-        ->thenReturn()
-        ->pluck('perfis_antigos.nome');
-
-    expect($usuario->first())->toBe($perfil_antigo->nome);
-});

@@ -34,14 +34,10 @@ class UsuarioResource extends JsonResource
                 'cargo_id' => $this->cargo_id,
                 'funcao_confianca_id' => $this->funcao_confianca_id,
                 'perfil_id' => $this->perfil_id,
-                'perfil_concedido_por' => $this->perfil_concedido_por,
-                'antigo_perfil_id' => $this->antigo_perfil_id,
                 'lotacao' => LotacaoOnlyResource::make($this->whenLoaded('lotacao')),
                 'cargo' => CargoOnlyResource::make($this->whenLoaded('cargo')),
                 'funcao' => FuncaoOnlyResource::make($this->whenLoaded('funcaoConfianca')),
                 'perfil' => PerfilOnlyResource::make($this->whenLoaded('perfil')),
-                'delegante' => UsuarioOnlyResource::make($this->whenLoaded('delegante')),
-                'perfil_antigo' => PerfilOnlyResource::make($this->whenLoaded('perfilAntigo')),
                 'links' => [
                     'view' => $this->when(
                         auth()->user()->can(Policy::ViewOrUpdate->value, $this->resource),
@@ -50,13 +46,6 @@ class UsuarioResource extends JsonResource
                     'update' => $this->when(
                         auth()->user()->can(Policy::Update->value, $this->resource),
                         route('autorizacao.usuario.update', $this->id),
-                    ),
-                    'delegacao' => $this->when(
-                        auth()->user()->can(Policy::DelegacaoCreate->value, $this->resource),
-                        ['tipo' => 'delegar', 'url' => route('autorizacao.delegacao.store', $this->id)],
-                        auth()->user()->can(Policy::DelegacaoDelete->value, $this->resource)
-                            ? ['tipo' => 'revogar', 'url' => route('autorizacao.delegacao.destroy', $this->id)]
-                            : null
                     ),
                 ],
             ]

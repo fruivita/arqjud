@@ -14,7 +14,6 @@
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { perPageKey, updatePerPageKey } from '@/keys';
-import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
 import CheckBox from '@/Shared/Forms/CheckBox.vue';
@@ -55,9 +54,6 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     cargo: true,
     funcao: true,
     perfil: true,
-    delegante: true,
-    perfilAntigo: true,
-    delegacao: true,
     acao: true,
 });
 
@@ -76,19 +72,6 @@ const filtrar = () => {
         pickBy(
             merge({ termo: termo.value }, { order: ordenacoes.value }, { per_page: perPage.value })
         ),
-        {
-            preserveState: true,
-            preserveScroll: true,
-            replace: true,
-            only: ['usuarios'],
-        }
-    );
-};
-
-const delegacao = (url) => {
-    Inertia.patch(
-        url,
-        {},
         {
             preserveState: true,
             preserveScroll: true,
@@ -130,15 +113,6 @@ watch(perPage, filtrar);
                 />
 
                 <CheckBox v-model:checked="elementosVisiveis.perfil" :label="__('Perfil')" />
-
-                <CheckBox v-model:checked="elementosVisiveis.delegante" :label="__('Delegante')" />
-
-                <CheckBox
-                    v-model:checked="elementosVisiveis.perfilAntigo"
-                    :label="__('Perfil antigo')"
-                />
-
-                <CheckBox v-model:checked="elementosVisiveis.delegacao" :label="__('Delegação')" />
 
                 <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
@@ -203,22 +177,6 @@ watch(perPage, filtrar);
                         @ordenar="(direcao) => mudarOrdenacao('perfil_nome', direcao)"
                     />
 
-                    <HeadingOrdenavel
-                        v-show="elementosVisiveis.delegante"
-                        :ordenacao="ordenacoes.delegante_username"
-                        :texto="__('Delegante')"
-                        @ordenar="(direcao) => mudarOrdenacao('delegante_username', direcao)"
-                    />
-
-                    <HeadingOrdenavel
-                        v-show="elementosVisiveis.perfilAntigo"
-                        :ordenacao="ordenacoes.perfil_antigo_nome"
-                        :texto="__('Perfil Antigo')"
-                        @ordenar="(direcao) => mudarOrdenacao('perfil_antigo_nome', direcao)"
-                    />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Delegação')" />
-
                     <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
@@ -268,35 +226,6 @@ watch(perPage, filtrar);
                             <Cell v-show="elementosVisiveis.perfil">{{
                                 usuario.perfil?.nome
                             }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.delegante">
-                                <span>{{ usuario.delegante?.username }}</span>
-
-                                <Tooltip
-                                    v-if="usuario.delegante?.nome"
-                                    :texto="usuario.delegante?.nome"
-                                    class="ml-1"
-                                />
-                            </Cell>
-
-                            <Cell v-show="elementosVisiveis.perfilAntigo">{{
-                                usuario.perfil_antigo?.nome
-                            }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.delegacao">
-                                <ButtonText
-                                    v-if="usuario.links.delegacao"
-                                    :especie="
-                                        usuario.links.delegacao.tipo === __('delegar')
-                                            ? 'padrao'
-                                            : 'perigo'
-                                    "
-                                    :texto="usuario.links.delegacao.tipo"
-                                    @click="delegacao(usuario.links.delegacao.url)"
-                                    dusk="submit"
-                                    type="submit"
-                                />
-                            </Cell>
 
                             <Cell v-show="elementosVisiveis.acao" class="w-10">
                                 <div class="flex space-x-3">

@@ -98,14 +98,6 @@ test('um perfil possui muitos usuários', function () {
     expect($perfil->usuarios)->toHaveCount(3);
 });
 
-test('um perfil possui muitos delegados', function () {
-    Perfil::factory()->hasDelegados(3)->create();
-
-    $perfil = Perfil::with('delegados')->first();
-
-    expect($perfil->delegados)->toHaveCount(3);
-});
-
 test('perfil administrador possui suas permissões iniciais definidas', function () {
     $this->seed([
         PerfilSeeder::class,
@@ -122,8 +114,6 @@ test('perfil administrador possui suas permissões iniciais definidas', function
     expect($permissoes->toArray())->toMatchArray([
         Permissao::CONFIGURACAO_VIEW,
         Permissao::CONFIGURACAO_UPDATE,
-        Permissao::DELEGACAO_CREATE,
-        Permissao::DELEGACAO_DELETE,
         Permissao::IMPORTACAO_CREATE,
         Permissao::LOG_VIEW_ANY,
         Permissao::LOG_VIEW,

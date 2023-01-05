@@ -55,7 +55,6 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     slug: true,
     poder: true,
     usuarios: true,
-    delegados: true,
     acao: true,
 });
 
@@ -120,11 +119,6 @@ watch(perPage, filtrar);
                         :label="__('Qtd usuários')"
                     />
 
-                    <CheckBox
-                        v-model:checked="elementosVisiveis.delegados"
-                        :label="__('Qtd delegados')"
-                    />
-
                     <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
@@ -159,13 +153,6 @@ watch(perPage, filtrar);
                         @ordenar="(direcao) => mudarOrdenacao('usuarios_count', direcao)"
                     />
 
-                    <HeadingOrdenavel
-                        v-show="elementosVisiveis.delegados"
-                        :ordenacao="ordenacoes.delegados_count"
-                        :texto="__('Qtd delegados')"
-                        @ordenar="(direcao) => mudarOrdenacao('delegados_count', direcao)"
-                    />
-
                     <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
@@ -180,10 +167,6 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.usuarios">
                                 {{ perfil.usuarios_count }}
-                            </Cell>
-
-                            <Cell v-show="elementosVisiveis.delegados">
-                                {{ perfil.delegados_count }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.acao" class="w-10">

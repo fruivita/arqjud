@@ -27,7 +27,6 @@ class PerfilResource extends JsonResource
                 'poder' => $this->poder,
                 'descricao' => $this->descricao,
                 'usuarios_count' => $this->whenCounted('usuarios'),
-                'delegados_count' => $this->whenCounted('delegados'),
                 'links' => [
                     'view' => $this->when(
                         auth()->user()->can(Policy::ViewOrUpdate->value, Perfil::class),

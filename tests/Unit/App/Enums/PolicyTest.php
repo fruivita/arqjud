@@ -20,8 +20,6 @@ test('Policy enum corretamente definidos', function () {
         ->and(Policy::ExternoViewAny->value)->toBe('externoViewAny')
         ->and(Policy::ExternoCreate->value)->toBe('externoCreate')
         ->and(Policy::ExternoDelete->value)->toBe('externoDelete')
-        ->and(Policy::DelegacaoCreate->value)->toBe('delegacaoCreate')
-        ->and(Policy::DelegacaoDelete->value)->toBe('delegacaoDelete')
         ->and(Policy::ImportacaoCreate->value)->toBe('importacaoCreate')
         ->and(Policy::LogViewAny->value)->toBe('logViewAny')
         ->and(Policy::LogView->value)->toBe('logView')

@@ -10,7 +10,6 @@ use App\Http\Controllers\Atendimento\DevolverProcessoController;
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
 use App\Http\Controllers\Atendimento\SolicitacaoController;
-use App\Http\Controllers\Autorizacao\DelegacaoController;
 use App\Http\Controllers\Autorizacao\UsuarioController;
 use App\Http\Controllers\Cadastro\Andar\AndarController;
 use App\Http\Controllers\Cadastro\Caixa\CaixaController;
@@ -196,11 +195,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [UsuarioController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Usuario::class);
             Route::get('{usuario}/edit', [UsuarioController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, 'usuario');
             Route::patch('{usuario}', [UsuarioController::class, 'update'])->name('update')->can(Policy::Update->value, 'usuario');
-        });
-
-        Route::prefix('delegacao')->name('delegacao.')->group(function () {
-            Route::patch('delegar/{delegado}', [DelegacaoController::class, 'store'])->name('store')->can(Policy::DelegacaoCreate->value, 'delegado');
-            Route::patch('revogar/{delegado}', [DelegacaoController::class, 'destroy'])->name('destroy')->can(Policy::DelegacaoDelete->value, 'delegado');
         });
     });
 

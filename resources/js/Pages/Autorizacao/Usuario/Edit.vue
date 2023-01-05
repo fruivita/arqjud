@@ -10,7 +10,6 @@
 <script setup>
 import { flash } from '@/Composables/UseFlash';
 import Lotacao from '@/Models/Lotacao';
-import Usuario from '@/Models/Usuario';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -119,18 +118,6 @@ const completo = computed(() => props.usuario.data.status === __('completo'));
                             icone="award"
                             labelOpcao="nome"
                             required
-                        />
-
-                        <ChaveValor
-                            :chave="__('Delegante')"
-                            :valor="new Usuario(usuario.data.delegante?.nome).nomeExibicao()"
-                            icone="person-lines-fill"
-                        />
-
-                        <ChaveValor
-                            :chave="__('Perfil antigo')"
-                            :valor="usuario.data.perfil_antigo?.nome"
-                            icone="award"
                         />
                     </div>
 

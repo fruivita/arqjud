@@ -30,6 +30,7 @@ beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
     $this->usuario = Usuario::factory()->create();
+
     $this->usuario->loadMissing('lotacao');
     Auth::login($this->usuario);
 });

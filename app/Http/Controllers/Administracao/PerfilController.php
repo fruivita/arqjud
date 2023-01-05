@@ -42,7 +42,7 @@ class PerfilController extends Controller
         return Inertia::render('Administracao/Perfil/Index', [
             'perfis' => fn () => PerfilCollection::make(
                 Pipeline::make()
-                    ->send(Perfil::withCount(['usuarios', 'delegados']))
+                    ->send(Perfil::withCount(['usuarios']))
                     ->through([Order::class, Search::class])
                     ->thenReturn()
                     ->paginate($this->perPage())

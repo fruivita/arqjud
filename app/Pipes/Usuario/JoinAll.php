@@ -22,9 +22,7 @@ class JoinAll
             ->leftJoin('lotacoes', 'usuarios.lotacao_id', 'lotacoes.id')
             ->leftJoin('cargos', 'usuarios.cargo_id', 'cargos.id')
             ->leftJoin('funcoes_confianca', 'usuarios.funcao_confianca_id', 'funcoes_confianca.id')
-            ->leftJoin('perfis', 'usuarios.perfil_id', 'perfis.id')
-            ->leftJoin('usuarios AS delegantes', 'usuarios.perfil_concedido_por', 'delegantes.id')
-            ->leftJoin('perfis AS perfis_antigos', 'usuarios.antigo_perfil_id', 'perfis_antigos.id');
+            ->leftJoin('perfis', 'usuarios.perfil_id', 'perfis.id');
 
         return $next($query);
     }

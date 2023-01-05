@@ -42,7 +42,6 @@ class PermissaoSeeder extends Seeder
     private function todasPermissoes()
     {
         return $this->permissoesConfiguracao()
-            ->concat($this->permissoesDelegacao())
             ->concat($this->permissoesImportacao())
             ->concat($this->permissoesLog())
             ->concat($this->permissoesAtividade())
@@ -80,25 +79,6 @@ class PermissaoSeeder extends Seeder
                 'nome' => 'Configuração da aplicação: Atualizar',
                 'slug' => Permissao::CONFIGURACAO_UPDATE,
                 'descricao' => 'Permissão para atualizar as configurações da aplicação cadastradas.',
-            ],
-        ]);
-    }
-
-    /**
-     * @return \Illuminate\Support\LazyCollection
-     */
-    private function permissoesDelegacao()
-    {
-        return LazyCollection::make([
-            [
-                'nome' => 'Delegação: Criar',
-                'slug' => Permissao::DELEGACAO_CREATE,
-                'descricao' => 'Permissão para delegar o perfil (e suas permissões) para outro usuário de mesma lotação.',
-            ],
-            [
-                'nome' => 'Delegação: Excluir',
-                'slug' => Permissao::DELEGACAO_DELETE,
-                'descricao' => 'Permissão para remover uma delegação de perfil (e suas permissões) de qualquer usuário.',
             ],
         ]);
     }

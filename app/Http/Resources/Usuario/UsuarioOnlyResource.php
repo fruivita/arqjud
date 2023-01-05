@@ -33,14 +33,10 @@ class UsuarioOnlyResource extends JsonResource
                 'cargo_id' => $this->cargo_id,
                 'funcao_confianca_id' => $this->funcao_confianca_id,
                 'perfil_id' => $this->perfil_id,
-                'perfil_concedido_por' => $this->perfil_concedido_por,
-                'antigo_perfil_id' => $this->antigo_perfil_id,
                 'lotacao' => LotacaoOnlyResource::make($this->whenLoaded('lotacao')),
                 'cargo' => CargoOnlyResource::make($this->whenLoaded('cargo')),
                 'funcao' => FuncaoOnlyResource::make($this->whenLoaded('funcaoConfianca')),
                 'perfil' => PerfilOnlyResource::make($this->whenLoaded('perfil')),
-                'delegante' => UsuarioOnlyResource::make($this->whenLoaded('delegante')),
-                'perfil_antigo' => PerfilOnlyResource::make($this->whenLoaded('perfilAntigo')),
             ]
             : [];
     }

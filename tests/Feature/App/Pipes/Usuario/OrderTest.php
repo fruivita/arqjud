@@ -48,8 +48,6 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
     'cargo_nome',
     'funcao_nome',
     'perfil_nome',
-    'delegante_username',
-    'perfil_antigo_nome',
 ]);
 
 test('todas as ordenações possíveis no request do usuário', function () {
@@ -62,8 +60,6 @@ test('todas as ordenações possíveis no request do usuário', function () {
         'cargo_nome' => 'desc',
         'funcao_nome' => 'desc',
         'perfil_nome' => 'desc',
-        'delegante_username' => 'desc',
-        'perfil_antigo_nome' => 'desc',
     ]]);
 
     $query = Pipeline::make()

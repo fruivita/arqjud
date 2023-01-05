@@ -66,14 +66,6 @@ test('perfil com usuários não pode ser excluído, mesmo se o usuário tiver pe
     expect(Auth::user()->can(Policy::Delete->value, $perfil))->toBeFalse();
 });
 
-test('perfil com delegados não pode ser excluído, mesmo se o usuário tiver permissão', function () {
-    concederPermissao(Permissao::PERFIL_DELETE);
-
-    $perfil = Perfil::factory()->hasDelegados()->create();
-
-    expect(Auth::user()->can(Policy::Delete->value, $perfil))->toBeFalse();
-});
-
 // Caminho feliz
 test('usuário com permissão pode listar os perfis', function () {
     concederPermissao(Permissao::PERFIL_VIEW_ANY);
@@ -111,7 +103,7 @@ test('usuário com permissão pode atualizar um perfil por meio da policy viewOr
     expect(Auth::user()->can(Policy::ViewOrUpdate->value, Perfil::class))->toBeTrue();
 });
 
-test('usuário com permissão pode excluir um perfil sem usuários ou delegados', function () {
+test('usuário com permissão pode excluir um perfil sem usuários', function () {
     concederPermissao(Permissao::PERFIL_DELETE);
 
     $perfil = Perfil::factory()->create();

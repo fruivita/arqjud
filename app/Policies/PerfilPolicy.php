@@ -98,13 +98,6 @@ class PerfilPolicy
             return false;
         }
 
-        if (isset($perfil->delegados_count) !== true) {
-            $perfil->loadCount('delegados');
-        }
-        if ($perfil->delegados_count !== 0) {
-            return false;
-        }
-
         return true;
     }
 }

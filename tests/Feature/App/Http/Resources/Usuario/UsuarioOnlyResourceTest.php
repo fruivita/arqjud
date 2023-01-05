@@ -24,16 +24,14 @@ test('retorna os campos principais do modelo', function () {
 
 test('retorna o relacionamento se houver o eager load da propriedade', function () {
     $usuario = Usuario::factory()->completo()->create();
-    $resource = UsuarioOnlyResource::make($usuario->load(['cargo', 'lotacao', 'funcaoConfianca', 'perfil', 'delegante', 'perfilAntigo']));
+    $resource = UsuarioOnlyResource::make($usuario->load(['cargo', 'lotacao', 'funcaoConfianca', 'perfil']));
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => usuarioApi($usuario)
             + ['lotacao' => lotacaoApi($usuario->lotacao)]
             + ['cargo' => CargoOnlyResource::make($usuario->cargo)->resolve()]
             + ['funcao' => FuncaoOnlyResource::make($usuario->funcaoConfianca)->resolve()]
-            + ['perfil' => PerfilOnlyResource::make($usuario->perfil)->resolve()]
-            + ['delegante' => UsuarioOnlyResource::make($usuario->delegante)->resolve()]
-            + ['perfil_antigo' => PerfilOnlyResource::make($usuario->perfilAntigo)->resolve()],
+            + ['perfil' => PerfilOnlyResource::make($usuario->perfil)->resolve()],
     ]);
 });
 

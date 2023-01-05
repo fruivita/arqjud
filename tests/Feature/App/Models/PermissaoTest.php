@@ -50,8 +50,6 @@ test('aceita campos em seus tamanhos máximos', function () {
 test('slugs das permissões estão definidas', function () {
     expect(Permissao::CONFIGURACAO_VIEW)->toBe('configuracao_view')
         ->and(Permissao::CONFIGURACAO_UPDATE)->toBe('configuracao_update')
-        ->and(Permissao::DELEGACAO_CREATE)->toBe('delegacao_create')
-        ->and(Permissao::DELEGACAO_DELETE)->toBe('delegacao_delete')
         ->and(Permissao::IMPORTACAO_CREATE)->toBe('importacao_create')
         ->and(Permissao::LOG_VIEW_ANY)->toBe('log_view_any')
         ->and(Permissao::LOG_VIEW)->toBe('log_view')

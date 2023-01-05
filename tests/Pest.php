@@ -249,8 +249,6 @@ function usuarioApi(Usuario $usuario)
         'status' => $usuario->habilitado() ? __('completo') : __('incompleto'),
         'funcao_confianca_id' => $usuario->funcao_confianca_id,
         'perfil_id' => $usuario->perfil_id,
-        'perfil_concedido_por' => $usuario->perfil_concedido_por,
-        'antigo_perfil_id' => $usuario->antigo_perfil_id,
         'lotacao_id' => $usuario->lotacao_id,
         'cargo_id' => $usuario->cargo_id,
     ];

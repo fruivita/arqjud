@@ -33,11 +33,7 @@ class ResetarPerfis
             Usuario::query()
                 ->whereBelongsTo($lotacao, 'lotacao')
                 ->whereNot('perfil_id', $perfis->firstWhere('slug', Perfil::ADMINISTRADOR)->id)
-                ->update([
-                    'perfil_id' => $perfis->firstWhere('slug', Perfil::PADRAO)->id,
-                    'perfil_concedido_por' => null,
-                    'antigo_perfil_id' => null,
-                ]);
+                ->update(['perfil_id' => $perfis->firstWhere('slug', Perfil::PADRAO)->id]);
         }
 
         return $next($lotacao);

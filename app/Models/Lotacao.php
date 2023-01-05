@@ -18,6 +18,42 @@ class Lotacao extends LotacaoCorporativo
     ];
 
     /**
+     * Relacionamento lotação filha (N:1) lotação pai.
+     *
+     * Lotação pai de uma determinada lotação.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function lotacaoPai()
+    {
+        return $this->belongsTo(Lotacao::class, 'lotacao_pai', 'id');
+    }
+
+    /**
+     * Relacionamento lotação pai (1:N) lotações filhas.
+     *
+     * Lotações filhas de uma determinada lotação.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function lotacoesFilhas()
+    {
+        return $this->hasMany(Lotacao::class, 'lotacao_pai', 'id');
+    }
+
+    /**
+     * Relacionamento lotação (1:N) usuario.
+     *
+     * Usuários lotados em uma determinada lotação.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function usuarios()
+    {
+        return $this->hasMany(Usuario::class, 'lotacao_id', 'id');
+    }
+
+    /**
      * Relacionamento lotação destinatária (1:N) solicitações.
      *
      * Solicitações de processo destinados à lotação.

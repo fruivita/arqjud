@@ -38,8 +38,6 @@ class UsuarioFactory extends Factory
                 'domain' => fake()->domainName(),
                 'perfil_id' => Perfil::factory(),
                 'lotacao_id' => Lotacao::factory(),
-                'perfil_concedido_por' => null,
-                'antigo_perfil_id' => null,
             ]
         );
     }
@@ -70,8 +68,6 @@ class UsuarioFactory extends Factory
                 'cargo_id' => Cargo::factory(),
                 'lotacao_id' => Lotacao::factory(),
                 'funcao_confianca_id' => FuncaoConfianca::factory(),
-                'perfil_concedido_por' => Usuario::factory(),
-                'antigo_perfil_id' => Perfil::factory(),
             ];
         });
     }

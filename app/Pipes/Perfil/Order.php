@@ -70,18 +70,4 @@ class Order extends OrderBase
 
         $query->orderBy('usuarios_count', $direcao);
     }
-
-    /**
-     * Aplica a ordenação pela quantidade de delegados do perfil.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $direcao asc ou desc
-     * @return void
-     */
-    protected function delegadosCount(Builder $query, string $direcao)
-    {
-        $direcao = ascOrDesc($direcao);
-
-        $query->orderBy('delegados_count', $direcao);
-    }
 }

@@ -52,10 +52,10 @@ test('retorna os relacionamentos se houver o eager load da propriedade', functio
 });
 
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
-    $resource = PerfilEditResource::make($this->perfil->loadCount(['usuarios', 'delegados']));
+    $resource = PerfilEditResource::make($this->perfil->loadCount(['usuarios']));
 
     expect($resource->response()->getData(true))->toMatchArray([
-        'data' => $this->perfil->only(['id', 'nome', 'slug', 'poder', 'descricao', 'usuarios_count', 'delegados_count'])
+        'data' => $this->perfil->only(['id', 'nome', 'slug', 'poder', 'descricao', 'usuarios_count'])
             + ['links' => []],
     ]);
 });

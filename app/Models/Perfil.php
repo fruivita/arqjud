@@ -50,16 +50,6 @@ class Perfil extends Model
     }
 
     /**
-     * Relacionamento perfil (1:N) delegados.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function delegados()
-    {
-        return $this->hasMany(Usuario::class, 'antigo_perfil_id', 'id');
-    }
-
-    /**
      * Perfis disponíveis para atribuir a outro usuário.
      *
      * Os perfis disponíveis dependem do perfil do usuário autenticado, visto

@@ -28,6 +28,42 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     ];
 
     /**
+     * Relacionamento usuário (N:1) lotação.
+     *
+     * Lotação de determinado usuário.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function lotacao()
+    {
+        return $this->belongsTo(Lotacao::class, 'lotacao_id', 'id');
+    }
+
+    /**
+     * Relacionamento usuário (N:1) cargo.
+     *
+     * Cargo de determinado usuário.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function cargo()
+    {
+        return $this->belongsTo(Cargo::class, 'cargo_id', 'id');
+    }
+
+    /**
+     * Função de confiança de determinado usuário.
+     *
+     * Relacionamento usuário (N:1) função de confiança.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function funcaoConfianca()
+    {
+        return $this->belongsTo(FuncaoConfianca::class, 'funcao_confianca_id', 'id');
+    }
+
+    /**
      * Relacionamento usuário (N:1) perfil.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -35,43 +71,6 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     public function perfil()
     {
         return $this->belongsTo(Perfil::class, 'perfil_id', 'id');
-    }
-
-    /**
-     * Perfil antigo do usuário, isto é, antes da delagação. Útil para retornar
-     * o usuário ao seu antigo perfil.
-     *
-     * Relacionamento usuário (N:1) perfil.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function perfilAntigo()
-    {
-        return $this->belongsTo(Perfil::class, 'antigo_perfil_id', 'id');
-    }
-
-    /**
-     * Usuário que delegou a permissão para outro.
-     *
-     * Relacionamento usuário delegante (N:1) usuário delegado.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function delegante()
-    {
-        return $this->belongsTo(Usuario::class, 'perfil_concedido_por', 'id');
-    }
-
-    /**
-     * Usuários com perfil delegado por outro.
-     *
-     * Relacionamento usuário delegante (1:N) usuário delegados.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function delegados()
-    {
-        return $this->hasMany(Usuario::class, 'perfil_concedido_por', 'id');
     }
 
     /**
@@ -200,28 +199,6 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     }
 
     /**
-     * Determinada se o perfil do usuário foi obtido por delegação.
-     *
-     * @return bool
-     */
-    public function perfilDelegado()
-    {
-        return !empty($this->perfil_concedido_por)
-            && !empty($this->antigo_perfil_id);
-    }
-
-    /**
-     * Determinada se o perfil do usuário foi originalmente concedido.
-     *
-     * @return bool
-     */
-    public function perfilOriginal()
-    {
-        return empty($this->perfil_concedido_por)
-            && empty($this->antigo_perfil_id);
-    }
-
-    /**
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
@@ -242,10 +219,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
                 ->orWhere('lotacoes.nome', 'like', $termo)
                 ->orWhere('cargos.nome', 'like', $termo)
                 ->orWhere('funcoes_confianca.nome', 'like', $termo)
-                ->orWhere('perfis.nome', 'like', $termo)
-                ->orWhere('delegantes.username', 'like', $termo)
-                ->orWhere('delegantes.nome', 'like', $termo)
-                ->orWhere('perfis_antigos.nome', 'like', $termo);
+                ->orWhere('perfis.nome', 'like', $termo);
         });
     }
 
@@ -266,40 +240,5 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
         return
             empty($usuario->perfil)
             || $this->perfil->poder > $usuario->perfil->poder;
-    }
-
-    /**
-     * Delega o perfil para o usuário informado.
-     *
-     * @param  \App\Models\Usuario  $delegado
-     * @return bool
-     */
-    public function delegar(Usuario $delegado)
-    {
-        $delegado
-            ->delegante()
-            ->associate($this);
-        $delegado
-            ->perfilAntigo()
-            ->associate($delegado->perfil);
-        $delegado
-            ->perfil()
-            ->associate($this->perfil);
-
-        return $delegado->save();
-    }
-
-    /**
-     * Revoga a delegação e restaura o perfil antigo do usuário.
-     *
-     * @return bool
-     */
-    public function revogarDelegacao()
-    {
-        return $this
-            ->perfil()->associate($this->antigo_perfil_id)
-            ->perfilAntigo()->dissociate()
-            ->delegante()->dissociate()
-            ->save();
     }
 }

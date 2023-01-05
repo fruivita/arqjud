@@ -1,2 +1,2 @@
-- 'select * from `perfis` order by `nome` asc, `slug` asc, `poder` asc, `usuarios_count` desc, `delegados_count` desc, `poder` desc'
+- 'select * from `perfis` order by `nome` asc, `slug` asc, `poder` asc, `usuarios_count` desc, `poder` desc'
 - {  }

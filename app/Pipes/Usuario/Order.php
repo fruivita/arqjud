@@ -123,32 +123,4 @@ class Order extends OrderBase
 
         $query->orderBy('perfis.nome', $direcao);
     }
-
-    /**
-     * Aplica a ordenação pelo username do delegante.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $direcao asc ou desc
-     * @return void
-     */
-    protected function deleganteUsername(Builder $query, string $direcao)
-    {
-        $direcao = ascOrDesc($direcao);
-
-        $query->orderBy('delegantes.username', $direcao);
-    }
-
-    /**
-     * Aplica a ordenação pelo nome do perfil antigo.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $direcao asc ou desc
-     * @return void
-     */
-    protected function perfilAntigoNome(Builder $query, string $direcao)
-    {
-        $direcao = ascOrDesc($direcao);
-
-        $query->orderBy('perfis_antigos.nome', $direcao);
-    }
 }

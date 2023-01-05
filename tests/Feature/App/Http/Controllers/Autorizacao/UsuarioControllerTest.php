@@ -13,7 +13,6 @@ use App\Http\Resources\Usuario\UsuarioResource;
 use App\Models\Perfil;
 use App\Models\Permissao;
 use App\Models\Usuario;
-use App\Pipes\Usuario\RevogarDelegacoes;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -81,7 +80,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Autorizacao/Usuario/Edit')
-                ->where('usuario', UsuarioResource::make($usuario->load(['lotacao', 'cargo', 'funcaoConfianca', 'perfil', 'delegante', 'perfilAntigo']))->response()->getData(true))
+                ->where('usuario', UsuarioResource::make($usuario->load(['lotacao', 'cargo', 'funcaoConfianca', 'perfil']))->response()->getData(true))
                 ->has('perfis.data', Perfil::disponiveisParaAtribuicao()->count())
         );
 });
@@ -98,20 +97,11 @@ test('action edit também é executável com permissão de visualização', func
         );
 });
 
-test('atualiza um usuário e remove suas delegações', function () {
+test('atualiza o perfil de um usuário', function () {
     $perfis = Perfil::all();
-
-    $this->usuario->perfil_id = $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id;
-    $this->usuario->save();
     concederPermissao(Permissao::USUARIO_UPDATE);
 
     $usuario = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::PADRAO)->id]);
-
-    $delegado = Usuario::factory()->create([
-        'perfil_id' => $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id,
-        'perfil_concedido_por' => $usuario->id,
-        'antigo_perfil_id' => $perfis->firstWhere('slug', Perfil::OPERADOR)->id,
-    ]);
 
     patch(route('autorizacao.usuario.update', $usuario), [
         'perfil_id' => $perfis->firstWhere('slug', Perfil::OPERADOR)->id,
@@ -120,64 +110,8 @@ test('atualiza um usuário e remove suas delegações', function () {
         ->assertSessionHas('feedback.sucesso');
 
     $usuario->refresh();
-    $delegado->refresh();
 
-    expect($usuario->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::OPERADOR)->id)
-        ->and($delegado->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::OPERADOR)->id)
-        ->and($usuario->perfil_concedido_por)->toBeNull()
-        ->and($usuario->antigo_perfil_id)->toBeNull();
-});
-
-test('registra o log em caso de falha na atualização do usuário', function () {
-    $perfis = Perfil::all();
-    $this->usuario->perfil_id = $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id;
-    $this->usuario->save();
-
-    concederPermissao(Permissao::USUARIO_UPDATE);
-
-    $usuario = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::PADRAO)->id]);
-
-    $this->partialMock(RevogarDelegacoes::class)
-        ->shouldReceive('handle')
-        ->andThrow(\Exception::class)
-        ->once();
-
-    Log::spy();
-
-    patch(route('autorizacao.usuario.update', $usuario), [
-        'perfil_id' => $perfis->firstWhere('slug', Perfil::OPERADOR)->id,
-    ])
-        ->assertRedirect()
-        ->assertSessionHas('feedback.erro');
-
-    Log::shouldHaveReceived('critical')
-        ->withArgs(fn ($message) => $message === __('Falha ao atualizar o usuário'))
-        ->once();
-});
-
-test('atualização do usuário está protegida por transaction', function () {
-    $perfis = Perfil::all();
-    $this->usuario->perfil_id = $perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id;
-    $this->usuario->save();
-
-    concederPermissao(Permissao::USUARIO_UPDATE);
-
-    $usuario = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::PADRAO)->id]);
-
-    $this->partialMock(RevogarDelegacoes::class)
-        ->shouldReceive('handle')
-        ->andThrow(\Exception::class)
-        ->once();
-
-    $database = DB::spy();
-
-    (new UsuarioController())->update(new UpdateUsuarioRequest([
-        'perfil_id' => $perfis->firstWhere('slug', Perfil::OPERADOR)->id,
-    ]), $usuario);
-
-    $database->shouldHaveReceived('beginTransaction')->once();
-    $database->shouldHaveReceived('rollBack')->once();
-    $database->shouldNotReceive('commit');
+    expect($usuario->perfil_id)->toBe($perfis->firstWhere('slug', Perfil::OPERADOR)->id);
 });
 
 test('UsuarioController usa trait', function () {

@@ -25,8 +25,6 @@ return new class extends Migration
             $table->unsignedBigInteger('cargo_id')->nullable();
             $table->unsignedBigInteger('funcao_confianca_id')->nullable();
             $table->unsignedBigInteger('perfil_id')->nullable();
-            $table->unsignedBigInteger('perfil_concedido_por')->nullable();
-            $table->unsignedBigInteger('antigo_perfil_id')->nullable();
             $table->string('matricula', 20)->unique()->nullable();
             $table->string('username', 20)->unique();
             $table->string('email', 255)->unique()->nullable();
@@ -57,18 +55,6 @@ return new class extends Migration
 
             $table
                 ->foreign('perfil_id')
-                ->references('id')
-                ->on('perfis')
-                ->onUpdate('cascade');
-
-            $table
-                ->foreign('perfil_concedido_por')
-                ->references('id')
-                ->on('usuarios')
-                ->onUpdate('cascade');
-
-            $table
-                ->foreign('antigo_perfil_id')
                 ->references('id')
                 ->on('perfis')
                 ->onUpdate('cascade');
