@@ -8,6 +8,7 @@ use App\Models\Caixa;
 use App\Models\Estante;
 use App\Models\Guia;
 use App\Models\Localidade;
+use App\Models\Lotacao;
 use App\Models\Perfil;
 use App\Models\Permissao;
 use App\Models\Prateleira;
