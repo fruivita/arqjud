@@ -60,6 +60,7 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
     [Permissao::USUARIO_VIEW_ANY, fn () => __('Autorizações'), 'people', fn () => route('autorizacao.usuario.index'), fn () => __('Usuários')],
     [Permissao::PERFIL_VIEW_ANY, fn () => __('Administração'), 'award', fn () => route('administracao.perfil.index'), fn () => __('Perfis')],
     [Permissao::PERMISSAO_VIEW_ANY, fn () => __('Administração'), 'vector-pen', fn () => route('administracao.permissao.index'), fn () => __('Permissões')],
+    [Permissao::LOTACAO_VIEW_ANY, fn () => __('Administração'), 'buildings', fn () => route('administracao.lotacao.index'), fn () => __('Lotações')],
     [Permissao::IMPORTACAO_CREATE, fn () => __('Administração'), 'usb-drive', fn () => route('administracao.importacao.create'), fn () => __('Importar dados')],
     [Permissao::LOG_VIEW_ANY, fn () => __('Administração'), 'file-earmark-text', fn () => route('administracao.log.index'), fn () => __('Logs de funcionamento')],
 ]);
@@ -103,7 +104,7 @@ test('administrador tem acesso a todos os itens do menu', function () {
         ->and($menu[4]['nome'])->toBe(__('Autorizações'))
         ->and($menu[4]['links'])->toHaveCount(1)
         ->and($menu[5]['nome'])->toBe(__('Administração'))
-        ->and($menu[5]['links'])->toHaveCount(4);
+        ->and($menu[5]['links'])->toHaveCount(5);
 });
 
 test('identifica o menu ativo corretamente', function (string $rota, string $menu_ativo) {
@@ -141,6 +142,7 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
     ['autorizacao.usuario.index', 'autorizacao.usuario.index'],
     ['administracao.perfil.index', 'administracao.perfil.index'],
     ['administracao.permissao.index', 'administracao.permissao.index'],
+    ['administracao.lotacao.index', 'administracao.lotacao.index'],
     ['administracao.importacao.create', 'administracao.importacao.create'],
     ['administracao.log.index', 'administracao.log.index'],
 ]);

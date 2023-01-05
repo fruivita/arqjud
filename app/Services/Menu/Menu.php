@@ -299,6 +299,15 @@ final class Menu implements MenuInterface
                 ])
             )
             ->when(
+                auth()->user()->can(Policy::ViewAny->value, Lotacao::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'buildings',
+                    'href' => route('administracao.lotacao.index'),
+                    'texto' => __('Lotações'),
+                    'ativo' => Route::is('administracao.lotacao.*'),
+                ])
+            )
+            ->when(
                 auth()->user()->can(Policy::ImportacaoCreate->value),
                 fn ($collection) => $collection->push([
                     'icone' => 'usb-drive',
