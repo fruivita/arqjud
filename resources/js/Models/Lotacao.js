@@ -3,6 +3,8 @@
  * side.
  */
 
+import { useTranslationsStore } from '@/Stores/TranslationsStore';
+
 class Lotacao {
     constructor(attributes = {}) {
         Object.assign(this, attributes);
@@ -25,6 +27,17 @@ class Lotacao {
         }
 
         return exibir;
+    }
+
+    /**
+     * String para exibição se a lotação é ou não administrável.
+     *
+     * @return {String}
+     */
+    eAdministravel() {
+        const __ = useTranslationsStore().__;
+
+        return this.administravel ? __('Sim') : __('Não');
     }
 }
 
