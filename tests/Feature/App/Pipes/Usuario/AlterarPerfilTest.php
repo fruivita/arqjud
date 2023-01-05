@@ -37,7 +37,7 @@ test('lança exception caso o perfil do usuário alvo seja maior que o do usuár
     $expection = Pipeline::make()
         ->send($usuario)
         ->through([AlterarPerfil::class . ':' . $this->perfis->firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id])
-        ->onFailure(fn (Usuario $data, \Throwable $expection) => $expection)
+        ->onFailure(fn ($data, \Throwable $expection) => $expection)
         ->thenReturn();
 
     $usuario->refresh();
@@ -56,7 +56,7 @@ test('lança exception caso o perfil desejado para o usuário alvo seja maior qu
     $expection = Pipeline::make()
         ->send($usuario)
         ->through([AlterarPerfil::class . ':' . $this->perfis->firstWhere('slug', Perfil::ADMINISTRADOR)->id])
-        ->onFailure(fn (Usuario $data, \Throwable $expection) => $expection)
+        ->onFailure(fn ($data, \Throwable $expection) => $expection)
         ->thenReturn();
 
     $usuario->refresh();
@@ -85,3 +85,16 @@ test('altera o perfil do usuário para perfil no máximo igual ao do usuário au
     Perfil::OBSERVADOR,
     Perfil::PADRAO,
 ]);
+
+test('perfil inicial do usuário pode ser nulo', function () {
+    $usuario = Usuario::factory()->create(['perfil_id' => null]);
+
+    Pipeline::make()
+        ->send($usuario)
+        ->through([AlterarPerfil::class . ':' . $this->perfis->firstWhere('slug', Perfil::OPERADOR)->id])
+        ->thenReturn();
+
+    $usuario->refresh();
+
+    expect($usuario->perfil_id)->toBe($this->perfis->firstWhere('slug', Perfil::OPERADOR)->id);
+});

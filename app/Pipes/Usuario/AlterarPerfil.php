@@ -33,7 +33,7 @@ class AlterarPerfil
         $perfil_autenticado = Perfil::find(auth()->user()->perfil_id);
 
         throw_if(
-            $perfil_autenticado->poder < $perfil_inicial->poder
+            ($perfil_inicial && ($perfil_autenticado->poder < $perfil_inicial->poder))
                 || $perfil_autenticado->poder < $perfil_final->poder,
             \RuntimeException::class,
             __('Tentativa de alteração de perfil superior')
