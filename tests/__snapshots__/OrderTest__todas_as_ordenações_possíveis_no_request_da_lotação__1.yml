@@ -1,0 +1,2 @@
+- 'select * from `lotacoes` left join `lotacoes` as `lotacoes_pai` on `lotacoes_pai`.`id` = `lotacoes`.`lotacao_pai` order by `nome` asc, `sigla` asc, `administravel` asc, `lotacoes_pai`.`nome` desc, `lotacoes_pai`.`sigla` desc, `usuarios_count` desc, `id` desc'
+- {  }
