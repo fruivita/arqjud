@@ -61,3 +61,10 @@ test('retorna as lotações pelo escopo search que busca a partir do início do 
     ['aaaa', 2 + 1],
     ['gggg', 3 + 1],
 ]);
+
+test('método administraveis retorna todas as lotações administráveis', function () {
+    Lotacao::factory(2)->create(['administravel' => false]);
+    Lotacao::factory(5)->create(['administravel' => true]);
+
+    expect(Lotacao::administraveis())->toHaveCount(5);
+});

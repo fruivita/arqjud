@@ -84,4 +84,16 @@ class Lotacao extends LotacaoCorporativo
                 ->orWhere('lotacoes_pai.nome', 'like', $termo);
         });
     }
+
+    /**
+     * Lotações administraveis.
+     *
+     * @return \Illuminate\Support\LazyCollection
+     */
+    public static function administraveis()
+    {
+        return once(function () {
+            return self::where('administravel', true)->get();
+        });
+    }
 }
