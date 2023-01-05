@@ -67,6 +67,7 @@ parameters:
   - App\Http\Resources\Guia\GuiaOnlyResource
   - App\Http\Resources\Guia\GuiaResource
   - App\Http\Resources\Funcao\FuncaoOnlyResource
+  - App\Http\Resources\Lotacao\LotacaoResource
   - App\Http\Resources\Perfil\PerfilOnlyResource
   - App\Http\Resources\Usuario\UsuarioOnlyResource
   - App\Http\Resources\Usuario\UsuarioResource
