@@ -313,3 +313,10 @@ test('método perfilSuperior identifica se o perfil de um usuário é superior a
     [499, false],
     [501, true],
 ]);
+
+test('pertenceLotacaoAdministravel informa se o usuário está lotado em uma lotação administrável', function (bool $administravel) {
+
+    $usuario = Usuario::factory()->for(Lotacao::factory(['administravel' => $administravel]), 'lotacao')->create();
+
+    expect($usuario->pertenceLotacaoAdministravel())->toBe($administravel);
+})->with([true, false]);

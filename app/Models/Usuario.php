@@ -153,6 +153,16 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     }
 
     /**
+     * Verifica se o usuário pertence a uma lotação administrável.
+     *
+     * @return bool
+     */
+    public function pertenceLotacaoAdministravel()
+    {
+        return Lotacao::administraveis()->contains(fn (Lotacao $lotacao) => $lotacao->id === $this->lotacao_id);
+    }
+
+    /**
      * Usuários com o perfil operador.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
