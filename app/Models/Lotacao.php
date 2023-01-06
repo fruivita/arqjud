@@ -88,7 +88,7 @@ class Lotacao extends LotacaoCorporativo
     /**
      * Lotações administraveis.
      *
-     * @return \Illuminate\Support\LazyCollection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public static function administraveis()
     {

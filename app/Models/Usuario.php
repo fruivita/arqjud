@@ -159,7 +159,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
      */
     public function pertenceLotacaoAdministravel()
     {
-        return Lotacao::administraveis()->contains(fn (Lotacao $lotacao) => $lotacao->id === $this->lotacao_id);
+        return Lotacao::administraveis()->contains('id', $this->lotacao_id);
     }
 
     /**
