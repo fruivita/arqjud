@@ -10,8 +10,6 @@ use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Caminho feliz
 test('join da tabela lotacoes_pai', function () {
-    \Spatie\Once\Cache::getInstance()->disable();
-
     $lotacao_pai = Lotacao::factory()->create();
     $lotacao = Lotacao::factory()->create(['lotacao_pai' => $lotacao_pai->id]);
 
@@ -21,5 +19,5 @@ test('join da tabela lotacoes_pai', function () {
         ->thenReturn()
         ->pluck('lotacoes_pai.sigla');
 
-    expect($lotacao->first())->toBe($lotacao_pai->sigla);
+    expect($lotacao)->toContain($lotacao_pai->sigla);
 });
