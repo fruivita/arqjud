@@ -7,6 +7,7 @@
  */
 
 use App\Http\Requests\Autorizacao\UpdateUsuarioRequest;
+use App\Models\Lotacao;
 use App\Models\Permissao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
@@ -16,7 +17,7 @@ use Illuminate\Validation\Rule;
 beforeEach(function () {
     $this->request = new UpdateUsuarioRequest();
 
-    $this->request->usuario = Usuario::factory()->create();
+    $this->request->usuario = Usuario::factory()->for(Lotacao::factory(['administravel' => true]))->create();
 });
 
 // Autorização
