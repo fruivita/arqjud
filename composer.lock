@@ -317,16 +317,16 @@
         },
         {
             "name": "directorytree/ldaprecord",
-            "version": "v2.19.1",
+            "version": "v2.19.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DirectoryTree/LdapRecord.git",
-                "reference": "e6898e9eb191afa7cd3fd452261722189ad44979"
+                "reference": "c0b468f3ac56656c9dba012cc88f8336f9ee359c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DirectoryTree/LdapRecord/zipball/e6898e9eb191afa7cd3fd452261722189ad44979",
-                "reference": "e6898e9eb191afa7cd3fd452261722189ad44979",
+                "url": "https://api.github.com/repos/DirectoryTree/LdapRecord/zipball/c0b468f3ac56656c9dba012cc88f8336f9ee359c",
+                "reference": "c0b468f3ac56656c9dba012cc88f8336f9ee359c",
                 "shasum": ""
             },
             "require": {
@@ -387,7 +387,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-02T17:38:06+00:00"
+            "time": "2023-01-05T15:31:30+00:00"
         },
         {
             "name": "directorytree/ldaprecord-laravel",
@@ -8783,16 +8783,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.9.6",
+            "version": "1.9.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "ef38a25950e5d0e6c95eedf49d8a784272f8dc5e"
+                "reference": "0501435cd342eac7664bd62155b1ef907fc60b6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ef38a25950e5d0e6c95eedf49d8a784272f8dc5e",
-                "reference": "ef38a25950e5d0e6c95eedf49d8a784272f8dc5e",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0501435cd342eac7664bd62155b1ef907fc60b6f",
+                "reference": "0501435cd342eac7664bd62155b1ef907fc60b6f",
                 "shasum": ""
             },
             "require": {
@@ -8822,7 +8822,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.9.6"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.7"
             },
             "funding": [
                 {
@@ -8838,7 +8838,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-03T13:40:32+00:00"
+            "time": "2023-01-04T21:59:57+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
