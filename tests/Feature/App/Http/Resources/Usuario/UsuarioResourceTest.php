@@ -9,6 +9,7 @@ use App\Http\Resources\Cargo\CargoOnlyResource;
 use App\Http\Resources\Funcao\FuncaoOnlyResource;
 use App\Http\Resources\Perfil\PerfilOnlyResource;
 use App\Http\Resources\Usuario\UsuarioResource;
+use App\Models\Lotacao;
 use App\Models\Permissao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
@@ -16,11 +17,14 @@ use Illuminate\Support\Facades\Auth;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
+    \Spatie\Once\Cache::getInstance()->disable();
 
     $usuario = Usuario::factory()->create();
     Auth::login($usuario);
 
-    $this->usuario = Usuario::factory()->completo()->create();
+    $this->usuario = Usuario::factory()->completo()->create([
+        'lotacao_id' => Lotacao::factory()->create(['administravel' => true]),
+    ]);
 });
 
 afterEach(function () {

@@ -10,6 +10,7 @@
 use App\Http\Controllers\Autorizacao\UsuarioController;
 use App\Http\Requests\Autorizacao\UpdateUsuarioRequest;
 use App\Http\Resources\Usuario\UsuarioResource;
+use App\Models\Lotacao;
 use App\Models\Perfil;
 use App\Models\Permissao;
 use App\Models\Usuario;
@@ -21,6 +22,7 @@ use function Pest\Laravel\patch;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
+    \Spatie\Once\Cache::getInstance()->disable();
 
     $this->usuario = Usuario::factory()->create();
     Auth::login($this->usuario);
@@ -71,7 +73,9 @@ test('action index compartilha os dados esperados com a view/componente correto'
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::USUARIO_UPDATE);
 
-    $usuario = Usuario::factory()->completo()->create();
+    $usuario = Usuario::factory()
+        ->for(Lotacao::factory(['administravel' => true]))
+        ->create();
 
     get(route('autorizacao.usuario.edit', $usuario))
         ->assertOk()
@@ -86,7 +90,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 test('action edit também é executável com permissão de visualização', function () {
     concederPermissao(Permissao::USUARIO_VIEW);
 
-    $usuario = Usuario::factory()->completo()->create();
+    $usuario = Usuario::factory()->create();
 
     get(route('autorizacao.usuario.edit', $usuario))
         ->assertOk()
@@ -99,7 +103,10 @@ test('atualiza o perfil de um usuário', function () {
     $perfis = Perfil::all();
     concederPermissao(Permissao::USUARIO_UPDATE);
 
-    $usuario = Usuario::factory()->create(['perfil_id' => $perfis->firstWhere('slug', Perfil::PADRAO)->id]);
+    $usuario = Usuario::factory()
+        ->for($perfis->firstWhere('slug', Perfil::PADRAO), 'perfil')
+        ->for(Lotacao::factory(['administravel' => true]))
+        ->create();
 
     patch(route('autorizacao.usuario.update', $usuario), [
         'perfil_id' => $perfis->firstWhere('slug', Perfil::OPERADOR)->id,
