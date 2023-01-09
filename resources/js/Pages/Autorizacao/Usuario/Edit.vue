@@ -10,6 +10,7 @@
 <script setup>
 import { flash } from '@/Composables/UseFlash';
 import Lotacao from '@/Models/Lotacao';
+import Usuario from '@/Models/Usuario';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -89,6 +90,12 @@ const completo = computed(() => props.usuario.data.status === __('completo'));
                             :chave="__('Email')"
                             :valor="usuario.data.email"
                             icone="envelope"
+                        />
+
+                        <ChaveValor
+                            :chave="__('Último login')"
+                            :valor="new Usuario(usuario.data).ultimoLogin()"
+                            icone="clock"
                         />
 
                         <ChaveValor
