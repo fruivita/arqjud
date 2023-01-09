@@ -12,6 +12,7 @@ use Database\Seeders\PerfilSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
+use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
@@ -119,6 +120,20 @@ test('perfil "Padrão" (perfil padrão para novos usuários) é o atribuído ao 
     $usuario = Usuario::with('perfil')->first();
 
     expect($usuario->perfil->slug)->toBe(Perfil::PADRAO);
+
+    logout();
+});
+
+test('registra o horário da autenticação bem como o ip do cliente', function () {
+    testTime()->freeze();
+    login();
+
+    $this
+        ->assertDatabaseCount('usuarios', 1)
+        ->assertDatabaseHas('usuarios', [
+            'ip' => request()->ip(),
+            'ultimo_login' => now(),
+        ]);
 
     logout();
 });
