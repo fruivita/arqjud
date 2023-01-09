@@ -246,6 +246,8 @@ function usuarioApi(Usuario $usuario)
         'username' => $usuario->username,
         'nome' => $usuario->nome,
         'email' => $usuario->email,
+        'ultimo_login' => $usuario->ultimo_login?->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+        'ip' => $usuario->ip,
         'status' => $usuario->habilitado() ? __('completo') : __('incompleto'),
         'funcao_confianca_id' => $usuario->funcao_confianca_id,
         'perfil_id' => $usuario->perfil_id,

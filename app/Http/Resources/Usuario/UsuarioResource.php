@@ -29,6 +29,8 @@ class UsuarioResource extends JsonResource
                 'username' => $this->username,
                 'nome' => $this->nome,
                 'email' => $this->email,
+                'ultimo_login' => empty($this->ultimo_login) ? null : $this->ultimo_login->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+                'ip' => $this->ip,
                 'status' => $this->habilitado() ? __('completo') : __('incompleto'), // @phpstan-ignore-line
                 'lotacao_id' => $this->lotacao_id,
                 'cargo_id' => $this->cargo_id,
