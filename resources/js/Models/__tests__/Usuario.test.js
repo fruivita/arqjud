@@ -27,4 +27,31 @@ describe('Usuario', () => {
 
         expect(usuario.nomeExibicao()).toBe('foo');
     });
+
+    test('retorna os dados do último login completos', () => {
+        const usuario = new Usuario({
+            ultimo_login: 'foo',
+            ip: 'bar',
+        });
+
+        expect(usuario.ultimoLogin()).toBe('foo (bar)');
+    });
+
+    test('retorna os dados do último login só com a data e hora', () => {
+        const usuario = new Usuario({ ultimo_login: 'foo' });
+
+        expect(usuario.ultimoLogin()).toBe('foo');
+    });
+
+    test('retorna os dados do último login só com ip', () => {
+        const usuario = new Usuario({ ip: 'bar' });
+
+        expect(usuario.ultimoLogin()).toBe('bar');
+    });
+
+    test('retorna vazio se não houver dados de login para exibir', () => {
+        const usuario = new Usuario({});
+
+        expect(usuario.ultimoLogin()).toBe('');
+    });
 });
