@@ -54,7 +54,7 @@ class Lotacao extends LotacaoCorporativo
     }
 
     /**
-     * Relacionamento lotação destinatária (1:N) solicitações.
+     * Relacionamento destino (lotação) (1:N) solicitações.
      *
      * Solicitações de processo destinados à lotação.
      *
@@ -62,7 +62,7 @@ class Lotacao extends LotacaoCorporativo
      */
     public function solicitacoes()
     {
-        return $this->hasMany(Solicitacao::class, 'lotacao_destinataria_id', 'id');
+        return $this->hasMany(Solicitacao::class, 'destino_id', 'id');
     }
 
     /**

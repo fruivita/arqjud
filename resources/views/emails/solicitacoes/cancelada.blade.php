@@ -16,9 +16,9 @@
 {{ __('Cancelada por :attribute1 em :attribute2', ['attribute1' => $detalhes->get('operador'), 'attribute2' => $detalhes->get('cancelada_em')]) }}
 
 <x-mail::table>
-| {{ __('Processo') }} | {{ __('Solicitante') }} | {{ __('Lotação destinatária') }} | {{ __('Solicitada em') }} |
+| {{ __('Processo') }} | {{ __('Solicitante') }} | {{ __('Destino') }} | {{ __('Solicitada em') }} |
 |:---------------------|:------------------------|:---------------------------------|:--------------------------|
-| {{ $detalhes->get('processo') }} | {{ $detalhes->get('solicitante') }} | {{ $detalhes->get('lotacao_destinataria') }} | {{ $detalhes->get('solicitada_em') }} |
+| {{ $detalhes->get('processo') }} | {{ $detalhes->get('solicitante') }} | {{ $detalhes->get('destino') }} | {{ $detalhes->get('solicitada_em') }} |
 </x-mail::table>
 
 <x-mail::button :url="$detalhes->get('url')" color="success">

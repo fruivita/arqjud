@@ -98,22 +98,22 @@ test('retorna as guias pelo escopo search que busca a partir do início do texto
 test('retorna as guias pelo escopo search que busca na coluna JSON remetente case Insensitive', function (string $termo, int $quantidade) {
     Guia::factory()->create([
         'remetente' => [
-            'username' => 'Foo',
-            'nome' => 'Bar gaz',
+            'username' => 'Foooo',
+            'nome' => 'Barrr gaz',
         ],
     ]);
 
     Guia::factory()->create([
         'remetente' => [
-            'username' => 'Baz',
-            'nome' => 'bar Taz',
+            'username' => 'Bazzz',
+            'nome' => 'barrr Taz',
         ],
     ]);
 
     Guia::factory()->create([
         'remetente' => [
-            'username' => 'Loren',
-            'nome' => 'foo Ipson',
+            'username' => 'Lorennn',
+            'nome' => 'foooo Ipson',
         ],
     ]);
 
@@ -124,33 +124,33 @@ test('retorna as guias pelo escopo search que busca na coluna JSON remetente cas
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
-    ['bar', 2],
-    ['BAR', 2],
-    ['foo', 2],
-    ['FOO', 2],
-    ['Loren', 1],
-    ['Bar Gaz', 1],
+    ['barrr', 2],
+    ['BARRR', 2],
+    ['foooo', 2],
+    ['FOOOO', 2],
+    ['Lorennn', 1],
+    ['Barrr Gaz', 1],
 ]);
 
 test('retorna as guias pelo escopo search que busca na coluna JSON recebedor case Insensitive', function (string $termo, int $quantidade) {
     Guia::factory()->create([
         'recebedor' => [
-            'username' => 'Foo',
-            'nome' => 'Bar gaz',
+            'username' => 'Foooo',
+            'nome' => 'Barrr gaz',
         ],
     ]);
 
     Guia::factory()->create([
         'recebedor' => [
-            'username' => 'Baz',
-            'nome' => 'bar Taz',
+            'username' => 'Bazzz',
+            'nome' => 'barrr Taz',
         ],
     ]);
 
     Guia::factory()->create([
         'recebedor' => [
-            'username' => 'Loren',
-            'nome' => 'foo Ipson',
+            'username' => 'Lorennn',
+            'nome' => 'foooo Ipson',
         ],
     ]);
 
@@ -161,33 +161,33 @@ test('retorna as guias pelo escopo search que busca na coluna JSON recebedor cas
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
-    ['bar', 2],
-    ['BAR', 2],
-    ['foo', 2],
-    ['FOO', 2],
-    ['Loren', 1],
-    ['Bar Gaz', 1],
+    ['barrr', 2],
+    ['BARRR', 2],
+    ['foooo', 2],
+    ['FOOOO', 2],
+    ['Lorennn', 1],
+    ['Barrr Gaz', 1],
 ]);
 
-test('retorna as guias pelo escopo search que busca na coluna JSON lotação destinatária case Insensitive', function (string $termo, int $quantidade) {
+test('retorna as guias pelo escopo search que busca na coluna JSON destino (lotação) case Insensitive', function (string $termo, int $quantidade) {
     Guia::factory()->create([
-        'lotacao_destinataria' => [
-            'sigla' => 'Foo',
-            'nome' => 'Bar gaz',
+        'destino' => [
+            'sigla' => 'Foooo',
+            'nome' => 'Barrr gaz',
         ],
     ]);
 
     Guia::factory()->create([
-        'lotacao_destinataria' => [
-            'sigla' => 'Baz',
-            'nome' => 'bar Taz',
+        'destino' => [
+            'sigla' => 'Bazzz',
+            'nome' => 'barrr Taz',
         ],
     ]);
 
     Guia::factory()->create([
-        'lotacao_destinataria' => [
-            'sigla' => 'Loren',
-            'nome' => 'foo Ipson',
+        'destino' => [
+            'sigla' => 'Lorennn',
+            'nome' => 'foooo Ipson',
         ],
     ]);
 
@@ -198,10 +198,10 @@ test('retorna as guias pelo escopo search que busca na coluna JSON lotação des
 
     expect($query->search($termo)->count())->toBe($quantidade);
 })->with([
-    ['bar', 2],
-    ['BAR', 2],
-    ['foo', 2],
-    ['FOO', 2],
-    ['Loren', 1],
-    ['Bar Gaz', 1],
+    ['barrr', 2],
+    ['BARRR', 2],
+    ['foooo', 2],
+    ['FOOOO', 2],
+    ['Lorennn', 1],
+    ['Barrr Gaz', 1],
 ]);

@@ -47,7 +47,7 @@ test('job NotificarSolicitanteSolicitacao cria a notificação com todos os par�
             expect($notification->toArray(null))->toMatchArray([
                 'processos' => $this->solicitacao->processos,
                 'solicitante' => $this->solicitacao->solicitante->nome,
-                'lotacao_destinataria' => $this->solicitacao->destino->nome,
+                'destino' => $this->solicitacao->destino->nome,
                 'solicitada_em' => now()->tz(config('app.tz'))->format('d-m-Y H:i:s'),
                 'url' => route('solicitacao.index'),
             ])->and($channels)->toMatchArray(['mail']);

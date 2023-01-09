@@ -281,9 +281,9 @@ const solicitacao_ativa = computed(() => first(props.processo.data.solicitacao_a
                     />
 
                     <ChaveValor
-                        v-if="solicitacao_ativa.lotacao_destinataria"
-                        :chave="__('Lotação destinatária')"
-                        :valor="new Lotacao(solicitacao_ativa.lotacao_destinataria).nomeExibicao()"
+                        v-if="solicitacao_ativa.destino"
+                        :chave="__('Destino')"
+                        :valor="new Lotacao(solicitacao_ativa.destino).nomeExibicao()"
                         icone="person"
                     />
                 </div>

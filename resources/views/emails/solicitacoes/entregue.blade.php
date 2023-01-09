@@ -14,9 +14,9 @@
 @endunless
 
 <x-mail::table>
-| {{ __('Recebedor') }} | {{ __('Lotação destinatária') }} | {{ __('Entregue em') }} |
+| {{ __('Recebedor') }} | {{ __('Destino') }} | {{ __('Entregue em') }} |
 |:----------------------|:---------------------------------|:------------------------|
-| {{ $detalhes->get('recebedor') }} | {{ $detalhes->get('lotacao_destinataria') }} | {{ $detalhes->get('entregue_em') }} |
+| {{ $detalhes->get('recebedor') }} | {{ $detalhes->get('destino') }} | {{ $detalhes->get('entregue_em') }} |
 </x-mail::table>
 
 <x-mail::table>

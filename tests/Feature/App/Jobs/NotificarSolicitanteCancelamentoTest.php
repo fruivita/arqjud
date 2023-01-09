@@ -50,7 +50,7 @@ test('job NotificarSolicitanteCancelamento cria a notificação com todos os par
             expect($notification->toArray(null))->toMatchArray([
                 'processo' => $this->solicitacao->processo,
                 'solicitante' => $this->solicitacao->solicitante->nome,
-                'lotacao_destinataria' => $this->solicitacao->destino->nome,
+                'destino' => $this->solicitacao->destino->nome,
                 'solicitada_em' => $this->solicitacao->solicitada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
                 'operador' => $this->solicitacao->operador->nome,
                 'cancelada_em' => $this->solicitacao->cancelada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),

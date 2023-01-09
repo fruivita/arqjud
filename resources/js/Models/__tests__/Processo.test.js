@@ -20,7 +20,7 @@ describe('Processo', () => {
         const processo = new Processo({
             solicitacao_ativa: {
                 entregue_em: '01/01/1900',
-                lotacao_destinataria: {
+                destino: {
                     sigla: 'foo',
                     nome: 'bar',
                 },
@@ -39,7 +39,7 @@ describe('Processo', () => {
     test('localizado no arquivo se não houver data de entrega', () => {
         const processo = new Processo({
             solicitacao_ativa: {
-                lotacao_destinataria: {
+                destino: {
                     sigla: 'foo',
                     nome: 'bar',
                 },

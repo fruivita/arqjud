@@ -51,7 +51,7 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     gerada_em: true,
     remetente: true,
     recebedor: true,
-    lotacao_destinataria: true,
+    destino: true,
     processos: true,
     acao: true,
 });
@@ -103,8 +103,8 @@ watch(perPage, filtrar);
                 <CheckBox v-model:checked="elementosVisiveis.recebedor" :label="__('Recebedor')" />
 
                 <CheckBox
-                    v-model:checked="elementosVisiveis.lotacao_destinataria"
-                    :label="__('Lotação destinatária')"
+                    v-model:checked="elementosVisiveis.destino"
+                    :label="__('Destino')"
                 />
 
                 <CheckBox
@@ -143,8 +143,8 @@ watch(perPage, filtrar);
                     <Heading v-show="elementosVisiveis.recebedor" :texto="__('Recebedor')" />
 
                     <Heading
-                        v-show="elementosVisiveis.lotacao_destinataria"
-                        :texto="__('Lotação destinatária')"
+                        v-show="elementosVisiveis.destino"
+                        :texto="__('Destino')"
                     />
 
                     <Heading v-show="elementosVisiveis.processos" :texto="__('Qtd processos')" />
@@ -181,12 +181,12 @@ watch(perPage, filtrar);
                                 />
                             </Cell>
 
-                            <Cell v-show="elementosVisiveis.lotacao_destinataria">
-                                <span>{{ guia.lotacao_destinataria.sigla }}</span>
+                            <Cell v-show="elementosVisiveis.destino">
+                                <span>{{ guia.destino.sigla }}</span>
 
                                 <Tooltip
-                                    v-if="guia.lotacao_destinataria.nome"
-                                    :texto="guia.lotacao_destinataria.nome"
+                                    v-if="guia.destino.nome"
+                                    :texto="guia.destino.nome"
                                     class="ml-1"
                                 />
                             </Cell>

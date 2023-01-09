@@ -48,7 +48,7 @@ class HomeController extends Controller
                         'solicitacoesAtivas.recebedor',
                         'solicitacoesAtivas.remetente',
                         'solicitacoesAtivas.rearquivador',
-                        'solicitacoesAtivas.lotacaoDestinataria',
+                        'solicitacoesAtivas.destino',
                         'volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade',
                         'volumeCaixa.caixa.localidadeCriadora',
                         'processoPai',
@@ -71,7 +71,7 @@ class HomeController extends Controller
         return Inertia::render('Home/Home', [
             'solicitacoes' => fn () => CounterResource::make(
                 Solicitacao::countAll()
-                    ->where('lotacao_destinataria_id', auth()->user()->lotacao_id)
+                    ->where('destino_id', auth()->user()->lotacao_id)
                     ->toBase()
                     ->first()
             )->additional([

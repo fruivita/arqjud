@@ -41,7 +41,7 @@ test('pipe EfetivarDevolucao atualiza a solicitação para o status devolvida', 
             'processo_id' => $solicitacao->processo_id,
             'solicitante_id' => $solicitacao->solicitante_id,
             'rearquivador_id' => Auth::id(),
-            'lotacao_destinataria_id' => $solicitacao->lotacao_destinataria_id,
+            'destino_id' => $solicitacao->destino_id,
             'devolvida_em' => now(),
             'descricao' => $solicitacao->descricao,
         ]);

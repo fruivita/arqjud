@@ -56,7 +56,7 @@ const { ordenacoes, mudarOrdenacao } = useOrdenacao(props.solicitacoes.meta.orde
 const elementosVisiveis = useLocalStorage(usePage().component.value, {
     status: true,
     processo: true,
-    lotacaoDestinataria: true,
+    destino: true,
     solicitante: true,
     solicitadaEm: true,
     remetente: true,
@@ -99,7 +99,7 @@ watch(perPage, filtrar);
     <Pagina
         :titulo="
             __('Solicitações de :attribute', {
-                attribute: solicitacoes.meta.lotacao_destinataria.sigla,
+                attribute: solicitacoes.meta.destino.sigla,
             })
         "
     >
@@ -151,8 +151,8 @@ watch(perPage, filtrar);
                     />
 
                     <CheckBox
-                        v-model:checked="elementosVisiveis.lotacaoDestinataria"
-                        :label="__('Lotação destinatária')"
+                        v-model:checked="elementosVisiveis.destino"
+                        :label="__('Destino')"
                     />
 
                     <CheckBox
@@ -206,11 +206,11 @@ watch(perPage, filtrar);
                     />
 
                     <HeadingOrdenavel
-                        v-show="elementosVisiveis.lotacaoDestinataria"
-                        :ordenacao="ordenacoes.lotacao_destinataria_sigla"
-                        :texto="__('Lotação destinatária')"
+                        v-show="elementosVisiveis.destino"
+                        :ordenacao="ordenacoes.destino_sigla"
+                        :texto="__('Destino')"
                         @ordenar="
-                            (direcao) => mudarOrdenacao('lotacao_destinataria_sigla', direcao)
+                            (direcao) => mudarOrdenacao('destino_sigla', direcao)
                         "
                     />
 
@@ -297,12 +297,12 @@ watch(perPage, filtrar);
                                 />
                             </Cell>
 
-                            <Cell v-show="elementosVisiveis.lotacaoDestinataria">
-                                <span>{{ solicitacao.lotacao_destinataria.sigla }}</span>
+                            <Cell v-show="elementosVisiveis.destino">
+                                <span>{{ solicitacao.destino.sigla }}</span>
 
                                 <Tooltip
-                                    v-if="solicitacao.lotacao_destinataria.nome"
-                                    :texto="solicitacao.lotacao_destinataria.nome"
+                                    v-if="solicitacao.destino.nome"
+                                    :texto="solicitacao.destino.nome"
                                     class="ml-1"
                                 />
                             </Cell>

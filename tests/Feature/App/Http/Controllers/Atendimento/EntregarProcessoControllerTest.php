@@ -89,7 +89,7 @@ test('entrega de processo muda o status da solicitação de solicitada para entr
     concederPermissao(Permissao::SOLICITACAO_UPDATE);
 
     $recebedor = Usuario::factory()->create();
-    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $recebedor->lotacao_id]);
+    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['destino_id' => $recebedor->lotacao_id]);
     Solicitacao::factory()->solicitada()->create();
 
     post(route('atendimento.entregar-processo.store'), [
@@ -111,7 +111,7 @@ test('entrega de processo gera a guia de remessa dos processos solicitados', fun
     concederPermissao(Permissao::SOLICITACAO_UPDATE);
 
     $recebedor = Usuario::factory()->create();
-    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $recebedor->lotacao_id]);
+    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['destino_id' => $recebedor->lotacao_id]);
     Solicitacao::factory()->solicitada()->create();
 
     expect(Guia::count())->toBe(0);
@@ -146,7 +146,7 @@ test('entrega de processo gera a guia de remessa dos processos solicitados', fun
         ->and($guia->gerada_em->toString())->toBe(now()->toString())
         ->and($guia->remetente)->toMatchArray($this->usuario->only(['nome', 'username']))
         ->and($guia->recebedor)->toMatchArray($recebedor->only(['nome', 'username']))
-        ->and($guia->lotacao_destinataria)->toMatchArray($recebedor->lotacao->only(['nome', 'sigla']))
+        ->and($guia->destino)->toMatchArray($recebedor->lotacao->only(['nome', 'sigla']))
         ->and($guia->processos)->toMatchArray($processos->toArray());
 });
 
@@ -156,7 +156,7 @@ test('dispara o job NotificarEntrega quando o usuário faz a entrega dos process
     concederPermissao(Permissao::SOLICITACAO_UPDATE);
 
     $recebedor = Usuario::factory()->create();
-    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $recebedor->lotacao_id]);
+    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['destino_id' => $recebedor->lotacao_id]);
 
     post(route('atendimento.entregar-processo.store'), [
         'recebedor' => $recebedor->username,
@@ -175,7 +175,7 @@ test('registra o log em caso de falha na entrega dos processos solicitados', fun
     concederPermissao(Permissao::SOLICITACAO_UPDATE);
 
     $recebedor = Usuario::factory()->create();
-    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $recebedor->lotacao_id]);
+    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['destino_id' => $recebedor->lotacao_id]);
 
     $this->partialMock(PipeNotificarEntrega::class)
         ->shouldReceive('handle')
@@ -202,7 +202,7 @@ test('entrega dos processos solicitados está protegida por transaction', functi
     concederPermissao(Permissao::SOLICITACAO_UPDATE);
 
     $recebedor = Usuario::factory()->create();
-    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $recebedor->lotacao_id]);
+    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['destino_id' => $recebedor->lotacao_id]);
 
     $this->partialMock(PipeNotificarEntrega::class)
         ->shouldReceive('handle')

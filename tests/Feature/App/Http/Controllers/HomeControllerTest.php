@@ -47,9 +47,9 @@ test('action do controller usa o form request', function (string $action, string
 ]);
 
 test('action show compartilha os dados esperados com a view/componente correto para usuários com autorização específica', function () {
-    Solicitacao::factory()->solicitada()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
-    Solicitacao::factory(2)->entregue()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
-    Solicitacao::factory(4)->devolvida()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
+    Solicitacao::factory()->solicitada()->create(['destino_id' => $this->usuario->lotacao_id]);
+    Solicitacao::factory(2)->entregue()->create(['destino_id' => $this->usuario->lotacao_id]);
+    Solicitacao::factory(4)->devolvida()->create(['destino_id' => $this->usuario->lotacao_id]);
     Solicitacao::factory(3)->solicitada()->create();
 
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_VIEW_ANY);
@@ -77,9 +77,9 @@ test('action show compartilha os dados esperados com a view/componente correto p
 });
 
 test('action show compartilha os dados esperados com a view/componente correto para usuários sem autorização específica', function () {
-    Solicitacao::factory()->solicitada()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
-    Solicitacao::factory(2)->entregue()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
-    Solicitacao::factory(4)->devolvida()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
+    Solicitacao::factory()->solicitada()->create(['destino_id' => $this->usuario->lotacao_id]);
+    Solicitacao::factory(2)->entregue()->create(['destino_id' => $this->usuario->lotacao_id]);
+    Solicitacao::factory(4)->devolvida()->create(['destino_id' => $this->usuario->lotacao_id]);
     Solicitacao::factory(3)->solicitada()->create();
 
     get(route('home.show'))

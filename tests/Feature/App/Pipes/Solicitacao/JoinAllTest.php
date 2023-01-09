@@ -82,7 +82,7 @@ test('join da tabela usuários rearquivadores', function () {
     expect($solicitacao->first())->toBe($usuario->username);
 });
 
-test('join da tabela lotações destinatárias', function () {
+test('join da tabela lotações (destinos)', function () {
     $lotacao = Lotacao::factory()
         ->hasSolicitacoes(Solicitacao::factory())
         ->create();
@@ -91,7 +91,7 @@ test('join da tabela lotações destinatárias', function () {
         ->send(Solicitacao::query())
         ->through([JoinAll::class])
         ->thenReturn()
-        ->pluck('destinatarias.sigla');
+        ->pluck('destinos.sigla');
 
     expect($solicitacao->first())->toBe($lotacao->sigla);
 });

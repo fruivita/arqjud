@@ -58,7 +58,7 @@ test('usuário com permissão não pode excluir uma solicitação se ela já foi
 });
 
 test('usuário externo ao arquivo sem permissão não pode excluir uma solicitação de sua lotação', function () {
-    $solicitacao = Solicitacao::factory()->solicitada()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
+    $solicitacao = Solicitacao::factory()->solicitada()->create(['destino_id' => $this->usuario->lotacao_id]);
 
     expect(Auth::user()->can(Policy::ExternoDelete->value, $solicitacao))->toBeFalse();
 });
@@ -72,7 +72,7 @@ test('usuário externo ao arquivo com permissão não pode excluir uma solicita�
 });
 
 test('usuário externo ao arquivo com permissão não pode excluir uma solicitação se ela já foi entregue à sua lotação', function () {
-    $solicitacao = Solicitacao::factory()->entregue()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
+    $solicitacao = Solicitacao::factory()->entregue()->create(['destino_id' => $this->usuario->lotacao_id]);
 
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_DELETE);
 
@@ -119,7 +119,7 @@ test('usuário com permissão pode excluir uma solicitação que ainda não tenh
 });
 
 test('usuário externo ao arquivo com permissão pode excluir solicitação da própria lotação que ainda não tenha sido entregue', function () {
-    $solicitacao = Solicitacao::factory()->solicitada()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
+    $solicitacao = Solicitacao::factory()->solicitada()->create(['destino_id' => $this->usuario->lotacao_id]);
 
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_DELETE);
 

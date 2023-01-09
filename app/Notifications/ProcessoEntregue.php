@@ -32,7 +32,7 @@ class ProcessoEntregue extends Notification implements ShouldQueue
      * @param  string  $guia_numero número da guia de remessa
      * @param  array  $processos número e quantidade de volume dos processos
      * @param  string  $recebedor
-     * @param  string  $lotacao_destinataria
+     * @param  string  $destino
      * @param  string  $entregue_em
      * @param  bool  $por_guia
      * @param  string  $url
@@ -43,7 +43,7 @@ class ProcessoEntregue extends Notification implements ShouldQueue
         string $guia_numero,
         array $processos,
         string $recebedor,
-        string $lotacao_destinataria,
+        string $destino,
         string $entregue_em,
         bool $por_guia,
         string $url,
@@ -53,7 +53,7 @@ class ProcessoEntregue extends Notification implements ShouldQueue
             ->put('guia_numero', $guia_numero)
             ->put('processos', $processos)
             ->put('recebedor', $recebedor)
-            ->put('lotacao_destinataria', $lotacao_destinataria)
+            ->put('destino', $destino)
             ->put('entregue_em', $entregue_em)
             ->put('por_guia', $por_guia)
             ->put('url', $url);

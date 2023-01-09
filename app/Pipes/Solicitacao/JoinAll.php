@@ -24,7 +24,7 @@ class JoinAll
             ->leftJoin('usuarios AS recebedores', 'solicitacoes.recebedor_id', 'recebedores.id')
             ->leftJoin('usuarios AS remetentes', 'solicitacoes.remetente_id', 'remetentes.id')
             ->leftJoin('usuarios AS rearquivadores', 'solicitacoes.rearquivador_id', 'rearquivadores.id')
-            ->join('lotacoes AS destinatarias', 'solicitacoes.lotacao_destinataria_id', 'destinatarias.id');
+            ->join('lotacoes AS destinos', 'solicitacoes.destino_id', 'destinos.id');
 
         return $next($query);
     }

@@ -41,7 +41,7 @@ afterEach(function () {
 
 // Autorização
 test('usuário sem permissão não consegue excluir uma solicitação', function () {
-    $solicitacao = Solicitacao::factory()->solicitada()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
+    $solicitacao = Solicitacao::factory()->solicitada()->create(['destino_id' => $this->usuario->lotacao_id]);
 
     expect(Solicitacao::where('id', $solicitacao->id)->exists())->toBeTrue();
 
@@ -67,7 +67,7 @@ test('action do controller usa o form request', function (string $action, string
 
 test('action index compartilha os dados esperados com a view/componente correto', function () {
     Solicitacao::factory()->create();
-    Solicitacao::factory(2)->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
+    Solicitacao::factory(2)->create(['destino_id' => $this->usuario->lotacao_id]);
 
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_VIEW_ANY);
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE);
@@ -80,7 +80,7 @@ test('action index compartilha os dados esperados com a view/componente correto'
                 ->has('solicitacoes.data', 2) // visualiza apenas as da própria lotação
                 ->has('solicitacoes.meta.termo')
                 ->has('solicitacoes.meta.order')
-                ->where('solicitacoes.meta.lotacao_destinataria', lotacaoApi($this->usuario->lotacao))
+                ->where('solicitacoes.meta.destino', lotacaoApi($this->usuario->lotacao))
                 ->where('solicitacoes.meta.count', [
                     'solicitadas' => 0,
                     'entregues' => 0,
@@ -130,7 +130,7 @@ test('cria uma nova solicitação de processos status solicitada destinada à lo
             'recebedor_id' => null,
             'remetente_id' => null,
             'rearquivador_id' => null,
-            'lotacao_destinataria_id' => $this->usuario->lotacao_id,
+            'destino_id' => $this->usuario->lotacao_id,
             'guia_id' => null,
             'solicitada_em' => now(),
             'entregue_em' => null,
@@ -146,7 +146,7 @@ test('cria uma nova solicitação de processos status solicitada destinada à lo
             'recebedor_id' => null,
             'remetente_id' => null,
             'rearquivador_id' => null,
-            'lotacao_destinataria_id' => $this->usuario->lotacao_id,
+            'destino_id' => $this->usuario->lotacao_id,
             'guia_id' => null,
             'solicitada_em' => now(),
             'entregue_em' => null,
@@ -223,7 +223,7 @@ test('solicitação de processo está protegida por transaction', function () {
 });
 
 test('exclui a solicitação informada', function () {
-    $solicitacao = Solicitacao::factory()->solicitada()->create(['lotacao_destinataria_id' => $this->usuario->lotacao_id]);
+    $solicitacao = Solicitacao::factory()->solicitada()->create(['destino_id' => $this->usuario->lotacao_id]);
 
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_DELETE);
 

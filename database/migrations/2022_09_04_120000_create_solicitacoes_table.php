@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger('recebedor_id')->nullable();
             $table->unsignedBigInteger('remetente_id')->nullable();
             $table->unsignedBigInteger('rearquivador_id')->nullable();
-            $table->unsignedBigInteger('lotacao_destinataria_id');
+            $table->unsignedBigInteger('destino_id');
             $table->unsignedBigInteger('guia_id')->nullable();
             $table->dateTime('solicitada_em');
             $table->dateTime('entregue_em')->nullable();
@@ -64,7 +64,7 @@ return new class extends Migration
                 ->onUpdate('cascade');
 
             $table
-                ->foreign('lotacao_destinataria_id')
+                ->foreign('destino_id')
                 ->references('id')
                 ->on('lotacoes')
                 ->onUpdate('cascade');

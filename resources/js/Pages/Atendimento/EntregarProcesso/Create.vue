@@ -244,7 +244,7 @@ const viewReset = () => {
 
                             <Heading :texto="__('Solicitada por')" />
 
-                            <Heading :texto="__('Lotação destinatária')" />
+                            <Heading :texto="__('Destino')" />
                         </template>
 
                         <template #body>
@@ -291,11 +291,11 @@ const viewReset = () => {
                                     </Cell>
 
                                     <Cell>
-                                        <span>{{ solicitacao.lotacao_destinataria.sigla }}</span>
+                                        <span>{{ solicitacao.destino.sigla }}</span>
 
                                         <Tooltip
-                                            v-if="solicitacao.lotacao_destinataria.nome"
-                                            :texto="solicitacao.lotacao_destinataria.nome"
+                                            v-if="solicitacao.destino.nome"
+                                            :texto="solicitacao.destino.nome"
                                             class="ml-1"
                                         />
                                     </Cell>
@@ -406,7 +406,7 @@ const viewReset = () => {
                         <p>
                             {{
                                 __(
-                                    'A entrega por guia pressupõe que os processos serão entregues na lotação destinatária por meio de guia impressa.'
+                                    'A entrega por guia pressupõe que os processos serão entregues no destino por meio de guia impressa.'
                                 )
                             }}
                         </p>
@@ -425,7 +425,7 @@ const viewReset = () => {
                             <li>
                                 {{
                                     __(
-                                        'Identifique previamente quem irá receber os processos na lotação destinatária e informe no campo Recebedor acima;'
+                                        'Identifique previamente quem irá receber os processos no destino e informe no campo Recebedor acima;'
                                     )
                                 }}
                             </li>

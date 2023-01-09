@@ -60,7 +60,7 @@ class Solicitacao extends Model
      * Usuário a quem efetivamente foi entregue o processo.
      *
      * Negócio: esse usuário deve obrigatoriamente pertencer a lotação
-     * destinatária registrada na solicitação.
+     * (destino) registrada na solicitação.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -95,7 +95,7 @@ class Solicitacao extends Model
     }
 
     /**
-     * Relacionamento solicitação (N:1) lotação(destinatária).
+     * Relacionamento solicitação (N:1) lotação(destino).
      *
      * Lotação onde o processo está alocado e, portanto, responsável pela sua
      * guarda.
@@ -104,9 +104,9 @@ class Solicitacao extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function lotacaoDestinataria()
+    public function destino()
     {
-        return $this->belongsTo(Lotacao::class, 'lotacao_destinataria_id', 'id');
+        return $this->belongsTo(Lotacao::class, 'destino_id', 'id');
     }
 
     /**
@@ -247,8 +247,8 @@ class Solicitacao extends Model
                 ->orWhere('remetentes.nome', 'like', $termo)
                 ->orWhere('rearquivadores.username', 'like', $termo)
                 ->orWhere('rearquivadores.nome', 'like', $termo)
-                ->orWhere('destinatarias.sigla', 'like', $termo)
-                ->orWhere('destinatarias.nome', 'like', $termo)
+                ->orWhere('destinos.sigla', 'like', $termo)
+                ->orWhere('destinos.nome', 'like', $termo)
                 ->when($apenas_numeros, function (Builder $query, string $apenas_numeros) {
                     $query->orWhere('processos.numero', 'like', "{$apenas_numeros}%")
                         ->orWhere('processos.numero_antigo', 'like', "{$apenas_numeros}%");

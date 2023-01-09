@@ -19,7 +19,7 @@ beforeEach(function () {
     $this->dados = [
         'processos' => ['11111111111111111111', '22222222222222222222', '33333333333333333333'],
         'solicitante' => 'foo',
-        'lotacao_destinataria' => 'bar',
+        'destino' => 'bar',
         'solicitada_em' => '2020-10-20 23:30:40',
         'url' => 'http://foo.bar',
     ];

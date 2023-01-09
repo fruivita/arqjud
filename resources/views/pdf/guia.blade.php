@@ -14,7 +14,7 @@
 
         <p>{{ __('Remetente: :attribute', ['attribute' => $guia->remetente['nome']]) }}</p>
 
-        <p>{{ __('Lotação destinatária: :attribute1 - :attribute2', [ 'attribute1' => str($guia->lotacao_destinataria['sigla'])->upper(), 'attribute2' => $guia->lotacao_destinataria['nome']]) }}</p>
+        <p>{{ __('Destino: :attribute1 - :attribute2', [ 'attribute1' => str($guia->destino['sigla'])->upper(), 'attribute2' => $guia->destino['nome']]) }}</p>
 
         <table style="table-layout:fixed;">
             <thead>

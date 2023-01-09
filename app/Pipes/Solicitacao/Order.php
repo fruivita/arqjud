@@ -175,16 +175,16 @@ class Order extends OrderBase
     }
 
     /**
-     * Aplica a ordenação pela sigla da lotação destinatária.
+     * Aplica a ordenação pela sigla da lotação (destino).
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
-    protected function lotacaoDestinatariaSigla(Builder $query, string $direcao)
+    protected function destinoSigla(Builder $query, string $direcao)
     {
         $direcao = ascOrDesc($direcao);
 
-        $query->orderBy('destinatarias.sigla', $direcao);
+        $query->orderBy('destinos.sigla', $direcao);
     }
 }

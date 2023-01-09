@@ -53,7 +53,7 @@ test('usuário autorizado consegue os dados das solicitações de processo para 
 
     concederPermissao(Permissao::SOLICITACAO_UPDATE);
 
-    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $this->recebedor->lotacao_id]);
+    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['destino_id' => $this->recebedor->lotacao_id]);
     Solicitacao::factory(3)->solicitada()->create();
 
     $response = $this->postJson(route('api.solicitacao.entregas-autorizadas.show'), ['recebedor' => $this->recebedor->username]);
@@ -63,7 +63,7 @@ test('usuário autorizado consegue os dados das solicitações de processo para 
         ->assertJson(
             fn (AssertableJson $json) => $json->whereAll([
                 'recebedor' => data_get(UsuarioOnlyResource::make($this->recebedor->loadMissing('lotacao'))->response()->getData(true), 'data'),
-                'solicitacoes' => data_get(SolicitacaoOnlyResource::collection($solicitacoes->load(['processo', 'solicitante', 'lotacaoDestinataria']))->response()->getData(true), 'data'),
+                'solicitacoes' => data_get(SolicitacaoOnlyResource::collection($solicitacoes->load(['processo', 'solicitante', 'destino']))->response()->getData(true), 'data'),
             ])
         );
 

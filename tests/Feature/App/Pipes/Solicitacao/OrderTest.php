@@ -72,7 +72,7 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
     'recebedor_username',
     'remetente_username',
     'rearquivador_username',
-    'lotacao_destinataria_sigla',
+    'destino_sigla',
 ]);
 
 test('todas as ordenações possíveis no request da solicitação', function () {
@@ -86,7 +86,7 @@ test('todas as ordenações possíveis no request da solicitação', function ()
         'recebedor_username' => 'desc',
         'remetente_username' => 'desc',
         'rearquivador_username' => 'desc',
-        'lotacao_destinataria_sigla' => 'desc',
+        'destino_sigla' => 'desc',
     ]]);
 
     $query = Pipeline::make()

@@ -28,7 +28,7 @@ class Guia extends Model
         'gerada_em' => 'datetime',
         'remetente' => AsArrayObject::class,
         'recebedor' => AsArrayObject::class,
-        'lotacao_destinataria' => AsArrayObject::class,
+        'destino' => AsArrayObject::class,
         'processos' => AsCollection::class,
     ];
 
@@ -76,8 +76,8 @@ class Guia extends Model
                 ->orWhere('remetente_nome', 'like', $lower)
                 ->orWhere('recebedor_username', 'like', $lower)
                 ->orWhere('recebedor_nome', 'like', $lower)
-                ->orWhere('lotacao_destinataria_sigla', 'like', $lower)
-                ->orWhere('lotacao_destinataria_nome', 'like', $lower);
+                ->orWhere('destino_sigla', 'like', $lower)
+                ->orWhere('destino_nome', 'like', $lower);
         });
     }
 

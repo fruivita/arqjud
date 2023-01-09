@@ -229,7 +229,7 @@ function solicitacaoApi(Solicitacao $solicitacao)
         'recebedor_id' => $solicitacao->recebedor_id,
         'remetente_id' => $solicitacao->remetente_id,
         'rearquivador_id' => $solicitacao->rearquivador_id,
-        'lotacao_destinataria_id' => $solicitacao->lotacao_destinataria_id,
+        'destino_id' => $solicitacao->destino_id,
         'guia_id' => $solicitacao->guia_id,
     ];
 }
@@ -300,9 +300,9 @@ function guiaApi(Guia $guia)
             'username' => $guia->recebedor['username'],
             'nome' => $guia->recebedor['nome'],
         ],
-        'lotacao_destinataria' => [
-            'sigla' => str($guia->lotacao_destinataria['sigla'])->upper()->toString(),
-            'nome' => $guia->lotacao_destinataria['nome'],
+        'destino' => [
+            'sigla' => str($guia->destino['sigla'])->upper()->toString(),
+            'nome' => $guia->destino['nome'],
         ],
         'processos' => $guia->processos->transform(function ($processo) {
             $processo['numero'] = cnj($processo['numero']);

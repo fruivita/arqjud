@@ -21,7 +21,7 @@ test('pipe EfetivarEntrega atualiza as solicitações para o status entregues', 
 
     $recebedor = Usuario::factory()->create();
     $remetente = Usuario::factory()->create();
-    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $recebedor->lotacao_id]);
+    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['destino_id' => $recebedor->lotacao_id]);
     $guia = Guia::factory()->create();
 
     $entrega = new \stdClass();
@@ -45,7 +45,7 @@ test('pipe EfetivarEntrega atualiza as solicitações para o status entregues', 
             'recebedor_id' => $recebedor->id,
             'remetente_id' => $remetente->id,
             'rearquivador_id' => null,
-            'lotacao_destinataria_id' => $solicitacoes->get(0)->lotacao_destinataria_id,
+            'destino_id' => $solicitacoes->get(0)->destino_id,
             'guia_id' => $guia->id,
             'entregue_em' => $guia->gerada_em,
             'devolvida_em' => null,
@@ -58,7 +58,7 @@ test('pipe EfetivarEntrega atualiza as solicitações para o status entregues', 
             'recebedor_id' => $recebedor->id,
             'remetente_id' => $remetente->id,
             'rearquivador_id' => null,
-            'lotacao_destinataria_id' => $solicitacoes->get(1)->lotacao_destinataria_id,
+            'destino_id' => $solicitacoes->get(1)->destino_id,
             'guia_id' => $guia->id,
             'entregue_em' => $guia->gerada_em,
             'devolvida_em' => null,

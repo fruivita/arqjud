@@ -34,7 +34,7 @@ class GuiaFactory extends Factory
                 'username' => fake()->firstName(),
                 'nome' => fake()->name(),
             ],
-            'lotacao_destinataria' => [
+            'destino' => [
                 'sigla' => fake()->word(),
                 'nome' => fake()->company(),
             ],

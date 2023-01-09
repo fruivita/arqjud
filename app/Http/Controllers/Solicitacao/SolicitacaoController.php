@@ -48,18 +48,18 @@ class SolicitacaoController extends Controller
         return Inertia::render('Solicitacao/Index', [
             'solicitacoes' => fn () => SolicitacaoCollection::make(
                 Pipeline::make()
-                    ->send(Solicitacao::select('solicitacoes.*')->with(['processo', 'solicitante', 'recebedor', 'remetente', 'rearquivador', 'lotacaoDestinataria']))
+                    ->send(Solicitacao::select('solicitacoes.*')->with(['processo', 'solicitante', 'recebedor', 'remetente', 'rearquivador', 'destino']))
                     ->through([JoinAll::class, Order::class, Search::class])
                     ->thenReturn()
-                    ->whereBelongsTo($lotacao, 'lotacaoDestinataria')
+                    ->whereBelongsTo($lotacao, 'destino')
                     ->paginate($this->perPage())
             )->additional(['meta' => [
                 'termo' => request()->query('termo'),
                 'order' => request()->query('order'),
-                'lotacao_destinataria' => LotacaoOnlyResource::make($lotacao),
+                'destino' => LotacaoOnlyResource::make($lotacao),
                 'count' => CounterResource::make(
                     Solicitacao::countAll()
-                        ->whereBelongsTo($lotacao, 'lotacaoDestinataria')
+                        ->whereBelongsTo($lotacao, 'destino')
                         ->toBase()
                         ->first()
                 ),

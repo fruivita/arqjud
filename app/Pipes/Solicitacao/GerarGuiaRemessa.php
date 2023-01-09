@@ -50,7 +50,7 @@ class GerarGuiaRemessa
         $guia->gerada_em = $now;
         $guia->remetente = $remetente->only(['username', 'nome']);
         $guia->recebedor = $recebedor->only(['username', 'nome']);
-        $guia->lotacao_destinataria = $recebedor->lotacao->only(['nome', 'sigla']);
+        $guia->destino = $recebedor->lotacao->only(['nome', 'sigla']);
         $guia->processos = $solicitacoes->map(function (Solicitacao $solicitacao) {
             return [
                 'numero' => apenasNumeros($solicitacao->processo->numero),

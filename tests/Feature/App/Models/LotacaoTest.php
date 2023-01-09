@@ -20,7 +20,7 @@ test('lança exception ao tentar criar solicitação com campo inválido', funct
 ]);
 
 // Caminho feliz
-test('uma lotação pode ser destinatária de várias solicitações de processo', function () {
+test('uma lotação pode ser destino (lotação) de várias solicitações de processo', function () {
     $lotacao = Lotacao::factory()->hasSolicitacoes(3)->create();
 
     $lotacao->load('solicitacoes');

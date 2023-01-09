@@ -18,7 +18,7 @@ class ExcluirSolicitacao
     {
         $solicitacao->processo = $solicitacao->model->processo->numero;
         $solicitacao->solicitante = $solicitacao->model->solicitante;
-        $solicitacao->destino = $solicitacao->model->lotacaoDestinataria;
+        $solicitacao->destino = $solicitacao->model->destino;
         $solicitacao->solicitada_em = $solicitacao->model->solicitada_em;
         $solicitacao->operador = auth()->user();
         $solicitacao->cancelada_em = now();

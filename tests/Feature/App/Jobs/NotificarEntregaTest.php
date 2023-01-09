@@ -49,7 +49,7 @@ test('job NotificarEntrega cria a notificação com todos os parâmetros e canal
                 'guia_numero' => $this->entrega->guia->paraHumano,
                 'processos' => $this->entrega->guia->processos->toArray(),
                 'recebedor' => $this->entrega->guia->recebedor['nome'],
-                'lotacao_destinataria' => $this->entrega->guia->lotacao_destinataria['nome'],
+                'destino' => $this->entrega->guia->destino['nome'],
                 'entregue_em' => $this->entrega->guia->gerada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
                 'por_guia' => $this->entrega->por_guia,
                 'url' => route('solicitacao.index'),

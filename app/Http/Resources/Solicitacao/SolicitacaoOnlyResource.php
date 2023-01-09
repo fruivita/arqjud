@@ -34,14 +34,14 @@ class SolicitacaoOnlyResource extends JsonResource
                 'recebedor_id' => $this->recebedor_id,
                 'remetente_id' => $this->remetente_id,
                 'rearquivador_id' => $this->rearquivador_id,
-                'lotacao_destinataria_id' => $this->lotacao_destinataria_id,
+                'destino_id' => $this->destino_id,
                 'guia_id' => $this->guia_id,
                 'processo' => ProcessoOnlyResource::make($this->whenLoaded('processo')),
                 'solicitante' => UsuarioOnlyResource::make($this->whenLoaded('solicitante')),
                 'recebedor' => UsuarioOnlyResource::make($this->whenLoaded('recebedor')),
                 'remetente' => UsuarioOnlyResource::make($this->whenLoaded('remetente')),
                 'rearquivador' => UsuarioOnlyResource::make($this->whenLoaded('rearquivador')),
-                'lotacao_destinataria' => LotacaoOnlyResource::make($this->whenLoaded('lotacaoDestinataria')),
+                'destino' => LotacaoOnlyResource::make($this->whenLoaded('destino')),
             ]
             : [];
     }

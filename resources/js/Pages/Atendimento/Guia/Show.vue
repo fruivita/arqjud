@@ -74,8 +74,8 @@ const colspan = computed(() => countElementosVisiveis(elementosVisiveis));
                     />
 
                     <ChaveValor
-                        :chave="__('Lotação destinatária')"
-                        :valor="new Lotacao(guia.data.lotacao_destinataria).nomeExibicao()"
+                        :chave="__('Destino')"
+                        :valor="new Lotacao(guia.data.destino).nomeExibicao()"
                         icone="building"
                     />
                 </div>

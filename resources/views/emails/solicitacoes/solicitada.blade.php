@@ -14,9 +14,9 @@
 @endunless
 
 <x-mail::table>
-| {{ __('Solicitante') }} | {{ __('Lotação destinatária') }} | {{ __('Solicitada em') }} |
+| {{ __('Solicitante') }} | {{ __('Destino') }} | {{ __('Solicitada em') }} |
 |:------------------------|:---------------------------------|:--------------------------|
-| {{ $detalhes->get('solicitante') }} | {{ $detalhes->get('lotacao_destinataria') }} | {{ $detalhes->get('solicitada_em') }} |
+| {{ $detalhes->get('solicitante') }} | {{ $detalhes->get('destino') }} | {{ $detalhes->get('solicitada_em') }} |
 </x-mail::table>
 
 @foreach ($detalhes->get('processos') as $processo)

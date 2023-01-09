@@ -131,7 +131,7 @@ const viewReset = () => {
     <Pagina :titulo="__('Solicitação de processos')">
         <Container class="space-y-6">
             <ChaveValor
-                :chave="__('Lotação destinatária')"
+                :chave="__('Destino')"
                 :valor="new Lotacao(lotacao.data).nomeExibicao()"
                 icone="building"
             />

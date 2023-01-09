@@ -34,8 +34,8 @@ class AutorizadaParaRecebedorController extends Controller
             ->where('username', $request->input('recebedor'))
             ->firstOrFail();
 
-        $solicitacoes = Solicitacao::with(['processo', 'solicitante', 'lotacaoDestinataria'])
-            ->orWhereBelongsTo($recebedor->lotacao, 'lotacaoDestinataria')
+        $solicitacoes = Solicitacao::with(['processo', 'solicitante', 'destino'])
+            ->orWhereBelongsTo($recebedor->lotacao, 'destino')
             ->solicitadas()
             ->get();
 

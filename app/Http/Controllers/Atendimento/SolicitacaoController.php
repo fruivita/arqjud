@@ -43,7 +43,7 @@ class SolicitacaoController extends Controller
         return Inertia::render('Atendimento/Solicitacao/Index', [
             'solicitacoes' => fn () => SolicitacaoCollection::make(
                 Pipeline::make()
-                    ->send(Solicitacao::select('solicitacoes.*')->with(['processo', 'solicitante', 'recebedor', 'remetente', 'rearquivador', 'lotacaoDestinataria']))
+                    ->send(Solicitacao::select('solicitacoes.*')->with(['processo', 'solicitante', 'recebedor', 'remetente', 'rearquivador', 'destino']))
                     ->through([JoinAll::class, Order::class, Search::class])
                     ->thenReturn()
                     ->paginate($this->perPage())

@@ -32,16 +32,16 @@ test('lança exception ao tentar definir relacionamento inválido', function (st
         fn () => Solicitacao::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);
 })->with([
-    ['processo_id',             99999999, 'Cannot add or update a child row'], // não existente
-    ['processo_id',             null,     'cannot be null'],                   // obrigatório
-    ['solicitante_id',          99999999, 'Cannot add or update a child row'], // não existente
-    ['solicitante_id',          null,     'cannot be null'],                   // obrigatório
-    ['recebedor_id',            99999999, 'Cannot add or update a child row'], // não existente
-    ['remetente_id',            99999999, 'Cannot add or update a child row'], // não existente
-    ['rearquivador_id',         99999999, 'Cannot add or update a child row'], // não existente
-    ['lotacao_destinataria_id', 99999999, 'Cannot add or update a child row'], // não existente
-    ['lotacao_destinataria_id', null,     'cannot be null'],                   // obrigatório
-    ['guia_id',                 99999999, 'Cannot add or update a child row'], // não existente
+    ['processo_id',     99999999, 'Cannot add or update a child row'], // não existente
+    ['processo_id',     null,     'cannot be null'],                   // obrigatório
+    ['solicitante_id',  99999999, 'Cannot add or update a child row'], // não existente
+    ['solicitante_id',  null,     'cannot be null'],                   // obrigatório
+    ['recebedor_id',    99999999, 'Cannot add or update a child row'], // não existente
+    ['remetente_id',    99999999, 'Cannot add or update a child row'], // não existente
+    ['rearquivador_id', 99999999, 'Cannot add or update a child row'], // não existente
+    ['destino_id',      99999999, 'Cannot add or update a child row'], // não existente
+    ['destino_id',      null,     'cannot be null'],                   // obrigatório
+    ['guia_id',         99999999, 'Cannot add or update a child row'], // não existente
 ]);
 
 // Caminho feliz
@@ -112,12 +112,12 @@ test('uma solicitação é rearquivada por um usuário (rearquivador)', function
     expect($solicitacao->rearquivador)->toBeInstanceOf(Usuario::class);
 });
 
-test('uma solicitação é enviada a uma lotação destinatária', function () {
+test('uma solicitação é enviada a um destino', function () {
     $solicitacao = Solicitacao::factory()->create();
 
-    $solicitacao->load(['lotacaoDestinataria']);
+    $solicitacao->load(['destino']);
 
-    expect($solicitacao->lotacaoDestinataria)->toBeInstanceOf(Lotacao::class);
+    expect($solicitacao->destino)->toBeInstanceOf(Lotacao::class);
 });
 
 test('uma solicitação é registrada em uma guia de remessa', function () {
@@ -256,7 +256,7 @@ test('retorna as solicitações pelo escopo search que busca a partir do início
     ['gggg', 3],
 ]);
 
-test('retorna as solicitações pelo escopo search que busca a partir do início do texto na sigla ou nome da lotação destinatária', function (string $termo, int $quantidade) {
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto na sigla ou nome do destino (lotação)', function (string $termo, int $quantidade) {
     Lotacao::factory()->hasSolicitacoes(2)->create(['sigla' => 'aaaabbbb', 'nome' => 'eeeeffff']);
     Lotacao::factory()->hasSolicitacoes(3)->create(['sigla' => 'ccccdddd', 'nome' => 'gggghhhh']);
 

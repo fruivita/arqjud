@@ -20,7 +20,7 @@ class Processo {
         const __ = useTranslationsStore().__;
 
         return this.solicitacao_ativa && this.solicitacao_ativa.entregue_em
-            ? new Lotacao(this.solicitacao_ativa.lotacao_destinataria).nomeExibicao()
+            ? new Lotacao(this.solicitacao_ativa.destino).nomeExibicao()
             : __('No arquivo');
     }
 

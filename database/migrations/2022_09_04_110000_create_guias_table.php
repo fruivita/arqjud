@@ -28,9 +28,9 @@ return new class extends Migration
             $table->jsonb('recebedor');
             $table->string('recebedor_username')->virtualAs("lower(json_unquote(json_extract(recebedor, '$.username')))")->index();
             $table->string('recebedor_nome')->virtualAs("lower(json_unquote(json_extract(recebedor, '$.nome')))")->index();
-            $table->jsonb('lotacao_destinataria');
-            $table->string('lotacao_destinataria_sigla')->virtualAs("lower(json_unquote(json_extract(lotacao_destinataria, '$.sigla')))")->index();
-            $table->string('lotacao_destinataria_nome')->virtualAs("lower(json_unquote(json_extract(lotacao_destinataria, '$.nome')))")->index();
+            $table->jsonb('destino');
+            $table->string('destino_sigla')->virtualAs("lower(json_unquote(json_extract(destino, '$.sigla')))")->index();
+            $table->string('destino_nome')->virtualAs("lower(json_unquote(json_extract(destino, '$.nome')))")->index();
             $table->jsonb('processos');
             $table->string('descricao', 255)->nullable();
             $table->timestamps();

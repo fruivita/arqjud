@@ -26,7 +26,7 @@ class SolicitacaoCancelada extends Notification implements ShouldQueue
      *
      * @param  string  $processo número do processo
      * @param  string  $solicitante
-     * @param  string  $lotacao_destinataria
+     * @param  string  $destino
      * @param  string  $solicitada_em
      * @param  string  $operador
      * @param  string  $cancelada_em
@@ -36,7 +36,7 @@ class SolicitacaoCancelada extends Notification implements ShouldQueue
     public function __construct(
         string $processo,
         string $solicitante,
-        string $lotacao_destinataria,
+        string $destino,
         string $solicitada_em,
         string $operador,
         string $cancelada_em,
@@ -45,7 +45,7 @@ class SolicitacaoCancelada extends Notification implements ShouldQueue
         $this->detalhes = Collection::make()
             ->put('processo', $processo)
             ->put('solicitante', $solicitante)
-            ->put('lotacao_destinataria', $lotacao_destinataria)
+            ->put('destino', $destino)
             ->put('solicitada_em', $solicitada_em)
             ->put('operador', $operador)
             ->put('cancelada_em', $cancelada_em)

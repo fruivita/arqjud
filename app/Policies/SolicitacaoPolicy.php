@@ -117,7 +117,7 @@ class SolicitacaoPolicy
     {
         return ($usuario->possuiPermissao(Permissao::SOLICITACAO_EXTERNA_DELETE)
             && $usuario->habilitado()
-            && $solicitacao->lotacao_destinataria_id === $usuario->lotacao_id)
+            && $solicitacao->destino_id === $usuario->lotacao_id)
             && is_null($solicitacao->entregue_em);
     }
 }

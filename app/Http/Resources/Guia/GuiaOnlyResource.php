@@ -27,7 +27,7 @@ class GuiaOnlyResource extends JsonResource
                 'gerada_em' => $this->gerada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
                 'remetente' => $this->remetente,
                 'recebedor' => $this->recebedor,
-                'lotacao_destinataria' => $this->lotacao_destinataria,
+                'destino' => $this->destino,
                 'processos' => $this->processos,
             ]
             : [];
@@ -41,7 +41,7 @@ class GuiaOnlyResource extends JsonResource
     private function prepare()
     {
         if ($this->resource) {
-            $this->lotacao_destinataria['sigla'] = str($this->lotacao_destinataria['sigla'])->upper();
+            $this->destino['sigla'] = str($this->destino['sigla'])->upper();
 
             $this->processos->transform(function ($processo) {
                 $processo['numero'] = cnj($processo['numero']);

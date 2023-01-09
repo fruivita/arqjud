@@ -37,7 +37,7 @@ beforeEach(function () {
             ],
         ],
         'recebedor' => 'ipson dolor',
-        'lotacao_destinataria' => 'lot foo',
+        'destino' => 'lot foo',
         'entregue_em' => '2020-10-20 23:30:40',
         'por_guia' => false,
         'url' => 'http://foo.bar',

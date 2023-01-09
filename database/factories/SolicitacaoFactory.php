@@ -38,7 +38,7 @@ class SolicitacaoFactory extends Factory
             'recebedor_id' => Usuario::factory(),
             'remetente_id' => Usuario::factory(),
             'rearquivador_id' => Usuario::factory(),
-            'lotacao_destinataria_id' => Lotacao::factory(),
+            'destino_id' => Lotacao::factory(),
             'guia_id' => Guia::factory(),
         ];
     }
@@ -61,7 +61,7 @@ class SolicitacaoFactory extends Factory
                 'recebedor_id' => null,
                 'remetente_id' => null,
                 'rearquivador_id' => null,
-                'lotacao_destinataria_id' => $lotacao->id,
+                'destino_id' => $lotacao->id,
                 'guia_id' => null,
             ];
         });
@@ -82,7 +82,7 @@ class SolicitacaoFactory extends Factory
                 'solicitante_id' => Usuario::factory()->for($lotacao, 'lotacao'),
                 'recebedor_id' => Usuario::factory()->for($lotacao, 'lotacao'),
                 'rearquivador_id' => null,
-                'lotacao_destinataria_id' => $lotacao->id,
+                'destino_id' => $lotacao->id,
             ];
         });
     }
@@ -100,7 +100,7 @@ class SolicitacaoFactory extends Factory
             return [
                 'solicitante_id' => Usuario::factory()->for($lotacao, 'lotacao'),
                 'recebedor_id' => Usuario::factory()->for($lotacao, 'lotacao'),
-                'lotacao_destinataria_id' => $lotacao->id,
+                'destino_id' => $lotacao->id,
             ];
         });
     }

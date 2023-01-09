@@ -13,7 +13,7 @@ use Illuminate\Database\Query\Builder;
  *
  * A verificação consiste em duas checagens
  * 1. A solicitação deve estar no status solicitada;
- * 2. O usuário recebedor deve estar lotado na lotação destinatária da
+ * 2. O usuário recebedor deve estar lotado na lotação (destino) da
  * solicitação.
  *
  * @see https://laravel.com/docs/9.x/validation#custom-validation-rules
@@ -39,7 +39,7 @@ class SolicitacaoEntregavel implements InvokableRule, DataAwareRule
     {
         $entregavel = Solicitacao::query()
             ->where('id', $value)
-            ->where('lotacao_destinataria_id', function (Builder $query) {
+            ->where('destino_id', function (Builder $query) {
                 $query->select(['lotacao_id'])
                     ->from('usuarios')
                     ->where('username', $this->data['recebedor'])

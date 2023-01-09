@@ -26,7 +26,7 @@ class ProcessoSolicitado extends Notification implements ShouldQueue
      *
      * @param  string[]  $processos número dos processos
      * @param  string  $solicitante
-     * @param  string  $lotacao_destinataria
+     * @param  string  $destino
      * @param  string  $solicitada_em
      * @param  string  $url acesso rápido às solicitações
      * @return void
@@ -34,14 +34,14 @@ class ProcessoSolicitado extends Notification implements ShouldQueue
     public function __construct(
         array $processos,
         string $solicitante,
-        string $lotacao_destinataria,
+        string $destino,
         string $solicitada_em,
         string $url
     ) {
         $this->detalhes = Collection::make()
             ->put('processos', $processos)
             ->put('solicitante', $solicitante)
-            ->put('lotacao_destinataria', $lotacao_destinataria)
+            ->put('destino', $destino)
             ->put('solicitada_em', $solicitada_em)
             ->put('url', $url);
 

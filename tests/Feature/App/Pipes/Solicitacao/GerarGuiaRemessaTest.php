@@ -20,7 +20,7 @@ test('pipe GerarGuiaRemessa cria a guia de remessa e a inclui no pipeable', func
     testTime()->freeze();
 
     $recebedor = Usuario::factory()->create();
-    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['lotacao_destinataria_id' => $recebedor->lotacao_id]);
+    $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['destino_id' => $recebedor->lotacao_id]);
 
     $entrega = new \stdClass();
     $entrega->recebedor = $recebedor->username;
