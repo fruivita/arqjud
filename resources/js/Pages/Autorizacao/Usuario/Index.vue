@@ -54,6 +54,7 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     cargo: true,
     funcao: true,
     perfil: true,
+    ultimoLogin: true,
     acao: true,
 });
 
@@ -113,6 +114,11 @@ watch(perPage, filtrar);
                 />
 
                 <CheckBox v-model:checked="elementosVisiveis.perfil" :label="__('Perfil')" />
+
+                <CheckBox
+                    v-model:checked="elementosVisiveis.ultimoLogin"
+                    :label="__('Último login')"
+                />
 
                 <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
@@ -177,6 +183,13 @@ watch(perPage, filtrar);
                         @ordenar="(direcao) => mudarOrdenacao('perfil_nome', direcao)"
                     />
 
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.ultimoLogin"
+                        :ordenacao="ordenacoes.ultimo_login"
+                        :texto="__('Último login')"
+                        @ordenar="(direcao) => mudarOrdenacao('ultimo_login', direcao)"
+                    />
+
                     <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
@@ -226,6 +239,12 @@ watch(perPage, filtrar);
                             <Cell v-show="elementosVisiveis.perfil">{{
                                 usuario.perfil?.nome
                             }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.ultimoLogin">
+                                <span>{{ usuario.ultimo_login }}</span>
+
+                                <Tooltip v-if="usuario.ip" :texto="usuario.ip" class="ml-1" />
+                            </Cell>
 
                             <Cell v-show="elementosVisiveis.acao" class="w-10">
                                 <div class="flex space-x-3">
