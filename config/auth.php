@@ -69,6 +69,7 @@ return [
                 'sync_attributes' => [
                     'username' => 'samaccountname',
                     \App\Ldap\PerfilAttributeHandler::class,
+                    \App\Ldap\LoginInfoAttributeHandler::class,
                 ],
                 'sync_existing' => [
                     'username' => 'samaccountname',
