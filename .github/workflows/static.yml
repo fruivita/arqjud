@@ -69,4 +69,3 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "style: força padrão de código com pint"
-          branch: ${{ github.head_ref }}
