@@ -70,6 +70,8 @@ test('campos opcionais estão definidos', function () {
         'email' => null,
         'nome' => null,
         'password' => null,
+        'ultimo_login' => null,
+        'ip' => null,
         'guid' => null,
         'domain' => null,
     ]);

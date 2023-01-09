@@ -28,6 +28,13 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $casts = [
+        'ultimo_login' => 'datetime',
+    ];
+
+    /**
      * Relacionamento usuário (N:1) lotação.
      *
      * Lotação de determinado usuário.
