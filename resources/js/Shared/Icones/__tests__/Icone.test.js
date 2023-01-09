@@ -48,6 +48,7 @@ describe('Icone', () => {
         ['cart'],
         ['check-circle'],
         ['clipboard'],
+        ['clock'],
         ['dash'],
         ['dash-circle'],
         ['diagram-3'],
