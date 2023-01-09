@@ -69,6 +69,20 @@ class Order extends OrderBase
     }
 
     /**
+     * Aplica a ordenação pela data/hora do último login.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $direcao asc ou desc
+     * @return void
+     */
+    protected function ultimoLogin(Builder $query, string $direcao)
+    {
+        $direcao = ascOrDesc($direcao);
+
+        $query->orderBy('ultimo_login', $direcao);
+    }
+
+    /**
      * Aplica a ordenação pela sigla da lotação.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
