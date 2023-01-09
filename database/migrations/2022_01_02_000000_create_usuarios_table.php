@@ -30,6 +30,8 @@ return new class extends Migration
             $table->string('email', 255)->unique()->nullable();
             $table->string('nome', 255)->nullable();
             $table->string('password', 255)->nullable();
+            $table->dateTime('ultimo_login')->nullable();
+            $table->ipAddress('ip')->nullable();
             $table->string('guid', 255)->unique()->nullable();
             $table->string('domain', 255)->nullable();
             $table->rememberToken();

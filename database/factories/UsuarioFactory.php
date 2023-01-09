@@ -34,6 +34,8 @@ class UsuarioFactory extends Factory
                 'nome' => fake()->text(50),
                 'username' => fake()->unique()->text(20),
                 'password' => null,
+                'ultimo_login' => now()->subWeeks(rand(1, 30)),
+                'ip' => fake()->ipv4(),
                 'guid' => fake()->unique()->uuid(),
                 'domain' => fake()->domainName(),
                 'perfil_id' => Perfil::factory(),
