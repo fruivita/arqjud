@@ -1,0 +1,55 @@
+// Vitest Snapshot v1
+
+exports[`Hint > renderiza o componente default respeitando o snapshot 1`] = `
+"<div class=\\"inline-block\\">
+  <div class=\\"flex\\" dusk=\\"toggle\\">loren</div>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"hint\\" style=\\"display: none;\\"><span>foo</span>
+    <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
+  </div>
+</div>"
+`;
+
+exports[`Hint > renderiza o componente informando um array de textos respeitando o snapshot 1`] = `
+"<div class=\\"inline-block\\">
+  <div class=\\"flex\\" dusk=\\"toggle\\">loren</div>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"hint\\" style=\\"display: none;\\"><span class=\\"block\\">foo</span><span class=\\"block\\">bar</span><span class=\\"block\\">baz</span>
+    <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
+  </div>
+</div>"
+`;
+
+exports[`Hint > renderiza o componente nas posições específicas respeitando o snapshot 1`] = `
+"<div class=\\"inline-block\\">
+  <div class=\\"flex\\" dusk=\\"toggle\\">loren</div>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"hint\\" style=\\"display: none;\\"><span>foo</span>
+    <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
+  </div>
+</div>"
+`;
+
+exports[`Hint > renderiza o componente nas posições específicas respeitando o snapshot 2`] = `
+"<div class=\\"inline-block\\">
+  <div class=\\"flex\\" dusk=\\"toggle\\">loren</div>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"hint\\" style=\\"display: none;\\"><span>foo</span>
+    <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
+  </div>
+</div>"
+`;
+
+exports[`Hint > renderiza o componente nas posições específicas respeitando o snapshot 3`] = `
+"<div class=\\"inline-block\\">
+  <div class=\\"flex\\" dusk=\\"toggle\\">loren</div>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"hint\\" style=\\"display: none;\\"><span>foo</span>
+    <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
+  </div>
+</div>"
+`;
+
+exports[`Hint > renderiza o componente nas posições específicas respeitando o snapshot 4`] = `
+"<div class=\\"inline-block\\">
+  <div class=\\"flex\\" dusk=\\"toggle\\">loren</div>
+  <div class=\\"absolute top-0 left-0 z-10 cursor-default rounded-md bg-primaria-600 px-3 py-1.5 text-sm font-bold text-primaria-50 dark:bg-secundaria-600 dark:text-secundaria-50\\" dusk=\\"hint\\" style=\\"display: none;\\"><span>foo</span>
+    <div class=\\"absolute h-[8px] w-[8px] rotate-45 bg-primaria-600 dark:bg-secundaria-600\\"></div>
+  </div>
+</div>"
+`;
