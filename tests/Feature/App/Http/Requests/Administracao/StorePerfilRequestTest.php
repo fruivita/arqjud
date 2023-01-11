@@ -11,6 +11,8 @@ use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Validation\Rule;
 
+beforeAll(fn () => \Spatie\Once\Cache::getInstance()->disable());
+
 beforeEach(function () {
     $this->request = new StorePerfilRequest();
 });
@@ -47,7 +49,7 @@ test('rules estão definidas no form request', function () {
             'bail',
             'required',
             'integer',
-            'between:1001,9998',
+            'between:1001,8999',
             Rule::unique('perfis', 'poder'),
         ],
         'descricao' => [

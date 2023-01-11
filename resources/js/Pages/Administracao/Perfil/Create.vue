@@ -64,7 +64,7 @@ const cadastrar = () => {
                             v-model="form.poder"
                             :erro="form.errors.poder"
                             :label="__('Poder')"
-                            :max="9998"
+                            :max="8999"
                             :min="1001"
                             :placeholder="__('Apenas números')"
                             autocomplete="off"
