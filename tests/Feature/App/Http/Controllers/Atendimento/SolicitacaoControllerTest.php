@@ -39,9 +39,7 @@ beforeEach(function () {
     $this->destino = Lotacao::factory()->create();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Autorização
 test('usuário sem permissão não consegue excluir uma solicitação', function () {

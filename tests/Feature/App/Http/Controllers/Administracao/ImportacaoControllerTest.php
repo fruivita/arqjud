@@ -27,9 +27,7 @@ beforeEach(function () {
     login();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Autorização
 test('usuário sem permissão não consegue exibir formulário de importação forçada de dados', function () {

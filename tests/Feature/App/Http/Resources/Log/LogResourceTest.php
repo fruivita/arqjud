@@ -22,9 +22,7 @@ beforeEach(function () {
     $this->storage->put($this->filename, 'Contents');
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas', function () {

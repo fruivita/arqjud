@@ -32,9 +32,7 @@ beforeEach(function () {
     Auth::login($this->usuario);
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Autorização
 test('usuário sem permissão não consegue exibir formulário de entrega de processos solicitados', function () {

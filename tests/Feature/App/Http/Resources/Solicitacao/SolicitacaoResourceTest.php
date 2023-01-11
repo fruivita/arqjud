@@ -23,9 +23,7 @@ beforeEach(function () {
     $this->solicitacao = Solicitacao::factory()->solicitada()->create(['destino_id' => $usuario->lotacao_id]);
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {

@@ -18,9 +18,7 @@ beforeEach(function () {
     $this->lotacao = Lotacao::factory()->create();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {

@@ -22,9 +22,7 @@ beforeEach(function () {
     $this->solicitacoes = Solicitacao::factory(2)->create();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {

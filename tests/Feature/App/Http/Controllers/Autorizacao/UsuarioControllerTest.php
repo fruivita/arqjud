@@ -28,9 +28,7 @@ beforeEach(function () {
     Auth::login($this->usuario);
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Autorização
 test('usuário sem permissão não consegue listar os usuários', function () {

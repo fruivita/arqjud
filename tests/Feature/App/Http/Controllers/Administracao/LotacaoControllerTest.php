@@ -23,9 +23,7 @@ beforeEach(function () {
     login();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Autorização
 test('usuário sem permissão não consegue listar as lotações', function () {

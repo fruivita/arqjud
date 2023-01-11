@@ -28,9 +28,7 @@ beforeEach(function () {
     });
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Not found
 test('parâmetro das rotas de log estão protegidos com regex, mesmo que o log exista', function () {

@@ -17,9 +17,7 @@ beforeEach(function () {
     $this->andares = Andar::factory(2)->create();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Caminho feliz
 test('retorna os campos principais do modelo', function () {

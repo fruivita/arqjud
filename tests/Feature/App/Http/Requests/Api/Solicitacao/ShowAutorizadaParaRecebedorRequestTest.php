@@ -18,9 +18,7 @@ beforeEach(function () {
     $this->request = new ShowAutorizadaParaRecebedorRequest();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Caminho feliz
 test('usuário sem autorização não cria o request', function () {

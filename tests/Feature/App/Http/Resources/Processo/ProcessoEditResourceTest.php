@@ -20,9 +20,7 @@ beforeEach(function () {
     $this->processo = Processo::factory()->for(Processo::factory(), 'processoPai')->create();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {

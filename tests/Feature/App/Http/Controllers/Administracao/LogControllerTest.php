@@ -29,9 +29,7 @@ beforeEach(function () {
     });
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Autorização
 test('usuário sem permissão não consegue exibir os logs de funcionamento', function () {

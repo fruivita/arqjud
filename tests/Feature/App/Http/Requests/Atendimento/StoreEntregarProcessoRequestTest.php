@@ -20,9 +20,7 @@ beforeEach(function () {
     $this->request = new StoreEntregarProcessoRequest();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Autorização
 test('usuário sem autorização não cria o request', function () {

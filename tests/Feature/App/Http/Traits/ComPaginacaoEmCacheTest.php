@@ -20,9 +20,7 @@ beforeEach(function () {
     };
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Inválidos/Inexistente
 test('se a paginação informada e o cache forem inválidos, a paginação padrão será utilizada', function () {

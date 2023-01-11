@@ -17,9 +17,7 @@ beforeEach(function () {
     $this->usuario = login();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Proibido
 test('usuário sem permissão não pode listar os processos', function () {

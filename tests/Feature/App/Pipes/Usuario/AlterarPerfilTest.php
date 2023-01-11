@@ -23,9 +23,7 @@ beforeEach(function () {
     Auth::login($this->usuario);
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Exception
 test('lança exception caso o perfil do usuário alvo seja maior que o do usuário autenticado', function () {

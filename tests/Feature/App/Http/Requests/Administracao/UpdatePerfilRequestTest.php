@@ -19,9 +19,7 @@ beforeEach(function () {
     $this->request->perfil = $this->perfil;
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Autorização
 test('usuário sem autorização não cria o request', function () {
