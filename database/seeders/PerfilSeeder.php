@@ -51,19 +51,19 @@ class PerfilSeeder extends Seeder
             [
                 'nome' => 'Gerente de negócio',
                 'slug' => Perfil::GERENTE_NEGOCIO,
-                'poder' => 8999,
+                'poder' => 9900,
                 'descricao' => 'Perfil com acesso a todas as funções de negócio da aplicação. Não possui acesso às funções de administração.',
             ],
             [
                 'nome' => 'Operador',
                 'slug' => Perfil::OPERADOR,
-                'poder' => 8500,
+                'poder' => 9800,
                 'descricao' => 'Perfil com acesso a funções de negócio não críticas.',
             ],
             [
                 'nome' => 'Observador',
                 'slug' => Perfil::OBSERVADOR,
-                'poder' => 7999,
+                'poder' => 9700,
                 'descricao' => 'Perfil com acesso de visualização em todas as funções de negócio da aplicação. Não possui acesso as funções de administração.',
             ],
             [
