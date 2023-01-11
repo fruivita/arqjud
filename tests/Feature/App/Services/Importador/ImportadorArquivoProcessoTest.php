@@ -4,8 +4,17 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Models\Andar;
+use App\Models\Caixa;
+use App\Models\Estante;
+use App\Models\Localidade;
+use App\Models\Prateleira;
+use App\Models\Predio;
 use App\Models\Processo;
+use App\Models\Sala;
+use App\Models\VolumeCaixa;
 use App\Services\Importador\ImportadorArquivoProcesso;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use function Spatie\Snapshots\assertMatchesFileSnapshot;

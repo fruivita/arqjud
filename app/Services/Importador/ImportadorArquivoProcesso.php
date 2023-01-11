@@ -182,7 +182,7 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
         SimpleExcelReader::create($this->full_path)
             ->useHeaders($this->campos)
             ->getRows()
-            ->filter(fn (array $input) => !empty(data_get($input, 'numero_processo_pai')))
+            ->filter(fn (array $input) => !empty(Arr::get($input, 'numero_processo_pai')))
             ->each(function (array $input) use ($campos, $rules) {
                 $dados = Arr::only($input, $campos);
                 $validador = Validator::make($dados, $rules);
@@ -193,7 +193,7 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
                     $validados = $validador->validated();
 
                     if ($validados) {
-                        $this->vincularProcessoPai($validados['numero_processo'], $validados['numero_processo_pai']);
+                        $this->vincularProcessoPai(Arr::get($validados, 'numero_processo'), Arr::get($validados, 'numero_processo_pai'));
                     }
                 }
             });
@@ -224,52 +224,43 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
      */
     private function salvar(array $validados)
     {
-        DB::beginTransaction();
-
         try {
-            $localidade = Localidade::firstOrCreate(['nome' => $validados['nome_localidade']]);
-            $localidade_criadora = Localidade::firstOrCreate(['nome' => $validados['nome_localidade_criadora_caixa']]);
-            $predio = $localidade->predios()->firstOrCreate(['nome' => $validados['nome_predio']]);
-            $andar = $predio->andares()->firstOrCreate(['numero' => $validados['numero_andar']]);
-            $sala = $andar->salas()->firstOrCreate(['numero' => $validados['numero_sala']]);
+            $localidade = Localidade::firstOrCreate(['nome' => Arr::get($validados, 'nome_localidade')]);
+            $localidade_criadora = Localidade::firstOrCreate(['nome' => Arr::get($validados, 'nome_localidade_criadora_caixa')]);
+            $predio = $localidade->predios()->firstOrCreate(['nome' => Arr::get($validados, 'nome_predio')]);
+            $andar = $predio->andares()->firstOrCreate(['numero' => Arr::get($validados, 'numero_andar')]);
+            $sala = $andar->salas()->firstOrCreate(['numero' => Arr::get($validados, 'numero_sala')]);
             $estante = $sala->estantes()->firstOrCreate([
-                'numero' => $validados['numero_estante'] ?: '0',
+                'numero' => Arr::get($validados, 'numero_estante') ?: '0',
             ]);
             $prateleira = $estante->prateleiras()->firstOrCreate([
-                'numero' => $validados['numero_prateleira'] ?: '0',
+                'numero' => Arr::get($validados, 'numero_prateleira') ?: '0',
             ]);
             $caixa = $prateleira->caixas()->firstOrCreate(
                 [
-                    'numero' => $validados['numero_caixa'],
-                    'ano' => $validados['ano_caixa'],
-                    // @todo lowercase e comparar
-                    'guarda_permanente' => in_array($validados['guarda_permanente_processo'], ['SIM', 'Sim', 'sim']),
-                    'complemento' => $validados['complemento_caixa'] ?: null,
+                    'numero' => Arr::get($validados, 'numero_caixa'),
+                    'ano' => Arr::get($validados, 'ano_caixa'),
+                    'guarda_permanente' => str(Arr::get($validados, 'guarda_permanente_processo'))->lower()->exactly('sim'),
+                    'complemento' => Arr::get($validados, 'complemento_caixa') ?: null,
                     'localidade_criadora_id' => $localidade_criadora->id,
                 ],
-                ['descricao' => $validados['descricao_caixa'] ?: null]
+                ['descricao' => Arr::get($validados, 'descricao_caixa') ?: null]
             );
             $volume_caixa = $caixa->volumes()->firstOrCreate([
-                'numero' => $validados['volume_caixa'],
+                'numero' => Arr::get($validados, 'volume_caixa'),
             ]);
             $volume_caixa->processos()->firstOrCreate(
-                ['numero' => $validados['numero_processo']],
+                ['numero' => Arr::get($validados, 'numero_processo')],
                 [
-                    // @todo lowercase e comparar
-                    // @todo usar dataget para evitar erros
-                    'guarda_permanente' => in_array($validados['guarda_permanente_processo'], ['SIM', 'Sim', 'sim']),
-                    'arquivado_em' => Carbon::createFromFormat('d-m-Y', $validados['arquivado_em']),
-                    'qtd_volumes' => $validados['qtd_volumes_processo'],
-                    'numero_antigo' => $validados['numero_antigo_processo'] ?: null,
+                    'guarda_permanente' => str(Arr::get($validados, 'guarda_permanente_processo'))->lower()->exactly('sim'),
+                    'arquivado_em' => Carbon::createFromFormat('d-m-Y', Arr::get($validados, 'arquivado_em')),
+                    'qtd_volumes' => Arr::get($validados, 'qtd_volumes_processo'),
+                    'numero_antigo' => Arr::get($validados, 'numero_antigo_processo') ?: null,
                 ]
             );
 
-            DB::commit();
-
             return true;
         } catch (\Throwable $exception) {
-            DB::rollBack();
-
             $this->log(
                 'critical',
                 __('Falha ao importar os processos'),
