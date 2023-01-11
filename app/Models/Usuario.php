@@ -255,4 +255,20 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
             empty($usuario->perfil)
             || $this->perfil->poder > $usuario->perfil->poder;
     }
+
+    /**
+     * Reseta o perfil do usuário informado, exceto se ele for administrador.
+     *
+     * @param int $usuario_id
+     * @return void
+     */
+    public static function resetarPerfil(int $usuario_id)
+    {
+        self::query()
+            ->where('id', $usuario_id)
+            ->whereNot('perfil_id', Perfil::administrador()->id)
+            ->update([
+                'perfil_id' => Perfil::padrao()->id,
+            ]);
+    }
 }

@@ -308,3 +308,29 @@ test('pertenceLotacaoAdministravel informa se o usuário está lotado em uma lot
 
     expect($usuario->pertenceLotacaoAdministravel())->toBe($administravel);
 })->with([true, false]);
+
+test('resetarPerfil atribui o perfil padrão ao usuário informado', function () {
+    $usuario = Usuario::factory()->create();
+
+    expect($usuario->perfil_id)->not->toBe(Perfil::administrador()->id);
+
+    Usuario::resetarPerfil($usuario->id);
+
+    $usuario->refresh();
+
+    expect($usuario->perfil_id)->toBe(Perfil::padrao()->id);
+});
+
+test('resetarPerfil não altera o perfil do usuário se ele for administrador', function () {
+    $adm = Perfil::administrador();
+
+    $usuario = Usuario::factory()->create(['perfil_id' => $adm->id]);
+
+    expect($usuario->perfil_id)->toBe($adm->id);
+
+    Usuario::resetarPerfil($usuario->id);
+
+    $usuario->refresh();
+
+    expect($usuario->perfil_id)->toBe($adm->id);
+});
