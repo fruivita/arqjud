@@ -7,6 +7,7 @@
  */
 
 import Clipboard from '@/Shared/Misc/Clipboard.vue';
+import { createTestingPinia } from '@pinia/testing';
 import { mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
@@ -15,6 +16,8 @@ let mountFunction;
 let clipboardContents = '';
 
 beforeEach(() => {
+    createTestingPinia();
+
     Object.assign(navigator, {
         clipboard: {
             writeText: vi.fn((text) => {
