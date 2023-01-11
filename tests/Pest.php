@@ -10,9 +10,12 @@ use App\Models\Usuario;
 use App\Models\VolumeCaixa;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use LdapRecord\Models\ActiveDirectory\User;
+use Spatie\SimpleExcel\SimpleExcelWriter;
+
 use function Pest\Faker\faker;
 use function Pest\Laravel\post;
 
@@ -309,4 +312,55 @@ function guiaApi(Guia $guia)
             return $processo;
         })->toArray(),
     ];
+}
+
+/**
+ * Headers para uso no arquivo de processos para importação.
+ *
+ * @return string[]
+ */
+function csvHeader()
+{
+    return [
+        'Número do Processo',
+        'Número do Processo Antigo',
+        'Número Processo Pai',
+        'Data arquivamento',
+        'Qte de Volumes',
+        'Número Caixa',
+        'Tipo',
+        'Ano Caixa',
+        'Volume Caixa',
+        'Arquivo Permanente',
+        'Localidade de Origem',
+        'Localização',
+        'Prédio',
+        'Andar',
+        'Sala',
+        'Estante',
+        'Prateleita',
+        'Observação',
+    ];
+}
+
+/**
+ * Cria, no Storage, arquivos de processos no formato CSV para serem importados
+ * utilizando o stub informado.
+ *
+ * @param  string  $nome_arquivo
+ * @param  string  $stub
+ * @return void
+ */
+function criarArquivoProcesso(string $nome_arquivo, string $stub)
+{
+    $linhas = require __DIR__ . "/stubs/{$stub}.php";
+
+    $dados = [];
+
+    foreach ($linhas as $linha) {
+        $dados[] = array_combine(csvHeader(), $linha);
+    }
+
+    SimpleExcelWriter::create(Storage::disk('processo')->path($nome_arquivo))
+        ->addRows($dados);
 }
