@@ -38,7 +38,7 @@ class ImportarProcesso implements ShouldQueue, ShouldBeUnique
      *
      * @var string
      */
-    private $arquivo;
+    public $arquivo;
 
     /**
      * Create a new job instance.
