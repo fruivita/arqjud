@@ -74,8 +74,12 @@ class PerfilPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * Regra de negócio: perfil Administrador (perfil de maior poder) e o
-     * Padrão (perfil de menor poder) não podem ser excluídos.
+     * Regra de negócio: perfis originais não podem ser excluídos:
+     * - Administrador;
+     * - Gestor de Negócio;
+     * - Operador;
+     * - Observador;
+     * - Padrão.
      *
      * @param  \App\Models\Usuario  $usuario
      * @param  \App\Models\Perfil  $perfil
@@ -84,8 +88,13 @@ class PerfilPolicy
     public function delete(Usuario $usuario, Perfil $perfil)
     {
         if (
-            $perfil->slug == Perfil::ADMINISTRADOR
-            || $perfil->slug == Perfil::PADRAO
+            in_array($perfil->slug, [
+                Perfil::ADMINISTRADOR,
+                Perfil::GERENTE_NEGOCIO,
+                Perfil::OPERADOR,
+                Perfil::OBSERVADOR,
+                Perfil::PADRAO,
+            ])
             || $usuario->possuiPermissao(Permissao::PERFIL_DELETE) !== true
         ) {
             return false;

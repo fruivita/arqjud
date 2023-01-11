@@ -10,15 +10,15 @@ use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 
+beforeAll(fn () => \Spatie\Once\Cache::getInstance()->disable());
+
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
     $this->usuario = login();
 });
 
-afterEach(function () {
-    logout();
-});
+afterEach(fn () => logout());
 
 // Proibido
 test('usuário sem permissão não pode listar os perfis', function () {
@@ -47,7 +47,7 @@ test('usuário sem permissão não pode excluir um perfil', function () {
     expect(Auth::user()->can(Policy::Delete->value, $perfil))->toBeFalse();
 });
 
-test('perfil Administrador e Padrão não pode ser excluído, mesmo se o usuário tiver permissão', function (string $slug) {
+test('perfis definidos na implantação original não podem ser excluídos, mesmo se o usuário tiver permissão', function (string $slug) {
     concederPermissao(Permissao::PERFIL_DELETE);
 
     $perfil = Perfil::firstWhere('slug', $slug);
@@ -55,6 +55,9 @@ test('perfil Administrador e Padrão não pode ser excluído, mesmo se o usuári
     expect(Auth::user()->can(Policy::Delete->value, $perfil))->toBeFalse();
 })->with([
     Perfil::ADMINISTRADOR,
+    Perfil::GERENTE_NEGOCIO,
+    Perfil::OPERADOR,
+    Perfil::OBSERVADOR,
     Perfil::PADRAO,
 ]);
 
