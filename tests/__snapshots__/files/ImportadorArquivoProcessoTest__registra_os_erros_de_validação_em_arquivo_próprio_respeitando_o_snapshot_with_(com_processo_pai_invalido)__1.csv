@@ -1,0 +1,4 @@
+﻿numero_processo,numero_antigo_processo,numero_processo_pai,arquivado_em,qtd_volumes_processo,numero_caixa,complemento_caixa,ano_caixa,volume_caixa,guarda_permanente_processo,nome_localidade_criadora_caixa,nome_localidade,nome_predio,numero_andar,numero_sala,numero_estante,numero_prateleira,descricao_caixa,falha
+26899909319841005657,,11111111111111111111111111,21-12-2020,2,5,,2020,3,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"The numero processo pai must not be greater than 25 characters."
+26899909319841005657,,123,21-12-2020,2,5,,2020,3,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,validation.cnj
+26899909319841005657,,84145187219344032589,21-12-2020,2,5,,2020,3,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"The selected numero processo pai is invalid."
