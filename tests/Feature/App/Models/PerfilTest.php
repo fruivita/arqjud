@@ -242,3 +242,21 @@ test('retorna os perfis pelo escopo search que busca a partir do início do text
     ['cccc', 1],
     ['bar', 0],
 ]);
+
+test('método administrador retorna o perfil administrador', function () {
+    $this->seed([PerfilSeeder::class]);
+
+    $adm = Perfil::administrador();
+
+    expect($adm)->toBeInstanceOf(Perfil::class)
+        ->and($adm->slug)->toBe(Perfil::ADMINISTRADOR);
+});
+
+test('método padrao retorna o perfil padrão', function () {
+    $this->seed([PerfilSeeder::class]);
+
+    $adm = Perfil::padrao();
+
+    expect($adm)->toBeInstanceOf(Perfil::class)
+        ->and($adm->slug)->toBe(Perfil::PADRAO);
+});

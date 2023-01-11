@@ -83,4 +83,24 @@ class Perfil extends Model
                 ->orWhere('poder', 'like', $termo);
         });
     }
+
+    /**
+     * Retorna o perfil administrador.
+     *
+     * @return \App\Models\Perfil
+     */
+    public static function administrador()
+    {
+        return once(fn () => self::firstWhere('slug', self::ADMINISTRADOR));
+    }
+
+    /**
+     * Retorna o perfil padrão.
+     *
+     * @return \App\Models\Perfil
+     */
+    public static function padrao()
+    {
+        return once(fn () => self::firstWhere('slug', self::PADRAO));
+    }
 }
