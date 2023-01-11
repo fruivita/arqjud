@@ -62,6 +62,12 @@ return [
             'throw' => false,
         ],
 
+        'processo' => [
+            'driver' => 'local',
+            'root' => storage_path('app/processo'),
+            'throw' => false,
+        ],
+
     ],
 
     /*
