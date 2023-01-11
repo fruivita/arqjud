@@ -19,6 +19,8 @@ use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
+beforeAll(fn () => \Spatie\Once\Cache::getInstance()->disable());
+
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
