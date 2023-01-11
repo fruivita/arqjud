@@ -439,14 +439,6 @@ const viewReset = () => {
                                     )
                                 }}
                             </li>
-
-                            <li>
-                                {{
-                                    __(
-                                        'Guarde a guia de remessa assinada até a devolução e conferência de todos os processos remetidos.'
-                                    )
-                                }}
-                            </li>
                         </ol>
                     </Alerta>
 
