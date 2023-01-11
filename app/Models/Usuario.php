@@ -259,7 +259,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     /**
      * Reseta o perfil do usuário informado, exceto se ele for administrador.
      *
-     * @param int $usuario_id
+     * @param  int  $usuario_id
      * @return void
      */
     public static function resetarPerfil(int $usuario_id)

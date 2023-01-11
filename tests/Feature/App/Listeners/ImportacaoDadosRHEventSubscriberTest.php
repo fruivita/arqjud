@@ -16,12 +16,9 @@ use App\Models\Lotacao;
 use App\Models\Perfil;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
-use FruiVita\Corporativo\Events\ImportacaoIniciada;
 use Illuminate\Events\CallQueuedListener;
-use Illuminate\Notifications\SendQueuedNotifications;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
-
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeAll(fn () => \Spatie\Once\Cache::getInstance()->disable());

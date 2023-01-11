@@ -14,10 +14,9 @@ use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
 use LdapRecord\Laravel\Testing\DirectoryEmulator;
 use LdapRecord\Models\ActiveDirectory\User;
-use Spatie\SimpleExcel\SimpleExcelWriter;
-
 use function Pest\Faker\faker;
 use function Pest\Laravel\post;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 
 /*
 |--------------------------------------------------------------------------

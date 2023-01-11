@@ -186,7 +186,7 @@ test('cria os relacionamentos na importação', function () {
 
     $processo = Processo::with([
         'volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade',
-        'volumeCaixa.caixa.localidadeCriadora'
+        'volumeCaixa.caixa.localidadeCriadora',
     ])->firstWhere('processos.numero', '26899909319841005657');
 
     expect($processo->volumeCaixa->numero)->toBe(3)
