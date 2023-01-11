@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
  * Campos mínimos para habilitação:
  * - Nome;
  * - Matrícula;
- * - Sigla de rede;
  * - Email;
  * - Lotação.
  *
