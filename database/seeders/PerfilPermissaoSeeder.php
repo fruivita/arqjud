@@ -162,7 +162,7 @@ class PerfilPermissaoSeeder extends Seeder
      */
     private function permissoesPerfilGerenteNegocio(int $id_perfil)
     {
-        $id_perfil = Perfil::firstWhere('slug', Perfil::GERENTE_NEGOCIO)->id;
+        $id_perfil = Perfil::gerenteNegocio()->id;
 
         return Permissao::whereIn('slug', [
             //
@@ -184,7 +184,7 @@ class PerfilPermissaoSeeder extends Seeder
      */
     private function permissoesPerfilOperador(int $id_perfil)
     {
-        $id_perfil = Perfil::firstWhere('slug', Perfil::OPERADOR)->id;
+        $id_perfil = Perfil::operador()->id;
 
         return Permissao::whereIn('slug', [
             //
@@ -206,7 +206,7 @@ class PerfilPermissaoSeeder extends Seeder
      */
     private function permissoesPerfilObservador(int $id_perfil)
     {
-        $id_perfil = Perfil::firstWhere('slug', Perfil::OBSERVADOR)->id;
+        $id_perfil = Perfil::observador()->id;
 
         return Permissao::whereIn('slug', [
             //
@@ -228,7 +228,7 @@ class PerfilPermissaoSeeder extends Seeder
      */
     private function permissoesPerfilPadrao(int $id_perfil)
     {
-        $id_perfil = Perfil::firstWhere('slug', Perfil::PADRAO)->id;
+        $id_perfil = Perfil::padrao()->id;
 
         return Permissao::whereIn('slug', [
             //

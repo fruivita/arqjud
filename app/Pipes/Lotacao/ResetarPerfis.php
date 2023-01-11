@@ -28,12 +28,10 @@ class ResetarPerfis
     public function handle(Lotacao $lotacao, \Closure $next)
     {
         if ($lotacao->administravel !== true) {
-            $perfis = Perfil::whereIn('slug', [Perfil::ADMINISTRADOR, Perfil::PADRAO])->get();
-
             Usuario::query()
                 ->whereBelongsTo($lotacao, 'lotacao')
-                ->whereNot('perfil_id', $perfis->firstWhere('slug', Perfil::ADMINISTRADOR)->id)
-                ->update(['perfil_id' => $perfis->firstWhere('slug', Perfil::PADRAO)->id]);
+                ->whereNot('perfil_id', Perfil::administrador()->id)
+                ->update(['perfil_id' => Perfil::padrao()->id]);
         }
 
         return $next($lotacao);
