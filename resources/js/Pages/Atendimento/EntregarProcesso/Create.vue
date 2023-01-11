@@ -183,9 +183,9 @@ const viewReset = () => {
                                 formRecebedor.errors.recebedor ||
                                 formEntregarProcessos.errors.recebedor
                             "
-                            :label="__('Recebedor')"
+                            :label="__('Matrícula do recebedor')"
                             :maxlength="20"
-                            :placeholder="__('Usuário de rede')"
+                            :placeholder="__('ESXXXXX')"
                             autocomplete="off"
                             icone="person"
                             required

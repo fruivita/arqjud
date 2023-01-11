@@ -187,9 +187,9 @@ const viewReset = () => {
                         <TextInput
                             v-model="formSolicitante.solicitante"
                             :erro="formSolicitante.errors.solicitante"
-                            :label="__('Solicitante')"
+                            :label="__('Matrícula do solicitante')"
                             :maxlength="20"
-                            :placeholder="__('Usuário de rede')"
+                            :placeholder="__('ESXXXXX')"
                             autocomplete="off"
                             icone="person"
                             required
