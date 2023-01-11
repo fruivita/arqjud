@@ -252,6 +252,33 @@ test('método administrador retorna o perfil administrador', function () {
         ->and($adm->slug)->toBe(Perfil::ADMINISTRADOR);
 });
 
+test('método gerenteNegocio retorna o perfil gerente de negócio', function () {
+    $this->seed([PerfilSeeder::class]);
+
+    $adm = Perfil::gerenteNegocio();
+
+    expect($adm)->toBeInstanceOf(Perfil::class)
+        ->and($adm->slug)->toBe(Perfil::GERENTE_NEGOCIO);
+});
+
+test('método operador retorna o perfil operador', function () {
+    $this->seed([PerfilSeeder::class]);
+
+    $adm = Perfil::operador();
+
+    expect($adm)->toBeInstanceOf(Perfil::class)
+        ->and($adm->slug)->toBe(Perfil::OPERADOR);
+});
+
+test('método observador retorna o perfil observador', function () {
+    $this->seed([PerfilSeeder::class]);
+
+    $adm = Perfil::observador();
+
+    expect($adm)->toBeInstanceOf(Perfil::class)
+        ->and($adm->slug)->toBe(Perfil::OBSERVADOR);
+});
+
 test('método padrao retorna o perfil padrão', function () {
     $this->seed([PerfilSeeder::class]);
 

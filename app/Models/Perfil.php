@@ -95,6 +95,36 @@ class Perfil extends Model
     }
 
     /**
+     * Retorna o perfil gerente de negócio.
+     *
+     * @return \App\Models\Perfil
+     */
+    public static function gerenteNegocio()
+    {
+        return once(fn () => self::firstWhere('slug', self::GERENTE_NEGOCIO));
+    }
+
+    /**
+     * Retorna o perfil operador.
+     *
+     * @return \App\Models\Perfil
+     */
+    public static function operador()
+    {
+        return once(fn () => self::firstWhere('slug', self::OPERADOR));
+    }
+
+    /**
+     * Retorna o perfil observador.
+     *
+     * @return \App\Models\Perfil
+     */
+    public static function observador()
+    {
+        return once(fn () => self::firstWhere('slug', self::OBSERVADOR));
+    }
+
+    /**
      * Retorna o perfil padrão.
      *
      * @return \App\Models\Perfil
