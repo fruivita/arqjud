@@ -14,7 +14,7 @@ test('não se pode entregar processo com a solicitação no status entregue', fu
     $solicitacao = Solicitacao::factory()->entregue()->create();
     $recebedor = Usuario::factory()->create(['lotacao_id' => $solicitacao->destino_id]);
 
-    $validator = Validator::make(['solicitacao_id' => $solicitacao->id, 'recebedor' => $recebedor->username], [
+    $validator = Validator::make(['solicitacao_id' => $solicitacao->id, 'recebedor' => $recebedor->matricula], [
         'solicitacao_id' => [new SolicitacaoEntregavel()],
     ]);
 
@@ -25,7 +25,7 @@ test('não se pode entregar processo com a solicitação no status devolvida', f
     $solicitacao = Solicitacao::factory()->devolvida()->create();
     $recebedor = Usuario::factory()->create(['lotacao_id' => $solicitacao->destino_id]);
 
-    $validator = Validator::make(['solicitacao_id' => $solicitacao->id, 'recebedor' => $recebedor->username], [
+    $validator = Validator::make(['solicitacao_id' => $solicitacao->id, 'recebedor' => $recebedor->matricula], [
         'solicitacao_id' => [new SolicitacaoEntregavel()],
     ]);
 
@@ -36,7 +36,7 @@ test('não se pode entregar processo para recebedor de lotação diversa da lota
     $solicitacao = Solicitacao::factory()->entregue()->create();
     $recebedor = Usuario::factory()->create();
 
-    $validator = Validator::make(['solicitacao_id' => $solicitacao->id, 'recebedor' => $recebedor->username], [
+    $validator = Validator::make(['solicitacao_id' => $solicitacao->id, 'recebedor' => $recebedor->matricula], [
         'solicitacao_id' => [new SolicitacaoEntregavel()],
     ]);
 
@@ -47,7 +47,7 @@ test('solicitação é entregável apenas se no status solicitada e o recebedor 
     $solicitacao = Solicitacao::factory()->solicitada()->create();
     $recebedor = Usuario::factory()->create(['lotacao_id' => $solicitacao->destino_id]);
 
-    $validator = Validator::make(['solicitacao_id' => $solicitacao->id, 'recebedor' => $recebedor->username], [
+    $validator = Validator::make(['solicitacao_id' => $solicitacao->id, 'recebedor' => $recebedor->matricula], [
         'solicitacao_id' => [new SolicitacaoEntregavel()],
     ]);
 
@@ -58,7 +58,7 @@ test('mensagem de falha de validação está definida', function () {
     $solicitacao = Solicitacao::factory()->entregue()->create();
     $recebedor = Usuario::factory()->create();
 
-    $validator = Validator::make(['solicitacao_id' => $solicitacao->id, 'recebedor' => $recebedor->username], [
+    $validator = Validator::make(['solicitacao_id' => $solicitacao->id, 'recebedor' => $recebedor->matricula], [
         'solicitacao_id' => [new SolicitacaoEntregavel()],
     ]);
 

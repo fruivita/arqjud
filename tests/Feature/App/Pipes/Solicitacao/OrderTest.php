@@ -68,10 +68,10 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
     'devolvida_em',
     'por_guia',
     'processo_numero',
-    'solicitante_username',
-    'recebedor_username',
-    'remetente_username',
-    'rearquivador_username',
+    'solicitante_matricula',
+    'recebedor_matricula',
+    'remetente_matricula',
+    'rearquivador_matricula',
     'destino_sigla',
 ]);
 
@@ -82,10 +82,10 @@ test('todas as ordenações possíveis no request da solicitação', function ()
         'devolvida_em' => 'asc',
         'por_guia' => 'asc',
         'processo_numero' => 'desc',
-        'solicitante_username' => 'desc',
-        'recebedor_username' => 'desc',
-        'remetente_username' => 'desc',
-        'rearquivador_username' => 'desc',
+        'solicitante_matricula' => 'desc',
+        'recebedor_matricula' => 'desc',
+        'remetente_matricula' => 'desc',
+        'rearquivador_matricula' => 'desc',
         'destino_sigla' => 'desc',
     ]]);
 

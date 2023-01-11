@@ -42,7 +42,6 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
 })->with([
     'nome',
     'matricula',
-    'username',
     'email',
     'ultimo_login',
     'lotacao_sigla',
@@ -55,7 +54,6 @@ test('todas as ordenações possíveis no request do usuário', function () {
     request()->merge(['order' => [
         'nome' => 'asc',
         'matricula' => 'asc',
-        'username' => 'asc',
         'email' => 'asc',
         'ultimo_login' => 'asc',
         'lotacao_sigla' => 'desc',

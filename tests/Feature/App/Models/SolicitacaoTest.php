@@ -192,9 +192,9 @@ test('escopo orderByStatus ordena solicitadas, entregues e devolvidas', function
         ->and($terceiro['id'])->toBe($devolvida->id);
 });
 
-test('retorna as solicitações pelo escopo search que busca a partir do início do texto no username ou nome do solicitante', function (string $termo, int $quantidade) {
-    Usuario::factory()->hasSolicitacoesSolicitadas(2)->create(['username' => 'aaaabbbb', 'nome' => 'eeeeffff']);
-    Usuario::factory()->hasSolicitacoesSolicitadas(3)->create(['username' => 'ccccdddd', 'nome' => 'gggghhhh']);
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto no matrícula ou nome do solicitante', function (string $termo, int $quantidade) {
+    Usuario::factory()->hasSolicitacoesSolicitadas(2)->create(['matricula' => 'aaaabbbb', 'nome' => 'eeeeffff']);
+    Usuario::factory()->hasSolicitacoesSolicitadas(3)->create(['matricula' => 'ccccdddd', 'nome' => 'gggghhhh']);
 
     $query = Pipeline::make()
         ->send(Solicitacao::query())
@@ -208,9 +208,9 @@ test('retorna as solicitações pelo escopo search que busca a partir do início
     ['gggg', 3],
 ]);
 
-test('retorna as solicitações pelo escopo search que busca a partir do início do texto no username ou nome do recebedor', function (string $termo, int $quantidade) {
-    Usuario::factory()->hasSolicitacoesRecebidas(2)->create(['username' => 'aaaabbbb', 'nome' => 'eeeeffff']);
-    Usuario::factory()->hasSolicitacoesRecebidas(3)->create(['username' => 'ccccdddd', 'nome' => 'gggghhhh']);
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto no matrícula ou nome do recebedor', function (string $termo, int $quantidade) {
+    Usuario::factory()->hasSolicitacoesRecebidas(2)->create(['matricula' => 'aaaabbbb', 'nome' => 'eeeeffff']);
+    Usuario::factory()->hasSolicitacoesRecebidas(3)->create(['matricula' => 'ccccdddd', 'nome' => 'gggghhhh']);
 
     $query = Pipeline::make()
         ->send(Solicitacao::query())
@@ -224,9 +224,9 @@ test('retorna as solicitações pelo escopo search que busca a partir do início
     ['gggg', 3],
 ]);
 
-test('retorna as solicitações pelo escopo search que busca a partir do início do texto no username ou nome do remetente', function (string $termo, int $quantidade) {
-    Usuario::factory()->hasSolicitacoesRemetidas(2)->create(['username' => 'aaaabbbb', 'nome' => 'eeeeffff']);
-    Usuario::factory()->hasSolicitacoesRemetidas(3)->create(['username' => 'ccccdddd', 'nome' => 'gggghhhh']);
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto no matrícula ou nome do remetente', function (string $termo, int $quantidade) {
+    Usuario::factory()->hasSolicitacoesRemetidas(2)->create(['matricula' => 'aaaabbbb', 'nome' => 'eeeeffff']);
+    Usuario::factory()->hasSolicitacoesRemetidas(3)->create(['matricula' => 'ccccdddd', 'nome' => 'gggghhhh']);
 
     $query = Pipeline::make()
         ->send(Solicitacao::query())
@@ -240,9 +240,9 @@ test('retorna as solicitações pelo escopo search que busca a partir do início
     ['gggg', 3],
 ]);
 
-test('retorna as solicitações pelo escopo search que busca a partir do início do texto no username ou nome do rearquivador', function (string $termo, int $quantidade) {
-    Usuario::factory()->hasSolicitacoesRearquivadas(2)->create(['username' => 'aaaabbbb', 'nome' => 'eeeeffff']);
-    Usuario::factory()->hasSolicitacoesRearquivadas(3)->create(['username' => 'ccccdddd', 'nome' => 'gggghhhh']);
+test('retorna as solicitações pelo escopo search que busca a partir do início do texto no matrícula ou nome do rearquivador', function (string $termo, int $quantidade) {
+    Usuario::factory()->hasSolicitacoesRearquivadas(2)->create(['matricula' => 'aaaabbbb', 'nome' => 'eeeeffff']);
+    Usuario::factory()->hasSolicitacoesRearquivadas(3)->create(['matricula' => 'ccccdddd', 'nome' => 'gggghhhh']);
 
     $query = Pipeline::make()
         ->send(Solicitacao::query())

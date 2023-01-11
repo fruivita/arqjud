@@ -48,7 +48,6 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     status: true,
     nome: true,
     matricula: true,
-    usuario: true,
     email: true,
     lotacao: true,
     cargo: true,
@@ -100,8 +99,6 @@ watch(perPage, filtrar);
 
                 <CheckBox v-model:checked="elementosVisiveis.matricula" :label="__('Matrícula')" />
 
-                <CheckBox v-model:checked="elementosVisiveis.usuario" :label="__('Usuário')" />
-
                 <CheckBox v-model:checked="elementosVisiveis.email" :label="__('Email')" />
 
                 <CheckBox v-model:checked="elementosVisiveis.lotacao" :label="__('Lotação')" />
@@ -139,13 +136,6 @@ watch(perPage, filtrar);
                         :ordenacao="ordenacoes.matricula"
                         :texto="__('Matrícula')"
                         @ordenar="(direcao) => mudarOrdenacao('matricula', direcao)"
-                    />
-
-                    <HeadingOrdenavel
-                        v-show="elementosVisiveis.usuario"
-                        :ordenacao="ordenacoes.username"
-                        :texto="__('Usuário')"
-                        @ordenar="(direcao) => mudarOrdenacao('username', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -215,8 +205,6 @@ watch(perPage, filtrar);
                             <Cell v-show="elementosVisiveis.matricula">{{
                                 usuario.matricula
                             }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.usuario">{{ usuario.username }}</Cell>
 
                             <Cell v-show="elementosVisiveis.email">{{ usuario.email }}</Cell>
 

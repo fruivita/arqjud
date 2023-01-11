@@ -28,7 +28,7 @@ const __ = useTranslationsStore().__;
 useDark({ storageKey: 'tema' });
 
 const form = useForm({
-    username: '',
+    matricula: '',
     password: '',
 });
 
@@ -55,12 +55,13 @@ const autenticar = () => {
             <form @submit.prevent="autenticar" dusk="login-form">
                 <div class="space-y-6">
                     <TextInput
-                        v-model="form.username"
-                        :erro="form.errors.username"
-                        :label="__('Usuário de rede')"
+                        v-model="form.matricula"
+                        :erro="form.errors.matricula"
+                        :label="__('Matrícula')"
                         :maxlength="20"
-                        autocomplete="username"
-                        dusk="username"
+                        :placeholder="__('ESXXXXX')"
+                        autocomplete="matricula"
+                        dusk="matricula"
                         icone="person"
                         required
                     />

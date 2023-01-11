@@ -21,7 +21,7 @@ class GerarGuiaRemessa
      */
     public function handle(\stdClass $entrega, \Closure $next)
     {
-        $entrega->recebedor = Usuario::firstWhere('username', $entrega->recebedor);
+        $entrega->recebedor = Usuario::firstWhere('matricula', $entrega->recebedor);
         $entrega->remetente = auth()->user();
 
         $entrega->guia = $this->criarGuia($entrega->solicitacoes, $entrega->recebedor, $entrega->remetente);
@@ -48,15 +48,15 @@ class GerarGuiaRemessa
         $guia->numero = Guia::proximoNumero();
         $guia->ano = $now->year;
         $guia->gerada_em = $now;
-        $guia->remetente = $remetente->only(['username', 'nome']);
-        $guia->recebedor = $recebedor->only(['username', 'nome']);
+        $guia->remetente = $remetente->only(['matricula', 'nome']);
+        $guia->recebedor = $recebedor->only(['matricula', 'nome']);
         $guia->destino = $recebedor->lotacao->only(['nome', 'sigla']);
         $guia->processos = $solicitacoes->map(function (Solicitacao $solicitacao) {
             return [
                 'numero' => apenasNumeros($solicitacao->processo->numero),
                 'qtd_volumes' => $solicitacao->processo->qtd_volumes,
                 'solicitante' => [
-                    'username' => $solicitacao->solicitante->username,
+                    'matricula' => $solicitacao->solicitante->matricula,
                     'nome' => $solicitacao->solicitante->nome,
                 ],
             ];

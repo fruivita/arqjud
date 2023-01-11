@@ -93,7 +93,7 @@ test('entrega de processo muda o status da solicitação de solicitada para entr
     Solicitacao::factory()->solicitada()->create();
 
     post(route('atendimento.entregar-processo.store'), [
-        'recebedor' => $recebedor->username,
+        'recebedor' => $recebedor->matricula,
         'por_guia' => true,
         'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
         'email_terceiros' => [],
@@ -117,7 +117,7 @@ test('entrega de processo gera a guia de remessa dos processos solicitados', fun
     expect(Guia::count())->toBe(0);
 
     post(route('atendimento.entregar-processo.store'), [
-        'recebedor' => $recebedor->username,
+        'recebedor' => $recebedor->matricula,
         'por_guia' => true,
         'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
         'email_terceiros' => [],
@@ -132,7 +132,7 @@ test('entrega de processo gera a guia de remessa dos processos solicitados', fun
             'numero' => apenasNumeros($solicitacao->processo->numero),
             'qtd_volumes' => $solicitacao->processo->qtd_volumes,
             'solicitante' => [
-                'username' => $solicitacao->solicitante->username,
+                'matricula' => $solicitacao->solicitante->matricula,
                 'nome' => $solicitacao->solicitante->nome,
             ],
         ];
@@ -144,8 +144,8 @@ test('entrega de processo gera a guia de remessa dos processos solicitados', fun
         ->and($guia->numero)->toBe(1)
         ->and($guia->ano)->toBe(now()->year)
         ->and($guia->gerada_em->toString())->toBe(now()->toString())
-        ->and($guia->remetente)->toMatchArray($this->usuario->only(['nome', 'username']))
-        ->and($guia->recebedor)->toMatchArray($recebedor->only(['nome', 'username']))
+        ->and($guia->remetente)->toMatchArray($this->usuario->only(['nome', 'matricula']))
+        ->and($guia->recebedor)->toMatchArray($recebedor->only(['nome', 'matricula']))
         ->and($guia->destino)->toMatchArray($recebedor->lotacao->only(['nome', 'sigla']))
         ->and($guia->processos)->toMatchArray($processos->toArray());
 });
@@ -159,7 +159,7 @@ test('dispara o job NotificarEntrega quando o usuário faz a entrega dos process
     $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['destino_id' => $recebedor->lotacao_id]);
 
     post(route('atendimento.entregar-processo.store'), [
-        'recebedor' => $recebedor->username,
+        'recebedor' => $recebedor->matricula,
         'por_guia' => true,
         'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
         'email_terceiros' => [],
@@ -185,7 +185,7 @@ test('registra o log em caso de falha na entrega dos processos solicitados', fun
     Log::spy();
 
     post(route('atendimento.entregar-processo.store'), [
-        'recebedor' => $recebedor->username,
+        'recebedor' => $recebedor->matricula,
         'por_guia' => true,
         'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
         'email_terceiros' => [],
@@ -212,7 +212,7 @@ test('entrega dos processos solicitados está protegida por transaction', functi
     $database = DB::spy();
 
     (new EntregarProcessoController())->store(new StoreEntregarProcessoRequest([
-        'recebedor' => $recebedor->username,
+        'recebedor' => $recebedor->matricula,
         'por_guia' => true,
         'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
         'email_terceiros' => [],

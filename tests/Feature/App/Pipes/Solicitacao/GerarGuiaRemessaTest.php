@@ -23,7 +23,7 @@ test('pipe GerarGuiaRemessa cria a guia de remessa e a inclui no pipeable', func
     $solicitacoes = Solicitacao::factory(2)->solicitada()->create(['destino_id' => $recebedor->lotacao_id]);
 
     $entrega = new \stdClass();
-    $entrega->recebedor = $recebedor->username;
+    $entrega->recebedor = $recebedor->matricula;
     $entrega->solicitacoes = $solicitacoes->pluck('id');
 
     $salvo = Pipeline::make()

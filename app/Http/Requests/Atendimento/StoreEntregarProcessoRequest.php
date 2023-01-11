@@ -38,7 +38,7 @@ class StoreEntregarProcessoRequest extends FormRequest
                 'required',
                 'string',
                 'between:1,20',
-                Rule::exists('usuarios', 'username'),
+                Rule::exists('usuarios', 'matricula'),
                 new UsuarioHabilitado(),
             ],
 

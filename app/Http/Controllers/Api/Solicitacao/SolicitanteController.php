@@ -27,7 +27,7 @@ class SolicitanteController extends Controller
             'solicitante' => UsuarioOnlyResource::make(
                 Usuario::query()
                     ->withOnly(['lotacao'])
-                    ->where('username', $request->input('solicitante'))
+                    ->where('matricula', $request->input('solicitante'))
                     ->firstOrFail()
             ),
         ]);

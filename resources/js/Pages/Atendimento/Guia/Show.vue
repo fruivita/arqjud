@@ -126,7 +126,7 @@ const colspan = computed(() => countElementosVisiveis(elementosVisiveis));
                                 }}</Cell>
 
                                 <Cell v-show="elementosVisiveis.solicitante">
-                                    <span>{{ processo.solicitante.username }}</span>
+                                    <span>{{ processo.solicitante.matricula }}</span>
 
                                     <Tooltip
                                         v-if="processo.solicitante.nome"

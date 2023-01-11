@@ -67,12 +67,12 @@ return [
             'database' => [
                 'model' => \App\Models\Usuario::class,
                 'sync_attributes' => [
-                    'username' => 'samaccountname',
+                    'matricula' => 'matricula',
                     \App\Ldap\PerfilAttributeHandler::class,
                     \App\Ldap\LoginInfoAttributeHandler::class,
                 ],
                 'sync_existing' => [
-                    'username' => 'samaccountname',
+                    'matricula' => 'matricula',
                 ],
             ],
         ],

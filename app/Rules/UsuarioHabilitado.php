@@ -24,7 +24,7 @@ class UsuarioHabilitado implements InvokableRule
      * Run the validation rule.
      *
      * @param  string  $attribute
-     * @param  mixed  $value username do usuário
+     * @param  mixed  $value matrícula do usuário
      * @param  \Closure  $fail
      * @return void
      */
@@ -35,7 +35,7 @@ class UsuarioHabilitado implements InvokableRule
             ->when(
                 is_numeric($value),
                 fn (Builder $builder) => $builder->where('id', $value),
-                fn (Builder $builder) => $builder->where('username', $value)
+                fn (Builder $builder) => $builder->where('matricula', $value)
             )->first();
 
         if (empty($usuario) || $usuario->habilitado() !== true) {

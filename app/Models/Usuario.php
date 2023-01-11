@@ -199,7 +199,6 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
      * propriedades abaixo:
      * - Nome;
      * - Matrícula;
-     * - Username;
      * - Email;
      * - Lotação.
      *
@@ -210,7 +209,6 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
         return
             !empty($this->nome)
             && !empty($this->matricula)
-            && !empty($this->username)
             && !empty($this->email)
             && $this->lotacao_id >= 1;
     }
@@ -230,7 +228,6 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
         $query->where(function (Builder $query) use ($termo) {
             $query->where('usuarios.nome', 'like', $termo)
                 ->orWhere('usuarios.matricula', 'like', $termo)
-                ->orWhere('usuarios.username', 'like', $termo)
                 ->orWhere('usuarios.email', 'like', $termo)
                 ->orWhere('lotacoes.sigla', 'like', $termo)
                 ->orWhere('lotacoes.nome', 'like', $termo)

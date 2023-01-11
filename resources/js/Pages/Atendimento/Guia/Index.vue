@@ -162,7 +162,7 @@ watch(perPage, filtrar);
                             <Cell v-show="elementosVisiveis.gerada_em">{{ guia.gerada_em }}</Cell>
 
                             <Cell v-show="elementosVisiveis.remetente">
-                                <span>{{ guia.remetente.username }}</span>
+                                <span>{{ guia.remetente.matricula }}</span>
 
                                 <Tooltip
                                     v-if="guia.remetente.nome"
@@ -172,7 +172,7 @@ watch(perPage, filtrar);
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.recebedor">
-                                <span>{{ guia.recebedor.username }}</span>
+                                <span>{{ guia.recebedor.matricula }}</span>
 
                                 <Tooltip
                                     v-if="guia.recebedor.nome"

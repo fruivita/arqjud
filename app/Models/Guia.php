@@ -72,9 +72,9 @@ class Guia extends Model
 
             $query->where('numero', 'like', $termo)
                 ->orWhere('ano', 'like', $termo)
-                ->orWhere('remetente_username', 'like', $lower)
+                ->orWhere('remetente_matricula', 'like', $lower)
                 ->orWhere('remetente_nome', 'like', $lower)
-                ->orWhere('recebedor_username', 'like', $lower)
+                ->orWhere('recebedor_matricula', 'like', $lower)
                 ->orWhere('recebedor_nome', 'like', $lower)
                 ->orWhere('destino_sigla', 'like', $lower)
                 ->orWhere('destino_nome', 'like', $lower);

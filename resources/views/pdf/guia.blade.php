@@ -34,7 +34,7 @@
 
                         <td>{{ $processo['qtd_volumes'] }}</td>
 
-                        <td>{{ data_get($processo, 'solicitante.nome') ?: data_get($processo, 'solicitante.username')  }}</td>
+                        <td>{{ data_get($processo, 'solicitante.nome') ?: data_get($processo, 'solicitante.matricula')  }}</td>
                     </tr>
                 @empty
                     <tr>

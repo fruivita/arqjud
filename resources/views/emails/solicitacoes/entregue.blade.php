@@ -23,7 +23,7 @@
 | {{ __('Processos') }} | {{ __('Qtd volumes') }} | {{ __('Solicitante') }} |
 |:----------------------|:------------------------|:------------------------|
 @foreach ($detalhes->get('processos') as $processo)
-| {{ cnj($processo['numero']) }} | {{ $processo['qtd_volumes'] }} | {{ data_get($processo, 'solicitante.nome') ?: data_get($processo, 'solicitante.username') }} |
+| {{ cnj($processo['numero']) }} | {{ $processo['qtd_volumes'] }} | {{ data_get($processo, 'solicitante.nome') ?: data_get($processo, 'solicitante.matricula') }} |
 @endforeach
 </x-mail::table>
 

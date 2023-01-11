@@ -209,9 +209,9 @@ watch(perPage, filtrar);
 
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.solicitante"
-                        :ordenacao="ordenacoes.solicitante_username"
+                        :ordenacao="ordenacoes.solicitante_matricula"
                         :texto="__('Solicitante')"
-                        @ordenar="(direcao) => mudarOrdenacao('solicitante_username', direcao)"
+                        @ordenar="(direcao) => mudarOrdenacao('solicitante_matricula', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -223,16 +223,16 @@ watch(perPage, filtrar);
 
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.remetente"
-                        :ordenacao="ordenacoes.remetente_username"
+                        :ordenacao="ordenacoes.remetente_matricula"
                         :texto="__('Remetente')"
-                        @ordenar="(direcao) => mudarOrdenacao('remetente_username', direcao)"
+                        @ordenar="(direcao) => mudarOrdenacao('remetente_matricula', direcao)"
                     />
 
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.recebedor"
-                        :ordenacao="ordenacoes.recebedor_username"
+                        :ordenacao="ordenacoes.recebedor_matricula"
                         :texto="__('Recebedor')"
-                        @ordenar="(direcao) => mudarOrdenacao('recebedor_username', direcao)"
+                        @ordenar="(direcao) => mudarOrdenacao('recebedor_matricula', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -244,9 +244,9 @@ watch(perPage, filtrar);
 
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.rearquivador"
-                        :ordenacao="ordenacoes.rearquivador_username"
+                        :ordenacao="ordenacoes.rearquivador_matricula"
                         :texto="__('Rearquivada por')"
-                        @ordenar="(direcao) => mudarOrdenacao('rearquivador_username', direcao)"
+                        @ordenar="(direcao) => mudarOrdenacao('rearquivador_matricula', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -301,7 +301,7 @@ watch(perPage, filtrar);
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.solicitante">
-                                <span>{{ solicitacao.solicitante.username }}</span>
+                                <span>{{ solicitacao.solicitante.matricula }}</span>
 
                                 <Tooltip
                                     v-if="solicitacao.solicitante.nome"
@@ -315,7 +315,7 @@ watch(perPage, filtrar);
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.remetente">
-                                <span>{{ solicitacao.remetente?.username }}</span>
+                                <span>{{ solicitacao.remetente?.matricula }}</span>
 
                                 <Tooltip
                                     v-if="solicitacao.remetente?.nome"
@@ -325,7 +325,7 @@ watch(perPage, filtrar);
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.recebedor">
-                                <span>{{ solicitacao.recebedor?.username }}</span>
+                                <span>{{ solicitacao.recebedor?.matricula }}</span>
 
                                 <Tooltip
                                     v-if="solicitacao.recebedor?.nome"
@@ -339,7 +339,7 @@ watch(perPage, filtrar);
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.rearquivador">
-                                <span>{{ solicitacao.rearquivador?.username }}</span>
+                                <span>{{ solicitacao.rearquivador?.matricula }}</span>
 
                                 <Tooltip
                                     v-if="solicitacao.rearquivador?.nome"

@@ -106,10 +106,10 @@ class NotificarSolicitanteCancelamento implements ShouldQueue, ShouldBeUnique
             $this->solicitante,
             new SolicitacaoCancelada(
                 $this->processo,
-                $this->solicitante->nome ?: $this->solicitante->username,
+                $this->solicitante->nome ?: $this->solicitante->matricula,
                 $this->destino->nome ?: $this->destino->sigla,
                 $this->solicitada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                $this->operador->nome ?: $this->operador->username,
+                $this->operador->nome ?: $this->operador->matricula,
                 $this->cancelada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
                 route('solicitacao.index')
             )

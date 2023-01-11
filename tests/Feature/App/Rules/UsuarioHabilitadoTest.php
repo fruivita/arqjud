@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 test('usuario sem lotação não está habilitado a interagir na remessa de processos', function () {
     $usuario = Usuario::factory()->create(['lotacao_id' => null]);
 
-    $validator = Validator::make(['usuario' => $usuario->username], [
+    $validator = Validator::make(['usuario' => $usuario->matricula], [
         'usuario' => [new UsuarioHabilitado()],
     ]);
 
@@ -23,27 +23,17 @@ test('usuario sem lotação não está habilitado a interagir na remessa de proc
 test('usuario com lotação inválida (zero) não está habilitado a interagir na remessa de processos', function () {
     $usuario = Usuario::factory()->create(['lotacao_id' => Lotacao::factory()->create(['id' => 0])]);
 
-    $validator = Validator::make(['usuario' => $usuario->username], [
+    $validator = Validator::make(['usuario' => $usuario->matricula], [
         'usuario' => [new UsuarioHabilitado()],
     ]);
 
     expect($validator->passes())->toBeFalse();
 });
 
-test('usuario sem matrícula não está habilitado a interagir na remessa de processos', function (mixed $matricula) {
-    $usuario = Usuario::factory()->create(['matricula' => $matricula]);
-
-    $validator = Validator::make(['usuario' => $usuario->username], [
-        'usuario' => [new UsuarioHabilitado()],
-    ]);
-
-    expect($validator->passes())->toBeFalse();
-})->with([null, '']);
-
 test('usuario sem email não está habilitado a interagir na remessa de processos', function (mixed $email) {
     $usuario = Usuario::factory()->create(['email' => $email]);
 
-    $validator = Validator::make(['usuario' => $usuario->username], [
+    $validator = Validator::make(['usuario' => $usuario->matricula], [
         'usuario' => [new UsuarioHabilitado()],
     ]);
 
@@ -53,7 +43,7 @@ test('usuario sem email não está habilitado a interagir na remessa de processo
 test('usuario sem nome não está habilitado a interagir na remessa de processos', function (mixed $nome) {
     $usuario = Usuario::factory()->create(['nome' => $nome]);
 
-    $validator = Validator::make(['usuario' => $usuario->username], [
+    $validator = Validator::make(['usuario' => $usuario->matricula], [
         'usuario' => [new UsuarioHabilitado()],
     ]);
 
@@ -63,7 +53,7 @@ test('usuario sem nome não está habilitado a interagir na remessa de processos
 test('usuário com todos os campos esttá habilitado a interagir na remessa de processos', function () {
     $usuario = Usuario::factory()->create();
 
-    $validator = Validator::make(['usuario' => $usuario->username], [
+    $validator = Validator::make(['usuario' => $usuario->matricula], [
         'usuario' => [new UsuarioHabilitado()],
     ]);
 
@@ -73,7 +63,7 @@ test('usuário com todos os campos esttá habilitado a interagir na remessa de p
 test('mensagem de falha de validação está definida', function () {
     $usuario = Usuario::factory()->create(['lotacao_id' => null]);
 
-    $validator = Validator::make(['usuario' => $usuario->username], [
+    $validator = Validator::make(['usuario' => $usuario->matricula], [
         'usuario' => [new UsuarioHabilitado()],
     ]);
 

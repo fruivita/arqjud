@@ -27,20 +27,6 @@ class Order extends OrderBase
     }
 
     /**
-     * Aplica a ordenação pelo username.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $direcao asc ou desc
-     * @return void
-     */
-    protected function username(Builder $query, string $direcao)
-    {
-        $direcao = ascOrDesc($direcao);
-
-        $query->orderBy('username', $direcao);
-    }
-
-    /**
      * Aplica a ordenação pelo email.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

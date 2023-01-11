@@ -239,13 +239,13 @@ class Solicitacao extends Model
         $apenas_numeros = apenasNumeros($termo);
 
         $query->where(function (Builder $query) use ($termo, $apenas_numeros) {
-            $query->where('solicitantes.username', 'like', $termo)
+            $query->where('solicitantes.matricula', 'like', $termo)
                 ->orWhere('solicitantes.nome', 'like', $termo)
-                ->orWhere('recebedores.username', 'like', $termo)
+                ->orWhere('recebedores.matricula', 'like', $termo)
                 ->orWhere('recebedores.nome', 'like', $termo)
-                ->orWhere('remetentes.username', 'like', $termo)
+                ->orWhere('remetentes.matricula', 'like', $termo)
                 ->orWhere('remetentes.nome', 'like', $termo)
-                ->orWhere('rearquivadores.username', 'like', $termo)
+                ->orWhere('rearquivadores.matricula', 'like', $termo)
                 ->orWhere('rearquivadores.nome', 'like', $termo)
                 ->orWhere('destinos.sigla', 'like', $termo)
                 ->orWhere('destinos.nome', 'like', $termo)

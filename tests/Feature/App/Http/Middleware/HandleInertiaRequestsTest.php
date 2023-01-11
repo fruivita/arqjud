@@ -27,7 +27,7 @@ test('dados básicos compartilhados com autenticação estão definidos', functi
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
-                ->where('auth.user.username', 'foo')
+                ->where('auth.user.matricula', 'foo')
                 ->where('auth.home', route('home.show'))
                 ->where('auth.logout', route('logout'))
                 ->has('auth.menu', 0)
@@ -38,7 +38,7 @@ test('dados básicos compartilhados com autenticação estão definidos', functi
 test('compartilha mensagem de sucesso', function () {
     $this->seed([PerfilSeeder::class]);
 
-    login('foo');
+    login();
 
     session()->put('feedback', ['sucesso' => 'foo bar']);
 
@@ -52,7 +52,7 @@ test('compartilha mensagem de sucesso', function () {
 test('compartilha mensagem de erro', function () {
     $this->seed([PerfilSeeder::class]);
 
-    login('foo');
+    login();
 
     session()->put('feedback', ['erro' => 'bar baz']);
 

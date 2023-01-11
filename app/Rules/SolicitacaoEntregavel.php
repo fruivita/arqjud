@@ -42,7 +42,7 @@ class SolicitacaoEntregavel implements InvokableRule, DataAwareRule
             ->where('destino_id', function (Builder $query) {
                 $query->select(['lotacao_id'])
                     ->from('usuarios')
-                    ->where('username', $this->data['recebedor'])
+                    ->where('matricula', $this->data['recebedor'])
                     ->limit(1);
             })
             ->solicitadas()

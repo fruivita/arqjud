@@ -25,8 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('cargo_id')->nullable();
             $table->unsignedBigInteger('funcao_confianca_id')->nullable();
             $table->unsignedBigInteger('perfil_id')->nullable();
-            $table->string('matricula', 20)->unique()->nullable();
-            $table->string('username', 20)->unique();
+            $table->string('matricula', 20)->unique();
             $table->string('email', 255)->unique()->nullable();
             $table->string('nome', 255)->nullable();
             $table->string('password', 255)->nullable();

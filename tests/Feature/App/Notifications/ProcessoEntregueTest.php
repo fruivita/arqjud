@@ -23,7 +23,7 @@ beforeEach(function () {
                 'numero' => '11111111111111111111',
                 'qtd_volumes' => '10',
                 'solicitante' => [
-                    'username' => 'foo',
+                    'matricula' => 'foo',
                     'nome' => 'foo bar',
                 ],
             ],
@@ -31,7 +31,7 @@ beforeEach(function () {
                 'numero' => '22222222222222222222',
                 'qtd_volumes' => '20',
                 'solicitante' => [
-                    'username' => 'loren',
+                    'matricula' => 'loren',
                     'nome' => '',
                 ],
             ],

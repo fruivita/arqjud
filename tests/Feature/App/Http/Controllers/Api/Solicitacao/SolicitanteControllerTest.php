@@ -22,14 +22,14 @@ beforeEach(function () {
 
 // Autorização
 test('usuário sem autenticação não consegue os dados do solicitante por meio da API JSON', function () {
-    $this->postJson(route('api.solicitacao.solicitante.show'), ['solicitante' => $this->solicitante->username])
+    $this->postJson(route('api.solicitacao.solicitante.show'), ['solicitante' => $this->solicitante->matricula])
         ->assertUnauthorized();
 });
 
 test('usuário sem autorização não consegue os dados do solicitante por meio da API JSON', function () {
     Auth::login(Usuario::factory()->create());
 
-    $this->postJson(route('api.solicitacao.solicitante.show'), ['solicitante' => $this->solicitante->username])
+    $this->postJson(route('api.solicitacao.solicitante.show'), ['solicitante' => $this->solicitante->matricula])
         ->assertForbidden();
 
     logout();
@@ -51,7 +51,7 @@ test('usuário autorizado consegue os dados do solicitante por meio da API JSON'
 
     concederPermissao(Permissao::SOLICITACAO_CREATE);
 
-    $response = $this->postJson(route('api.solicitacao.solicitante.show'), ['solicitante' => $this->solicitante->username]);
+    $response = $this->postJson(route('api.solicitacao.solicitante.show'), ['solicitante' => $this->solicitante->matricula]);
 
     $response
         ->assertOk()

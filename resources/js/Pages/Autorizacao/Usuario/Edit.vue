@@ -81,12 +81,6 @@ const completo = computed(() => props.usuario.data.status === __('completo'));
                         />
 
                         <ChaveValor
-                            :chave="__('Usuário')"
-                            :valor="usuario.data.username"
-                            icone="person"
-                        />
-
-                        <ChaveValor
                             :chave="__('Email')"
                             :valor="usuario.data.email"
                             icone="envelope"

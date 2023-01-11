@@ -90,7 +90,7 @@ class NotificarEntrega implements ShouldQueue, ShouldBeUnique
             new ProcessoEntregue(
                 $this->guia->paraHumano,
                 $this->guia->processos->toArray(),
-                data_get($this->guia->recebedor, 'nome') ?: data_get($this->guia->recebedor, 'username'),
+                data_get($this->guia->recebedor, 'nome') ?: data_get($this->guia->recebedor, 'matricula'),
                 $this->guia->destino['nome'] ?: $this->guia->destino['sigla'],
                 $this->guia->gerada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
                 $this->por_guia,

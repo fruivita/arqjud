@@ -35,9 +35,9 @@ test('join da tabela usuários solicitantes', function () {
         ->send(Solicitacao::query())
         ->through([JoinAll::class])
         ->thenReturn()
-        ->pluck('solicitantes.username');
+        ->pluck('solicitantes.matricula');
 
-    expect($solicitacao->first())->toBe($usuario->username);
+    expect($solicitacao->first())->toBe($usuario->matricula);
 });
 
 test('join da tabela usuários recebedores', function () {
@@ -49,9 +49,9 @@ test('join da tabela usuários recebedores', function () {
         ->send(Solicitacao::query())
         ->through([JoinAll::class])
         ->thenReturn()
-        ->pluck('recebedores.username');
+        ->pluck('recebedores.matricula');
 
-    expect($solicitacao->first())->toBe($usuario->username);
+    expect($solicitacao->first())->toBe($usuario->matricula);
 });
 
 test('join da tabela usuários remetentes', function () {
@@ -63,9 +63,9 @@ test('join da tabela usuários remetentes', function () {
         ->send(Solicitacao::query())
         ->through([JoinAll::class])
         ->thenReturn()
-        ->pluck('remetentes.username');
+        ->pluck('remetentes.matricula');
 
-    expect($solicitacao->first())->toBe($usuario->username);
+    expect($solicitacao->first())->toBe($usuario->matricula);
 });
 
 test('join da tabela usuários rearquivadores', function () {
@@ -77,9 +77,9 @@ test('join da tabela usuários rearquivadores', function () {
         ->send(Solicitacao::query())
         ->through([JoinAll::class])
         ->thenReturn()
-        ->pluck('rearquivadores.username');
+        ->pluck('rearquivadores.matricula');
 
-    expect($solicitacao->first())->toBe($usuario->username);
+    expect($solicitacao->first())->toBe($usuario->matricula);
 });
 
 test('join da tabela lotações (destinos)', function () {

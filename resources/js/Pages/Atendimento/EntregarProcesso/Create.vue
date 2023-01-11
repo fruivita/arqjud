@@ -74,7 +74,7 @@ const solicitacoesAutorizadas = async () => {
         .post(props.links.solicitacoes, formRecebedor)
         .then(function (resposta) {
             recebedor.value = resposta.data.recebedor;
-            formEntregarProcessos.recebedor = resposta.data.recebedor.username;
+            formEntregarProcessos.recebedor = resposta.data.recebedor.matricula;
 
             if (resposta.data.recebedor.lotacao_id >= 1) {
                 solicitacoes.value = resposta.data.solicitacoes;
@@ -281,7 +281,7 @@ const viewReset = () => {
                                     <Cell>{{ solicitacao.solicitada_em }}</Cell>
 
                                     <Cell>
-                                        <span>{{ solicitacao.solicitante.username }}</span>
+                                        <span>{{ solicitacao.solicitante.matricula }}</span>
 
                                         <Tooltip
                                             v-if="solicitacao.solicitante.nome"

@@ -119,59 +119,59 @@ class Order extends OrderBase
     }
 
     /**
-     * Aplica a ordenação pelo username do solicitante.
+     * Aplica a ordenação pela matrícula do solicitante.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
-    protected function solicitanteUsername(Builder $query, string $direcao)
+    protected function solicitanteMatricula(Builder $query, string $direcao)
     {
         $direcao = ascOrDesc($direcao);
 
-        $query->orderBy('solicitantes.username', $direcao);
+        $query->orderBy('solicitantes.matricula', $direcao);
     }
 
     /**
-     * Aplica a ordenação pelo username do recebedor.
+     * Aplica a ordenação pela matrícula do recebedor.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
-    protected function recebedorUsername(Builder $query, string $direcao)
+    protected function recebedorMatricula(Builder $query, string $direcao)
     {
         $direcao = ascOrDesc($direcao);
 
-        $query->orderBy('recebedores.username', $direcao);
+        $query->orderBy('recebedores.matricula', $direcao);
     }
 
     /**
-     * Aplica a ordenação pelo username do remetente.
+     * Aplica a ordenação pela matrícula do remetente.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
-    protected function remetenteUsername(Builder $query, string $direcao)
+    protected function remetenteMatricula(Builder $query, string $direcao)
     {
         $direcao = ascOrDesc($direcao);
 
-        $query->orderBy('remetentes.username', $direcao);
+        $query->orderBy('remetentes.matricula', $direcao);
     }
 
     /**
-     * Aplica a ordenação pelo username do rearquivador.
+     * Aplica a ordenação pela matrícula do rearquivador.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
-    protected function rearquivadorUsername(Builder $query, string $direcao)
+    protected function rearquivadorMatricula(Builder $query, string $direcao)
     {
         $direcao = ascOrDesc($direcao);
 
-        $query->orderBy('rearquivadores.username', $direcao);
+        $query->orderBy('rearquivadores.matricula', $direcao);
     }
 
     /**

@@ -98,21 +98,21 @@ test('retorna as guias pelo escopo search que busca a partir do início do texto
 test('retorna as guias pelo escopo search que busca na coluna JSON remetente case Insensitive', function (string $termo, int $quantidade) {
     Guia::factory()->create([
         'remetente' => [
-            'username' => 'Foooo',
+            'matricula' => 'Foooo',
             'nome' => 'Barrr gaz',
         ],
     ]);
 
     Guia::factory()->create([
         'remetente' => [
-            'username' => 'Bazzz',
+            'matricula' => 'Bazzz',
             'nome' => 'barrr Taz',
         ],
     ]);
 
     Guia::factory()->create([
         'remetente' => [
-            'username' => 'Lorennn',
+            'matricula' => 'Lorennn',
             'nome' => 'foooo Ipson',
         ],
     ]);
@@ -135,21 +135,21 @@ test('retorna as guias pelo escopo search que busca na coluna JSON remetente cas
 test('retorna as guias pelo escopo search que busca na coluna JSON recebedor case Insensitive', function (string $termo, int $quantidade) {
     Guia::factory()->create([
         'recebedor' => [
-            'username' => 'Foooo',
+            'matricula' => 'Foooo',
             'nome' => 'Barrr gaz',
         ],
     ]);
 
     Guia::factory()->create([
         'recebedor' => [
-            'username' => 'Bazzz',
+            'matricula' => 'Bazzz',
             'nome' => 'barrr Taz',
         ],
     ]);
 
     Guia::factory()->create([
         'recebedor' => [
-            'username' => 'Lorennn',
+            'matricula' => 'Lorennn',
             'nome' => 'foooo Ipson',
         ],
     ]);

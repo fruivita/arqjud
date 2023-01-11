@@ -23,10 +23,10 @@ return new class extends Migration
             $table->unsignedSmallInteger('ano');
             $table->dateTime('gerada_em');
             $table->jsonb('remetente');
-            $table->string('remetente_username')->virtualAs("lower(json_unquote(json_extract(remetente, '$.username')))")->index();
+            $table->string('remetente_matricula')->virtualAs("lower(json_unquote(json_extract(remetente, '$.matricula')))")->index();
             $table->string('remetente_nome')->virtualAs("lower(json_unquote(json_extract(remetente, '$.nome')))")->index();
             $table->jsonb('recebedor');
-            $table->string('recebedor_username')->virtualAs("lower(json_unquote(json_extract(recebedor, '$.username')))")->index();
+            $table->string('recebedor_matricula')->virtualAs("lower(json_unquote(json_extract(recebedor, '$.matricula')))")->index();
             $table->string('recebedor_nome')->virtualAs("lower(json_unquote(json_extract(recebedor, '$.nome')))")->index();
             $table->jsonb('destino');
             $table->string('destino_sigla')->virtualAs("lower(json_unquote(json_extract(destino, '$.sigla')))")->index();

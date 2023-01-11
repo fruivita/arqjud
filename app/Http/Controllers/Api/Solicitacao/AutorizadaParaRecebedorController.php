@@ -31,7 +31,7 @@ class AutorizadaParaRecebedorController extends Controller
     {
         $recebedor = Usuario::query()
             ->withOnly(['lotacao'])
-            ->where('username', $request->input('recebedor'))
+            ->where('matricula', $request->input('recebedor'))
             ->firstOrFail();
 
         $solicitacoes = Solicitacao::with(['processo', 'solicitante', 'destino'])

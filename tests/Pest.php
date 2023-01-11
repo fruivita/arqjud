@@ -61,17 +61,17 @@ expect()->extend('toBeOne', function () {
 
 /**
  * Configura o servidor LDAP fake para ser autenticado utilizando o
- * **samaccountname** informado.
+ * **matricula** informado.
  *
- * @param  string  $samaccountname
+ * @param  string  $matricula
  * @return void
  */
-function actingAs(string $samaccountname)
+function actingAs(string $matricula)
 {
     $fake_ldap = DirectoryEmulator::setup('ldap');
 
     $usuario_ldap = User::create([
-        'samaccountname' => $samaccountname,
+        'matricula' => $matricula,
         'objectguid' => faker()->uuid(),
     ]);
 
@@ -79,21 +79,21 @@ function actingAs(string $samaccountname)
 }
 
 /**
- * Faz login na aplicação utilizando o **samaccountname** informado.
+ * Faz login na aplicação utilizando a **matrícula** informada.
  *
  * Note que o usuário é primeiro criado no 'active directory' fake para então
  * ser autenticado. Ou seja, é necessário garantir que o usuário primeiro exita
  * no LDAP server para então ser autenticado.
  *
- * @param  string  $samaccountname
+ * @param  string  $matricula
  * @return \App\Models\Usuario|null
  */
-function login(string $samaccountname = 'foo')
+function login(string $matricula = 'foo999999')
 {
-    actingAs($samaccountname);
+    actingAs($matricula);
 
     post(route('login'), [
-        'username' => $samaccountname,
+        'matricula' => $matricula,
         'password' => 'secret',
     ]);
 
@@ -243,7 +243,6 @@ function usuarioApi(Usuario $usuario)
     return [
         'id' => $usuario->id,
         'matricula' => $usuario->matricula,
-        'username' => $usuario->username,
         'nome' => $usuario->nome,
         'email' => $usuario->email,
         'ultimo_login' => $usuario->ultimo_login?->tz(config('app.tz'))->format('d-m-Y H:i:s'),
@@ -293,11 +292,11 @@ function guiaApi(Guia $guia)
         'ano' => $guia->ano,
         'gerada_em' => $guia->gerada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
         'remetente' => [
-            'username' => $guia->remetente['username'],
+            'matricula' => $guia->remetente['matricula'],
             'nome' => $guia->remetente['nome'],
         ],
         'recebedor' => [
-            'username' => $guia->recebedor['username'],
+            'matricula' => $guia->recebedor['matricula'],
             'nome' => $guia->recebedor['nome'],
         ],
         'destino' => [

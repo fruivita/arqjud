@@ -15,14 +15,14 @@ class PasswordValido implements InvokableRule
     /**
      * @var string
      */
-    private $username;
+    private $matricula;
 
     /**
-     * @param  string|null  $username
+     * @param  string|null  $matricula
      */
-    public function __construct(string $username = null)
+    public function __construct(string $matricula = null)
     {
-        $this->username = $username;
+        $this->matricula = $matricula;
     }
 
     /**
@@ -36,7 +36,7 @@ class PasswordValido implements InvokableRule
     public function __invoke($attribute, $value, $fail)
     {
         $valido = Auth::validate([
-            'samaccountname' => $this->username,
+            'matricula' => $this->matricula,
             'password' => $value,
         ]);
 

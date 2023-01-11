@@ -44,7 +44,7 @@ test('rules estão definidas no form request', function () {
             'required',
             'string',
             'between:1,20',
-            Rule::exists('usuarios', 'username'),
+            Rule::exists('usuarios', 'matricula'),
             new UsuarioHabilitado(),
         ],
 

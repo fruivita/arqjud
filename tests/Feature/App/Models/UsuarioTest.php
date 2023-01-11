@@ -22,13 +22,9 @@ beforeEach(function () {
 });
 
 // Exceptions
-test('lança exception ao tentar criar usuários duplicados, isto é, com mesma matrícula, username, email ou guid', function () {
+test('lança exception ao tentar criar usuários duplicados, isto é, com mesma matrícula, email ou guid', function () {
     expect(
         fn () => Usuario::factory(2)->create(['matricula' => '11111'])
-    )->toThrow(QueryException::class, 'Duplicate entry');
-
-    expect(
-        fn () => Usuario::factory(2)->create(['username' => 'foo'])
     )->toThrow(QueryException::class, 'Duplicate entry');
 
     expect(
@@ -47,8 +43,7 @@ test('lança exception ao tentar criar usuário com campo inválido', function (
 })->with([
     ['nome',      Str::random(256), 'Data too long for column'], // máximo 255 caracteres
     ['matricula', Str::random(21),  'Data too long for column'], // máximo 20 caracteres
-    ['username',  Str::random(21),  'Data too long for column'], // máximo 20 caracteres
-    ['username',  null,             'cannot be null'],           // obrigatório
+    ['matricula', null,             'cannot be null'],           // obrigatório
     ['email',     Str::random(256), 'Data too long for column'], // máximo 255 caracteres
     ['password',  Str::random(256), 'Data too long for column'], // máximo 255 caracteres
     ['guid',      Str::random(256), 'Data too long for column'], // máximo 255 caracteres
@@ -66,7 +61,6 @@ test('lança exception ao tentar definir relacionamento inválido', function (st
 // Caminho feliz
 test('campos opcionais estão definidos', function () {
     Usuario::factory()->create([
-        'matricula' => null,
         'email' => null,
         'nome' => null,
         'password' => null,
@@ -93,7 +87,6 @@ test('relacionamentos opcionais estão definidos', function () {
 test('aceita campos em seus tamanhos máximos', function () {
     Usuario::factory()->create([
         'matricula' => Str::random(20),
-        'username' => Str::random(20),
         'email' => Str::random(255),
         'nome' => Str::random(255),
         'password' => Str::random(255),
@@ -180,14 +173,11 @@ test('routeNotificationForMail retorna a rota de notificação para o usuário',
         ->toBe($usuario->email);
 });
 
-test('usuário sem nome, username, email e matrícula ou com lotação inválida é considerado com cadastro incompleto', function () {
+test('usuário sem nome, email e matrícula ou com lotação inválida é considerado com cadastro incompleto', function () {
     $usuario = new Usuario();
     expect($usuario->habilitado())->toBeFalse();
 
     $usuario->nome = 'foo';
-    expect($usuario->habilitado())->toBeFalse();
-
-    $usuario->username = 'bar';
     expect($usuario->habilitado())->toBeFalse();
 
     $usuario->email = 'baz@baz.baz';
@@ -206,18 +196,16 @@ test('usuário sem nome, username, email e matrícula ou com lotação inválida
     expect($usuario->habilitado())->toBeTrue();
 });
 
-test('retorna os usuários pelo escopo search que busca a partir do início do texto no nome, matrícula, username ou email do usuário', function (string $termo, int $quantidade) {
+test('retorna os usuários pelo escopo search que busca a partir do início do texto no nome, matrícula ou email do usuário', function (string $termo, int $quantidade) {
     Usuario::factory()->create([
         'nome' => 'eeeeffff',
-        'matricula' => '111111',
-        'username' => 'aaaabbbb',
-        'email' => 'foo@bar.com',
+        'matricula' => '11111111',
+        'email' => 'foooo@bar.com',
     ]);
     Usuario::factory()->create([
         'nome' => 'gggghhhh',
-        'matricula' => '111222',
-        'username' => 'ccccdddd',
-        'email' => 'taz@bar.com',
+        'matricula' => '11112222',
+        'email' => 'tazzz@bar.com',
     ]);
 
     $query = Pipeline::make()
@@ -229,10 +217,9 @@ test('retorna os usuários pelo escopo search que busca a partir do início do t
 })->with([
     ['', 2],
     ['eeee', 1],
-    ['111', 2],
-    ['cccc', 1],
-    ['foo', 1],
-    ['bar', 0],
+    ['1111', 2],
+    ['foooo', 1],
+    ['barrr', 0],
 ]);
 
 test('retorna os usuários pelo escopo search que busca a partir do início do texto na sigla ou nome da lotação', function (string $termo, int $quantidade) {

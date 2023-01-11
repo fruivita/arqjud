@@ -12,20 +12,20 @@ import { describe, expect, test } from 'vitest';
 describe('Usuario', () => {
     test('retorna o nome do usuário para exibição', () => {
         const usuario = new Usuario({
-            username: 'foo',
+            matricula: '11111',
             nome: 'bar',
         });
 
         expect(usuario.nomeExibicao()).toBe('bar');
     });
 
-    test('se não houver nome, usará a username como nome de exibição', () => {
+    test('se não houver nome, usará a matrícula como nome de exibição', () => {
         const usuario = new Usuario({
-            username: 'foo',
+            matricula: '11111',
             nome: '',
         });
 
-        expect(usuario.nomeExibicao()).toBe('foo');
+        expect(usuario.nomeExibicao()).toBe('11111');
     });
 
     test('retorna os dados do último login completos', () => {

@@ -27,11 +27,11 @@ class GuiaFactory extends Factory
             'numero' => fake()->unique()->numberBetween(1, 99999),
             'ano' => fake()->numberBetween(1900, 2020),
             'remetente' => [
-                'username' => fake()->firstName(),
+                'matricula' => fake()->bothify('??#####'),
                 'nome' => fake()->name(),
             ],
             'recebedor' => [
-                'username' => fake()->firstName(),
+                'matricula' => fake()->bothify('??#####'),
                 'nome' => fake()->name(),
             ],
             'destino' => [
@@ -58,7 +58,7 @@ class GuiaFactory extends Factory
                 'numero' => fake()->numeroProcessoCNJ(),
                 'qtd_volumes' => fake()->numberBetween(1, 20),
                 'solicitante' => [
-                    'username' => fake()->firstName(),
+                    'matricula' => fake()->bothify('??#####'),
                     'nome' => fake()->name(),
                 ],
             ];

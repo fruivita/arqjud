@@ -63,7 +63,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         Fortify::authenticateUsing(function (LoginRequest $request) {
             $validado = Auth::validate([
-                'samaccountname' => $request->input('username'),
+                'matricula' => $request->input('matricula'),
                 'password' => $request->input('password'),
             ]);
 

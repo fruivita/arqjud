@@ -31,8 +31,8 @@ class UsuarioFactory extends Factory
         return array_merge(
             (new UsuarioCorporativoFactory())->definition(),
             [
+                'matricula' => fake()->unique()->bothify('??#####'),
                 'nome' => fake()->text(50),
-                'username' => fake()->unique()->text(20),
                 'password' => null,
                 'ultimo_login' => now()->subWeeks(rand(1, 30)),
                 'ip' => fake()->ipv4(),

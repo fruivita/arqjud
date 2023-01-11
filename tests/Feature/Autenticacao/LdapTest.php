@@ -23,7 +23,7 @@ test('caso a autenticação falhe, usuário autenticado permanece como null', fu
     expect(usuarioAutenticado())->toBeNull();
 
     post(route('login'), [
-        'username' => null,
+        'matricula' => null,
         'password' => null,
     ])->assertSessionHasErrors();
 
@@ -34,7 +34,7 @@ test('caso a autenticação falhe, usuário compartilhado com as views é null',
     $this
         ->followingRedirects()
         ->post(route('login'), [
-            'username' => null,
+            'matricula' => null,
             'password' => null,
         ])
         ->assertOk()
@@ -70,29 +70,29 @@ test('usuário autenticado, se tentar acessar a página de login, será redireci
 });
 
 test('autenticação cria o objeto da classe Usuario', function () {
-    $usuario = login();
+    $usuario = login('11111');
 
     expect($usuario)->toBeInstanceOf(Usuario::class)
-        ->and($usuario->username)->toBe('foo');
+        ->and($usuario->matricula)->toBe('11111');
 
     logout();
 });
 
 test('usuário autenticado é compartilhado com as views', function () {
-    $samaccountname = 'foo';
+    $matricula = '11111';
 
-    actingAs($samaccountname);
+    actingAs($matricula);
 
     $this
         ->followingRedirects()
         ->post(route('login'), [
-            'username' => $samaccountname,
+            'matricula' => $matricula,
             'password' => 'secret',
         ])
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
-                ->where('auth.user.username', $samaccountname)
+                ->where('auth.user.matricula', $matricula)
                 ->has('errors', 0)
         );
 });
@@ -100,15 +100,15 @@ test('usuário autenticado é compartilhado com as views', function () {
 /**
  * @see https://ldaprecord.com/docs/laravel/v2/auth/database/importing/#password-synchronization
  */
-test('username é sincronizado no banco de dados', function () {
+test('matrícula é sincronizada no banco de dados', function () {
     expect(Usuario::count())->toBe(0);
 
-    login();
+    login('11111');
 
     $usuario = Usuario::first();
 
     expect(Usuario::count())->toBe(1)
-        ->and($usuario->username)->toBe('foo')
+        ->and($usuario->matricula)->toBe('11111')
         ->and(!empty($usuario->password))->toBeTrue();
 
     logout();

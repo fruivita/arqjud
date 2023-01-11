@@ -25,7 +25,6 @@ class UsuarioOnlyResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'matricula' => $this->matricula,
-                'username' => $this->username,
                 'nome' => $this->nome,
                 'email' => $this->email,
                 'ultimo_login' => empty($this->ultimo_login) ? null : $this->ultimo_login->tz(config('app.tz'))->format('d-m-Y H:i:s'),
