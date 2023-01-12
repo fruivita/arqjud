@@ -34,7 +34,9 @@ test('registra os erros de validação em arquivo próprio respeitando o snapsho
     'com_caixa_invalida',
     'com_volume_caixa_invalido',
     'com_processo_invalido',
+    'com_processo_com_mascara',
     'com_processo_pai_invalido',
+    'com_processo_pai_com_mascara',
     'com_localidade_criadora_invalida',
 ]);
 

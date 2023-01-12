@@ -66,9 +66,9 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
     private function rules()
     {
         return [
-            'numero_processo' => ['bail', 'required', 'string', 'max:25', new NumeroProcessoCNJ()],
-            'numero_antigo_processo' => ['bail', 'nullable', 'string', 'max:25', new NumeroProcesso()],
-            'numero_processo_pai' => ['bail', 'nullable', 'string', 'max:25', new NumeroProcessoCNJ(), Rule::exists('processos', 'numero')],
+            'numero_processo' => ['bail', 'required', 'string', 'regex:/^\d+$/', 'max:25', new NumeroProcessoCNJ()],
+            'numero_antigo_processo' => ['bail', 'nullable', 'string', 'regex:/^\d+$/', 'max:25', new NumeroProcesso()],
+            'numero_processo_pai' => ['bail', 'nullable', 'string', 'regex:/^\d+$/', 'max:25', new NumeroProcessoCNJ(), Rule::exists('processos', 'numero')],
             'arquivado_em' => ['bail', 'required', 'date_format:d-m-Y', 'after_or_equal:01-01-1900', 'before_or_equal:' . now()->format('d-m-Y')],
             'qtd_volumes_processo' => ['bail', 'required', 'integer', 'between:1,9999'],
             'numero_caixa' => ['bail', 'required', 'integer', 'min:1'],
