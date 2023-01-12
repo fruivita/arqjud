@@ -37,7 +37,7 @@ class UpdateProcessoRequest extends FormRequest
                 'bail',
                 'nullable',
                 'string',
-                'regex:/\d+/',
+                'regex:/^\d+$/',
                 'max:25',
                 new NumeroProcessoCNJ(),
                 Rule::exists('processos', 'numero'),
@@ -47,7 +47,7 @@ class UpdateProcessoRequest extends FormRequest
                 'bail',
                 'required',
                 'string',
-                'regex:/\d+/',
+                'regex:/^\d+$/',
                 'max:25',
                 new NumeroProcessoCNJ(),
                 Rule::unique('processos', 'numero')

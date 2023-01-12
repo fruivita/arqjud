@@ -50,7 +50,7 @@ test('rules estão definidas no form request', function () {
             'bail',
             'required',
             'string',
-            'regex:/\d+/',
+            'regex:/^\d+$/',
             'max:25',
             new NumeroProcessoCNJ(),
             Rule::exists('processos', 'numero'),
