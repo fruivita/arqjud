@@ -19,10 +19,6 @@ class Permissao extends Model
     protected $table = 'permissoes';
 
     // slug de todas as permissões da aplicação
-    const CONFIGURACAO_VIEW = 'configuracao_view';
-
-    const CONFIGURACAO_UPDATE = 'configuracao_update';
-
     const IMPORTACAO_CREATE = 'importacao_create';
 
     const LOG_VIEW_ANY = 'log_view_any';

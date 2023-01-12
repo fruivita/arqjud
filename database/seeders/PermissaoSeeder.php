@@ -41,8 +41,7 @@ class PermissaoSeeder extends Seeder
      */
     private function todasPermissoes()
     {
-        return $this->permissoesConfiguracao()
-            ->concat($this->permissoesImportacao())
+        return $this->permissoesImportacao()
             ->concat($this->permissoesLog())
             ->concat($this->permissoesAtividade())
             ->concat($this->permissoesPermissao())
@@ -62,25 +61,6 @@ class PermissaoSeeder extends Seeder
             ->concat($this->permissoesSolicitacao())
             ->concat($this->permissoesSolicitacaoExterna())
             ->concat($this->permissoesGuia());
-    }
-
-    /**
-     * @return \Illuminate\Support\LazyCollection
-     */
-    private function permissoesConfiguracao()
-    {
-        return LazyCollection::make([
-            [
-                'nome' => 'Configuração da aplicação: Visualizar',
-                'slug' => Permissao::CONFIGURACAO_VIEW,
-                'descricao' => 'Permissão para visualizar as configurações da aplicação cadastradas.',
-            ],
-            [
-                'nome' => 'Configuração da aplicação: Atualizar',
-                'slug' => Permissao::CONFIGURACAO_UPDATE,
-                'descricao' => 'Permissão para atualizar as configurações da aplicação cadastradas.',
-            ],
-        ]);
     }
 
     /**

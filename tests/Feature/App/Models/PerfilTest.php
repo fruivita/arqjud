@@ -112,8 +112,6 @@ test('perfil administrador possui suas permissões iniciais definidas', function
         ->pluck('slug');
 
     expect($permissoes->toArray())->toMatchArray([
-        Permissao::CONFIGURACAO_VIEW,
-        Permissao::CONFIGURACAO_UPDATE,
         Permissao::IMPORTACAO_CREATE,
         Permissao::LOG_VIEW_ANY,
         Permissao::LOG_VIEW,

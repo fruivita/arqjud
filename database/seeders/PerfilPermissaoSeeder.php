@@ -67,8 +67,6 @@ class PerfilPermissaoSeeder extends Seeder
     private function permissoesPerfilAdministrador(int $id_perfil)
     {
         return Permissao::whereIn('slug', [
-            Permissao::CONFIGURACAO_VIEW,
-            Permissao::CONFIGURACAO_UPDATE,
             Permissao::IMPORTACAO_CREATE,
             Permissao::LOG_VIEW_ANY,
             Permissao::LOG_VIEW,
