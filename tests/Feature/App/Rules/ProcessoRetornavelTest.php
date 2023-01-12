@@ -14,7 +14,7 @@ test('processo solicitado não é um processo retornável ao arquivo', function 
     $processo = Processo::factory()->create();
     Solicitacao::factory()->for($processo, 'processo')->solicitada()->create();
 
-    $validator = Validator::make(['numero' => $processo->numero], [
+    $validator = Validator::make(['numero' => apenasNumeros($processo->numero)], [
         'numero' => [new ProcessoRetornavel()],
     ]);
 
@@ -25,7 +25,7 @@ test('processo já devolvido não é um processo retornável ao arquivo', functi
     $processo = Processo::factory()->create();
     Solicitacao::factory()->for($processo, 'processo')->devolvida()->create();
 
-    $validator = Validator::make(['numero' => $processo->numero], [
+    $validator = Validator::make(['numero' => apenasNumeros($processo->numero)], [
         'numero' => [new ProcessoRetornavel()],
     ]);
 
@@ -35,32 +35,29 @@ test('processo já devolvido não é um processo retornável ao arquivo', functi
 test('processo sem solicitação não é um processo retornável ao arquivo', function () {
     $processo = Processo::factory()->create();
 
-    $validator = Validator::make(['numero' => $processo->numero], [
+    $validator = Validator::make(['numero' => apenasNumeros($processo->numero)], [
         'numero' => [new ProcessoRetornavel()],
     ]);
 
     expect($validator->passes())->toBeFalse();
 });
 
-test('processo entregue é retornável ao arquivo', function (string $numero) {
+test('processo entregue é retornável ao arquivo', function () {
     $processo = Processo::factory()->create(['numero' => '02393484420224003909']);
 
     Solicitacao::factory()->for($processo, 'processo')->entregue()->create();
 
-    $validator = Validator::make(['numero' => $numero], [
+    $validator = Validator::make(['numero' => '02393484420224003909'], [
         'numero' => [new ProcessoRetornavel()],
     ]);
 
     expect($validator->passes())->toBeTrue();
-})->with([
-    '02393484420224003909',
-    '0239348-44.2022.4.00.3909', // máscara é irrelevante
-]);
+});
 
 test('mensagem de falha de validação está definida', function () {
     $processo = Processo::factory()->create();
 
-    $validator = Validator::make(['numero' => $processo->numero], [
+    $validator = Validator::make(['numero' => apenasNumeros($processo->numero)], [
         'numero' => [new ProcessoRetornavel()],
     ]);
 

@@ -33,9 +33,7 @@ class NumeroProcessoCNJ implements InvokableRule
      */
     public function __invoke($attribute, $value, $fail)
     {
-        $numero = apenasNumeros($value);
-
-        if (empty($numero) || $this->modulo($numero) !== 1) {
+        if (empty($value) || $this->modulo($value) !== 1) {
             $fail('validation.cnj')->translate();
         }
     }

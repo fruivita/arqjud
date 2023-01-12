@@ -28,7 +28,7 @@ class NumeroProcesso implements InvokableRule
      */
     public function __invoke($attribute, $value, $fail)
     {
-        $numero = str(apenasNumeros($value));
+        $numero = str($value);
         $valido = false;
 
         switch ($numero->length()) {

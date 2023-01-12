@@ -24,7 +24,7 @@ class ProcessoDisponivel implements InvokableRule
     public function __invoke($attribute, $value, $fail)
     {
         $processo = Processo::doesntHave('solicitacoesAtivas')
-            ->firstWhere('numero', apenasNumeros($value));
+            ->firstWhere('numero', $value);
 
         if (!$processo) {
             $fail('validation.solicitacao.indisponivel')->translate();

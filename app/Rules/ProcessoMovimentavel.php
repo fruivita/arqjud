@@ -27,7 +27,7 @@ class ProcessoMovimentavel implements InvokableRule
     public function __invoke($attribute, $value, $fail)
     {
         $processo = Processo::doesntHave('solicitacoesEntregues')
-            ->firstWhere('numero', apenasNumeros($value));
+            ->firstWhere('numero', $value);
 
         if (!$processo) {
             $fail('validation.movimentacao')->translate();

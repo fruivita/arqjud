@@ -26,7 +26,7 @@ class ProcessoRetornavel implements InvokableRule
     public function __invoke($attribute, $value, $fail)
     {
         $processo = Processo::has('solicitacoesEntregues')
-            ->firstWhere('numero', apenasNumeros($value));
+            ->firstWhere('numero', $value);
 
         if (!$processo) {
             $fail('validation.solicitacao.retornavel')->translate();

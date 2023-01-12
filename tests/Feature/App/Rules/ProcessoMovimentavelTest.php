@@ -14,7 +14,7 @@ test('processo solicitado pode ser movimentado, pois localizado dentro do arquiv
     $processo = Processo::factory()->create();
     Solicitacao::factory()->for($processo, 'processo')->solicitada()->create();
 
-    $validator = Validator::make(['numero' => $processo->numero], [
+    $validator = Validator::make(['numero' => apenasNumeros($processo->numero)], [
         'numero' => [new ProcessoMovimentavel()],
     ]);
 
@@ -25,7 +25,7 @@ test('processo entregue NÃO pode ser movimentado, pois localizado fora do arqui
     $processo = Processo::factory()->create();
     Solicitacao::factory()->for($processo, 'processo')->entregue()->create();
 
-    $validator = Validator::make(['numero' => $processo->numero], [
+    $validator = Validator::make(['numero' => apenasNumeros($processo->numero)], [
         'numero' => [new ProcessoMovimentavel()],
     ]);
 
@@ -36,31 +36,28 @@ test('processo devolvido pode ser movimentado, pois localizado dentro do arquivo
     $processo = Processo::factory()->create();
     Solicitacao::factory()->for($processo, 'processo')->devolvida()->create();
 
-    $validator = Validator::make(['numero' => $processo->numero], [
+    $validator = Validator::make(['numero' => apenasNumeros($processo->numero)], [
         'numero' => [new ProcessoMovimentavel()],
     ]);
 
     expect($validator->passes())->toBeTrue();
 });
 
-test('processo sem solicitação pode ser movimentado, pois localizado dentro do arquivo', function (string $numero) {
-    Processo::factory()->create(['numero' => $numero]);
+test('processo sem solicitação pode ser movimentado, pois localizado dentro do arquivo', function () {
+    Processo::factory()->create(['numero' => '02393484420224003909']);
 
-    $validator = Validator::make(['numero' => $numero], [
+    $validator = Validator::make(['numero' => '02393484420224003909'], [
         'numero' => [new ProcessoMovimentavel()],
     ]);
 
     expect($validator->passes())->toBeTrue();
-})->with([
-    '02393484420224003909',
-    '0239348-44.2022.4.00.3909', // máscara é irrelevante
-]);
+});
 
 test('mensagem de falha de validação está definida', function () {
     $processo = Processo::factory()->create();
     Solicitacao::factory()->for($processo, 'processo')->entregue()->create();
 
-    $validator = Validator::make(['numero' => $processo->numero], [
+    $validator = Validator::make(['numero' => apenasNumeros($processo->numero)], [
         'numero' => [new ProcessoMovimentavel()],
     ]);
 

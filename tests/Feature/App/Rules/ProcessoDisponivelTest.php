@@ -36,25 +36,22 @@ test('processo já devolvido está disponível para nova solicitação', functio
     $processo = Processo::factory()->create();
     Solicitacao::factory()->for($processo, 'processo')->devolvida()->create();
 
-    $validator = Validator::make(['numero' => $processo->numero], [
+    $validator = Validator::make(['numero' => apenasNumeros($processo->numero)], [
         'numero' => [new ProcessoDisponivel()],
     ]);
 
     expect($validator->passes())->toBeTrue();
 });
 
-test('processo sem solicitação está disponível para solicitação', function (string $numero) {
+test('processo sem solicitação está disponível para solicitação', function () {
     Processo::factory()->create(['numero' => '02393484420224003909']);
 
-    $validator = Validator::make(['numero' => $numero], [
+    $validator = Validator::make(['numero' => '02393484420224003909'], [
         'numero' => [new ProcessoDisponivel()],
     ]);
 
     expect($validator->passes())->toBeTrue();
-})->with([
-    '02393484420224003909',
-    '0239348-44.2022.4.00.3909', // máscara é irrelevante
-]);
+});
 
 test('mensagem de falha de validação está definida', function () {
     $processo = Processo::factory()->create();
