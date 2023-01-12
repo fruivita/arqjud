@@ -9,6 +9,7 @@
     @see https://inertiajs.com/
     @see https://www.chromium.org/developers/design-documents/create-amazing-password-forms
  -->
+
 <script>
 export default {
     layout: null,
