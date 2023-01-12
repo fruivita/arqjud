@@ -25,5 +25,5 @@ return [[
     '100-s',                // Número da Sala
     '20-e',                 // Número da Estante
     '30-p',                 // Número da Prateleita
-    'Loren ipsum',           // Observação/Descrição da caixa
+    'Loren ipsum',          // Observação/Descrição da caixa
 ]];
