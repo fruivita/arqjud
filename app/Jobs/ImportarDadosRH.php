@@ -15,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
  *
  * - Pessoas/Usuários;
  * - Cargos;
- * - Funções comissionadas;
+ * - Funções de confiança;
  * - Lotação.
  *
  * Útil para manter completo os dados dos usuários e habilitá-los nas
