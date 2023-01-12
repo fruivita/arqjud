@@ -44,6 +44,7 @@ class StoreMoveProcessoEntreCaixaRequest extends FormRequest
                 'bail',
                 'required',
                 'string',
+                'regex:/\d+/',
                 'max:25',
                 new NumeroProcessoCNJ(),
                 Rule::exists('processos', 'numero'),

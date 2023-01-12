@@ -34,6 +34,7 @@ class ShowProcessoHomeRequest extends FormRequest
                 'bail',
                 'nullable',
                 'string',
+                'regex:/\d+/',
                 'max:25',
                 new NumeroProcesso(),
                 new MultiColumnExists('processos', ['numero', 'numero_antigo']),

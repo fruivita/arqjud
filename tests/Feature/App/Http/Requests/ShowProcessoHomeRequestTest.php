@@ -27,6 +27,7 @@ test('rules estão definidas no form request', function () {
             'bail',
             'nullable',
             'string',
+            'regex:/\d+/',
             'max:25',
             new NumeroProcesso(),
             new MultiColumnExists('processos', ['numero', 'numero_antigo']),
