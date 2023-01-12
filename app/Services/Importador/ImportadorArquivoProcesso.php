@@ -8,7 +8,6 @@ use App\Rules\NumeroProcesso;
 use App\Rules\NumeroProcessoCNJ;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
