@@ -55,13 +55,13 @@ class Handler extends ExceptionHandler
     {
         $response = parent::render($request, $e);
 
-        if (in_array($response->status(), [400, 401, 403, 404, 405, 419, 429, 500, 503])) {
+        if (in_array($response->status(), [400, 401, 403, 404, 405, 419, 429, 500, 503])) { // @phpstan-ignore-line
             return Inertia::render('Error', [
-                'status' => $response->status(),
+                'status' => $response->status(), // @phpstan-ignore-line
                 'link' => route('home.show'),
             ])
                 ->toResponse($request)
-                ->setStatusCode($response->status());
+                ->setStatusCode($response->status()); // @phpstan-ignore-line
         }
 
         return $response;
