@@ -169,7 +169,6 @@ const completo = computed(() => props.usuario.data.status === __('completo'));
                 <ul class="list-inside list-disc">
                     <li>{{ __('Nome') }}</li>
                     <li>{{ __('Matrícula') }}</li>
-                    <li>{{ __('Usuário') }}</li>
                     <li>{{ __('Email') }}</li>
                     <li>{{ __('Lotação') }}</li>
                 </ul>
