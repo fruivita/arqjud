@@ -94,7 +94,7 @@ class StoreProcessoRequest extends FormRequest
     {
         return [
             'processo_pai_numero' => __('Processo pai'),
-            'numero' => __('Número do processo'),
+            'numero' => __('Processo'),
             'numero_antigo' => __('Número antigo do processo'),
             'arquivado_em' => __('Data de arquivamento'),
             'qtd_volumes' => __('Qtd volumes'),

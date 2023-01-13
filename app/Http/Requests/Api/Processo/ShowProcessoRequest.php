@@ -50,7 +50,7 @@ class ShowProcessoRequest extends FormRequest
     public function attributes()
     {
         return [
-            'numero' => __('Número do processo'),
+            'numero' => __('Processo'),
         ];
     }
 

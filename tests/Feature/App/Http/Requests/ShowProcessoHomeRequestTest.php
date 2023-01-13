@@ -37,6 +37,6 @@ test('rules estão definidas no form request', function () {
 
 test('attributes estão definidas no form request', function () {
     $this->assertExactValidationRules([
-        'termo' => __('Número do processo'),
+        'termo' => __('Processo'),
     ], $this->request->attributes());
 });

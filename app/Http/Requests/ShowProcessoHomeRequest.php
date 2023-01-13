@@ -50,7 +50,7 @@ class ShowProcessoHomeRequest extends FormRequest
     public function attributes()
     {
         return [
-            'termo' => __('Número do processo'),
+            'termo' => __('Processo'),
         ];
     }
 

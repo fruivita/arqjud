@@ -55,7 +55,7 @@ class StoreSolicitacaoRequest extends FormRequest
     public function attributes()
     {
         return [
-            'processos.*.numero' => __('Número do processo'),
+            'processos.*.numero' => __('Processo'),
         ];
     }
 

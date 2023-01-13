@@ -62,7 +62,7 @@ class StoreMoveProcessoEntreCaixaRequest extends FormRequest
     {
         return [
             'volume_id' => __('Volume de destino'),
-            'processos.*.numero' => __('Número do processo'),
+            'processos.*.numero' => __('Processo'),
         ];
     }
 
