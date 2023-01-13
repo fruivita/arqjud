@@ -9,7 +9,6 @@ use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia as Assert;
-
 use function Pest\Laravel\get;
 
 // Caminho feliz
