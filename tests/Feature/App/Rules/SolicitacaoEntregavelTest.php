@@ -63,5 +63,5 @@ test('mensagem de falha de validação está definida', function () {
     ]);
 
     expect($validator->passes())->toBeFalse()
-        ->and($validator->errors()->first())->toBe(__('validation.solicitacao.recebedor'));
+        ->and($validator->errors()->first())->toBe(__('validation.solicitacao.recebedor', ['attribute' => 'solicitacao id']));
 });

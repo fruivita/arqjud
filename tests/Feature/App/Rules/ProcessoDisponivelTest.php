@@ -62,5 +62,5 @@ test('mensagem de falha de validação está definida', function () {
     ]);
 
     expect($validator->passes())->toBeFalse()
-        ->and($validator->errors()->first())->toBe(__('validation.solicitacao.indisponivel'));
+        ->and($validator->errors()->first())->toBe(__('validation.solicitacao.indisponivel', ['attribute' => 'numero']));
 });

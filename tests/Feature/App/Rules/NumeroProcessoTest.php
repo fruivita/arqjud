@@ -43,7 +43,7 @@ test('mensagem de falha de validação está definida', function (string $numero
     ]);
 
     expect($validator->passes())->toBe($esperado)
-        ->and($validator->errors()->first())->toBe(__('validation.processo'));
+        ->and($validator->errors()->first())->toBe(__('validation.processo',  ['attribute' => 'numero']));
 })->with([
     ['11111111112222222222', false],
     ['111111122222222', false],

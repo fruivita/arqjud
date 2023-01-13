@@ -68,5 +68,5 @@ test('mensagem de falha de validação está definida', function () {
     ]);
 
     expect($validator->passes())->toBeFalse()
-        ->and($validator->errors()->first())->toBe(__('validation.habilitado'));
+        ->and($validator->errors()->first())->toBe(__('validation.habilitado', ['attribute' => 'usuario']));
 });

@@ -25,10 +25,13 @@ test('verifica se o número de processo é válido, isto é, se respeita o padr�
 ]);
 
 test('mensagem de falha de validação está definida', function () {
-    $validator = Validator::make(['numero' => '33333333333333333333'], [
-        'numero' => [new NumeroProcessoCNJ()],
-    ]);
+    $validator = Validator::make(
+        ['numero' => '33333333333333333333'],
+        [
+            'numero' => [new NumeroProcessoCNJ()],
+        ],
+    );
 
     expect($validator->passes())->toBeFalse()
-        ->and($validator->errors()->first())->toBe(__('validation.cnj'));
+        ->and($validator->errors()->first())->toBe(__('validation.cnj',  ['attribute' => 'numero']));
 });
