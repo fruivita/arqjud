@@ -14,6 +14,8 @@ use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 use function Spatie\PestPluginTestTime\testTime;
 
+beforeAll(fn () => \Spatie\Once\Cache::getInstance()->disable());
+
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 });

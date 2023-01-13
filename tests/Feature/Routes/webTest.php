@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
 
+beforeAll(fn () => \Spatie\Once\Cache::getInstance()->disable());
+
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
