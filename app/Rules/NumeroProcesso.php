@@ -50,7 +50,7 @@ class NumeroProcesso implements InvokableRule
         }
 
         if ($valido !== true) {
-            $fail('validation.invalid')->translate();
+            $fail('validation.processo')->translate();
         }
     }
 

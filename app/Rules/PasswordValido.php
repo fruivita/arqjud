@@ -41,7 +41,7 @@ class PasswordValido implements InvokableRule
         ]);
 
         if ($valido !== true) {
-            $fail('auth.password')->translate();
+            $fail('auth.failed')->translate();
         }
     }
 }

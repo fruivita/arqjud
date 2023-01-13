@@ -46,5 +46,5 @@ test('mensagem de falha de validação está definida', function () {
     ]);
 
     expect($validator->passes())->toBeFalse()
-        ->and($validator->errors()->first())->toBe(__('auth.password'));
+        ->and($validator->errors()->first())->toBe(__('auth.failed'));
 });
