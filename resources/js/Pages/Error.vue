@@ -17,12 +17,15 @@ export default {
 <script setup>
 import LinkButtonText from '@/Shared/Links/LinkButtonText.vue';
 import { useTranslationsStore } from '@/Stores/TranslationsStore';
+import { useDark } from '@vueuse/core';
 import { computed } from 'vue';
 
 const props = defineProps({
     status: { type: Number },
     link: { type: String },
 });
+
+useDark({ storageKey: 'tema' });
 
 const __ = useTranslationsStore().__;
 
