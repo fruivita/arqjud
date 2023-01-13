@@ -9,6 +9,8 @@ use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 
+beforeAll(fn () => \Spatie\Once\Cache::getInstance()->disable());
+
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
