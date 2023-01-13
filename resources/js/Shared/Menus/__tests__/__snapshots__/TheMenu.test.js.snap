@@ -2,7 +2,7 @@
 
 exports[`TheMenu > renderiza o componente respeitando o snapshot 1`] = `
 "<transition-stub enterfromclass=\\"opacity-0 scale-90\\" entertoclass=\\"opacity-100 scale-100\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-200 transform-gpu\\" leavefromclass=\\"opacity-100 scale-100\\" leavetoclass=\\"opacity-0 scale-90\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\">
-  <nav class=\\"fixed inset-0 w-72 space-y-1 overflow-y-auto border-r-4 border-primaria-900 bg-primaria-200 px-3 pt-16 dark:border-secundaria-50 dark:bg-secundaria-700\\">
+  <nav class=\\"fixed inset-0 w-auto space-y-1 overflow-y-auto border-r-4 border-primaria-900 bg-primaria-200 px-3 pt-16 dark:border-secundaria-50 dark:bg-secundaria-700 sm:w-80\\">
     <header class=\\"mb-6 flex items-center justify-center\\">
       <inertialink href=\\"http://home.foo\\" class=\\"flex h-28 w-28 flex-col items-center justify-center rounded-full bg-primaria-500 font-extrabold text-primaria-50 outline-none transition-all duration-150 hover:bg-primaria-700 focus:ring focus:ring-primaria-300\\"><span>Foo</span><span>BAZ</span></inertialink>
     </header>

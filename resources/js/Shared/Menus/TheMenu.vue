@@ -36,7 +36,7 @@ const logout = () => {
         leave-to-class="opacity-0 scale-90"
     >
         <nav
-            class="fixed inset-0 w-72 space-y-1 overflow-y-auto border-r-4 border-primaria-900 bg-primaria-200 px-3 pt-16 dark:border-secundaria-50 dark:bg-secundaria-700"
+            class="fixed inset-0 w-auto space-y-1 overflow-y-auto border-r-4 border-primaria-900 bg-primaria-200 px-3 pt-16 dark:border-secundaria-50 dark:bg-secundaria-700 sm:w-80"
         >
             <header class="mb-6 flex items-center justify-center">
                 <InertiaLink
