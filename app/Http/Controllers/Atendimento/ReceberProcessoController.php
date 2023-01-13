@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Atendimento;
 
 use App\Enums\Policy;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Atendimento\StoreDevolverProcessoRequest;
+use App\Http\Requests\Atendimento\StoreReceberProcessoRequest;
 use App\Http\Traits\ComFeedback;
 use App\Models\Solicitacao;
 use App\Pipes\Solicitacao\EfetivarDevolucao;
@@ -17,7 +17,7 @@ use MichaelRubel\EnhancedPipeline\Pipeline;
  * @see https://laravel.com/docs/controllers
  * @see https://inertiajs.com/server-side-setup
  */
-class DevolverProcessoController extends Controller
+class ReceberProcessoController extends Controller
 {
     use ComFeedback;
 
@@ -30,9 +30,9 @@ class DevolverProcessoController extends Controller
     {
         $this->authorize(Policy::Update->value, Solicitacao::class);
 
-        return Inertia::render('Atendimento/DevolverProcesso/Create', [
+        return Inertia::render('Atendimento/ReceberProcesso/Create', [
             'links' => fn () => [
-                'devolver' => route('atendimento.devolver-processo.store'),
+                'receber' => route('atendimento.receber-processo.store'),
             ],
         ]);
     }
@@ -40,10 +40,10 @@ class DevolverProcessoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Atendimento\StoreDevolverProcessoRequest  $request
+     * @param  \App\Http\Requests\Atendimento\StoreReceberProcessoRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreDevolverProcessoRequest $request)
+    public function store(StoreReceberProcessoRequest $request)
     {
         $devolucao = new \stdClass();
         $devolucao->processo = $request->input('numero');
@@ -56,7 +56,7 @@ class DevolverProcessoController extends Controller
                 NotificarDevolucao::class,
             ])
             ->onFailure(function (mixed $dados, \Throwable $exception) {
-                Log::critical(__('Falha ao devolver o processo'), [
+                Log::critical(__('Falha ao receber o processo'), [
                     'dados' => $dados,
                     'exception' => $exception,
                 ]);

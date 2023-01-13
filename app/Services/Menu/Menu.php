@@ -104,9 +104,9 @@ final class Menu implements MenuInterface
                     ],
                     [
                         'icone' => 'safe',
-                        'href' => route('atendimento.devolver-processo.create'),
-                        'texto' => __('Devolver processos'),
-                        'ativo' => Route::is('atendimento.devolver-processo.*'),
+                        'href' => route('atendimento.receber-processo.create'),
+                        'texto' => __('Receber processos'),
+                        'ativo' => Route::is('atendimento.receber-processo.*'),
                     ]
                 )
             )

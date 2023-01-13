@@ -6,7 +6,7 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Http\Requests\Atendimento\StoreDevolverProcessoRequest;
+use App\Http\Requests\Atendimento\StoreReceberProcessoRequest;
 use App\Models\Permissao;
 use App\Models\Usuario;
 use App\Rules\NumeroProcessoCNJ;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 beforeEach(function () {
-    $this->request = new StoreDevolverProcessoRequest();
+    $this->request = new StoreReceberProcessoRequest();
 });
 
 // Autorização

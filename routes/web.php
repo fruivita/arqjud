@@ -6,7 +6,7 @@ use App\Http\Controllers\Administracao\LogController;
 use App\Http\Controllers\Administracao\LotacaoController;
 use App\Http\Controllers\Administracao\PerfilController;
 use App\Http\Controllers\Administracao\PermissaoController;
-use App\Http\Controllers\Atendimento\DevolverProcessoController;
+use App\Http\Controllers\Atendimento\ReceberProcessoController;
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
 use App\Http\Controllers\Atendimento\SolicitacaoController;
@@ -81,9 +81,9 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [EntregarProcessoController::class, 'store'])->name('store')->can(Policy::Update->value, Solicitacao::class);
         });
 
-        Route::prefix('devolver-processo')->name('devolver-processo.')->group(function () {
-            Route::get('create', [DevolverProcessoController::class, 'create'])->name('create')->can(Policy::Update->value, Solicitacao::class);
-            Route::post('/', [DevolverProcessoController::class, 'store'])->name('store')->can(Policy::Update->value, Solicitacao::class);
+        Route::prefix('receber-processo')->name('receber-processo.')->group(function () {
+            Route::get('create', [ReceberProcessoController::class, 'create'])->name('create')->can(Policy::Update->value, Solicitacao::class);
+            Route::post('/', [ReceberProcessoController::class, 'store'])->name('store')->can(Policy::Update->value, Solicitacao::class);
         });
 
         Route::prefix('guia')->name('guia.')->group(function () {
@@ -230,7 +230,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [LogController::class, 'index'])->name('index')->can(Policy::LogViewAny->value);
             Route::get('{log}/edit', [LogController::class, 'show'])->name('show')->can(Policy::LogView->value);
             Route::get('{log}/download', [LogController::class, 'download'])->name('download')->can(Policy::LogView->value);
-            Route::delete('{log}', [LogController::class, 'destroy'])->name('destroy')->can(Policy::LogDelete->value);
+            Route::delete('{log}', [LogController::class, 'destroy'])->name('destroy')->can(Policy::LogDelete->value, 'log');
         });
     });
 });

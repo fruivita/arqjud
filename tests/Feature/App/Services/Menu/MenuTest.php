@@ -74,7 +74,7 @@ test('menu é gerado de acordo com as permissões do usuário, inclusive se a pe
         'nome' => __('Atendimentos'),
         'links' => [
             ['icone' => 'cart', 'href' => route('atendimento.entregar-processo.create'), 'texto' => __('Entregar processos'), 'ativo' => false],
-            ['icone' => 'safe', 'href' => route('atendimento.devolver-processo.create'), 'texto' => __('Devolver processos'), 'ativo' => false],
+            ['icone' => 'safe', 'href' => route('atendimento.receber-processo.create'), 'texto' => __('Receber processos'), 'ativo' => false],
         ],
     ]]);
 });
@@ -126,7 +126,7 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
     ['atendimento.solicitar-processo.index', 'atendimento.solicitar-processo.index'],
     ['atendimento.solicitar-processo.create', 'atendimento.solicitar-processo.create'],
     ['atendimento.entregar-processo.create', 'atendimento.entregar-processo.create'],
-    ['atendimento.devolver-processo.create', 'atendimento.devolver-processo.create'],
+    ['atendimento.receber-processo.create', 'atendimento.receber-processo.create'],
     ['atendimento.guia.index', 'atendimento.guia.index'],
     ['solicitacao.index', 'solicitacao.index'],
     ['solicitacao.create', 'solicitacao.create'],

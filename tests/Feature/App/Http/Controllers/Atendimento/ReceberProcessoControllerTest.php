@@ -7,8 +7,8 @@
  * @see https://github.com/jasonmccreary/laravel-test-assertions
  */
 
-use App\Http\Controllers\Atendimento\DevolverProcessoController;
-use App\Http\Requests\Atendimento\StoreDevolverProcessoRequest;
+use App\Http\Controllers\Atendimento\ReceberProcessoController;
+use App\Http\Requests\Atendimento\StoreReceberProcessoRequest;
 use App\Jobs\NotificarSolicitanteDevolucao;
 use App\Models\Permissao;
 use App\Models\Solicitacao;
@@ -36,31 +36,31 @@ afterEach(function () {
 
 // Autorização
 test('usuário sem permissão não consegue exibir formulário de devolução de processos ao arquivo', function () {
-    get(route('atendimento.devolver-processo.create'))->assertForbidden();
+    get(route('atendimento.receber-processo.create'))->assertForbidden();
 });
 
 // Caminho feliz
 test('action do controller usa o form request', function (string $action, string $request) {
     $this->assertActionUsesFormRequest(
-        DevolverProcessoController::class,
+        ReceberProcessoController::class,
         $action,
         $request
     );
 })->with([
-    ['store', StoreDevolverProcessoRequest::class],
+    ['store', StoreReceberProcessoRequest::class],
 ]);
 
 test('action create compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::SOLICITACAO_UPDATE);
 
-    get(route('atendimento.devolver-processo.create'))
+    get(route('atendimento.receber-processo.create'))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
-                ->component('Atendimento/DevolverProcesso/Create')
+                ->component('Atendimento/ReceberProcesso/Create')
                 ->whereAll([
                     'links' => [
-                        'devolver' => route('atendimento.devolver-processo.store'),
+                        'receber' => route('atendimento.receber-processo.store'),
                     ],
                 ])
         );
@@ -72,7 +72,7 @@ test('devolução de processo muda o status da solicitação de entregue para de
     $solicitacao = Solicitacao::factory()->entregue()->create();
     Solicitacao::factory(2)->solicitada()->create();
 
-    post(route('atendimento.devolver-processo.store'), [
+    post(route('atendimento.receber-processo.store'), [
         'numero' => $solicitacao->processo->numero,
     ])
         ->assertRedirect()
@@ -90,7 +90,7 @@ test('dispara o job NotificarSolicitanteDevolucao quando o usuário faz a devolu
 
     $solicitacao = Solicitacao::factory()->entregue()->create();
 
-    post(route('atendimento.devolver-processo.store'), [
+    post(route('atendimento.receber-processo.store'), [
         'numero' => $solicitacao->processo->numero,
     ])
         ->assertRedirect()
@@ -112,14 +112,14 @@ test('registra o log em caso de falha na devolução do processo ao arquivo', fu
 
     Log::spy();
 
-    post(route('atendimento.devolver-processo.store'), [
+    post(route('atendimento.receber-processo.store'), [
         'numero' => $solicitacao->processo->numero,
     ])
         ->assertRedirect()
         ->assertSessionHas('feedback.erro');
 
     Log::shouldHaveReceived('critical')
-        ->withArgs(fn ($message) => $message === __('Falha ao devolver o processo'))
+        ->withArgs(fn ($message) => $message === __('Falha ao receber o processo'))
         ->once();
 });
 
@@ -135,7 +135,7 @@ test('devolução do processo ao arquivo está protegida por transaction', funct
 
     $database = DB::spy();
 
-    (new DevolverProcessoController())->store(new StoreDevolverProcessoRequest([
+    (new ReceberProcessoController())->store(new StoreReceberProcessoRequest([
         'numero' => apenasNumeros($solicitacao->processo->numero),
     ]));
 
@@ -144,9 +144,9 @@ test('devolução do processo ao arquivo está protegida por transaction', funct
     $database->shouldNotReceive('commit');
 });
 
-test('DevolverProcessoController usa trait', function () {
+test('ReceberProcessoController usa trait', function () {
     expect(
-        collect(class_uses(DevolverProcessoController::class))
+        collect(class_uses(ReceberProcessoController::class))
             ->has([
                 \App\Http\Traits\ComFeedback::class,
             ])

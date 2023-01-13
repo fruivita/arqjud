@@ -32,7 +32,7 @@ const __ = useTranslationsStore().__;
 
 const status = useStatusRequisicaoStore();
 
-const formDevolverProcesso = useForm({ numero: '' });
+const formReceberProcesso = useForm({ numero: '' });
 
 // todos os processos devolvidos na corrente operação
 const processosDevolvidos = ref([]);
@@ -47,15 +47,15 @@ const processos = computed(() =>
         : slice(processosDevolvidos.value, 0, maxViewItems)
 );
 
-const devolverProcesso = async () => {
+const receberProcesso = async () => {
     if (status.processando == true) {
         flash({ alerta: __('Aguarde a conclusão da solicitação.') });
 
         return;
     }
 
-    if (formDevolverProcesso.numero.length != 25) {
-        formDevolverProcesso.setError(
+    if (formReceberProcesso.numero.length != 25) {
+        formReceberProcesso.setError(
             'numero',
             __('Informe o número completo do processo no padrão CNJ.')
         );
@@ -64,15 +64,15 @@ const devolverProcesso = async () => {
     }
 
     status.setStatus(true);
-    formDevolverProcesso.clearErrors();
+    formReceberProcesso.clearErrors();
 
-    formDevolverProcesso.post(props.links.devolver, {
+    formReceberProcesso.post(props.links.receber, {
         preserveScroll: true,
 
         onSuccess: () => {
             flash();
-            processosDevolvidos.value.unshift(formDevolverProcesso.numero);
-            formDevolverProcesso.reset();
+            processosDevolvidos.value.unshift(formReceberProcesso.numero);
+            formReceberProcesso.reset();
         },
     });
 };
@@ -81,11 +81,11 @@ const devolverProcesso = async () => {
 <template>
     <Pagina :titulo="__('Devolução de processos sob remessa')">
         <Container>
-            <form @submit.prevent="devolverProcesso" class="flex space-x-3">
+            <form @submit.prevent="receberProcesso" class="flex space-x-3">
                 <div class="w-full">
                     <TextInput
-                        v-model="formDevolverProcesso.numero"
-                        :erro="formDevolverProcesso.errors.numero"
+                        v-model="formReceberProcesso.numero"
+                        :erro="formReceberProcesso.errors.numero"
                         :label="__('Processo')"
                         :mascara="mascaraCNJ"
                         :maxlength="25"
