@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Listeners\ImportacaoDadosRHEventSubscriber;
+use App\Listeners\ScheduledEventSubscriber;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -23,6 +24,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $subscribe = [
         ImportacaoDadosRHEventSubscriber::class,
+        ScheduledEventSubscriber::class,
     ];
 
     /**
