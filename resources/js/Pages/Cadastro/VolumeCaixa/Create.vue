@@ -8,8 +8,8 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
-import Andar from '@/Models/Andar';
-import Caixa from '@/Models/Caixa';
+import { numeroAndar } from '@/Helpers/Andar';
+import { numeroCaixa } from '@/Helpers/Caixa';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
@@ -70,9 +70,7 @@ const cadastrar = () => {
                         <ChaveValor
                             :chave="__('Andar')"
                             :href="caixa.data.prateleira.estante.sala.andar.links.view"
-                            :valor="
-                                new Andar(caixa.data.prateleira.estante.sala.andar).numeroExibicao()
-                            "
+                            :valor="numeroAndar(caixa.data.prateleira.estante.sala.andar)"
                             icone="layers"
                         />
 
@@ -100,7 +98,7 @@ const cadastrar = () => {
                         <ChaveValor
                             :chave="__('Caixa')"
                             :href="caixa.data.links.view"
-                            :valor="new Caixa(caixa.data).numeroExibicao()"
+                            :valor="numeroCaixa(caixa.data)"
                             icone="box2"
                         />
 

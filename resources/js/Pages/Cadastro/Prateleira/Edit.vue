@@ -12,9 +12,9 @@ import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis'
 import { useExclusao } from '@/Composables/UseExclusao';
 import { flash } from '@/Composables/UseFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
+import { numeroAndar } from '@/Helpers/Andar';
+import { gp, numeroCaixa } from '@/Helpers/Caixa';
 import { perPageKey, updatePerPageKey } from '@/keys';
-import Andar from '@/Models/Andar';
-import Caixa from '@/Models/Caixa';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -139,7 +139,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         <ChaveValor
                             :chave="__('Andar')"
                             :href="prateleira.data.estante.sala.andar.links.view"
-                            :valor="new Andar(prateleira.data.estante.sala.andar).numeroExibicao()"
+                            :valor="numeroAndar(prateleira.data.estante.sala.andar)"
                             icone="layers"
                         />
 
@@ -314,9 +314,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                             <Cell v-show="elementosVisiveis.ano">{{ caixa.ano }}</Cell>
 
-                            <Cell v-show="elementosVisiveis.guardaPermanente">{{
-                                new Caixa(caixa).gp()
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.guardaPermanente">{{ gp(caixa) }}</Cell>
 
                             <Cell v-show="elementosVisiveis.localidadeCriadora">{{
                                 caixa.localidade_criadora.nome
@@ -344,7 +342,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                                             confirmarExclusao(
                                                 caixa.links.delete,
                                                 __('Exclusão da caixa :attribute', {
-                                                    attribute: new Caixa(caixa).numeroExibicao(),
+                                                    attribute: numeroCaixa(caixa),
                                                 })
                                             )
                                         "

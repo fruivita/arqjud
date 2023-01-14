@@ -12,8 +12,8 @@ import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis'
 import { useExclusao } from '@/Composables/UseExclusao';
 import { flash } from '@/Composables/UseFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
+import { numeroAndar } from '@/Helpers/Andar';
 import { perPageKey, updatePerPageKey } from '@/keys';
-import Andar from '@/Models/Andar';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
@@ -144,9 +144,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         <ChaveValor
                             :chave="__('Andar')"
                             :href="caixa.data.prateleira.estante.sala.andar.links.view"
-                            :valor="
-                                new Andar(caixa.data.prateleira.estante.sala.andar).numeroExibicao()
-                            "
+                            :valor="numeroAndar(caixa.data.prateleira.estante.sala.andar)"
                             icone="layers"
                         />
 

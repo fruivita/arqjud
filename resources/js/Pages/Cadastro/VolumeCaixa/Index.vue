@@ -14,8 +14,8 @@
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
 import { useExclusao } from '@/Composables/UseExclusao';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
+import { gp } from '@/Helpers/Caixa';
 import { perPageKey, updatePerPageKey } from '@/keys';
-import Caixa from '@/Models/Caixa';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -303,7 +303,7 @@ watch(perPage, filtrar);
                             <Cell v-show="elementosVisiveis.caixaAno">{{ volume.caixa.ano }}</Cell>
 
                             <Cell v-show="elementosVisiveis.caixaGuardaPermanente">{{
-                                new Caixa(volume.caixa).gp()
+                                gp(volume.caixa)
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.caixaLocalidadeCriadora">{{

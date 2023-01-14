@@ -8,8 +8,8 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
-import Andar from '@/Models/Andar';
-import Caixa from '@/Models/Caixa';
+import { numeroAndar } from '@/Helpers/Andar';
+import { numeroCaixa } from '@/Helpers/Caixa';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
@@ -75,7 +75,7 @@ const cadastrar = () => {
                         <ChaveValor
                             :chave="__('Andar')"
                             :href="prateleira.data.estante.sala.andar.links.view"
-                            :valor="new Andar(prateleira.data.estante.sala.andar).numeroExibicao()"
+                            :valor="numeroAndar(prateleira.data.estante.sala.andar)"
                             icone="layers"
                         />
 
@@ -179,7 +179,7 @@ const cadastrar = () => {
                     isEmpty(ultima_insercao.data)
                         ? null
                         : __('Caixa: :attribute', {
-                              attribute: new Caixa(ultima_insercao.data).numeroExibicao(),
+                              attribute: numeroCaixa(ultima_insercao.data),
                           })
                 "
             />

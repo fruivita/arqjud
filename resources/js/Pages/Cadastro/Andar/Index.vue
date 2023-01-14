@@ -14,8 +14,8 @@
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
 import { useExclusao } from '@/Composables/UseExclusao';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
+import { numeroAndar } from '@/Helpers/Andar';
 import { perPageKey, updatePerPageKey } from '@/keys';
-import Andar from '@/Models/Andar';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -180,7 +180,7 @@ watch(perPage, filtrar);
                                             confirmarExclusao(
                                                 andar.links.delete,
                                                 __('Exclusão do andar :attribute', {
-                                                    attribute: new Andar(andar).numeroExibicao(),
+                                                    attribute: numeroAndar(andar),
                                                 })
                                             )
                                         "

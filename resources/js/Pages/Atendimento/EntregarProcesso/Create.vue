@@ -8,8 +8,8 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
-import Lotacao from '@/Models/Lotacao';
-import Processo from '@/Models/Processo';
+import { nomeLotacao } from '@/Helpers/Lotacao';
+import { gp } from '@/Helpers/Processo';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
@@ -208,7 +208,7 @@ const viewReset = () => {
                     <p :class="{ 'text-red-500': recebedor.lotacao_id == 0 }">
                         {{
                             __('Lotação: :attribute', {
-                                attribute: new Lotacao(recebedor.lotacao).nomeExibicao(),
+                                attribute: nomeLotacao(recebedor.lotacao),
                             })
                         }}
                     </p>
@@ -276,7 +276,7 @@ const viewReset = () => {
 
                                     <Cell>{{ solicitacao.processo.qtd_volumes }}</Cell>
 
-                                    <Cell>{{ new Processo(solicitacao.processo).gp() }}</Cell>
+                                    <Cell>{{ gp(solicitacao.processo) }}</Cell>
 
                                     <Cell>{{ solicitacao.solicitada_em }}</Cell>
 

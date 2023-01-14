@@ -8,8 +8,8 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
+import { nomeLotacao } from '@/Helpers/Lotacao';
 import { mascaraCNJ, maxViewItems } from '@/keys';
-import Lotacao from '@/Models/Lotacao';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -210,7 +210,7 @@ const viewReset = () => {
                     <p>
                         {{
                             __('Destino: :attribute', {
-                                attribute: new Lotacao(solicitante.lotacao).nomeExibicao(),
+                                attribute: nomeLotacao(solicitante.lotacao),
                             })
                         }}
                     </p>

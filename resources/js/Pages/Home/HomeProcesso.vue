@@ -8,11 +8,11 @@
  -->
 
 <script setup>
-import Andar from '@/Models/Andar';
-import Caixa from '@/Models/Caixa';
-import Lotacao from '@/Models/Lotacao';
-import Processo from '@/Models/Processo';
-import Usuario from '@/Models/Usuario';
+import { numeroAndar } from '@/Helpers/Andar';
+import { numeroCaixa } from '@/Helpers/Caixa';
+import { nomeLotacao } from '@/Helpers/Lotacao';
+import { gp, localizacao } from '@/Helpers/Processo';
+import { nomeUsuario } from '@/Helpers/Usuario';
 import Alerta from '@/Shared/Containers/Alerta.vue';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
@@ -116,7 +116,7 @@ const solicitacao_ativa = computed(() => first(props.processo.data.solicitacao_a
 
                     <ChaveValor
                         :chave="__('Guarda permanente')"
-                        :valor="new Processo(processo.data).gp()"
+                        :valor="gp(processo.data)"
                         icone="safe"
                     />
 
@@ -155,7 +155,7 @@ const solicitacao_ativa = computed(() => first(props.processo.data.solicitacao_a
 
                 <ChaveValor
                     :chave="__('Localização atual')"
-                    :valor="new Processo(processo.data).localizacao()"
+                    :valor="localizacao(processo.data)"
                     icone="geo-alt"
                 />
 
@@ -184,9 +184,9 @@ const solicitacao_ativa = computed(() => first(props.processo.data.solicitacao_a
                         <ChaveValor
                             :chave="__('Andar')"
                             :valor="
-                                new Andar(
+                                numeroAndar(
                                     processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
-                                ).numeroExibicao()
+                                )
                             "
                             icone="layers"
                         />
@@ -211,7 +211,7 @@ const solicitacao_ativa = computed(() => first(props.processo.data.solicitacao_a
 
                         <ChaveValor
                             :chave="__('Caixa')"
-                            :valor="new Caixa(processo.data.volume_caixa.caixa).numeroExibicao()"
+                            :valor="numeroCaixa(processo.data.volume_caixa.caixa)"
                             icone="box2"
                         />
 
@@ -255,7 +255,7 @@ const solicitacao_ativa = computed(() => first(props.processo.data.solicitacao_a
 
                     <ChaveValor
                         :chave="__('Solicitante')"
-                        :valor="new Usuario(solicitacao_ativa.solicitante).nomeExibicao()"
+                        :valor="nomeUsuario(solicitacao_ativa.solicitante)"
                         icone="person"
                     />
 
@@ -269,21 +269,21 @@ const solicitacao_ativa = computed(() => first(props.processo.data.solicitacao_a
                     <ChaveValor
                         v-if="solicitacao_ativa.remetente"
                         :chave="__('Remetente')"
-                        :valor="new Usuario(solicitacao_ativa.remetente).nomeExibicao()"
+                        :valor="nomeUsuario(solicitacao_ativa.remetente)"
                         icone="person"
                     />
 
                     <ChaveValor
                         v-if="solicitacao_ativa.recebedor"
                         :chave="__('Recebedor')"
-                        :valor="new Usuario(solicitacao_ativa.recebedor).nomeExibicao()"
+                        :valor="nomeUsuario(solicitacao_ativa.recebedor)"
                         icone="person"
                     />
 
                     <ChaveValor
                         v-if="solicitacao_ativa.destino"
                         :chave="__('Destino')"
-                        :valor="new Lotacao(solicitacao_ativa.destino).nomeExibicao()"
+                        :valor="nomeLotacao(solicitacao_ativa.destino)"
                         icone="person"
                     />
                 </div>

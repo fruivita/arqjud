@@ -14,8 +14,8 @@
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
 import { useExclusao } from '@/Composables/UseExclusao';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
+import { gp, numeroCaixa } from '@/Helpers/Caixa';
 import { perPageKey, updatePerPageKey } from '@/keys';
-import Caixa from '@/Models/Caixa';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -247,9 +247,7 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.ano">{{ caixa.ano }}</Cell>
 
-                            <Cell v-show="elementosVisiveis.guardaPermanente">{{
-                                new Caixa(caixa).gp()
-                            }}</Cell>
+                            <Cell v-show="elementosVisiveis.guardaPermanente">{{ gp(caixa) }}</Cell>
 
                             <Cell v-show="elementosVisiveis.localidadeCriadora">{{
                                 caixa.localidade_criadora.nome
@@ -305,7 +303,7 @@ watch(perPage, filtrar);
                                             confirmarExclusao(
                                                 caixa.links.delete,
                                                 __('Exclusão da caixa :attribute', {
-                                                    attribute: new Caixa(caixa).numeroExibicao(),
+                                                    attribute: numeroCaixa(caixa),
                                                 })
                                             )
                                         "

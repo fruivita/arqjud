@@ -14,8 +14,8 @@
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
 import { flash } from '@/Composables/UseFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
+import { eAdministravel } from '@/Helpers/Lotacao';
 import { perPageKey, updatePerPageKey } from '@/keys';
-import Lotacao from '@/Models/Lotacao';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -199,7 +199,7 @@ watch(perPage, filtrar);
                             <Cell v-show="elementosVisiveis.sigla">{{ lotacao.sigla }}</Cell>
 
                             <Cell v-show="elementosVisiveis.administravel">
-                                {{ new Lotacao(lotacao).eAdministravel() }}
+                                {{ eAdministravel(lotacao) }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.lotacaoPai">

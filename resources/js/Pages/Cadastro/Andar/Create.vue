@@ -8,7 +8,7 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
-import Andar from '@/Models/Andar';
+import { numeroAndar } from '@/Helpers/Andar';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
@@ -117,7 +117,7 @@ const cadastrar = () => {
                     isEmpty(ultima_insercao.data)
                         ? null
                         : __('Andar: :attribute', {
-                              attribute: new Andar(ultima_insercao.data).numeroExibicao(),
+                              attribute: numeroAndar(ultima_insercao.data),
                           })
                 "
             />

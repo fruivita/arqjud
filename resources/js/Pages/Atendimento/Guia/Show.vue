@@ -8,9 +8,9 @@
 
 <script setup>
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
+import { nomeLotacao } from '@/Helpers/Lotacao';
+import { nomeUsuario } from '@/Helpers/Usuario';
 import { mascaraCNJ } from '@/keys';
-import Lotacao from '@/Models/Lotacao';
-import Usuario from '@/Models/Usuario';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
 import CheckBox from '@/Shared/Forms/CheckBox.vue';
@@ -63,19 +63,19 @@ const colspan = computed(() => countElementosVisiveis(elementosVisiveis));
 
                     <ChaveValor
                         :chave="__('Remetente')"
-                        :valor="new Usuario(guia.data.remetente).nomeExibicao()"
+                        :valor="nomeUsuario(guia.data.remetente)"
                         icone="person"
                     />
 
                     <ChaveValor
                         :chave="__('Recebedor')"
-                        :valor="new Usuario(guia.data.recebedor).nomeExibicao()"
+                        :valor="nomeUsuario(guia.data.recebedor)"
                         icone="person"
                     />
 
                     <ChaveValor
                         :chave="__('Destino')"
-                        :valor="new Lotacao(guia.data.destino).nomeExibicao()"
+                        :valor="nomeLotacao(guia.data.destino)"
                         icone="building"
                     />
                 </div>

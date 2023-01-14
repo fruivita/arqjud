@@ -8,8 +8,8 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
+import { gp } from '@/Helpers/Processo';
 import { mascaraCNJ, maxViewItems } from '@/keys';
-import Processo from '@/Models/Processo';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
@@ -244,7 +244,7 @@ const viewReset = () => {
                                 />
                             </Cell>
 
-                            <Cell>{{ new Processo(processo).gp() }}</Cell>
+                            <Cell>{{ gp(processo) }}</Cell>
 
                             <Cell>
                                 <ButtonIcone

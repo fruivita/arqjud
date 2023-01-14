@@ -8,9 +8,9 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
+import { numeroAndar } from '@/Helpers/Andar';
+import { gp, numeroCaixa } from '@/Helpers/Caixa';
 import { mascaraCNJ } from '@/keys';
-import Andar from '@/Models/Andar';
-import Caixa from '@/Models/Caixa';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
@@ -85,9 +85,7 @@ const cadastrar = () => {
                             :chave="__('Andar')"
                             :href="volume_caixa.data.caixa.prateleira.estante.sala.andar.links.view"
                             :valor="
-                                new Andar(
-                                    volume_caixa.data.caixa.prateleira.estante.sala.andar
-                                ).numeroExibicao()
+                                numeroAndar(volume_caixa.data.caixa.prateleira.estante.sala.andar)
                             "
                             icone="layers"
                         />
@@ -116,7 +114,7 @@ const cadastrar = () => {
                         <ChaveValor
                             :chave="__('Caixa')"
                             :href="volume_caixa.data.caixa.links.view"
-                            :valor="new Caixa(volume_caixa.data.caixa).numeroExibicao()"
+                            :valor="numeroCaixa(volume_caixa.data.caixa)"
                             icone="box2"
                         />
 
@@ -186,7 +184,7 @@ const cadastrar = () => {
 
                         <ChaveValor
                             :chave="__('Guarda permanente')"
-                            :valor="new Caixa(volume_caixa.data.caixa).gp()"
+                            :valor="gp(volume_caixa.data.caixa)"
                             icone="safe"
                         />
                     </div>

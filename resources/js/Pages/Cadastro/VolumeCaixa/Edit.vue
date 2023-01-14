@@ -12,10 +12,10 @@ import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis'
 import { useExclusao } from '@/Composables/UseExclusao';
 import { flash } from '@/Composables/UseFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
+import { numeroAndar } from '@/Helpers/Andar';
+import { numeroCaixa } from '@/Helpers/Caixa';
+import { gp } from '@/Helpers/Processo';
 import { perPageKey, updatePerPageKey } from '@/keys';
-import Andar from '@/Models/Andar';
-import Caixa from '@/Models/Caixa';
-import Processo from '@/Models/Processo';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -154,9 +154,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             :chave="__('Andar')"
                             :href="volume_caixa.data.caixa.prateleira.estante.sala.andar.links.view"
                             :valor="
-                                new Andar(
-                                    volume_caixa.data.caixa.prateleira.estante.sala.andar
-                                ).numeroExibicao()
+                                numeroAndar(volume_caixa.data.caixa.prateleira.estante.sala.andar)
                             "
                             icone="layers"
                         />
@@ -185,7 +183,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         <ChaveValor
                             :chave="__('Caixa')"
                             :href="volume_caixa.data.caixa.links.view"
-                            :valor="new Caixa(volume_caixa.data.caixa).numeroExibicao()"
+                            :valor="numeroCaixa(volume_caixa.data.caixa)"
                             icone="box2"
                         />
 
@@ -382,7 +380,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.guardaPermanente">{{
-                                new Processo(processo).gp()
+                                gp(processo)
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.qtdVolumes">{{

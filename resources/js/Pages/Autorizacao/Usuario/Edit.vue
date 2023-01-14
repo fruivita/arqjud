@@ -9,8 +9,8 @@
 
 <script setup>
 import { flash } from '@/Composables/UseFlash';
-import Lotacao from '@/Models/Lotacao';
-import Usuario from '@/Models/Usuario';
+import { nomeLotacao } from '@/Helpers/Lotacao';
+import { ultimoLogin } from '@/Helpers/Usuario';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Alerta from '@/Shared/Containers/Alerta.vue';
 import Container from '@/Shared/Containers/Container.vue';
@@ -88,13 +88,13 @@ const completo = computed(() => props.usuario.data.status === __('completo'));
 
                         <ChaveValor
                             :chave="__('Último login')"
-                            :valor="new Usuario(usuario.data).ultimoLogin()"
+                            :valor="ultimoLogin(usuario.data)"
                             icone="clock"
                         />
 
                         <ChaveValor
                             :chave="__('Lotação')"
-                            :valor="new Lotacao(usuario.data.lotacao).nomeExibicao()"
+                            :valor="nomeLotacao(usuario.data.lotacao)"
                             icone="building"
                         />
 
