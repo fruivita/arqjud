@@ -67,12 +67,12 @@ test('cria o log de registro do inicio e final do processo de importação', fun
     Log::spy();
     ImportadorArquivoProcesso::make()->importar($this->nome_arquivo);
 
-    Log::shouldHaveReceived('log')
-        ->withArgs(fn ($level, $message) => $level === 'notice' && $message === __('Inicio da importação dos processos'))
+    Log::shouldHaveReceived('notice')
+        ->withArgs(fn ($message) => $message === __('Inicio da importação dos processos'))
         ->once();
 
-    Log::shouldHaveReceived('log')
-        ->withArgs(fn ($level, $message) => $level === 'notice' && $message === __('Final da importação dos processos'))
+    Log::shouldHaveReceived('notice')
+        ->withArgs(fn ($message) => $message === __('Final da importação dos processos'))
         ->once();
 });
 

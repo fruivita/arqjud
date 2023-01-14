@@ -114,10 +114,7 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
      */
     private function iniciar()
     {
-        $this->log(
-            'notice',
-            __('Inicio da importação dos processos')
-        );
+        Log::notice(__('Inicio da importação dos processos'));
     }
 
     /**
@@ -260,8 +257,7 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
 
             return true;
         } catch (\Throwable $exception) {
-            $this->log(
-                'critical',
+            Log::critical(
                 __('Falha ao importar os processos'),
                 [
                     'input' => $validados,
@@ -280,41 +276,6 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
      */
     private function finalizar()
     {
-        $this->log(
-            'notice',
-            __('Final da importação dos processos')
-        );
-    }
-
-    /**
-     * Logs with an arbitrary level.
-     *
-     * The message MUST be a string or object implementing __toString().
-     *
-     * The message MAY contain placeholders in the form: {foo} where foo
-     * will be replaced by the context data in key "foo".
-     *
-     * The context array can contain arbitrary data, the only assumption that
-     * can be made by implementors is that if an Exception instance is given
-     * to produce a stack trace, it MUST be in a key named "exception".
-     *
-     * The given context data is appended to the following class data:
-     * - disk - print log file system;
-     *
-     * @param  string  $level   log level
-     * @param  string|\Stringable  $message about what happened
-     * @param  array<string, mixed>  $context context data
-     * @return void
-     *
-     * @see https://www.php-fig.org/psr/psr-3/
-     * @see https://www.php.net/manual/en/function.array-merge.php
-     */
-    private function log(string $level, string|\Stringable $message, array $context = [])
-    {
-        Log::log(
-            $level,
-            $message,
-            $context
-        );
+        Log::notice(__('Final da importação dos processos'));
     }
 }
