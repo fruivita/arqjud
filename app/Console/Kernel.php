@@ -2,9 +2,14 @@
 
 namespace App\Console;
 
+use App\Enums\Queue;
+use App\Jobs\ImportarDadosRH;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+/**
+ * @see https://laravel.com/docs/9.x/scheduling
+ */
 class Kernel extends ConsoleKernel
 {
     /**
@@ -15,7 +20,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule
+            ->job(new ImportarDadosRH(), Queue::Alta->value)
+            ->dailyAt('1:00');
     }
 
     /**
