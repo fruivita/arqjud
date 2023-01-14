@@ -6,13 +6,10 @@
 
 use App\Enums\Queue as EQueue;
 use App\Jobs\ImportarDadosRH;
-use App\Jobs\ImportarEstruturaCorporativa;
 use Illuminate\Console\Events\ScheduledTaskFinished;
 use Illuminate\Console\Events\ScheduledTaskStarting;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {

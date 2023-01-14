@@ -5,7 +5,6 @@
  */
 
 use Illuminate\Support\Facades\Log;
-
 use function Spatie\PestPluginTestTime\testTime;
 
 // Caminho feliz
