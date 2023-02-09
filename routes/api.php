@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Caixa\CaixaController;
-use App\Http\Controllers\Api\Processo\ProcessoController;
+use App\Http\Controllers\Api\Movimentacao\ProcessoMovimentavelController;
 use App\Http\Controllers\Api\Solicitacao\AutorizadaParaRecebedorController;
 use App\Http\Controllers\Api\Solicitacao\ProcessoDisponivelController;
 use App\Http\Controllers\Api\Solicitacao\SolicitanteController;
@@ -19,8 +19,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->name('api.')->group(function () {
-    Route::prefix('processo')->name('processo.')->group(function () {
-        Route::post('show', [ProcessoController::class, 'show'])->name('show');
+    Route::prefix('movimentacao')->name('movimentacao.')->group(function () {
+        Route::prefix('processo')->name('processo.')->group(function () {
+            Route::post('show', [ProcessoMovimentavelController::class, 'show'])->name('show');
+        });
     });
 
     Route::prefix('caixa')->name('caixa.')->group(function () {

@@ -33,7 +33,7 @@ class MoveProcessoEntreCaixaController extends Controller
             'localidades' => fn () => LocalidadeOnlyResource::collection(Localidade::all()),
             'links' => fn () => [
                 'search' => [
-                    'processo' => route('api.processo.show'),
+                    'processo' => route('api.movimentacao.processo.show'),
                     'caixa' => route('api.caixa.show'),
                 ],
                 'store' => route('movimentacao.entre-caixas.store'),

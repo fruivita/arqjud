@@ -12,8 +12,10 @@ use App\Http\Requests\Movimentacao\StoreMoveProcessoEntreCaixaRequest;
 use App\Models\Localidade;
 use App\Models\Permissao;
 use App\Models\Processo;
+use App\Models\Usuario;
 use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
@@ -21,7 +23,7 @@ use function Pest\Laravel\post;
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
-    login();
+    Auth::login(Usuario::factory()->create());
 });
 
 afterEach(fn () => logout());

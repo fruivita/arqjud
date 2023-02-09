@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\Processo;
+namespace App\Http\Requests\Api\Movimentacao;
 
+use App\Enums\Policy;
 use App\Rules\NumeroProcessoCNJ;
+use App\Rules\ProcessoMovimentavel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -10,7 +12,7 @@ use Illuminate\Validation\Rule;
  * @see https://laravel.com/docs/9.x/validation#form-request-validation
  * @see https://www.aaronsaray.com/2022/be-careful-with-prepareforvalidation
  */
-class ShowProcessoRequest extends FormRequest
+class ShowProcessoMovimentavelRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,7 +21,7 @@ class ShowProcessoRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->can(Policy::MoverProcessoCreate->value);
     }
 
     /**
@@ -38,6 +40,7 @@ class ShowProcessoRequest extends FormRequest
                 'max:25',
                 new NumeroProcessoCNJ(),
                 Rule::exists('processos', 'numero'),
+                new ProcessoMovimentavel(),
             ],
         ];
     }
