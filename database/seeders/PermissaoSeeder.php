@@ -442,26 +442,22 @@ class PermissaoSeeder extends Seeder
                 'descricao' => 'Permissão para visualizar todas as caixas cadastradas.',
             ],
             [
-                'nome' => 'Caixa: Visualizar
-                ',
+                'nome' => 'Caixa: Visualizar',
                 'slug' => Permissao::CAIXA_VIEW,
                 'descricao' => 'Permissão para visualizar as caixas cadastradas.',
             ],
             [
-                'nome' => 'Caixa: Criar
-                ',
+                'nome' => 'Caixa: Criar',
                 'slug' => Permissao::CAIXA_CREATE,
                 'descricao' => 'Permissão para criar as caixas.',
             ],
             [
-                'nome' => 'Caixa: Atualizar
-                ',
+                'nome' => 'Caixa: Atualizar',
                 'slug' => Permissao::CAIXA_UPDATE,
                 'descricao' => 'Permissão para atualizar as caixas cadastradas.',
             ],
             [
-                'nome' => 'Caixa: Excluir
-                ',
+                'nome' => 'Caixa: Excluir',
                 'slug' => Permissao::CAIXA_DELETE,
                 'descricao' => 'Permissão para excluir as caixas cadastradas.',
             ],
@@ -622,7 +618,7 @@ class PermissaoSeeder extends Seeder
             [
                 'nome' => 'Guia de remessa: Visualizar',
                 'slug' => Permissao::GUIA_VIEW,
-                'descricao' => 'Permissão para visualizar em detalhes as guias de remessa cadastrada.',
+                'descricao' => 'Permissão para visualizar em detalhes as guias de remessa cadastradas.',
             ],
         ]);
     }
