@@ -67,11 +67,11 @@
     </lotacoes>
     <pessoas>
          <!-- Pessoas Válidas -->
-        <pessoa nome="Pessoa 1" sigla="Sigla 1" matricula="11111" email="p1@p1.com" cargo="1" lotacao="2" funcaoConfianca="1"/>
-        <pessoa nome="Pessoa 2" sigla="Sigla 2" matricula="22222" email="p2@p2.com" cargo="1" lotacao="2" funcaoConfianca="2"/>
-        <pessoa nome="Pessoa 3" sigla="Sigla 3" matricula="33333" email="p3@p3.com" cargo="1" lotacao="3" funcaoConfianca="2"/>
-        <pessoa nome="Pessoa 4" sigla="Sigla 4" matricula="44444" email="p4@p4.com" cargo="2" lotacao="3" funcaoConfianca=""/>
-        <pessoa nome="Pessoa 5" sigla="Sigla 5" matricula="55555" email="p5@p5.com" cargo="2" lotacao="3" funcaoConfianca=""/>
+        <pessoa nome="Pessoa 1" matricula="11111" email="p1@p1.com" cargo="1" lotacao="2" funcaoConfianca="1"/>
+        <pessoa nome="Pessoa 2" matricula="22222" email="p2@p2.com" cargo="1" lotacao="2" funcaoConfianca="2"/>
+        <pessoa nome="Pessoa 3" matricula="33333" email="p3@p3.com" cargo="1" lotacao="3" funcaoConfianca="2"/>
+        <pessoa nome="Pessoa 4" matricula="44444" email="p4@p4.com" cargo="2" lotacao="3" funcaoConfianca=""/>
+        <pessoa nome="Pessoa 5" matricula="55555" email="p5@p5.com" cargo="2" lotacao="3" funcaoConfianca=""/>
         <!-- Pessoas Inválidas -->
         <!-- Sem o nome -->
         <pessoa matricula="66666" email="p6@p6.com" cargo="1" lotacao="2" funcaoConfianca=""/>
