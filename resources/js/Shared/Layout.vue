@@ -42,7 +42,7 @@ const title = computed(
 
         <div
             :class="{
-                'lg:ml-72': exibirMenuPrincipal,
+                'lg:ml-80': exibirMenuPrincipal,
             }"
             class="flex min-h-screen flex-col"
         >
