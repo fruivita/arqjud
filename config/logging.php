@@ -115,6 +115,7 @@ return [
         ],
 
         'emergency' => [
+            'driver' => 'daily',
             'path' => storage_path('logs/arqjud.log'),
         ],
     ],
