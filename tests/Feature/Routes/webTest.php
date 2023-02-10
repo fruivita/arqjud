@@ -11,7 +11,6 @@ use App\Models\Permissao;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
 
 beforeAll(fn () => \Spatie\Once\Cache::getInstance()->disable());
@@ -34,22 +33,19 @@ afterEach(fn () => logout());
 
 // Not found
 test('parâmetro das rotas de log estão protegidos com regex, mesmo que o log exista', function () {
-    concederPermissao([Permissao::LOG_VIEW, Permissao::LOG_DELETE]);
+    concederPermissao([Permissao::LOG_VIEW]);
 
     get(route('administracao.log.show', 'foo.log'))->assertNotFound();
     get(route('administracao.log.download', 'foo.log'))->assertNotFound();
-    delete(route('administracao.log.download', 'foo.log'))->assertNotFound();
 });
 
 // Caminho feliz
 test('parâmetro das rotas de log válidos pela regex são permitidos', function () {
-    concederPermissao([Permissao::LOG_VIEW, Permissao::LOG_DELETE]);
+    concederPermissao([Permissao::LOG_VIEW]);
 
     get(route('administracao.log.show', 'arqjud-2020-12-30.log'))->assertOk();
     get(route('administracao.log.download', 'arqjud-2020-12-30.log'))->assertOk();
-    delete(route('administracao.log.destroy', 'arqjud-2020-12-30.log'))->assertRedirect(route('administracao.log.index'));
 
     get(route('administracao.log.show', 'arqjud.log'))->assertOk();
     get(route('administracao.log.download', 'arqjud.log'))->assertOk();
-    delete(route('administracao.log.destroy', 'arqjud.log'))->assertRedirect(route('administracao.log.index'));
 });

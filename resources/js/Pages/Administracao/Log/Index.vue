@@ -7,14 +7,10 @@
     @see https://www.thisdot.co/blog/provide-inject-api-with-vue-3
  -->
 <script setup>
-import { useExclusao } from '@/Composables/UseExclusao';
-import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
-import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
 import InertiaButtonIconeLink from '@/Shared/Inertia/InertiaButtonIconeLink.vue';
 import LinkButtonIcone from '@/Shared/Links/LinkButtonIcone.vue';
-import ModalConfirmacao from '@/Shared/Modals/ModalConfirmacao.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
 import Heading from '@/Shared/Tables/Heading.vue';
 import Row from '@/Shared/Tables/Row.vue';
@@ -26,8 +22,6 @@ const props = defineProps({
 });
 
 const __ = useTranslationsStore().__;
-
-const { confirmarExclusao, excluir, titulo } = useExclusao();
 </script>
 
 <template>
@@ -58,20 +52,6 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                                         :href="arquivo.links.download"
                                         icone="download"
                                     />
-
-                                    <ButtonIcone
-                                        v-if="arquivo.links.delete"
-                                        @click="
-                                            confirmarExclusao(
-                                                arquivo.links.delete,
-                                                __('Exclusão do log :attribute', {
-                                                    attribute: arquivo.nome,
-                                                })
-                                            )
-                                        "
-                                        especie="perigo"
-                                        icone="trash"
-                                    />
                                 </div>
                             </Cell>
                         </Row>
@@ -86,21 +66,4 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
             </Tabela>
         </Container>
     </Pagina>
-
-    <Teleport to="body">
-        <ModalConfirmacao>
-            <template #header>
-                <span>{{ titulo() }}</span>
-            </template>
-
-            <template #footer>
-                <ButtonText
-                    :texto="__('Confirmar')"
-                    @click="excluir"
-                    especie="perigo"
-                    icone="check-circle"
-                />
-            </template>
-        </ModalConfirmacao>
-    </Teleport>
 </template>

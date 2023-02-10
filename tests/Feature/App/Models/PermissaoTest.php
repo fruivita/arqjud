@@ -51,7 +51,6 @@ test('slugs das permissões estão definidas', function () {
     expect(Permissao::IMPORTACAO_CREATE)->toBe('importacao_create')
         ->and(Permissao::LOG_VIEW_ANY)->toBe('log_view_any')
         ->and(Permissao::LOG_VIEW)->toBe('log_view')
-        ->and(Permissao::LOG_DELETE)->toBe('log_delete')
         ->and(Permissao::ATIVIDADE_VIEW_ANY)->toBe('atividade_view_any')
         ->and(Permissao::ATIVIDADE_VIEW)->toBe('atividade_view')
         ->and(Permissao::ATIVIDADE_DELETE)->toBe('atividade_delete')

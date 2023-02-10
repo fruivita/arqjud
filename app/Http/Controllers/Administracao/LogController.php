@@ -9,7 +9,6 @@ use App\Http\Resources\Log\LogContentResource;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
 use FruiVita\LineReader\Facades\LineReader;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -67,10 +66,6 @@ class LogController extends Controller
             )->additional(['meta' => [
                 'arquivo' => $log,
                 'links' => collect(['download' => route('administracao.log.download', $log)])
-                    ->when(
-                        auth()->user()->can(Policy::LogDelete->value),
-                        fn (Collection $collection) => $collection->put('delete', route('administracao.log.destroy', $log)), // @phpstan-ignore-line
-                    )
                     ->toArray(),
             ]])->preserveQuery(),
         ]);
@@ -100,27 +95,6 @@ class LogController extends Controller
                 'Content-Disposition' => "attachment; filename={$log}",
             ]
         );
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  string  $log
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(string $log)
-    {
-        $this->authorize(Policy::LogDelete->value);
-
-        abort_if(
-            $this->storage()->missing($log),
-            404,
-            __('Arquivo nao encontrado')
-        );
-
-        $excluido = $this->storage()->delete($log);
-
-        return redirect()->action([self::class, 'index'])->with($this->feedback($excluido));
     }
 
     /**

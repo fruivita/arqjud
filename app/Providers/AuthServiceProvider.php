@@ -51,7 +51,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define(Policy::ImportacaoCreate->value, [ImportacaoPolicy::class, Policy::Create->value]);
         Gate::define(Policy::LogViewAny->value, [LogPolicy::class, Policy::ViewAny->value]);
         Gate::define(Policy::LogView->value, [LogPolicy::class, Policy::View->value]);
-        Gate::define(Policy::LogDelete->value, [LogPolicy::class, Policy::Delete->value]);
     }
 
     /**

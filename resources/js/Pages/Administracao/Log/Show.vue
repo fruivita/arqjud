@@ -7,13 +7,10 @@
  -->
 
 <script setup>
-import { useExclusao } from '@/Composables/UseExclusao';
 import { perPageKey, updatePerPageKey } from '@/keys';
-import ButtonText from '@/Shared/Buttons/ButtonText.vue';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
 import LinkButtonText from '@/Shared/Links/LinkButtonText.vue';
-import ModalConfirmacao from '@/Shared/Modals/ModalConfirmacao.vue';
 import Paginacao from '@/Shared/Tables/Paginacao.vue';
 import PorPagina from '@/Shared/Tables/PorPagina.vue';
 import { useTranslationsStore } from '@/Stores/TranslationsStore';
@@ -25,8 +22,6 @@ const props = defineProps({
 });
 
 const __ = useTranslationsStore().__;
-
-const { confirmarExclusao, excluir, titulo } = useExclusao();
 
 const perPage = ref(props.conteudo.meta.per_page);
 const updatePerPage = (novoValor) => {
@@ -62,21 +57,6 @@ watch(perPage, filtrar);
                     icone="download"
                 />
 
-                <ButtonText
-                    v-if="conteudo.meta.links.delete"
-                    @click="
-                        confirmarExclusao(
-                            conteudo.meta.links.delete,
-                            __('Exclusão do log :attribute', {
-                                attribute: conteudo.meta.arquivo,
-                            })
-                        )
-                    "
-                    :texto="__('Excluir')"
-                    especie="perigo"
-                    icone="trash"
-                />
-
                 <PorPagina />
             </div>
 
@@ -95,21 +75,4 @@ watch(perPage, filtrar);
             <Paginacao v-if="conteudo.meta.last_page > 1" :meta="conteudo.meta" />
         </Container>
     </Pagina>
-
-    <Teleport to="body">
-        <ModalConfirmacao>
-            <template #header>
-                <span>{{ titulo() }}</span>
-            </template>
-
-            <template #footer>
-                <ButtonText
-                    :texto="__('Confirmar')"
-                    @click="excluir"
-                    especie="perigo"
-                    icone="check-circle"
-                />
-            </template>
-        </ModalConfirmacao>
-    </Teleport>
 </template>

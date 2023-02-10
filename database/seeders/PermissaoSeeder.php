@@ -93,11 +93,6 @@ class PermissaoSeeder extends Seeder
                 'slug' => Permissao::LOG_VIEW,
                 'descricao' => 'Permissão para visualizar em detalhes os arquivos de log da aplicação.',
             ],
-            [
-                'nome' => 'Log: Excluir',
-                'slug' => Permissao::LOG_DELETE,
-                'descricao' => 'Permissão para excluir os arquivos de log da aplicação.',
-            ],
         ]);
     }
 

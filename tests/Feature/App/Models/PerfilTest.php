@@ -115,7 +115,6 @@ test('perfil administrador possui suas permissões iniciais definidas', function
         Permissao::IMPORTACAO_CREATE,
         Permissao::LOG_VIEW_ANY,
         Permissao::LOG_VIEW,
-        Permissao::LOG_DELETE,
         Permissao::ATIVIDADE_VIEW_ANY,
         Permissao::ATIVIDADE_VIEW,
         Permissao::ATIVIDADE_DELETE,

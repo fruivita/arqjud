@@ -7,14 +7,17 @@
 
 use App\Http\Resources\Log\LogCollection;
 use App\Http\Resources\Log\LogResource;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
-    login();
+    $this->usuario = Usuario::factory()->create();
+    Auth::login($this->usuario);
 
     $this->filenames = ['arqjud.log', 'arqjud-2020-12-30.log'];
 

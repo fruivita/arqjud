@@ -25,8 +25,6 @@ class Permissao extends Model
 
     const LOG_VIEW = 'log_view';
 
-    const LOG_DELETE = 'log_delete';
-
     const ATIVIDADE_VIEW_ANY = 'atividade_view_any';
 
     const ATIVIDADE_VIEW = 'atividade_view';

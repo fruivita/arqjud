@@ -30,10 +30,6 @@ class LogResource extends JsonResource
                         auth()->user()->can(Policy::LogView->value),
                         route('administracao.log.download', $this->getFilename()) // @phpstan-ignore-line
                     ),
-                    'delete' => $this->when(
-                        auth()->user()->can(Policy::LogDelete->value),
-                        route('administracao.log.destroy', $this->getFilename()) // @phpstan-ignore-line
-                    ),
                 ],
             ]
             : [];

@@ -7,13 +7,16 @@
 
 use App\Http\Resources\Log\LogResource;
 use App\Models\Permissao;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
-    login();
+    $this->usuario = Usuario::factory()->create();
+    Auth::login($this->usuario);
 
     $this->filename = 'arqjud.log';
 
@@ -26,7 +29,7 @@ afterEach(fn () => logout());
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas', function () {
-    concederPermissao([Permissao::LOG_VIEW, Permissao::LOG_DELETE]);
+    concederPermissao([Permissao::LOG_VIEW]);
 
     $resource = LogResource::make(File::allFiles($this->storage->path(''))[0]);
 
@@ -36,7 +39,6 @@ test('retorna os campos principais e as rotas autorizadas', function () {
             'links' => [
                 'view' => route('administracao.log.show', $this->filename),
                 'download' => route('administracao.log.download', $this->filename),
-                'delete' => route('administracao.log.destroy', $this->filename),
             ],
         ],
     ]);

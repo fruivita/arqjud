@@ -23,6 +23,5 @@ test('Policy enum corretamente definidos', function () {
         ->and(Policy::ImportacaoCreate->value)->toBe('importacaoCreate')
         ->and(Policy::LogViewAny->value)->toBe('logViewAny')
         ->and(Policy::LogView->value)->toBe('logView')
-        ->and(Policy::LogDelete->value)->toBe('logDelete')
         ->and(Policy::MoverProcessoCreate->value)->toBe('moverProcessoCreate');
 });

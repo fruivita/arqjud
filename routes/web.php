@@ -230,7 +230,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [LogController::class, 'index'])->name('index')->can(Policy::LogViewAny->value);
             Route::get('{log}/edit', [LogController::class, 'show'])->name('show')->can(Policy::LogView->value);
             Route::get('{log}/download', [LogController::class, 'download'])->name('download')->can(Policy::LogView->value);
-            Route::delete('{log}', [LogController::class, 'destroy'])->name('destroy')->can(Policy::LogDelete->value, 'log');
         });
     });
 });

@@ -25,6 +25,5 @@ enum Policy: string
     case ImportacaoCreate = 'importacaoCreate';
     case LogViewAny = 'logViewAny';
     case LogView = 'logView';
-    case LogDelete = 'logDelete';
     case MoverProcessoCreate = 'moverProcessoCreate';
 }

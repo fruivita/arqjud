@@ -28,10 +28,6 @@ test('usuário sem permissão não pode visualizar um log de funcionamento', fun
     expect(Auth::user()->can(Policy::LogView->value))->toBeFalse();
 });
 
-test('usuário sem permissão não pode excluir um log de funcionamento', function () {
-    expect(Auth::user()->can(Policy::LogDelete->value))->toBeFalse();
-});
-
 // Caminho feliz
 test('usuário com permissão pode listar os logs de funcionamento', function () {
     concederPermissao(Permissao::LOG_VIEW_ANY);
@@ -43,10 +39,4 @@ test('usuário com permissão pode visualizar um log de funcionamento', function
     concederPermissao(Permissao::LOG_VIEW);
 
     expect(Auth::user()->can(Policy::LogView->value))->toBeTrue();
-});
-
-test('usuário com permissão pode excluir um log de funcionamento sem estantes', function () {
-    concederPermissao(Permissao::LOG_DELETE);
-
-    expect(Auth::user()->can(Policy::LogDelete->value))->toBeTrue();
 });
