@@ -18,13 +18,15 @@ const __ = useTranslationsStore().__;
 describe('Processo', () => {
     test('retorna a lotação do processo pronta para exibição', () => {
         const processo = {
-            solicitacao_ativa: {
-                entregue_em: '01/01/1900',
-                destino: {
-                    sigla: 'foo',
-                    nome: 'bar',
+            solicitacao_ativa: [
+                {
+                    entregue_em: '01/01/1900',
+                    destino: {
+                        sigla: 'foo',
+                        nome: 'bar',
+                    },
                 },
-            },
+            ],
         };
 
         expect(localizacao(processo)).toBe('foo - bar');
@@ -38,12 +40,14 @@ describe('Processo', () => {
 
     test('localizado no arquivo se não houver data de entrega', () => {
         const processo = {
-            solicitacao_ativa: {
-                destino: {
-                    sigla: 'foo',
-                    nome: 'bar',
+            solicitacao_ativa: [
+                {
+                    destino: {
+                        sigla: 'foo',
+                        nome: 'bar',
+                    },
                 },
-            },
+            ],
         };
 
         expect(localizacao(processo)).toBe('No arquivo');

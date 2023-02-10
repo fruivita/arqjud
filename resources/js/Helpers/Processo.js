@@ -4,13 +4,13 @@
 
 import { nomeLotacao } from '@/Helpers/Lotacao';
 import { useTranslationsStore } from '@/Stores/TranslationsStore';
+import { first } from 'lodash';
 
 function localizacao(processo) {
     const __ = useTranslationsStore().__;
+    const solicitacao = first(processo.solicitacao_ativa);
 
-    return processo.solicitacao_ativa && processo.solicitacao_ativa.entregue_em
-        ? nomeLotacao(processo.solicitacao_ativa.destino)
-        : __('No arquivo');
+    return solicitacao?.entregue_em ? nomeLotacao(solicitacao.destino) : __('No arquivo');
 }
 
 function gp(processo) {
