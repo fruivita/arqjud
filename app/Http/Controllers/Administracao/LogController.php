@@ -69,7 +69,7 @@ class LogController extends Controller
                 'links' => collect(['download' => route('administracao.log.download', $log)])
                     ->when(
                         auth()->user()->can(Policy::LogDelete->value),
-                        fn (Collection $collection) => $collection->put('delete', route('administracao.log.destroy', $log)),
+                        fn (Collection $collection) => $collection->put('delete', route('administracao.log.destroy', $log)), // @phpstan-ignore-line
                     )
                     ->toArray(),
             ]])->preserveQuery(),
