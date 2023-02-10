@@ -33,7 +33,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.4",
         "laravel/fortify": "^1.16",
-        "laravel/framework": "^9.47",
+        "laravel/framework": "^9.51",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "michael-rubel/laravel-enhanced-pipeline": "^3.2",
@@ -43,13 +43,13 @@
         "tightenco/ziggy": "^1.5"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.7",
+        "barryvdh/laravel-debugbar": "^3.8",
         "druc/laravel-langscanner": "^2.0",
         "ergebnis/composer-normalize": "^2.29",
         "fakerphp/faker": "^1.20",
         "jasonmccreary/laravel-test-assertions": "^2.1",
         "laravel/pint": "^1.4",
-        "laravel/sail": "^1.18",
+        "laravel/sail": "^1.20",
         "mockery/mockery": "^1.5",
         "nunomaduro/collision": "^6.4",
         "nunomaduro/larastan": "^2.4",
@@ -58,7 +58,7 @@
         "pestphp/pest-plugin-laravel": "^1.3",
         "phpstan/phpstan": "^1.9",
         "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^9.6",
         "spatie/laravel-ignition": "^1.6",
         "spatie/pest-plugin-snapshots": "^1.1",
         "spatie/pest-plugin-test-time": "^1.1"
