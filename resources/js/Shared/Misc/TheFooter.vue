@@ -25,13 +25,13 @@ const __ = useTranslationsStore().__;
             </p>
 
             <div class="flex items-center justify-center space-x-3">
-                <a class="space-x-1" href="#">
+                <a class="space-x-1" href="https://github.com/fruivita/arqjud/wiki">
                     <Icone class="inline h-6 w-6" nome="book" />
 
                     <span class="hover:underline">{{ __('Documentação') }}</span>
                 </a>
 
-                <a class="space-x-1" href="#">
+                <a class="space-x-1" href="https://github.com/fruivita/arqjud">
                     <Icone class="inline h-6 w-6" nome="git" />
 
                     <span class="hover:underline">{{ useDadosEstaticosStore().appVersao }}</span>
