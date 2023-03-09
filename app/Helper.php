@@ -13,7 +13,6 @@ if (!function_exists('ascOrDesc')) {
      * Desc é a ordenação padrão, pois, por padrão, os registros são exibidos
      * do mais recente para o mais antigo.
      *
-     * @param  string|null  $direcao
      * @return string `asc` ou `desc` (default)
      */
     function ascOrDesc(string $direcao = null)
@@ -30,8 +29,6 @@ if (!function_exists('mascara')) {
      * Exemplo: 1234567 com mascara ##.##-### retornará 12.34-567
      * Exemplo: 123 com mascara ##.##-### retornará 123
      *
-     * @param  string  $valor
-     * @param  string  $mascara
      * @return string
      */
     function mascara(string $valor, string $mascara)
@@ -55,7 +52,6 @@ if (!function_exists('cnj')) {
      *
      * Exemplo: 11111111111111111111 retornará 1111111-11.1111.1.11.1111
      *
-     * @param  string  $valor
      * @return string
      */
     function cnj(string $valor)
@@ -70,7 +66,6 @@ if (!function_exists('v1')) {
      *
      * Exemplo: 1111111111 retornará 11.1111111-1
      *
-     * @param  string  $valor
      * @return string
      */
     function v1(string $valor)
@@ -85,7 +80,6 @@ if (!function_exists('v2')) {
      *
      * Exemplo: 111111111111111 retornará 1111.11.11.111111-1
      *
-     * @param  string  $valor
      * @return string
      */
     function v2(string $valor)
@@ -101,7 +95,6 @@ if (!function_exists('apenasNumeros')) {
      *
      * Exemplo: 123.456-AB retornará 123456
      *
-     * @param  string|null  $valor
      * @return string|null
      */
     function apenasNumeros(string $valor = null)
@@ -118,7 +111,6 @@ if (!function_exists('dataCompleta')) {
      *
      * Ex.: Segunda-feira, 10 de agosto de 2020
      *
-     * @param  \Illuminate\Support\Carbon  $data
      * @return string
      */
     function dataCompleta(Carbon $data)
@@ -136,7 +128,6 @@ if (!function_exists('diaDaSemana')) {
      *
      * Ex.: 0 - domingo, ..., 6 - sábado
      *
-     * @param  int  $numero
      * @return string
      */
     function diaDaSemana(int $numero)
@@ -159,7 +150,6 @@ if (!function_exists('mes')) {
      *
      * Ex.: 1 - janeiro, ..., 12 - dezembro.
      *
-     * @param  int  $numero
      * @return string
      */
     function mes(int $numero)
@@ -186,7 +176,6 @@ if (!function_exists('injetarTotalPagina')) {
      * Substitui o placeholder predefinido com o número total de páginas em
      * todo o documento.
      *
-     * @param  \Barryvdh\DomPDF\PDF  $dompdf
      * @return void
      */
     function injetarTotalPagina(PDF $dompdf)

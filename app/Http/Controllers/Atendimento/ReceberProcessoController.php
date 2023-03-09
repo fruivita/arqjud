@@ -40,7 +40,6 @@ class ReceberProcessoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Atendimento\StoreReceberProcessoRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreReceberProcessoRequest $request)

@@ -18,7 +18,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação por nome da permissão.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -32,7 +31,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação por slug da permissão.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */

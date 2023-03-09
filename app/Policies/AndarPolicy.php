@@ -17,7 +17,6 @@ class AndarPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewAny(Usuario $usuario)
@@ -28,7 +27,6 @@ class AndarPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(Usuario $usuario)
@@ -39,7 +37,6 @@ class AndarPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(Usuario $usuario)
@@ -50,7 +47,6 @@ class AndarPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function update(Usuario $usuario)
@@ -61,7 +57,6 @@ class AndarPolicy
     /**
      * Determina se o usuário pode visualizar ou atualizar um modelo.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewOrUpdate(Usuario $usuario)
@@ -74,8 +69,6 @@ class AndarPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\Usuario  $usuario
-     * @param  \App\Models\Andar  $andar
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(Usuario $usuario, Andar $andar)

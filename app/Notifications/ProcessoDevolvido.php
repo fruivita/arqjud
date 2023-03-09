@@ -24,9 +24,6 @@ class ProcessoDevolvido extends Notification implements ShouldQueue
     /**
      * Create a new message instance.
      *
-     * @param  string  $processo
-     * @param  string  $devolvido_em
-     * @param  string  $url
      * @return void
      */
     public function __construct(

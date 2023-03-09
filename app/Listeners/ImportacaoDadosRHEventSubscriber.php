@@ -34,7 +34,6 @@ class ImportacaoDadosRHEventSubscriber implements ShouldQueue
     /**
      * Handle ImportacaoIniciada events.
      *
-     * @param  \FruiVita\Corporativo\Events\ImportacaoIniciada  $event
      * @return void
      */
     public function handleImportacaoIniciada(ImportacaoIniciada $event)
@@ -51,7 +50,6 @@ class ImportacaoDadosRHEventSubscriber implements ShouldQueue
     /**
      * Handle ImportacaoConcluida events.
      *
-     * @param  \FruiVita\Corporativo\Events\ImportacaoConcluida  $event
      * @return void
      */
     public function handleImportacaoConcluida(ImportacaoConcluida $event)
@@ -68,7 +66,6 @@ class ImportacaoDadosRHEventSubscriber implements ShouldQueue
     /**
      * Handle CargoUsuarioAlterado events.
      *
-     * @param  \FruiVita\Corporativo\Events\CargoUsuarioAlterado  $event
      * @return void
      */
     public function handleCargoUsuarioAlterado(CargoUsuarioAlterado $event)
@@ -79,7 +76,6 @@ class ImportacaoDadosRHEventSubscriber implements ShouldQueue
     /**
      * Handle FuncaoConfiancaUsuarioAlterada events.
      *
-     * @param  \FruiVita\Corporativo\Events\FuncaoConfiancaUsuarioAlterada  $event
      * @return void
      */
     public function handleFuncaoConfiancaUsuarioAlterada(FuncaoConfiancaUsuarioAlterada $event)
@@ -90,7 +86,6 @@ class ImportacaoDadosRHEventSubscriber implements ShouldQueue
     /**
      * Handle LotacaoUsuarioAlterada events.
      *
-     * @param  \FruiVita\Corporativo\Events\LotacaoUsuarioAlterada  $event
      * @return void
      */
     public function handleLotacaoUsuarioAlterada(LotacaoUsuarioAlterada $event)

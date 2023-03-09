@@ -65,7 +65,6 @@ expect()->extend('toBeOne', function () {
  * Configura o servidor LDAP fake para ser autenticado utilizando o
  * **matricula** informado.
  *
- * @param  string  $matricula
  * @return void
  */
 function actingAs(string $matricula)
@@ -87,7 +86,6 @@ function actingAs(string $matricula)
  * ser autenticado. Ou seja, é necessário garantir que o usuário primeiro exita
  * no LDAP server para então ser autenticado.
  *
- * @param  string  $matricula
  * @return \App\Models\Usuario|null
  */
 function login(string $matricula = 'foo999999')
@@ -148,7 +146,6 @@ function concederPermissao(mixed $slugs)
 /**
  * Remove a permissão do usuário autenticado.
  *
- * @param  string  $slug
  * @return void
  */
 function revogaPermissao(string $slug)
@@ -176,7 +173,6 @@ function lotacaoApi(mixed $lotacao)
 }
 
 /**
- * @param  \App\Models\Caixa  $caixa
  * @return array<string, mixed>
  */
 function caixaApi(Caixa $caixa)
@@ -194,7 +190,6 @@ function caixaApi(Caixa $caixa)
 }
 
 /**
- * @param  \App\Models\Processo  $processo
  * @return array<string, mixed>
  */
 function processoApi(Processo $processo)
@@ -213,7 +208,6 @@ function processoApi(Processo $processo)
 }
 
 /**
- * @param  \App\Models\Solicitacao  $solicitacao
  * @return array<string, mixed>
  */
 function solicitacaoApi(Solicitacao $solicitacao)
@@ -237,7 +231,6 @@ function solicitacaoApi(Solicitacao $solicitacao)
 }
 
 /**
- * @param  \App\Models\Usuario  $usuario
  * @return array<string, mixed>
  */
 function usuarioApi(Usuario $usuario)
@@ -258,7 +251,6 @@ function usuarioApi(Usuario $usuario)
 }
 
 /**
- * @param  \App\Models\VolumeCaixa  $volume
  * @return array<string, mixed>
  */
 function volumeApi(VolumeCaixa $volume)
@@ -272,7 +264,6 @@ function volumeApi(VolumeCaixa $volume)
 }
 
 /**
- * @param  \Illuminate\Database\Eloquent\Collection  $volumes
  * @return array
  */
 function volumesApi(Collection $volumes)
@@ -283,7 +274,6 @@ function volumesApi(Collection $volumes)
 }
 
 /**
- * @param  \App\Models\Guia  $guia
  * @return array
  */
 function guiaApi(Guia $guia)
@@ -346,8 +336,6 @@ function csvHeader()
  * Cria, no Storage, arquivos de processos no formato CSV para serem importados
  * utilizando o stub informado.
  *
- * @param  string  $nome_arquivo
- * @param  string  $stub
  * @return void
  */
 function criarArquivoProcesso(string $nome_arquivo, string $stub)

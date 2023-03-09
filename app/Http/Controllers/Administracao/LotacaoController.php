@@ -54,7 +54,6 @@ class LotacaoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Models\Lotacao  $lotacao
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Lotacao $lotacao)

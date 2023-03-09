@@ -14,8 +14,6 @@ class NotificarDevolucao
      * Dispara o job responsável por notificar o solicitante acerca da
      * devolução ao arquivo do processo por ele solicitado.
      *
-     * @param  \stdClass  $devolucao
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $devolucao, \Closure $next)

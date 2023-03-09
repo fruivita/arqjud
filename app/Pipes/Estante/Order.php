@@ -15,7 +15,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo número da estante.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -29,7 +28,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela quantidade de prateleiras da estante.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -43,7 +41,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo nome da localidade pai.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -57,7 +54,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo nome do prédio pai.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -71,7 +67,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo número do andar pai.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -85,7 +80,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo apelido do andar pai.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -99,7 +93,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo número da sala pai.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */

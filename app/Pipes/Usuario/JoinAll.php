@@ -12,8 +12,6 @@ class JoinAll
     /**
      * Aplica por pipe o join de todas as tabelas relacionadas aos usuários.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function handle(Builder $query, \Closure $next)

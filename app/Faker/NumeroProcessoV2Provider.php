@@ -126,10 +126,6 @@ class NumeroProcessoV2Provider extends Base
      *
      * Exemplo: 0 ou 9
      *
-     * @param  int  $ano
-     * @param  string  $secao
-     * @param  string  $localidade
-     * @param  string  $sequencial
      * @return int
      */
     private static function gerarDigitoVerificador(int $ano, string $secao, string $localidade, string $sequencial)

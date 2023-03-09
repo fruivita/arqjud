@@ -25,9 +25,6 @@ class ProcessoSolicitado extends Notification implements ShouldQueue
      * Create a new message instance.
      *
      * @param  string[]  $processos número dos processos
-     * @param  string  $solicitante
-     * @param  string  $destino
-     * @param  string  $solicitada_em
      * @param  string  $url acesso rápido às solicitações
      * @return void
      */

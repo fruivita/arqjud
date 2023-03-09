@@ -15,7 +15,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo matricula.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -29,7 +28,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo email.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -43,7 +41,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo nome.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -57,7 +54,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela data/hora do último login.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -71,7 +67,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela sigla da lotação.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -85,7 +80,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo nome do cargo.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -99,7 +93,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo nome da função de confiança.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -113,7 +106,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo nome do perfil.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */

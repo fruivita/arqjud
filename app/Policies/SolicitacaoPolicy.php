@@ -19,7 +19,6 @@ class SolicitacaoPolicy
      *
      * Prisma do usuário do arquivo.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewAny(Usuario $usuario)
@@ -33,7 +32,6 @@ class SolicitacaoPolicy
      *
      * Prisma do usuário externo ao arquivo.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function externoViewAny(Usuario $usuario)
@@ -47,7 +45,6 @@ class SolicitacaoPolicy
      *
      * Prisma do usuário do arquivo.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(Usuario $usuario)
@@ -62,7 +59,6 @@ class SolicitacaoPolicy
      * Prisma do usuário externo ao arquivo criado a solicitação para sua
      * própria lotação.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function externoCreate(Usuario $usuario)
@@ -76,7 +72,6 @@ class SolicitacaoPolicy
      *
      * Prisma do usuário do arquivo.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function update(Usuario $usuario)
@@ -91,8 +86,6 @@ class SolicitacaoPolicy
      * Prisma do usuário do arquivo.
      * Só pode excluir solicitação no status solicitada.
      *
-     * @param  \App\Models\Usuario  $usuario
-     * @param  \App\Models\Solicitacao  $solicitacao
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(Usuario $usuario, Solicitacao $solicitacao)
@@ -109,8 +102,6 @@ class SolicitacaoPolicy
      * Só pode excluir solicitação no status solicitada e destinada à propria
      * lotação.
      *
-     * @param  \App\Models\Usuario  $usuario
-     * @param  \App\Models\Solicitacao  $solicitacao
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function externoDelete(Usuario $usuario, Solicitacao $solicitacao)

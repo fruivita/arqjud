@@ -59,7 +59,6 @@ class AndarController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param  \App\Models\Predio  $predio
      * @return \Inertia\Response
      */
     public function create(Predio $predio)
@@ -75,8 +74,6 @@ class AndarController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Andar\StoreAndarRequest  $request
-     * @param  \App\Models\Predio  $predio
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreAndarRequest $request, Predio $predio)
@@ -95,7 +92,6 @@ class AndarController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Andar  $andar
      * @return \Inertia\Response
      */
     public function edit(Andar $andar)
@@ -119,8 +115,6 @@ class AndarController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Andar\UpdateAndarRequest  $request
-     * @param  \App\Models\Andar  $andar
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateAndarRequest $request, Andar $andar)
@@ -137,7 +131,6 @@ class AndarController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Andar  $andar
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Andar $andar)

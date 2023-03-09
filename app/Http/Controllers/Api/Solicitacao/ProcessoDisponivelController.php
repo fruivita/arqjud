@@ -18,7 +18,6 @@ class ProcessoDisponivelController extends Controller
     /**
      * Processo disponível para solicitação.
      *
-     * @param  \App\Http\Requests\Api\Solicitacao\ShowProcessoDisponivelRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(ShowProcessoDisponivelRequest $request)

@@ -46,22 +46,17 @@ class NotificarSolicitanteDevolucao implements ShouldQueue, ShouldBeUnique
 
     /**
      * Data e hora da devolução
-     *
-     * @var \Illuminate\Support\Carbon
      */
     private Carbon $devolvido_em;
 
     /**
      * Usuário solicitante.
-     *
-     * @var \App\Models\Usuario
      */
     private Usuario $solicitante;
 
     /**
      * Create a new job instance.
      *
-     * @param  \stdClass  $devolucao
      * @return void
      */
     public function __construct(\stdClass $devolucao)

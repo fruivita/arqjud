@@ -91,8 +91,6 @@ class NumeroProcessoV1Provider extends Base
      *
      * Exemplo: 0 ou 9
      *
-     * @param  string  $ano
-     * @param  string  $sequencial
      * @return int
      */
     private static function gerarDigitoVerificador(string $ano, string $sequencial)

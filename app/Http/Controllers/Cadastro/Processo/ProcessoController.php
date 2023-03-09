@@ -56,7 +56,6 @@ class ProcessoController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param  \App\Models\VolumeCaixa  $volume_caixa
      * @return \Inertia\Response
      */
     public function create(VolumeCaixa $volume_caixa)
@@ -72,8 +71,6 @@ class ProcessoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Processo\StoreProcessoRequest  $request
-     * @param  \App\Models\VolumeCaixa  $volume_caixa
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreProcessoRequest $request, VolumeCaixa $volume_caixa)
@@ -103,7 +100,6 @@ class ProcessoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Processo  $processo
      * @return \Inertia\Response
      */
     public function edit(Processo $processo)
@@ -127,8 +123,6 @@ class ProcessoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Processo\UpdateProcessoRequest  $request
-     * @param  \App\Models\Processo  $processo
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateProcessoRequest $request, Processo $processo)
@@ -153,7 +147,6 @@ class ProcessoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Processo  $processo
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Processo $processo)

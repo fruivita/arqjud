@@ -51,8 +51,6 @@ class Localidade extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $termo
      * @return void
      */
     public function scopeSearch(Builder $query, string $termo = null)

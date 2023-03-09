@@ -18,7 +18,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação por nome do perfil.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -32,7 +31,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação por slug do perfil.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -46,7 +44,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação por poder do perfil.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -60,7 +57,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela quantidade de usuários do perfil.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */

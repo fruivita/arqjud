@@ -59,7 +59,6 @@ class VolumeCaixaController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param  \App\Models\Caixa  $caixa
      * @return \Inertia\Response
      */
     public function create(Caixa $caixa)
@@ -75,8 +74,6 @@ class VolumeCaixaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\VolumeCaixa\StoreVolumeCaixaRequest  $request
-     * @param  \App\Models\Caixa  $caixa
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreVolumeCaixaRequest $request, Caixa $caixa)
@@ -94,7 +91,6 @@ class VolumeCaixaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\VolumeCaixa  $volume_caixa
      * @return \Inertia\Response
      */
     public function edit(VolumeCaixa $volume_caixa)
@@ -118,8 +114,6 @@ class VolumeCaixaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\VolumeCaixa\UpdateVolumeCaixaRequest  $request
-     * @param  \App\Models\VolumeCaixa  $volume_caixa
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateVolumeCaixaRequest $request, VolumeCaixa $volume_caixa)
@@ -135,7 +129,6 @@ class VolumeCaixaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\VolumeCaixa  $volume_caixa
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(VolumeCaixa $volume_caixa)

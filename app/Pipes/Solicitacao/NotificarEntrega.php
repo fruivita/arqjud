@@ -14,8 +14,6 @@ class NotificarEntrega
      * Dispara o job responsável por notificar os usuários acerca da entrega de
      * processos solicitados.
      *
-     * @param  \stdClass  $entrega
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $entrega, \Closure $next)

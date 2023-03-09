@@ -19,8 +19,6 @@ class AlterarPerfil
      * Regra de negócio: Usuário autenticado tem que possuir perfil igual ou
      * superior ao perfil do usuário em edição e o perfil de final.
      *
-     * @param  \App\Models\Usuario  $usuario
-     * @param  \Closure  $next
      * @param  int  $perfil id do perfil final do usuário
      * @return \App\Models\Usuario
      *

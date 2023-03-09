@@ -18,7 +18,6 @@ class CaixaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Http\Requests\Api\Caixa\ShowCaixaRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(ShowCaixaRequest $request)

@@ -170,8 +170,6 @@ class Solicitacao extends Model
 
     /**
      * Status da solicitação.
-     *
-     * @return  \Illuminate\Database\Eloquent\Casts\Attribute
      */
     protected function status(): Attribute
     {
@@ -229,8 +227,6 @@ class Solicitacao extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $termo
      * @return void
      */
     public function scopeSearch(Builder $query, string $termo = null)

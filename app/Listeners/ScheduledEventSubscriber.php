@@ -57,7 +57,6 @@ class ScheduledEventSubscriber
     /**
      * Register the listeners for the subscriber.
      *
-     * @param  \Illuminate\Events\Dispatcher  $events
      * @return void
      */
     public function subscribe(Dispatcher $events)

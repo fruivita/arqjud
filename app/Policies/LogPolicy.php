@@ -16,7 +16,6 @@ class LogPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewAny(Usuario $usuario)
@@ -27,7 +26,6 @@ class LogPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(Usuario $usuario)

@@ -59,7 +59,6 @@ class EstanteController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param  \App\Models\Sala  $sala
      * @return \Inertia\Response
      */
     public function create(Sala $sala)
@@ -75,8 +74,6 @@ class EstanteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Estante\StoreEstanteRequest  $request
-     * @param  \App\Models\Sala  $sala
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreEstanteRequest $request, Sala $sala)
@@ -93,7 +90,6 @@ class EstanteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Estante  $estante
      * @return \Inertia\Response
      */
     public function edit(Estante $estante)
@@ -117,8 +113,6 @@ class EstanteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Estante\UpdateEstanteRequest  $request
-     * @param  \App\Models\Estante  $estante
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateEstanteRequest $request, Estante $estante)
@@ -134,7 +128,6 @@ class EstanteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Estante  $estante
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Estante $estante)

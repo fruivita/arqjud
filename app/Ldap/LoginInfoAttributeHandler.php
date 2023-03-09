@@ -13,8 +13,6 @@ class LoginInfoAttributeHandler
     /**
      * Armazena os metadados de login do usuário.
      *
-     * @param  \LdapRecord\Models\ActiveDirectory\User  $ldap
-     * @param  \App\Models\Usuario  $usuario
      * @return void
      */
     public function handle(LdapUser $ldap, Usuario $usuario)

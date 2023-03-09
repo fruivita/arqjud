@@ -78,7 +78,6 @@ class SolicitacaoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Atendimento\StoreSolicitacaoRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreSolicitacaoRequest $request)
@@ -110,7 +109,6 @@ class SolicitacaoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Solicitacao  $solicitacao
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Solicitacao $solicitacao)

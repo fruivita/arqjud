@@ -13,8 +13,6 @@ class SolicitarProcesso
     /**
      * Cria por pipe a solicitação dos processos
      *
-     * @param  \stdClass  $solicitacao
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $solicitacao, \Closure $next)

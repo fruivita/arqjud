@@ -15,7 +15,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo nome da lotação.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -29,7 +28,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela sigla da lotação.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -43,7 +41,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo status administravel da lotação.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -57,7 +54,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo nome da lotação pai.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -71,7 +67,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela sigla da lotação pai.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -85,7 +80,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela quantidade de usuários da lotação.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */

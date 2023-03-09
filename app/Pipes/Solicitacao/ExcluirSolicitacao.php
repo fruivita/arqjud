@@ -10,8 +10,6 @@ class ExcluirSolicitacao
     /**
      * Exclui por pipe uma solicitação
      *
-     * @param  \stdClass  $solicitacao
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $solicitacao, \Closure $next)

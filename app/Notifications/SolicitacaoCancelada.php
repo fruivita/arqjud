@@ -25,11 +25,6 @@ class SolicitacaoCancelada extends Notification implements ShouldQueue
      * Create a new message instance.
      *
      * @param  string  $processo número do processo
-     * @param  string  $solicitante
-     * @param  string  $destino
-     * @param  string  $solicitada_em
-     * @param  string  $operador
-     * @param  string  $cancelada_em
      * @param  string  $url acesso rápido às solicitações
      * @return void
      */

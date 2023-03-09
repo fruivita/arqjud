@@ -52,7 +52,6 @@ class Translations extends Component
     /**
      * Translations existentes na aplicação armazenadas em formato PHP.
      *
-     * @param  string  $locale
      * @return array<string, string>
      */
     private function phpTranslations(string $locale)
@@ -70,7 +69,6 @@ class Translations extends Component
     /**
      * Translations existentes na aplicação armazenadas em formato JSON.
      *
-     * @param  string  $locale
      * @return array<string, string>
      */
     private function jsonTranslations(string $locale)

@@ -13,7 +13,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação por nome da localidade.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -27,7 +26,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela quantidade de prédios da localidade.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -41,7 +39,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela quantidade de caixas criadas pela localidade.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */

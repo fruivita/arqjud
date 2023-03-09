@@ -59,7 +59,6 @@ class SalaController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param  \App\Models\Andar  $andar
      * @return \Inertia\Response
      */
     public function create(Andar $andar)
@@ -75,8 +74,6 @@ class SalaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Sala\StoreSalaRequest  $request
-     * @param  \App\Models\Andar  $andar
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreSalaRequest $request, Andar $andar)
@@ -93,7 +90,6 @@ class SalaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Sala  $sala
      * @return \Inertia\Response
      */
     public function edit(Sala $sala)
@@ -117,8 +113,6 @@ class SalaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Sala\UpdateSalaRequest  $request
-     * @param  \App\Models\Sala  $sala
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateSalaRequest $request, Sala $sala)
@@ -134,7 +128,6 @@ class SalaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Sala  $sala
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Sala $sala)

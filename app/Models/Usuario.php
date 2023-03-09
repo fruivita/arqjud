@@ -149,7 +149,6 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     /**
      * Verifica se o usuário possui a permissão informada.
      *
-     * @param  string  $slug
      * @return bool
      */
     public function possuiPermissao(string $slug)
@@ -183,7 +182,6 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     /**
      * Route notifications for the mail channel.
      *
-     * @param  \Illuminate\Notifications\Notification  $notification
      * @return array|string
      */
     public function routeNotificationForMail(Notification $notification)
@@ -217,8 +215,6 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $termo
      * @return void
      */
     public function scopeSearch(Builder $query, string $termo = null)
@@ -259,7 +255,6 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
     /**
      * Reseta o perfil do usuário informado, exceto se ele for administrador.
      *
-     * @param  int  $usuario_id
      * @return void
      */
     public static function resetarPerfil(int $usuario_id)

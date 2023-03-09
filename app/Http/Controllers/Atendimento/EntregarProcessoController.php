@@ -50,7 +50,6 @@ class EntregarProcessoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Atendimento\StoreEntregarProcessoRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreEntregarProcessoRequest $request)

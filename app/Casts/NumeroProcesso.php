@@ -16,9 +16,7 @@ class NumeroProcesso implements CastsAttributes
      * Aplica máscara o número do processo.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $key
      * @param  mixed  $value
-     * @param  array  $attributes
      * @return string|null
      */
     public function get($model, string $key, $value, array $attributes)
@@ -32,9 +30,7 @@ class NumeroProcesso implements CastsAttributes
      * Remove eventual máscara do número do processo.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $key
      * @param  mixed  $value
-     * @param  array  $attributes
      * @return string|null
      */
     public function set($model, string $key, $value, array $attributes)

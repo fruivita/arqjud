@@ -18,7 +18,6 @@ class ProcessoMovimentavelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Http\Requests\Api\Movimentacao\ShowProcessoMovimentavelRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(ShowProcessoMovimentavelRequest $request)

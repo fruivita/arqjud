@@ -14,8 +14,6 @@ class Importar
      * Executa por pipe a importação dos dados solicitados caso as importações
      * solicitadas sejam permitidas.
      *
-     * @param  \stdClass  $importacao
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $importacao, \Closure $next)

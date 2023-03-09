@@ -21,8 +21,6 @@ class ResetarPerfis
      * mantidos (provavelmente todos já serão perfil padrão). Contudo, se ela
      * não for administravel, todos os perfis devem ser resetados.
      *
-     * @param  \App\Models\Lotacao  $lotacao
-     * @param  \Closure  $next
      * @return \App\Models\Lotacao
      */
     public function handle(Lotacao $lotacao, \Closure $next)

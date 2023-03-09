@@ -43,7 +43,6 @@ class LogController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  string  $log
      * @return \Inertia\Response
      */
     public function show(string $log)
@@ -74,7 +73,6 @@ class LogController extends Controller
     /**
      * Download the specified resource.
      *
-     * @param  string  $log
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function download(string $log)

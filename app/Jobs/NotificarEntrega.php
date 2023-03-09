@@ -38,15 +38,11 @@ class NotificarEntrega implements ShouldQueue, ShouldBeUnique
 
     /**
      * Usuário recebedor.
-     *
-     * @var \App\Models\Usuario
      */
     private Usuario $recebedor;
 
     /**
      * Guia de remessas de processo.
-     *
-     * @var \App\Models\Guia
      */
     private Guia $guia;
 
@@ -67,7 +63,6 @@ class NotificarEntrega implements ShouldQueue, ShouldBeUnique
     /**
      * Create a new job instance.
      *
-     * @param  \stdClass  $entrega
      * @return void
      */
     public function __construct(\stdClass $entrega)

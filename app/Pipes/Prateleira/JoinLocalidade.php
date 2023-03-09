@@ -13,8 +13,6 @@ class JoinLocalidade
      * Aplica por pipe o join de todas as tabelas pais relacionadas às
      * prateleiras.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function handle(Builder $query, \Closure $next)

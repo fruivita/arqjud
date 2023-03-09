@@ -46,43 +46,32 @@ class NotificarSolicitanteCancelamento implements ShouldQueue, ShouldBeUnique
 
     /**
      * Usuário solicitante.
-     *
-     * @var \App\Models\Usuario
      */
     private Usuario $solicitante;
 
     /**
      * Destino dos processos solicitados.
-     *
-     * @var \App\Models\Lotacao
      */
     private Lotacao $destino;
 
     /**
      * Data e hora da solicitação
-     *
-     * @var \Illuminate\Support\Carbon
      */
     private Carbon $solicitada_em;
 
     /**
      * Usuário que cancelou a solicitação.
-     *
-     * @var \App\Models\Usuario
      */
     private Usuario $operador;
 
     /**
      * Data e hora do cancelamento da solicitação.
-     *
-     * @var \Illuminate\Support\Carbon
      */
     private Carbon $cancelada_em;
 
     /**
      * Create a new job instance.
      *
-     * @param  \stdClass  $solicitacao
      * @return void
      */
     public function __construct(\stdClass $solicitacao)

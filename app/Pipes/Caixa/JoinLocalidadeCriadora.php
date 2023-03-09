@@ -13,8 +13,6 @@ class JoinLocalidadeCriadora
      * Aplica por pipe o join das tabelas:
      * - criadoras (Localidades criadoras das caixas).
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function handle(Builder $query, \Closure $next)

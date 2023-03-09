@@ -28,7 +28,6 @@ class MultiColumnExists implements InvokableRule
     private $colunas;
 
     /**
-     * @param  string  $tabela
      * @param  array<int, string>  $colunas
      * @return void
      */

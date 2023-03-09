@@ -16,8 +16,6 @@ trait ComFeedback
      *
      * Caso a mensagem seja informada, ela será usada.
      *
-     * @param  mixed  $resultado
-     * @param  string|null  $mensagem
      * @return array<string, array<string, string>>
      */
     public function feedback(mixed $resultado, string $mensagem = null)

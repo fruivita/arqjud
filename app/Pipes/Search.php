@@ -13,8 +13,6 @@ class Search
      * Aplica por pipe o escopo search do modelo caso haja na query string do
      * request a chave `termo` válida.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function handle(Builder $query, \Closure $next)

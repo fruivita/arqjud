@@ -15,8 +15,6 @@ class GerarGuiaRemessa
      * Pipe responsável por criar a guia de remessa de processos no banco de
      * dados baseado nos dados da entrega.
      *
-     * @param  \stdClass  $entrega
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $entrega, \Closure $next)
@@ -33,7 +31,6 @@ class GerarGuiaRemessa
      * Cria uma guia de remessa de processos e a persiste no banco de dados.
      *
      * @param  \Illuminate\Support\Collection|array  $solicitacoes
-     * @param  \App\Models\Usuario  $recebedor
      * @param  \App\Models\Usuario|\LdapRecord\Models\ActiveDirectory\User  $remetente
      * @return \App\Models\Guia
      */

@@ -55,7 +55,6 @@ class Perfil extends Model
      * Os perfis disponíveis dependem do perfil do usuário autenticado, visto
      * que ele só pode atribuir a outro, perfis de igual ou menor autorizações.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return void
      */
     public function scopeDisponiveisParaAtribuicao(Builder $query)
@@ -69,8 +68,6 @@ class Perfil extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $termo
      * @return void
      */
     public function scopeSearch(Builder $query, string $termo = null)

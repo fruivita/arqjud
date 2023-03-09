@@ -14,8 +14,6 @@ class NotificarOperadores
      * Dispara o job responsável por notificar os usuários de perfil operador
      * acerca da solicitação de processos feita pelo usuário.
      *
-     * @param  \stdClass  $solicitacao
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $solicitacao, \Closure $next)

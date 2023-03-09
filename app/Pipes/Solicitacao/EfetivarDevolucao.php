@@ -15,8 +15,6 @@ class EfetivarDevolucao
      * Efetiva a devolução do processo ao arquivo por meio da atualização das
      * propriedades pertinentes da solicitação.
      *
-     * @param  \stdClass  $devolucao
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $devolucao, \Closure $next)

@@ -71,7 +71,6 @@ class LocalidadeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Localidade\StoreLocalidadeRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreLocalidadeRequest $request)
@@ -89,7 +88,6 @@ class LocalidadeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Localidade  $localidade
      * @return \Inertia\Response
      */
     public function edit(Localidade $localidade)
@@ -113,8 +111,6 @@ class LocalidadeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Localidade\UpdateLocalidadeRequest  $request
-     * @param  \App\Models\Localidade  $localidade
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateLocalidadeRequest $request, Localidade $localidade)
@@ -130,7 +126,6 @@ class LocalidadeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Localidade  $localidade
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Localidade $localidade)

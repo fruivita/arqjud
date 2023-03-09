@@ -46,7 +46,6 @@ class GuiaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Guia  $guia
      * @return \Inertia\Response
      */
     public function show(Guia $guia)
@@ -61,7 +60,6 @@ class GuiaController extends Controller
     /**
      * Display (PDF) the specified resource.
      *
-     * @param  \App\Models\Guia  $guia
      * @return \Illuminate\Http\Response
      */
     public function pdf(Guia $guia)

@@ -14,8 +14,6 @@ class PerfilAttributeHandler
     /**
      * Definição do perfil padrão do usuário quando da primeira autenticação.
      *
-     * @param  \LdapRecord\Models\ActiveDirectory\User  $ldap
-     * @param  \App\Models\Usuario  $usuario
      * @return void
      */
     public function handle(LdapUser $ldap, Usuario $usuario)

@@ -16,7 +16,6 @@ class MoverProcessoPolicy
     /**
      * Determina se o usuário pode movimentar processos entre caixas/volumes.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return bool|\Illuminate\Auth\Access\Response
      */
     public function create(Usuario $usuario)

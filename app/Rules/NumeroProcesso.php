@@ -60,7 +60,6 @@ class NumeroProcesso implements InvokableRule
      *
      * Exemplo de número de processo: AAAA.SS.LL.NNNNNN-D
      *
-     * @param  \Illuminate\Support\Stringable  $numero
      * @return bool
      */
     private function validacaoV2(Stringable $numero)
@@ -88,7 +87,6 @@ class NumeroProcesso implements InvokableRule
      *
      * Exemplo de número de processo: AANNNNNNND
      *
-     * @param  \Illuminate\Support\Stringable  $numero
      * @return bool
      */
     private function validacaoV1(Stringable $numero)

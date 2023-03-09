@@ -29,8 +29,6 @@ abstract class OrderBase
      *
      * Em qualquer caso, aplica ordenação desc pelo ID.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function handle(Builder $query, \Closure $next)

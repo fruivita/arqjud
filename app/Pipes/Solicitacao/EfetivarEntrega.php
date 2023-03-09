@@ -13,8 +13,6 @@ class EfetivarEntrega
      * Efetiva a entrega dos processos solcitados por meio da atualização das
      * propriedades necessárias da solicitação.
      *
-     * @param  \stdClass  $entrega
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $entrega, \Closure $next)

@@ -198,8 +198,6 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
     /**
      * Cria o relacionamento com o processo pai.
      *
-     * @param  string  $numero_processo
-     * @param  string  $numero_processo_pai
      * @return bool
      */
     private function vincularProcessoPai(string $numero_processo, string $numero_processo_pai)
@@ -215,7 +213,6 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
     /**
      * Faz a persistência dos dados validados.
      *
-     * @param  array  $validados
      * @return bool
      */
     private function salvar(array $validados)

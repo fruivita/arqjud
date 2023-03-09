@@ -19,8 +19,6 @@ class Order extends OrderBase
      *
      * Em qualquer caso, aplica ordenação desc pelo ID.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Closure  $next
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function handle(Builder $query, \Closure $next)
@@ -50,7 +48,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela data de solicitação do processo.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -64,7 +61,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela data de entrega do processo.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -78,7 +74,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela data de devolução do processo.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -93,7 +88,6 @@ class Order extends OrderBase
      * Aplica a ordenação pelo status do tipo de entrega, isto é, se efetivada
      * por guia ou não.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -107,7 +101,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pelo número do processo.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -121,7 +114,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela matrícula do solicitante.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -135,7 +127,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela matrícula do recebedor.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -149,7 +140,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela matrícula do remetente.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -163,7 +153,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela matrícula do rearquivador.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */
@@ -177,7 +166,6 @@ class Order extends OrderBase
     /**
      * Aplica a ordenação pela sigla da lotação (destino).
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $direcao asc ou desc
      * @return void
      */

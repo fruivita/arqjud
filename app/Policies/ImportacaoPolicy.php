@@ -16,7 +16,6 @@ class ImportacaoPolicy
     /**
      * Determina se o usuário pode realizar uma importação de dados.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return bool|\Illuminate\Auth\Access\Response
      */
     public function create(Usuario $usuario)

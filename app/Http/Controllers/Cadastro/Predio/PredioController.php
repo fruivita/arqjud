@@ -59,7 +59,6 @@ class PredioController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param  \App\Models\Localidade  $localidade
      * @return \Inertia\Response
      */
     public function create(Localidade $localidade)
@@ -75,8 +74,6 @@ class PredioController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Predio\StorePredioRequest  $request
-     * @param  \App\Models\Localidade  $localidade
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StorePredioRequest $request, Localidade $localidade)
@@ -94,7 +91,6 @@ class PredioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Predio  $predio
      * @return \Inertia\Response
      */
     public function edit(Predio $predio)
@@ -118,8 +114,6 @@ class PredioController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Predio\UpdatePredioRequest  $request
-     * @param  \App\Models\Predio  $predio
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdatePredioRequest $request, Predio $predio)
@@ -135,7 +129,6 @@ class PredioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Predio  $predio
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Predio $predio)

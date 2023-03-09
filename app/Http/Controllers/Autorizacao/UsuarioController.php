@@ -55,7 +55,6 @@ class UsuarioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Usuario  $usuario
      * @return \Inertia\Response
      */
     public function edit(Usuario $usuario)
@@ -73,8 +72,6 @@ class UsuarioController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Autorizacao\UpdateUsuarioRequest  $request
-     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateUsuarioRequest $request, Usuario $usuario)

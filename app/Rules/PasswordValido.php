@@ -17,9 +17,6 @@ class PasswordValido implements InvokableRule
      */
     private $matricula;
 
-    /**
-     * @param  string|null  $matricula
-     */
     public function __construct(string $matricula = null)
     {
         $this->matricula = $matricula;

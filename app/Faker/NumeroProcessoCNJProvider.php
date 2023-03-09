@@ -145,7 +145,6 @@ class NumeroProcessoCNJProvider extends Base
      * identificados no campo (TR) pelos números 13, 21 e 26, respectivamente,
      * cumprida a ordem alfabética de que tratam os incisos V e VII;
      *
-     * @param  int  $orgao
      * @return string
      */
     private static function tribunal(int $orgao)
@@ -510,11 +509,6 @@ class NumeroProcessoCNJProvider extends Base
      *
      * Exemplo: 05 ou 15
      *
-     * @param  string  $sequencial
-     * @param  int  $ano
-     * @param  int  $orgao
-     * @param  string  $tribunal
-     * @param  string  $unidade_origem
      * @return string
      */
     private static function gerarDigitoVerificador(string $sequencial, int $ano, int $orgao, string $tribunal, string $unidade_origem)

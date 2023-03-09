@@ -169,8 +169,6 @@ class Processo extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $termo
      * @return void
      */
     public function scopeSearch(Builder $query, string $termo = null)
@@ -203,7 +201,6 @@ class Processo extends Model
      * Aplica ao número de informado à mascara a mascara CNJ, V2 ou V1
      * necessária.
      *
-     * @param  null|string  $processo
      * @return null|string processo com máscara ou null
      */
     public static function aplicarMascaraProcesso(string $processo = null)

@@ -31,11 +31,6 @@ class ProcessoEntregue extends Notification implements ShouldQueue
      *
      * @param  string  $guia_numero número da guia de remessa
      * @param  array  $processos número e quantidade de volume dos processos
-     * @param  string  $recebedor
-     * @param  string  $destino
-     * @param  string  $entregue_em
-     * @param  bool  $por_guia
-     * @param  string  $url
      * @param  string[]  $email_terceiros
      * @return void
      */

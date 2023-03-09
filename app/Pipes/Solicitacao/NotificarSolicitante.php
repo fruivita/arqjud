@@ -14,8 +14,6 @@ class NotificarSolicitante
      * Dispara o job responsável por notificar o solicitante acerca de
      * solicitação de processos feita em seu nome.
      *
-     * @param  \stdClass  $solicitacao
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $solicitacao, \Closure $next)

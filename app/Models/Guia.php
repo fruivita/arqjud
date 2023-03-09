@@ -47,7 +47,6 @@ class Guia extends Model
     /**
      * Próximo número da guia disponível para o ano informado ou para o atual.
      *
-     * @param  int|null  $ano
      * @return int
      */
     public static function proximoNumero(int $ano = null)
@@ -59,8 +58,6 @@ class Guia extends Model
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $termo
      * @return void
      */
     public function scopeSearch(Builder $query, string $termo = null)
@@ -85,8 +82,6 @@ class Guia extends Model
      * Get número da guia em formato humano.
      *
      * Ex.: 15/2020
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
     protected function paraHumano(): Attribute
     {

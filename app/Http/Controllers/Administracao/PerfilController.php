@@ -71,7 +71,6 @@ class PerfilController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Administracao\StorePerfilRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StorePerfilRequest $request)
@@ -91,7 +90,6 @@ class PerfilController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Perfil  $perfil
      * @return \Inertia\Response
      */
     public function edit(Perfil $perfil)
@@ -115,8 +113,6 @@ class PerfilController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Administracao\UpdatePerfilRequest  $request
-     * @param  \App\Models\Perfil  $perfil
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdatePerfilRequest $request, Perfil $perfil)
@@ -139,7 +135,6 @@ class PerfilController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Perfil  $perfil
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Perfil $perfil)

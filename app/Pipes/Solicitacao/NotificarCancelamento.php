@@ -14,8 +14,6 @@ class NotificarCancelamento
      * Dispara o job responsável por notificar o solicitante acerca do
      * cancelamento de sua solicitação de processo.
      *
-     * @param  \stdClass  $solicitacao
-     * @param  \Closure  $next
      * @return \stdClass
      */
     public function handle(\stdClass $solicitacao, \Closure $next)

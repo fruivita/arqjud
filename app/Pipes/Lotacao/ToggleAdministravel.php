@@ -12,8 +12,6 @@ class ToggleAdministravel
     /**
      * Altera o status administrável da lotação.
      *
-     * @param  \App\Models\Lotacao  $lotacao
-     * @param  \Closure  $next
      * @return \App\Models\Lotacao
      */
     public function handle(Lotacao $lotacao, \Closure $next)

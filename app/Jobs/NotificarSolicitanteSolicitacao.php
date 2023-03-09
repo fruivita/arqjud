@@ -46,29 +46,22 @@ class NotificarSolicitanteSolicitacao implements ShouldQueue, ShouldBeUnique
 
     /**
      * Usuário solicitante.
-     *
-     * @var \App\Models\Usuario
      */
     private Usuario $solicitante;
 
     /**
      * Destino dos processos solicitados.
-     *
-     * @var \App\Models\Lotacao
      */
     private Lotacao $destino;
 
     /**
      * Data e hora da solicitação
-     *
-     * @var \Illuminate\Support\Carbon
      */
     private Carbon $solicitada_em;
 
     /**
      * Create a new job instance.
      *
-     * @param  \stdClass  $solicitacao
      * @return void
      */
     public function __construct(\stdClass $solicitacao)

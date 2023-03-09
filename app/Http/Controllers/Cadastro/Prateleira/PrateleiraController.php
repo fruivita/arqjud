@@ -60,7 +60,6 @@ class PrateleiraController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param  \App\Models\Estante  $estante
      * @return \Inertia\Response
      */
     public function create(Estante $estante)
@@ -76,8 +75,6 @@ class PrateleiraController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Prateleira\StorePrateleiraRequest  $request
-     * @param  \App\Models\Estante  $estante
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StorePrateleiraRequest $request, Estante $estante)
@@ -95,7 +92,6 @@ class PrateleiraController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Prateleira  $prateleira
      * @return \Inertia\Response
      */
     public function edit(Prateleira $prateleira)
@@ -119,8 +115,6 @@ class PrateleiraController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Cadastro\Prateleira\UpdatePrateleiraRequest  $request
-     * @param  \App\Models\Prateleira  $prateleira
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdatePrateleiraRequest $request, Prateleira $prateleira)
@@ -136,7 +130,6 @@ class PrateleiraController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Prateleira  $prateleira
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Prateleira $prateleira)

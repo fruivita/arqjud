@@ -154,7 +154,6 @@ class PerfilPermissaoSeeder extends Seeder
     /**
      * Permissões inciais do perfil gerente de negocio.
      *
-     * @param  int  $id_perfil
      * @return \Illuminate\Support\Collection
      */
     private function permissoesPerfilGerenteNegocio(int $id_perfil)
@@ -176,7 +175,6 @@ class PerfilPermissaoSeeder extends Seeder
     /**
      * Permissões inciais do perfil operador.
      *
-     * @param  int  $id_perfil
      * @return \Illuminate\Support\Collection
      */
     private function permissoesPerfilOperador(int $id_perfil)
@@ -198,7 +196,6 @@ class PerfilPermissaoSeeder extends Seeder
     /**
      * Permissoes iniciais do perfil observador.
      *
-     * @param  int  $id_perfil
      * @return \Illuminate\Support\Collection
      */
     private function permissoesPerfilObservador(int $id_perfil)
@@ -220,7 +217,6 @@ class PerfilPermissaoSeeder extends Seeder
     /**
      * Permissoes iniciais do perfil padrão.
      *
-     * @param  int  $id_perfil
      * @return \Illuminate\Support\Collection
      */
     private function permissoesPerfilPadrao(int $id_perfil)

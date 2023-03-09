@@ -18,7 +18,6 @@ class SolicitanteController extends Controller
     /**
      * Usuário solicitante do processo com a sua lotação.
      *
-     * @param  \App\Http\Requests\Api\Solicitacao\ShowSolicitanteRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(ShowSolicitanteRequest $request)

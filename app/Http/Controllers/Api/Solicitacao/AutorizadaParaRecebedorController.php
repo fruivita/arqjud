@@ -24,7 +24,6 @@ class AutorizadaParaRecebedorController extends Controller
      * Regra de negócio: as solicitações autorizadas para um usuário são
      * aquelas destinadas a sua lotação.
      *
-     * @param  \App\Http\Requests\Api\Solicitacao\ShowAutorizadaParaRecebedorRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(ShowAutorizadaParaRecebedorRequest $request)

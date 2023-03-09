@@ -45,7 +45,6 @@ class NumeroProcessoCNJ implements InvokableRule
      *
      * N6 N5 N4 N3 N2 N1 N0 A3 A2 A1 A0 J2 T1 R0 O3 O2 O1 O0 D1 D0 módulo 97
      *
-     * @param  string  $numero
      * @return int resultado do módulo 97 na base 10
      */
     private function modulo(string $numero)
@@ -62,7 +61,6 @@ class NumeroProcessoCNJ implements InvokableRule
      * Quebra o número do processo no formato NNNNNNN-DD.AAAA.JTR.OOOO nas
      * partes definidas pelo CNJ.
      *
-     * @param  string  $numero
      * @return array<string, string>
      */
     private function partes(string $numero)

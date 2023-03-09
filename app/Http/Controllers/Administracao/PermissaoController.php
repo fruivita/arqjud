@@ -55,7 +55,6 @@ class PermissaoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Permissao  $permissao
      * @return \Inertia\Response
      */
     public function edit(Permissao $permissao)
@@ -79,8 +78,6 @@ class PermissaoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Administracao\UpdatePermissaoRequest  $request
-     * @param  \App\Models\Permissao  $permissao
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdatePermissaoRequest $request, Permissao $permissao)
