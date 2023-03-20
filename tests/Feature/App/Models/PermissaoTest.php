@@ -53,7 +53,6 @@ test('slugs das permissões estão definidas', function () {
         ->and(Permissao::LOG_VIEW)->toBe('log_view')
         ->and(Permissao::ATIVIDADE_VIEW_ANY)->toBe('atividade_view_any')
         ->and(Permissao::ATIVIDADE_VIEW)->toBe('atividade_view')
-        ->and(Permissao::ATIVIDADE_DELETE)->toBe('atividade_delete')
         ->and(Permissao::PERMISSAO_VIEW_ANY)->toBe('permissao_view_any')
         ->and(Permissao::PERMISSAO_VIEW)->toBe('permissao_view')
         ->and(Permissao::PERMISSAO_UPDATE)->toBe('permissao_update')

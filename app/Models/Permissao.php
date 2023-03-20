@@ -29,8 +29,6 @@ class Permissao extends Model
 
     const ATIVIDADE_VIEW = 'atividade_view';
 
-    const ATIVIDADE_DELETE = 'atividade_delete';
-
     const PERMISSAO_VIEW_ANY = 'permissao_view_any';
 
     const PERMISSAO_VIEW = 'permissao_view';

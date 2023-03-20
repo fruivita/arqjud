@@ -112,11 +112,6 @@ class PermissaoSeeder extends Seeder
                 'slug' => Permissao::ATIVIDADE_VIEW,
                 'descricao' => 'Permissão para visualizar em detalhes os registros de atividade e/ou uso da aplicação.',
             ],
-            [
-                'nome' => 'Atividade: Excluir',
-                'slug' => Permissao::ATIVIDADE_DELETE,
-                'descricao' => 'Permissão para excluir os registros de atividade e/ou uso da aplicação.',
-            ],
         ]);
     }
 

@@ -117,7 +117,6 @@ test('perfil administrador possui suas permissões iniciais definidas', function
         Permissao::LOG_VIEW,
         Permissao::ATIVIDADE_VIEW_ANY,
         Permissao::ATIVIDADE_VIEW,
-        Permissao::ATIVIDADE_DELETE,
         Permissao::PERMISSAO_VIEW_ANY,
         Permissao::PERMISSAO_VIEW,
         Permissao::PERMISSAO_UPDATE,
