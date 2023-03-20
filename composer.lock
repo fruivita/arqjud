@@ -320,16 +320,16 @@
         },
         {
             "name": "directorytree/ldaprecord",
-            "version": "v2.20.2",
+            "version": "v2.20.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DirectoryTree/LdapRecord.git",
-                "reference": "517c6bc535fd6ef17b0848f5c93db6f84beebccf"
+                "reference": "f8cb5c9440f0bd54e9d4683c4d0bcf6c8bc40947"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DirectoryTree/LdapRecord/zipball/517c6bc535fd6ef17b0848f5c93db6f84beebccf",
-                "reference": "517c6bc535fd6ef17b0848f5c93db6f84beebccf",
+                "url": "https://api.github.com/repos/DirectoryTree/LdapRecord/zipball/f8cb5c9440f0bd54e9d4683c4d0bcf6c8bc40947",
+                "reference": "f8cb5c9440f0bd54e9d4683c4d0bcf6c8bc40947",
                 "shasum": ""
             },
             "require": {
@@ -390,7 +390,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-01T04:47:08+00:00"
+            "time": "2023-03-10T15:22:31+00:00"
         },
         {
             "name": "directorytree/ldaprecord-laravel",
@@ -11424,5 +11424,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
