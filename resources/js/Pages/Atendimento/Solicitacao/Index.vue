@@ -143,10 +143,7 @@ watch(perPage, filtrar);
                         :label="__('Processo')"
                     />
 
-                    <CheckBox
-                        v-model:checked="elementosVisiveis.destino"
-                        :label="__('Destino')"
-                    />
+                    <CheckBox v-model:checked="elementosVisiveis.destino" :label="__('Destino')" />
 
                     <CheckBox
                         v-model:checked="elementosVisiveis.solicitante"
@@ -202,9 +199,7 @@ watch(perPage, filtrar);
                         v-show="elementosVisiveis.destino"
                         :ordenacao="ordenacoes.destino_sigla"
                         :texto="__('Destino')"
-                        @ordenar="
-                            (direcao) => mudarOrdenacao('destino_sigla', direcao)
-                        "
+                        @ordenar="(direcao) => mudarOrdenacao('destino_sigla', direcao)"
                     />
 
                     <HeadingOrdenavel
