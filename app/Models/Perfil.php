@@ -61,7 +61,7 @@ class Perfil extends Model
     {
         auth()->user()->loadMissing('perfil');
 
-        $query->where('poder', '<=', auth()->user()->perfil->poder); // @phpstan-ignore-line
+        $query->where('poder', '<=', auth()->user()->perfil->poder);
     }
 
     /**
