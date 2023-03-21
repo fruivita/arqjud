@@ -60,6 +60,7 @@ class GuiaFactory extends Factory
                 'solicitante' => [
                     'matricula' => fake()->bothify('??#####'),
                     'nome' => fake()->name(),
+                    'email' => fake()->email(),
                 ],
             ];
         }

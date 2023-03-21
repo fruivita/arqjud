@@ -132,6 +132,7 @@ test('entrega de processo gera a guia de remessa dos processos solicitados', fun
             'solicitante' => [
                 'matricula' => $solicitacao->solicitante->matricula,
                 'nome' => $solicitacao->solicitante->nome,
+                'email' => $solicitacao->solicitante->email,
             ],
         ];
     });

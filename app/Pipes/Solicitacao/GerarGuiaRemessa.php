@@ -55,6 +55,7 @@ class GerarGuiaRemessa
                 'solicitante' => [
                     'matricula' => $solicitacao->solicitante->matricula,
                     'nome' => $solicitacao->solicitante->nome,
+                    'email' => $solicitacao->solicitante->email,
                 ],
             ];
         });

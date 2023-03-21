@@ -70,7 +70,11 @@ class NotificarEntrega implements ShouldQueue, ShouldBeUnique
         $this->recebedor = $entrega->recebedor;
         $this->guia = $entrega->guia;
         $this->por_guia = boolval($entrega->por_guia);
-        $this->email_terceiros = $entrega->email_terceiros;
+        $this->email_terceiros = $entrega->guia->processos
+            ->pluck('solicitante.email')
+            ->merge($entrega->email_terceiros)
+            ->unique()
+            ->toArray();
     }
 
     /**
