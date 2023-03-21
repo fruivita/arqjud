@@ -14,6 +14,7 @@
 import { countElementosVisiveis } from '@/Composables/UseCountElementosVisiveis';
 import { useExclusao } from '@/Composables/UseExclusao';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
+import { porGuia } from '@/Helpers/Solicitacao';
 import { perPageKey, updatePerPageKey } from '@/keys';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
@@ -58,6 +59,7 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     destino: true,
     solicitante: true,
     solicitadaEm: true,
+    porGuia: true,
     remetente: true,
     recebedor: true,
     entregueEm: true,
@@ -155,6 +157,8 @@ watch(perPage, filtrar);
                         :label="__('Solicitada em')"
                     />
 
+                    <CheckBox v-model:checked="elementosVisiveis.porGuia" :label="__('Por guia')" />
+
                     <CheckBox
                         v-model:checked="elementosVisiveis.remetente"
                         :label="__('Remetente')"
@@ -214,6 +218,13 @@ watch(perPage, filtrar);
                         :ordenacao="ordenacoes.solicitada_em"
                         :texto="__('Solicitada em')"
                         @ordenar="(direcao) => mudarOrdenacao('solicitada_em', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.porGuia"
+                        :ordenacao="ordenacoes.por_guia"
+                        :texto="__('Por guia')"
+                        @ordenar="(direcao) => mudarOrdenacao('por_guia', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -307,6 +318,10 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.solicitadaEm">
                                 {{ solicitacao.solicitada_em }}
+                            </Cell>
+
+                            <Cell v-show="elementosVisiveis.porGuia">
+                                {{ porGuia(solicitacao) }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.remetente">
