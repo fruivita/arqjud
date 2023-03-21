@@ -18,7 +18,6 @@ beforeEach(function () {
     $this->entrega->recebedor = Usuario::factory()->create();
     $this->entrega->guia = Guia::factory()->create();
     $this->entrega->por_guia = true;
-    $this->entrega->email_terceiros = fake()->safeEmail();
 });
 
 // Caminho feliz

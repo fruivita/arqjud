@@ -64,8 +64,6 @@ test('rules estão definidas no form request', function () {
             Rule::exists('solicitacoes', 'id'),
             new SolicitacaoEntregavel(),
         ],
-
-        'email_terceiros.*' => ['nullable', 'email:strict'],
     ], $this->request->rules());
 });
 
@@ -75,7 +73,6 @@ test('attributes estão definidas no form request', function () {
         'por_guia' => __('Entrega por guia'),
         'password' => __('Senha'),
         'solicitacoes.*' => __('Solicitação'),
-        'email_terceiros.*' => __('Email'),
     ], $this->request->attributes());
 });
 

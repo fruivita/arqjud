@@ -23,7 +23,6 @@ beforeEach(function () {
     $this->entrega->recebedor = Usuario::factory()->create();
     $this->entrega->guia = Guia::factory()->create();
     $this->entrega->por_guia = true;
-    $this->entrega->email_terceiros = ['foo@bar.com', 'bar@taz.com'];
 });
 
 // Caminho feliz
@@ -55,7 +54,6 @@ test('job NotificarEntrega cria a notificação com todos os parâmetros e canal
                 'url' => route('solicitacao.index'),
                 'email_terceiros' => $this->entrega->guia->processos
                     ->pluck('solicitante.email')
-                    ->merge($this->entrega->email_terceiros)
                     ->unique()
                     ->toArray(),
             ])->and($channels)->toMatchArray(['mail']);

@@ -94,7 +94,6 @@ test('entrega de processo muda o status da solicitação de solicitada para entr
         'recebedor' => $recebedor->matricula,
         'por_guia' => true,
         'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
-        'email_terceiros' => [],
     ])
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
@@ -118,7 +117,6 @@ test('entrega de processo gera a guia de remessa dos processos solicitados', fun
         'recebedor' => $recebedor->matricula,
         'por_guia' => true,
         'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
-        'email_terceiros' => [],
     ])
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
@@ -161,7 +159,6 @@ test('dispara o job NotificarEntrega quando o usuário faz a entrega dos process
         'recebedor' => $recebedor->matricula,
         'por_guia' => true,
         'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
-        'email_terceiros' => [],
     ])
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
@@ -187,7 +184,6 @@ test('registra o log em caso de falha na entrega dos processos solicitados', fun
         'recebedor' => $recebedor->matricula,
         'por_guia' => true,
         'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
-        'email_terceiros' => [],
     ])
         ->assertRedirect()
         ->assertSessionHas('feedback.erro');
@@ -214,7 +210,6 @@ test('entrega dos processos solicitados está protegida por transaction', functi
         'recebedor' => $recebedor->matricula,
         'por_guia' => true,
         'solicitacoes' => $solicitacoes->pluck('id')->toArray(),
-        'email_terceiros' => [],
     ]));
 
     $database->shouldHaveReceived('beginTransaction')->once();

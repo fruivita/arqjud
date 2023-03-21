@@ -28,7 +28,7 @@ import { useStatusRequisicaoStore } from '@/Stores/StatusRequisicaoStore';
 import { useTranslationsStore } from '@/Stores/TranslationsStore';
 import { useForm } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
-import { find, first, map, remove, xor } from 'lodash';
+import { first, map, xor } from 'lodash';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -51,8 +51,6 @@ const formEntregarProcessos = useForm({
     por_guia: false,
     password: '',
     solicitacoes: [],
-    // devem ser notificados da entrega dos processos solicitados
-    email_terceiros: [],
 });
 
 // Solicitações de processo que o usuário está autorizado a receber.
@@ -117,27 +115,6 @@ const seletorChange = (event) => {
     }
 };
 
-const formEmail = useForm({ email: '' });
-
-const addEmail = () => {
-    if (formEmail.email.length <= 0) {
-        return;
-    }
-    if (find(formEntregarProcessos.email_terceiros, (email) => email == formEmail.email)) {
-        formEmail.setError('email', __('Email já informado.'));
-
-        return;
-    }
-
-    formEmail.clearErrors();
-    formEntregarProcessos.email_terceiros.unshift(formEmail.email);
-    formEmail.reset();
-};
-
-const removeEmail = (email) => {
-    remove(formEntregarProcessos.email_terceiros, (e) => e == email);
-};
-
 const clickPorGuia = () => (formEntregarProcessos.password = '');
 
 const entregarRemessas = () => {
@@ -155,7 +132,6 @@ const entregarRemessas = () => {
 const viewReset = () => {
     formRecebedor.reset();
     formEntregarProcessos.reset();
-    formEmail.reset();
     recebedor.value = '';
     solicitacoes.value = [];
 };
@@ -326,68 +302,6 @@ const viewReset = () => {
                 </div>
 
                 <div v-show="formEntregarProcessos.solicitacoes.length >= 1" class="space-y-6">
-                    <!-- Notificação de terceiros -->
-                    <div class="space-y-1">
-                        <p>{{ __('Notificar terceiros sobre a remessa') }}</p>
-
-                        <form @submit.prevent="addEmail" class="flex space-x-3">
-                            <div class="w-full">
-                                <TextInput
-                                    v-model="formEmail.email"
-                                    :erro="formEmail.errors.email"
-                                    :label="__('Email de terceiros')"
-                                    :maxlength="50"
-                                    autocomplete="off"
-                                    dusk="email"
-                                    icone="envelope"
-                                    type="email"
-                                />
-                            </div>
-
-                            <ButtonIcone
-                                dusk="submit"
-                                especie="acao"
-                                icone="plus-circle"
-                                type="submit"
-                            />
-                        </form>
-
-                        <template v-if="formEntregarProcessos.email_terceiros.length >= 1">
-                            <div class="flex flex-wrap justify-between gap-3">
-                                <div
-                                    class="py-1"
-                                    v-for="(email, indice) in formEntregarProcessos.email_terceiros"
-                                    :key="email"
-                                >
-                                    <div class="space-x-2 hover:underline">
-                                        <span>{{ email }}</span>
-
-                                        <ButtonIcone
-                                            @click="removeEmail(email)"
-                                            dusk="submit"
-                                            especie="perigo"
-                                            icone="x-circle"
-                                            type="button"
-                                        />
-                                    </div>
-
-                                    <MensagemErro
-                                        v-if="
-                                            formEntregarProcessos.errors[
-                                                `email_terceiros.${indice}`
-                                            ]
-                                        "
-                                        :erro="
-                                            formEntregarProcessos.errors[
-                                                `email_terceiros.${indice}`
-                                            ]
-                                        "
-                                    />
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-
                     <!-- Entrega por guia -->
                     <div>
                         <CheckBox

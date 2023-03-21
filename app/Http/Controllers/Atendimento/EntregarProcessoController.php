@@ -58,7 +58,6 @@ class EntregarProcessoController extends Controller
         $entrega->recebedor = $request->input('recebedor');
         $entrega->por_guia = $request->boolean('por_guia');
         $entrega->solicitacoes = $request->input('solicitacoes');
-        $entrega->email_terceiros = $request->input('email_terceiros');
 
         $salvo = Pipeline::make()
             ->withTransaction()

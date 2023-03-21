@@ -60,8 +60,6 @@ class StoreEntregarProcessoRequest extends FormRequest
                 Rule::exists('solicitacoes', 'id'),
                 new SolicitacaoEntregavel(),
             ],
-
-            'email_terceiros.*' => ['nullable', 'email:strict'],
         ];
     }
 
@@ -77,7 +75,6 @@ class StoreEntregarProcessoRequest extends FormRequest
             'por_guia' => __('Entrega por guia'),
             'password' => __('Senha'),
             'solicitacoes.*' => __('Solicitação'),
-            'email_terceiros.*' => __('Email'),
         ];
     }
 }

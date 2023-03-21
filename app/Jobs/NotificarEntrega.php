@@ -54,7 +54,11 @@ class NotificarEntrega implements ShouldQueue, ShouldBeUnique
     private $por_guia;
 
     /**
-     * Endereços de email de terceiros que devem ser notificados.
+     * Endereços de email de terceiros que devem ser notificados, isto é, todos
+     * os solicitantes dos processos.
+     *
+     * São considerados terceiros, pois não são, obrigatoriamente, as pessoas
+     * que foram buscar os processos.
      *
      * @var string[]
      */
@@ -72,7 +76,6 @@ class NotificarEntrega implements ShouldQueue, ShouldBeUnique
         $this->por_guia = boolval($entrega->por_guia);
         $this->email_terceiros = $entrega->guia->processos
             ->pluck('solicitante.email')
-            ->merge($entrega->email_terceiros)
             ->unique()
             ->toArray();
     }
