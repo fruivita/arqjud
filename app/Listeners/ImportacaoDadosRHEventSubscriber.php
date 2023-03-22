@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Enums\Queue;
+use App\Models\Solicitacao;
 use App\Models\Usuario;
 use FruiVita\Corporativo\Events\CargoUsuarioAlterado;
 use FruiVita\Corporativo\Events\FuncaoConfiancaUsuarioAlterada;
@@ -91,6 +92,11 @@ class ImportacaoDadosRHEventSubscriber implements ShouldQueue
     public function handleLotacaoUsuarioAlterada(LotacaoUsuarioAlterada $event)
     {
         Usuario::resetarPerfil($event->usuario);
+
+        Solicitacao::query()
+            ->solicitadas()
+            ->where('solicitante_id', $event->usuario)
+            ->delete();
     }
 
     /**

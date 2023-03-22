@@ -14,6 +14,7 @@ use App\Models\Cargo;
 use App\Models\FuncaoConfianca;
 use App\Models\Lotacao;
 use App\Models\Perfil;
+use App\Models\Solicitacao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Events\CallQueuedListener;
@@ -78,6 +79,28 @@ test('reseta o perfil do usuário ao mudar sua lotação', function () {
 
     expect($usuario->perfil_id)->toBe(Perfil::padrao()->id)
         ->and($usuario->lotacao_id)->not->toBe(1000);
+});
+
+test('exclui as solicitações com o status solicitadas do usuário ao mudar sua lotação', function () {
+    $this->seed([PerfilSeeder::class]);
+
+    $usuario = Usuario::factory()->for(Lotacao::factory(['id' => 1000]), 'lotacao')->create(['matricula' => 'ES44444']);
+
+    Solicitacao::factory()->solicitada()->create(); // criada por outro usuário, não será afetada
+    Solicitacao::factory(2)->solicitada()->create(['solicitante_id' => $usuario->id]);
+    Solicitacao::factory(4)->entregue()->create(['solicitante_id' => $usuario->id]);
+    Solicitacao::factory(8)->devolvida()->create(['solicitante_id' => $usuario->id]);
+
+    ImportarDadosRH::dispatchSync();
+
+    $usuario->refresh();
+
+    expect($usuario->lotacao_id)->not->toBe(1000)
+        ->and(Solicitacao::count())->toBe(13)
+        ->and(Solicitacao::solicitadas()->whereBelongsTo($usuario, 'solicitante')->count())->toBe(0)
+        ->and(Solicitacao::entregues()->whereBelongsTo($usuario, 'solicitante')->count())->toBe(4)
+        ->and(Solicitacao::devolvidas()->whereBelongsTo($usuario, 'solicitante')->count())->toBe(8)
+        ->and(Solicitacao::solicitadas()->count())->toBe(1);
 });
 
 test('reseta o perfil do usuário ao mudar sua função de confiança', function () {
