@@ -1,4 +1,0 @@
-﻿numero_processo,numero_antigo_processo,numero_processo_pai,arquivado_em,qtd_volumes_processo,numero_caixa,complemento_caixa,ano_caixa,volume_caixa,guarda_permanente_processo,nome_localidade_criadora_caixa,nome_localidade,nome_predio,numero_andar,numero_sala,numero_estante,numero_prateleira,descricao_caixa,falha
-26899909319841005657,,,21-12-2020,2,5,,2020,,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) volume caixa é obrigatório(a)."
-26899909319841005657,,,21-12-2020,2,5,,2020,0,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) volume caixa precisa ser entre 1 e 9999."
-26899909319841005657,,,21-12-2020,2,5,,2020,10000,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) volume caixa precisa ser entre 1 e 9999."

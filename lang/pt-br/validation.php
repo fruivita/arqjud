@@ -61,7 +61,7 @@ return [
     'gte' => [
         'array' => 'The :attribute must have :value items or more.',
         'file' => 'The :attribute must be greater than or equal to :value kilobytes.',
-        'numeric' => 'The :attribute must be greater than or equal to :value.',
+        'numeric' => 'O(A) :attribute precisa ser maior ou igual a :value.',
         'string' => 'The :attribute must be greater than or equal to :value characters.',
     ],
     'habilitado' => 'O(A) :attribute não está habilitado(a) na solicitação de processos.',
@@ -90,7 +90,7 @@ return [
     'max' => [
         'array' => 'The :attribute must not have more than :max items.',
         'file' => 'The :attribute must not be greater than :max kilobytes.',
-        'numeric' => 'The :attribute must not be greater than :max.',
+        'numeric' => 'O(A) :attribute não pode ser maior que :max.',
         'string' => 'O(A) :attribute não pode ser maior que :max caracteres.',
     ],
     'max_digits' => 'The :attribute must not have more than :max digits.',

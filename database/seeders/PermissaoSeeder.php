@@ -55,7 +55,6 @@ class PermissaoSeeder extends Seeder
             ->concat($this->permissoesEstante())
             ->concat($this->permissoesPrateleira())
             ->concat($this->permissoesCaixa())
-            ->concat($this->permissoesVolumeCaixa())
             ->concat($this->permissoesProcesso())
             ->concat($this->permissoesMoverProcesso())
             ->concat($this->permissoesSolicitacao())
@@ -457,40 +456,6 @@ class PermissaoSeeder extends Seeder
     /**
      * @return \Illuminate\Support\LazyCollection
      */
-    private function permissoesVolumeCaixa()
-    {
-        return LazyCollection::make([
-            [
-                'nome' => 'Volume da caixa: Visualizar todos',
-                'slug' => Permissao::VOLUME_CAIXA_VIEW_ANY,
-                'descricao' => 'Permissão para visualizar todos os volumes cadastrados da caixa.',
-            ],
-            [
-                'nome' => 'Volume da caixa: Visualizar',
-                'slug' => Permissao::VOLUME_CAIXA_VIEW,
-                'descricao' => 'Permissão para visualizar em detalhes os volumes cadastrados da caixa.',
-            ],
-            [
-                'nome' => 'Volume da caixa: Criar',
-                'slug' => Permissao::VOLUME_CAIXA_CREATE,
-                'descricao' => 'Permissão para criar volumes da caixa.',
-            ],
-            [
-                'nome' => 'Volume da caixa: Atualizar',
-                'slug' => Permissao::VOLUME_CAIXA_UPDATE,
-                'descricao' => 'Permissão para atualizar os volumes cadastrados da caixa.',
-            ],
-            [
-                'nome' => 'Volume da caixa: Excluir',
-                'slug' => Permissao::VOLUME_CAIXA_DELETE,
-                'descricao' => 'Permissão para excluir os volumes cadastrados da caixa.',
-            ],
-        ]);
-    }
-
-    /**
-     * @return \Illuminate\Support\LazyCollection
-     */
     private function permissoesProcesso()
     {
         return LazyCollection::make([
@@ -531,7 +496,7 @@ class PermissaoSeeder extends Seeder
             [
                 'nome' => 'Mover Processo: Criar',
                 'slug' => Permissao::MOVER_PROCESSO_CREATE,
-                'descricao' => 'Permissão para movimentar processos entre as caixas/volumes.',
+                'descricao' => 'Permissão para movimentar processos entre as caixas.',
             ],
         ]);
     }

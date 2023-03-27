@@ -55,7 +55,7 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     ano: true,
     guardaPermanente: true,
     complemento: true,
-    volumes: true,
+    processos: true,
     localidadeCriadora: true,
     localidade: true,
     predio: true,
@@ -119,7 +119,10 @@ watch(perPage, filtrar);
                     :label="__('Complemento')"
                 />
 
-                <CheckBox v-model:checked="elementosVisiveis.volumes" :label="__('Qtd volumes')" />
+                <CheckBox
+                    v-model:checked="elementosVisiveis.processos"
+                    :label="__('Qtd processos')"
+                />
 
                 <CheckBox
                     v-model:checked="elementosVisiveis.localidade"
@@ -182,10 +185,10 @@ watch(perPage, filtrar);
                     />
 
                     <HeadingOrdenavel
-                        v-show="elementosVisiveis.volumes"
-                        :ordenacao="ordenacoes.volumes_count"
-                        :texto="__('Qtd volumes')"
-                        @ordenar="(direcao) => mudarOrdenacao('volumes_count', direcao)"
+                        v-show="elementosVisiveis.processos"
+                        :ordenacao="ordenacoes.processos_count"
+                        :texto="__('Qtd processos')"
+                        @ordenar="(direcao) => mudarOrdenacao('processos_count', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -257,8 +260,8 @@ watch(perPage, filtrar);
                                 caixa.complemento
                             }}</Cell>
 
-                            <Cell v-show="elementosVisiveis.volumes">{{
-                                caixa.volumes_count
+                            <Cell v-show="elementosVisiveis.processos">{{
+                                caixa.processos_count
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.localidade">{{

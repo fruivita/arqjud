@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Caixa;
 use App\Models\Processo;
-use App\Models\VolumeCaixa;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,7 +26,9 @@ class ProcessoFactory extends Factory
     {
         return [
             'processo_pai_id' => null,
-            'volume_caixa_id' => VolumeCaixa::factory(),
+            'caixa_id' => Caixa::factory(),
+            'vol_caixa_inicial' => fake()->numberBetween(1, 5),
+            'vol_caixa_final' => fake()->numberBetween(6, 30),
             'numero' => fake()->unique()->numeroProcessoCNJ(),
             'numero_antigo' => fake()->unique()->numeroProcessoV1(),
             'arquivado_em' => fake()->date(),

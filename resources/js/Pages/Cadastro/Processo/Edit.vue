@@ -132,12 +132,12 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         <ChaveValor
                             :chave="__('Localidade')"
                             :href="
-                                processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
-                                    .predio.localidade.links.view
+                                processo.data.caixa.prateleira.estante.sala.andar.predio.localidade
+                                    .links.view
                             "
                             :valor="
-                                processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
-                                    .predio.localidade.nome
+                                processo.data.caixa.prateleira.estante.sala.andar.predio.localidade
+                                    .nome
                             "
                             icone="pin-map"
                         />
@@ -145,64 +145,44 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         <ChaveValor
                             :chave="__('Prédio')"
                             :href="
-                                processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
-                                    .predio.links.view
+                                processo.data.caixa.prateleira.estante.sala.andar.predio.links.view
                             "
-                            :valor="
-                                processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
-                                    .predio.nome
-                            "
+                            :valor="processo.data.caixa.prateleira.estante.sala.andar.predio.nome"
                             icone="buildings"
                         />
 
                         <ChaveValor
                             :chave="__('Andar')"
-                            :href="
-                                processo.data.volume_caixa.caixa.prateleira.estante.sala.andar.links
-                                    .view
-                            "
-                            :valor="
-                                numeroAndar(
-                                    processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
-                                )
-                            "
+                            :href="processo.data.caixa.prateleira.estante.sala.andar.links.view"
+                            :valor="numeroAndar(processo.data.caixa.prateleira.estante.sala.andar)"
                             icone="layers"
                         />
 
                         <ChaveValor
                             :chave="__('Sala')"
-                            :href="
-                                processo.data.volume_caixa.caixa.prateleira.estante.sala.links.view
-                            "
-                            :valor="processo.data.volume_caixa.caixa.prateleira.estante.sala.numero"
+                            :href="processo.data.caixa.prateleira.estante.sala.links.view"
+                            :valor="processo.data.caixa.prateleira.estante.sala.numero"
                             icone="door-closed"
                         />
 
                         <ChaveValor
                             :chave="__('Estante')"
-                            :href="processo.data.volume_caixa.caixa.prateleira.estante.links.view"
-                            :valor="processo.data.volume_caixa.caixa.prateleira.estante.numero"
+                            :href="processo.data.caixa.prateleira.estante.links.view"
+                            :valor="processo.data.caixa.prateleira.estante.numero"
                             icone="bookshelf"
                         />
 
                         <ChaveValor
                             :chave="__('Prateleira')"
-                            :href="processo.data.volume_caixa.caixa.prateleira.links.view"
-                            :valor="processo.data.volume_caixa.caixa.prateleira.numero"
+                            :href="processo.data.caixa.prateleira.links.view"
+                            :valor="processo.data.caixa.prateleira.numero"
                             icone="list-nested"
                         />
 
                         <ChaveValor
                             :chave="__('Caixa')"
-                            :href="processo.data.volume_caixa.caixa.links.view"
-                            :valor="numeroCaixa(processo.data.volume_caixa.caixa)"
-                            icone="box2"
-                        />
-
-                        <ChaveValor
-                            :chave="__('Volume da caixa')"
-                            :href="processo.data.volume_caixa.links.view"
-                            :valor="processo.data.volume_caixa.numero"
+                            :href="processo.data.caixa.links.view"
+                            :valor="numeroCaixa(processo.data.caixa)"
                             icone="box2"
                         />
 

@@ -13,6 +13,7 @@ import { useExclusao } from '@/Composables/UseExclusao';
 import { flash } from '@/Composables/UseFlash';
 import { useOrdenacao } from '@/Composables/UseOrdenacao';
 import { numeroAndar } from '@/Helpers/Andar';
+import { gp } from '@/Helpers/Processo';
 import { perPageKey, updatePerPageKey } from '@/keys';
 import ButtonIcone from '@/Shared/Buttons/ButtonIcone.vue';
 import ButtonText from '@/Shared/Buttons/ButtonText.vue';
@@ -26,6 +27,7 @@ import TextInput from '@/Shared/Forms/TextInput.vue';
 import InertiaButtonIconeLink from '@/Shared/Inertia/InertiaButtonIconeLink.vue';
 import InertiaButtonLink from '@/Shared/Inertia/InertiaButtonLink.vue';
 import ChaveValor from '@/Shared/Misc/ChaveValor.vue';
+import Clipboard from '@/Shared/Misc/Clipboard.vue';
 import ModalConfirmacao from '@/Shared/Modals/ModalConfirmacao.vue';
 import Cell from '@/Shared/Tables/Cell.vue';
 import Heading from '@/Shared/Tables/Heading.vue';
@@ -43,7 +45,7 @@ import { computed, provide, readonly, ref, watch } from 'vue';
 
 const props = defineProps({
     caixa: { type: Object },
-    volumes_caixa: { type: Object },
+    processos: { type: Object },
 });
 
 const __ = useTranslationsStore().__;
@@ -52,7 +54,6 @@ const modoEdicao = ref(false);
 
 const form = useForm({
     localidade_criadora_id: props.caixa.data.localidade_criadora_id,
-    numero: props.caixa.data.numero,
     numero: props.caixa.data.numero,
     ano: props.caixa.data.ano,
     guarda_permanente: props.caixa.data.guarda_permanente,
@@ -82,17 +83,22 @@ const tituloPagina = computed(() =>
         : __(':attribute: Modo Visualização', { attribute: 'Caixa' })
 );
 
-const { ordenacoes, mudarOrdenacao } = useOrdenacao(props.volumes_caixa.meta.order);
+const { ordenacoes, mudarOrdenacao } = useOrdenacao(props.processos.meta.order);
 
 const elementosVisiveis = useLocalStorage(usePage().component.value, {
-    volumeCaixa: true,
-    processos: true,
+    processo: true,
+    numeroAntigo: true,
+    arquivadoEm: true,
+    guardaPermanente: true,
+    qtdVolumes: true,
+    processosFilho: true,
+    solicitacoes: true,
     acao: true,
 });
 
 const colspan = computed(() => countElementosVisiveis(elementosVisiveis));
 
-const perPage = ref(props.volumes_caixa.meta.per_page);
+const perPage = ref(props.processos.meta.per_page);
 const updatePerPage = (novoValor) => {
     perPage.value = novoValor;
 };
@@ -101,13 +107,13 @@ provide(updatePerPageKey, updatePerPage);
 
 const filtrar = () => {
     Inertia.get(
-        props.volumes_caixa.meta.path,
+        props.processos.meta.path,
         pickBy(merge({ order: ordenacoes.value }, { per_page: perPage.value })),
         {
             preserveState: true,
             preserveScroll: true,
             replace: true,
-            only: ['volumes_caixa'],
+            only: ['processos'],
         }
     );
 };
@@ -280,27 +286,52 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
         <Container class="space-y-3">
             <div
                 :class="{
-                    'md:justify-between': caixa.data.links.volume?.create,
-                    'md:justify-end': !caixa.data.links.volume?.create,
+                    'md:justify-between': caixa.data.links.processo?.create,
+                    'md:justify-end': !caixa.data.links.processo?.create,
                 }"
                 class="flex flex-col space-y-3 md:flex-row md:items-start"
             >
                 <InertiaButtonLink
-                    v-if="caixa.data.links.volume?.create"
-                    :href="caixa.data.links.volume.create"
-                    :texto="__('Novo volume')"
+                    v-if="caixa.data.links.processo?.create"
+                    :href="caixa.data.links.processo.create"
+                    :texto="__('Novo processo')"
                     icone="plus-circle"
                 />
 
                 <Preferencia>
                     <CheckBox
-                        v-model:checked="elementosVisiveis.volumeCaixa"
-                        :label="__('Volume')"
+                        v-model:checked="elementosVisiveis.processo"
+                        :label="__('Processo')"
                     />
 
                     <CheckBox
-                        v-model:checked="elementosVisiveis.processos"
-                        :label="__('Qtd processos')"
+                        v-model:checked="elementosVisiveis.numeroAntigo"
+                        :label="__('Número antigo')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.arquivadoEm"
+                        :label="__('Arquivado em')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.guardaPermanente"
+                        :label="__('GP')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.qtdVolumes"
+                        :label="__('Volumes')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.processosFilho"
+                        :label="__('Qtd proc filho')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.solicitacoes"
+                        :label="__('Qtd solicitações')"
                     />
 
                     <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
@@ -310,46 +341,111 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
             <Tabela>
                 <template #header>
                     <HeadingOrdenavel
-                        v-show="elementosVisiveis.volumeCaixa"
+                        v-show="elementosVisiveis.processo"
                         :ordenacao="ordenacoes.numero"
-                        :texto="__('Volume')"
+                        :texto="__('Processo')"
                         @ordenar="(direcao) => mudarOrdenacao('numero', direcao)"
                     />
 
                     <HeadingOrdenavel
-                        v-show="elementosVisiveis.processos"
-                        :ordenacao="ordenacoes.processos_count"
-                        :texto="__('Qtd processos')"
-                        @ordenar="(direcao) => mudarOrdenacao('processos_count', direcao)"
+                        v-show="elementosVisiveis.numeroAntigo"
+                        :ordenacao="ordenacoes.numero_antigo"
+                        :texto="__('Número antigo')"
+                        @ordenar="(direcao) => mudarOrdenacao('numero_antigo', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.arquivadoEm"
+                        :ordenacao="ordenacoes.arquivado_em"
+                        :texto="__('Arquivado em')"
+                        @ordenar="(direcao) => mudarOrdenacao('arquivado_em', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.guardaPermanente"
+                        :ordenacao="ordenacoes.guarda_permanente"
+                        :texto="__('GP')"
+                        @ordenar="(direcao) => mudarOrdenacao('guarda_permanente', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.qtdVolumes"
+                        :ordenacao="ordenacoes.qtd_volumes"
+                        :texto="__('Volumes')"
+                        @ordenar="(direcao) => mudarOrdenacao('qtd_volumes', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.processosFilho"
+                        :ordenacao="ordenacoes.processos_filho_count"
+                        :texto="__('Qtd proc filho')"
+                        @ordenar="(direcao) => mudarOrdenacao('processos_filho_count', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.solicitacoes"
+                        :ordenacao="ordenacoes.solicitacoes_count"
+                        :texto="__('Qtd solicitações')"
+                        @ordenar="(direcao) => mudarOrdenacao('solicitacoes_count', direcao)"
                     />
 
                     <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
-                    <template v-if="volumes_caixa.data.length">
-                        <Row v-for="volume in volumes_caixa.data" :key="volume.id">
-                            <Cell v-show="elementosVisiveis.volumeCaixa">{{ volume.numero }}</Cell>
+                    <template v-if="processos.data.length">
+                        <Row v-for="processo in processos.data" :key="processo.id">
+                            <Cell v-show="elementosVisiveis.processo">
+                                <span>{{ processo.numero }}</span>
 
-                            <Cell v-show="elementosVisiveis.processos">{{
-                                volume.processos_count
+                                <Clipboard :copiavel="processo.numero" class="ml-1" />
+                            </Cell>
+
+                            <Cell v-show="elementosVisiveis.numeroAntigo">
+                                <span>{{ processo.numero_antigo }}</span>
+
+                                <Clipboard
+                                    v-if="processo.numero_antigo"
+                                    :copiavel="processo.numero_antigo"
+                                    class="ml-1"
+                                />
+                            </Cell>
+
+                            <Cell v-show="elementosVisiveis.arquivadoEm">{{
+                                processo.arquivado_em
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.guardaPermanente">{{
+                                gp(processo)
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.qtdVolumes">{{
+                                processo.qtd_volumes
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.processosFilho">{{
+                                processo.processos_filho_count
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.solicitacoes">{{
+                                processo.solicitacoes_count
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.acao" class="w-10">
                                 <div class="flex space-x-3">
                                     <InertiaButtonIconeLink
-                                        v-if="volume.links.view"
-                                        :href="volume.links.view"
+                                        v-if="processo.links.view"
+                                        :href="processo.links.view"
                                         icone="eye"
                                     />
 
                                     <ButtonIcone
-                                        v-if="volume.links.delete"
+                                        v-if="processo.links.delete"
                                         @click="
                                             confirmarExclusao(
-                                                volume.links.delete,
-                                                __('Exclusão do volume :attribute', {
-                                                    attribute: volume.numero,
+                                                processo.links.delete,
+                                                __('Exclusão do processo :attribute', {
+                                                    attribute: processo.numero,
                                                 })
                                             )
                                         "
@@ -369,7 +465,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                 </template>
             </Tabela>
 
-            <Paginacao v-if="volumes_caixa.meta.last_page > 1" :meta="volumes_caixa.meta" />
+            <Paginacao v-if="processos.meta.last_page > 1" :meta="processos.meta" />
         </Container>
     </Pagina>
 

@@ -77,10 +77,10 @@ class CaixaPolicy
             return false;
         }
 
-        if (isset($caixa->volumes_count) !== true) {
-            $caixa->loadCount('volumes');
+        if (isset($caixa->processos_count) !== true) {
+            $caixa->loadCount('processos');
         }
-        if ($caixa->volumes_count !== 0) {
+        if ($caixa->processos_count !== 0) {
             return false;
         }
 

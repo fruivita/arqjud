@@ -7,7 +7,6 @@ use App\Models\Permissao;
 use App\Models\Processo;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
-use App\Models\VolumeCaixa;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -202,7 +201,7 @@ function processoApi(Processo $processo)
         'guarda_permanente' => $processo->guarda_permanente,
         'qtd_volumes' => $processo->qtd_volumes,
         'descricao' => $processo->descricao,
-        'volume_caixa_id' => $processo->volume_caixa_id,
+        'caixa_id' => $processo->caixa_id,
         'processo_pai_id' => $processo->processo_pai_id,
     ];
 }
@@ -251,29 +250,6 @@ function usuarioApi(Usuario $usuario)
 }
 
 /**
- * @return array<string, mixed>
- */
-function volumeApi(VolumeCaixa $volume)
-{
-    return [
-        'id' => $volume->id,
-        'numero' => $volume->numero,
-        'descricao' => $volume->descricao,
-        'caixa_id' => $volume->caixa_id,
-    ];
-}
-
-/**
- * @return array
- */
-function volumesApi(Collection $volumes)
-{
-    return $volumes
-        ->map(fn (VolumeCaixa $volume) => volumeApi($volume)) // @phpstan-ignore-line
-        ->toArray();
-}
-
-/**
  * @return array
  */
 function guiaApi(Guia $guia)
@@ -319,7 +295,8 @@ function csvHeader()
         'Número Caixa',
         'Tipo',
         'Ano Caixa',
-        'Volume Caixa',
+        'Volume Inicial Caixa',
+        'Volume Final Caixa',
         'Arquivo Permanente',
         'Localidade de Origem',
         'Localização',

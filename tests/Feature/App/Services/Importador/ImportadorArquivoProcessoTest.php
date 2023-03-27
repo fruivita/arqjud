@@ -32,7 +32,6 @@ test('registra os erros de validação em arquivo próprio respeitando o snapsho
     'com_estante_invalida',
     'com_prateleira_invalida',
     'com_caixa_invalida',
-    'com_volume_caixa_invalido',
     'com_processo_invalido',
     'com_processo_com_mascara',
     'com_processo_pai_invalido',
@@ -114,14 +113,12 @@ test('importação persiste todos os dados obrigatórios', function () {
             'ano' => 2020,
             'guarda_permanente' => 0,
         ])
-        ->assertDatabaseCount('volumes_caixa', 1)
-        ->assertDatabaseHas('volumes_caixa', [
-            'numero' => 3,
-        ])
         ->assertDatabaseCount('processos', 1)
         ->assertDatabaseHas('processos', [
             'numero' => '26899909319841005657',
             'qtd_volumes' => 2,
+            'vol_caixa_inicial' => 3,
+            'vol_caixa_final' => 6,
             'guarda_permanente' => 0,
             'arquivado_em' => '2020-12-21',
         ]);
@@ -167,15 +164,13 @@ test('importação persiste todos os dados opcionais', function () {
             'complemento' => 'foo',
             'descricao' => 'Loren ipsum',
         ])
-        ->assertDatabaseCount('volumes_caixa', 1)
-        ->assertDatabaseHas('volumes_caixa', [
-            'numero' => 3,
-        ])
         ->assertDatabaseCount('processos', 1)
         ->assertDatabaseHas('processos', [
             'numero' => '26899909319841005657',
             'numero_antigo' => '0944643060',
             'qtd_volumes' => 2,
+            'vol_caixa_inicial' => 3,
+            'vol_caixa_final' => 6,
             'guarda_permanente' => 1,
             'arquivado_em' => '2020-12-21',
         ]);
@@ -187,19 +182,18 @@ test('cria os relacionamentos na importação', function () {
     ImportadorArquivoProcesso::make()->importar($this->nome_arquivo);
 
     $processo = Processo::with([
-        'volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade',
-        'volumeCaixa.caixa.localidadeCriadora',
+        'caixa.prateleira.estante.sala.andar.predio.localidade',
+        'caixa.localidadeCriadora',
     ])->firstWhere('processos.numero', '26899909319841005657');
 
-    expect($processo->volumeCaixa->numero)->toBe(3)
-        ->and($processo->volumeCaixa->caixa->numero)->toBe(5)
-        ->and($processo->volumeCaixa->caixa->prateleira->numero)->toBe('0')
-        ->and($processo->volumeCaixa->caixa->prateleira->estante->numero)->toBe('0')
-        ->and($processo->volumeCaixa->caixa->prateleira->estante->sala->numero)->toBe('100-s')
-        ->and($processo->volumeCaixa->caixa->prateleira->estante->sala->andar->numero)->toBe(10)
-        ->and($processo->volumeCaixa->caixa->prateleira->estante->sala->andar->predio->nome)->toBe('Empire State')
-        ->and($processo->volumeCaixa->caixa->prateleira->estante->sala->andar->predio->localidade->nome)->toBe('Madrid')
-        ->and($processo->volumeCaixa->caixa->localidadeCriadora->nome)->toBe('Yokohama');
+    expect($processo->caixa->numero)->toBe(5)
+        ->and($processo->caixa->prateleira->numero)->toBe('0')
+        ->and($processo->caixa->prateleira->estante->numero)->toBe('0')
+        ->and($processo->caixa->prateleira->estante->sala->numero)->toBe('100-s')
+        ->and($processo->caixa->prateleira->estante->sala->andar->numero)->toBe(10)
+        ->and($processo->caixa->prateleira->estante->sala->andar->predio->nome)->toBe('Empire State')
+        ->and($processo->caixa->prateleira->estante->sala->andar->predio->localidade->nome)->toBe('Madrid')
+        ->and($processo->caixa->localidadeCriadora->nome)->toBe('Yokohama');
 });
 
 test('cria o relacionamento com o processo pai na importação', function () {

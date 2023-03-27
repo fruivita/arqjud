@@ -102,7 +102,7 @@ class PrateleiraController extends Controller
             'prateleira' => fn () => PrateleiraEditResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
             'caixas' => fn () => CaixaCollection::make(
                 Pipeline::make()
-                    ->send(Caixa::with(['localidadeCriadora'])->withCount(['volumes'])->whereBelongsTo($prateleira))
+                    ->send(Caixa::with(['localidadeCriadora'])->withCount(['processos'])->whereBelongsTo($prateleira))
                     ->through([JoinLocalidadeCriadora::class, CaixaOrder::class])
                     ->thenReturn()
                     ->paginate($this->perPage())

@@ -30,7 +30,7 @@ import { useTranslationsStore } from '@/Stores/TranslationsStore';
 import { useForm } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
 import { find, first, pick, remove, slice } from 'lodash';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
     localidades: { type: Object },
@@ -43,21 +43,12 @@ const status = useStatusRequisicaoStore();
 
 const formProcesso = useForm({ numero: '' });
 
-const formCaixaDestino = useForm({
+const formMoverProcessos = useForm({
     numero: '',
     ano: '',
     guarda_permanente: false,
     complemento: '',
     localidade_criadora_id: '',
-});
-
-watch(formCaixaDestino, () => {
-    formMoverProcessos.reset('volume_id');
-    caixaDestino.value = '';
-});
-
-const formMoverProcessos = useForm({
-    volume_id: '',
     processos: [],
 });
 
@@ -125,53 +116,6 @@ const removeProcesso = (numero) => {
     remove(formMoverProcessos.processos, (p) => p.numero == numero);
 };
 
-const caixaDestino = ref('');
-
-const getCaixaDestino = async () => {
-    if (status.processando == true) {
-        flash({ alerta: __('Aguarde a conclusão da solicitação.') });
-
-        return;
-    }
-
-    status.setStatus(true);
-
-    formMoverProcessos.volume_id = '';
-    formCaixaDestino.clearErrors();
-
-    await axios
-        .post(props.links.search.caixa, formCaixaDestino)
-        .then(function (resposta) {
-            caixaDestino.value = resposta.data.caixa;
-        })
-        .catch(function (erro) {
-            caixaDestino.value = '';
-
-            switch (erro.response.status) {
-                case 401:
-                case 419:
-                    flash({ erro: __('Autenticação expirada, faça login novamente.') });
-                    break;
-                case 422: // falha de validação
-                    formCaixaDestino.setError({
-                        numero: first(erro.response.data.errors.numero),
-                        ano: first(erro.response.data.errors.ano),
-                        guarda_permanente: first(erro.response.data.errors.guarda_permanente),
-                        complemento: first(erro.response.data.errors.complemento),
-                        localidade_criadora_id: first(
-                            erro.response.data.errors.localidade_criadora_id
-                        ),
-                    });
-                    break;
-                default:
-                    flash({ erro: erro.message });
-                    console.log(erro);
-                    break;
-            }
-        })
-        .finally(() => status.setStatus(false));
-};
-
 const moverProcessos = () => {
     formMoverProcessos.clearErrors();
 
@@ -186,10 +130,8 @@ const moverProcessos = () => {
 
 const viewReset = () => {
     formProcesso.reset();
-    formCaixaDestino.reset();
     formMoverProcessos.reset();
     exibirTodos.value = false;
-    caixaDestino.value = '';
 };
 </script>
 
@@ -287,12 +229,12 @@ const viewReset = () => {
                 <div class="space-y-6">
                     <h3 class="text-center font-bold">{{ __('Caixa de destino') }}</h3>
 
-                    <form @submit.prevent="getCaixaDestino">
+                    <form @submit.prevent="moverProcessos">
                         <div class="space-y-6">
                             <div class="grid grid-cols-1 gap-x-3 gap-y-6 xl:grid-cols-2">
                                 <NumeroInput
-                                    v-model="formCaixaDestino.numero"
-                                    :erro="formCaixaDestino.errors.numero"
+                                    v-model="formMoverProcessos.numero"
+                                    :erro="formMoverProcessos.errors.numero"
                                     :label="__('Número da caixa')"
                                     :max="9999999"
                                     :min="1"
@@ -303,8 +245,8 @@ const viewReset = () => {
                                 />
 
                                 <NumeroInput
-                                    v-model="formCaixaDestino.ano"
-                                    :erro="formCaixaDestino.errors.ano"
+                                    v-model="formMoverProcessos.ano"
+                                    :erro="formMoverProcessos.errors.ano"
                                     :label="__('Ano da caixa')"
                                     :max="new Date().getFullYear()"
                                     :min="1900"
@@ -315,8 +257,8 @@ const viewReset = () => {
                                 />
 
                                 <TextInput
-                                    v-model="formCaixaDestino.complemento"
-                                    :erro="formCaixaDestino.errors.complemento"
+                                    v-model="formMoverProcessos.complemento"
+                                    :erro="formMoverProcessos.errors.complemento"
                                     :label="__('Complemento do número')"
                                     :maxlength="50"
                                     :placeholder="__('Ex.: Cri, Civ, ...')"
@@ -325,31 +267,18 @@ const viewReset = () => {
                                 />
 
                                 <DropDown
-                                    v-model="formCaixaDestino.localidade_criadora_id"
-                                    :erro="formCaixaDestino.errors.localidade_criadora_id"
+                                    v-model="formMoverProcessos.localidade_criadora_id"
+                                    :erro="formMoverProcessos.errors.localidade_criadora_id"
                                     :label="__('Localidade criadora')"
                                     :opcoes="localidades.data"
                                     icone="pin-map"
                                     labelOpcao="nome"
                                     required
                                 />
-
-                                <div
-                                    class="flex flex-col justify-between space-y-3 space-x-0 md:flex-row md:space-x-3 md:space-y-0"
-                                >
-                                    <CheckBox
-                                        v-model:checked="formCaixaDestino.guarda_permanente"
-                                        :label="__('Guarda Permanente')"
-                                    />
-
-                                    <ButtonText
-                                        :texto="__('Carregar volumes')"
-                                        dusk="submit"
-                                        especie="acao"
-                                        icone="arrow-clockwise"
-                                        type="submit"
-                                    />
-                                </div>
+                                <CheckBox
+                                    v-model:checked="formMoverProcessos.guarda_permanente"
+                                    :label="__('Guarda Permanente')"
+                                />
                             </div>
 
                             <Alerta>
@@ -358,7 +287,7 @@ const viewReset = () => {
                                         __(
                                             'Todos os processos movimentados assumirão o status de guarda da caixa de destino, não importanto seu status anterior. Ou seja, neste caso, todos os processos movidos :attribute SERÃO de guarda permanente.',
                                             {
-                                                attribute: formCaixaDestino.guarda_permanente
+                                                attribute: formMoverProcessos.guarda_permanente
                                                     ? ''
                                                     : __('NÃO'),
                                             }
@@ -366,43 +295,15 @@ const viewReset = () => {
                                     }}
                                 </p>
                             </Alerta>
-                        </div>
-                    </form>
 
-                    <form
-                        v-show="caixaDestino.volumes"
-                        @submit.prevent="moverProcessos"
-                        class="flex flex-col justify-between space-y-3 space-x-0 md:flex-row md:space-x-3 md:space-y-0"
-                    >
-                        <div class="w-full md:w-1/2">
-                            <DropDown
-                                v-model="formMoverProcessos.volume_id"
-                                :erro="formMoverProcessos.errors.volume_id"
-                                :label="__('Volume de destino')"
-                                :opcoes="caixaDestino.volumes ?? []"
-                                icone="boxes"
-                                labelOpcao="numero"
-                                required
-                            />
-                        </div>
-
-                        <Transition
-                            enter-from-class="opacity-0"
-                            enter-to-class="opacity-100"
-                            enter-active-class="transition duration-300 transform-gpu"
-                            leave-active-class="transition duration-200 transform-gpu"
-                            leave-from-class="opacity-100"
-                            leave-to-class="opacity-0"
-                        >
                             <ButtonText
-                                v-show="formMoverProcessos.volume_id >= 1"
                                 :texto="__('Mover processos')"
                                 dusk="submit"
                                 especie="acao"
                                 icone="joystick"
                                 type="submit"
                             />
-                        </Transition>
+                        </div>
                     </form>
                 </div>
             </Container>

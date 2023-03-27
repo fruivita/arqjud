@@ -7,13 +7,16 @@
 use App\Enums\Policy;
 use App\Models\Caixa;
 use App\Models\Permissao;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
-    $this->usuario = login();
+    $this->usuario = Usuario::factory()->create();
+
+    Auth::login($this->usuario);
 });
 
 afterEach(fn () => logout());
@@ -45,10 +48,10 @@ test('usuário sem permissão não pode excluir uma caixa', function () {
     expect(Auth::user()->can(Policy::Delete->value, $caixa))->toBeFalse();
 });
 
-test('caixa com volumes não pode ser excluída, independente de permissão', function () {
+test('caixa com processos não pode ser excluída, independente de permissão', function () {
     concederPermissao(Permissao::CAIXA_DELETE);
 
-    $caixa = Caixa::factory()->hasVolumes(2)->create();
+    $caixa = Caixa::factory()->hasProcessos(2)->create();
 
     expect(Auth::user()->can(Policy::Delete->value, $caixa))->toBeFalse();
 });
@@ -90,7 +93,7 @@ test('usuário com permissão pode atualizar uma caixa por meio da policy viewOr
     expect(Auth::user()->can(Policy::ViewOrUpdate->value, Caixa::class))->toBeTrue();
 });
 
-test('usuário com permissão pode excluir uma caixa sem volumes', function () {
+test('usuário com permissão pode excluir uma caixa sem processos', function () {
     concederPermissao(Permissao::CAIXA_DELETE);
 
     $caixa = Caixa::factory()->create();

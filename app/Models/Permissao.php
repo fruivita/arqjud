@@ -125,16 +125,6 @@ class Permissao extends Model
 
     const CAIXA_DELETE = 'caixa_delete';
 
-    const VOLUME_CAIXA_VIEW_ANY = 'volume_caixa_view_any';
-
-    const VOLUME_CAIXA_VIEW = 'volume_caixa_view';
-
-    const VOLUME_CAIXA_CREATE = 'volume_caixa_create';
-
-    const VOLUME_CAIXA_UPDATE = 'volume_caixa_update';
-
-    const VOLUME_CAIXA_DELETE = 'volume_caixa_delete';
-
     const PROCESSO_VIEW_ANY = 'processo_view_any';
 
     const PROCESSO_VIEW = 'processo_view';

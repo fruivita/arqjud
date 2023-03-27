@@ -12,7 +12,6 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
-use App\Models\VolumeCaixa;
 use App\Pipes\Caixa\JoinLocalidade;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -91,12 +90,12 @@ test('uma caixa pertente a uma prateleira', function () {
     expect($caixa->prateleira)->toBeInstanceOf(Prateleira::class);
 });
 
-test('uma caixa possui muitos volumes de caixa', function () {
-    Caixa::factory()->hasVolumes(3)->create();
+test('uma caixa possui muitos processos', function () {
+    Caixa::factory()->hasProcessos(3)->create();
 
-    $caixa = Caixa::with('volumes')->first();
+    $caixa = Caixa::with('processos')->first();
 
-    expect($caixa->volumes)->toHaveCount(3);
+    expect($caixa->processos)->toHaveCount(3);
 });
 
 test('retorna as caixas pelo escopo search que busca a partir do início do texto no número, ano e complemento da caixa', function (string $termo, int $quantidade) {
@@ -295,7 +294,7 @@ test('método atualizar atualiza os dados da caixa', function () {
 
 test('método atualizar atualiza o status de guarda permanente de todos os processos da caixa', function (bool $gp) {
     $caixa = Caixa::factory()
-        ->has(VolumeCaixa::factory(2)->hasProcessos(3, ['guarda_permanente' => !$gp]), 'volumes')
+        ->hasProcessos(3, ['guarda_permanente' => !$gp])
         ->create();
 
     Processo::factory(2)->create(['guarda_permanente' => !$gp]); // não serão afetados
@@ -304,7 +303,7 @@ test('método atualizar atualiza o status de guarda permanente de todos os proce
 
     $caixa->atualizar();
 
-    expect(Processo::where('guarda_permanente', $gp)->count())->toBe(6)
+    expect(Processo::where('guarda_permanente', $gp)->count())->toBe(3)
         ->and(Processo::where('guarda_permanente', !$gp)->count())->toBe(2);
 })->with([
     true,
@@ -342,14 +341,14 @@ test('método atualizar faz rollBack em caso de falha', function () {
 
 test('alterações não são persistidas devido ao rollBack no método atualizar', function () {
     $caixa = Caixa::factory()
-        ->has(VolumeCaixa::factory(2)->hasProcessos(3, ['guarda_permanente' => true]), 'volumes')
+        ->hasProcessos(3, ['guarda_permanente' => true])
         ->create(['guarda_permanente' => true]);
     Caixa::updated(fn () => throw new \RuntimeException());
 
     $caixa->guarda_permanente = false;
     $caixa->atualizar();
 
-    expect(Processo::where('guarda_permanente', true)->count())->toBe(6)
+    expect(Processo::where('guarda_permanente', true)->count())->toBe(3)
         ->and(Processo::where('guarda_permanente', false)->count())->toBe(0)
         ->and(Caixa::where('guarda_permanente', true)->count())->toBe(1)
         ->and(Caixa::where('guarda_permanente', false)->count())->toBe(0);
@@ -367,3 +366,30 @@ test('registra falhas do método atualizar em log', function () {
         ->withArgs(fn ($message) => $message === __('Falha na atualização da caixa'))
         ->once();
 });
+
+test('moverProcessos move os processos informados para determinada caixa e altera o status de guarda dos processos para o status da caixa', function (bool $gp) {
+    $caixa = Caixa::factory()->create(['guarda_permanente' => $gp]);
+    $processo_1 = Processo::factory()->create(['guarda_permanente' => $gp]);
+    $processo_2 = Processo::factory()->create(['guarda_permanente' => !$gp]);
+    $processo_3 = Processo::factory()->create(['guarda_permanente' => !$gp]);
+
+    $afetados = $caixa->moverProcessos([
+        apenasNumeros($processo_1->numero),
+        apenasNumeros($processo_2->numero),
+    ]);
+
+    $processo_1->refresh();
+    $processo_2->refresh();
+    $processo_3->refresh();
+
+    expect($afetados)->toBe(2)
+        ->and($processo_1->caixa_id)->toBe($caixa->id)
+        ->and($processo_1->guarda_permanente)->toBe($gp)
+        ->and($processo_2->caixa_id)->toBe($caixa->id)
+        ->and($processo_1->guarda_permanente)->toBe($gp)
+        ->and($processo_3->caixa_id)->not->toBe($caixa->id)
+        ->and($processo_3->guarda_permanente)->toBe(!$gp);
+})->with([
+    true,
+    false,
+]);

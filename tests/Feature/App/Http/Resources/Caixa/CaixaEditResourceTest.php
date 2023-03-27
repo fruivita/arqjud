@@ -10,11 +10,13 @@ use App\Http\Resources\Localidade\LocalidadeEditResource;
 use App\Http\Resources\Prateleira\PrateleiraEditResource;
 use App\Models\Caixa;
 use App\Models\Permissao;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
-    login();
+    Auth::login(Usuario::factory()->create());
 
     $this->caixa = Caixa::factory()->create();
 });
@@ -23,7 +25,7 @@ afterEach(fn () => logout());
 
 // Caminho feliz
 test('retorna os campos principais e as rotas autorizadas do modelo', function () {
-    concederPermissao([Permissao::VOLUME_CAIXA_CREATE, Permissao::CAIXA_DELETE, Permissao::CAIXA_VIEW, Permissao::CAIXA_UPDATE]);
+    concederPermissao([Permissao::PROCESSO_CREATE, Permissao::CAIXA_DELETE, Permissao::CAIXA_VIEW, Permissao::CAIXA_UPDATE]);
 
     $resource = CaixaEditResource::make($this->caixa);
 
@@ -33,9 +35,9 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
                 'links' => [
                     'view' => route('cadastro.caixa.edit', $this->caixa),
                     'update' => route('cadastro.caixa.update', $this->caixa),
-                    'volume' => [
-                        'create' => route('cadastro.volume-caixa.create', $this->caixa),
-                        'store' => route('cadastro.volume-caixa.store', $this->caixa),
+                    'processo' => [
+                        'create' => route('cadastro.processo.create', $this->caixa),
+                        'store' => route('cadastro.processo.store', $this->caixa),
                     ],
                 ],
             ],
@@ -54,11 +56,11 @@ test('retorna a prateleira pai e a localidade criadora se houver o eager load da
 });
 
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
-    $resource = CaixaEditResource::make($this->caixa->loadCount('volumes'));
+    $resource = CaixaEditResource::make($this->caixa->loadCount('processos'));
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => caixaApi($this->caixa)
-            + $this->caixa->only('volumes_count')
+            + $this->caixa->only('processos_count')
             + ['links' => []],
     ]);
 });

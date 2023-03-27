@@ -6,13 +6,13 @@ use App\Enums\Policy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cadastro\Processo\StoreProcessoRequest;
 use App\Http\Requests\Cadastro\Processo\UpdateProcessoRequest;
+use App\Http\Resources\Caixa\CaixaEditResource;
 use App\Http\Resources\Processo\ProcessoCollection;
 use App\Http\Resources\Processo\ProcessoEditResource;
-use App\Http\Resources\VolumeCaixa\VolumeCaixaEditResource;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
+use App\Models\Caixa;
 use App\Models\Processo;
-use App\Models\VolumeCaixa;
 use App\Pipes\Processo\JoinLocalidade;
 use App\Pipes\Processo\Order;
 use App\Pipes\Search;
@@ -42,7 +42,7 @@ class ProcessoController extends Controller
         return Inertia::render('Cadastro/Processo/Index', [
             'processos' => fn () => ProcessoCollection::make(
                 Pipeline::make()
-                    ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->with(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora']))
+                    ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->with(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
                     ->paginate($this->perPage())
@@ -58,13 +58,13 @@ class ProcessoController extends Controller
      *
      * @return \Inertia\Response
      */
-    public function create(VolumeCaixa $volume_caixa)
+    public function create(Caixa $caixa)
     {
         $this->authorize(Policy::Create->value, Processo::class);
 
         return Inertia::render('Cadastro/Processo/Create', [
-            'ultima_insercao' => fn () => ProcessoEditResource::make($volume_caixa->processos()->latest()->first()),
-            'volume_caixa' => fn () => VolumeCaixaEditResource::make($volume_caixa->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora'])),
+            'ultima_insercao' => fn () => ProcessoEditResource::make($caixa->processos()->latest()->first()),
+            'caixa' => fn () => CaixaEditResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
         ]);
     }
 
@@ -73,18 +73,19 @@ class ProcessoController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreProcessoRequest $request, VolumeCaixa $volume_caixa)
+    public function store(StoreProcessoRequest $request, Caixa $caixa)
     {
         $processo = new Processo();
 
         $processo->numero = $request->input('numero');
         $processo->numero_antigo = $request->input('numero_antigo');
         $processo->arquivado_em = $request->input('arquivado_em');
+        $processo->vol_caixa_inicial = $request->integer('vol_caixa_inicial');
+        $processo->vol_caixa_final = $request->integer('vol_caixa_final');
         $processo->qtd_volumes = $request->integer('qtd_volumes');
         $processo->descricao = $request->input('descricao');
         // Assumirá o valor de guarda permanente definido na caixa
-        $volume_caixa->load('caixa');
-        $processo->guarda_permanente = $volume_caixa->caixa->guarda_permanente;
+        $processo->guarda_permanente = $caixa->guarda_permanente;
 
         $request->whenFilled(
             'processo_pai_numero',
@@ -92,7 +93,7 @@ class ProcessoController extends Controller
             fn () => $processo->processo_pai_id = null
         );
 
-        $salvo = $volume_caixa->processos()->save($processo);
+        $salvo = $caixa->processos()->save($processo);
 
         return back()->with($this->feedback($salvo));
     }
@@ -107,7 +108,7 @@ class ProcessoController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Processo::class);
 
         return Inertia::render('Cadastro/Processo/Edit', [
-            'processo' => fn () => ProcessoEditResource::make($processo->load(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora', 'processoPai'])),
+            'processo' => fn () => ProcessoEditResource::make($processo->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora', 'processoPai'])),
             'processos_filho' => fn () => ProcessoCollection::make(
                 Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($processo, 'processoPai'))
@@ -130,6 +131,8 @@ class ProcessoController extends Controller
         $processo->numero = $request->input('numero');
         $processo->numero_antigo = $request->input('numero_antigo');
         $processo->arquivado_em = $request->input('arquivado_em');
+        $processo->vol_caixa_inicial = $request->integer('vol_caixa_inicial');
+        $processo->vol_caixa_final = $request->integer('vol_caixa_final');
         $processo->qtd_volumes = $request->integer('qtd_volumes');
         $processo->descricao = $request->input('descricao');
 

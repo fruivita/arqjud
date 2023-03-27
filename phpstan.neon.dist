@@ -26,7 +26,6 @@ parameters:
   - App\Models\Estante
   - App\Models\Prateleira
   - App\Models\Caixa
-  - App\Models\VolumeCaixa
   - App\Models\Processo
   - App\Models\Solicitacao
   - App\Models\Guia
@@ -53,9 +52,6 @@ parameters:
   - App\Http\Resources\Prateleira\PrateleiraOnlyResource
   - App\Http\Resources\Prateleira\PrateleiraEditResource
   - App\Http\Resources\Prateleira\PrateleiraResource
-  - App\Http\Resources\VolumeCaixa\VolumeCaixaOnlyResource
-  - App\Http\Resources\VolumeCaixa\VolumeCaixaEditResource
-  - App\Http\Resources\VolumeCaixa\VolumeCaixaResource
   - App\Http\Resources\Processo\ProcessoOnlyResource
   - App\Http\Resources\Processo\ProcessoEditResource
   - App\Http\Resources\Processo\ProcessoResource

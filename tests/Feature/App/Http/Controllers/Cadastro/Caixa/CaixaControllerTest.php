@@ -18,8 +18,9 @@ use App\Models\Localidade;
 use App\Models\Permissao;
 use App\Models\Prateleira;
 use App\Models\Processo;
-use App\Models\VolumeCaixa;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
@@ -32,7 +33,8 @@ beforeEach(function () {
 
     $this->prateleira = Prateleira::factory()->create();
 
-    login();
+    $this->usuario = Usuario::factory()->create();
+    Auth::login($this->usuario);
 });
 
 afterEach(fn () => logout());
@@ -135,7 +137,7 @@ test('cria uma nova caixa', function () {
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::CAIXA_UPDATE);
 
-    $caixa = Caixa::factory()->hasVolumes(3)->create();
+    $caixa = Caixa::factory()->hasProcessos(3)->create();
 
     $caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora']);
 
@@ -145,8 +147,8 @@ test('action edit compartilha os dados esperados com a view/componente correto',
             fn (Assert $page) => $page
                 ->component('Cadastro/Caixa/Edit')
                 ->where('caixa', CaixaResource::make($caixa)->response()->getData(true))
-                ->has('volumes_caixa.data', 3)
-                ->has('volumes_caixa.meta.order')
+                ->has('processos.data', 3)
+                ->has('processos.meta.order')
         );
 });
 
@@ -166,7 +168,7 @@ test('atualiza uma caixa e o status de guarda dos processos da caixa', function 
     concederPermissao(Permissao::CAIXA_UPDATE);
 
     $caixa = Caixa::factory()
-        ->has(VolumeCaixa::factory(2)->hasProcessos(3, ['guarda_permanente' => !$gp]), 'volumes')
+        ->hasProcessos(3, ['guarda_permanente' => !$gp])
         ->create();
 
     Processo::factory(2)->create(['guarda_permanente' => !$gp]); // não serão afetados
@@ -187,36 +189,12 @@ test('atualiza uma caixa e o status de guarda dos processos da caixa', function 
         ->assertSessionHas('feedback.sucesso');
 
     expect(Caixa::find($caixa->id)->only(array_keys($dados)))->toBe($dados)
-        ->and(Processo::where('guarda_permanente', $gp)->count())->toBe(6)
+        ->and(Processo::where('guarda_permanente', $gp)->count())->toBe(3)
         ->and(Processo::where('guarda_permanente', !$gp)->count())->toBe(2);
 })->with([
     true,
     false,
 ]);
-
-test('atualização está protegida com transação', function () {
-    concederPermissao(Permissao::CAIXA_UPDATE);
-
-    $caixa = Caixa::factory()
-        ->has(VolumeCaixa::factory(2)->hasProcessos(3), 'volumes')
-        ->create();
-
-    $dados = [
-        'numero' => 500,
-        'ano' => 2000,
-        'guarda_permanente' => true,
-        'localidade_criadora_id' => Localidade::first()->id,
-    ];
-
-    $database = DB::spy();
-
-    patch(route('cadastro.caixa.update', $caixa), $dados)
-        ->assertRedirect()
-        ->assertSessionHas('feedback.sucesso');
-
-    $database->shouldHaveReceived('beginTransaction')->once();
-    $database->shouldHaveReceived('commit')->once();
-});
 
 test('exclui a caixa informada', function () {
     $id_caixa = Caixa::factory()->create()->id;

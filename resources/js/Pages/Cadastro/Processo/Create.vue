@@ -25,7 +25,7 @@ import { isEmpty } from 'lodash';
 
 const props = defineProps({
     ultima_insercao: { type: Object },
-    volume_caixa: { type: Object }, // objeto pai do que será criado
+    caixa: { type: Object }, // objeto pai do que será criado
 });
 
 const __ = useTranslationsStore().__;
@@ -40,7 +40,7 @@ const form = useForm({
 });
 
 const cadastrar = () => {
-    form.post(props.volume_caixa.data.links.processo.store, {
+    form.post(props.caixa.data.links.processo.store, {
         onSuccess: () => {
             form.reset();
             flash();
@@ -59,70 +59,53 @@ const cadastrar = () => {
                         <ChaveValor
                             :chave="__('Localidade')"
                             :href="
-                                volume_caixa.data.caixa.prateleira.estante.sala.andar.predio
-                                    .localidade.links.view
+                                caixa.data.prateleira.estante.sala.andar.predio.localidade.links
+                                    .view
                             "
-                            :valor="
-                                volume_caixa.data.caixa.prateleira.estante.sala.andar.predio
-                                    .localidade.nome
-                            "
+                            :valor="caixa.data.prateleira.estante.sala.andar.predio.localidade.nome"
                             icone="pin-map"
                         />
 
                         <ChaveValor
                             :chave="__('Prédio')"
-                            :href="
-                                volume_caixa.data.caixa.prateleira.estante.sala.andar.predio.links
-                                    .view
-                            "
-                            :valor="
-                                volume_caixa.data.caixa.prateleira.estante.sala.andar.predio.nome
-                            "
+                            :href="caixa.data.prateleira.estante.sala.andar.predio.links.view"
+                            :valor="caixa.data.prateleira.estante.sala.andar.predio.nome"
                             icone="buildings"
                         />
 
                         <ChaveValor
                             :chave="__('Andar')"
-                            :href="volume_caixa.data.caixa.prateleira.estante.sala.andar.links.view"
-                            :valor="
-                                numeroAndar(volume_caixa.data.caixa.prateleira.estante.sala.andar)
-                            "
+                            :href="caixa.data.prateleira.estante.sala.andar.links.view"
+                            :valor="numeroAndar(caixa.data.prateleira.estante.sala.andar)"
                             icone="layers"
                         />
 
                         <ChaveValor
                             :chave="__('Sala')"
-                            :href="volume_caixa.data.caixa.prateleira.estante.sala.links.view"
-                            :valor="volume_caixa.data.caixa.prateleira.estante.sala.numero"
+                            :href="caixa.data.prateleira.estante.sala.links.view"
+                            :valor="caixa.data.prateleira.estante.sala.numero"
                             icone="door-closed"
                         />
 
                         <ChaveValor
                             :chave="__('Estante')"
-                            :href="volume_caixa.data.caixa.prateleira.estante.links.view"
-                            :valor="volume_caixa.data.caixa.prateleira.estante.numero"
+                            :href="caixa.data.prateleira.estante.links.view"
+                            :valor="caixa.data.prateleira.estante.numero"
                             icone="bookshelf"
                         />
 
                         <ChaveValor
                             :chave="__('Prateleira')"
-                            :href="volume_caixa.data.caixa.prateleira.links.view"
-                            :valor="volume_caixa.data.caixa.prateleira.numero"
+                            :href="caixa.data.prateleira.links.view"
+                            :valor="caixa.data.prateleira.numero"
                             icone="list-nested"
                         />
 
                         <ChaveValor
                             :chave="__('Caixa')"
-                            :href="volume_caixa.data.caixa.links.view"
-                            :valor="numeroCaixa(volume_caixa.data.caixa)"
+                            :href="caixa.data.links.view"
+                            :valor="numeroCaixa(caixa.data)"
                             icone="box2"
-                        />
-
-                        <ChaveValor
-                            :chave="__('Volume da caixa')"
-                            :href="volume_caixa.data.links.view"
-                            :valor="volume_caixa.data.numero"
-                            icone="boxes"
                         />
 
                         <TextInput
@@ -184,7 +167,7 @@ const cadastrar = () => {
 
                         <ChaveValor
                             :chave="__('Guarda permanente')"
-                            :valor="gp(volume_caixa.data.caixa)"
+                            :valor="gp(caixa.data)"
                             icone="safe"
                         />
                     </div>

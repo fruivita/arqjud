@@ -17,7 +17,8 @@ return [
         5,                      // Número da caixa
         '',                     // Tipo/Complemento da caixa
         2020,                   // Ano da caixa
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         'Não',                  // Processo de guarda permanente
         '',                     // Nome da localidade de origem/criação da caixa - Obrigatório
         'Madrid',               // Nome da localidade
@@ -37,7 +38,8 @@ return [
         5,                      // Número da caixa
         '',                     // Tipo/Complemento da caixa
         2020,                   // Ano da caixa
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         'Não',                  // Processo de guarda permanente
         str_repeat('a', 101),   // Nome da localidade de origem/criação da caixa - Máximo 100 caracteres
         'Madrid',               // Nome da localidade

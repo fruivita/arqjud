@@ -72,7 +72,6 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     caixaGuardaPermanente: true,
     caixaComplemento: true,
     caixaLocalidadeCriadora: true,
-    volumeCaixa: true,
     acao: true,
 });
 
@@ -176,8 +175,6 @@ watch(perPage, filtrar);
                     v-model:checked="elementosVisiveis.caixaComplemento"
                     :label="__('Complemento')"
                 />
-
-                <CheckBox v-model:checked="elementosVisiveis.volumeCaixa" :label="__('Volume')" />
 
                 <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
@@ -322,13 +319,6 @@ watch(perPage, filtrar);
                         @ordenar="(direcao) => mudarOrdenacao('caixa_pai_complemento', direcao)"
                     />
 
-                    <HeadingOrdenavel
-                        v-show="elementosVisiveis.volumeCaixa"
-                        :ordenacao="ordenacoes.volume_caixa_pai_numero"
-                        :texto="__('Volume')"
-                        @ordenar="(direcao) => mudarOrdenacao('volume_caixa_pai_numero', direcao)"
-                    />
-
                     <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
@@ -373,65 +363,53 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.localidade">
                                 {{
-                                    processo.volume_caixa.caixa.prateleira.estante.sala.andar.predio
-                                        .localidade.nome
-                                }}
-                            </Cell>
-
-                            <Cell v-show="elementosVisiveis.predio">
-                                {{
-                                    processo.volume_caixa.caixa.prateleira.estante.sala.andar.predio
+                                    processo.caixa.prateleira.estante.sala.andar.predio.localidade
                                         .nome
                                 }}
                             </Cell>
 
+                            <Cell v-show="elementosVisiveis.predio">
+                                {{ processo.caixa.prateleira.estante.sala.andar.predio.nome }}
+                            </Cell>
+
                             <Cell v-show="elementosVisiveis.andarNumero">
-                                {{
-                                    processo.volume_caixa.caixa.prateleira.estante.sala.andar.numero
-                                }}
+                                {{ processo.caixa.prateleira.estante.sala.andar.numero }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.andarApelido">
-                                {{
-                                    processo.volume_caixa.caixa.prateleira.estante.sala.andar
-                                        .apelido
-                                }}
+                                {{ processo.caixa.prateleira.estante.sala.andar.apelido }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.sala">
-                                {{ processo.volume_caixa.caixa.prateleira.estante.sala.numero }}
+                                {{ processo.caixa.prateleira.estante.sala.numero }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.estante">
-                                {{ processo.volume_caixa.caixa.prateleira.estante.numero }}
+                                {{ processo.caixa.prateleira.estante.numero }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.prateleira">
-                                {{ processo.volume_caixa.caixa.prateleira.numero }}
+                                {{ processo.caixa.prateleira.numero }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.caixa">
-                                {{ processo.volume_caixa.caixa.numero }}
+                                {{ processo.caixa.numero }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.caixaAno">
-                                {{ processo.volume_caixa.caixa.ano }}
+                                {{ processo.caixa.ano }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.caixaGuardaPermanente">
-                                {{ gp(processo.volume_caixa.caixa) }}
+                                {{ gp(processo.caixa) }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.caixaLocalidadeCriadora">
-                                {{ processo.volume_caixa.caixa.localidade_criadora.nome }}
+                                {{ processo.caixa.localidade_criadora.nome }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.caixaComplemento">
-                                {{ processo.volume_caixa.caixa.complemento }}
-                            </Cell>
-
-                            <Cell v-show="elementosVisiveis.volumeCaixa">
-                                {{ processo.volume_caixa.numero }}
+                                {{ processo.caixa.complemento }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.acao" class="w-10">

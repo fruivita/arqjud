@@ -9,9 +9,11 @@
 use App\Http\Requests\Cadastro\Processo\StoreProcessoRequest;
 use App\Models\Caixa;
 use App\Models\Permissao;
+use App\Models\Usuario;
 use App\Rules\NumeroProcesso;
 use App\Rules\NumeroProcessoCNJ;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 beforeEach(function () {
@@ -70,6 +72,21 @@ test('rules estão definidas no form request', function () {
             'before_or_equal:' . now()->format('d-m-Y'),
         ],
 
+        'vol_caixa_inicial' => [
+            'bail',
+            'required',
+            'integer',
+            'between:1,9999'
+        ],
+
+        'vol_caixa_final' => [
+            'bail',
+            'required',
+            'integer',
+            'gte:vol_caixa_inicial',
+            'max:9999'
+        ],
+
         'qtd_volumes' => [
             'bail',
             'required',
@@ -92,6 +109,8 @@ test('attributes estão definidas no form request', function () {
         'numero' => __('Processo'),
         'numero_antigo' => __('Número antigo do processo'),
         'arquivado_em' => __('Data de arquivamento'),
+        'vol_caixa_inicial' => __('Vol inicial da caixa'),
+        'vol_caixa_final' => __('Vol final da caixa'),
         'qtd_volumes' => __('Qtd volumes'),
         'descricao' => __('Descrição'),
     ], $this->request->attributes());
@@ -100,7 +119,7 @@ test('attributes estão definidas no form request', function () {
 test('na criação, usuário autorizado pode criar o request', function () {
     $this->seed([PerfilSeeder::class]);
 
-    login();
+    Auth::login(Usuario::factory()->create());
 
     concederPermissao(Permissao::PROCESSO_CREATE);
 

@@ -25,6 +25,5 @@ test('job ImportarProcesso importa os processos', function () {
         ->assertDatabaseCount('estantes', 1)
         ->assertDatabaseCount('prateleiras', 1)
         ->assertDatabaseCount('caixas', 1)
-        ->assertDatabaseCount('volumes_caixa', 1)
         ->assertDatabaseCount('processos', 1);
 });

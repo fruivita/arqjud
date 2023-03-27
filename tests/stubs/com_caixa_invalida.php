@@ -16,7 +16,8 @@ return [
         '',                     // Número da caixa - Obrigatório
         '',                     // Tipo/Complemento da caixa
         2020,                   // Ano da caixa
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         'Não',                  // Processo de guarda permanente
         'Yokohama',             // Nome da localidade de origem/criação da caixa
         'Madrid',               // Nome da localidade
@@ -36,7 +37,8 @@ return [
         0,                      // Número da caixa - Mínimo 1
         '',                     // Tipo/Complemento da caixa
         2020,                   // Ano da caixa
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         'Não',                  // Processo de guarda permanente
         'Yokohama',             // Nome da localidade de origem/criação da caixa
         'Madrid',               // Nome da localidade
@@ -56,7 +58,8 @@ return [
         5,                      // Número da caixa
         str_repeat('a', 51),    // Tipo/Complemento da caixa - Máximo 50 caracteres
         2020,                   // Ano da caixa
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         'Não',                  // Processo de guarda permanente
         'Yokohama',             // Nome da localidade de origem/criação da caixa
         'Madrid',               // Nome da localidade
@@ -76,7 +79,8 @@ return [
         5,                      // Número da caixa
         '',                     // Tipo/Complemento da caixa
         1899,                   // Ano da caixa - Mínimo 1900
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         'Não',                  // Processo de guarda permanente
         'Yokohama',             // Nome da localidade de origem/criação da caixa
         'Madrid',               // Nome da localidade
@@ -96,7 +100,8 @@ return [
         5,                      // Número da caixa
         '',                     // Tipo/Complemento da caixa
         2020,                   // Ano da caixa
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         '',                     // Processo de guarda permanente - Obrigatório
         'Yokohama',             // Nome da localidade de origem/criação da caixa
         'Madrid',               // Nome da localidade
@@ -116,7 +121,8 @@ return [
         5,                      // Número da caixa
         '',                     // Tipo/Complemento da caixa
         2020,                   // Ano da caixa
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         'foo',                  // Processo de guarda permanente - Opção inválida
         'Yokohama',             // Nome da localidade de origem/criação da caixa
         'Madrid',               // Nome da localidade
@@ -136,7 +142,8 @@ return [
         5,                      // Número da caixa
         '',                     // Tipo/Complemento da caixa
         2020,                   // Ano da caixa
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         'Não',                  // Processo de guarda permanente
         'Yokohama',             // Nome da localidade de origem/criação da caixa
         'Madrid',               // Nome da localidade

@@ -12,7 +12,6 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
-use App\Models\VolumeCaixa;
 use App\Pipes\Processo\JoinLocalidade;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -24,8 +23,7 @@ test('join do processo até a localidade', function () {
                 ->has(Sala::factory()
                     ->has(Estante::factory()
                         ->has(Prateleira::factory()
-                            ->has(Caixa::factory()
-                                ->has(VolumeCaixa::factory()->hasProcessos(1), 'volumes'))))), 'andares'))
+                            ->has(Caixa::factory()->hasProcessos(1))))), 'andares'))
         ->create();
 
     $volume = Pipeline::make()
@@ -39,8 +37,7 @@ test('join do processo até a localidade', function () {
 
 test('join da caixa com a localidade criadora', function () {
     $localidade = Localidade::factory()
-        ->has(Caixa::factory()
-            ->has(VolumeCaixa::factory()->hasProcessos(1), 'volumes'), 'caixasCriadas')
+        ->has(Caixa::factory()->hasProcessos(1), 'caixasCriadas')
         ->create();
 
     $volume = Pipeline::make()

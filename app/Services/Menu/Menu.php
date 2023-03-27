@@ -17,7 +17,6 @@ use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
-use App\Models\VolumeCaixa;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -234,15 +233,6 @@ final class Menu implements MenuInterface
                     'href' => route('cadastro.caixa.index'),
                     'texto' => __('Caixas'),
                     'ativo' => Route::is('cadastro.caixa.*'),
-                ])
-            )
-            ->when(
-                auth()->user()->can(Policy::ViewAny->value, VolumeCaixa::class),
-                fn ($collection) => $collection->push([
-                    'icone' => 'boxes',
-                    'href' => route('cadastro.volume-caixa.index'),
-                    'texto' => __('Volumes das caixas'),
-                    'ativo' => Route::is('cadastro.volume-caixa.*'),
                 ])
             )
             ->when(

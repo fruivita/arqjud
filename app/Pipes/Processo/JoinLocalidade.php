@@ -18,8 +18,7 @@ class JoinLocalidade
     public function handle(Builder $query, \Closure $next)
     {
         $query
-            ->join('volumes_caixa', 'volumes_caixa.id', 'processos.volume_caixa_id')
-            ->join('caixas', 'caixas.id', 'volumes_caixa.caixa_id')
+            ->join('caixas', 'caixas.id', 'processos.caixa_id')
             ->join('localidades AS criadoras', 'criadoras.id', 'caixas.localidade_criadora_id')
             ->join('prateleiras', 'prateleiras.id', 'caixas.prateleira_id')
             ->join('estantes', 'estantes.id', 'prateleiras.estante_id')

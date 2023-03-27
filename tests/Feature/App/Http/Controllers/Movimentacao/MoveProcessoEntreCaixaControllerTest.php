@@ -9,11 +9,11 @@
 
 use App\Http\Controllers\Movimentacao\MoveProcessoEntreCaixaController;
 use App\Http\Requests\Movimentacao\StoreMoveProcessoEntreCaixaRequest;
+use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Permissao;
 use App\Models\Processo;
 use App\Models\Usuario;
-use App\Models\VolumeCaixa;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -35,18 +35,22 @@ test('usuário sem permissão não consegue exibir formulário de movimentação
 
 test('usuário sem permissão não consegue movimentar processos entre caixas', function () {
     $processo = Processo::factory()->create();
-    $volume_caixa = VolumeCaixa::factory()->create();
+    $caixa = Caixa::factory()->create();
 
     post(route('movimentacao.entre-caixas.store'), [
         'processos' => [
             ['numero' => $processo->numero],
         ],
-        'volume_id' => $volume_caixa->id,
+        'numero' => $caixa->numero,
+        'ano' => $caixa->ano,
+        'guarda_permanente' => $caixa->guarda_permanente,
+        'localidade_criadora_id' => $caixa->localidade_criadora_id,
+        'complemento' => $caixa->complemento,
     ])->assertForbidden();
 
     $processo->refresh();
 
-    expect($processo->volume_caixa_id)->not->toBe($volume_caixa->id);
+    expect($processo->caixa_id)->not->toBe($caixa->id);
 });
 
 // Caminho feliz
@@ -77,7 +81,7 @@ test('action create compartilha os dados esperados com a view/componente correto
 test('movimenta determinados processos', function () {
     concederPermissao(Permissao::MOVER_PROCESSO_CREATE);
 
-    $volume_caixa = VolumeCaixa::factory()->create();
+    $caixa = Caixa::factory()->create();
     $processo_1 = Processo::factory()->create();
     $processo_2 = Processo::factory()->create();
     $processo_3 = Processo::factory()->create();
@@ -87,7 +91,11 @@ test('movimenta determinados processos', function () {
             ['numero' => $processo_1->numero],
             ['numero' => $processo_2->numero],
         ],
-        'volume_id' => $volume_caixa->id,
+        'numero' => $caixa->numero,
+        'ano' => $caixa->ano,
+        'guarda_permanente' => $caixa->guarda_permanente,
+        'localidade_criadora_id' => $caixa->localidade_criadora_id,
+        'complemento' => $caixa->complemento,
     ])
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
@@ -96,9 +104,9 @@ test('movimenta determinados processos', function () {
     $processo_2->refresh();
     $processo_3->refresh();
 
-    expect($processo_1->volume_caixa_id)->toBe($volume_caixa->id)
-        ->and($processo_2->volume_caixa_id)->toBe($volume_caixa->id)
-        ->and($processo_3->volume_caixa_id)->not->toBe($volume_caixa->id);
+    expect($processo_1->caixa_id)->toBe($caixa->id)
+        ->and($processo_2->caixa_id)->toBe($caixa->id)
+        ->and($processo_3->caixa_id)->not->toBe($caixa->id);
 });
 
 test('MoveProcessoEntreCaixaController usa trait', function () {

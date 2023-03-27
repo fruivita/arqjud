@@ -13,7 +13,6 @@ use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\Solicitacao;
-use App\Models\VolumeCaixa;
 use App\Pipes\Processo\JoinLocalidade;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
@@ -41,6 +40,10 @@ test('lança exception ao tentar criar processo com campo inválido', function (
     ['arquivado_em',      null,                         'cannot be null'],           // obrigatório
     ['guarda_permanente', 'foo',                        'Incorrect integer value'],  // não conversível em boolean
     ['guarda_permanente', null,                         'cannot be null'],           // obrigatório
+    ['vol_caixa_inicial', 4294967296,                   'Out of range value'],       // max 4294967295
+    ['vol_caixa_inicial', null,                         'cannot be null'],           // obrigatório
+    ['vol_caixa_final',   4294967296,                   'Out of range value'],       // max 4294967295
+    ['vol_caixa_final',   null,                         'cannot be null'],           // obrigatório
     ['qtd_volumes',       4294967296,                   'Out of range value'],       // max 4294967295
     ['qtd_volumes',       null,                         'cannot be null'],           // obrigatório
     ['descricao',         Str::random(256),             'Data too long for column'], // máximo 255 caracteres
@@ -51,8 +54,8 @@ test('lança exception ao tentar definir relacionamento inválido', function (st
         fn () => Processo::factory()->create([$campo => $valor])
     )->toThrow(QueryException::class, $mensagem);
 })->with([
-    ['volume_caixa_id', 99999999, 'Cannot add or update a child row'], // não existente
-    ['volume_caixa_id', null,     'cannot be null'],                   // obrigatório
+    ['caixa_id',        99999999, 'Cannot add or update a child row'], // não existente
+    ['caixa_id',        null,     'cannot be null'],                   // obrigatório
     ['processo_pai_id', 99999999, 'Cannot add or update a child row'], // não existente
 ]);
 
@@ -61,6 +64,8 @@ test('aceita campos em seus tamanhos máximos', function () {
     Processo::factory()->create([
         'numero' => str_repeat('1', 20),
         'numero_antigo' => Str::random(20),
+        'vol_caixa_inicial' => 4294967295,
+        'vol_caixa_final' => 4294967295,
         'qtd_volumes' => 4294967295,
         'descricao' => Str::random(255),
     ]);
@@ -89,12 +94,12 @@ test('máscaras de processo estão definidas', function () {
         ->and(Processo::MASCARA_V1)->toBe('##.#######-#');
 });
 
-test('um processo pertence a um volume de caixa', function () {
-    $processo = Processo::factory()->for(VolumeCaixa::factory(), 'volumeCaixa')->create();
+test('um processo pertence a uma caixa', function () {
+    $processo = Processo::factory()->for(Caixa::factory(), 'Caixa')->create();
 
-    $processo->load(['volumeCaixa']);
+    $processo->load(['caixa']);
 
-    expect($processo->volumeCaixa)->toBeInstanceOf(VolumeCaixa::class);
+    expect($processo->caixa)->toBeInstanceOf(Caixa::class);
 });
 
 test('um processo possui um processo pai', function () {
@@ -134,11 +139,11 @@ test('um processo pode ter várias solicições solicitadas/entregues/devolvidas
         ->and($processo->solicitacoesAtivas()->count())->toBe(3); // solicitadas + entregues
 });
 
-test('retorna os processos pelo escopo search que busca a partir do início do texto no número, do número antigo e da quantidade de volumes da caixa', function (string $termo, int $quantidade) {
-    Processo::factory()->create(['numero' => '99999999', 'numero_antigo' => '55555555', 'qtd_volumes' => 11111111]);
-    Processo::factory()->create(['numero' => '77778888', 'numero_antigo' => '44444444', 'qtd_volumes' => 11111222]);
-    Processo::factory()->create(['numero' => '77777777', 'numero_antigo' => '33333333', 'qtd_volumes' => 11111333]);
-    Processo::factory()->create(['numero' => '66666666', 'numero_antigo' => '33333222', 'qtd_volumes' => 11111444]);
+test('retorna os processos pelo escopo search que busca a partir do início do texto no número, do número antigo, do volume inicial ou final da caixa e da sua quantidade de volumes', function (string $termo, int $quantidade) {
+    Processo::factory()->create(['numero' => '99999999', 'numero_antigo' => '55555555', 'vol_caixa_inicial' => 11221122, 'vol_caixa_final' => 15151515, 'qtd_volumes' => 11111111]);
+    Processo::factory()->create(['numero' => '77778888', 'numero_antigo' => '44444444', 'vol_caixa_inicial' => 32132132, 'vol_caixa_final' => 40404040, 'qtd_volumes' => 11111222]);
+    Processo::factory()->create(['numero' => '77777777', 'numero_antigo' => '33333333', 'vol_caixa_inicial' => 11221122, 'vol_caixa_final' => 15151515, 'qtd_volumes' => 11111333]);
+    Processo::factory()->create(['numero' => '66666666', 'numero_antigo' => '33333222', 'vol_caixa_inicial' => 10101010, 'vol_caixa_final' => 15151515, 'qtd_volumes' => 11111444]);
 
     $query = Pipeline::make()
         ->send(Processo::query())
@@ -152,6 +157,8 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
     [33333, 2],
     [11111, 4],
     [777888, 0],
+    [112211, 2],
+    [151515, 3],
 ]);
 
 test('busca considera apenas a parte numérica na busca nos campos número e número antigo', function (string $termo, int $quantidade) {
@@ -171,28 +178,10 @@ test('busca considera apenas a parte numérica na busca nos campos número e nú
     ['ab3ab3333ab', 2], // 33333
 ]);
 
-test('retorna os processos pelo escopo search que busca a partir do início do texto no número do volume da caixa', function (string $termo, int $quantidade) {
-    VolumeCaixa::factory()->hasProcessos(2)->create(['numero' => 99999999]);
-    VolumeCaixa::factory()->hasProcessos(3)->create(['numero' => 77778888]);
-
-    $query = Pipeline::make()
-        ->send(Processo::query())
-        ->through([JoinLocalidade::class])
-        ->thenReturn();
-
-    expect($query->search($termo)->count())->toBe($quantidade);
-})->with([
-    ['', 5],
-    [7777, 3],
-    [99999, 2],
-]);
-
 test('retorna os processos pelo escopo search que busca a partir do início do texto no número, ano e complemento da caixa', function (string $termo, int $quantidade) {
-    Caixa::factory()
-        ->has(VolumeCaixa::factory()->hasProcessos(2), 'volumes')
+    Caixa::factory()->hasProcessos(2)
         ->create(['numero' => 99999999, 'ano' => 55555,  'complemento' => 'aaaaaaaa']);
-    Caixa::factory()
-        ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes')
+    Caixa::factory()->hasProcessos(3)
         ->create(['numero' => 88888888, 'ano' => 44444,  'complemento' => 'ccccbbbb']);
 
     $query = Pipeline::make()
@@ -213,12 +202,10 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
 
 test('retorna os processos pelo escopo search que busca a partir do início do texto no número da prateleira', function (string $termo, int $quantidade) {
     Prateleira::factory()
-        ->has(Caixa::factory()
-            ->has(VolumeCaixa::factory()->hasProcessos(2), 'volumes'))
+        ->has(Caixa::factory()->hasProcessos(2))
         ->create(['numero' => 'aaaaaaaa']);
     Prateleira::factory()
-        ->has(Caixa::factory()
-            ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes'))
+        ->has(Caixa::factory()->hasProcessos(3))
         ->create(['numero' => 'bbbbbbbb']);
 
     $query = Pipeline::make()
@@ -236,13 +223,11 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
 test('retorna os processos pelo escopo search que busca a partir do início do texto no número da estante', function (string $termo, int $quantidade) {
     Estante::factory()
         ->has(Prateleira::factory()
-            ->has(Caixa::factory()
-                ->has(VolumeCaixa::factory()->hasProcessos(2), 'volumes')))
+            ->has(Caixa::factory()->hasProcessos(2)))
         ->create(['numero' => 'aaaaaaaa']);
     Estante::factory()
         ->has(Prateleira::factory()
-            ->has(Caixa::factory()
-                ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes')))
+            ->has(Caixa::factory()->hasProcessos(3)))
         ->create(['numero' => 'bbbbbbbb']);
 
     $query = Pipeline::make()
@@ -261,14 +246,12 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
     Sala::factory()
         ->has(Estante::factory()
             ->has(Prateleira::factory()
-                ->has(Caixa::factory()
-                    ->has(VolumeCaixa::factory()->hasProcessos(2), 'volumes'))))
+                ->has(Caixa::factory()->hasProcessos(2))))
         ->create(['numero' => 'aaaaaaaa']);
     Sala::factory()
         ->has(Estante::factory()
             ->has(Prateleira::factory()
-                ->has(Caixa::factory()
-                    ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes'))))
+                ->has(Caixa::factory()->hasProcessos(3))))
         ->create(['numero' => 'bbbbbbbb']);
 
     $query = Pipeline::make()
@@ -288,15 +271,13 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
         ->has(Sala::factory()
             ->has(Estante::factory()
                 ->has(Prateleira::factory()
-                    ->has(Caixa::factory()
-                        ->has(VolumeCaixa::factory()->hasProcessos(2), 'volumes')))))
+                    ->has(Caixa::factory()->hasProcessos(2)))))
         ->create(['numero' => 99999999, 'apelido' => 'aaaaaaaa']);
     Andar::factory()
         ->has(Sala::factory()
             ->has(Estante::factory()
                 ->has(Prateleira::factory()
-                    ->has(Caixa::factory()
-                        ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes')))))
+                    ->has(Caixa::factory()->hasProcessos(3)))))
         ->create(['numero' => 88888888, 'apelido' => 'bbbbbbbb']);
 
     $query = Pipeline::make()
@@ -319,16 +300,14 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
             ->has(Sala::factory()
                 ->has(Estante::factory()
                     ->has(Prateleira::factory()
-                        ->has(Caixa::factory()
-                            ->has(VolumeCaixa::factory()->hasProcessos(2), 'volumes'))))), 'andares')
+                        ->has(Caixa::factory()->hasProcessos(2))))), 'andares')
         ->create(['nome' => 'aaaaaaaa']);
     Predio::factory()
         ->has(Andar::factory()
             ->has(Sala::factory()
                 ->has(Estante::factory()
                     ->has(Prateleira::factory()
-                        ->has(Caixa::factory()
-                            ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes'))))), 'andares')
+                        ->has(Caixa::factory()->hasProcessos(3))))), 'andares')
         ->create(['nome' => 'bbbbbbbb']);
 
     $query = Pipeline::make()
@@ -350,8 +329,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
                 ->has(Sala::factory()
                     ->has(Estante::factory()
                         ->has(Prateleira::factory()
-                            ->has(Caixa::factory()
-                                ->has(VolumeCaixa::factory()->hasProcessos(2), 'volumes'))))), 'andares'))
+                            ->has(Caixa::factory()->hasProcessos(2))))), 'andares'))
         ->create(['nome' => 'aaaaaaaa']);
 
     Localidade::factory()
@@ -360,8 +338,7 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
                 ->has(Sala::factory()
                     ->has(Estante::factory()
                         ->has(Prateleira::factory()
-                            ->has(Caixa::factory()
-                                ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes'))))), 'andares'))
+                            ->has(Caixa::factory()->hasProcessos(3))))), 'andares'))
         ->create(['nome' => 'bbbbbbbb']);
 
     $query = Pipeline::make()
@@ -378,12 +355,10 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
 
 test('retorna os processos pelo escopo search que busca a partir do início do texto no nome da localidade criadora', function (string $termo, int $quantidade) {
     Localidade::factory()
-        ->has(Caixa::factory()
-            ->has(VolumeCaixa::factory()->hasProcessos(2), 'volumes'), 'caixasCriadas')
+        ->has(Caixa::factory()->hasProcessos(2), 'caixasCriadas')
         ->create(['nome' => 'aaaaaaaa']);
     Localidade::factory()
-        ->has(Caixa::factory()
-            ->has(VolumeCaixa::factory()->hasProcessos(3), 'volumes'), 'caixasCriadas')
+        ->has(Caixa::factory()->hasProcessos(3), 'caixasCriadas')
         ->create(['nome' => 'bbbbbbbb']);
 
     $query = Pipeline::make()

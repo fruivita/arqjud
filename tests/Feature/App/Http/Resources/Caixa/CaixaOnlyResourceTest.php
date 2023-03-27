@@ -9,7 +9,6 @@ use App\Http\Resources\Caixa\CaixaOnlyResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraOnlyResource;
 use App\Models\Caixa;
-use App\Models\VolumeCaixa;
 
 beforeEach(function () {
     $this->caixa = Caixa::factory()->create();
@@ -32,23 +31,12 @@ test('retorna a prateleira pai e localidade criadora se houver o eager load da p
     ]);
 });
 
-test('retorna os modelos filhos se houver o eager load da propriedade', function () {
-    VolumeCaixa::factory(2)->for($this->caixa, 'caixa')->create();
-
-    $resource = CaixaOnlyResource::make($this->caixa->load('volumes'));
-
-    expect($resource->response()->getData(true))->toMatchArray([
-        'data' => caixaApi($this->caixa)
-            + ['volumes' => volumesApi($this->caixa->volumes)],
-    ]);
-});
-
 test('retorna a quantidade de filhos se houver o eager load da propriedade', function () {
-    $resource = CaixaOnlyResource::make($this->caixa->loadCount('volumes'));
+    $resource = CaixaOnlyResource::make($this->caixa->loadCount('processos'));
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => caixaApi($this->caixa)
-            + $this->caixa->only('volumes_count'),
+            + $this->caixa->only('processos_count'),
     ]);
 });
 

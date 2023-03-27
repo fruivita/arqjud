@@ -33,11 +33,49 @@ class StoreMoveProcessoEntreCaixaRequest extends FormRequest
     public function rules()
     {
         return [
-            'volume_id' => [
+            'localidade_criadora_id' => [
                 'bail',
                 'required',
                 'integer',
-                Rule::exists('volumes_caixa', 'id'),
+                Rule::exists('localidades', 'id'),
+            ],
+
+            'ano' => [
+                'bail',
+                'required',
+                'integer',
+                'between:1900,' . now()->format('Y'),
+            ],
+
+            'guarda_permanente' => [
+                'boolean',
+            ],
+
+            'complemento' => [
+                'bail',
+                'nullable',
+                'string',
+                'between:1,50',
+            ],
+
+            'numero' => [
+                'bail',
+                'required',
+                'integer',
+                'min:1',
+                Rule::exists('caixas', 'numero')
+                    ->where('ano', $this->ano)
+                    ->where('guarda_permanente', $this->guarda_permanente)
+                    ->when(
+                        $this->complemento,
+                        function ($query, $complemento) {
+                            return $query->where('complemento', $complemento);
+                        },
+                        function ($query) {
+                            return $query->whereNull('complemento');
+                        }
+                    )
+                    ->where('localidade_criadora_id', $this->localidade_criadora_id),
             ],
 
             'processos.*.numero' => [
@@ -61,7 +99,11 @@ class StoreMoveProcessoEntreCaixaRequest extends FormRequest
     public function attributes()
     {
         return [
-            'volume_id' => __('Volume de destino'),
+            'localidade_criadora_id' => __('Localidade criadora'),
+            'ano' => __('Ano'),
+            'guarda_permanente' => __('Guarda Permanente'),
+            'complemento' => __('Complemento'),
+            'numero' => __('Número'),
             'processos.*.numero' => __('Processo'),
         ];
     }

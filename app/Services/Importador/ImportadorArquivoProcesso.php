@@ -46,7 +46,8 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
         'numero_caixa',
         'complemento_caixa',
         'ano_caixa',
-        'volume_caixa',
+        'volume_caixa_inicial',
+        'volume_caixa_final',
         'guarda_permanente_processo',
         'nome_localidade_criadora_caixa',
         'nome_localidade',
@@ -74,7 +75,8 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
             'numero_caixa' => ['bail', 'required', 'integer', 'min:1'],
             'complemento_caixa' => ['bail', 'nullable', 'string', 'between:1,50'],
             'ano_caixa' => ['bail', 'required', 'integer', 'between:1900,' . now()->format('Y')],
-            'volume_caixa' => ['bail', 'required', 'integer', 'between:1,9999'],
+            'volume_caixa_inicial' => ['bail', 'required', 'integer', 'between:1,9999'],
+            'volume_caixa_final' => ['bail', 'required', 'integer', 'gte:volume_caixa_inicial', 'max:9999'],
             'guarda_permanente_processo' => ['bail', 'required', 'in:SIM,Sim,sim,NÃO,Não,não'],
             'nome_localidade_criadora_caixa' => ['bail', 'required', 'string', 'between:1,100'],
             'nome_localidade' => ['bail', 'required', 'string', 'between:1,100'],
@@ -239,15 +241,14 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
                 ],
                 ['descricao' => Arr::get($validados, 'descricao_caixa') ?: null]
             );
-            $volume_caixa = $caixa->volumes()->firstOrCreate([
-                'numero' => Arr::get($validados, 'volume_caixa'),
-            ]);
-            $volume_caixa->processos()->firstOrCreate(
+            $caixa->processos()->firstOrCreate(
                 ['numero' => Arr::get($validados, 'numero_processo')],
                 [
                     'guarda_permanente' => str(Arr::get($validados, 'guarda_permanente_processo'))->lower()->exactly('sim'),
                     'arquivado_em' => Carbon::createFromFormat('d-m-Y', Arr::get($validados, 'arquivado_em')),
                     'qtd_volumes' => Arr::get($validados, 'qtd_volumes_processo'),
+                    'vol_caixa_inicial' => Arr::get($validados, 'volume_caixa_inicial'),
+                    'vol_caixa_final' => Arr::get($validados, 'volume_caixa_final'),
                     'numero_antigo' => Arr::get($validados, 'numero_antigo_processo') ?: null,
                 ]
             );

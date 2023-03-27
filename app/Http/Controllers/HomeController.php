@@ -48,8 +48,8 @@ class HomeController extends Controller
                         'solicitacoesAtivas.remetente',
                         'solicitacoesAtivas.rearquivador',
                         'solicitacoesAtivas.destino',
-                        'volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade',
-                        'volumeCaixa.caixa.localidadeCriadora',
+                        'caixa.prateleira.estante.sala.andar.predio.localidade',
+                        'caixa.localidadeCriadora',
                         'processoPai',
                     ])->where('numero', $processo)
                     ->orWhere('numero_antigo', $processo)

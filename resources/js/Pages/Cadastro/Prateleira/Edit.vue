@@ -84,7 +84,7 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     guardaPermanente: true,
     complemento: true,
     localidadeCriadora: true,
-    volumes: true,
+    processos: true,
     acao: true,
 });
 
@@ -252,8 +252,8 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                     />
 
                     <CheckBox
-                        v-model:checked="elementosVisiveis.volumes"
-                        :label="__('Qtd volumes')"
+                        v-model:checked="elementosVisiveis.processos"
+                        :label="__('Qtd processos')"
                     />
 
                     <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
@@ -298,10 +298,10 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                     />
 
                     <HeadingOrdenavel
-                        v-show="elementosVisiveis.volumes"
-                        :ordenacao="ordenacoes.volumes_count"
-                        :texto="__('Qtd volumes')"
-                        @ordenar="(direcao) => mudarOrdenacao('volumes_count', direcao)"
+                        v-show="elementosVisiveis.processos"
+                        :ordenacao="ordenacoes.processos_count"
+                        :texto="__('Qtd processos')"
+                        @ordenar="(direcao) => mudarOrdenacao('processos_count', direcao)"
                     />
 
                     <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
@@ -324,8 +324,8 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                                 caixa.complemento
                             }}</Cell>
 
-                            <Cell v-show="elementosVisiveis.volumes">{{
-                                caixa.volumes_count
+                            <Cell v-show="elementosVisiveis.processos">{{
+                                caixa.processos_count
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.acao" class="w-10">

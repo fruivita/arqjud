@@ -166,59 +166,46 @@ const solicitacao_ativa = computed(() => first(props.processo.data.solicitacao_a
                         <ChaveValor
                             :chave="__('Localidade')"
                             :valor="
-                                processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
-                                    .predio.localidade.nome
+                                processo.data.caixa.prateleira.estante.sala.andar.predio.localidade
+                                    .nome
                             "
                             icone="pin-map"
                         />
 
                         <ChaveValor
                             :chave="__('Prédio')"
-                            :valor="
-                                processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
-                                    .predio.nome
-                            "
+                            :valor="processo.data.caixa.prateleira.estante.sala.andar.predio.nome"
                             icone="buildings"
                         />
 
                         <ChaveValor
                             :chave="__('Andar')"
-                            :valor="
-                                numeroAndar(
-                                    processo.data.volume_caixa.caixa.prateleira.estante.sala.andar
-                                )
-                            "
+                            :valor="numeroAndar(processo.data.caixa.prateleira.estante.sala.andar)"
                             icone="layers"
                         />
 
                         <ChaveValor
                             :chave="__('Sala')"
-                            :valor="processo.data.volume_caixa.caixa.prateleira.estante.sala.numero"
+                            :valor="processo.data.caixa.prateleira.estante.sala.numero"
                             icone="door-closed"
                         />
 
                         <ChaveValor
                             :chave="__('Estante')"
-                            :valor="processo.data.volume_caixa.caixa.prateleira.estante.numero"
+                            :valor="processo.data.caixa.prateleira.estante.numero"
                             icone="bookshelf"
                         />
 
                         <ChaveValor
                             :chave="__('Prateleira')"
-                            :valor="processo.data.volume_caixa.caixa.prateleira.numero"
+                            :valor="processo.data.caixa.prateleira.numero"
                             icone="list-nested"
                         />
 
                         <ChaveValor
                             :chave="__('Caixa')"
-                            :valor="numeroCaixa(processo.data.volume_caixa.caixa)"
+                            :valor="numeroCaixa(processo.data.caixa)"
                             icone="box2"
-                        />
-
-                        <ChaveValor
-                            :chave="__('Volume da caixa')"
-                            :valor="processo.data.volume_caixa.numero"
-                            icone="boxes"
                         />
                     </div>
                 </div>

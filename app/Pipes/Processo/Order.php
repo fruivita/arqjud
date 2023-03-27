@@ -258,17 +258,4 @@ class Order extends OrderBase
 
         $query->orderBy('criadoras.nome', $direcao);
     }
-
-    /**
-     * Aplica a ordenação pelo número do volume da caixa pai.
-     *
-     * @param  string  $direcao asc ou desc
-     * @return void
-     */
-    protected function volumeCaixaPaiNumero(Builder $query, string $direcao)
-    {
-        $direcao = ascOrDesc($direcao);
-
-        $query->orderBy('volumes_caixa.numero', $direcao);
-    }
 }

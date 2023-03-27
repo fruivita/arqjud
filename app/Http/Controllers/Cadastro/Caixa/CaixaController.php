@@ -10,17 +10,17 @@ use App\Http\Resources\Caixa\CaixaCollection;
 use App\Http\Resources\Caixa\CaixaEditResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraEditResource;
-use App\Http\Resources\VolumeCaixa\VolumeCaixaCollection;
+use App\Http\Resources\Processo\ProcessoCollection;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Prateleira;
-use App\Models\VolumeCaixa;
+use App\Models\Processo;
 use App\Pipes\Caixa\JoinLocalidade;
 use App\Pipes\Caixa\Order;
+use App\Pipes\Processo\Order as ProcessoOrder;
 use App\Pipes\Search;
-use App\Pipes\VolumeCaixa\Order as VolumeCaixaOrder;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -47,7 +47,7 @@ class CaixaController extends Controller
         return Inertia::render('Cadastro/Caixa/Index', [
             'caixas' => fn () => CaixaCollection::make(
                 Pipeline::make()
-                    ->send(Caixa::withCount(['volumes'])->with(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora']))
+                    ->send(Caixa::withCount(['processos'])->with(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
                     ->paginate($this->perPage())
@@ -106,10 +106,10 @@ class CaixaController extends Controller
 
         return Inertia::render('Cadastro/Caixa/Edit', [
             'caixa' => fn () => CaixaEditResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
-            'volumes_caixa' => fn () => VolumeCaixaCollection::make(
+            'processos' => fn () => ProcessoCollection::make(
                 Pipeline::make()
-                    ->send(VolumeCaixa::withCount(['processos'])->whereBelongsTo($caixa))
-                    ->through([VolumeCaixaOrder::class])
+                    ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($caixa))
+                    ->through([ProcessoOrder::class])
                     ->thenReturn()
                     ->paginate($this->perPage())
             )->additional(['meta' => [

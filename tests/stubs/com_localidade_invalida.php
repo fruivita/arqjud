@@ -16,7 +16,8 @@ return [
         5,                      // Número da caixa
         '',                     // Tipo/Complemento da caixa
         2020,                   // Ano da caixa
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         'Não',                  // Processo de guarda permanente
         'Yokohama',             // Nome da localidade de origem/criação da caixa
         '',                     // Nome da localidade - Obrigatório
@@ -36,7 +37,8 @@ return [
         5,                      // Número da caixa
         '',                     // Tipo/Complemento da caixa
         2020,                   // Ano da caixa
-        3,                      // Volume da caixa
+        3,                      // Volume inicial da caixa
+        6,                      // Volume final da caixa
         'Não',                  // Processo de guarda permanente
         'Yokohama',             // Nome da localidade de origem/criação da caixa
         str_repeat('a', 101),   // Nome da localidade - Máximo 100 caracteres

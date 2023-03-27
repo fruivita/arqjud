@@ -14,7 +14,7 @@ class MoverProcessoPolicy
     use HandlesAuthorization;
 
     /**
-     * Determina se o usuário pode movimentar processos entre caixas/volumes.
+     * Determina se o usuário pode movimentar processos entre caixas.
      *
      * @return bool|\Illuminate\Auth\Access\Response
      */

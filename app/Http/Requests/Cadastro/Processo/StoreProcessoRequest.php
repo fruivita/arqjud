@@ -69,6 +69,21 @@ class StoreProcessoRequest extends FormRequest
                 'before_or_equal:' . now()->format('d-m-Y'),
             ],
 
+            'vol_caixa_inicial' => [
+                'bail',
+                'required',
+                'integer',
+                'between:1,9999'
+            ],
+
+            'vol_caixa_final' => [
+                'bail',
+                'required',
+                'integer',
+                'gte:vol_caixa_inicial',
+                'max:9999'
+            ],
+
             'qtd_volumes' => [
                 'bail',
                 'required',
@@ -97,6 +112,8 @@ class StoreProcessoRequest extends FormRequest
             'numero' => __('Processo'),
             'numero_antigo' => __('Número antigo do processo'),
             'arquivado_em' => __('Data de arquivamento'),
+            'vol_caixa_inicial' => __('Vol inicial da caixa'),
+            'vol_caixa_final' => __('Vol final da caixa'),
             'qtd_volumes' => __('Qtd volumes'),
             'descricao' => __('Descrição'),
         ];

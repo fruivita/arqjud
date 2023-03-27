@@ -5,9 +5,9 @@
  * @see https://inertiajs.com/testing
  */
 
+use App\Http\Resources\Caixa\CaixaOnlyResource;
 use App\Http\Resources\Processo\ProcessoOnlyResource;
 use App\Http\Resources\Solicitacao\SolicitacaoOnlyResource;
-use App\Http\Resources\VolumeCaixa\VolumeCaixaOnlyResource;
 use App\Models\Processo;
 use function Spatie\PestPluginTestTime\testTime;
 
@@ -27,12 +27,12 @@ test('retorna os campos principais do modelo', function () {
     expect($resource->response()->getData(true))->toMatchArray(['data' => processoApi($this->processo)]);
 });
 
-test('retorna o volume da caixa pai, o processo pai, os processos filhos e a solicitação ativa se houver o eager load da propriedade', function () {
-    $resource = ProcessoOnlyResource::make($this->processo->load(['volumeCaixa', 'processoPai', 'processosFilho', 'solicitacoesAtivas']));
+test('retorna a caixa pai, o processo pai, os processos filhos e a solicitação ativa se houver o eager load da propriedade', function () {
+    $resource = ProcessoOnlyResource::make($this->processo->load(['caixa', 'processoPai', 'processosFilho', 'solicitacoesAtivas']));
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => processoApi($this->processo)
-            + ['volume_caixa' => VolumeCaixaOnlyResource::make($this->processo->volumeCaixa)->resolve()]
+            + ['caixa' => CaixaOnlyResource::make($this->processo->caixa)->resolve()]
             + ['processo_pai' => ProcessoOnlyResource::make($this->processo->processoPai)->resolve()]
             + ['processos_filho' => ProcessoOnlyResource::collection($this->processo->processosFilho)->resolve()]
             + ['solicitacao_ativa' => SolicitacaoOnlyResource::collection($this->processo->solicitacoesAtivas)->resolve()],

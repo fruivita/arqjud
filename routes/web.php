@@ -19,7 +19,6 @@ use App\Http\Controllers\Cadastro\Prateleira\PrateleiraController;
 use App\Http\Controllers\Cadastro\Predio\PredioController;
 use App\Http\Controllers\Cadastro\Processo\ProcessoController;
 use App\Http\Controllers\Cadastro\Sala\SalaController;
-use App\Http\Controllers\Cadastro\VolumeCaixa\VolumeCaixaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Movimentacao\MoveProcessoEntreCaixaController;
 use App\Http\Controllers\Solicitacao\SolicitacaoController as SolicitacaoExternaController;
@@ -37,7 +36,6 @@ use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
-use App\Models\VolumeCaixa;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -171,19 +169,10 @@ Route::middleware('auth')->group(function () {
             Route::delete('{caixa}', [CaixaController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'caixa');
         });
 
-        Route::prefix('volume-caixa')->name('volume-caixa.')->group(function () {
-            Route::get('/', [VolumeCaixaController::class, 'index'])->name('index')->can(Policy::ViewAny->value, VolumeCaixa::class);
-            Route::get('caixa/{caixa}/create', [VolumeCaixaController::class, 'create'])->name('create')->can(Policy::Create->value, VolumeCaixa::class);
-            Route::post('caixa/{caixa}', [VolumeCaixaController::class, 'store'])->name('store')->can(Policy::Create->value, VolumeCaixa::class);
-            Route::get('{volume_caixa}/edit', [VolumeCaixaController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, VolumeCaixa::class);
-            Route::patch('{volume_caixa}', [VolumeCaixaController::class, 'update'])->name('update')->can(Policy::Update->value, VolumeCaixa::class);
-            Route::delete('{volume_caixa}', [VolumeCaixaController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'volume_caixa');
-        });
-
         Route::prefix('processo')->name('processo.')->group(function () {
             Route::get('/', [ProcessoController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Processo::class);
-            Route::get('volume-caixa/{volume_caixa}/create', [ProcessoController::class, 'create'])->name('create')->can(Policy::Create->value, Processo::class);
-            Route::post('volume-caixa/{volume_caixa}', [ProcessoController::class, 'store'])->name('store')->can(Policy::Create->value, Processo::class);
+            Route::get('caixa/{caixa}/create', [ProcessoController::class, 'create'])->name('create')->can(Policy::Create->value, Processo::class);
+            Route::post('caixa/{caixa}', [ProcessoController::class, 'store'])->name('store')->can(Policy::Create->value, Processo::class);
             Route::get('{processo}/edit', [ProcessoController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, Processo::class);
             Route::patch('{processo}', [ProcessoController::class, 'update'])->name('update')->can(Policy::Update->value, Processo::class);
             Route::delete('{processo}', [ProcessoController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'processo');

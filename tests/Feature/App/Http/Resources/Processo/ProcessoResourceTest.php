@@ -5,17 +5,20 @@
  * @see https://inertiajs.com/testing
  */
 
+use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Processo\ProcessoResource;
-use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
 use App\Models\Permissao;
 use App\Models\Processo;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
+
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
     testTime()->freeze();
     $this->seed([PerfilSeeder::class]);
-    login();
+    Auth::login(Usuario::factory()->create());
 
     $this->processo = Processo::factory()->for(Processo::factory(), 'processoPai')->create();
 });
@@ -40,11 +43,11 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
     ]);
 });
 
-test('retorna o volume da caixa pai e o processo pai se houver o eager load da propriedade', function () {
-    $resource = ProcessoResource::make($this->processo->load(['volumeCaixa', 'processoPai']));
+test('retorna a caixa pai e o processo pai se houver o eager load da propriedade', function () {
+    $resource = ProcessoResource::make($this->processo->load(['caixa', 'processoPai']));
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => processoApi($this->processo)
-            + ['volume_caixa' => VolumeCaixaResource::make($this->processo->volumeCaixa)->resolve()]
+            + ['caixa' => CaixaResource::make($this->processo->caixa)->resolve()]
             + ['processo_pai' => ProcessoResource::make($this->processo->processoPai)->resolve()]
             + ['links' => []],
     ]);

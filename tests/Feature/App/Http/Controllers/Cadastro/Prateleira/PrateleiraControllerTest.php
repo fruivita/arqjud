@@ -15,7 +15,9 @@ use App\Http\Resources\Prateleira\PrateleiraResource;
 use App\Models\Estante;
 use App\Models\Permissao;
 use App\Models\Prateleira;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
@@ -27,7 +29,7 @@ beforeEach(function () {
 
     $this->estante = Estante::factory()->create();
 
-    login();
+    Auth::login(Usuario::factory()->create());
 });
 
 afterEach(fn () => logout());

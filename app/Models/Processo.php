@@ -23,7 +23,7 @@ class Processo extends Model
     /**
      * {@inheritdoc}
      */
-    protected $fillable = ['numero', 'qtd_volumes', 'arquivado_em', 'guarda_permanente', 'numero_antigo'];
+    protected $fillable = ['numero', 'vol_caixa_inicial', 'vol_caixa_final', 'qtd_volumes', 'arquivado_em', 'guarda_permanente', 'numero_antigo'];
 
     /**
      * {@inheritdoc}
@@ -57,15 +57,15 @@ class Processo extends Model
     public const MASCARA_V1 = '##.#######-#';
 
     /**
-     * Relacionamento processo (N:1) volume da caixa.
+     * Relacionamento processo (N:1) caixa.
      *
-     * Volume da caixa em que o processo está armazenado.
+     * Caixa em que o processo está armazenado.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function volumeCaixa()
+    public function caixa()
     {
-        return $this->belongsTo(VolumeCaixa::class, 'volume_caixa_id', 'id');
+        return $this->belongsTo(Caixa::class, 'caixa_id', 'id');
     }
 
     /**
@@ -188,11 +188,12 @@ class Processo extends Model
                 ->orWhere('caixas.numero', 'like', $termo)
                 ->orWhere('caixas.ano', 'like', $termo)
                 ->orWhere('caixas.complemento', 'like', $termo)
-                ->orWhere('volumes_caixa.numero', 'like', $termo)
                 ->when($apenas_numeros, function (Builder $query, string $apenas_numeros) {
                     $query->orWhere('processos.numero', 'like', "{$apenas_numeros}%")
                         ->orWhere('processos.numero_antigo', 'like', "{$apenas_numeros}%");
                 })
+                ->orWhere('processos.vol_caixa_inicial', 'like', $termo)
+                ->orWhere('processos.vol_caixa_final', 'like', $termo)
                 ->orWhere('processos.qtd_volumes', 'like', $termo);
         });
     }

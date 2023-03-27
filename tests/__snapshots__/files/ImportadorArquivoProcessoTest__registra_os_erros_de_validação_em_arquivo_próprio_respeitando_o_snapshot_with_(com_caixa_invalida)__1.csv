@@ -1,8 +1,8 @@
-﻿numero_processo,numero_antigo_processo,numero_processo_pai,arquivado_em,qtd_volumes_processo,numero_caixa,complemento_caixa,ano_caixa,volume_caixa,guarda_permanente_processo,nome_localidade_criadora_caixa,nome_localidade,nome_predio,numero_andar,numero_sala,numero_estante,numero_prateleira,descricao_caixa,falha
-26899909319841005657,,,21-12-2020,2,,,2020,3,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) numero caixa é obrigatório(a)."
-26899909319841005657,,,21-12-2020,2,0,,2020,3,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) numero caixa precisa ser no mínimo 1."
-26899909319841005657,,,21-12-2020,2,5,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,2020,3,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) complemento caixa precisa ter entre 1 e 50 caracteres."
-26899909319841005657,,,21-12-2020,2,5,,1899,3,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) ano caixa precisa ser entre 1900 e 2023."
-26899909319841005657,,,21-12-2020,2,5,,2020,3,,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) guarda permanente processo é obrigatório(a)."
-26899909319841005657,,,21-12-2020,2,5,,2020,3,foo,Yokohama,Madrid,"Empire State",10,100-s,,,,"O guarda permanente processo é inválido."
-26899909319841005657,,,21-12-2020,2,5,,2020,3,Não,Yokohama,Madrid,"Empire State",10,100-s,,,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,"O(A) descricao caixa precisa ter entre 1 e 255 caracteres."
+﻿numero_processo,numero_antigo_processo,numero_processo_pai,arquivado_em,qtd_volumes_processo,numero_caixa,complemento_caixa,ano_caixa,volume_caixa_inicial,volume_caixa_final,guarda_permanente_processo,nome_localidade_criadora_caixa,nome_localidade,nome_predio,numero_andar,numero_sala,numero_estante,numero_prateleira,descricao_caixa,falha
+26899909319841005657,,,21-12-2020,2,,,2020,3,6,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) numero caixa é obrigatório(a)."
+26899909319841005657,,,21-12-2020,2,0,,2020,3,6,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) numero caixa precisa ser no mínimo 1."
+26899909319841005657,,,21-12-2020,2,5,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,2020,3,6,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) complemento caixa precisa ter entre 1 e 50 caracteres."
+26899909319841005657,,,21-12-2020,2,5,,1899,3,6,Não,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) ano caixa precisa ser entre 1900 e 2023."
+26899909319841005657,,,21-12-2020,2,5,,2020,3,6,,Yokohama,Madrid,"Empire State",10,100-s,,,,"O(A) guarda permanente processo é obrigatório(a)."
+26899909319841005657,,,21-12-2020,2,5,,2020,3,6,foo,Yokohama,Madrid,"Empire State",10,100-s,,,,"O guarda permanente processo é inválido."
+26899909319841005657,,,21-12-2020,2,5,,2020,3,6,Não,Yokohama,Madrid,"Empire State",10,100-s,,,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,"O(A) descricao caixa precisa ter entre 1 e 255 caracteres."

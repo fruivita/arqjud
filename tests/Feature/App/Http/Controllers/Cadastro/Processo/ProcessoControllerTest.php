@@ -10,12 +10,14 @@
 use App\Http\Controllers\Cadastro\Processo\ProcessoController;
 use App\Http\Requests\Cadastro\Processo\StoreProcessoRequest;
 use App\Http\Requests\Cadastro\Processo\UpdateProcessoRequest;
+use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Processo\ProcessoResource;
-use App\Http\Resources\VolumeCaixa\VolumeCaixaResource;
+use App\Models\Caixa;
 use App\Models\Permissao;
 use App\Models\Processo;
-use App\Models\VolumeCaixa;
+use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
@@ -25,9 +27,9 @@ use function Pest\Laravel\post;
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
-    $this->volume_caixa = VolumeCaixa::factory()->create();
+    $this->caixa = Caixa::factory()->create();
 
-    login();
+    Auth::login(Usuario::factory()->create());
 });
 
 afterEach(fn () => logout());
@@ -44,7 +46,7 @@ test('usuário sem permissão não consegue excluir um processo', function () {
 });
 
 test('usuário sem permissão não consegue exibir formulário de criação do processo', function () {
-    get(route('cadastro.processo.create', $this->volume_caixa))->assertForbidden();
+    get(route('cadastro.processo.create', $this->caixa))->assertForbidden();
 });
 
 // Caminho feliz
@@ -76,25 +78,25 @@ test('action index compartilha os dados esperados com a view/componente correto'
 });
 
 test('action create compartilha os dados esperados com a view/componente correto', function () {
-    Processo::factory()->for($this->volume_caixa)->create();
+    Processo::factory()->for($this->caixa)->create();
 
     $this->travel(1)->seconds();
-    $ultimo_processo_criado = Processo::factory()->for($this->volume_caixa)->create();
+    $ultimo_processo_criado = Processo::factory()->for($this->caixa)->create();
 
     $this->travel(1)->seconds();
-    // processo de outro volume de caixa, será desconsiderado
+    // processo de outra caixa, será desconsiderado
     Processo::factory()->create();
 
     concederPermissao(Permissao::PROCESSO_CREATE);
 
-    get(route('cadastro.processo.create', $this->volume_caixa))
+    get(route('cadastro.processo.create', $this->caixa))
         ->assertOk()
         ->assertInertia(
             fn (Assert $page) => $page
                 ->component('Cadastro/Processo/Create')
                 ->whereAll([
                     'ultima_insercao.data' => ProcessoResource::make($ultimo_processo_criado)->resolve(),
-                    'volume_caixa' => VolumeCaixaResource::make($this->volume_caixa->load(['caixa.localidadeCriadora', 'caixa.prateleira.estante.sala.andar.predio.localidade']))->response()->getData(true),
+                    'caixa' => CaixaResource::make($this->caixa->load(['localidadeCriadora', 'prateleira.estante.sala.andar.predio.localidade']))->response()->getData(true),
                 ])
         );
 });
@@ -102,20 +104,21 @@ test('action create compartilha os dados esperados com a view/componente correto
 test('cria um novo processo com a guarda definida pela caixa', function (bool $gp) {
     concederPermissao(Permissao::PROCESSO_CREATE);
 
-    $this->volume_caixa->load('caixa');
-    $this->volume_caixa->caixa->guarda_permanente = $gp;
-    $this->volume_caixa->caixa->save();
+    $this->caixa->guarda_permanente = $gp;
+    $this->caixa->save();
 
     expect(Processo::count())->toBe(0);
 
-    post(route('cadastro.processo.store', $this->volume_caixa), [
+    post(route('cadastro.processo.store', $this->caixa), [
         'numero' => '1357900-66.2022.3.00.3639',
         'numero_antigo' => '9352203-94.2022.7.06.2096',
         'gp' => $gp,
         'arquivado_em' => '20-12-2020',
+        'vol_caixa_inicial' => 5,
+        'vol_caixa_final' => 8,
         'qtd_volumes' => 10,
         'descricao' => 'foo bar',
-        'volume_caixa_id' => $this->volume_caixa->id,
+        'caixa_id' => $this->caixa->id,
     ])
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
@@ -127,9 +130,11 @@ test('cria um novo processo com a guarda definida pela caixa', function (bool $g
         ->and($processo->numero_antigo)->toBe('9352203-94.2022.7.06.2096')
         ->and($processo->guarda_permanente)->toBe($gp)
         ->and($processo->arquivado_em->format('d-m-Y'))->toBe('20-12-2020')
+        ->and($processo->vol_caixa_inicial)->toBe(5)
+        ->and($processo->vol_caixa_final)->toBe(8)
         ->and($processo->qtd_volumes)->toBe(10)
         ->and($processo->descricao)->toBe('foo bar')
-        ->and($processo->volume_caixa_id)->toBe($this->volume_caixa->id)
+        ->and($processo->caixa_id)->toBe($this->caixa->id)
         ->and($processo->processo_pai_id)->toBeNull();
 })->with([
     true,
@@ -143,12 +148,14 @@ test('é possível criar o relacionamento com o processo pai ao criar um process
 
     $processo_pai = Processo::factory()->create();
 
-    post(route('cadastro.processo.store', $this->volume_caixa), [
+    post(route('cadastro.processo.store', $this->caixa), [
         'numero' => '1357900-66.2022.3.00.3639',
         'processo_pai_numero' => $processo_pai->numero,
         'arquivado_em' => '20-12-2020',
+        'vol_caixa_inicial' => 5,
+        'vol_caixa_final' => 8,
         'qtd_volumes' => 10,
-        'volume_caixa_id' => $this->volume_caixa->id,
+        'caixa_id' => $this->caixa->id,
     ])
         ->assertRedirect()
         ->assertSessionHas('feedback.sucesso');
@@ -165,7 +172,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 
     $processo = Processo::factory()->hasProcessosFilho(3)->hasSolicitacoes(4)->create();
 
-    $processo->load(['volumeCaixa.caixa.prateleira.estante.sala.andar.predio.localidade', 'volumeCaixa.caixa.localidadeCriadora', 'processoPai']);
+    $processo->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora', 'processoPai']);
 
     get(route('cadastro.processo.edit', $processo))
         ->assertOk()
@@ -201,6 +208,8 @@ test('atualiza um processo, mas não altera o atributo guarda permanente', funct
         'numero_antigo' => '18960718119064902226',
         'processo_pai_numero' => $pai->numero,
         'arquivado_em' => '21-01-2000',
+        'vol_caixa_inicial' => 5,
+        'vol_caixa_final' => 8,
         'qtd_volumes' => 15,
         'descricao' => 'foo bar',
     ])
@@ -214,6 +223,8 @@ test('atualiza um processo, mas não altera o atributo guarda permanente', funct
         ->and($processo->processo_pai_id)->toBe($pai->id)
         ->and($processo->arquivado_em->format('d-m-Y'))->toBe('21-01-2000')
         ->and($processo->guarda_permanente)->toBeTrue()
+        ->and($processo->vol_caixa_inicial)->toBe(5)
+        ->and($processo->vol_caixa_final)->toBe(8)
         ->and($processo->qtd_volumes)->toBe(15)
         ->and($processo->descricao)->toBe('foo bar');
 });

@@ -6,7 +6,7 @@ use App\Enums\Policy;
 use App\Http\Resources\Localidade\LocalidadeEditResource;
 use App\Http\Resources\Prateleira\PrateleiraEditResource;
 use App\Models\Caixa;
-use App\Models\VolumeCaixa;
+use App\Models\Processo;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -34,7 +34,7 @@ class CaixaResource extends JsonResource
                 'localidade_criadora_id' => $this->localidade_criadora_id,
                 'prateleira' => PrateleiraEditResource::make($this->whenLoaded('prateleira')),
                 'localidade_criadora' => LocalidadeEditResource::make($this->whenLoaded('localidadeCriadora')),
-                'volumes_count' => $this->whenCounted('volumes'),
+                'processos_count' => $this->whenCounted('processos'),
                 'links' => [
                     'view' => $this->when(
                         auth()->user()->can(Policy::ViewOrUpdate->value, Caixa::class),
@@ -48,11 +48,11 @@ class CaixaResource extends JsonResource
                         auth()->user()->can(Policy::Delete->value, $this->resource),
                         route('cadastro.caixa.destroy', $this->id),
                     ),
-                    'volume' => $this->when(
-                        auth()->user()->can(Policy::Create->value, VolumeCaixa::class),
+                    'processo' => $this->when(
+                        auth()->user()->can(Policy::Create->value, Processo::class),
                         [
-                            'create' => route('cadastro.volume-caixa.create', $this->id),
-                            'store' => route('cadastro.volume-caixa.store', $this->id),
+                            'create' => route('cadastro.processo.create', $this->id),
+                            'store' => route('cadastro.processo.store', $this->id),
                         ],
                     ),
                 ],

@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Processo;
 
 use App\Enums\Policy;
-use App\Http\Resources\VolumeCaixa\VolumeCaixaEditResource;
+use App\Http\Resources\Caixa\CaixaEditResource;
 use App\Models\Processo;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,9 +29,9 @@ class ProcessoEditResource extends JsonResource
                 'guarda_permanente' => $this->guarda_permanente,
                 'qtd_volumes' => $this->qtd_volumes,
                 'descricao' => $this->descricao,
-                'volume_caixa_id' => $this->volume_caixa_id,
+                'caixa_id' => $this->caixa_id,
                 'processo_pai_id' => $this->processo_pai_id,
-                'volume_caixa' => VolumeCaixaEditResource::make($this->whenLoaded('volumeCaixa')),
+                'caixa' => CaixaEditResource::make($this->whenLoaded('caixa')),
                 'processo_pai' => ProcessoEditResource::make($this->whenLoaded('processoPai')),
                 'processos_filho_count' => $this->whenCounted('processosFilho'),
                 'solicitacoes_count' => $this->whenCounted('solicitacoes'),

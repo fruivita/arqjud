@@ -44,13 +44,13 @@ class Caixa extends Model
     }
 
     /**
-     * Relacionamento caixa (1:N) volumes da caixa.
+     * Relacionamento caixa (1:N) processos.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function volumes()
+    public function processos()
     {
-        return $this->hasMany(VolumeCaixa::class, 'caixa_id', 'id');
+        return $this->hasMany(Processo::class, 'caixa_id', 'id');
     }
 
     /**
@@ -103,13 +103,8 @@ class Caixa extends Model
 
             $this->save();
 
-            $volumes_id = $this
-                ->load('volumes')
-                ->volumes
-                ->pluck('id');
-
-            Processo::query()
-                ->whereIn('volume_caixa_id', $volumes_id)
+            $this
+                ->processos()
                 ->update(['guarda_permanente' => $this->guarda_permanente]);
 
             DB::commit();
@@ -128,5 +123,24 @@ class Caixa extends Model
 
             return false;
         }
+    }
+
+    /**
+     * Move os processos informados para a caixa instanciada.
+     *
+     * Todos os processos movidos assumirão o status de guarda permanente
+     * definido na caixa de destino.
+     *
+     * @param  string[]  $numeros número dos processos
+     * @return int quantidade de registros afetados ou falso boolean zero se
+     * não houver nenhuma alteração.
+     */
+    public function moverProcessos(array $numeros)
+    {
+        return Processo::whereIn('numero', $numeros)
+            ->update([
+                'guarda_permanente' => $this->guarda_permanente,
+                'caixa_id' => $this->id,
+            ]);
     }
 }

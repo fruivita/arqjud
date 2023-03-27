@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Movimentacao\StoreMoveProcessoEntreCaixaRequest;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Traits\ComFeedback;
+use App\Models\Caixa;
 use App\Models\Localidade;
-use App\Models\VolumeCaixa;
 use Illuminate\Support\Arr;
 use Inertia\Inertia;
 
@@ -34,7 +34,6 @@ class MoveProcessoEntreCaixaController extends Controller
             'links' => fn () => [
                 'search' => [
                     'processo' => route('api.movimentacao.processo.show'),
-                    'caixa' => route('api.caixa.show'),
                 ],
                 'store' => route('movimentacao.entre-caixas.store'),
             ],
@@ -48,7 +47,21 @@ class MoveProcessoEntreCaixaController extends Controller
      */
     public function store(StoreMoveProcessoEntreCaixaRequest $request)
     {
-        $destino = VolumeCaixa::findOrFail($request->integer('volume_id'));
+        $destino = Caixa::with('processos')
+            ->where('numero', $request->integer('numero'))
+            ->where('ano', $request->integer('ano'))
+            ->where('guarda_permanente', $request->boolean('guarda_permanente'))
+            ->where('localidade_criadora_id', $request->integer('localidade_criadora_id'))
+            ->when(
+                $request->input('complemento'),
+                function ($query, $complemento) {
+                    return $query->where('complemento', $complemento);
+                },
+                function ($query) {
+                    return $query->whereNull('complemento');
+                }
+            )
+            ->firstOrFail();
 
         $salvo = $destino->moverProcessos(
             Arr::pluck($request->input('processos'), 'numero'),

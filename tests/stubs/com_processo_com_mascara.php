@@ -15,7 +15,8 @@ return [[
     5,                           // Número da caixa
     'foo',                       // Tipo/Complemento da caixa
     2020,                        // Ano da caixa
-    3,                           // Volume da caixa
+    3,                           // Volume inicial da caixa
+    6,                           // Volume final da caixa
     'Sim',                       // Processo de guarda permanente
     'Yokohama',                  // Nome da localidade de origem/criação da caixa
     'Madrid',                    // Nome da localidade

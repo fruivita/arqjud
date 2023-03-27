@@ -65,16 +65,16 @@ class Order extends OrderBase
     }
 
     /**
-     * Aplica a ordenação pela quantidade de volumes da caixa.
+     * Aplica a ordenação pela quantidade de processos da caixa.
      *
      * @param  string  $direcao asc ou desc
      * @return void
      */
-    protected function volumesCount(Builder $query, string $direcao)
+    protected function processosCount(Builder $query, string $direcao)
     {
         $direcao = ascOrDesc($direcao);
 
-        $query->orderBy('volumes_count', $direcao);
+        $query->orderBy('processos_count', $direcao);
     }
 
     /**

@@ -55,7 +55,6 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
     [Permissao::ESTANTE_VIEW_ANY, fn () => __('Cadastros'), 'bookshelf', fn () => route('cadastro.estante.index'), fn () => __('Estantes')],
     [Permissao::PRATELEIRA_VIEW_ANY, fn () => __('Cadastros'), 'list-nested', fn () => route('cadastro.prateleira.index'), fn () => __('Prateleiras')],
     [Permissao::CAIXA_VIEW_ANY, fn () => __('Cadastros'), 'box2', fn () => route('cadastro.caixa.index'), fn () => __('Caixas')],
-    [Permissao::VOLUME_CAIXA_VIEW_ANY, fn () => __('Cadastros'), 'boxes', fn () => route('cadastro.volume-caixa.index'), fn () => __('Volumes das caixas')],
     [Permissao::PROCESSO_VIEW_ANY, fn () => __('Cadastros'), 'journal-bookmark', fn () => route('cadastro.processo.index'), fn () => __('Processos')],
     [Permissao::USUARIO_VIEW_ANY, fn () => __('Autorizações'), 'people', fn () => route('autorizacao.usuario.index'), fn () => __('Usuários')],
     [Permissao::PERFIL_VIEW_ANY, fn () => __('Administração'), 'award', fn () => route('administracao.perfil.index'), fn () => __('Perfis')],
@@ -100,7 +99,7 @@ test('administrador tem acesso a todos os itens do menu', function () {
         ->and($menu[2]['nome'])->toBe(__('Movimentações'))
         ->and($menu[2]['links'])->toHaveCount(1)
         ->and($menu[3]['nome'])->toBe(__('Cadastros'))
-        ->and($menu[3]['links'])->toHaveCount(9)
+        ->and($menu[3]['links'])->toHaveCount(8)
         ->and($menu[4]['nome'])->toBe(__('Autorizações'))
         ->and($menu[4]['links'])->toHaveCount(1)
         ->and($menu[5]['nome'])->toBe(__('Administração'))
@@ -137,7 +136,6 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
     ['cadastro.estante.index', 'cadastro.estante.index'],
     ['cadastro.prateleira.index', 'cadastro.prateleira.index'],
     ['cadastro.caixa.index', 'cadastro.caixa.index'],
-    ['cadastro.volume-caixa.index', 'cadastro.volume-caixa.index'],
     ['cadastro.processo.index', 'cadastro.processo.index'],
     ['autorizacao.usuario.index', 'autorizacao.usuario.index'],
     ['administracao.perfil.index', 'administracao.perfil.index'],

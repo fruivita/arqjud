@@ -16,7 +16,8 @@ return [
         '10',                          // Número da caixa
         '',                            // Tipo/Complemento da caixa
         now()->addYear()->format('Y'), // Ano da caixa - Máximo ano corrente
-        3,                             // Volume da caixa
+        3,                             // Volume inicial da caixa
+        6,                             // Volume final da caixa
         'Não',                         // Processo de guarda permanente
         'Yokohama',                    // Nome da localidade de origem/criação da caixa
         'Madrid',                      // Nome da localidade

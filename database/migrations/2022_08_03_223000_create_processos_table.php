@@ -21,8 +21,12 @@ return new class extends Migration
     {
         Schema::create('processos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('volume_caixa_id');
             $table->unsignedBigInteger('processo_pai_id')->nullable();
+            $table->unsignedBigInteger('caixa_id');
+            // volume inicial da caixa ocupada pelo processo
+            $table->unsignedInteger('vol_caixa_inicial');
+            // volume final da caixa ocupada pelo processo
+            $table->unsignedInteger('vol_caixa_final');
             $table->string('numero', 20)->unique();
             //opção 1: NNNNNNNDDAAAAJTROOOO
             //opção 2: AAAASSLLNNNNNND
@@ -30,6 +34,7 @@ return new class extends Migration
             $table->string('numero_antigo', 20)->unique()->nullable();
             $table->date('arquivado_em');
             $table->boolean('guarda_permanente');
+            // quantidade de volumes do processo
             $table->unsignedInteger('qtd_volumes');
             $table->string('descricao', 255)->nullable();
             $table->timestamps();
@@ -41,9 +46,9 @@ return new class extends Migration
                 ->onUpdate('cascade');
 
             $table
-                ->foreign('volume_caixa_id')
+                ->foreign('caixa_id')
                 ->references('id')
-                ->on('volumes_caixa')
+                ->on('caixas')
                 ->onUpdate('cascade');
         });
     }
