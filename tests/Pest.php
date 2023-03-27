@@ -7,7 +7,6 @@ use App\Models\Permissao;
 use App\Models\Processo;
 use App\Models\Solicitacao;
 use App\Models\Usuario;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;

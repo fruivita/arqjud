@@ -76,7 +76,7 @@ test('rules estão definidas no form request', function () {
             'bail',
             'required',
             'integer',
-            'between:1,9999'
+            'between:1,9999',
         ],
 
         'vol_caixa_final' => [
@@ -84,7 +84,7 @@ test('rules estão definidas no form request', function () {
             'required',
             'integer',
             'gte:vol_caixa_inicial',
-            'max:9999'
+            'max:9999',
         ],
 
         'qtd_volumes' => [

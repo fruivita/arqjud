@@ -21,7 +21,6 @@ use App\Models\Processo;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\delete;
 use function Pest\Laravel\get;

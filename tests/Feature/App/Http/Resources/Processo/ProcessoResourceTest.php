@@ -12,7 +12,6 @@ use App\Models\Processo;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
-
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
