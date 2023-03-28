@@ -27,6 +27,8 @@ class ProcessoOnlyResource extends JsonResource
                 'arquivado_em' => $this->arquivado_em->format('d-m-Y'),
                 'guarda_permanente' => $this->guarda_permanente,
                 'qtd_volumes' => $this->qtd_volumes,
+                'vol_caixa_inicial' => $this->vol_caixa_inicial,
+                'vol_caixa_final' => $this->vol_caixa_final,
                 'descricao' => $this->descricao,
                 'caixa_id' => $this->caixa_id,
                 'processo_pai_id' => $this->processo_pai_id,

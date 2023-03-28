@@ -58,6 +58,8 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     arquivadoEm: true,
     guardaPermanente: true,
     qtdVolumes: true,
+    volCaixaInicial: true,
+    volCaixaFinal: true,
     processosFilho: true,
     solicitacoes: true,
     localidade: true,
@@ -126,6 +128,16 @@ watch(perPage, filtrar);
                 <CheckBox v-model:checked="elementosVisiveis.guardaPermanente" :label="__('GP')" />
 
                 <CheckBox v-model:checked="elementosVisiveis.qtdVolumes" :label="__('Volumes')" />
+
+                <CheckBox
+                    v-model:checked="elementosVisiveis.volCaixaInicial"
+                    :label="__('Vol caixa inicial')"
+                />
+
+                <CheckBox
+                    v-model:checked="elementosVisiveis.volCaixaFinal"
+                    :label="__('Vol caixa final')"
+                />
 
                 <CheckBox
                     v-model:checked="elementosVisiveis.processosFilho"
@@ -214,6 +226,20 @@ watch(perPage, filtrar);
                         :ordenacao="ordenacoes.qtd_volumes"
                         :texto="__('Volumes')"
                         @ordenar="(direcao) => mudarOrdenacao('qtd_volumes', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.volCaixaInicial"
+                        :ordenacao="ordenacoes.vol_caixa_inicial"
+                        :texto="__('Vol caixa inicial')"
+                        @ordenar="(direcao) => mudarOrdenacao('vol_caixa_inicial', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.volCaixaFinal"
+                        :ordenacao="ordenacoes.vol_caixa_final"
+                        :texto="__('Vol caixa final')"
+                        @ordenar="(direcao) => mudarOrdenacao('vol_caixa_final', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -351,6 +377,14 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.qtdVolumes">
                                 {{ processo.qtd_volumes }}
+                            </Cell>
+
+                            <Cell v-show="elementosVisiveis.volCaixaInicial">
+                                {{ processo.vol_caixa_inicial }}
+                            </Cell>
+
+                            <Cell v-show="elementosVisiveis.volCaixaFinal">
+                                {{ processo.vol_caixa_final }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.processosFilho">

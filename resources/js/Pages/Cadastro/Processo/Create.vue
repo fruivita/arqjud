@@ -34,6 +34,8 @@ const form = useForm({
     numero: '',
     numero_antigo: '',
     arquivado_em: '',
+    vol_caixa_inicial: '',
+    vol_caixa_final: '',
     qtd_volumes: '',
     descricao: '',
     processo_pai_numero: '',
@@ -162,6 +164,30 @@ const cadastrar = () => {
                             :placeholder="__('Apenas números')"
                             autocomplete="off"
                             icone="journals"
+                            required
+                        />
+
+                        <NumeroInput
+                            v-model="form.vol_caixa_inicial"
+                            :erro="form.errors.vol_caixa_inicial"
+                            :label="__('Vol. caixa inicial')"
+                            :max="9999"
+                            :min="1"
+                            :placeholder="__('Apenas números')"
+                            autocomplete="off"
+                            icone="folder"
+                            required
+                        />
+
+                        <NumeroInput
+                            v-model="form.vol_caixa_final"
+                            :erro="form.errors.vol_caixa_final"
+                            :label="__('Vol. caixa final')"
+                            :max="9999"
+                            :min="1"
+                            :placeholder="__('Apenas números')"
+                            autocomplete="off"
+                            icone="folder-fill"
                             required
                         />
 

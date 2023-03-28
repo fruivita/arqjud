@@ -78,6 +78,32 @@ class Order extends OrderBase
     }
 
     /**
+     * Aplica a ordenação pela volume inicial da caixa ocupada pelo processo.
+     *
+     * @param  string  $direcao asc ou desc
+     * @return void
+     */
+    protected function volCaixaInicial(Builder $query, string $direcao)
+    {
+        $direcao = ascOrDesc($direcao);
+
+        $query->orderBy('vol_caixa_inicial', $direcao);
+    }
+
+    /**
+     * Aplica a ordenação pela volume final da caixa ocupada pelo processo.
+     *
+     * @param  string  $direcao asc ou desc
+     * @return void
+     */
+    protected function volCaixaFinal(Builder $query, string $direcao)
+    {
+        $direcao = ascOrDesc($direcao);
+
+        $query->orderBy('vol_caixa_final', $direcao);
+    }
+
+    /**
      * Aplica a ordenação pela quantidade de processos filho.
      *
      * @param  string  $direcao asc ou desc

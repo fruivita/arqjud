@@ -60,6 +60,8 @@ describe('Icone', () => {
         ['eye'],
         ['file-earmark-text'],
         ['files'],
+        ['folder'],
+        ['folder-fill'],
         ['geo-alt'],
         ['git'],
         ['hand-thumbs-down'],

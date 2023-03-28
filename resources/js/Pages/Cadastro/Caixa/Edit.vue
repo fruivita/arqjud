@@ -90,6 +90,8 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     numeroAntigo: true,
     arquivadoEm: true,
     guardaPermanente: true,
+    volCaixaInicial: true,
+    volCaixaFinal: true,
     qtdVolumes: true,
     processosFilho: true,
     solicitacoes: true,
@@ -325,6 +327,16 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                     />
 
                     <CheckBox
+                        v-model:checked="elementosVisiveis.volCaixaInicial"
+                        :label="__('Vol caixa inicial')"
+                    />
+
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.volCaixaFinal"
+                        :label="__('Vol caixa final')"
+                    />
+
+                    <CheckBox
                         v-model:checked="elementosVisiveis.processosFilho"
                         :label="__('Qtd proc filho')"
                     />
@@ -376,6 +388,20 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                     />
 
                     <HeadingOrdenavel
+                        v-show="elementosVisiveis.volCaixaInicial"
+                        :ordenacao="ordenacoes.vol_caixa_inicial"
+                        :texto="__('Vol caixa inicial')"
+                        @ordenar="(direcao) => mudarOrdenacao('vol_caixa_inicial', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.volCaixaFinal"
+                        :ordenacao="ordenacoes.vol_caixa_final"
+                        :texto="__('Vol caixa final')"
+                        @ordenar="(direcao) => mudarOrdenacao('vol_caixa_final', direcao)"
+                    />
+
+                    <HeadingOrdenavel
                         v-show="elementosVisiveis.processosFilho"
                         :ordenacao="ordenacoes.processos_filho_count"
                         :texto="__('Qtd proc filho')"
@@ -421,6 +447,14 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                             <Cell v-show="elementosVisiveis.qtdVolumes">{{
                                 processo.qtd_volumes
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.volCaixaInicial">{{
+                                processo.vol_caixa_inicial
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.volCaixaFinal">{{
+                                processo.vol_caixa_final
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.processosFilho">{{

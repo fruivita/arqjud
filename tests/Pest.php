@@ -199,6 +199,8 @@ function processoApi(Processo $processo)
         'arquivado_em' => $processo->arquivado_em->format('d-m-Y'),
         'guarda_permanente' => $processo->guarda_permanente,
         'qtd_volumes' => $processo->qtd_volumes,
+        'vol_caixa_inicial' => $processo->vol_caixa_inicial,
+        'vol_caixa_final' => $processo->vol_caixa_final,
         'descricao' => $processo->descricao,
         'caixa_id' => $processo->caixa_id,
         'processo_pai_id' => $processo->processo_pai_id,

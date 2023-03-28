@@ -55,6 +55,8 @@ const form = useForm({
     numero: props.processo.data.numero,
     numero_antigo: props.processo.data.numero_antigo,
     arquivado_em: props.processo.data.arquivado_em,
+    vol_caixa_inicial: props.processo.data.vol_caixa_inicial,
+    vol_caixa_final: props.processo.data.vol_caixa_final,
     qtd_volumes: props.processo.data.qtd_volumes,
     processo_pai_numero: props.processo.data.processo_pai?.numero ?? '',
     descricao: props.processo.data.descricao ?? '',
@@ -240,6 +242,32 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             :disabled="!modoEdicao"
                             :erro="form.errors.qtd_volumes"
                             :label="__('Volumes')"
+                            :max="9999"
+                            :min="1"
+                            :placeholder="__('Apenas números')"
+                            autocomplete="off"
+                            icone="journals"
+                            required
+                        />
+
+                        <NumeroInput
+                            v-model="form.vol_caixa_inicial"
+                            :disabled="!modoEdicao"
+                            :erro="form.errors.vol_caixa_inicial"
+                            :label="__('Vol. caixa inicial')"
+                            :max="9999"
+                            :min="1"
+                            :placeholder="__('Apenas números')"
+                            autocomplete="off"
+                            icone="journals"
+                            required
+                        />
+
+                        <NumeroInput
+                            v-model="form.vol_caixa_final"
+                            :disabled="!modoEdicao"
+                            :erro="form.errors.vol_caixa_final"
+                            :label="__('Vol. caixa final')"
                             :max="9999"
                             :min="1"
                             :placeholder="__('Apenas números')"
