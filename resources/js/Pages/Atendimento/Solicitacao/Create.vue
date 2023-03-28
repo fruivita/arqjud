@@ -157,7 +157,7 @@ const removeProcesso = (numero) => {
     remove(formSolicitarProcessos.processos, (p) => p.numero == numero);
 };
 
-const solicitarProcessos = () => {
+const confirmarSolicitacao = () => {
     formSolicitarProcessos.clearErrors();
 
     formSolicitarProcessos.post(props.links.store, {
@@ -313,8 +313,8 @@ const viewReset = () => {
 
                     <ButtonText
                         v-show="formSolicitarProcessos.processos.length >= 1"
-                        :texto="__('Solicitar processo')"
-                        @click="solicitarProcessos"
+                        :texto="__('Confirmar solicitação')"
+                        @click="confirmarSolicitacao"
                         dusk="submit"
                         especie="acao"
                         icone="signpost"
