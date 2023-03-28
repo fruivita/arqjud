@@ -79,7 +79,7 @@ final class Menu implements MenuInterface
                 fn ($collection) => $collection->push([
                     'icone' => 'signpost-2',
                     'href' => route('atendimento.solicitar-processo.index'),
-                    'texto' => __('Solicitações'),
+                    'texto' => __('Listar solicitações'),
                     'ativo' => Route::is('atendimento.solicitar-processo.index'),
                 ])
             )
@@ -132,7 +132,7 @@ final class Menu implements MenuInterface
                 fn ($collection) => $collection->push([
                     'icone' => 'signpost',
                     'href' => route('solicitacao.create'),
-                    'texto' => __('Solicitar'),
+                    'texto' => __('Solicitar processo'),
                     'ativo' => Route::is('solicitacao.create'),
                 ])
             )
@@ -141,7 +141,7 @@ final class Menu implements MenuInterface
                 fn ($collection) => $collection->push([
                     'icone' => 'signpost-2',
                     'href' => route('solicitacao.index'),
-                    'texto' => __('Solicitações'),
+                    'texto' => __('Listar solicitações'),
                     'ativo' => Route::is('solicitacao.index'),
                 ])
             )

@@ -42,11 +42,11 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
         ],
     ]]);
 })->with([
-    [Permissao::SOLICITACAO_VIEW_ANY, fn () => __('Atendimentos'), 'signpost-2', fn () => route('atendimento.solicitar-processo.index'), fn () => __('Solicitações')],
+    [Permissao::SOLICITACAO_VIEW_ANY, fn () => __('Atendimentos'), 'signpost-2', fn () => route('atendimento.solicitar-processo.index'), fn () => __('Listar solicitações')],
     [Permissao::SOLICITACAO_CREATE, fn () => __('Atendimentos'), 'signpost', fn () => route('atendimento.solicitar-processo.create'), fn () => __('Solicitar processo')],
     [Permissao::GUIA_VIEW_ANY, fn () => __('Atendimentos'), 'files', fn () => route('atendimento.guia.index'), fn () => __('Guias')],
-    [Permissao::SOLICITACAO_EXTERNA_CREATE, fn () => __('Solicitações de processos'), 'signpost', fn () => route('solicitacao.create'), fn () => __('Solicitar')],
-    [Permissao::SOLICITACAO_EXTERNA_VIEW_ANY, fn () => __('Solicitações de processos'), 'signpost-2', fn () => route('solicitacao.index'), fn () => __('Solicitações')],
+    [Permissao::SOLICITACAO_EXTERNA_CREATE, fn () => __('Solicitações de processos'), 'signpost', fn () => route('solicitacao.create'), fn () => __('Solicitar processo')],
+    [Permissao::SOLICITACAO_EXTERNA_VIEW_ANY, fn () => __('Solicitações de processos'), 'signpost-2', fn () => route('solicitacao.index'), fn () => __('Listar solicitações')],
     [Permissao::MOVER_PROCESSO_CREATE, fn () => __('Movimentações'), 'boxes', fn () => route('movimentacao.entre-caixas.create'), fn () => __('Entre caixas')],
     [Permissao::LOCALIDADE_VIEW_ANY, fn () => __('Cadastros'), 'pin-map', fn () => route('cadastro.localidade.index'), fn () => __('Localidades')],
     [Permissao::PREDIO_VIEW_ANY, fn () => __('Cadastros'), 'buildings', fn () => route('cadastro.predio.index'), fn () => __('Prédios')],
