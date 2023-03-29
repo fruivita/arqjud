@@ -22,6 +22,7 @@ describe('Heading', () => {
     // Caminho feliz
     test('propriedades do componente estão definidas', () => {
         expect(Heading.props).toMatchObject({
+            fixo: { type: Boolean, default: false },
             texto: { type: String, default: '' },
         });
     });
@@ -30,6 +31,14 @@ describe('Heading', () => {
         expect(
             mountFunction({
                 props: { texto: 'foo' },
+            }).html()
+        ).toMatchSnapshot();
+    });
+
+    test('renderiza de maneira diversa o componente se ele for fixo respeitando o snapshot', () => {
+        expect(
+            mountFunction({
+                props: { fixo: true },
             }).html()
         ).toMatchSnapshot();
     });

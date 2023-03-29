@@ -301,6 +301,8 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                 />
 
                 <Preferencia>
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                     <CheckBox
                         v-model:checked="elementosVisiveis.processo"
                         :label="__('Processo')"
@@ -345,13 +347,13 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         v-model:checked="elementosVisiveis.solicitacoes"
                         :label="__('Qtd solicitações')"
                     />
-
-                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.processo"
                         :ordenacao="ordenacoes.numero"
@@ -414,13 +416,35 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         :texto="__('Qtd solicitações')"
                         @ordenar="(direcao) => mudarOrdenacao('solicitacoes_count', direcao)"
                     />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="processos.data.length">
                         <Row v-for="processo in processos.data" :key="processo.id">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
+                                <div class="flex space-x-3">
+                                    <InertiaButtonIconeLink
+                                        v-if="processo.links.view"
+                                        :href="processo.links.view"
+                                        icone="eye"
+                                    />
+
+                                    <ButtonIcone
+                                        v-if="processo.links.delete"
+                                        @click="
+                                            confirmarExclusao(
+                                                processo.links.delete,
+                                                __('Exclusão do processo :attribute', {
+                                                    attribute: processo.numero,
+                                                })
+                                            )
+                                        "
+                                        especie="perigo"
+                                        icone="trash"
+                                    />
+                                </div>
+                            </Cell>
+
                             <Cell v-show="elementosVisiveis.processo">
                                 <span>{{ processo.numero }}</span>
 
@@ -464,30 +488,6 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             <Cell v-show="elementosVisiveis.solicitacoes">{{
                                 processo.solicitacoes_count
                             }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
-                                <div class="flex space-x-3">
-                                    <InertiaButtonIconeLink
-                                        v-if="processo.links.view"
-                                        :href="processo.links.view"
-                                        icone="eye"
-                                    />
-
-                                    <ButtonIcone
-                                        v-if="processo.links.delete"
-                                        @click="
-                                            confirmarExclusao(
-                                                processo.links.delete,
-                                                __('Exclusão do processo :attribute', {
-                                                    attribute: processo.numero,
-                                                })
-                                            )
-                                        "
-                                        especie="perigo"
-                                        icone="trash"
-                                    />
-                                </div>
-                            </Cell>
                         </Row>
                     </template>
 

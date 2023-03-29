@@ -9,11 +9,12 @@
 <script setup>
 defineProps({
     erro: { type: String, default: '' },
+    fixo: { type: Boolean, default: false },
 });
 </script>
 
 <template>
-    <td class="p-3" dusk="slot">
+    <td :class="{ 'sticky left-0 z-10 h-fit': fixo }" class="p-3" dusk="slot">
         <div class="flex items-center justify-center">
             <slot></slot>
         </div>

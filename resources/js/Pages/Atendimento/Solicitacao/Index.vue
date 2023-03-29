@@ -138,6 +138,8 @@ watch(perPage, filtrar);
                 />
 
                 <Preferencia>
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                     <CheckBox v-model:checked="elementosVisiveis.status" :label="__('Status')" />
 
                     <CheckBox
@@ -183,13 +185,13 @@ watch(perPage, filtrar);
                         v-model:checked="elementosVisiveis.devolvidaEm"
                         :label="__('Devolvida em')"
                     />
-
-                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <Heading v-show="elementosVisiveis.status" :texto="__('Status')" />
 
                     <HeadingOrdenavel
@@ -261,13 +263,30 @@ watch(perPage, filtrar);
                         :texto="__('Devolvida em')"
                         @ordenar="(direcao) => mudarOrdenacao('devolvida_em', direcao)"
                     />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="solicitacoes.data.length">
                         <Row v-for="solicitacao in solicitacoes.data" :key="solicitacao.id">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
+                                <div class="flex space-x-3">
+                                    <ButtonIcone
+                                        v-if="solicitacao.links.delete"
+                                        @click="
+                                            confirmarExclusao(
+                                                solicitacao.links.delete,
+                                                __(
+                                                    'Exclusão da solicitação do processo :attribute',
+                                                    { attribute: solicitacao.processo.numero }
+                                                )
+                                            )
+                                        "
+                                        especie="perigo"
+                                        icone="trash"
+                                    />
+                                </div>
+                            </Cell>
+
                             <Cell v-show="elementosVisiveis.status">
                                 <span
                                     :class="{
@@ -360,25 +379,6 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.devolvidaEm">
                                 {{ solicitacao.devolvida_em }}
-                            </Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
-                                <div class="flex space-x-3">
-                                    <ButtonIcone
-                                        v-if="solicitacao.links.delete"
-                                        @click="
-                                            confirmarExclusao(
-                                                solicitacao.links.delete,
-                                                __(
-                                                    'Exclusão da solicitação do processo :attribute',
-                                                    { attribute: solicitacao.processo.numero }
-                                                )
-                                            )
-                                        "
-                                        especie="perigo"
-                                        icone="trash"
-                                    />
-                                </div>
                             </Cell>
                         </Row>
                     </template>

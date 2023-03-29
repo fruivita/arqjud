@@ -92,6 +92,8 @@ watch(perPage, filtrar);
 
         <Container class="space-y-3">
             <Preferencia>
+                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                 <CheckBox v-model:checked="elementosVisiveis.predio" :label="__('Prédio')" />
 
                 <CheckBox v-model:checked="elementosVisiveis.andares" :label="__('Qtd andares')" />
@@ -100,12 +102,12 @@ watch(perPage, filtrar);
                     v-model:checked="elementosVisiveis.localidade"
                     :label="__('Localidade')"
                 />
-
-                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.predio"
                         :ordenacao="ordenacoes.nome"
@@ -126,24 +128,12 @@ watch(perPage, filtrar);
                         :texto="__('Localidade')"
                         @ordenar="(direcao) => mudarOrdenacao('localidade_pai_nome', direcao)"
                     />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="predios.data.length">
                         <Row v-for="predio in predios.data" :key="predio.id">
-                            <Cell v-show="elementosVisiveis.predio">{{ predio.nome }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.andares">{{
-                                predio.andares_count
-                            }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.localidade">{{
-                                predio.localidade.nome
-                            }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
                                 <div class="flex space-x-3">
                                     <InertiaButtonIconeLink
                                         v-if="predio.links.view"
@@ -166,6 +156,16 @@ watch(perPage, filtrar);
                                     />
                                 </div>
                             </Cell>
+
+                            <Cell v-show="elementosVisiveis.predio">{{ predio.nome }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.andares">{{
+                                predio.andares_count
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.localidade">{{
+                                predio.localidade.nome
+                            }}</Cell>
                         </Row>
                     </template>
 

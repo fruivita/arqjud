@@ -29,17 +29,15 @@ const __ = useTranslationsStore().__;
         <Container>
             <Tabela>
                 <template #header>
-                    <Heading :texto="__('Logs')" />
+                    <Heading :texto="__('Ações')" fixo />
 
-                    <Heading :texto="__('Ações')" />
+                    <Heading :texto="__('Logs')" />
                 </template>
 
                 <template #body>
                     <template v-if="arquivos.data.length">
                         <Row v-for="(arquivo, index) in arquivos.data" :key="index">
-                            <Cell>{{ arquivo.nome }}</Cell>
-
-                            <Cell class="w-10">
+                            <Cell class="w-10" fixo>
                                 <div class="flex space-x-3">
                                     <InertiaButtonIconeLink
                                         v-if="arquivo.links.view"
@@ -54,6 +52,8 @@ const __ = useTranslationsStore().__;
                                     />
                                 </div>
                             </Cell>
+
+                            <Cell>{{ arquivo.nome }}</Cell>
                         </Row>
                     </template>
 

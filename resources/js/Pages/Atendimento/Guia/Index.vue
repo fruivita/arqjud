@@ -92,6 +92,8 @@ watch(perPage, filtrar);
 
         <Container class="space-y-3">
             <Preferencia>
+                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                 <CheckBox v-model:checked="elementosVisiveis.numero" :label="__('Número')" />
 
                 <CheckBox v-model:checked="elementosVisiveis.ano" :label="__('Ano')" />
@@ -102,21 +104,18 @@ watch(perPage, filtrar);
 
                 <CheckBox v-model:checked="elementosVisiveis.recebedor" :label="__('Recebedor')" />
 
-                <CheckBox
-                    v-model:checked="elementosVisiveis.destino"
-                    :label="__('Destino')"
-                />
+                <CheckBox v-model:checked="elementosVisiveis.destino" :label="__('Destino')" />
 
                 <CheckBox
                     v-model:checked="elementosVisiveis.processos"
                     :label="__('Qtd processos')"
                 />
-
-                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.numero"
                         :ordenacao="ordenacoes.numero"
@@ -142,19 +141,34 @@ watch(perPage, filtrar);
 
                     <Heading v-show="elementosVisiveis.recebedor" :texto="__('Recebedor')" />
 
-                    <Heading
-                        v-show="elementosVisiveis.destino"
-                        :texto="__('Destino')"
-                    />
+                    <Heading v-show="elementosVisiveis.destino" :texto="__('Destino')" />
 
                     <Heading v-show="elementosVisiveis.processos" :texto="__('Qtd processos')" />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="guias.data.length">
                         <Row v-for="guia in guias.data" :key="guia.id">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
+                                <div
+                                    v-if="guia.links?.view || guia.links?.pdf"
+                                    class="flex space-x-3"
+                                >
+                                    <InertiaButtonIconeLink
+                                        v-if="guia.links?.view"
+                                        :href="guia.links.view"
+                                        icone="eye"
+                                    />
+
+                                    <LinkButtonIcone
+                                        v-if="guia.links?.pdf"
+                                        :href="guia.links.pdf"
+                                        icone="printer"
+                                        target="_blank"
+                                    />
+                                </div>
+                            </Cell>
+
                             <Cell v-show="elementosVisiveis.numero">{{ guia.numero }}</Cell>
 
                             <Cell v-show="elementosVisiveis.ano">{{ guia.ano }}</Cell>
@@ -199,26 +213,6 @@ watch(perPage, filtrar);
                                     :texto="map(guia.processos, 'numero')"
                                     class="ml-1"
                                 />
-                            </Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
-                                <div
-                                    v-if="guia.links?.view || guia.links?.pdf"
-                                    class="flex space-x-3"
-                                >
-                                    <InertiaButtonIconeLink
-                                        v-if="guia.links?.view"
-                                        :href="guia.links.view"
-                                        icone="eye"
-                                    />
-
-                                    <LinkButtonIcone
-                                        v-if="guia.links?.pdf"
-                                        :href="guia.links.pdf"
-                                        icone="printer"
-                                        target="_blank"
-                                    />
-                                </div>
                             </Cell>
                         </Row>
                     </template>

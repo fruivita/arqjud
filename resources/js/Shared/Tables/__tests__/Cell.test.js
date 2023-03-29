@@ -22,6 +22,7 @@ describe('Cell', () => {
     test('propriedades estão definidas', () => {
         expect(Cell.props).toMatchObject({
             erro: { type: String, default: '' },
+            fixo: { type: Boolean, default: false },
         });
     });
 
@@ -29,6 +30,14 @@ describe('Cell', () => {
         expect(
             mountFunction({
                 slots: { default: 'foo' },
+            }).html()
+        ).toMatchSnapshot();
+    });
+
+    test('renderiza de maneira diversa o componente se ele for fixo respeitando o snapshot', () => {
+        expect(
+            mountFunction({
+                props: { fixo: true },
             }).html()
         ).toMatchSnapshot();
     });

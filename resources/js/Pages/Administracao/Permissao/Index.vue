@@ -86,19 +86,21 @@ watch(perPage, filtrar);
         <Container class="space-y-3">
             <div class="flex flex-col space-y-3 md:flex-row md:items-start md:justify-end">
                 <Preferencia>
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                     <CheckBox
                         v-model:checked="elementosVisiveis.permissao"
                         :label="__('Permissão')"
                     />
 
                     <CheckBox v-model:checked="elementosVisiveis.slug" :label="__('Slug')" />
-
-                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.permissao"
                         :ordenacao="ordenacoes.nome"
@@ -112,24 +114,22 @@ watch(perPage, filtrar);
                         :texto="__('Slug')"
                         @ordenar="(direcao) => mudarOrdenacao('slug', direcao)"
                     />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="permissoes.data.length">
                         <Row v-for="permissao in permissoes.data" :key="permissao.id">
-                            <Cell v-show="elementosVisiveis.permissao">{{ permissao.nome }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.slug">{{ permissao.slug }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
                                 <InertiaButtonIconeLink
                                     v-if="permissao.links.view"
                                     :href="permissao.links.view"
                                     icone="eye"
                                 />
                             </Cell>
+
+                            <Cell v-show="elementosVisiveis.permissao">{{ permissao.nome }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.slug">{{ permissao.slug }}</Cell>
                         </Row>
                     </template>
 

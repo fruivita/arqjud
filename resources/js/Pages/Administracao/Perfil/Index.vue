@@ -108,6 +108,8 @@ watch(perPage, filtrar);
                 />
 
                 <Preferencia>
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                     <CheckBox v-model:checked="elementosVisiveis.perfil" :label="__('Perfil')" />
 
                     <CheckBox v-model:checked="elementosVisiveis.slug" :label="__('Slug')" />
@@ -118,13 +120,13 @@ watch(perPage, filtrar);
                         v-model:checked="elementosVisiveis.usuarios"
                         :label="__('Qtd usuários')"
                     />
-
-                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.perfil"
                         :ordenacao="ordenacoes.nome"
@@ -152,24 +154,12 @@ watch(perPage, filtrar);
                         :texto="__('Qtd usuários')"
                         @ordenar="(direcao) => mudarOrdenacao('usuarios_count', direcao)"
                     />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="perfis.data.length">
                         <Row v-for="perfil in perfis.data" :key="perfil.id">
-                            <Cell v-show="elementosVisiveis.perfil">{{ perfil.nome }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.slug">{{ perfil.slug }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.poder">{{ perfil.poder }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.usuarios">
-                                {{ perfil.usuarios_count }}
-                            </Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
                                 <div class="flex space-x-3">
                                     <InertiaButtonIconeLink
                                         v-if="perfil.links.view"
@@ -191,6 +181,16 @@ watch(perPage, filtrar);
                                         icone="trash"
                                     />
                                 </div>
+                            </Cell>
+
+                            <Cell v-show="elementosVisiveis.perfil">{{ perfil.nome }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.slug">{{ perfil.slug }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.poder">{{ perfil.poder }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.usuarios">
+                                {{ perfil.usuarios_count }}
                             </Cell>
                         </Row>
                     </template>

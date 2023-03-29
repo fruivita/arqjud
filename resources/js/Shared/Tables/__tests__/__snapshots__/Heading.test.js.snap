@@ -6,4 +6,10 @@ exports[`Heading > não renderiza o texto do componente respeitando o snapshot 1
 </th>"
 `;
 
+exports[`Heading > renderiza de maneira diversa o componente se ele for fixo respeitando o snapshot 1`] = `
+"<th class=\\"sticky left-0 z-10 h-fit bg-primaria-200 dark:bg-secundaria-700 p-3\\">
+  <!--v-if-->
+</th>"
+`;
+
 exports[`Heading > renderiza o componente respeitando o snapshot 1`] = `"<th class=\\"p-3\\"><span class=\\"font-bold\\">foo</span></th>"`;

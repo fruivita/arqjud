@@ -96,6 +96,8 @@ watch(perPage, filtrar);
 
         <Container class="space-y-3">
             <Preferencia>
+                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                 <CheckBox v-model:checked="elementosVisiveis.estante" :label="__('Estante')" />
 
                 <CheckBox
@@ -115,12 +117,12 @@ watch(perPage, filtrar);
                 <CheckBox v-model:checked="elementosVisiveis.andarApelido" :label="__('Apelido')" />
 
                 <CheckBox v-model:checked="elementosVisiveis.sala" :label="__('Sala')" />
-
-                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.estante"
                         :ordenacao="ordenacoes.numero"
@@ -169,13 +171,35 @@ watch(perPage, filtrar);
                         :texto="__('Sala')"
                         @ordenar="(direcao) => mudarOrdenacao('sala_pai_numero', direcao)"
                     />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="estantes.data.length">
                         <Row v-for="estante in estantes.data" :key="estante.id">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
+                                <div class="flex space-x-3">
+                                    <InertiaButtonIconeLink
+                                        v-if="estante.links.view"
+                                        :href="estante.links.view"
+                                        icone="eye"
+                                    />
+
+                                    <ButtonIcone
+                                        v-if="estante.links.delete"
+                                        @click="
+                                            confirmarExclusao(
+                                                estante.links.delete,
+                                                __('Exclusão da estante :attribute', {
+                                                    attribute: estante.numero,
+                                                })
+                                            )
+                                        "
+                                        especie="perigo"
+                                        icone="trash"
+                                    />
+                                </div>
+                            </Cell>
+
                             <Cell v-show="elementosVisiveis.estante">{{ estante.numero }}</Cell>
 
                             <Cell v-show="elementosVisiveis.prateleiras">{{
@@ -199,30 +223,6 @@ watch(perPage, filtrar);
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.sala">{{ estante.sala.numero }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
-                                <div class="flex space-x-3">
-                                    <InertiaButtonIconeLink
-                                        v-if="estante.links.view"
-                                        :href="estante.links.view"
-                                        icone="eye"
-                                    />
-
-                                    <ButtonIcone
-                                        v-if="estante.links.delete"
-                                        @click="
-                                            confirmarExclusao(
-                                                estante.links.delete,
-                                                __('Exclusão da estante :attribute', {
-                                                    attribute: estante.numero,
-                                                })
-                                            )
-                                        "
-                                        especie="perigo"
-                                        icone="trash"
-                                    />
-                                </div>
-                            </Cell>
                         </Row>
                     </template>
 

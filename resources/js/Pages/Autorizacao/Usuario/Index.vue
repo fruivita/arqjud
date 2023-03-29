@@ -93,6 +93,8 @@ watch(perPage, filtrar);
 
         <Container class="space-y-3">
             <Preferencia>
+                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                 <CheckBox v-model:checked="elementosVisiveis.status" :label="__('Cadastro')" />
 
                 <CheckBox v-model:checked="elementosVisiveis.nome" :label="__('Nome')" />
@@ -116,12 +118,12 @@ watch(perPage, filtrar);
                     v-model:checked="elementosVisiveis.ultimoLogin"
                     :label="__('Último login')"
                 />
-
-                <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
             </Preferencia>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <Heading v-show="elementosVisiveis.status" :texto="__('Cadastro')" />
 
                     <HeadingOrdenavel
@@ -179,13 +181,21 @@ watch(perPage, filtrar);
                         :texto="__('Último login')"
                         @ordenar="(direcao) => mudarOrdenacao('ultimo_login', direcao)"
                     />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="usuarios.data.length">
                         <Row v-for="usuario in usuarios.data" :key="usuario.id">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
+                                <div class="flex space-x-3">
+                                    <InertiaButtonIconeLink
+                                        v-if="usuario.links.view"
+                                        :href="usuario.links.view"
+                                        icone="eye"
+                                    />
+                                </div>
+                            </Cell>
+
                             <Cell v-show="elementosVisiveis.status">
                                 <span
                                     :class="{
@@ -232,16 +242,6 @@ watch(perPage, filtrar);
                                 <span>{{ usuario.ultimo_login }}</span>
 
                                 <Tooltip v-if="usuario.ip" :texto="usuario.ip" class="ml-1" />
-                            </Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
-                                <div class="flex space-x-3">
-                                    <InertiaButtonIconeLink
-                                        v-if="usuario.links.view"
-                                        :href="usuario.links.view"
-                                        icone="eye"
-                                    />
-                                </div>
                             </Cell>
                         </Row>
                     </template>

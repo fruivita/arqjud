@@ -128,6 +128,8 @@ watch(perPage, filtrar);
         <Container class="space-y-3">
             <div class="flex flex-col space-y-3 md:flex-row md:items-start md:justify-end">
                 <Preferencia>
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                     <CheckBox v-model:checked="elementosVisiveis.lotacao" :label="__('Lotação')" />
 
                     <CheckBox v-model:checked="elementosVisiveis.sigla" :label="__('Sigla')" />
@@ -146,13 +148,13 @@ watch(perPage, filtrar);
                         v-model:checked="elementosVisiveis.usuarios"
                         :label="__('Qtd usuários')"
                     />
-
-                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.lotacao"
                         :ordenacao="ordenacoes.nome"
@@ -187,13 +189,28 @@ watch(perPage, filtrar);
                         :texto="__('Qtd usuários')"
                         @ordenar="(direcao) => mudarOrdenacao('usuarios_count', direcao)"
                     />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="lotacoes.data.length">
                         <Row v-for="lotacao in lotacoes.data" :key="lotacao.id">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
+                                <div class="flex space-x-3">
+                                    <ButtonIcone
+                                        v-if="lotacao.links.update"
+                                        :especie="lotacao.administravel ? 'padrao' : 'perigo'"
+                                        :icone="
+                                            lotacao.administravel
+                                                ? 'hand-thumbs-up'
+                                                : 'hand-thumbs-down'
+                                        "
+                                        @click="administravel(lotacao.links.update)"
+                                        dusk="submit"
+                                        type="submit"
+                                    />
+                                </div>
+                            </Cell>
+
                             <Cell v-show="elementosVisiveis.lotacao">{{ lotacao.nome }}</Cell>
 
                             <Cell v-show="elementosVisiveis.sigla">{{ lotacao.sigla }}</Cell>
@@ -214,23 +231,6 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.usuarios">
                                 {{ lotacao.usuarios_count }}
-                            </Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
-                                <div class="flex space-x-3">
-                                    <ButtonIcone
-                                        v-if="lotacao.links.update"
-                                        :especie="lotacao.administravel ? 'padrao' : 'perigo'"
-                                        :icone="
-                                            lotacao.administravel
-                                                ? 'hand-thumbs-up'
-                                                : 'hand-thumbs-down'
-                                        "
-                                        @click="administravel(lotacao.links.update)"
-                                        dusk="submit"
-                                        type="submit"
-                                    />
-                                </div>
                             </Cell>
                         </Row>
                     </template>

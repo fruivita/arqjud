@@ -6,6 +6,13 @@ exports[`Cell > renderiza a mensagem de erro respeitando o snapshot 1`] = `
 </td>"
 `;
 
+exports[`Cell > renderiza de maneira diversa o componente se ele for fixo respeitando o snapshot 1`] = `
+"<td class=\\"sticky left-0 z-10 h-fit p-3\\" dusk=\\"slot\\">
+  <div class=\\"flex items-center justify-center\\"></div>
+  <!--v-if-->
+</td>"
+`;
+
 exports[`Cell > renderiza o componente respeitando o snapshot 1`] = `
 "<td class=\\"p-3\\" dusk=\\"slot\\">
   <div class=\\"flex items-center justify-center\\">foo</div>

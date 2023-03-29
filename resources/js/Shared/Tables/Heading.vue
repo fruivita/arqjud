@@ -7,12 +7,18 @@
  -->
 <script setup>
 const props = defineProps({
+    fixo: { type: Boolean, default: false },
     texto: { type: String, default: '' },
 });
 </script>
 
 <template>
-    <th class="p-3">
+    <th
+        :class="{
+            'sticky left-0 z-10 h-fit bg-primaria-200 dark:bg-secundaria-700': fixo,
+        }"
+        class="p-3"
+    >
         <span v-if="texto" class="font-bold">{{ texto }}</span>
 
         <slot></slot>

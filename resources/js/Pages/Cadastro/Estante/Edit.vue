@@ -220,6 +220,8 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                 />
 
                 <Preferencia>
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                     <CheckBox
                         v-model:checked="elementosVisiveis.prateleira"
                         :label="__('Prateleira')"
@@ -229,13 +231,13 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         v-model:checked="elementosVisiveis.caixas"
                         :label="__('Qtd caixas')"
                     />
-
-                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.prateleira"
                         :ordenacao="ordenacoes.numero"
@@ -249,22 +251,12 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         :texto="__('Qtd caixas')"
                         @ordenar="(direcao) => mudarOrdenacao('caixas_count', direcao)"
                     />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="prateleiras.data.length">
                         <Row v-for="prateleira in prateleiras.data" :key="prateleira.id">
-                            <Cell v-show="elementosVisiveis.prateleira">{{
-                                prateleira.numero
-                            }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.caixas">{{
-                                prateleira.caixas_count
-                            }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
                                 <div class="flex space-x-3">
                                     <InertiaButtonIconeLink
                                         v-if="prateleira.links.view"
@@ -287,6 +279,14 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                                     />
                                 </div>
                             </Cell>
+
+                            <Cell v-show="elementosVisiveis.prateleira">{{
+                                prateleira.numero
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.caixas">{{
+                                prateleira.caixas_count
+                            }}</Cell>
                         </Row>
                     </template>
 

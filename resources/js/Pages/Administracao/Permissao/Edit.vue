@@ -182,16 +182,18 @@ watch(perPage, filtrar);
         <Container class="space-y-3">
             <div class="flex flex-col space-y-3 md:flex-row md:items-start md:justify-end">
                 <Preferencia>
+                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
+
                     <CheckBox v-model:checked="elementosVisiveis.perfil" :label="__('Perfil')" />
 
                     <CheckBox v-model:checked="elementosVisiveis.slug" :label="__('Slug')" />
-
-                    <CheckBox v-model:checked="elementosVisiveis.acao" :label="__('Ações')" />
                 </Preferencia>
             </div>
 
             <Tabela>
                 <template #header>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
+
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.perfil"
                         :ordenacao="ordenacoes.nome"
@@ -205,18 +207,12 @@ watch(perPage, filtrar);
                         :texto="__('Slug')"
                         @ordenar="(direcao) => mudarOrdenacao('slug', direcao)"
                     />
-
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" />
                 </template>
 
                 <template #body>
                     <template v-if="perfis.data.length">
                         <Row v-for="perfil in perfis.data" :key="perfil.id">
-                            <Cell v-show="elementosVisiveis.perfil">{{ perfil.nome }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.slug">{{ perfil.slug }}</Cell>
-
-                            <Cell v-show="elementosVisiveis.acao" class="w-10">
+                            <Cell v-show="elementosVisiveis.acao" class="w-10" fixo>
                                 <div class="flex space-x-3">
                                     <ButtonIcone
                                         v-if="perfil.links.update"
@@ -240,6 +236,10 @@ watch(perPage, filtrar);
                                     />
                                 </div>
                             </Cell>
+
+                            <Cell v-show="elementosVisiveis.perfil">{{ perfil.nome }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.slug">{{ perfil.slug }}</Cell>
                         </Row>
                     </template>
 
