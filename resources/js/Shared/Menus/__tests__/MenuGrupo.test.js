@@ -22,6 +22,7 @@ describe('MenuGrupo', () => {
     // Caminho feliz
     test('propriedades do componente estão definidas', () => {
         expect(MenuGrupo.props).toMatchObject({
+            ativo: { type: Boolean, default: false },
             texto: { type: String, required: true },
         });
     });
@@ -30,6 +31,24 @@ describe('MenuGrupo', () => {
         expect(
             mountFunction({
                 props: { texto: 'foo' },
+                slots: { default: 'bar' },
+            }).html()
+        ).toMatchSnapshot();
+    });
+
+    test('renderiza o componente sem estar no estado ativo (não selecionado) respeitando o snapshot', () => {
+        expect(
+            mountFunction({
+                props: { ativo: false, texto: 'foo' },
+                slots: { default: 'bar' },
+            }).html()
+        ).toMatchSnapshot();
+    });
+
+    test('renderiza o componente com o estado ativo (selecionado) respeitando o snapshot', () => {
+        expect(
+            mountFunction({
+                props: { ativo: true, texto: 'foo' },
                 slots: { default: 'bar' },
             }).html()
         ).toMatchSnapshot();

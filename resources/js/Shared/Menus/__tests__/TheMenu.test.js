@@ -26,6 +26,7 @@ vi.mock('@inertiajs/inertia-vue3', () => ({
                 auth: {
                     menu: [
                         {
+                            ativo: 'true',
                             nome: 'foo',
                             links: [
                                 {

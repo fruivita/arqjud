@@ -43,27 +43,51 @@ final class Menu implements MenuInterface
         return collect()
             ->when(
                 $this->linksGrupoAtendimento(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Atendimentos'), 'links' => $links])
+                fn ($collection, $links) => $collection->push([
+                    'nome' => __('Atendimentos'),
+                    'links' => $links,
+                    'ativo' => collect($links)->contains('ativo', true),
+                ])
             )
             ->when(
                 $this->linksGrupoSolicitacao(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Solicitações de processos'), 'links' => $links])
+                fn ($collection, $links) => $collection->push([
+                    'nome' => __('Solicitações de processos'),
+                    'links' => $links,
+                    'ativo' => collect($links)->contains('ativo', true),
+                ])
             )
             ->when(
                 $this->linksGrupoMovimentacao(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Movimentações'), 'links' => $links])
+                fn ($collection, $links) => $collection->push([
+                    'nome' => __('Movimentações'),
+                    'links' => $links,
+                    'ativo' => collect($links)->contains('ativo', true),
+                ])
             )
             ->when(
                 $this->linksGrupoCadastro(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Cadastros'), 'links' => $links])
+                fn ($collection, $links) => $collection->push([
+                    'nome' => __('Cadastros'),
+                    'links' => $links,
+                    'ativo' => collect($links)->contains('ativo', true),
+                ])
             )
             ->when(
                 $this->linksGrupoAutorizacao(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Autorizações'), 'links' => $links])
+                fn ($collection, $links) => $collection->push([
+                    'nome' => __('Autorizações'),
+                    'links' => $links,
+                    'ativo' => collect($links)->contains('ativo', true),
+                ])
             )
             ->when(
                 $this->linksGrupoAdministracao(),
-                fn ($collection, $links) => $collection->push(['nome' => __('Administração'), 'links' => $links])
+                fn ($collection, $links) => $collection->push([
+                    'nome' => __('Administração'),
+                    'links' => $links,
+                    'ativo' => collect($links)->contains('ativo', true),
+                ])
             )
             ->toArray();
     }

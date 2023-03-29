@@ -52,6 +52,7 @@ const logout = () => {
             <MenuGrupo
                 v-for="(grupo, indiceGrupo) in grupos"
                 :key="`menu-grupo-${indiceGrupo}`"
+                :ativo="grupo.ativo"
                 :texto="grupo.nome"
             >
                 <MenuLink

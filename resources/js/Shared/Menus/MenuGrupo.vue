@@ -11,6 +11,7 @@ import Icone from '@/Shared/Icones/Icone.vue';
 import { ref } from 'vue';
 
 defineProps({
+    ativo: { type: Boolean, default: false },
     texto: { type: String, required: true },
 });
 
@@ -21,7 +22,11 @@ const exibir = ref(false);
     <div class="space-y-1">
         <button
             @click="exibir = !exibir"
-            class="flex w-full items-center justify-between rounded border-primaria-700 bg-primaria-100 p-2 text-left font-extrabold outline-none transition hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600"
+            :class="{
+                'border-l-4 bg-primaria-400 text-primaria-50 dark:bg-secundaria-800': ativo,
+                'bg-primaria-100 hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600': !ativo,
+            }"
+            class="flex w-full items-center justify-between rounded border-primaria-700 p-2 text-left font-extrabold outline-none transition"
             type="button"
             dusk="btn-menu-grupo"
         >

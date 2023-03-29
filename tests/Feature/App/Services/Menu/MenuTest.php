@@ -36,6 +36,7 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
     $menu = Menu::make()->gerar();
 
     expect($menu)->toMatchArray([[
+        'ativo' => false,
         'nome' => $grupo,
         'links' => [
             ['icone' => $icone, 'href' => $href, 'texto' => $texto, 'ativo' => false],
@@ -115,9 +116,10 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
     get(route($rota));
 
     $menu = collect(Menu::make()->gerar())
+        ->where('ativo', true) // menu ativo
         ->pluck('links')
         ->flatten(1)
-        ->where('ativo', true);
+        ->where('ativo', true); // submenu ativo
 
     expect($menu)->toHaveCount(1)
         ->and($menu->first()['href'])->toBe(route($menu_ativo));

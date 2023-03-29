@@ -1,7 +1,7 @@
 // Vitest Snapshot v1
 
 exports[`MenuGrupo > altera a visibilidade do slot e disposição do ícone ao clicar no botão respeitando o snapshot 1`] = `
-"<div class=\\"space-y-1\\"><button class=\\"flex w-full items-center justify-between rounded border-primaria-700 bg-primaria-100 p-2 text-left font-extrabold outline-none transition hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600\\" type=\\"button\\" dusk=\\"btn-menu-grupo\\"><span>foo</span><svg class=\\"h-6 w-6 transition duration-300\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+"<div class=\\"space-y-1\\"><button class=\\"bg-primaria-100 hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600 flex w-full items-center justify-between rounded border-primaria-700 p-2 text-left font-extrabold outline-none transition\\" type=\\"button\\" dusk=\\"btn-menu-grupo\\"><span>foo</span><svg class=\\"h-6 w-6 transition duration-300\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
       <path d=\\"M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z\\"></path>
     </svg></button>
   <transition-stub enterfromclass=\\"opacity-0\\" entertoclass=\\"opacity-100\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-200 transform-gpu\\" leavefromclass=\\"opacity-100\\" leavetoclass=\\"opacity-0\\" appear=\\"false\\" persisted=\\"true\\" css=\\"true\\">
@@ -11,7 +11,7 @@ exports[`MenuGrupo > altera a visibilidade do slot e disposição do ícone ao c
 `;
 
 exports[`MenuGrupo > altera a visibilidade do slot e disposição do ícone ao clicar no botão respeitando o snapshot 2`] = `
-"<div class=\\"space-y-1\\"><button class=\\"flex w-full items-center justify-between rounded border-primaria-700 bg-primaria-100 p-2 text-left font-extrabold outline-none transition hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600\\" type=\\"button\\" dusk=\\"btn-menu-grupo\\"><span>foo</span><svg class=\\"h-6 w-6 transition duration-300 rotate-90\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+"<div class=\\"space-y-1\\"><button class=\\"bg-primaria-100 hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600 flex w-full items-center justify-between rounded border-primaria-700 p-2 text-left font-extrabold outline-none transition\\" type=\\"button\\" dusk=\\"btn-menu-grupo\\"><span>foo</span><svg class=\\"h-6 w-6 transition duration-300 rotate-90\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
       <path d=\\"M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z\\"></path>
     </svg></button>
   <transition-stub enterfromclass=\\"opacity-0\\" entertoclass=\\"opacity-100\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-200 transform-gpu\\" leavefromclass=\\"opacity-100\\" leavetoclass=\\"opacity-0\\" appear=\\"false\\" persisted=\\"true\\" css=\\"true\\">
@@ -21,7 +21,27 @@ exports[`MenuGrupo > altera a visibilidade do slot e disposição do ícone ao c
 `;
 
 exports[`MenuGrupo > atributos e slots do componente renderizados respeitando o snapshot 1`] = `
-"<div class=\\"space-y-1\\"><button class=\\"flex w-full items-center justify-between rounded border-primaria-700 bg-primaria-100 p-2 text-left font-extrabold outline-none transition hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600\\" type=\\"button\\" dusk=\\"btn-menu-grupo\\"><span>foo</span><svg class=\\"h-6 w-6 transition duration-300\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+"<div class=\\"space-y-1\\"><button class=\\"bg-primaria-100 hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600 flex w-full items-center justify-between rounded border-primaria-700 p-2 text-left font-extrabold outline-none transition\\" type=\\"button\\" dusk=\\"btn-menu-grupo\\"><span>foo</span><svg class=\\"h-6 w-6 transition duration-300\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+      <path d=\\"M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z\\"></path>
+    </svg></button>
+  <transition-stub enterfromclass=\\"opacity-0\\" entertoclass=\\"opacity-100\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-200 transform-gpu\\" leavefromclass=\\"opacity-100\\" leavetoclass=\\"opacity-0\\" appear=\\"false\\" persisted=\\"true\\" css=\\"true\\">
+    <div class=\\"flex flex-col space-y-1 border-l-2 border-primaria-500 pl-3 dark:border-secundaria-500\\" dusk=\\"slot\\" style=\\"display: none;\\">bar</div>
+  </transition-stub>
+</div>"
+`;
+
+exports[`MenuGrupo > renderiza o componente com o estado ativo (selecionado) respeitando o snapshot 1`] = `
+"<div class=\\"space-y-1\\"><button class=\\"border-l-4 bg-primaria-400 text-primaria-50 dark:bg-secundaria-800 flex w-full items-center justify-between rounded border-primaria-700 p-2 text-left font-extrabold outline-none transition\\" type=\\"button\\" dusk=\\"btn-menu-grupo\\"><span>foo</span><svg class=\\"h-6 w-6 transition duration-300\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+      <path d=\\"M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z\\"></path>
+    </svg></button>
+  <transition-stub enterfromclass=\\"opacity-0\\" entertoclass=\\"opacity-100\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-200 transform-gpu\\" leavefromclass=\\"opacity-100\\" leavetoclass=\\"opacity-0\\" appear=\\"false\\" persisted=\\"true\\" css=\\"true\\">
+    <div class=\\"flex flex-col space-y-1 border-l-2 border-primaria-500 pl-3 dark:border-secundaria-500\\" dusk=\\"slot\\" style=\\"display: none;\\">bar</div>
+  </transition-stub>
+</div>"
+`;
+
+exports[`MenuGrupo > renderiza o componente sem estar no estado ativo (não selecionado) respeitando o snapshot 1`] = `
+"<div class=\\"space-y-1\\"><button class=\\"bg-primaria-100 hover:border-l-4 focus:border-l-4 dark:bg-secundaria-600 flex w-full items-center justify-between rounded border-primaria-700 p-2 text-left font-extrabold outline-none transition\\" type=\\"button\\" dusk=\\"btn-menu-grupo\\"><span>foo</span><svg class=\\"h-6 w-6 transition duration-300\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">
       <path d=\\"M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z\\"></path>
     </svg></button>
   <transition-stub enterfromclass=\\"opacity-0\\" entertoclass=\\"opacity-100\\" enteractiveclass=\\"transition duration-300 transform-gpu\\" leaveactiveclass=\\"transition duration-200 transform-gpu\\" leavefromclass=\\"opacity-100\\" leavetoclass=\\"opacity-0\\" appear=\\"false\\" persisted=\\"true\\" css=\\"true\\">
