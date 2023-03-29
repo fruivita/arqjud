@@ -205,9 +205,6 @@ class PerfilPermissaoSeeder extends Seeder
             // Permissao::SOLICITACAO_CREATE,
             // Permissao::SOLICITACAO_UPDATE,
             // Permissao::SOLICITACAO_DELETE,
-            // Permissao::SOLICITACAO_EXTERNA_VIEW_ANY,
-            // Permissao::SOLICITACAO_EXTERNA_CREATE,
-            // Permissao::SOLICITACAO_EXTERNA_DELETE,
             // Permissao::GUIA_VIEW_ANY,
             // Permissao::GUIA_VIEW,
         ])
