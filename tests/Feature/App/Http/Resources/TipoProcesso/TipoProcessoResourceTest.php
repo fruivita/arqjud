@@ -6,8 +6,8 @@
  */
 
 use App\Http\Resources\TipoProcesso\TipoProcessoResource;
-use App\Models\TipoProcesso;
 use App\Models\Permissao;
+use App\Models\TipoProcesso;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;

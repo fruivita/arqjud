@@ -7,8 +7,8 @@
  */
 
 use App\Http\Requests\Cadastro\TipoProcesso\UpdateTipoProcessoRequest;
-use App\Models\TipoProcesso;
 use App\Models\Permissao;
+use App\Models\TipoProcesso;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Validation\Rule;
 

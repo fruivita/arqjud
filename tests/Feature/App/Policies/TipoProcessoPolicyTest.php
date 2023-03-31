@@ -5,8 +5,8 @@
  */
 
 use App\Enums\Policy;
-use App\Models\TipoProcesso;
 use App\Models\Permissao;
+use App\Models\TipoProcesso;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
@@ -95,7 +95,6 @@ test('usuário com permissão pode excluir um tipo de processo sem caixas', func
     concederPermissao(Permissao::TIPO_PROCESSO_DELETE);
 
     $tipo_processo = TipoProcesso::factory()->create();
-
 
     expect(Auth::user()->can(Policy::Delete->value, $tipo_processo))->toBeTrue();
 });

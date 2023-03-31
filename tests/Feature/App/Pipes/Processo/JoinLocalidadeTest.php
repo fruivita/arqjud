@@ -51,7 +51,6 @@ test('join da caixa com a localidade criadora', function () {
 });
 
 test('join da caixa com o tipo de processo', function () {
-
     $tipo_processo = TipoProcesso::factory()
         ->has(Caixa::factory()->hasProcessos(1), 'caixas')
         ->create();

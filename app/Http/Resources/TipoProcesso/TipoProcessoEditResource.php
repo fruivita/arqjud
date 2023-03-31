@@ -3,7 +3,6 @@
 namespace App\Http\Resources\TipoProcesso;
 
 use App\Enums\Policy;
-use App\Models\Caixa;
 use App\Models\TipoProcesso;
 use Illuminate\Http\Resources\Json\JsonResource;
 
