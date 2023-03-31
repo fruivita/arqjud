@@ -33,7 +33,7 @@ final class Menu implements MenuInterface
      */
     public static function make()
     {
-        return new static();
+        return new self();
     }
 
     /**
