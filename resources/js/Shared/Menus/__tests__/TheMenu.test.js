@@ -57,6 +57,10 @@ vi.mock('@inertiajs/inertia-vue3', () => ({
                     ],
                     home: 'http://home.foo',
                     logout: 'http://logout.foo',
+                    user: {
+                        matricula: 'es12345',
+                        perfil: 'gerente',
+                    },
                 },
             },
         },

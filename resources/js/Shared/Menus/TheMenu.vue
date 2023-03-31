@@ -20,6 +20,9 @@ const __ = useTranslationsStore().__;
 
 const grupos = computed(() => usePage().props.value.auth.menu);
 const home = computed(() => usePage().props.value.auth.home);
+const usuario = computed(
+    () => `${usePage().props.value.auth.user.matricula} - ${usePage().props.value.auth.user.perfil}`
+);
 
 const logout = () => {
     Inertia.post(usePage().props.value.auth.logout);
@@ -38,7 +41,7 @@ const logout = () => {
         <nav
             class="fixed inset-0 w-auto space-y-1 overflow-y-auto border-r-4 border-primaria-900 bg-primaria-200 px-3 pt-16 dark:border-secundaria-50 dark:bg-secundaria-700 sm:w-80"
         >
-            <header class="mb-6 flex items-center justify-center">
+            <header class="mb-6 flex flex-col items-center justify-center space-y-6">
                 <InertiaLink
                     :href="home"
                     class="flex h-28 w-28 flex-col items-center justify-center rounded-full bg-primaria-500 font-extrabold text-primaria-50 outline-none transition-all duration-150 hover:bg-primaria-700 focus:ring focus:ring-primaria-300"
@@ -47,6 +50,10 @@ const logout = () => {
 
                     <span>{{ useDadosEstaticosStore().orgaoSigla }}</span>
                 </InertiaLink>
+
+                <span class="text font-bold text-primaria-700 dark:text-primaria-200">{{
+                    usuario
+                }}</span>
             </header>
 
             <MenuGrupo
