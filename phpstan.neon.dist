@@ -19,6 +19,7 @@ parameters:
   # https://phpstan.org/config-reference#universal-object-crates
   universalObjectCratesClasses:
   - App\Models\Usuario
+  - App\Models\TipoProcesso
   - App\Models\Localidade
   - App\Models\Predio
   - App\Models\Andar
@@ -31,6 +32,9 @@ parameters:
   - App\Models\Guia
   - App\Models\Perfil
   - App\Models\Permissao
+  - App\Http\Resources\TipoProcesso\TipoProcessoOnlyResource
+  - App\Http\Resources\TipoProcesso\TipoProcessoEditResource
+  - App\Http\Resources\TipoProcesso\TipoProcessoResource
   - App\Http\Resources\Localidade\LocalidadeOnlyResource
   - App\Http\Resources\Localidade\LocalidadeEditResource
   - App\Http\Resources\Localidade\LocalidadeResource
