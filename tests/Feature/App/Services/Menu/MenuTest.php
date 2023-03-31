@@ -49,6 +49,7 @@ test('menu é gerado de acordo com as permissões do usuário', function (string
     [Permissao::SOLICITACAO_EXTERNA_CREATE, fn () => __('Solicitações de processos'), 'signpost', fn () => route('solicitacao.create'), fn () => __('Solicitar processo')],
     [Permissao::SOLICITACAO_EXTERNA_VIEW_ANY, fn () => __('Solicitações de processos'), 'signpost-2', fn () => route('solicitacao.index'), fn () => __('Listar solicitações')],
     [Permissao::MOVER_PROCESSO_CREATE, fn () => __('Movimentações'), 'boxes', fn () => route('movimentacao.entre-caixas.create'), fn () => __('Entre caixas')],
+    [Permissao::TIPO_PROCESSO_VIEW_ANY, fn () => __('Cadastros'), 'card-list', fn () => route('cadastro.tipo-processo.index'), fn () => __('Tipos de processo')],
     [Permissao::LOCALIDADE_VIEW_ANY, fn () => __('Cadastros'), 'pin-map', fn () => route('cadastro.localidade.index'), fn () => __('Localidades')],
     [Permissao::PREDIO_VIEW_ANY, fn () => __('Cadastros'), 'buildings', fn () => route('cadastro.predio.index'), fn () => __('Prédios')],
     [Permissao::ANDAR_VIEW_ANY, fn () => __('Cadastros'), 'layers', fn () => route('cadastro.andar.index'), fn () => __('Andares')],
@@ -76,6 +77,7 @@ test('menu é gerado de acordo com as permissões do usuário, inclusive se a pe
             ['icone' => 'cart', 'href' => route('atendimento.entregar-processo.create'), 'texto' => __('Entregar processos'), 'ativo' => false],
             ['icone' => 'safe', 'href' => route('atendimento.receber-processo.create'), 'texto' => __('Receber processos'), 'ativo' => false],
         ],
+        'ativo' => false,
     ]]);
 });
 
@@ -100,7 +102,7 @@ test('administrador tem acesso a todos os itens do menu', function () {
         ->and($menu[2]['nome'])->toBe(__('Movimentações'))
         ->and($menu[2]['links'])->toHaveCount(1)
         ->and($menu[3]['nome'])->toBe(__('Cadastros'))
-        ->and($menu[3]['links'])->toHaveCount(8)
+        ->and($menu[3]['links'])->toHaveCount(9)
         ->and($menu[4]['nome'])->toBe(__('Autorizações'))
         ->and($menu[4]['links'])->toHaveCount(1)
         ->and($menu[5]['nome'])->toBe(__('Administração'))
@@ -132,6 +134,8 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
     ['solicitacao.index', 'solicitacao.index'],
     ['solicitacao.create', 'solicitacao.create'],
     ['movimentacao.entre-caixas.create', 'movimentacao.entre-caixas.create'],
+    ['cadastro.tipo-processo.index', 'cadastro.tipo-processo.index'],
+    ['cadastro.localidade.index', 'cadastro.localidade.index'],
     ['cadastro.predio.index', 'cadastro.predio.index'],
     ['cadastro.andar.index', 'cadastro.andar.index'],
     ['cadastro.sala.index', 'cadastro.sala.index'],

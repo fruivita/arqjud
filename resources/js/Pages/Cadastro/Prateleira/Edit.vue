@@ -84,6 +84,7 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     guardaPermanente: true,
     complemento: true,
     localidadeCriadora: true,
+    tipoProcesso: true,
     processos: true,
     acao: true,
 });
@@ -249,6 +250,11 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                     />
 
                     <CheckBox
+                        v-model:checked="elementosVisiveis.tipoProcesso"
+                        :label="__('Tipo de processo')"
+                    />
+
+                    <CheckBox
                         v-model:checked="elementosVisiveis.complemento"
                         :label="__('Complemento')"
                     />
@@ -290,6 +296,13 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                         :ordenacao="ordenacoes.localidade_criadora_nome"
                         :texto="__('Localidade criadora')"
                         @ordenar="(direcao) => mudarOrdenacao('localidade_criadora_nome', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.tipoProcesso"
+                        :ordenacao="ordenacoes.tipo_processo_nome"
+                        :texto="__('Tipo de processo')"
+                        @ordenar="(direcao) => mudarOrdenacao('tipo_processo_nome', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -342,6 +355,10 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
 
                             <Cell v-show="elementosVisiveis.localidadeCriadora">{{
                                 caixa.localidade_criadora.nome
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.tipoProcesso">{{
+                                caixa.tipo_processo.nome
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.complemento">{{

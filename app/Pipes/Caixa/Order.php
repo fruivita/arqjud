@@ -91,6 +91,19 @@ class Order extends OrderBase
     }
 
     /**
+     * Aplica a ordenação pelo nome do tipo de processo da caixa.
+     *
+     * @param  string  $direcao asc ou desc
+     * @return void
+     */
+    protected function tipoProcessoNome(Builder $query, string $direcao)
+    {
+        $direcao = ascOrDesc($direcao);
+
+        $query->orderBy('tipos_processo.nome', $direcao);
+    }
+
+    /**
      * Aplica a ordenação pelo nome da localidade pai.
      *
      * @param  string  $direcao asc ou desc

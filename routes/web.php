@@ -19,6 +19,7 @@ use App\Http\Controllers\Cadastro\Prateleira\PrateleiraController;
 use App\Http\Controllers\Cadastro\Predio\PredioController;
 use App\Http\Controllers\Cadastro\Processo\ProcessoController;
 use App\Http\Controllers\Cadastro\Sala\SalaController;
+use App\Http\Controllers\Cadastro\TipoProcesso\TipoProcessoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Movimentacao\MoveProcessoEntreCaixaController;
 use App\Http\Controllers\Solicitacao\SolicitacaoController as SolicitacaoExternaController;
@@ -35,6 +36,7 @@ use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\Solicitacao;
+use App\Models\TipoProcesso;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -106,6 +108,15 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('cadastro')->name('cadastro.')->group(function () {
+        Route::prefix('tipo-processo')->name('tipo-processo.')->group(function () {
+            Route::get('/', [TipoProcessoController::class, 'index'])->name('index')->can(Policy::ViewAny->value, TipoProcesso::class);
+            Route::get('create', [TipoProcessoController::class, 'create'])->name('create')->can(Policy::Create->value, TipoProcesso::class);
+            Route::post('/', [TipoProcessoController::class, 'store'])->name('store')->can(Policy::Create->value, TipoProcesso::class);
+            Route::get('{tipo_processo}/edit', [TipoProcessoController::class, 'edit'])->name('edit')->can(Policy::ViewOrUpdate->value, TipoProcesso::class);
+            Route::patch('{tipo_processo}', [TipoProcessoController::class, 'update'])->name('update')->can(Policy::Update->value, TipoProcesso::class);
+            Route::delete('{tipo_processo}', [TipoProcessoController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'tipo_processo');
+        });
+
         Route::prefix('localidade')->name('localidade.')->group(function () {
             Route::get('/', [LocalidadeController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Localidade::class);
             Route::get('create', [LocalidadeController::class, 'create'])->name('create')->can(Policy::Create->value, Localidade::class);

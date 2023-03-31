@@ -24,7 +24,7 @@ class Caixa extends Model
     /**
      * {@inheritdoc}
      */
-    protected $fillable = ['numero', 'ano', 'guarda_permanente', 'complemento', 'descricao', 'localidade_criadora_id'];
+    protected $fillable = ['numero', 'ano', 'guarda_permanente', 'complemento', 'descricao', 'localidade_criadora_id', 'tipo_processo_id'];
 
     /**
      * {@inheritdoc}
@@ -66,6 +66,18 @@ class Caixa extends Model
     }
 
     /**
+     * Relacionamento caixa (N:1) tipo de processo.
+     *
+     * Tipo de processo que será guardado na caixa.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function tipoProcesso()
+    {
+        return $this->belongsTo(TipoProcesso::class, 'tipo_processo_id', 'id');
+    }
+
+    /**
      * Pesquisa utilizando o termo informado com o operador like no seguinte
      * formato: `termo%`
      *
@@ -84,6 +96,7 @@ class Caixa extends Model
                 ->orWhere('estantes.numero', 'like', $termo)
                 ->orWhere('prateleiras.numero', 'like', $termo)
                 ->orWhere('criadoras.nome', 'like', $termo)
+                ->orWhere('tipos_processo.nome', 'like', $termo)
                 ->orWhere('caixas.numero', 'like', $termo)
                 ->orWhere('caixas.ano', 'like', $termo)
                 ->orWhere('caixas.complemento', 'like', $termo);

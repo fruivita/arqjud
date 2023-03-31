@@ -5,6 +5,7 @@ namespace App\Http\Resources\Caixa;
 use App\Enums\Policy;
 use App\Http\Resources\Localidade\LocalidadeEditResource;
 use App\Http\Resources\Prateleira\PrateleiraEditResource;
+use App\Http\Resources\TipoProcesso\TipoProcessoEditResource;
 use App\Models\Caixa;
 use App\Models\Processo;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -32,8 +33,10 @@ class CaixaEditResource extends JsonResource
                 'descricao' => $this->descricao,
                 'prateleira_id' => $this->prateleira_id,
                 'localidade_criadora_id' => $this->localidade_criadora_id,
+                'tipo_processo_id' => $this->tipo_processo_id,
                 'prateleira' => PrateleiraEditResource::make($this->whenLoaded('prateleira')),
                 'localidade_criadora' => LocalidadeEditResource::make($this->whenLoaded('localidadeCriadora')),
+                'tipo_processo' => TipoProcessoEditResource::make($this->whenLoaded('tipoProcesso')),
                 'processos_count' => $this->whenCounted('processos'),
                 'links' => [
                     'view' => $this->when(

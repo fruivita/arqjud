@@ -12,7 +12,9 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
+use App\Models\TipoProcesso;
 use App\Pipes\Caixa\JoinLocalidade;
+use App\Pipes\Caixa\JoinTipoProcesso;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,8 +22,9 @@ use Illuminate\Support\Str;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
 // Exceptions
-test('lança exception ao tentar criar caixas duplicados, isto é, com mesmo ano, número, se é guarda permanente, local de criação e complemento', function () {
+test('lança exception ao tentar criar caixas duplicados, isto é, com mesmo ano, número, se é guarda permanente, local de criação, tipo de processo e complemento', function () {
     $localidade = Localidade::factory()->create();
+    $tipo_processo = TipoProcesso::factory()->create();
 
     expect(
         fn () => Caixa::factory(2)->create([
@@ -30,6 +33,7 @@ test('lança exception ao tentar criar caixas duplicados, isto é, com mesmo ano
             'guarda_permanente' => true,
             'complemento' => 'foo',
             'localidade_criadora_id' => $localidade->id,
+            'tipo_processo_id' => $tipo_processo->id,
         ])
     )->toThrow(QueryException::class, 'Duplicate entry');
 });
@@ -60,6 +64,8 @@ test('lança exception ao tentar definir relacionamento inválido', function (st
     ['prateleira_id',          null,     'cannot be null'],                   // obrigatório
     ['localidade_criadora_id', 99999999, 'Cannot add or update a child row'], // não existente
     ['localidade_criadora_id', null,     'cannot be null'],                   // obrigatório
+    ['tipo_processo_id',       99999999, 'Cannot add or update a child row'], // não existente
+    ['tipo_processo_id',       null,     'cannot be null'],                   // obrigatório
 ]);
 
 // Caminho feliz
@@ -90,6 +96,14 @@ test('uma caixa pertente a uma prateleira', function () {
     expect($caixa->prateleira)->toBeInstanceOf(Prateleira::class);
 });
 
+test('uma caixa armazena um tipo de processo', function () {
+    $caixa = Caixa::factory()->for(TipoProcesso::factory(), 'tipoProcesso')->create();
+
+    $caixa->load(['tipoProcesso']);
+
+    expect($caixa->tipoProcesso)->toBeInstanceOf(TipoProcesso::class);
+});
+
 test('uma caixa possui muitos processos', function () {
     Caixa::factory()->hasProcessos(3)->create();
 
@@ -106,7 +120,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
 
     $query = Pipeline::make()
         ->send(Caixa::query())
-        ->through([JoinLocalidade::class])
+        ->through([JoinLocalidade::class, JoinTipoProcesso::class])
         ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
@@ -125,7 +139,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
 
     $query = Pipeline::make()
         ->send(Caixa::query())
-        ->through([JoinLocalidade::class])
+        ->through([JoinLocalidade::class, JoinTipoProcesso::class])
         ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
@@ -141,7 +155,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
 
     $query = Pipeline::make()
         ->send(Caixa::query())
-        ->through([JoinLocalidade::class])
+        ->through([JoinLocalidade::class, JoinTipoProcesso::class])
         ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
@@ -161,7 +175,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
 
     $query = Pipeline::make()
         ->send(Caixa::query())
-        ->through([JoinLocalidade::class])
+        ->through([JoinLocalidade::class, JoinTipoProcesso::class])
         ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
@@ -185,7 +199,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
 
     $query = Pipeline::make()
         ->send(Caixa::query())
-        ->through([JoinLocalidade::class])
+        ->through([JoinLocalidade::class, JoinTipoProcesso::class])
         ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
@@ -213,7 +227,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
 
     $query = Pipeline::make()
         ->send(Caixa::query())
-        ->through([JoinLocalidade::class])
+        ->through([JoinLocalidade::class, JoinTipoProcesso::class])
         ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
@@ -242,7 +256,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
 
     $query = Pipeline::make()
         ->send(Caixa::query())
-        ->through([JoinLocalidade::class])
+        ->through([JoinLocalidade::class, JoinTipoProcesso::class])
         ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
@@ -258,7 +272,23 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
 
     $query = Pipeline::make()
         ->send(Caixa::query())
-        ->through([JoinLocalidade::class])
+        ->through([JoinLocalidade::class, JoinTipoProcesso::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['aaaa', 2],
+    ['bbbb', 3],
+]);
+
+test('retorna as caixas pelo escopo search que busca a partir do início do texto no nome do tipo de processo', function (string $termo, int $quantidade) {
+    TipoProcesso::factory()->hasCaixas(2)->create(['nome' => 'aaaaaaaa']);
+    TipoProcesso::factory()->hasCaixas(3)->create(['nome' => 'bbbbbbbb']);
+
+    $query = Pipeline::make()
+        ->send(Caixa::query())
+        ->through([JoinLocalidade::class, JoinTipoProcesso::class])
         ->thenReturn();
 
     expect($query->search($termo)->count())->toBe($quantidade);
@@ -270,6 +300,7 @@ test('retorna as caixas pelo escopo search que busca a partir do início do text
 
 test('método atualizar atualiza os dados da caixa', function () {
     $localidade = Localidade::factory()->create();
+    $tipo_processo = TipoProcesso::factory()->create();
     $caixa = Caixa::factory()->create();
 
     $caixa->numero = 500;
@@ -278,6 +309,7 @@ test('método atualizar atualiza os dados da caixa', function () {
     $caixa->complemento = 'foo';
     $caixa->descricao = 'foo bar';
     $caixa->localidade_criadora_id = $localidade->id;
+    $caixa->tipo_processo_id = $tipo_processo->id;
 
     $salvo = $caixa->atualizar();
 
@@ -289,7 +321,8 @@ test('método atualizar atualiza os dados da caixa', function () {
         ->and($caixa->guarda_permanente)->toBeTrue()
         ->and($caixa->complemento)->toBe('foo')
         ->and($caixa->descricao)->toBe('foo bar')
-        ->and($caixa->localidade_criadora_id)->toBe($localidade->id);
+        ->and($caixa->localidade_criadora_id)->toBe($localidade->id)
+        ->and($caixa->tipo_processo_id)->toBe($tipo_processo->id);
 });
 
 test('método atualizar atualiza o status de guarda permanente de todos os processos da caixa', function (bool $gp) {

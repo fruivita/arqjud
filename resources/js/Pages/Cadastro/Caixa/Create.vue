@@ -28,6 +28,7 @@ const props = defineProps({
     ultima_insercao: { type: Object },
     prateleira: { type: Object }, // objeto pai do que será criado
     localidades: { type: Object }, // opções para localidade de criação da caixa
+    tipos_processo: { type: Object }, // opções para o tipo de processo
 });
 
 const __ = useTranslationsStore().__;
@@ -39,6 +40,7 @@ const form = useForm({
     complemento: '',
     descricao: '',
     localidade_criadora_id: '',
+    tipo_processo_id: '',
 });
 
 const cadastrar = () => {
@@ -140,6 +142,16 @@ const cadastrar = () => {
                             :label="__('Localidade criadora')"
                             :opcoes="localidades.data"
                             icone="pin-map"
+                            labelOpcao="nome"
+                            required
+                        />
+
+                        <DropDown
+                            v-model="form.tipo_processo_id"
+                            :erro="form.errors.tipo_processo_id"
+                            :label="__('Tipo de processo')"
+                            :opcoes="tipos_processo.data"
+                            icone="card-list"
                             labelOpcao="nome"
                             required
                         />

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 
-    $this->usuario = login();
+    login();
 });
 
 afterEach(fn () => logout());

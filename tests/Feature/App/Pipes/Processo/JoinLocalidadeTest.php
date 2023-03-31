@@ -12,6 +12,7 @@ use App\Models\Prateleira;
 use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
+use App\Models\TipoProcesso;
 use App\Pipes\Processo\JoinLocalidade;
 use MichaelRubel\EnhancedPipeline\Pipeline;
 
@@ -26,13 +27,13 @@ test('join do processo até a localidade', function () {
                             ->has(Caixa::factory()->hasProcessos(1))))), 'andares'))
         ->create();
 
-    $volume = Pipeline::make()
+    $nome = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn()
         ->pluck('localidades.nome');
 
-    expect($volume->first())->toBe($localidade->nome);
+    expect($nome->first())->toBe($localidade->nome);
 });
 
 test('join da caixa com a localidade criadora', function () {
@@ -40,11 +41,26 @@ test('join da caixa com a localidade criadora', function () {
         ->has(Caixa::factory()->hasProcessos(1), 'caixasCriadas')
         ->create();
 
-    $volume = Pipeline::make()
+    $nome = Pipeline::make()
         ->send(Processo::query())
         ->through([JoinLocalidade::class])
         ->thenReturn()
         ->pluck('criadoras.nome');
 
-    expect($volume->first())->toBe($localidade->nome);
+    expect($nome->first())->toBe($localidade->nome);
+});
+
+test('join da caixa com o tipo de processo', function () {
+
+    $tipo_processo = TipoProcesso::factory()
+        ->has(Caixa::factory()->hasProcessos(1), 'caixas')
+        ->create();
+
+    $nome = Pipeline::make()
+        ->send(Processo::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn()
+        ->pluck('tipos_processo.nome');
+
+    expect($nome->first())->toBe($tipo_processo->nome);
 });

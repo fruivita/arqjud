@@ -184,6 +184,7 @@ class Processo extends Model
                 ->orWhere('salas.numero', 'like', $termo)
                 ->orWhere('estantes.numero', 'like', $termo)
                 ->orWhere('prateleiras.numero', 'like', $termo)
+                ->orWhere('tipos_processo.nome', 'like', $termo)
                 ->orWhere('criadoras.nome', 'like', $termo)
                 ->orWhere('caixas.numero', 'like', $termo)
                 ->orWhere('caixas.ano', 'like', $termo)

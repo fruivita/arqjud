@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Prateleira;
+use App\Models\TipoProcesso;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -33,6 +34,7 @@ class CaixaFactory extends Factory
             'descricao' => fake()->optional()->sentence(),
             'prateleira_id' => Prateleira::factory(),
             'localidade_criadora_id' => Localidade::factory(),
+            'tipo_processo_id' => TipoProcesso::factory(),
         ];
     }
 }

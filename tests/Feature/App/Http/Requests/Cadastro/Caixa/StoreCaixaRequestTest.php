@@ -10,6 +10,7 @@ use App\Http\Requests\Cadastro\Caixa\StoreCaixaRequest;
 use App\Models\Localidade;
 use App\Models\Permissao;
 use App\Models\Prateleira;
+use App\Models\TipoProcesso;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Validation\Rule;
 
@@ -30,12 +31,14 @@ test('na criação, usuário sem autorização não cria o request', function ()
 test('rules estão definidas no form request', function () {
     $prateleira = Prateleira::factory()->create();
     $localidade = Localidade::factory()->create();
+    $tipo_processo = TipoProcesso::factory()->create();
 
     $this->request->prateleira = $prateleira;
     $this->request->ano = 2010;
     $this->request->guarda_permanente = true;
     $this->request->complemento = 'foo';
     $this->request->localidade_criadora_id = $localidade->id;
+    $this->request->tipo_processo_id = $tipo_processo->id;
 
     $this->assertExactValidationRules([
         'localidade_criadora_id' => [
@@ -43,6 +46,13 @@ test('rules estão definidas no form request', function () {
             'required',
             'integer',
             Rule::exists('localidades', 'id'),
+        ],
+
+        'tipo_processo_id' => [
+            'bail',
+            'required',
+            'integer',
+            Rule::exists('tipos_processo', 'id'),
         ],
 
         'numero' => [
@@ -54,6 +64,7 @@ test('rules estão definidas no form request', function () {
                 ->where('ano', 2010)
                 ->where('guarda_permanente', 1)
                 ->where('localidade_criadora_id', $localidade->id)
+                ->where('tipo_processo_id', $tipo_processo->id)
                 ->where('prateleira_id', $prateleira->id)
                 ->where('complemento', 'foo'),
         ],
@@ -88,6 +99,7 @@ test('rules estão definidas no form request', function () {
 test('attributes estão definidas no form request', function () {
     $this->assertExactValidationRules([
         'localidade_criadora_id' => __('Localidade criadora'),
+        'tipo_processo_id' => __('Tipo de processo'),
         'numero' => __('Número'),
         'ano' => __('Ano'),
         'guarda_permanente' => __('Guarda Permanente'),

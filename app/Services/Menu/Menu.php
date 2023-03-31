@@ -16,6 +16,7 @@ use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\Solicitacao;
+use App\Models\TipoProcesso;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Route;
 
@@ -196,6 +197,15 @@ final class Menu implements MenuInterface
     private function linksGrupoCadastro()
     {
         return collect()
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, TipoProcesso::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'card-list',
+                    'href' => route('cadastro.tipo-processo.index'),
+                    'texto' => __('Tipos de processo'),
+                    'ativo' => Route::is('cadastro.tipo-processo.*'),
+                ])
+            )
             ->when(
                 auth()->user()->can(Policy::ViewAny->value, Localidade::class),
                 fn ($collection) => $collection->push([

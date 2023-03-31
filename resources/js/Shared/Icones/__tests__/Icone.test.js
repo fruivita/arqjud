@@ -44,6 +44,7 @@ describe('Icone', () => {
         ['buildings'],
         ['calendar-event'],
         ['calendar-range'],
+        ['card-list'],
         ['caret-right'],
         ['cart'],
         ['check-circle'],

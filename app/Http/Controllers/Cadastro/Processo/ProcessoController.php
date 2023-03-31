@@ -64,7 +64,7 @@ class ProcessoController extends Controller
 
         return Inertia::render('Cadastro/Processo/Create', [
             'ultima_insercao' => fn () => ProcessoEditResource::make($caixa->processos()->latest()->first()),
-            'caixa' => fn () => CaixaEditResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
+            'caixa' => fn () => CaixaEditResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora', 'tipoProcesso'])),
         ]);
     }
 
@@ -108,7 +108,7 @@ class ProcessoController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Processo::class);
 
         return Inertia::render('Cadastro/Processo/Edit', [
-            'processo' => fn () => ProcessoEditResource::make($processo->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora', 'processoPai'])),
+            'processo' => fn () => ProcessoEditResource::make($processo->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora', 'caixa.tipoProcesso', 'processoPai'])),
             'processos_filho' => fn () => ProcessoCollection::make(
                 Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($processo, 'processoPai'))

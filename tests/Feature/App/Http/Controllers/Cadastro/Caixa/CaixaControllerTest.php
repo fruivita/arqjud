@@ -13,11 +13,13 @@ use App\Http\Requests\Cadastro\Caixa\UpdateCaixaRequest;
 use App\Http\Resources\Caixa\CaixaResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraResource;
+use App\Http\Resources\TipoProcesso\TipoProcessoOnlyResource;
 use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Permissao;
 use App\Models\Prateleira;
 use App\Models\Processo;
+use App\Models\TipoProcesso;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
@@ -103,12 +105,14 @@ test('action create compartilha os dados esperados com a view/componente correto
                     'ultima_insercao' => CaixaResource::make($ultima_caixa_criada)->response()->getData(true),
                     'prateleira' => PrateleiraResource::make($this->prateleira->load('estante.sala.andar.predio.localidade'))->response()->getData(true),
                     'localidades' => LocalidadeOnlyResource::collection(Localidade::all())->response()->getData(true),
+                    'tipos_processo' => TipoProcessoOnlyResource::collection(TipoProcesso::all())->response()->getData(true),
                 ])
         );
 });
 
 test('cria uma nova caixa', function () {
     $localidade = Localidade::factory()->create();
+    $tipo_processo = TipoProcesso::factory()->create();
     concederPermissao(Permissao::CAIXA_CREATE);
 
     $dados = [
@@ -119,6 +123,7 @@ test('cria uma nova caixa', function () {
         'descricao' => 'foo bar',
         'localidade_criadora_id' => $localidade->id,
         'prateleira_id' => $this->prateleira->id,
+        'tipo_processo_id' => $tipo_processo->id,
     ];
 
     expect(Caixa::count())->toBe(0);
@@ -136,9 +141,10 @@ test('cria uma nova caixa', function () {
 test('action edit compartilha os dados esperados com a view/componente correto', function () {
     concederPermissao(Permissao::CAIXA_UPDATE);
 
-    $caixa = Caixa::factory()->hasProcessos(3)->create();
+    TipoProcesso::factory(2)->create();
+    $caixa = Caixa::factory()->hasProcessos(3)->for(TipoProcesso::first())->create();
 
-    $caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora']);
+    $caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora', 'tipoProcesso']);
 
     get(route('cadastro.caixa.edit', $caixa))
         ->assertOk()
@@ -146,6 +152,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
             fn (Assert $page) => $page
                 ->component('Cadastro/Caixa/Edit')
                 ->where('caixa', CaixaResource::make($caixa)->response()->getData(true))
+                ->has('tipos_processo.data', 2)
                 ->has('processos.data', 3)
                 ->has('processos.meta.order')
         );
@@ -173,6 +180,7 @@ test('atualiza uma caixa e o status de guarda dos processos da caixa', function 
     Processo::factory(2)->create(['guarda_permanente' => !$gp]); // não serão afetados
 
     $localidade = Localidade::factory()->create();
+    $tipo_processo = TipoProcesso::factory()->create();
 
     $dados = [
         'numero' => 500,
@@ -181,6 +189,7 @@ test('atualiza uma caixa e o status de guarda dos processos da caixa', function 
         'complemento' => 'foo',
         'descricao' => 'foo bar',
         'localidade_criadora_id' => $localidade->id,
+        'tipo_processo_id' => $tipo_processo->id,
     ];
 
     patch(route('cadastro.caixa.update', $caixa), $dados)

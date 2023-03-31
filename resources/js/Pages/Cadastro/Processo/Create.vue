@@ -110,6 +110,13 @@ const cadastrar = () => {
                             icone="box2"
                         />
 
+                        <ChaveValor
+                            :chave="__('TIpo de processo')"
+                            :href="caixa.data.tipo_processo.links.view"
+                            :valor="caixa.data.tipo_processo.nome"
+                            icone="card-list"
+                        />
+
                         <TextInput
                             v-model="form.processo_pai_numero"
                             :erro="form.errors.processo_pai_numero"

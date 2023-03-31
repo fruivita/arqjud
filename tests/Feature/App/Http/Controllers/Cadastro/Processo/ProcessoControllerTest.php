@@ -96,7 +96,7 @@ test('action create compartilha os dados esperados com a view/componente correto
                 ->component('Cadastro/Processo/Create')
                 ->whereAll([
                     'ultima_insercao.data' => ProcessoResource::make($ultimo_processo_criado)->resolve(),
-                    'caixa' => CaixaResource::make($this->caixa->load(['localidadeCriadora', 'prateleira.estante.sala.andar.predio.localidade']))->response()->getData(true),
+                    'caixa' => CaixaResource::make($this->caixa->load(['localidadeCriadora', 'prateleira.estante.sala.andar.predio.localidade', 'tipoProcesso']))->response()->getData(true),
                 ])
         );
 });
@@ -172,7 +172,7 @@ test('action edit compartilha os dados esperados com a view/componente correto',
 
     $processo = Processo::factory()->hasProcessosFilho(3)->hasSolicitacoes(4)->create();
 
-    $processo->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora', 'processoPai']);
+    $processo->load(['caixa.prateleira.estante.sala.andar.predio.localidade', 'caixa.localidadeCriadora', 'caixa.tipoProcesso', 'processoPai']);
 
     get(route('cadastro.processo.edit', $processo))
         ->assertOk()

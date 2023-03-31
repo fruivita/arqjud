@@ -16,6 +16,7 @@ use App\Models\Caixa;
 use App\Models\Estante;
 use App\Models\Prateleira;
 use App\Pipes\Caixa\JoinLocalidadeCriadora;
+use App\Pipes\Caixa\JoinTipoProcesso;
 use App\Pipes\Caixa\Order as CaixaOrder;
 use App\Pipes\Prateleira\JoinLocalidade;
 use App\Pipes\Prateleira\Order;
@@ -102,8 +103,8 @@ class PrateleiraController extends Controller
             'prateleira' => fn () => PrateleiraEditResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
             'caixas' => fn () => CaixaCollection::make(
                 Pipeline::make()
-                    ->send(Caixa::with(['localidadeCriadora'])->withCount(['processos'])->whereBelongsTo($prateleira))
-                    ->through([JoinLocalidadeCriadora::class, CaixaOrder::class])
+                    ->send(Caixa::with(['localidadeCriadora', 'tipoProcesso'])->withCount(['processos'])->whereBelongsTo($prateleira))
+                    ->through([JoinLocalidadeCriadora::class, JoinTipoProcesso::class, CaixaOrder::class])
                     ->thenReturn()
                     ->paginate($this->perPage())
             )->additional(['meta' => [

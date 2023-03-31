@@ -21,6 +21,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('prateleira_id');
             $table->unsignedBigInteger('localidade_criadora_id');
+            $table->unsignedBigInteger('tipo_processo_id');
             $table->unsignedInteger('numero');
             $table->unsignedSmallInteger('ano');
             // Destinada a processos de guarda permanente?
@@ -37,6 +38,7 @@ return new class extends Migration
                     'guarda_permanente',
                     'complemento',
                     'localidade_criadora_id',
+                    'tipo_processo_id',
                 ],
                 'caixas_unicas'
             );
@@ -51,6 +53,12 @@ return new class extends Migration
                 ->foreign('localidade_criadora_id')
                 ->references('id')
                 ->on('localidades')
+                ->onUpdate('cascade');
+
+            $table
+                ->foreign('tipo_processo_id')
+                ->references('id')
+                ->on('tipos_processo')
                 ->onUpdate('cascade');
         });
     }

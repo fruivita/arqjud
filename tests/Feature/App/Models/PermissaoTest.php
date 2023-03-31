@@ -115,7 +115,12 @@ test('slugs das permissões estão definidas', function () {
         ->and(Permissao::SOLICITACAO_EXTERNA_CREATE)->toBe('solicitacao_externa_create')
         ->and(Permissao::SOLICITACAO_EXTERNA_DELETE)->toBe('solicitacao_externa_delete')
         ->and(Permissao::GUIA_VIEW_ANY)->toBe('guia_view_any')
-        ->and(Permissao::GUIA_VIEW)->toBe('guia_view');
+        ->and(Permissao::GUIA_VIEW)->toBe('guia_view')
+        ->and(Permissao::TIPO_PROCESSO_VIEW_ANY)->toBe('tipo_processo_view_any')
+        ->and(Permissao::TIPO_PROCESSO_VIEW)->toBe('tipo_processo_view')
+        ->and(Permissao::TIPO_PROCESSO_CREATE)->toBe('tipo_processo_create')
+        ->and(Permissao::TIPO_PROCESSO_UPDATE)->toBe('tipo_processo_update')
+        ->and(Permissao::TIPO_PROCESSO_DELETE)->toBe('tipo_processo_delete');
 });
 
 test('uma permissão pode ser usada em muitos perfis', function () {

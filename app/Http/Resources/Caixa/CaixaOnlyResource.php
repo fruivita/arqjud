@@ -5,6 +5,7 @@ namespace App\Http\Resources\Caixa;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraOnlyResource;
 use App\Http\Resources\Processo\ProcessoOnlyResource;
+use App\Http\Resources\TipoProcesso\TipoProcessoOnlyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -30,8 +31,10 @@ class CaixaOnlyResource extends JsonResource
                 'descricao' => $this->descricao,
                 'prateleira_id' => $this->prateleira_id,
                 'localidade_criadora_id' => $this->localidade_criadora_id,
+                'tipo_processo_id' => $this->tipo_processo_id,
                 'prateleira' => PrateleiraOnlyResource::make($this->whenLoaded('prateleira')),
                 'localidade_criadora' => LocalidadeOnlyResource::make($this->whenLoaded('localidadeCriadora')),
+                'tipo_processo' => TipoProcessoOnlyResource::make($this->whenLoaded('tipoProcesso')),
                 'processos' => ProcessoOnlyResource::collection($this->whenLoaded('processos')),
                 'processos_count' => $this->whenCounted('processos'),
             ]

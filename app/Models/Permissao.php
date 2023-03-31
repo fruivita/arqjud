@@ -155,6 +155,16 @@ class Permissao extends Model
 
     const GUIA_VIEW = 'guia_view';
 
+    const TIPO_PROCESSO_VIEW_ANY = 'tipo_processo_view_any';
+
+    const TIPO_PROCESSO_VIEW = 'tipo_processo_view';
+
+    const TIPO_PROCESSO_CREATE = 'tipo_processo_create';
+
+    const TIPO_PROCESSO_UPDATE = 'tipo_processo_update';
+
+    const TIPO_PROCESSO_DELETE = 'tipo_processo_delete';
+
     /**
      * Relacionamento permissão (M:N) perfis.
      *

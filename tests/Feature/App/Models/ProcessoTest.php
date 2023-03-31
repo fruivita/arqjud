@@ -13,6 +13,7 @@ use App\Models\Predio;
 use App\Models\Processo;
 use App\Models\Sala;
 use App\Models\Solicitacao;
+use App\Models\TipoProcesso;
 use App\Pipes\Processo\JoinLocalidade;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
@@ -359,6 +360,26 @@ test('retorna os processos pelo escopo search que busca a partir do início do t
         ->create(['nome' => 'aaaaaaaa']);
     Localidade::factory()
         ->has(Caixa::factory()->hasProcessos(3), 'caixasCriadas')
+        ->create(['nome' => 'bbbbbbbb']);
+
+    $query = Pipeline::make()
+        ->send(Processo::query())
+        ->through([JoinLocalidade::class])
+        ->thenReturn();
+
+    expect($query->search($termo)->count())->toBe($quantidade);
+})->with([
+    ['', 5],
+    ['aaaa', 2],
+    ['bbbb', 3],
+]);
+
+test('retorna os processos pelo escopo search que busca a partir do início do texto no nome do tipo de processo', function (string $termo, int $quantidade) {
+    TipoProcesso::factory()
+        ->has(Caixa::factory()->hasProcessos(2), 'caixas')
+        ->create(['nome' => 'aaaaaaaa']);
+    TipoProcesso::factory()
+        ->has(Caixa::factory()->hasProcessos(3), 'caixas')
         ->create(['nome' => 'bbbbbbbb']);
 
     $query = Pipeline::make()

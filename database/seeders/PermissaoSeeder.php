@@ -54,6 +54,7 @@ class PermissaoSeeder extends Seeder
             ->concat($this->permissoesSala())
             ->concat($this->permissoesEstante())
             ->concat($this->permissoesPrateleira())
+            ->concat($this->permissoesTipoProcesso())
             ->concat($this->permissoesCaixa())
             ->concat($this->permissoesProcesso())
             ->concat($this->permissoesMoverProcesso())
@@ -415,6 +416,40 @@ class PermissaoSeeder extends Seeder
                 'nome' => 'Prateleira: Excluir',
                 'slug' => Permissao::PRATELEIRA_DELETE,
                 'descricao' => 'Permissão para excluir as prateleiras cadastradas.',
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\LazyCollection
+     */
+    private function permissoesTipoProcesso()
+    {
+        return LazyCollection::make([
+            [
+                'nome' => 'Tipo processo: Visualizar todos',
+                'slug' => Permissao::TIPO_PROCESSO_VIEW_ANY,
+                'descricao' => 'Permissão para visualizar todos os tipos de processo cadastrados.',
+            ],
+            [
+                'nome' => 'Tipo processo: Visualizar',
+                'slug' => Permissao::TIPO_PROCESSO_VIEW,
+                'descricao' => 'Permissão para visualizar os tipos de processo cadastrados.',
+            ],
+            [
+                'nome' => 'Tipo processo: Criar',
+                'slug' => Permissao::TIPO_PROCESSO_CREATE,
+                'descricao' => 'Permissão para criar os tipos de processo.',
+            ],
+            [
+                'nome' => 'Tipo processo: Atualizar',
+                'slug' => Permissao::TIPO_PROCESSO_UPDATE,
+                'descricao' => 'Permissão para atualizar os tipos de processo cadastrados.',
+            ],
+            [
+                'nome' => 'Tipo processo: Excluir',
+                'slug' => Permissao::TIPO_PROCESSO_DELETE,
+                'descricao' => 'Permissão para excluir os tipos de processo cadastrados.',
             ],
         ]);
     }

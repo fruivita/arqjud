@@ -57,6 +57,7 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     complemento: true,
     processos: true,
     localidadeCriadora: true,
+    tipoProcesso: true,
     localidade: true,
     predio: true,
     andarNumero: true,
@@ -114,6 +115,11 @@ watch(perPage, filtrar);
                 <CheckBox
                     v-model:checked="elementosVisiveis.localidadeCriadora"
                     :label="__('Localidade criadora')"
+                />
+
+                <CheckBox
+                    v-model:checked="elementosVisiveis.tipoProcesso"
+                    :label="__('Tipo de processo')"
                 />
 
                 <CheckBox
@@ -177,6 +183,13 @@ watch(perPage, filtrar);
                         :ordenacao="ordenacoes.localidade_criadora_nome"
                         :texto="__('Localidade criadora')"
                         @ordenar="(direcao) => mudarOrdenacao('localidade_criadora_nome', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.tipoProcesso"
+                        :ordenacao="ordenacoes.tipo_processo_nome"
+                        :texto="__('Tipo de processo')"
+                        @ordenar="(direcao) => mudarOrdenacao('tipo_processo_nome', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -278,6 +291,10 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.localidadeCriadora">{{
                                 caixa.localidade_criadora.nome
+                            }}</Cell>
+
+                            <Cell v-show="elementosVisiveis.tipoProcesso">{{
+                                caixa.tipo_processo.nome
                             }}</Cell>
 
                             <Cell v-show="elementosVisiveis.complemento">{{

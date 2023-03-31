@@ -184,6 +184,7 @@ function caixaApi(Caixa $caixa)
         'descricao' => $caixa->descricao,
         'prateleira_id' => $caixa->prateleira_id,
         'localidade_criadora_id' => $caixa->localidade_criadora_id,
+        'tipo_processo_id' => $caixa->tipo_processo_id,
     ];
 }
 

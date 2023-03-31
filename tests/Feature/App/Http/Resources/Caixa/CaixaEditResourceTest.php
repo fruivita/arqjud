@@ -8,6 +8,7 @@
 use App\Http\Resources\Caixa\CaixaEditResource;
 use App\Http\Resources\Localidade\LocalidadeEditResource;
 use App\Http\Resources\Prateleira\PrateleiraEditResource;
+use App\Http\Resources\TipoProcesso\TipoProcessoEditResource;
 use App\Models\Caixa;
 use App\Models\Permissao;
 use App\Models\Usuario;
@@ -44,13 +45,14 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
     ]);
 });
 
-test('retorna a prateleira pai e a localidade criadora se houver o eager load da propriedade', function () {
-    $resource = CaixaEditResource::make($this->caixa->load(['prateleira', 'localidadeCriadora']));
+test('retorna a prateleira pai, tipo de processo e a localidade criadora se houver o eager load da propriedade', function () {
+    $resource = CaixaEditResource::make($this->caixa->load(['prateleira', 'localidadeCriadora', 'tipoProcesso']));
 
     expect($resource->response()->getData(true))->toMatchArray([
         'data' => caixaApi($this->caixa)
             + ['prateleira' => PrateleiraEditResource::make($this->caixa->prateleira)->resolve()]
             + ['localidade_criadora' => LocalidadeEditResource::make($this->caixa->localidadeCriadora)->resolve()]
+            + ['tipo_processo' => TipoProcessoEditResource::make($this->caixa->tipoProcesso)->resolve()]
             + ['links' => []],
     ]);
 });

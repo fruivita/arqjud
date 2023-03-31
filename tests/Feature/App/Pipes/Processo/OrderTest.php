@@ -77,6 +77,7 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
     'caixa_pai_guarda_permanente',
     'caixa_pai_complemento',
     'caixa_pai_localidade_criadora_nome',
+    'caixa_pai_tipo_processo_nome',
     'processos_filho_count',
     'solicitacoes_count',
 ]);
@@ -102,6 +103,7 @@ test('todas as ordenações possíveis no request do processo', function () {
         'caixa_pai_guarda_permanente' => 'desc',
         'caixa_pai_complemento' => 'desc',
         'caixa_pai_localidade_criadora_nome' => 'desc',
+        'caixa_pai_tipo_processo_nome' => 'desc',
         'processos_filho_count' => 'desc',
         'solicitacoes_count' => 'desc',
     ]]);

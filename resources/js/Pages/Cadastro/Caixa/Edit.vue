@@ -21,6 +21,7 @@ import Alerta from '@/Shared/Containers/Alerta.vue';
 import Container from '@/Shared/Containers/Container.vue';
 import Pagina from '@/Shared/Containers/Pagina.vue';
 import CheckBox from '@/Shared/Forms/CheckBox.vue';
+import DropDown from '@/Shared/Forms/DropDown.vue';
 import NumeroInput from '@/Shared/Forms/NumeroInput.vue';
 import TextAreaInput from '@/Shared/Forms/TextAreaInput.vue';
 import TextInput from '@/Shared/Forms/TextInput.vue';
@@ -45,6 +46,7 @@ import { computed, provide, readonly, ref, watch } from 'vue';
 
 const props = defineProps({
     caixa: { type: Object },
+    tipos_processo: { type: Object },
     processos: { type: Object },
 });
 
@@ -54,6 +56,7 @@ const modoEdicao = ref(false);
 
 const form = useForm({
     localidade_criadora_id: props.caixa.data.localidade_criadora_id,
+    tipo_processo_id: props.caixa.data.tipo_processo_id,
     numero: props.caixa.data.numero,
     ano: props.caixa.data.ano,
     guarda_permanente: props.caixa.data.guarda_permanente,
@@ -181,8 +184,19 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             :chave="__('Localidade criadora')"
                             :href="caixa.data.localidade_criadora.links.view"
                             :valor="caixa.data.localidade_criadora.nome"
-                            icone="list-nested"
+                            icone="pin-map"
                             :erro="form.errors.localidade_criadora_id"
+                        />
+
+                        <DropDown
+                            v-model="form.tipo_processo_id"
+                            :disabled="!modoEdicao"
+                            :erro="form.errors.tipo_processo_id"
+                            :label="__('Tipo de processo')"
+                            :opcoes="tipos_processo.data"
+                            icone="card-list"
+                            labelOpcao="nome"
+                            required
                         />
 
                         <NumeroInput

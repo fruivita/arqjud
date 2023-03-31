@@ -11,12 +11,14 @@ use App\Http\Resources\Caixa\CaixaEditResource;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
 use App\Http\Resources\Prateleira\PrateleiraEditResource;
 use App\Http\Resources\Processo\ProcessoCollection;
+use App\Http\Resources\TipoProcesso\TipoProcessoOnlyResource;
 use App\Http\Traits\ComFeedback;
 use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Prateleira;
 use App\Models\Processo;
+use App\Models\TipoProcesso;
 use App\Pipes\Caixa\JoinLocalidade;
 use App\Pipes\Caixa\Order;
 use App\Pipes\Processo\Order as ProcessoOrder;
@@ -47,7 +49,7 @@ class CaixaController extends Controller
         return Inertia::render('Cadastro/Caixa/Index', [
             'caixas' => fn () => CaixaCollection::make(
                 Pipeline::make()
-                    ->send(Caixa::withCount(['processos'])->with(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora']))
+                    ->send(Caixa::withCount(['processos'])->with(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora', 'tipoProcesso']))
                     ->through([JoinLocalidade::class, Order::class, Search::class])
                     ->thenReturn()
                     ->paginate($this->perPage())
@@ -71,6 +73,7 @@ class CaixaController extends Controller
             'ultima_insercao' => fn () => CaixaEditResource::make($prateleira->caixas()->with('localidadeCriadora')->latest()->first()),
             'prateleira' => fn () => PrateleiraEditResource::make($prateleira->load('estante.sala.andar.predio.localidade')),
             'localidades' => fn () => LocalidadeOnlyResource::collection(Localidade::all()),
+            'tipos_processo' => fn () => TipoProcessoOnlyResource::collection(TipoProcesso::all()),
         ]);
     }
 
@@ -89,6 +92,7 @@ class CaixaController extends Controller
         $caixa->complemento = $request->input('complemento');
         $caixa->descricao = $request->input('descricao');
         $caixa->localidade_criadora_id = $request->integer('localidade_criadora_id');
+        $caixa->tipo_processo_id = $request->integer('tipo_processo_id');
 
         $salvo = $prateleira->caixas()->save($caixa);
 
@@ -105,7 +109,8 @@ class CaixaController extends Controller
         $this->authorize(Policy::ViewOrUpdate->value, Caixa::class);
 
         return Inertia::render('Cadastro/Caixa/Edit', [
-            'caixa' => fn () => CaixaEditResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora'])),
+            'caixa' => fn () => CaixaEditResource::make($caixa->load(['prateleira.estante.sala.andar.predio.localidade', 'localidadeCriadora', 'tipoProcesso'])),
+            'tipos_processo' => fn () => TipoProcessoOnlyResource::collection(TipoProcesso::all()),
             'processos' => fn () => ProcessoCollection::make(
                 Pipeline::make()
                     ->send(Processo::withCount(['processosFilho', 'solicitacoes'])->whereBelongsTo($caixa))
@@ -131,6 +136,7 @@ class CaixaController extends Controller
         $caixa->complemento = $request->input('complemento');
         $caixa->descricao = $request->input('descricao');
         $caixa->localidade_criadora_id = $request->integer('localidade_criadora_id');
+        $caixa->tipo_processo_id = $request->integer('tipo_processo_id');
 
         $salvo = $caixa->atualizar();
 

@@ -188,6 +188,13 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             icone="box2"
                         />
 
+                        <ChaveValor
+                            :chave="__('Tipo de processo')"
+                            :href="processo.data.caixa.tipo_processo.links.view"
+                            :valor="processo.data.caixa.tipo_processo.nome"
+                            icone="card-list"
+                        />
+
                         <TextInput
                             v-model="form.processo_pai_numero"
                             :disabled="!modoEdicao"

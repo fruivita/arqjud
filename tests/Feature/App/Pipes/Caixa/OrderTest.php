@@ -70,6 +70,7 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
     'estante_pai_numero',
     'prateleira_pai_numero',
     'localidade_criadora_nome',
+    'tipo_processo_nome',
     'processos_count',
 ]);
 
@@ -87,6 +88,7 @@ test('todas as ordenações possíveis no request da caixa', function () {
         'estante_pai_numero' => 'desc',
         'prateleira_pai_numero' => 'desc',
         'localidade_criadora_nome' => 'desc',
+        'tipo_processo_nome' => 'desc',
         'processos_count' => 'desc',
     ]]);
 

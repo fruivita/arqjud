@@ -37,6 +37,13 @@ class UpdateCaixaRequest extends FormRequest
                 Rule::exists('localidades', 'id'),
             ],
 
+            'tipo_processo_id' => [
+                'bail',
+                'required',
+                'integer',
+                Rule::exists('tipos_processo', 'id'),
+            ],
+
             'numero' => [
                 'bail',
                 'required',
@@ -46,6 +53,7 @@ class UpdateCaixaRequest extends FormRequest
                     ->where('ano', $this->ano)
                     ->where('guarda_permanente', $this->guarda_permanente)
                     ->where('localidade_criadora_id', $this->localidade_criadora_id)
+                    ->where('tipo_processo_id', $this->tipo_processo_id)
                     ->where('prateleira_id', $this->caixa->prateleira_id)
                     ->when($this->complemento, fn ($query) => $query->where('complemento', $this->complemento))
                     ->ignore($this->caixa),
@@ -87,6 +95,7 @@ class UpdateCaixaRequest extends FormRequest
     {
         return [
             'localidade_criadora_id' => __('Localidade criadora'),
+            'tipo_processo_id' => __('Tipo de processo'),
             'numero' => __('Número'),
             'ano' => __('Ano'),
             'guarda_permanente' => __('Guarda Permanente'),
