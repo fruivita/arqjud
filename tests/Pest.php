@@ -308,6 +308,7 @@ function csvHeader()
         'Estante',
         'Prateleita',
         'Observação',
+        'Tipo de Processo',
     ];
 }
 

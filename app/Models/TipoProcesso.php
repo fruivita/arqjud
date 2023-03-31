@@ -19,6 +19,11 @@ class TipoProcesso extends Model
     protected $table = 'tipos_processo';
 
     /**
+     * {@inheritdoc}
+     */
+    protected $fillable = ['nome'];
+
+    /**
      * Relacionamento tipo_processo (1:N) caixas.
      *
      * Caixas do tipo de processo.

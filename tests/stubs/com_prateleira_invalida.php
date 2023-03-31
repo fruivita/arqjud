@@ -26,4 +26,5 @@ return [[
     '',                     // Número da Estante
     str_repeat('a', 101),   // Número da Prateleira - Máximo 100 caracteres
     '',                     // Observação/Descrição da caixa
+    'Criminal',             // Tipo de processo armazenado na caixa
 ]];

@@ -26,4 +26,5 @@ return [[
     '20-e',                      // Número da Estante
     '30-p',                      // Número da Prateleita
     'Loren ipsum',               // Observação/Descrição da caixa
+    'Criminal',             // Tipo de processo armazenado na caixa
 ]];

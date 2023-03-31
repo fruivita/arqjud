@@ -27,6 +27,7 @@ return [
         '',                     // Número da Estante
         '',                     // Número da Prateleita
         '',                     // Observação/Descrição da caixa
+        'Criminal',             // Tipo de processo armazenado na caixa
     ],
     [
         '26899909319841005657', // Número do processo
@@ -48,6 +49,7 @@ return [
         '',                     // Número da Estante
         '',                     // Número da Prateleita
         '',                     // Observação/Descrição da caixa
+        'Criminal',             // Tipo de processo armazenado na caixa
     ],
     [
         '26899909319841005657', // Número do processo
@@ -69,6 +71,7 @@ return [
         '',                     // Número da Estante
         '',                     // Número da Prateleita
         '',                     // Observação/Descrição da caixa
+        'Criminal',             // Tipo de processo armazenado na caixa
     ],
     [
         '26899909319841005657', // Número do processo
@@ -90,6 +93,7 @@ return [
         '',                     // Número da Estante
         '',                     // Número da Prateleita
         '',                     // Observação/Descrição da caixa
+        'Criminal',             // Tipo de processo armazenado na caixa
     ],
     [
         '26899909319841005657', // Número do processo
@@ -111,6 +115,7 @@ return [
         '',                     // Número da Estante
         '',                     // Número da Prateleita
         '',                     // Observação/Descrição da caixa
+        'Criminal',             // Tipo de processo armazenado na caixa
     ],
     [
         '26899909319841005657', // Número do processo
@@ -132,6 +137,7 @@ return [
         '',                     // Número da Estante
         '',                     // Número da Prateleita
         '',                     // Observação/Descrição da caixa
+        'Criminal',             // Tipo de processo armazenado na caixa
     ],
     [
         '26899909319841005657', // Número do processo
@@ -152,6 +158,7 @@ return [
         '100-s',                // Número da Sala
         '',                     // Número da Estante
         '',                     // Número da Prateleita
-        str_repeat('a', 256),    // Observação/Descrição da caixa - Máximo 255 caracteres
+        str_repeat('a', 256),   // Observação/Descrição da caixa - Máximo 255 caracteres
+        'Criminal',             // Tipo de processo armazenado na caixa
     ],
 ];

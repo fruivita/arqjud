@@ -28,6 +28,7 @@ return [
         '',                     // Número da Estante
         '',                     // Número da Prateleita
         '',                     // Observação/Descrição da caixa
+        'Criminal',             // Tipo de processo armazenado na caixa
     ],
     [
         '26899909319841005657', // Número do processo
@@ -49,5 +50,6 @@ return [
         '',                     // Número da Estante
         '',                     // Número da Prateleita
         '',                     // Observação/Descrição da caixa
+        'Criminal',             // Tipo de processo armazenado na caixa
     ],
 ];

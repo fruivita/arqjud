@@ -1,4 +1,4 @@
-﻿numero_processo,numero_antigo_processo,numero_processo_pai,arquivado_em,qtd_volumes_processo,numero_caixa,complemento_caixa,ano_caixa,volume_caixa_inicial,volume_caixa_final,guarda_permanente_processo,nome_localidade_criadora_caixa,nome_localidade,nome_predio,numero_andar,numero_sala,numero_estante,numero_prateleira,descricao_caixa,falha
-26899909319841005657,,,21-12-2020,2,5,,2020,3,6,Não,Yokohama,Madrid,"Empire State",,100-s,,,,"O(A) numero andar é obrigatório(a)."
-26899909319841005657,,,21-12-2020,2,5,,2020,3,6,Não,Yokohama,Madrid,"Empire State",-101,100-s,,,,"O(A) numero andar precisa ser entre -100 e 300."
-26899909319841005657,,,21-12-2020,2,5,,2020,3,6,Não,Yokohama,Madrid,"Empire State",301,100-s,,,,"O(A) numero andar precisa ser entre -100 e 300."
+﻿numero_processo,numero_antigo_processo,numero_processo_pai,arquivado_em,qtd_volumes_processo,numero_caixa,complemento_caixa,ano_caixa,volume_caixa_inicial,volume_caixa_final,guarda_permanente_processo,nome_localidade_criadora_caixa,nome_localidade,nome_predio,numero_andar,numero_sala,numero_estante,numero_prateleira,descricao_caixa,nome_tipo_processo_caixa,falha
+26899909319841005657,,,21-12-2020,2,5,,2020,3,6,Não,Yokohama,Madrid,"Empire State",,100-s,,,,Criminal,"O(A) numero andar é obrigatório(a)."
+26899909319841005657,,,21-12-2020,2,5,,2020,3,6,Não,Yokohama,Madrid,"Empire State",-101,100-s,,,,Criminal,"O(A) numero andar precisa ser entre -100 e 300."
+26899909319841005657,,,21-12-2020,2,5,,2020,3,6,Não,Yokohama,Madrid,"Empire State",301,100-s,,,,Criminal,"O(A) numero andar precisa ser entre -100 e 300."

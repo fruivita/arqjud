@@ -26,4 +26,5 @@ return [[
     '',                     // Número da Estante
     '',                     // Número da Prateleita
     '',                     // Observação/Descrição da caixa
+    'Criminal',             // Tipo de processo armazenado na caixa
 ]];

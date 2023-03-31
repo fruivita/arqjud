@@ -37,6 +37,7 @@ test('registra os erros de validação em arquivo próprio respeitando o snapsho
     'com_processo_pai_invalido',
     'com_processo_pai_com_mascara',
     'com_localidade_criadora_invalida',
+    'com_tipo_processo_invalido',
 ]);
 
 test('data futura para o arquivamento é inválida', function () {
@@ -121,6 +122,10 @@ test('importação persiste todos os dados obrigatórios', function () {
             'vol_caixa_final' => 6,
             'guarda_permanente' => 0,
             'arquivado_em' => '2020-12-21',
+        ])
+        ->assertDatabaseCount('tipos_processo', 1)
+        ->assertDatabaseHas('tipos_processo', [
+            'nome' => 'Criminal',
         ]);
 });
 
@@ -173,6 +178,10 @@ test('importação persiste todos os dados opcionais', function () {
             'vol_caixa_final' => 6,
             'guarda_permanente' => 1,
             'arquivado_em' => '2020-12-21',
+        ])
+        ->assertDatabaseCount('tipos_processo', 1)
+        ->assertDatabaseHas('tipos_processo', [
+            'nome' => 'Criminal',
         ]);
 });
 
@@ -184,6 +193,7 @@ test('cria os relacionamentos na importação', function () {
     $processo = Processo::with([
         'caixa.prateleira.estante.sala.andar.predio.localidade',
         'caixa.localidadeCriadora',
+        'caixa.tipoProcesso',
     ])->firstWhere('processos.numero', '26899909319841005657');
 
     expect($processo->caixa->numero)->toBe(5)
@@ -193,7 +203,8 @@ test('cria os relacionamentos na importação', function () {
         ->and($processo->caixa->prateleira->estante->sala->andar->numero)->toBe(10)
         ->and($processo->caixa->prateleira->estante->sala->andar->predio->nome)->toBe('Empire State')
         ->and($processo->caixa->prateleira->estante->sala->andar->predio->localidade->nome)->toBe('Madrid')
-        ->and($processo->caixa->localidadeCriadora->nome)->toBe('Yokohama');
+        ->and($processo->caixa->localidadeCriadora->nome)->toBe('Yokohama')
+        ->and($processo->caixa->tipoProcesso->nome)->toBe('Criminal');
 });
 
 test('cria o relacionamento com o processo pai na importação', function () {

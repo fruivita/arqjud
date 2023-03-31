@@ -4,6 +4,7 @@ namespace App\Services\Importador;
 
 use App\Models\Localidade;
 use App\Models\Processo;
+use App\Models\TipoProcesso;
 use App\Rules\NumeroProcesso;
 use App\Rules\NumeroProcessoCNJ;
 use Illuminate\Support\Arr;
@@ -57,6 +58,7 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
         'numero_estante',
         'numero_prateleira',
         'descricao_caixa',
+        'nome_tipo_processo_caixa',
     ];
 
     /**
@@ -86,6 +88,7 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
             'numero_estante' => ['bail', 'nullable', 'string', 'between:1,50'],
             'numero_prateleira' => ['bail', 'nullable', 'string', 'between:1,50'],
             'descricao_caixa' => ['bail', 'nullable', 'string', 'between:1,255'],
+            'nome_tipo_processo_caixa' => ['bail', 'required', 'string', 'between:1,100'],
         ];
     }
 
@@ -222,6 +225,7 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
         try {
             $localidade = Localidade::firstOrCreate(['nome' => Arr::get($validados, 'nome_localidade')]);
             $localidade_criadora = Localidade::firstOrCreate(['nome' => Arr::get($validados, 'nome_localidade_criadora_caixa')]);
+            $tipo_processo = TipoProcesso::firstOrCreate(['nome' => Arr::get($validados, 'nome_tipo_processo_caixa')]);
             $predio = $localidade->predios()->firstOrCreate(['nome' => Arr::get($validados, 'nome_predio')]);
             $andar = $predio->andares()->firstOrCreate(['numero' => Arr::get($validados, 'numero_andar')]);
             $sala = $andar->salas()->firstOrCreate(['numero' => Arr::get($validados, 'numero_sala')]);
@@ -238,6 +242,7 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
                     'guarda_permanente' => str(Arr::get($validados, 'guarda_permanente_processo'))->lower()->exactly('sim'),
                     'complemento' => Arr::get($validados, 'complemento_caixa') ?: null,
                     'localidade_criadora_id' => $localidade_criadora->id,
+                    'tipo_processo_id' => $tipo_processo->id,
                 ],
                 ['descricao' => Arr::get($validados, 'descricao_caixa') ?: null]
             );

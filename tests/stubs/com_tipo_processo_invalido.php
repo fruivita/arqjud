@@ -3,7 +3,8 @@
 /**
  * Array com dados do processo para serem usados na geração do arquivo CSV.
  *
- * Particularidade: Apenas os campos da sala estão inválidos.
+ * Particularidade: Apenas os campos do localidade criadora da caixa estão
+ * inválidos.
  */
 
 return [
@@ -23,11 +24,11 @@ return [
         'Madrid',               // Nome da localidade
         'Empire State',         // Nome do prédio
         10,                     // Número do Andar
-        '',                     // Número da Sala - Obrigatório
+        '100-s',                // Número da Sala
         '',                     // Número da Estante
         '',                     // Número da Prateleita
         '',                     // Observação/Descrição da caixa
-        'Criminal',             // Tipo de processo armazenado na caixa
+        '',                     // Tipo de processo armazenado na caixa - Obrigatório
     ],
     [
         '26899909319841005657', // Número do processo
@@ -45,10 +46,10 @@ return [
         'Madrid',               // Nome da localidade
         'Empire State',         // Nome do prédio
         10,                     // Número do Andar
-        str_repeat('a', 51),    // Número da Sala - Máximo 50 caracteres
+        '100-s',                // Número da Sala
         '',                     // Número da Estante
         '',                     // Número da Prateleita
         '',                     // Observação/Descrição da caixa
-        'Criminal',             // Tipo de processo armazenado na caixa
+        str_repeat('a', 101),   // Tipo de processo armazenado na caixa - Máximo 100 caracteres
     ],
 ];
