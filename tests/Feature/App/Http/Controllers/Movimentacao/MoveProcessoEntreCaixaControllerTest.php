@@ -13,6 +13,7 @@ use App\Models\Caixa;
 use App\Models\Localidade;
 use App\Models\Permissao;
 use App\Models\Processo;
+use App\Models\TipoProcesso;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,7 @@ test('usuário sem permissão não consegue movimentar processos entre caixas', 
         'ano' => $caixa->ano,
         'guarda_permanente' => $caixa->guarda_permanente,
         'localidade_criadora_id' => $caixa->localidade_criadora_id,
+        'tipo_processo_id' => $caixa->tipo_processo_id,
         'complemento' => $caixa->complemento,
     ])->assertForbidden();
 
@@ -66,6 +68,7 @@ test('action do controller usa o form request', function ($action, $request) {
 
 test('action create compartilha os dados esperados com a view/componente correto', function () {
     Localidade::factory(2)->create();
+    TipoProcesso::factory(3)->create();
 
     concederPermissao(Permissao::MOVER_PROCESSO_CREATE);
 
@@ -75,6 +78,7 @@ test('action create compartilha os dados esperados com a view/componente correto
             fn (Assert $page) => $page
                 ->component('Movimentacao/EntreCaixa/Create')
                 ->has('localidades.data', 2)
+                ->has('tipos_processo.data', 3)
         );
 });
 
@@ -95,6 +99,7 @@ test('movimenta determinados processos', function () {
         'ano' => $caixa->ano,
         'guarda_permanente' => $caixa->guarda_permanente,
         'localidade_criadora_id' => $caixa->localidade_criadora_id,
+        'tipo_processo_id' => $caixa->tipo_processo_id,
         'complemento' => $caixa->complemento,
     ])
         ->assertRedirect()

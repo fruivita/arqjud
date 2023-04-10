@@ -40,6 +40,13 @@ class StoreMoveProcessoEntreCaixaRequest extends FormRequest
                 Rule::exists('localidades', 'id'),
             ],
 
+            'tipo_processo_id' => [
+                'bail',
+                'required',
+                'integer',
+                Rule::exists('tipos_processo', 'id'),
+            ],
+
             'ano' => [
                 'bail',
                 'required',
@@ -75,7 +82,8 @@ class StoreMoveProcessoEntreCaixaRequest extends FormRequest
                             return $query->whereNull('complemento');
                         }
                     )
-                    ->where('localidade_criadora_id', $this->localidade_criadora_id),
+                    ->where('localidade_criadora_id', $this->localidade_criadora_id)
+                    ->where('tipo_processo_id', $this->tipo_processo_id),
             ],
 
             'processos.*.numero' => [
@@ -100,6 +108,7 @@ class StoreMoveProcessoEntreCaixaRequest extends FormRequest
     {
         return [
             'localidade_criadora_id' => __('Localidade criadora'),
+            'tipo_processo_id' => __('Tipo de processo'),
             'ano' => __('Ano'),
             'guarda_permanente' => __('Guarda Permanente'),
             'complemento' => __('Complemento'),

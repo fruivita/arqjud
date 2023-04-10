@@ -6,9 +6,11 @@ use App\Enums\Policy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Movimentacao\StoreMoveProcessoEntreCaixaRequest;
 use App\Http\Resources\Localidade\LocalidadeOnlyResource;
+use App\Http\Resources\TipoProcesso\TipoProcessoOnlyResource;
 use App\Http\Traits\ComFeedback;
 use App\Models\Caixa;
 use App\Models\Localidade;
+use App\Models\TipoProcesso;
 use Illuminate\Support\Arr;
 use Inertia\Inertia;
 
@@ -31,6 +33,7 @@ class MoveProcessoEntreCaixaController extends Controller
 
         return Inertia::render('Movimentacao/EntreCaixa/Create', [
             'localidades' => fn () => LocalidadeOnlyResource::collection(Localidade::all()),
+            'tipos_processo' => fn () => TipoProcessoOnlyResource::collection(TipoProcesso::all()),
             'links' => fn () => [
                 'search' => [
                     'processo' => route('api.movimentacao.processo.show'),
@@ -52,6 +55,7 @@ class MoveProcessoEntreCaixaController extends Controller
             ->where('ano', $request->integer('ano'))
             ->where('guarda_permanente', $request->boolean('guarda_permanente'))
             ->where('localidade_criadora_id', $request->integer('localidade_criadora_id'))
+            ->where('tipo_processo_id', $request->integer('tipo_processo_id'))
             ->when(
                 $request->input('complemento'),
                 function ($query, $complemento) {

@@ -31,6 +31,7 @@ test('usuário sem autorização não cria o resquest', function () {
 // Caminho feliz
 test('rules estão definidas no form request', function ($complemento) {
     $this->request->localidade_criadora_id = 10;
+    $this->request->tipo_processo_id = 20;
     $this->request->ano = 2000;
     $this->request->guarda_permanente = 1;
     $this->request->complemento = $complemento;
@@ -42,6 +43,12 @@ test('rules estão definidas no form request', function ($complemento) {
             'required',
             'integer',
             Rule::exists('localidades', 'id'),
+        ],
+        'tipo_processo_id' => [
+            'bail',
+            'required',
+            'integer',
+            Rule::exists('tipos_processo', 'id'),
         ],
         'ano' => [
             'bail',
@@ -75,7 +82,8 @@ test('rules estão definidas no form request', function ($complemento) {
                         return $query->whereNull('complemento');
                     }
                 )
-                ->where('localidade_criadora_id', $this->request->localidade_criadora_id),
+                ->where('localidade_criadora_id', $this->request->localidade_criadora_id)
+                ->where('tipo_processo_id', $this->request->tipo_processo_id),
         ],
         'processos.*.numero' => [
             'bail',
@@ -93,6 +101,7 @@ test('rules estão definidas no form request', function ($complemento) {
 test('attributes estão definidas no form request', function () {
     $this->assertExactValidationRules([
         'localidade_criadora_id' => __('Localidade criadora'),
+        'tipo_processo_id' => __('Tipo de processo'),
         'ano' => __('Ano'),
         'guarda_permanente' => __('Guarda Permanente'),
         'complemento' => __('Complemento'),

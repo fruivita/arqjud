@@ -34,6 +34,7 @@ import { computed, ref } from 'vue';
 
 const props = defineProps({
     localidades: { type: Object },
+    tipos_processo: { type: Object },
     links: { type: Object },
 });
 
@@ -49,6 +50,7 @@ const formMoverProcessos = useForm({
     guarda_permanente: false,
     complemento: '',
     localidade_criadora_id: '',
+    tipo_processo_id: '',
     processos: [],
 });
 
@@ -256,6 +258,26 @@ const viewReset = () => {
                                     required
                                 />
 
+                                <DropDown
+                                    v-model="formMoverProcessos.localidade_criadora_id"
+                                    :erro="formMoverProcessos.errors.localidade_criadora_id"
+                                    :label="__('Localidade criadora')"
+                                    :opcoes="localidades.data"
+                                    icone="pin-map"
+                                    labelOpcao="nome"
+                                    required
+                                />
+
+                                <DropDown
+                                    v-model="formMoverProcessos.tipo_processo_id"
+                                    :erro="formMoverProcessos.errors.tipo_processo_id"
+                                    :label="__('Tipo de processo')"
+                                    :opcoes="tipos_processo.data"
+                                    icone="card-list"
+                                    labelOpcao="nome"
+                                    required
+                                />
+
                                 <TextInput
                                     v-model="formMoverProcessos.complemento"
                                     :erro="formMoverProcessos.errors.complemento"
@@ -266,15 +288,6 @@ const viewReset = () => {
                                     icone="quote"
                                 />
 
-                                <DropDown
-                                    v-model="formMoverProcessos.localidade_criadora_id"
-                                    :erro="formMoverProcessos.errors.localidade_criadora_id"
-                                    :label="__('Localidade criadora')"
-                                    :opcoes="localidades.data"
-                                    icone="pin-map"
-                                    labelOpcao="nome"
-                                    required
-                                />
                                 <CheckBox
                                     v-model:checked="formMoverProcessos.guarda_permanente"
                                     :label="__('Guarda Permanente')"
