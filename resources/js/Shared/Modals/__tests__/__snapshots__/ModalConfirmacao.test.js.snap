@@ -5,7 +5,7 @@ exports[`ModalConfirmacao > renderiza o componente respeitando o snapshot 1`] = 
   <div class=\\"fixed inset-0 z-20 grid place-items-center bg-primaria-100/80 text-xl text-primaria-900 dark:bg-secundaria-900/80 dark:text-secundaria-50\\">
     <article class=\\"w-full divide-y lg:w-8/12\\">
       <header class=\\"rounded-t-lg bg-primaria-300 p-3 dark:bg-secundaria-700\\">
-        <h6 class=\\"text-2xl font-bold\\">Cuidado!! Operação Irreversível</h6>
+        <h6 class=\\"text-2xl font-bold\\">Cuidado! Operação Irreversível</h6>
       </header>
       <div class=\\"max-h-48 overflow-y-auto bg-primaria-50 px-3 py-6 dark:bg-secundaria-900 lg:px-24\\">Essa operação é irreversível. Tem certeza que deseja continuar?</div>
       <footer class=\\"flex flex-col justify-end space-x-0 space-y-3 rounded-b-lg bg-primaria-300 p-3 dark:bg-secundaria-700 lg:flex-row lg:items-center lg:space-x-3 lg:space-y-0\\"><button class=\\"bg-gray-500 text-gray-50 ring-gray-600 hover:bg-gray-600 focus:bg-gray-600 inline-flex transform-gpu items-center justify-center space-x-4 rounded-lg px-4 py-2 outline-none transition duration-300 hover:ring-4 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50\\" type=\\"button\\" dusk=\\"btn-cancelar\\"><span dusk=\\"texto\\">Cancelar</span><svg class=\\"w-6 h-6\\" fill=\\"currentColor\\" viewBox=\\"0 0 16 16\\" xmlns=\\"http://www.w3.org/2000/svg\\">

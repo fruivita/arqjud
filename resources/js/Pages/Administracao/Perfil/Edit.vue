@@ -140,7 +140,7 @@ watch(perPage, filtrar);
                             />
 
                             <p class="text-sm">
-                                {{ __('Usado para estabelecer a hierarquia entre os perfis.') }}
+                                {{ __('Usado para estabelecer a hierarquia entre os perfis') }}
                             </p>
                         </div>
                     </div>
@@ -212,7 +212,7 @@ watch(perPage, filtrar);
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.permissao"
                         :ordenacao="ordenacoes.nome"
-                        :texto="__('Permissao')"
+                        :texto="__('Permissão')"
                         @ordenar="(direcao) => mudarOrdenacao('nome', direcao)"
                     />
 
@@ -260,7 +260,7 @@ watch(perPage, filtrar);
 
                     <template v-else>
                         <Row>
-                            <Cell :colspan="colspan">{{ __('Nenhum registro encontrado!') }}</Cell>
+                            <Cell :colspan="colspan">{{ __('Nenhum registro encontrado') }}</Cell>
                         </Row>
                     </template>
                 </template>

@@ -59,7 +59,7 @@ const __ = useTranslationsStore().__;
 
                     <template v-else>
                         <Row>
-                            <Cell colspan="2">{{ __('Nenhum registro encontrado!') }}</Cell>
+                            <Cell colspan="2">{{ __('Nenhum registro encontrado') }}</Cell>
                         </Row>
                     </template>
                 </template>

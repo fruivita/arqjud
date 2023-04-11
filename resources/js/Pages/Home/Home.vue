@@ -26,7 +26,7 @@ const __ = useTranslationsStore().__;
             class="flex justify-center space-x-6 bg-yellow-200 p-3 font-mono text-yellow-900 dark:bg-yellow-900 dark:text-yellow-50"
         >
             <span>
-                {{ __('Processos solicitados:') }}
+                {{ __('Processos solicitados') }}
 
                 <span
                     class="rounded-full bg-yellow-900 p-1 text-yellow-50 dark:bg-yellow-200 dark:text-yellow-900"

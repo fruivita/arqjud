@@ -140,7 +140,7 @@ const colspan = computed(() => countElementosVisiveis(elementosVisiveis));
                         <template v-else>
                             <Row>
                                 <Cell :colspan="colspan">
-                                    {{ __('Nenhum registro encontrado!') }}
+                                    {{ __('Nenhum registro encontrado') }}
                                 </Cell>
                             </Row>
                         </template>

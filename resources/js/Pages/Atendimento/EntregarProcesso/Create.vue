@@ -56,7 +56,7 @@ const formEntregarProcessos = useForm({
 // Solicitações de processo que o usuário está autorizado a receber.
 const solicitacoesAutorizadas = async () => {
     if (status.processando == true) {
-        flash({ alerta: __('Aguarde a conclusão da solicitação.') });
+        flash({ alerta: __('Aguarde a conclusão da solicitação') });
 
         return;
     }
@@ -82,7 +82,7 @@ const solicitacoesAutorizadas = async () => {
             switch (erro.response.status) {
                 case 401:
                 case 419:
-                    flash({ erro: __('Autenticação expirada, faça login novamente.') });
+                    flash({ erro: __('Autenticação expirada, faça login novamente') });
                     break;
                 case 422: // falha de validação
                     formRecebedor.setError('recebedor', first(erro.response.data.errors.recebedor));

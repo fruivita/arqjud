@@ -73,7 +73,7 @@ const cadastrar = () => {
                         />
 
                         <p class="text-sm">
-                            {{ __('Usado para estabelecer a hierarquia entre os perfis.') }}
+                            {{ __('Usado para estabelecer a hierarquia entre os perfis') }}
                         </p>
                     </div>
 

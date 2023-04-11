@@ -49,7 +49,7 @@ const processos = computed(() =>
 
 const receberProcesso = async () => {
     if (status.processando == true) {
-        flash({ alerta: __('Aguarde a conclusão da solicitação.') });
+        flash({ alerta: __('Aguarde a conclusão da solicitação') });
 
         return;
     }
@@ -57,7 +57,7 @@ const receberProcesso = async () => {
     if (formReceberProcesso.numero.length != 25) {
         formReceberProcesso.setError(
             'numero',
-            __('Informe o número completo do processo no padrão CNJ.')
+            __('Informe o número completo do processo no padrão CNJ')
         );
 
         return;

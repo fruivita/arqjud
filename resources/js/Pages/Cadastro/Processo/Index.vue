@@ -193,7 +193,7 @@ watch(perPage, filtrar);
 
             <Tabela>
                 <template #header>
-                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo/>
+                    <Heading v-show="elementosVisiveis.acao" :texto="__('Ações')" fixo />
 
                     <HeadingOrdenavel
                         v-show="elementosVisiveis.processo"
@@ -474,7 +474,7 @@ watch(perPage, filtrar);
 
                     <template v-else>
                         <Row>
-                            <Cell :colspan="colspan">{{ __('Nenhum registro encontrado!') }}</Cell>
+                            <Cell :colspan="colspan">{{ __('Nenhum registro encontrado') }}</Cell>
                         </Row>
                     </template>
                 </template>

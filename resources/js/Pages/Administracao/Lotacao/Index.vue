@@ -237,7 +237,7 @@ watch(perPage, filtrar);
 
                     <template v-else>
                         <Row>
-                            <Cell :colspan="colspan">{{ __('Nenhum registro encontrado!') }}</Cell>
+                            <Cell :colspan="colspan">{{ __('Nenhum registro encontrado') }}</Cell>
                         </Row>
                     </template>
                 </template>

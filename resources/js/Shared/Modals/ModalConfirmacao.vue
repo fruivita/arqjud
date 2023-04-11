@@ -16,7 +16,7 @@ const __ = useTranslationsStore().__;
 <template>
     <ModalBase>
         <template #header>
-            <slot name="header">{{ __('Cuidado!! Operação Irreversível') }}</slot>
+            <slot name="header">{{ __('Cuidado! Operação Irreversível') }}</slot>
         </template>
 
         <template #body>

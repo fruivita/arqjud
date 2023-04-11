@@ -69,7 +69,7 @@ watch(perPage, filtrar);
             </template>
 
             <template v-else>
-                <p>{{ __('Sem conteúdo!') }}</p>
+                <p>{{ __('Sem conteúdo') }}</p>
             </template>
 
             <Paginacao v-if="conteudo.meta.last_page > 1" :meta="conteudo.meta" />

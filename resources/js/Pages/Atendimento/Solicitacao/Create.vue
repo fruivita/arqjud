@@ -60,7 +60,7 @@ const processos = computed(() =>
 
 const getSolicitante = async () => {
     if (status.processando == true) {
-        flash({ alerta: __('Aguarde a conclusão da solicitação.') });
+        flash({ alerta: __('Aguarde a conclusão da solicitação') });
 
         return;
     }
@@ -86,7 +86,7 @@ const getSolicitante = async () => {
             switch (erro.response.status) {
                 case 401:
                 case 419:
-                    flash({ erro: __('Autenticação expirada, faça login novamente.') });
+                    flash({ erro: __('Autenticação expirada, faça login novamente') });
                     break;
                 case 422: // falha de validação
                     formSolicitante.setError(
@@ -105,13 +105,13 @@ const getSolicitante = async () => {
 
 const addProcesso = async () => {
     if (status.processando == true) {
-        flash({ alerta: __('Aguarde a conclusão da solicitação.') });
+        flash({ alerta: __('Aguarde a conclusão da solicitação') });
 
         return;
     }
 
     if (formProcesso.numero.length != 25) {
-        formProcesso.setError('numero', __('Informe o número completo do processo no padrão CNJ.'));
+        formProcesso.setError('numero', __('Informe o número completo do processo no padrão CNJ'));
 
         return;
     }
@@ -120,7 +120,7 @@ const addProcesso = async () => {
     formProcesso.clearErrors();
 
     if (find(formSolicitarProcessos.processos, { numero: formProcesso.numero })) {
-        formProcesso.setError('numero', __('Processo já informado.'));
+        formProcesso.setError('numero', __('Processo já informado'));
 
         status.setStatus(false);
 
@@ -139,7 +139,7 @@ const addProcesso = async () => {
             switch (erro.response.status) {
                 case 401:
                 case 419:
-                    flash({ erro: __('Autenticação expirada, faça login novamente.') });
+                    flash({ erro: __('Autenticação expirada, faça login novamente') });
                     break;
                 case 422: // falha de validação
                     formProcesso.setError('numero', first(erro.response.data.errors.numero));
