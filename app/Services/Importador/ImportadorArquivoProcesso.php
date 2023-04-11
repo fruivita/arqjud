@@ -99,7 +99,7 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
      */
     public static function make()
     {
-        return new static();
+        return new self();
     }
 
     /**
