@@ -54,8 +54,7 @@ class StoreCaixaRequest extends FormRequest
                     ->where('guarda_permanente', $this->guarda_permanente)
                     ->where('localidade_criadora_id', $this->localidade_criadora_id)
                     ->where('tipo_processo_id', $this->tipo_processo_id)
-                    ->where('prateleira_id', $this->prateleira->id)
-                    ->when($this->complemento, fn ($query) => $query->where('complemento', $this->complemento)),
+                    ->where('prateleira_id', $this->prateleira->id),
             ],
 
             'ano' => [
@@ -67,13 +66,6 @@ class StoreCaixaRequest extends FormRequest
 
             'guarda_permanente' => [
                 'boolean',
-            ],
-
-            'complemento' => [
-                'bail',
-                'nullable',
-                'string',
-                'between:1,50',
             ],
 
             'descricao' => [
@@ -98,7 +90,6 @@ class StoreCaixaRequest extends FormRequest
             'numero' => __('Número'),
             'ano' => __('Ano'),
             'guarda_permanente' => __('Guarda Permanente'),
-            'complemento' => __('Complemento'),
             'descricao' => __('Descrição'),
         ];
     }

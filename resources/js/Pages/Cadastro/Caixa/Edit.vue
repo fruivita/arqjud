@@ -231,7 +231,7 @@ const { confirmarExclusao, excluir, titulo } = useExclusao();
                             :erro="form.errors.complemento"
                             :label="__('Complemento do número')"
                             :maxlength="50"
-                            :placeholder="__('Ex.: Cri, Civ, ...')"
+                            :placeholder="__('Desaconselhado')"
                             autocomplete="off"
                             icone="quote"
                         />

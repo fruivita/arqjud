@@ -17,7 +17,6 @@ import CheckBox from '@/Shared/Forms/CheckBox.vue';
 import DropDown from '@/Shared/Forms/DropDown.vue';
 import NumeroInput from '@/Shared/Forms/NumeroInput.vue';
 import TextAreaInput from '@/Shared/Forms/TextAreaInput.vue';
-import TextInput from '@/Shared/Forms/TextInput.vue';
 import ChaveValor from '@/Shared/Misc/ChaveValor.vue';
 import UltimoCadastro from '@/Shared/Misc/UltimoCadastro.vue';
 import { useTranslationsStore } from '@/Stores/TranslationsStore';
@@ -37,7 +36,6 @@ const form = useForm({
     numero: '',
     ano: '',
     guarda_permanente: false,
-    complemento: '',
     descricao: '',
     localidade_criadora_id: '',
     tipo_processo_id: '',
@@ -124,16 +122,6 @@ const cadastrar = () => {
                             autocomplete="off"
                             icone="calendar-range"
                             required
-                        />
-
-                        <TextInput
-                            v-model="form.complemento"
-                            :erro="form.errors.complemento"
-                            :label="__('Complemento do número')"
-                            :maxlength="50"
-                            :placeholder="__('Ex.: Cri, Civ, ...')"
-                            autocomplete="off"
-                            icone="quote"
                         />
 
                         <DropDown

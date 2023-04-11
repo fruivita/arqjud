@@ -36,7 +36,6 @@ test('rules estão definidas no form request', function () {
     $this->request->prateleira = $prateleira;
     $this->request->ano = 2010;
     $this->request->guarda_permanente = true;
-    $this->request->complemento = 'foo';
     $this->request->localidade_criadora_id = $localidade->id;
     $this->request->tipo_processo_id = $tipo_processo->id;
 
@@ -65,8 +64,7 @@ test('rules estão definidas no form request', function () {
                 ->where('guarda_permanente', 1)
                 ->where('localidade_criadora_id', $localidade->id)
                 ->where('tipo_processo_id', $tipo_processo->id)
-                ->where('prateleira_id', $prateleira->id)
-                ->where('complemento', 'foo'),
+                ->where('prateleira_id', $prateleira->id),
         ],
 
         'ano' => [
@@ -78,13 +76,6 @@ test('rules estão definidas no form request', function () {
 
         'guarda_permanente' => [
             'boolean',
-        ],
-
-        'complemento' => [
-            'bail',
-            'nullable',
-            'string',
-            'between:1,50',
         ],
 
         'descricao' => [
@@ -103,7 +94,6 @@ test('attributes estão definidas no form request', function () {
         'numero' => __('Número'),
         'ano' => __('Ano'),
         'guarda_permanente' => __('Guarda Permanente'),
-        'complemento' => __('Complemento'),
         'descricao' => __('Descrição'),
     ], $this->request->attributes());
 });

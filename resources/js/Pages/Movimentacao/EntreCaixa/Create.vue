@@ -283,7 +283,7 @@ const viewReset = () => {
                                     :erro="formMoverProcessos.errors.complemento"
                                     :label="__('Complemento do número')"
                                     :maxlength="50"
-                                    :placeholder="__('Ex.: Cri, Civ, ...')"
+                                    :placeholder="__('Complemento')"
                                     autocomplete="off"
                                     icone="quote"
                                 />

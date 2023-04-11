@@ -89,7 +89,6 @@ class CaixaController extends Controller
         $caixa->numero = $request->integer('numero');
         $caixa->ano = $request->integer('ano');
         $caixa->guarda_permanente = $request->boolean('guarda_permanente');
-        $caixa->complemento = $request->input('complemento');
         $caixa->descricao = $request->input('descricao');
         $caixa->localidade_criadora_id = $request->integer('localidade_criadora_id');
         $caixa->tipo_processo_id = $request->integer('tipo_processo_id');
