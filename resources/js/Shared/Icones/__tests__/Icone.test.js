@@ -29,6 +29,7 @@ describe('Icone', () => {
 
     const cases = [
         ['foo'],
+        ['activity'],
         ['arrow-clockwise'],
         ['arrow-down-short'],
         ['arrow-up-short'],
