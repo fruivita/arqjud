@@ -50,12 +50,8 @@ const description = computed(() => {
         405: __('Ooops!!! Esse método não é permitido para essa URL.'),
         419: __('Ooops!!! A sua requisição expirou, tente se autenticar novamente.'),
         429: __('Ooops!!! Você fez mais requisições por segundo que o permitido pela aplicação.'),
-        500: __(
-            'Ooops!!! Salve-se quem puder, pois o servidor está com problemas graves. Procure um administrador.'
-        ),
-        503: __(
-            'Ooops!!! Os serviços estão indisponíveis para manutenção. Tente novamente mais tarde.'
-        ),
+        500: __('Ooops!!! O servidor está com problemas graves. Procure um administrador.'),
+        503: __('Ooops!!! Os serviços estão em manutenção. Tente novamente mais tarde.'),
     }[props.status];
 });
 </script>
