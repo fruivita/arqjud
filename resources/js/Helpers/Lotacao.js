@@ -5,6 +5,10 @@
 import { useTranslationsStore } from '@/Stores/TranslationsStore';
 
 function nomeLotacao(lotacao) {
+    if (!lotacao) {
+        return null;
+    }
+
     let texto = '';
 
     if (lotacao.sigla) {

@@ -16,6 +16,12 @@ setActivePinia(createPinia());
 const __ = useTranslationsStore().__;
 
 describe('Lotação', () => {
+    test('retorna null se não houver lotação', () => {
+        const lotacao = '';
+
+        expect(nomeLotacao(lotacao)).toBeNull();
+    });
+
     test('retorna o nome da lotação para exibição', () => {
         const lotacao = {
             sigla: 'foo',
