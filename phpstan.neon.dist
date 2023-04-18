@@ -18,6 +18,7 @@ parameters:
 
   # https://phpstan.org/config-reference#universal-object-crates
   universalObjectCratesClasses:
+  - App\Models\Atividade
   - App\Models\Usuario
   - App\Models\TipoProcesso
   - App\Models\Localidade
@@ -75,8 +76,10 @@ parameters:
   - App\Http\Resources\Perfil\PerfilEditResource
   - App\Http\Resources\Permissao\PermissaoResource
   - App\Http\Resources\Permissao\PermissaoOnlyResource
+  - App\Http\Resources\Atividade\AtividadeResource
   - FruiVita\Corporativo\Models\Lotacao
   - LdapRecord\Models\ActiveDirectory\User
+  - Spatie\Activitylog\Contracts\Activity
 
   # https://phpstan.org/user-guide/ignoring-errors
   ignoreErrors:
