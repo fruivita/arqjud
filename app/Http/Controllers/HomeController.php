@@ -52,8 +52,8 @@ class HomeController extends Controller
                         'caixa.localidadeCriadora',
                         'processoPai',
                     ])->where('numero', $processo)
-                    ->orWhere('numero_antigo', $processo)
-                    ->first()
+                        ->orWhere('numero_antigo', $processo)
+                        ->first()
                     : null
             ),
             'links' => fn () => ['search' => route('home.show')],

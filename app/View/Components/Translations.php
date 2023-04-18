@@ -58,9 +58,9 @@ class Translations extends Component
     {
         return (File::exists(lang_path($locale)))
             ? collect(File::allFiles(lang_path($locale)))
-            ->filter(function (SplFileInfo $file) {
-                return $file->getExtension() === 'php';
-            })->flatMap(function (SplFileInfo $file) {
+                ->filter(function (SplFileInfo $file) {
+                    return $file->getExtension() === 'php';
+                })->flatMap(function (SplFileInfo $file) {
                 return Arr::dot(File::getRequire($file->getRealPath()));
             })->toArray()
             : [];
