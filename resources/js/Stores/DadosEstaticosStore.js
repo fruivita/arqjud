@@ -13,6 +13,13 @@ export const useDadosEstaticosStore = defineStore('DadosEstaticosStore', () => {
      *
      *  @type {String}
      */
+    const ambiente = window._dados.ambiente;
+
+    /**
+     * Nome da aplicação.
+     *
+     *  @type {String}
+     */
     const appNome = window._dados.app_nome;
 
     /**
@@ -43,5 +50,5 @@ export const useDadosEstaticosStore = defineStore('DadosEstaticosStore', () => {
      */
     const paginacao = window._dados.paginacao;
 
-    return { appNome, appNomeCompleto, appVersao, orgaoSigla, paginacao };
+    return { ambiente, appNome, appNomeCompleto, appVersao, orgaoSigla, paginacao };
 });

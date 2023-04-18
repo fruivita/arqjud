@@ -22,6 +22,12 @@ const exibirMenuPrincipal = useLocalStorage('exibirMenuPrincipal', true);
 const title = computed(
     () => `${useDadosEstaticosStore().appNome} - ${useDadosEstaticosStore().orgaoSigla}`
 );
+
+const tarjaAmbiente = computed(() =>
+    useDadosEstaticosStore().ambiente == 'Produção'
+        ? false
+        : `${useDadosEstaticosStore().ambiente} - ${useDadosEstaticosStore().appVersao}`
+);
 </script>
 
 <template>
@@ -46,6 +52,13 @@ const title = computed(
             }"
             class="flex min-h-screen flex-col"
         >
+            <div
+                v-if="tarjaAmbiente"
+                class="bg-yellow-300 py-3 text-center text-2xl font-bold dark:bg-yellow-600"
+            >
+                {{ tarjaAmbiente }}
+            </div>
+
             <main class="flex flex-grow flex-col lg:px-6">
                 <slot></slot>
             </main>

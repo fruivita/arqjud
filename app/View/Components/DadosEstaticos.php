@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Http\Traits\ComPaginacaoEmCache;
+use Illuminate\Support\Facades\App;
 use Illuminate\View\Component;
 
 /**
@@ -35,6 +36,7 @@ class DadosEstaticos extends Component
     {
         return view('components.dados-estaticos', [
             'dados' => [
+                'ambiente' => App::isProduction() ? __('Produção') : __('Homologação'),
                 'app_nome' => config('app.name'),
                 'app_nome_completo' => config('app.nome_completo'),
                 'app_versao' => config('app.versao'),
