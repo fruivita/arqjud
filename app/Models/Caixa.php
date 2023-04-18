@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Trait\Auditavel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Log;
  */
 class Caixa extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditavel;
 
     /**
      * {@inheritdoc}
@@ -118,7 +119,10 @@ class Caixa extends Model
 
             $this
                 ->processos()
-                ->update(['guarda_permanente' => $this->guarda_permanente]);
+                ->each(function (Processo $processo) {
+                    $processo->guarda_permanente = $this->guarda_permanente;
+                    $processo->save();
+                });
 
             DB::commit();
 
@@ -151,9 +155,12 @@ class Caixa extends Model
     public function moverProcessos(array $numeros)
     {
         return Processo::whereIn('numero', $numeros)
-            ->update([
-                'guarda_permanente' => $this->guarda_permanente,
-                'caixa_id' => $this->id,
-            ]);
+            ->get()
+            ->each(function (Processo $processo) {
+                $processo->guarda_permanente = $this->guarda_permanente;
+                $processo
+                    ->caixa()->associate($this)
+                    ->save();
+            })->count();
     }
 }

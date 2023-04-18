@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Trait\Auditavel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Log;
  */
 class Sala extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditavel;
 
     /**
      * {@inheritdoc}

@@ -29,7 +29,12 @@ class ResetarPerfis
             Usuario::query()
                 ->whereBelongsTo($lotacao, 'lotacao')
                 ->whereNot('perfil_id', Perfil::administrador()->id)
-                ->update(['perfil_id' => Perfil::padrao()->id]);
+                ->get()
+                ->each(function (Usuario $usuario) {
+                    $usuario
+                        ->perfil()->associate(Perfil::padrao())
+                        ->save();
+                });
         }
 
         return $next($lotacao);

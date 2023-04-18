@@ -461,3 +461,12 @@ test('remove máscara por meio do cast do método set da propriedade número e n
         ->assertDatabaseHas('processos', ['numero' => '11111111111111111111', 'numero_antigo' => '222222222222222'])
         ->assertDatabaseHas('processos', ['numero' => '33333333333333333333', 'numero_antigo' => '4444444444']);
 });
+
+test('Processo usa trait', function () {
+    expect(
+        collect(class_uses(Processo::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

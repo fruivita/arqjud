@@ -60,3 +60,12 @@ test('retorna os tipos de processo pelo escopo search que busca a partir do iní
         ->and(TipoProcesso::search('ba')->count())->toBe(2)
         ->and(TipoProcesso::search('oo')->count())->toBe(0);
 });
+
+test('TipoProcesso usa trait', function () {
+    expect(
+        collect(class_uses(TipoProcesso::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

@@ -11,7 +11,6 @@ use FruiVita\Corporativo\Events\ImportacaoConcluida;
 use FruiVita\Corporativo\Events\ImportacaoIniciada;
 use FruiVita\Corporativo\Events\LotacaoUsuarioAlterada;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Log;
 
 /**
  * @link https://laravel.com/docs/9.x/events
@@ -39,13 +38,10 @@ class ImportacaoDadosRHEventSubscriber implements ShouldQueue
      */
     public function handleImportacaoIniciada(ImportacaoIniciada $event)
     {
-        Log::notice(
-            __('Importação dos dados corporativos iniciada'),
-            [
-                'iniciado_em' => $event->iniciado_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                'arquivo' => $event->arquivo,
-            ]
-        );
+        activity(__('Importação RH'))
+            ->event('job')
+            ->withProperties(['arquivo' => $event->arquivo])
+            ->log(__('iniciado'));
     }
 
     /**
@@ -55,13 +51,10 @@ class ImportacaoDadosRHEventSubscriber implements ShouldQueue
      */
     public function handleImportacaoConcluida(ImportacaoConcluida $event)
     {
-        Log::notice(
-            __('Importação dos dados corporativos concluída'),
-            [
-                'concluido_em' => $event->concluido_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                'arquivo' => $event->arquivo,
-            ]
-        );
+        activity(__('Importação RH'))
+            ->event('job')
+            ->withProperties(['arquivo' => $event->arquivo])
+            ->log(__('concluído'));
     }
 
     /**
@@ -96,7 +89,7 @@ class ImportacaoDadosRHEventSubscriber implements ShouldQueue
         Solicitacao::query()
             ->solicitadas()
             ->where('solicitante_id', $event->usuario)
-            ->delete();
+            ->each(fn (Solicitacao $solicitacao) => $solicitacao->delete());
     }
 
     /**

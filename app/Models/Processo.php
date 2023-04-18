@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\NumeroProcesso;
+use App\Models\Trait\Auditavel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Processo extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditavel;
 
     /**
      * {@inheritdoc}

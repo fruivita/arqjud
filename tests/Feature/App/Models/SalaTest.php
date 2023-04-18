@@ -236,3 +236,12 @@ test('registra falhas do método criar em log', function () {
         ->withArgs(fn ($message) => $message === __('Falha na criação da sala'))
         ->once();
 });
+
+test('Sala usa trait', function () {
+    expect(
+        collect(class_uses(Sala::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

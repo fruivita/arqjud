@@ -426,3 +426,12 @@ test('moverProcessos move os processos informados para determinada caixa e alter
     true,
     false,
 ]);
+
+test('Caixa usa trait', function () {
+    expect(
+        collect(class_uses(Caixa::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

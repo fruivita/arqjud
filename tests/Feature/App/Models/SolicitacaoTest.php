@@ -286,3 +286,12 @@ test('retorna as solicitações pelo escopo search que busca a partir do início
     ['ab99999bc', 2], // 99999
     ['ab4ab4444ab', 3], // 44444
 ]);
+
+test('Solicitação usa trait', function () {
+    expect(
+        collect(class_uses(Solicitacao::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

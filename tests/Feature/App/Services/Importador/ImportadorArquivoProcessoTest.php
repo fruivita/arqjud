@@ -68,7 +68,7 @@ test('cria o log de registro do inicio e final do processo de importação', fun
     ImportadorArquivoProcesso::make()->importar($this->nome_arquivo);
 
     Log::shouldHaveReceived('notice')
-        ->withArgs(fn ($message) => $message === __('Inicio da importação dos processos'))
+        ->withArgs(fn ($message) => $message === __('Início da importação dos processos'))
         ->once();
 
     Log::shouldHaveReceived('notice')

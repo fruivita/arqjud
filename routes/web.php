@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Policy;
+use App\Http\Controllers\Administracao\AtividadeController;
 use App\Http\Controllers\Administracao\ImportacaoController;
 use App\Http\Controllers\Administracao\LogController;
 use App\Http\Controllers\Administracao\LotacaoController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Movimentacao\MoveProcessoEntreCaixaController;
 use App\Http\Controllers\Solicitacao\SolicitacaoController as SolicitacaoExternaController;
 use App\Models\Andar;
+use App\Models\Atividade;
 use App\Models\Caixa;
 use App\Models\Estante;
 use App\Models\Guia;
@@ -230,6 +232,10 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [LogController::class, 'index'])->name('index')->can(Policy::LogViewAny->value);
             Route::get('{log}/edit', [LogController::class, 'show'])->name('show')->can(Policy::LogView->value);
             Route::get('{log}/download', [LogController::class, 'download'])->name('download')->can(Policy::LogView->value);
+        });
+
+        Route::prefix('atividade')->name('atividade.')->group(function () {
+            Route::get('/', [AtividadeController::class, 'index'])->name('index')->can(Policy::ViewAny->value, Atividade::class);
         });
     });
 });

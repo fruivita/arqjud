@@ -221,3 +221,12 @@ test('método modeloPadrao retorna o modelo com os atributos esperados', functio
     expect($prateleira->numero)->toBe(0)
         ->and($prateleira->descricao)->toBe('Item provisório/padrão criado por sistema para eventual análise futura. Caso não seja um atributo obrigatório, pode ser ignorado');
 });
+
+test('Prateleira usa trait', function () {
+    expect(
+        collect(class_uses(Prateleira::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

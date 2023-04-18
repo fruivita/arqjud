@@ -205,3 +205,12 @@ test('retorna as guias pelo escopo search que busca na coluna JSON destino (lota
     ['Lorennn', 1],
     ['Barrr Gaz', 1],
 ]);
+
+test('Guia usa trait', function () {
+    expect(
+        collect(class_uses(Guia::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Trait\Auditavel;
 use FruiVita\Corporativo\Models\Usuario as UsuarioCorporativo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,6 +19,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
 {
     use AuthenticatesWithLdap;
     use Notifiable;
+    use Auditavel;
 
     /**
      * {@inheritdoc}
@@ -259,11 +261,13 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
      */
     public static function resetarPerfil(int $usuario_id)
     {
-        self::query()
+        $usuario  = self::query()
             ->where('id', $usuario_id)
             ->whereNot('perfil_id', Perfil::administrador()->id)
-            ->update([
-                'perfil_id' => Perfil::padrao()->id,
-            ]);
+            ->first();
+
+        if ($usuario) {
+            $usuario->perfil()->associate(Perfil::padrao())->save();
+        }
     }
 }

@@ -119,7 +119,7 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
      */
     private function iniciar()
     {
-        Log::notice(__('Inicio da importação dos processos'));
+        Log::notice(__('Início da importação dos processos'));
     }
 
     /**

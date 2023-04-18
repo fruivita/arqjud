@@ -108,3 +108,12 @@ test('retorna os prédios pelo escopo search que busca a partir do início do te
     ['aaaa', 2],
     ['bbbb', 3],
 ]);
+
+test('Prédio usa trait', function () {
+    expect(
+        collect(class_uses(Predio::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Trait\Auditavel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Guia extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditavel;
 
     /**
      * {@inheritdoc}

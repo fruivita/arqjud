@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Trait\Auditavel;
 use FruiVita\Corporativo\Models\FuncaoConfianca as FuncaoConfiancaCorporativo;
 
 /**
@@ -9,6 +10,8 @@ use FruiVita\Corporativo\Models\FuncaoConfianca as FuncaoConfiancaCorporativo;
  */
 class FuncaoConfianca extends FuncaoConfiancaCorporativo
 {
+    use Auditavel;
+
     /**
      * Relacionamento função de confiança (1:N) usuário.
      *

@@ -1,0 +1,2 @@
+- 'select * from `activity_log` order by `log_name` asc, `event` asc, `description` asc, `subject_type` asc, `subject_id` asc, `causer_type` asc, `causer_id` desc, `matricula` desc, `batch_uuid` desc, `created_at` desc, `updated_at` desc, `id` desc'
+- {  }

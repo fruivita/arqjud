@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Trait\Auditavel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Solicitacao extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditavel;
 
     /**
      * {@inheritdoc}
@@ -29,6 +30,11 @@ class Solicitacao extends Model
         'devolvida_em' => 'datetime',
         'por_guia' => 'boolean',
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $fillable = ['processo_id', 'solicitante_id', 'destino_id', 'solicitada_em', 'por_guia'];
 
     /**
      * Relacionamento solicitação (N:1) processo.

@@ -19,22 +19,18 @@ class SolicitarProcesso
     {
         $solicitacao->solicitada_em = now();
 
-        $solicitacoes = Processo::query()
+        Processo::query()
             ->whereIn('numero', $solicitacao->processos)
-            ->lazy()
-            ->map(function (Processo $processo) use ($solicitacao) {
-                return [
+            ->get()
+            ->each(function (Processo $processo) use ($solicitacao) {
+                Solicitacao::create([
                     'processo_id' => $processo->id,
                     'solicitante_id' => $solicitacao->solicitante->id,
                     'destino_id' => $solicitacao->destino->id,
                     'solicitada_em' => $solicitacao->solicitada_em,
                     'por_guia' => false,
-                    'created_at' => $solicitacao->solicitada_em,
-                    'updated_at' => $solicitacao->solicitada_em,
-                ];
+                ]);
             });
-
-        Solicitacao::insert($solicitacoes->toArray());
 
         return $next($solicitacao);
     }

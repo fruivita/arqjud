@@ -68,3 +68,12 @@ test('método administraveis retorna todas as lotações administráveis', funct
 
     expect(Lotacao::administraveis())->toHaveCount(5);
 });
+
+test('Lotação usa trait', function () {
+    expect(
+        collect(class_uses(Lotacao::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

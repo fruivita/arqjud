@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Trait\Auditavel;
 use FruiVita\Corporativo\Models\Cargo as CargoCorporativo;
 
 /**
@@ -9,6 +10,8 @@ use FruiVita\Corporativo\Models\Cargo as CargoCorporativo;
  */
 class Cargo extends CargoCorporativo
 {
+    use Auditavel;
+
     /**
      * Relacionamento cargo (1:N) usuário.
      *

@@ -19,13 +19,16 @@ class EfetivarEntrega
     {
         Solicitacao::query()
             ->whereIn('id', $entrega->solicitacoes)
-            ->update([
-                'recebedor_id' => $entrega->recebedor->id,
-                'remetente_id' => $entrega->remetente->id,
-                'entregue_em' => $entrega->guia->gerada_em,
-                'por_guia' => $entrega->por_guia,
-                'guia_id' => $entrega->guia->id,
-            ]);
+            ->get()
+            ->each(function (Solicitacao $solicitacao) use ($entrega) {
+                $solicitacao->entregue_em = $entrega->guia->gerada_em;
+                $solicitacao->por_guia = $entrega->por_guia;
+                $solicitacao
+                    ->recebedor()->associate($entrega->recebedor)
+                    ->remetente()->associate($entrega->remetente)
+                    ->guia()->associate($entrega->guia)
+                    ->save();
+            });
 
         return $next($entrega);
     }

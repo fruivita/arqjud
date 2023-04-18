@@ -18,37 +18,28 @@ use App\Models\Solicitacao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Events\CallQueuedListener;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeAll(fn () => \Spatie\Once\Cache::getInstance()->disable());
 
 // Caminho feliz
-test('registra o log de início e fim da importação', function () {
+test('registra o log de atividade de início e fim da importação', function () {
     testTime()->freeze();
-
-    Log::spy();
 
     ImportarDadosRH::dispatchSync();
 
-    Log::shouldHaveReceived('notice')
-        ->withArgs(function ($message, $data) {
-            return $message === __('Importação dos dados corporativos iniciada')
-                && $data === [
-                    'iniciado_em' => now()->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                    'arquivo' => 'tests/template/Corporativo.xml',
-                ];
-        })->once();
-
-    Log::shouldHaveReceived('notice')
-        ->withArgs(function ($message, $data) {
-            return $message === __('Importação dos dados corporativos concluída')
-                && $data === [
-                    'concluido_em' => now()->tz(config('app.tz'))->format('d-m-Y H:i:s'),
-                    'arquivo' => 'tests/template/Corporativo.xml',
-                ];
-        })->once();
+    $this
+        ->assertDatabaseHas('activity_log', [
+            'log_name' => __('Importação RH'),
+            'event' => 'job',
+            'description' => __('iniciado'),
+        ])
+        ->assertDatabaseHas('activity_log', [
+            'log_name' => __('Importação RH'),
+            'event' => 'job',
+            'description' => __('concluído'),
+        ]);
 });
 
 test('reseta o perfil do usuário ao mudar seu cargo', function () {

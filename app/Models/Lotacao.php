@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Trait\Auditavel;
 use FruiVita\Corporativo\Models\Lotacao as LotacaoCorporativo;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Lotacao extends LotacaoCorporativo
 {
+    use Auditavel;
+
     /**
      * {@inheritdoc}
      */

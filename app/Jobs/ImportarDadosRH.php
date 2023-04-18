@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Spatie\Activitylog\Contracts\Activity;
 
 /**
  * Importa os dados de recursos humanos.
@@ -48,7 +49,11 @@ class ImportarDadosRH implements ShouldQueue, ShouldBeUnique
      */
     public function __construct()
     {
-        //
+        activity(__('Importação RH'))
+            ->event('created')
+            ->tap(function (Activity $activity) {
+                $activity->matricula = auth()->user()?->matricula;
+            })->log(__('solicitada'));
     }
 
     /**

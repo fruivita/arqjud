@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Atividade;
 use App\Models\Caixa;
 use App\Models\Guia;
 use App\Models\Lotacao;
@@ -279,6 +280,51 @@ function guiaApi(Guia $guia)
             return $processo;
         })->toArray(),
     ];
+}
+
+/**
+ * @return array
+ */
+function atividadeApi(Atividade $atividade)
+{
+    return [
+        'id' => $atividade->id,
+        'log_name' => $atividade->log_name,
+        'description' => $atividade->description,
+        'subject_type' => $atividade->subject_type,
+        'event' => $atividade->event,
+        'subject_id' => $atividade->subject_id,
+        'causer_type' => $atividade->causer_type,
+        'causer_id' => $atividade->causer_id,
+        'matricula' => $atividade->matricula,
+        'properties' => $atividade->properties->toArray(),
+        'uuid' => $atividade->batch_uuid,
+        'created_at' => $atividade->created_at->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+        'updated_at' => $atividade->updated_at->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+    ];
+    // return [;
+    //     'id' => $guia->id,
+    //     'numero' => $guia->numero,
+    //     'ano' => $guia->ano,
+    //     'gerada_em' => $guia->gerada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+    //     'remetente' => [
+    //         'matricula' => $guia->remetente['matricula'],
+    //         'nome' => $guia->remetente['nome'],
+    //     ],
+    //     'recebedor' => [
+    //         'matricula' => $guia->recebedor['matricula'],
+    //         'nome' => $guia->recebedor['nome'],
+    //     ],
+    //     'destino' => [
+    //         'sigla' => str($guia->destino['sigla'])->upper()->toString(),
+    //         'nome' => $guia->destino['nome'],
+    //     ],
+    //     'processos' => $guia->processos->transform(function ($processo) {
+    //         $processo['numero'] = cnj($processo['numero']);
+
+    //         return $processo;
+    //     })->toArray(),
+    // ];
 }
 
 /**

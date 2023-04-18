@@ -4,6 +4,7 @@ namespace App\Services\Menu;
 
 use App\Enums\Policy;
 use App\Models\Andar;
+use App\Models\Atividade;
 use App\Models\Caixa;
 use App\Models\Estante;
 use App\Models\Guia;
@@ -339,6 +340,15 @@ final class Menu implements MenuInterface
                     'href' => route('administracao.importacao.create'),
                     'texto' => __('Importar dados'),
                     'ativo' => Route::is('administracao.importacao.*'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::ViewAny->value, Atividade::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'activity',
+                    'href' => route('administracao.atividade.index'),
+                    'texto' => __('Logs de atividade'),
+                    'ativo' => Route::is('administracao.atividade.*'),
                 ])
             )
             ->when(

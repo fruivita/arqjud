@@ -68,3 +68,12 @@ test('retorna as localidades pelo escopo search que busca a partir do início do
         ->and(Localidade::search('ba')->count())->toBe(2)
         ->and(Localidade::search('oo')->count())->toBe(0);
 });
+
+test('Localidade usa trait', function () {
+    expect(
+        collect(class_uses(Localidade::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

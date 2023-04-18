@@ -334,3 +334,12 @@ test('resetarPerfil não altera o perfil do usuário se ele for administrador', 
 
     expect($usuario->perfil_id)->toBe($adm->id);
 });
+
+test('Usuário usa trait', function () {
+    expect(
+        collect(class_uses(Usuario::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});

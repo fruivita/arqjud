@@ -173,3 +173,12 @@ test('retorna os andares pelo escopo search que busca a partir do início do tex
     ['aaaa', 2],
     ['bbbb', 3],
 ]);
+
+test('Andar usa trait', function () {
+    expect(
+        collect(class_uses(Andar::class))
+            ->has([
+                \App\Models\Trait\Auditavel::class,
+            ])
+    )->toBeTrue();
+});
