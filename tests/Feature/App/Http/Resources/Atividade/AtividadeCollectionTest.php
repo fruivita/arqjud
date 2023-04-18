@@ -8,8 +8,6 @@
 use App\Http\Resources\Atividade\AtividadeCollection;
 use App\Http\Resources\Atividade\AtividadeResource;
 use App\Models\Atividade;
-use App\Models\Permissao;
-use Database\Seeders\PerfilSeeder;
 
 beforeEach(function () {
     activity('foo')->log('bar');

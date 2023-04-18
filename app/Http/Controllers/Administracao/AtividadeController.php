@@ -12,7 +12,6 @@ use App\Pipes\Atividade\Order;
 use App\Pipes\Search;
 use Inertia\Inertia;
 use MichaelRubel\EnhancedPipeline\Pipeline;
-use Spatie\Activitylog\Models\Activity;
 
 /**
  * @see https://laravel.com/docs/controllers

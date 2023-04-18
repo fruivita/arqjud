@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 
-
 beforeEach(function () {
     $this->seed([PerfilSeeder::class]);
 

@@ -5,8 +5,8 @@
  */
 
 use App\Enums\Policy;
-use App\Models\Permissao;
 use App\Models\Atividade;
+use App\Models\Permissao;
 use App\Models\Usuario;
 use Database\Seeders\PerfilSeeder;
 use Illuminate\Support\Facades\Auth;

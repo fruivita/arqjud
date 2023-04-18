@@ -261,7 +261,7 @@ class Usuario extends UsuarioCorporativo implements LdapAuthenticatable
      */
     public static function resetarPerfil(int $usuario_id)
     {
-        $usuario  = self::query()
+        $usuario = self::query()
             ->where('id', $usuario_id)
             ->whereNot('perfil_id', Perfil::administrador()->id)
             ->first();

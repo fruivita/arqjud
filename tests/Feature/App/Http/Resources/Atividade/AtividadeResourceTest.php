@@ -19,7 +19,7 @@ test('retorna os campos principais e as rotas autorizadas do modelo', function (
     $resource = AtividadeResource::make($this->atividade);
 
     expect($resource->response()->getData(true))->toMatchArray([
-        'data' => atividadeApi($this->atividade)
+        'data' => atividadeApi($this->atividade),
     ]);
 });
 
