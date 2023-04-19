@@ -32,7 +32,7 @@ test('pipe NotificarDevolucao cria o job NotificarSolicitanteDevolucao para noti
     Bus::assertNotDispatchedSync(NotificarSolicitanteDevolucao::class, 1); // @phpstan-ignore-line
 });
 
-test('pipe NotificarDevolucao envia o job para a querue de prioridade baixa', function () {
+test('pipe NotificarDevolucao envia o job para a queue de prioridade baixa', function () {
     Queue::fake();
 
     Pipeline::make()

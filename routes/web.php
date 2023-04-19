@@ -9,6 +9,7 @@ use App\Http\Controllers\Administracao\PerfilController;
 use App\Http\Controllers\Administracao\PermissaoController;
 use App\Http\Controllers\Atendimento\EntregarProcessoController;
 use App\Http\Controllers\Atendimento\GuiaController;
+use App\Http\Controllers\Atendimento\NotificarSolicianteController;
 use App\Http\Controllers\Atendimento\ReceberProcessoController;
 use App\Http\Controllers\Atendimento\SolicitacaoController;
 use App\Http\Controllers\Autorizacao\UsuarioController;
@@ -76,6 +77,11 @@ Route::middleware('auth')->group(function () {
             Route::get('create', [SolicitacaoController::class, 'create'])->name('create')->can(Policy::Create->value, Solicitacao::class);
             Route::post('/', [SolicitacaoController::class, 'store'])->name('store')->can(Policy::Create->value, Solicitacao::class);
             Route::delete('{solicitacao}', [SolicitacaoController::class, 'destroy'])->name('destroy')->can(Policy::Delete->value, 'solicitacao');
+        });
+
+        Route::prefix('notificar-solicitante')->name('notificar-solicitante.')->group(function () {
+            Route::get('create', [NotificarSolicianteController::class, 'create'])->name('create')->can(Policy::Update->value, Solicitacao::class);
+            Route::post('/', [NotificarSolicianteController::class, 'store'])->name('store')->can(Policy::Update->value, Solicitacao::class);
         });
 
         Route::prefix('entregar-processo')->name('entregar-processo.')->group(function () {

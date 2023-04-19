@@ -27,6 +27,8 @@ return new class extends Migration
             $table->unsignedBigInteger('destino_id');
             $table->unsignedBigInteger('guia_id')->nullable();
             $table->dateTime('solicitada_em');
+            // data da notificação do solicitante da disponibilidade do processo solicitado
+            $table->dateTime('notificado_em')->nullable();
             $table->dateTime('entregue_em')->nullable();
             $table->dateTime('devolvida_em')->nullable();
             $table->boolean('por_guia');

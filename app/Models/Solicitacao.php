@@ -26,6 +26,7 @@ class Solicitacao extends Model
      */
     protected $casts = [
         'solicitada_em' => 'datetime',
+        'notificado_em' => 'datetime',
         'entregue_em' => 'datetime',
         'devolvida_em' => 'datetime',
         'por_guia' => 'boolean',

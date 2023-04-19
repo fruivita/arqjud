@@ -140,6 +140,7 @@ return [
     ],
     'solicitacao' => [
         'indisponivel' => 'O :attribute está indisponível para solicitação.',
+        'notificavel' => 'O status do :attribute não permite notificar o solicitante.',
         'recebedor' => 'O(A) :attribute não pode receber os processos solicitados.',
         'retornavel' => 'O status do :attribute não permite sua devolução ao arquivo.',
     ],

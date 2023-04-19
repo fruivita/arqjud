@@ -28,7 +28,8 @@ class SolicitacaoFactory extends Factory
     public function definition()
     {
         return [
-            'solicitada_em' => now()->subWeeks(rand(21, 30)),
+            'solicitada_em' => now()->subWeeks(rand(31, 40)),
+            'notificado_em' => now()->subWeeks(rand(21, 30)),
             'entregue_em' => now()->subWeeks(rand(11, 20)),
             'devolvida_em' => now()->subWeeks(rand(1, 10)),
             'por_guia' => fake()->boolean(),
@@ -54,6 +55,7 @@ class SolicitacaoFactory extends Factory
             $lotacao = Lotacao::factory()->create();
 
             return [
+                'notificado_em' => null,
                 'entregue_em' => null,
                 'devolvida_em' => null,
                 'por_guia' => false,

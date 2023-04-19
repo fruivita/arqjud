@@ -120,6 +120,15 @@ final class Menu implements MenuInterface
             )
             ->when(
                 auth()->user()->can(Policy::Update->value, Solicitacao::class),
+                fn ($collection) => $collection->push([
+                    'icone' => 'bell',
+                    'href' => route('atendimento.notificar-solicitante.create'),
+                    'texto' => __('Notificar solicitante'),
+                    'ativo' => Route::is('atendimento.notificar-solicitante.create'),
+                ])
+            )
+            ->when(
+                auth()->user()->can(Policy::Update->value, Solicitacao::class),
                 fn ($collection) => $collection->push(
                     [
                         'icone' => 'cart',

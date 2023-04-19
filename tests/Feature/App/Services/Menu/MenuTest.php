@@ -75,6 +75,7 @@ test('menu é gerado de acordo com as permissões do usuário, inclusive se a pe
     expect($menu)->toMatchArray([[
         'nome' => __('Atendimentos'),
         'links' => [
+            ['icone' => 'bell', 'href' => route('atendimento.notificar-solicitante.create'), 'texto' => __('Notificar solicitante'), 'ativo' => false],
             ['icone' => 'cart', 'href' => route('atendimento.entregar-processo.create'), 'texto' => __('Entregar processos'), 'ativo' => false],
             ['icone' => 'safe', 'href' => route('atendimento.receber-processo.create'), 'texto' => __('Receber processos'), 'ativo' => false],
         ],
@@ -97,7 +98,7 @@ test('administrador tem acesso a todos os itens do menu', function () {
     $menu = Menu::make()->gerar();
 
     expect($menu[0]['nome'])->toBe(__('Atendimentos'))
-        ->and($menu[0]['links'])->toHaveCount(5)
+        ->and($menu[0]['links'])->toHaveCount(6)
         ->and($menu[1]['nome'])->toBe(__('Solicitações de processos'))
         ->and($menu[1]['links'])->toHaveCount(2)
         ->and($menu[2]['nome'])->toBe(__('Movimentações'))
@@ -129,6 +130,7 @@ test('identifica o menu ativo corretamente', function (string $rota, string $men
 })->with([
     ['atendimento.solicitar-processo.index', 'atendimento.solicitar-processo.index'],
     ['atendimento.solicitar-processo.create', 'atendimento.solicitar-processo.create'],
+    ['atendimento.notificar-solicitante.create', 'atendimento.notificar-solicitante.create'],
     ['atendimento.entregar-processo.create', 'atendimento.entregar-processo.create'],
     ['atendimento.receber-processo.create', 'atendimento.receber-processo.create'],
     ['atendimento.guia.index', 'atendimento.guia.index'],

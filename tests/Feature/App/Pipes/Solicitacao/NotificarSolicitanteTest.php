@@ -41,7 +41,7 @@ test('pipe NotificarSolicitante cria o job NotificarSolicitanteSolicitacao para 
     Bus::assertNotDispatchedSync(NotificarSolicitanteSolicitacao::class, 1); // @phpstan-ignore-line
 });
 
-test('pipe NotificarSolicitante envia o job para a querue de prioridade baixa', function () {
+test('pipe NotificarSolicitante envia o job para a queue de prioridade baixa', function () {
     Queue::fake();
 
     Pipeline::make()

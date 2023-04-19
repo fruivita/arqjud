@@ -33,7 +33,7 @@ test('pipe NotificarEntrega cria o job NotificarEntrega para notificar os envolv
     Bus::assertNotDispatchedSync(JobNotificarEntrega::class, 1); // @phpstan-ignore-line
 });
 
-test('pipe NotificarEntrega envia o job para a querue de prioridade baixa', function () {
+test('pipe NotificarEntrega envia o job para a queue de prioridade baixa', function () {
     Queue::fake();
 
     Pipeline::make()

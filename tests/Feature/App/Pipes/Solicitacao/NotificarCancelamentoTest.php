@@ -36,7 +36,7 @@ test('pipe NotificarCancelamento cria o job NotificarSolicitanteCancelamento par
     Bus::assertNotDispatchedSync(NotificarSolicitanteCancelamento::class, 1); // @phpstan-ignore-line
 });
 
-test('pipe NotificarCancelamento envia o job para a querue de prioridade baixa', function () {
+test('pipe NotificarCancelamento envia o job para a queue de prioridade baixa', function () {
     Queue::fake();
 
     Pipeline::make()
