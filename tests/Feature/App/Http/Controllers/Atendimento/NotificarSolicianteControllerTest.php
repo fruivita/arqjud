@@ -59,7 +59,7 @@ test('action create compartilha os dados esperados com a view/componente correto
                 ->component('Atendimento/NotificarSolicitante/Create')
                 ->whereAll([
                     'links' => [
-                        'notificar' => route('atendimento.notificar-solicitante.create'),
+                        'notificar' => route('atendimento.notificar-solicitante.store'),
                     ],
                 ])
         );

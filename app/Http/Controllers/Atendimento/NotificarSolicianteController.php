@@ -32,7 +32,7 @@ class NotificarSolicianteController extends Controller
 
         return Inertia::render('Atendimento/NotificarSolicitante/Create', [
             'links' => fn () => [
-                'notificar' => route('atendimento.notificar-solicitante.create'),
+                'notificar' => route('atendimento.notificar-solicitante.store'),
             ],
         ]);
     }
