@@ -34,6 +34,7 @@ describe('Icone', () => {
         ['arrow-down-short'],
         ['arrow-up-short'],
         ['award'],
+        ['bell'],
         ['blockquote-left'],
         ['book'],
         ['bookshelf'],
