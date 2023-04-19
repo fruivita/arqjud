@@ -38,7 +38,7 @@ class NotificarSolicitanteDevolucao implements ShouldQueue, ShouldBeUnique
     public $backoff = [60, 300];
 
     /**
-     * Número dos processo devolvido
+     * Número do processo devolvido
      *
      * @var string
      */
