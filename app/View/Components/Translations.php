@@ -61,8 +61,8 @@ class Translations extends Component
                 ->filter(function (SplFileInfo $file) {
                     return $file->getExtension() === 'php';
                 })->flatMap(function (SplFileInfo $file) {
-                return Arr::dot(File::getRequire($file->getRealPath()));
-            })->toArray()
+                    return Arr::dot(File::getRequire($file->getRealPath()));
+                })->toArray()
             : [];
     }
 
