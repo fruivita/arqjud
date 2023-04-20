@@ -217,6 +217,7 @@ function solicitacaoApi(Solicitacao $solicitacao)
     return [
         'id' => $solicitacao->id,
         'solicitada_em' => $solicitacao->solicitada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+        'notificado_em' => $solicitacao->notificado_em?->tz(config('app.tz'))->format('d-m-Y H:i:s'),
         'entregue_em' => $solicitacao->entregue_em?->tz(config('app.tz'))->format('d-m-Y H:i:s'),
         'devolvida_em' => $solicitacao->devolvida_em?->tz(config('app.tz'))->format('d-m-Y H:i:s'),
         'por_guia' => $solicitacao->por_guia,

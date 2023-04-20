@@ -25,6 +25,7 @@ class SolicitacaoResource extends JsonResource
             ? [
                 'id' => $this->id,
                 'solicitada_em' => $this->solicitada_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
+                'notificado_em' => empty($this->notificado_em) ? null : $this->notificado_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
                 'entregue_em' => empty($this->entregue_em) ? null : $this->entregue_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
                 'devolvida_em' => empty($this->devolvida_em) ? null : $this->devolvida_em->tz(config('app.tz'))->format('d-m-Y H:i:s'),
                 'por_guia' => $this->por_guia,

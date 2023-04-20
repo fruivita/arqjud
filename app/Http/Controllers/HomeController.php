@@ -6,6 +6,8 @@ use App\Enums\Policy;
 use App\Http\Requests\ShowProcessoHomeRequest;
 use App\Http\Resources\Processo\ProcessoOnlyResource;
 use App\Http\Resources\Solicitacao\CounterResource;
+use App\Http\Resources\Solicitacao\SolicitacaoOnlyResource;
+use App\Http\Traits\ComPaginacaoEmCache;
 use App\Models\Processo;
 use App\Models\Solicitacao;
 use Illuminate\Support\Collection;
@@ -19,6 +21,8 @@ use Inertia\Inertia;
  */
 class HomeController extends Controller
 {
+    use ComPaginacaoEmCache;
+
     /**
      * Display the specified resource.
      *
@@ -52,8 +56,8 @@ class HomeController extends Controller
                         'caixa.localidadeCriadora',
                         'processoPai',
                     ])->where('numero', $processo)
-                        ->orWhere('numero_antigo', $processo)
-                        ->first()
+                    ->orWhere('numero_antigo', $processo)
+                    ->first()
                     : null
             ),
             'links' => fn () => ['search' => route('home.show')],
@@ -82,6 +86,12 @@ class HomeController extends Controller
                         return $collection->put('create', route('solicitacao.create'));
                     })->toArray(),
             ]),
+            'disponiveis' => fn () => SolicitacaoOnlyResource::collection(
+                Solicitacao::with(['processo', 'solicitante'])
+                    ->where('destino_id', auth()->user()->lotacao_id)
+                    ->whereNotNull('notificado_em')
+                    ->paginate($this->perPage())
+            )->preserveQuery()
         ]);
     }
 }

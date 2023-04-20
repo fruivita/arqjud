@@ -64,6 +64,7 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
         ->thenReturn();
 })->with([
     'solicitada_em',
+    'notificado_em',
     'entregue_em',
     'devolvida_em',
     'por_guia',
@@ -78,6 +79,7 @@ test('todos os métodos de ordenação disponíveis são acionados', function (s
 test('todas as ordenações possíveis no request da solicitação', function () {
     request()->merge(['order' => [
         'solicitada_em' => 'asc',
+        'notificado_em' => 'asc',
         'entregue_em' => 'asc',
         'devolvida_em' => 'asc',
         'por_guia' => 'asc',

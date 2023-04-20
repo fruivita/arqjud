@@ -59,6 +59,7 @@ const elementosVisiveis = useLocalStorage(usePage().component.value, {
     destino: true,
     solicitante: true,
     solicitadaEm: true,
+    notificadoEm: true,
     porGuia: true,
     remetente: true,
     recebedor: true,
@@ -159,6 +160,11 @@ watch(perPage, filtrar);
                         :label="__('Solicitada em')"
                     />
 
+                    <CheckBox
+                        v-model:checked="elementosVisiveis.notificadoEm"
+                        :label="__('Notificado em')"
+                    />
+
                     <CheckBox v-model:checked="elementosVisiveis.porGuia" :label="__('Por guia')" />
 
                     <CheckBox
@@ -220,6 +226,13 @@ watch(perPage, filtrar);
                         :ordenacao="ordenacoes.solicitada_em"
                         :texto="__('Solicitada em')"
                         @ordenar="(direcao) => mudarOrdenacao('solicitada_em', direcao)"
+                    />
+
+                    <HeadingOrdenavel
+                        v-show="elementosVisiveis.notificadoEm"
+                        :ordenacao="ordenacoes.notificado_em"
+                        :texto="__('Notificado em')"
+                        @ordenar="(direcao) => mudarOrdenacao('notificado_em', direcao)"
                     />
 
                     <HeadingOrdenavel
@@ -337,6 +350,10 @@ watch(perPage, filtrar);
 
                             <Cell v-show="elementosVisiveis.solicitadaEm">
                                 {{ solicitacao.solicitada_em }}
+                            </Cell>
+
+                            <Cell v-show="elementosVisiveis.notificadoEm">
+                                {{ solicitacao.notificado_em }}
                             </Cell>
 
                             <Cell v-show="elementosVisiveis.porGuia">

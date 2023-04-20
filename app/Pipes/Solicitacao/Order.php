@@ -59,6 +59,20 @@ class Order extends OrderBase
     }
 
     /**
+     * Aplica a ordenação pela data de notificação do solicitante da
+     * disponibilização do processo.
+     *
+     * @param  string  $direcao asc ou desc
+     * @return void
+     */
+    protected function notificadoEm(Builder $query, string $direcao)
+    {
+        $direcao = ascOrDesc($direcao);
+
+        $query->orderBy('notificado_em', $direcao);
+    }
+
+    /**
      * Aplica a ordenação pela data de entrega do processo.
      *
      * @param  string  $direcao asc ou desc

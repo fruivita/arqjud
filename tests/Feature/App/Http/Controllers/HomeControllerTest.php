@@ -47,10 +47,11 @@ test('action do controller usa o form request', function (string $action, string
 ]);
 
 test('action show compartilha os dados esperados com a view/componente correto para usuários com autorização específica', function () {
-    Solicitacao::factory()->solicitada()->create(['destino_id' => $this->usuario->lotacao_id]);
-    Solicitacao::factory(2)->entregue()->create(['destino_id' => $this->usuario->lotacao_id]);
-    Solicitacao::factory(4)->devolvida()->create(['destino_id' => $this->usuario->lotacao_id]);
-    Solicitacao::factory(3)->solicitada()->create();
+    Solicitacao::factory()->solicitada()->create(['destino_id' => $this->usuario->lotacao_id, 'notificado_em' => null]);
+    Solicitacao::factory(2)->solicitada()->create(['destino_id' => $this->usuario->lotacao_id, 'notificado_em' => now()]);
+    Solicitacao::factory(4)->entregue()->create(['destino_id' => $this->usuario->lotacao_id, 'notificado_em' => null]);
+    Solicitacao::factory(8)->devolvida()->create(['destino_id' => $this->usuario->lotacao_id, 'notificado_em' => null]);
+    Solicitacao::factory(7)->solicitada()->create();
 
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_VIEW_ANY);
     concederPermissao(Permissao::SOLICITACAO_EXTERNA_CREATE);
@@ -63,9 +64,9 @@ test('action show compartilha os dados esperados com a view/componente correto p
                 ->whereAll([
                     'solicitacoes' => [
                         'data' => [
-                            'solicitadas' => 1,
-                            'entregues' => 2,
-                            'devolvidas' => 4,
+                            'solicitadas' => 3,
+                            'entregues' => 4,
+                            'devolvidas' => 8,
                         ],
                         'links' => [
                             'create' => route('solicitacao.create'),
@@ -73,13 +74,14 @@ test('action show compartilha os dados esperados com a view/componente correto p
                         ],
                     ],
                 ])
+                ->has('disponiveis.data', 2) // apenas as que houve notificação
         );
 });
 
 test('action show compartilha os dados esperados com a view/componente correto para usuários sem autorização específica', function () {
-    Solicitacao::factory()->solicitada()->create(['destino_id' => $this->usuario->lotacao_id]);
-    Solicitacao::factory(2)->entregue()->create(['destino_id' => $this->usuario->lotacao_id]);
-    Solicitacao::factory(4)->devolvida()->create(['destino_id' => $this->usuario->lotacao_id]);
+    Solicitacao::factory()->solicitada()->create(['destino_id' => $this->usuario->lotacao_id, 'notificado_em' => null]);
+    Solicitacao::factory(2)->entregue()->create(['destino_id' => $this->usuario->lotacao_id, 'notificado_em' => null]);
+    Solicitacao::factory(4)->devolvida()->create(['destino_id' => $this->usuario->lotacao_id, 'notificado_em' => null]);
     Solicitacao::factory(3)->solicitada()->create();
 
     get(route('home.show'))
@@ -96,7 +98,7 @@ test('action show compartilha os dados esperados com a view/componente correto p
                         ],
                         'links' => [],
                     ],
-                ])
+                ])->has('disponiveis.data', 0) // nenhuma solicição disponível
         );
 });
 
