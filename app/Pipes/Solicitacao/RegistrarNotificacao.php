@@ -4,7 +4,6 @@ namespace App\Pipes\Solicitacao;
 
 use App\Models\Processo;
 use App\Models\Solicitacao;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * @see https://www.youtube.com/watch?v=FByQN_d876c

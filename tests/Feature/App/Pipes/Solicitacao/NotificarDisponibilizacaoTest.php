@@ -6,7 +6,6 @@
 
 use App\Enums\Queue as EnumsQueue;
 use App\Jobs\NotificarSolicitanteProcessoDisponivel;
-use App\Models\Lotacao;
 use App\Models\Processo;
 use App\Models\Usuario;
 use App\Pipes\Solicitacao\NotificarDisponibilizacao;

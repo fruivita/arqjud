@@ -91,7 +91,7 @@ class HomeController extends Controller
                     ->where('destino_id', auth()->user()->lotacao_id)
                     ->whereNotNull('notificado_em')
                     ->paginate($this->perPage())
-            )->preserveQuery()
+            )->preserveQuery(),
         ]);
     }
 }
