@@ -160,8 +160,6 @@ class PerfilPermissaoSeeder extends Seeder
         $id_perfil = Perfil::gerenteNegocio()->id;
 
         return Permissao::whereIn('slug', [
-            // Permissao::ATIVIDADE_VIEW_ANY,
-            // Permissao::ATIVIDADE_VIEW,
             // Permissao::USUARIO_VIEW_ANY,
             // Permissao::USUARIO_VIEW,
             // Permissao::USUARIO_UPDATE,
