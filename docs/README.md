@@ -1,16 +1,15 @@
 # ArqJud: Arquivo Judicial
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/fruivita/corporativo?logo=packagist)](https://packagist.org/packages/fruivita/corporativo)
-[![GitHub Release Date](https://img.shields.io/github/release-date/fruivita/corporativo?logo=github)](/../../releases)
-[![GitHub last commit (branch)](https://img.shields.io/github/last-commit/fruivita/corporativo/3.x?logo=github)](/../../commits/3.x)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/fruivita/corporativo/tests.yml?branch=3.x&label=tests)](/../../actions/workflows/tests.yml?query=branch%3A3.x)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/c8eb8bcecaba6ecf5528/test_coverage)](https://codeclimate.com/github/fruivita/corporativo/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c8eb8bcecaba6ecf5528/maintainability)](https://codeclimate.com/github/fruivita/corporativo/maintainability)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/fruivita/corporativo/static.yml?branch=3.x&label=static)](/../../actions/workflows/static.yml?query=branch%3A3.x)
-[![GitHub issues](https://img.shields.io/github/issues/fruivita/corporativo?logo=github)](/../../issues)
-![GitHub repo size](https://img.shields.io/github/repo-size/fruivita/corporativo?logo=github)
-[![Packagist Total Downloads](https://img.shields.io/packagist/dt/fruivita/corporativo?logo=packagist)](https://packagist.org/packages/fruivita/corporativo)
-[![GitHub](https://img.shields.io/github/license/fruivita/corporativo?logo=github)](../LICENSE.md)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/fruivita/arqjud?logo=github)](/../../releases)
+[![GitHub Release Date](https://img.shields.io/github/release-date/fruivita/arqjud?logo=github)](/../../releases)
+[![GitHub last commit (branch)](https://img.shields.io/github/last-commit/fruivita/arqjud/main?logo=github)](/../../commits/main)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/fruivita/arqjud/tests.yml?branch=main&label=tests)](/../../actions/workflows/tests.yml?query=branch%3Amain)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/e331b0511b37da03e24d/test_coverage)](https://codeclimate.com/github/fruivita/arqjud/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e331b0511b37da03e24d/maintainability)](https://codeclimate.com/github/fruivita/arqjud/maintainability)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/fruivita/arqjud/static.yml?branch=main&label=static)](/../../actions/workflows/static.yml?query=branch%3Amain)
+[![GitHub issues](https://img.shields.io/github/issues/fruivita/arqjud?logo=github)](/../../issues)
+![GitHub repo size](https://img.shields.io/github/repo-size/fruivita/arqjud?logo=github)
+[![GitHub](https://img.shields.io/github/license/fruivita/arqjud?logo=github)](../LICENSE.md)
 
 Gerenciamento de processos judiciais arquivados.
 
