@@ -1,0 +1,13 @@
+###############################################################################
+# Sobre a configuração do template chooser                                    #
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser
+###############################################################################
+
+blank_issues_enabled: false
+contact_links:
+  - name: Faça uma pergunta
+    url: https://github.com/orgs/fruivita/discussions/new?category=q-a&title=[Arqjud]
+    about: Peça ajuda a comunidade
+  - name: Requisite uma feature
+    url: https://github.com/orgs/fruivita/discussions/new?category=ideas&title=[Arqjud]
+    about: Compartilhe ideias para novas funcionalidades

@@ -1,0 +1,121 @@
+###############################################################################
+# Sobre o issue forms                                                           #
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms
+###############################################################################
+
+name: Reporte de Bugs
+description: Reporte um bug para nos ajudar a melhorar
+title: "[Título conciso do bug]"
+labels: [bug, triage]
+assignees: fcno
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Antes de reportar um bug, por favor verifique se existe algum caso aberto para o comportamento que você irá reportar.
+
+        ---
+
+        De qualquer maneira, obrigado por encontrar tempo para reportar esse bug!
+
+  - type: input
+    id: version
+    attributes:
+      label: Versão
+      description: "Qual versão dessa aplicação você está usando?"
+      placeholder: "1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Sistema Operacional
+      description: "Em qual SO essa aplicação está hospedada? Por favor, informe também a versão do SO."
+      placeholder: "Ubuntu 7.10"
+    validations:
+      required: true
+
+  - type: input
+    id: php
+    attributes:
+      label: PHP Version
+      description: "Por favor, informe a versão completa do PHP utilizado para rodar essa aplicação."
+      placeholder: "PHP 8.0.7, built: Jun 4 2021 01:50:04"
+    validations:
+      required: true
+
+  - type: input
+    id: database
+    attributes:
+      label: MySQL Version
+      description: "Por favor, informe a versão completa do MySql utilizado para rodar essa aplicação."
+      placeholder: "8.0.24 - MySQL Community Server - GPL"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Em quais navegadores o problema está ocorrendo?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Outros ou nenhum (por favor, especifique na descrição.)
+
+  - type: input
+    id: contact
+    attributes:
+      label: Contato
+      description: "Caso não seja inconveniente, como poderemos entrar em contato para obter mais informações?"
+      placeholder: "ex. email@examplo.com"
+    validations:
+      required: false
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Descrição do bug
+      description: "O que aconteceu?"
+      placeholder: "Conte-nos tudo sobre e/ou por que o comportamento é um bug."
+      value: "Um bug aconteceu!"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Como podemos reproduzi-lo?
+      description: Que passos devemos seguir para reproduzir o bug?
+      placeholder: Passos para reproduzir o comportamento.
+      value: |
+        Passos para reproduzir o comportamento:
+        1. Vá para '...'
+        2. Clique em '....'
+        3. Role a página até '....'
+        4. Veja o erro
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Qual seria o comportamento esperado?
+      description: "Diga-nos o que você esperava que acontecesse."
+      placeholder: "De maneira concisa, diga o que espera que aconteça"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs relevantes
+      description: Por favor, copie e cole os logs relevantes. Ele será automaticamente formatado em código.
+      render: shell
+    validations:
+      required: false

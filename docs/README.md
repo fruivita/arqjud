@@ -81,7 +81,7 @@ Para informações completas e detalhadas, consulte a [wiki](/../../wiki) da apl
 
 2. Bando de dados
 
-    MySql 8
+    MySQL 8
 
 ⬆️ [Voltar](#table-of-contents)
 
