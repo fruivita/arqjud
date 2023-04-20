@@ -114,7 +114,7 @@ const notificarSolicitante = async () => {
                     <template #header>
                         <Heading
                             :texto="
-                                __('Solicitação de processos notificados: :attribute', {
+                                __('Solicitantes notificados: :attribute', {
                                     attribute: processosNotificados.length,
                                 })
                             "
