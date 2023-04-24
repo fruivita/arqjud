@@ -6,6 +6,7 @@
 
 use App\Enums\Queue as EQueue;
 use App\Jobs\ImportarDadosRH;
+use App\Models\Atividade;
 use Illuminate\Console\Events\ScheduledTaskFinished;
 use Illuminate\Console\Events\ScheduledTaskStarting;
 use Illuminate\Support\Facades\Event;
@@ -46,3 +47,11 @@ test('schedule no horário correto, dispara os jobs agendados para a queue', fun
     ['2020-10-20 01:00:00', ImportarDadosRH::class],
     ['2020-10-20 01:00:59', ImportarDadosRH::class],
 ]);
+
+test('schedule, desabilita o registro de atividade, não registrando o job de solicitação de importação', function () {
+    testTime()->freeze('2020-10-20 01:00:00');
+
+    $this->artisan('schedule:run');
+
+    expect(Atividade::count())->toBe(0);
+});

@@ -107,9 +107,13 @@ final class ImportadorArquivoProcesso implements ImportadorArquivoProcessoInterf
      */
     public function importar(string $arquivo)
     {
+        activity()->disableLogging();
+
         $this->iniciar();
         $this->processar($arquivo);
         $this->finalizar();
+
+        activity()->disableLogging();
     }
 
     /**

@@ -4,6 +4,7 @@
  * @see https://pestphp.com/docs/
  */
 
+use App\Models\Atividade;
 use App\Models\Processo;
 use App\Services\Importador\ImportadorArquivoProcesso;
 use Illuminate\Support\Facades\Log;
@@ -74,6 +75,23 @@ test('cria o log de registro do inicio e final do processo de importação', fun
     Log::shouldHaveReceived('notice')
         ->withArgs(fn ($message) => $message === __('Final da importação dos processos'))
         ->once();
+});
+
+test('importação de arquivo não cria registro de atividades', function () {
+    criarArquivoProcesso($this->nome_arquivo, 'sem_campo_opcional');
+
+    Log::spy();
+    ImportadorArquivoProcesso::make()->importar($this->nome_arquivo);
+
+    Log::shouldHaveReceived('notice')
+        ->withArgs(fn ($message) => $message === __('Início da importação dos processos'))
+        ->once();
+
+    Log::shouldHaveReceived('notice')
+        ->withArgs(fn ($message) => $message === __('Final da importação dos processos'))
+        ->once();
+
+    expect(Atividade::count())->toBe(0);
 });
 
 test('importação persiste todos os dados obrigatórios', function () {

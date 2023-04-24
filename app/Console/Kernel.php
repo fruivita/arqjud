@@ -19,9 +19,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        activity()->disableLogging();
+
         $schedule
             ->job(new ImportarDadosRH(), Queue::Alta->value)
             ->dailyAt('1:00');
+
+        activity()->disableLogging();
     }
 
     /**
