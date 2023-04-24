@@ -95,11 +95,11 @@ jobs:
 
       - name: Dump GitHub context
         env:
-          GITHUB_CONTEXT: ${{ toJson(github.event_name) }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
 
       - name: Upload coverage to Code Climate
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event.action != 'unassigned' }}
         uses: paambaati/codeclimate-action@v3.2.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.ARQJUD_CC_TEST_REPORTER_ID }}
