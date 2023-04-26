@@ -47,7 +47,7 @@ Esta aplicação foi planejada e desenvolvida de acordo com as necessidades e re
 
 ## Notes
 
-Basicamente, a aplicação gerencia a localização do processos arquivados de acordo com duas regras básicas:
+Basicamente a aplicação gerencia a localização do processos arquivados de acordo com duas regras básicas:
 
 1. Processo **dentro** do setor responsável pelo arquivamento
 
