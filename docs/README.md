@@ -137,7 +137,7 @@ A versão mais recente receberá suporte e atualizações sempre que houver nece
 
 | Version | PHP     | MySql      | Release    | End of Life |
 |---------|---------|------------|------------|-------------|
-| 1.X     | ^8.0    | 8          | 24-04-2023 | dd-mm-yyyy  |
+| 1.X     | ^8.0    | 8          | 26-04-2023 | dd-mm-yyyy  |
 
 🐛 Encontrou um bug?!?! Abra um **[issue](/../../issues/new?assignees=fcno&labels=bug%2Ctriage&template=bug_report.yml&title=%5BT%C3%ADtulo+conciso+do+bug%5D)**.
 
