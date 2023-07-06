@@ -100,7 +100,7 @@ jobs:
 
       - name: Upload coverage to Code Climate
         if: ${{ github.actor != 'dependabot[bot]' }}
-        uses: paambaati/codeclimate-action@v4.0.0
+        uses: paambaati/codeclimate-action@v5.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.ARQJUD_CC_TEST_REPORTER_ID }}
         with:
